@@ -1,0 +1,51 @@
+#banner {
+    display: block;
+    text-decoration: none;
+    color: rgb(29, 119, 194);
+    padding: 12px 0 0;
+    text-align: center;
+}
+
+#banner:hover {
+    color: #333;
+}
+
+#qr {
+    display: inline-block;
+    margin: 20px auto;
+    box-shadow: 0 0 16px rgba(0,0,0,0.5);
+}
+
+#qr > * {
+    display: block;
+}
+
+html.opera label[for="radius"] {
+    color: #e55;
+}
+
+.form-group > input, .form-group > textarea, .form-group > select {
+    font-family: Ubuntu;
+    display: block;
+    background-color: #fff;
+    margin: 2px;
+    padding: 0 2px;
+    border: 1px solid #ddd;
+    width: 100%;
+}
+
+#img-buffer {
+    display: none;
+}
+
+.form-group > input[type="range"] {
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+.form-group > input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #aaa), color-stop(1, #aaa) );
+}

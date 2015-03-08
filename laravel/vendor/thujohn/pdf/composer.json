@@ -1,0 +1,23 @@
+{
+    "name": "thujohn/pdf",
+    "description": "dompdf for Laravel 4",
+	"keywords": ["pdf", "dompdf", "laravel", "laravel4"],
+    "license": "MIT",
+    "version": "1.0.6",
+    "authors": [
+        {
+            "name": "thujohn",
+            "email": "jonathan.thuau@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.*|5.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Thujohn\\Pdf": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
