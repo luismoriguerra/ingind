@@ -9,12 +9,12 @@
                         </div>
                         
                         <div class="pull-left info">
-                            <p>Hello, {{ Auth::user()->usuario }}</p>
+                            <p>Hello, {{ Auth::user()->nombre }}</p>
 
                             <a href="#"><i class="fa fa-circle text-success"></i> {{ trans('greetings.inicio_sesion') }}</a>
                         </div>
                     </div>
-
+                    <?php /*
                     <div class="btn-group user-panel">
                       <a class="btn btn-default">
                         <i class="fa fa-flag-checkered fa-fw"></i> {{ Session::get('language') }}
@@ -25,7 +25,7 @@
                         <li><a href="language/idioma?language_id=es&language=Español"><i class="fa <?php echo ( Session::get('language_id')=='es' ) ? 'fa-flag-checkered': 'fa-flag-o'; ?> fa-fw"></i> Español</a></li>
                         <li><a href="language/idioma?language_id=en&language=English"><i class="fa <?php echo ( Session::get('language_id')=='en' ) ? 'fa-flag-checkered': 'fa-flag-o'; ?> fa-fw"></i> English</a></li>
                       </ul>
-                    </div>
+                    </div> 
 
                     <!-- search form -->
                     <form action="#" method="get" class="sidebar-form">
@@ -37,7 +37,8 @@
                         </div>
                     </form>
                     <!-- /.search form -->
-
+                    */
+                    ?>
                     @include( 'layouts.admin_menu' )
                     
                 </section>

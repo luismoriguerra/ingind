@@ -9,7 +9,7 @@
 		<link rel="shortcut icon" href="assets/ico/favicon.ico">
 		<meta name="description" content="">
 		<title>			
-				PSI2
+				M. Independencia
 		</title>
 			<?php echo HTML::style('lib/font-awesome-4.2.0/css/font-awesome.min.css'); ?>
 			<?php echo HTML::style('lib/bootstrap-3.3.1/css/bootstrap.min.css'); ?>

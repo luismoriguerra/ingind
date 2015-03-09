@@ -11,7 +11,7 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="admin.mantenimiento.celula"><i class="fa fa-angle-double-right"></i> {{ trans('greetings.menu_mantenimientos_celulas') }}</a></li>
+                                <li><a href="#"><i class="fa fa-angle-double-right"></i> Areas</a></li>
                             </ul>
                         </li>
                         <li class="treeview">
@@ -20,26 +20,7 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="admin.mantenimiento.celula"><i class="fa fa-angle-double-right"></i> {{ trans('greetings.menu_mantenimientos_celulas') }}</a></li>
-                            </ul>
-                        </li>
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-shield"></i> <span>Histórico</span>
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="admin.historico.bandeja"><i class="fa fa-angle-double-right"></i>Bandeja de Gestión</a></li>
-                                <li><a href="admin.historico.visorgps"><i class="fa fa-angle-double-right"></i>Visor GPS</a></li>
-                            </ul>
-                        </li>
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-map-marker"></i> <span>Georeferencia</span>
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="#"><i class="fa fa-angle-double-right"></i>GeoAlarmas</a></li>
+                                <li><a href="#"><i class="fa fa-angle-double-right"></i> Asignar Ruta</a></li>
                             </ul>
                         </li>
                         <li class="treeview">
