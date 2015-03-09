@@ -27,7 +27,7 @@
 <body  bgcolor="#FFF" onkeyup="return validaEnter(event,'btnIniciar');">
 <div id="mainWrap">
 	<div id="loggit">
-		<h1><i class="fa fa-lock"></i> PSI 2.0</h1>
+		<h1><i class="fa fa-lock"></i> M.I. </h1>
 			<h3 id="mensaje_msj"  class="label-success">
 			<?=	Session::get('msj'); ?>			
 			</h3>
