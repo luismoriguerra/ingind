@@ -12,6 +12,7 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li><a href="#"><i class="fa fa-angle-double-right"></i> Areas</a></li>
+                                <li><a href="admin.mantenimiento.cargo"><i class="fa fa-angle-double-right"></i> {{ trans('greetings.menu_mantenimientos_celulas') }}</a></li>
                             </ul>
                         </li>
                         <li class="treeview">

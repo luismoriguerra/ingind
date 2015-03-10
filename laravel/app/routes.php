@@ -31,3 +31,4 @@ Route::get(
 
 Route::controller('language', 'LanguageController');
 
+Route::controller('cargo', 'CargoController');
