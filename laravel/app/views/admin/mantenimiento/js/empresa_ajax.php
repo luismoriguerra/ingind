@@ -13,7 +13,7 @@ var Empresas={
             cache       : false,
             dataType    : 'json',
             data        : datos,
-            beforeSend : function() {                
+            beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
             success : function(obj) {                
