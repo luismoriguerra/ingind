@@ -12,16 +12,17 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li><a href="#"><i class="fa fa-angle-double-right"></i> Areas</a></li>
-                                <li><a href="admin.mantenimiento.cargo"><i class="fa fa-angle-double-right"></i> {{ trans('greetings.menu_mantenimientos_celulas') }}</a></li>
+                                <li><a href="admin.mantenimiento.cargo"><i class="fa fa-angle-double-right"></i> Cargos</a></li>
                             </ul>
                         </li>
                         <li class="treeview">
                             <a href="#">
-                                <i class="fa fa-gears"></i> <span>Flujo</span>
+                                <i class="fa fa-gears"></i> <span>Ruta</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="#"><i class="fa fa-angle-double-right"></i> Asignar Ruta</a></li>
+                                <li><a href="#"><i class="fa fa-angle-double-right"></i> Crear</a></li>
+                                <li><a href="#"><i class="fa fa-angle-double-right"></i> Asignar</a></li>
                             </ul>
                         </li>
                         <li class="treeview">
