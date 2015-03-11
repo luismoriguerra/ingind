@@ -3,6 +3,11 @@
 
 @section('includes')
     @parent
+    {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
+    {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
+
+    @include( 'admin.js.slct_global_ajax' )
+    @include( 'admin.js.slct_global' )
     @include( 'admin.mantenimiento.js.cargo_ajax' )
     @include( 'admin.mantenimiento.js.cargo' )
 @stop
