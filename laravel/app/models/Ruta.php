@@ -12,4 +12,6 @@ class Ruta extends \Eloquent
         return $this->belongsTo('Area');
     }
 
+    private function 
+
 }

@@ -13,8 +13,8 @@
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
 
-    @include( 'admin.historico.js.ruta_ajax' )
-    @include( 'admin.historico.js.ruta' )
+    @include( 'admin.ruta.js.ruta_ajax' )
+    @include( 'admin.ruta.js.ruta' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -77,5 +77,5 @@
 @stop
 
 @section('formulario')
-     @include( 'admin.historico.form.bandeja_modal' )
+     @include( 'admin.ruta.form.ruta' )
 @stop
