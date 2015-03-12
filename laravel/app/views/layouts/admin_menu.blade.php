@@ -13,9 +13,9 @@
                             <ul class="treeview-menu">
 
                                 <li><a href="#"><i class="fa fa-angle-double-right"></i> Areas</a></li>
-                                <li><a href="admin.mantenimiento.cargo"><i class="fa fa-angle-double-right"></i> {{ trans('greetings.menu_mantenimientos_cargos') }}</a></li>
-                                <li><a href="admin.mantenimiento.menu"><i class="fa fa-angle-double-right"></i> {{ trans('greetings.menu_mantenimientos_menus') }}</a></li>
-                                <li><a href="admin.mantenimiento.opcion"><i class="fa fa-angle-double-right"></i> {{ trans('greetings.menu_mantenimientos_opciones') }}</a></li>
+                                <li><a href="admin.mantenimiento.cargo"><i class="fa fa-angle-double-right"></i> Cargos</a></li>
+                                <li><a href="admin.mantenimiento.menu"><i class="fa fa-angle-double-right"></i> Menus</a></li>
+                                <li><a href="admin.mantenimiento.opcion"><i class="fa fa-angle-double-right"></i> Opciones</a></li>
 
                             </ul>
                         </li>
