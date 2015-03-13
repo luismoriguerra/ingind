@@ -42,7 +42,7 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Tipo Ruta</th>
+                                                <th>Tipo Flujo</th>
                                                 <th>Creador</th>
                                                 <th>Area</th>
                                                 <th># Ok</th>
@@ -57,7 +57,7 @@
                                         <tfoot>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Tipo Ruta</th>
+                                                <th>Tipo Flujo</th>
                                                 <th>Creador</th>
                                                 <th>Area</th>
                                                 <th># Ok</th>

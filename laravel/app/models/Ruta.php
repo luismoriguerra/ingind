@@ -2,7 +2,7 @@
 
 class Ruta extends \Eloquent
 {
-    public $table = "rutas";
+    protected $_table = "rutas";
 
     /**
      * Areas relationship
@@ -12,6 +12,8 @@ class Ruta extends \Eloquent
         return $this->belongsTo('Area');
     }
 
-    private function 
+    private function getRutas(){
+        $rutas="";
+    }
 
 }

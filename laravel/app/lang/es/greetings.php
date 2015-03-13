@@ -49,6 +49,6 @@ return array(
 'mensaje_seleccione'                        => 'Seleccione',
 'mensaje_no_coinciden'                      => 'Contraseñas nuevas no coinciden',
 'error_confirm'                             => 'Desea eliminar el registro seleccionado',
-'mensaje_error'                             => 'Ocurrio una interrupción en el proceso, Favor de intentar nuevamente. Si el problema persiste favor de comunicarse a ubicame@puedesencontrar.com',
+'mensaje_error'                             => 'Ocurrio una interrupción en el proceso, Favor de intentar nuevamente. Si el problema persiste favor de comunicarse a jorgeshevchenk@gmail.com',
 
 );
