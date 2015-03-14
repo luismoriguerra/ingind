@@ -38,7 +38,7 @@
                             <!-- Inicia contenido -->
                             <div class="box">                                
                                 <div class="box-body table-responsive">
-                                    <table id="t_bandeja" class="table table-bordered table-striped">
+                                    <table id="t_rutaflujo" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -48,10 +48,11 @@
                                                 <th># Ok</th>
                                                 <th># Error</th>
                                                 <th>Depende</th>
+                                                <th>Fecha Creación</th>
                                                 <th> [ ] </th>
                                             </tr>
                                         </thead>
-                                        <tbody id="tb_bandeja">
+                                        <tbody id="tb_rutaflujo">
                                             
                                         </tbody>
                                         <tfoot>
@@ -63,6 +64,7 @@
                                                 <th># Ok</th>
                                                 <th># Error</th>
                                                 <th>Depende</th>
+                                                <th>Fecha Creación</th>
                                                 <th> [ ] </th>
                                             </tr>
                                         </tfoot>
