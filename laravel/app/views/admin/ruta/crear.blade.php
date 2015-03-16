@@ -14,7 +14,7 @@
     @include( 'admin.js.slct_global' )
 
     @include( 'admin.ruta.js.ruta_ajax' )
-    @include( 'admin.ruta.js.ruta' )
+    @include( 'admin.ruta.js.crear' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -43,8 +43,8 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Tipo Flujo</th>
-                                                <th>Creador</th>
                                                 <th>Area</th>
+                                                <th>Creador</th>
                                                 <th># Ok</th>
                                                 <th># Error</th>
                                                 <th>Depende</th>
@@ -59,8 +59,8 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Tipo Flujo</th>
-                                                <th>Creador</th>
                                                 <th>Area</th>
+                                                <th>Creador</th>
                                                 <th># Ok</th>
                                                 <th># Error</th>
                                                 <th>Depende</th>
@@ -69,18 +69,57 @@
                                             </tr>
                                         </tfoot>
                                     </table>
-                                    <a class='btn btn-primary btn-sm' class="btn btn-primary" data-toggle="modal" data-target="#rutaflujoModal" data-titulo="Nueva">
+                                    <a class='btn btn-primary btn-sm' id="btn_nuevo">
                                         <i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo
                                     </a>
                                 </div><!-- /.box-body -->
+                                <form name="form_ruta_flujo" id="form_ruta_flujo" method="POST" action="">
+                                    <div class="row form-group" style="display:none">
+                                        <div class="col-sm-12">
+                                            <h1 id="txt_titulo">Nueva Ruta</h1>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-2">
+                                                <label class="control-label">Tipo Flujo:</label>
+                                                <select class="form-control" name="slct_flujo_id" id="slct_flujo_id">
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label">Area:</label>
+                                                <select class="form-control" name="slct_area_id" id="slct_area_id">
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label">Creador:</label>
+                                                <input class="form-control" type="text" id="txt_persona" name="txt_persona" readonly>
+                                            </div>                                            
+                                            <div class="col-sm-2">
+                                                <label class="control-label"># Ok:</label>
+                                                <input class="form-control" type="text" id="txt_ok" name="txt_ok" readonly>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label"># Error:</label>
+                                                <input class="form-control" type="text" id="txt_error" name="txt_error" readonly>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label">Fecha Creación:</label>
+                                                <input class="form-control" type="text" id="txt_fecha_creacion" name="txt_fecha_creacion" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <a class="btn btn-default btn-sm">
+                                                <i class="fa fa-remove fa-lg"></i>&nbsp;Close
+                                            </a>
+                                            <a class="btn btn-primary btn-sm">
+                                                <i class="fa fa-save fa-lg"></i>&nbsp;Guardar
+                                            </a>
+                                        </div>
+                                    </div>
+                                </form>
                             </div><!-- /.box -->
                             <!-- Finaliza contenido -->
                         </div>
                     </div>
 
                 </section><!-- /.content -->
-@stop
-
-@section('formulario')
-     @include( 'admin.ruta.form.ruta' )
 @stop

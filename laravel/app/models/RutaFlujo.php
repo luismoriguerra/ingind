@@ -12,8 +12,8 @@ class RutaFlujo extends \Eloquent
         return $this->belongsTo('Area');
     }
 
-    public function getRutasFlujo(){
-        $rutasFlujo =    DB::table('rutas_flujo AS rf')
+    public function getRutaFlujo(){
+        $rutaFlujo =    DB::table('rutas_flujo AS rf')
                             ->join(
                                 'flujos AS f',
                                 'f.id','=','rf.flujo_id'
@@ -41,7 +41,7 @@ class RutaFlujo extends \Eloquent
                                     )
                             )
                             ->get();
-        return $rutasFlujo;
+        return $rutaFlujo;
     }
 
 }

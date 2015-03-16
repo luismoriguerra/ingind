@@ -18,4 +18,19 @@ class Area extends \Eloquent
     {
         return $this->hasMany('Ruta');
     }
+
+    public function getArea(){
+        $area=DB::table('areas')
+                ->select('id','nombre','estado')
+                ->where( 
+                    function($query){
+                        if ( Input::get('estado') ) {
+                            $query->where('estado','=','1');
+                        }
+                    }
+                )
+                ->get();
+                
+        return $area;
+    }
 }

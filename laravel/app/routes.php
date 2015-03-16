@@ -35,3 +35,5 @@ Route::controller('cargo', 'CargoController');
 Route::controller('menu', 'MenuController');
 Route::controller('opcion', 'OpcionController');
 Route::controller('ruta_flujo', 'RutaFlujoController');
+Route::controller('flujo', 'FlujoController');
+Route::controller('area', 'AreaController');
