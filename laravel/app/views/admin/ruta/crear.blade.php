@@ -76,7 +76,18 @@
                                 <form name="form_ruta_flujo" id="form_ruta_flujo" method="POST" action="">
                                     <div class="row form-group" style="display:none">
                                         <div class="col-sm-12">
-                                            <h1 id="txt_titulo">Nueva Ruta</h1>
+                                            <h1><span id="txt_titulo">Nueva Ruta</span>
+                                            <small>
+                                                <i class="fa fa-angle-double-right fa-lg"></i>
+                                                Fecha Creación:
+                                                <span id="fecha_creacion"></span>
+                                            </small>
+                                            </h1>
+                                            <small>
+                                                <a class="btn btn-primary btn-sm">
+                                                    <i class="fa fa-plus-square fa-lg"></i>
+                                                </a>
+                                            </small>
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-2">
@@ -89,7 +100,7 @@
                                                 <select class="form-control" name="slct_area_id" id="slct_area_id">
                                                 </select>
                                             </div>
-                                            <div class="col-sm-2">
+                                            <div class="col-sm-4">
                                                 <label class="control-label">Creador:</label>
                                                 <input class="form-control" type="text" id="txt_persona" name="txt_persona" readonly>
                                             </div>                                            
@@ -101,18 +112,39 @@
                                                 <label class="control-label"># Error:</label>
                                                 <input class="form-control" type="text" id="txt_error" name="txt_error" readonly>
                                             </div>
-                                            <div class="col-sm-2">
-                                                <label class="control-label">Fecha Creación:</label>
-                                                <input class="form-control" type="text" id="txt_fecha_creacion" name="txt_fecha_creacion" readonly>
-                                            </div>
                                         </div>
                                         <div class="col-sm-12">
-                                            <a class="btn btn-default btn-sm">
+                                            <a class="btn btn-default btn-sm" id="btn_close">
                                                 <i class="fa fa-remove fa-lg"></i>&nbsp;Close
                                             </a>
-                                            <a class="btn btn-primary btn-sm">
+                                            <a class="btn btn-primary btn-sm" id="btn_guardar">
                                                 <i class="fa fa-save fa-lg"></i>&nbsp;Guardar
                                             </a>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group" style="display:none">
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-9">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr class="head">
+                                                            <th>#</th>
+                                                            <th>Listado</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tb_rutaflujodetalle">
+                                                        <tr class="body">
+                                                            <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr class="head">
+                                                            <th>#</th>
+                                                            <th>Listado</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
