@@ -52,7 +52,14 @@ class OpcionController extends \BaseController
                         ->get();
             } else {
                 $opciones = DB::table('opciones')
-                            ->select('id', 'nombre', 'ruta')
+                            ->select(
+                                'id',
+                                'nombre',
+                                'ruta',
+                                DB::raw(
+                                    'CONCAT("M",menu_id) as relation'
+                                )
+                                )
                             ->where('estado', '=', '1')
                             ->orderBy('nombre')
                             ->get();

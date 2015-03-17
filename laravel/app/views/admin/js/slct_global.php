@@ -25,7 +25,11 @@ htmlListarSlct=function(obj,slct,tipo,valarray,afectado,afectados,slct_id,slctan
                 rel2=' data-evento="|'+data.evento+'|"';
             }
 
-            html += "<option "+rel+rel2+" value=\"" + data.id + "\" "+disabled+">" + data.nombre + "</option>";
+            //si se recibe estado
+            if (data.estado==1)
+                html += "<option selected"+rel+rel2+" value=\"" + data.id + "\" "+disabled+">" + data.nombre + "</option>";
+            else
+                html += "<option "+rel+rel2+" value=\"" + data.id + "\" "+disabled+">" + data.nombre + "</option>";
         }); 
         
         if(slct=='slct_estado'){

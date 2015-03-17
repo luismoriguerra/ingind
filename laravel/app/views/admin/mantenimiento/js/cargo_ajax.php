@@ -46,6 +46,32 @@ var Cargos={
             }
         });
     },
+    AgregarOpcion:function(cargo_id,opcion_id){
+        //alert(''+cargo_id+opcion_id+'');
+        //enviar un ajax
+
+
+        var opciones=$('#slct_opciones option:selected').text();
+        var menu=$('#slct_menus option:selected').text();
+
+
+
+        //estadohtml='<span id="'+data.id+'" onClick="desactivar('+data.id+')" class="btn btn-success">Activo</span>';
+        
+
+        html="<tr>"+
+            "<td>"+menu+"</td>"+
+            "<td>"+opciones+"</td>"+
+            /*"<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+*/
+            '<td><a class="btn btn-danger btn-xs"><i class="fa fa-minus fa-xs"></i> </a></td>';
+
+        html+="</tr>";
+
+        
+        $("#tb_opcionCargo").before(html);
+
+
+    },
     CargarCargos:function(evento){
         $.ajax({
             url         : 'cargo/cargar',
@@ -74,7 +100,70 @@ var Cargos={
                     });
                 }
                 $("#tb_cargos").html(html); 
-                evento();  
+                evento();
+            },
+            error: function(){
+            }
+        });
+    },
+    CargarOpciones:function(cargo_id){
+        //getOpciones
+        $.ajax({
+            url         : 'cargo/cargaropciones',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : {cargo_id:cargo_id},
+            beforeSend : function() {
+                
+            },
+            success : function(obj) {
+                //CARGAR opciones
+                if(obj.datos[0].DATA != null){
+                    var menus = obj.datos[0].DATA.split("|"); 
+//0: "1-1,2,3"
+//1: "2-5,6,7,11"
+                    var html="";
+
+                    $.each(menus, function(i,opcion){
+                        //OBTENGO EL menus Y LOS opciones REGISTRADOS
+                        var data = opcion.split("-");//1  -    1,2,3
+                        //AGREGO EL menus EN HTML
+
+                        //agregarSubmoduloHTML(data[0],$("#menus option[value=" +data[0] +"]").text());
+                        //DESELECCIONO TODOS LOS opciones DE ESE opcion
+                        //añadir modulos a la variable global
+
+                        html+="<tr>"+
+                            "<td id='menu_"+data[0]+"'>"+$("#slct_menus option[value=" +data[0] +"]").text()+"</td>";
+                            
+                            
+                        
+
+                        $("#opcion_"+data[0]+" option").attr("selected",false);
+                        //OBTENDO LOS opciones REGISTRADOS EN ARRAY
+                        var opciones = data[1].split(",");
+                        /*$.each(opciones,function(i,e){
+                            //SELECCIONO LOS opciones
+                            $("#opcion_"+data[0]+" option[value="+ e+"]").attr("selected",true);
+                        });*/
+
+
+
+                        html+="<td id='opciones_"+opciones+"' ><select class='form-control' multiple='multiple' name='slct_opciones"+data[0]+"[]' id='slct_opciones"+data[0]+"'></select></td>";
+
+                        slctGlobal.listarSlct('opcion','slct_opciones'+data[0],'multiple',opciones);
+                        //cerrar div
+                        html+='<td><a class="class="btn btn-danger btn-xs"" data-id="'+data.id+'" data-titulo="Eliminar"><i class="fa fa-minus fa-sm"></i> </a></td>';
+
+                        html+="</tr>";
+                        //REFRESCO EL MULTISELECT
+                        $("#opcion_"+data[0]).multiselect("refresh");
+                    });
+                $("#tb_opcionCargo").html(html); 
+                
+
+                }
             },
             error: function(){
             }

@@ -1,11 +1,12 @@
 <script type="text/javascript">
+var cargo_id, opcion_id;
 $(document).ready(function() {  
     Cargos.CargarCargos(activarTabla);
 
     $('#cargoModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // captura al boton
         var titulo = button.data('titulo'); // extrae del atributo data-
-        var cargo_id = button.data('id'); //extrae el id del atributo data
+        cargo_id = button.data('id'); //extrae el id del atributo data
         var data = {cargo_id: cargo_id};
         var ids = [1,2];//por ejemplo seleccionando 2 valores
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
@@ -15,17 +16,22 @@ $(document).ready(function() {
         $('#form_cargos [data-toggle="tooltip"]').css("display","none");
         $("#form_cargos input[type='hidden']").remove();
 
+        slctGlobal.listarSlct('menu','slct_menus','simple');
+
         if(titulo=='Nuevo'){
-            slctGlobal.listarSlct('opcion','slct_opciones','simple',null,null);
-            slctGlobal.listarSlct('menu','slct_menus','simple',null,null);
+            
+            //slctGlobal.listarSlct('opcion','slct_opciones','simple',null,null);
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
             $('#form_cargos #slct_estado').val(1); 
             $('#form_cargos #txt_nombre').focus();          
         }
         else{
-            slctGlobal.listarSlct('opcion','slct_opciones','simple',null,null);//ids debe seleccionar algunos
-            slctGlobal.listarSlct('menu','slct_menus','simple',null,null);//ids debe seleccionar algunos
+            Cargos.CargarOpciones(cargo_id);
+            //slctGlobal.listarSlct('menu','slct_menus','simple',null,null);//ids debe seleccionar algunos
+            //slctGlobal.listarSlct('menu','slct_menus','simple',null,null,0,'#slct_opciones','M');//ids debe seleccionar algunos
+            
+            //slctGlobal.listarSlct('opcion','slct_opciones','simple',null,null,1);//ids debe seleccionar algunos
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
             $('#form_cargos #txt_nombre').val( $('#t_cargos #nombre_'+button.data('id') ).text() );
@@ -36,8 +42,9 @@ $(document).ready(function() {
     });
 
     $('#cargoModal').on('hide.bs.modal', function (event) {
-      var modal = $(this); //captura el modal
-      modal.find('.modal-body input').val(''); // busca un input para copiarle texto
+        var modal = $(this); //captura el modal
+        modal.find('.modal-body input').val(''); // busca un input para copiarle texto
+        $("#slct_opciones,#slct_menus").multiselect('destroy');
     });
 });
 
@@ -63,7 +70,12 @@ Agregar=function(){
         Cargos.AgregarEditarCargo(0);
     }
 };
+Nuevo=function(){
+    //añadir registro opcion por usuario
+    //necesito el id de la opcion y del cargo
 
+    Cargos.AgregarOpcion(cargo_id,opcion_id);
+}
 validaCargos=function(){
     $('#form_cargos [data-toggle="tooltip"]').css("display","none");
     var a=[];

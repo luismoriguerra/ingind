@@ -32,28 +32,21 @@
 
             <div class="row form-group">
               <div class="col-sm-12">
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                   <label class="control-label">Menus:
                   </label>
-                  <select class="form-control" multiple="multiple" name="slct_menus[]" id="slct_menus">
+                  <select class="form-control" name="slct_menus" id="slct_menus">
                   </select>
                 </div>
-                <div class="col-sm-5">
-                  <label class="control-label">Opciones:
-                  <select class="form-control" multiple="multiple" name="slct_opciones[]" id="slct_opciones">
-                  </label>
-                  </select>
-                </div>
-                <div class="col-sm-2">
-                  <br>
-                  <a class='btn btn-primary btn-sm' class="btn btn-primary" data-titulo="Nuevo">
-                    <i class="fa fa-plus fa-lg"></i>
-                    &nbsp;Nuevo
-                  </a>
+                <div class="col-sm-6">
+                    <br>
+                    <button type="button" class="btn btn-success" Onclick="Nuevo();">
+                      <i class="fa fa-plus fa-lg"></i>
+                      &nbsp;Nuevo
+                    </button>
                 </div>
               </div>
             </div>
-
             <div class="box-body table-responsive">
                 <table id="t_opcionCargo" class="table table-bordered table-striped">
                     <thead>

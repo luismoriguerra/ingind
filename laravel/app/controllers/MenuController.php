@@ -52,7 +52,7 @@ class MenuController extends \BaseController
                         ->get();
             } else {
                 $menus = DB::table('menus')
-                            ->select('id', 'nombre')
+                            ->select('id', 'nombre','estado as block')
                             ->where('estado', '=', '1')
                             ->orderBy('nombre')
                             ->get();
