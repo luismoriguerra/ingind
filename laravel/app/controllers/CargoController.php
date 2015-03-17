@@ -151,10 +151,36 @@ class CargoController extends \BaseController
                 );
             }
             $cargoId = Input::get('id');
+
             $cargos = Cargo::find($cargoId);
             $cargos->nombre = Input::get('nombre');
             $cargos->estado = Input::get('estado');
             $cargos->save();
+            
+
+            $menus = Input::get('menus_selec');
+            if ($menus) {
+
+                DB::table('cargo_opcion')->where('cargo_id', $cargoId)->update(array('estado' => 0));
+                $menus = explode(',', $menus);
+                $opciones=array();
+
+                for ($i=0; $i<count($menus); $i++) {
+                    $menuId = $menus[$i];
+                    //recorrer opciones
+                    $opciones[] = Input::get('opciones'.$menuId);
+                }
+                //si no existe insertar
+
+                for ($i=0; $i<count($opciones); $i++) {
+                    for ($j=0; $j <count($opciones[$i]) ; $j++) { 
+                        $opcion[] = $opciones[$i][$j];
+                    }
+                }
+                DB::table('cargo_opcion')->whereIn('opcion_id', $opcion)->update(array('estado' => 1));
+
+            }
+
             /*if (Input::get('estado') == 0 ) {
                 //actualizando a estado 0 segun
                 DB::table('submodulos')

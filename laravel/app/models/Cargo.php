@@ -37,7 +37,8 @@ class Cargo extends \Eloquent
             GROUP_CONCAT(o.id)) as info"
             )
         )
-        ->whereRaw("co.cargo_id=$cargoId")
+        ->whereRaw("co.cargo_id=$cargoId AND co.estado=1")
+
         ->groupBy('m.id');
 
         $opciones = DB::table(DB::raw("(".$sql->toSql().") as o"))

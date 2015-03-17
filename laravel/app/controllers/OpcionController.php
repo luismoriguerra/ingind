@@ -50,7 +50,19 @@ class OpcionController extends \BaseController
                         ->select('o.id', 'o.nombre', 'co.estado')
                         ->where('o.estado', '=', 1)
                         ->get();
-            } else {
+            } elseif (Input::get('menu_id')) {
+                $menuId = Input::get('menu_id');
+                $opciones = DB::table('opciones as o')
+                        ->select(
+                            'id',
+                            'nombre',
+                            'ruta'
+                        )
+                        ->where('menu_id','=',$menuId)
+                        ->where('o.estado', '=', 1)
+                        ->get();
+            }
+            else {
                 $opciones = DB::table('opciones')
                             ->select(
                                 'id',

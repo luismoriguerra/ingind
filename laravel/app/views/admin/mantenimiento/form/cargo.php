@@ -41,27 +41,17 @@
                 <div class="col-sm-6">
                     <br>
                     <button type="button" class="btn btn-success" Onclick="Nuevo();">
-                      <i class="fa fa-plus fa-lg"></i>
+                      <i class="fa fa-plus fa-sm"></i>
                       &nbsp;Nuevo
                     </button>
                 </div>
               </div>
             </div>
-            <div class="box-body table-responsive">
-                <table id="t_opcionCargo" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Menu</th>
-                            <th>Opcion</th>
-                            <th> [ ] </th>
-                        </tr>
-                    </thead>
-                    <tbody id="tb_opcionCargo">
-                    </tbody>
-                </table>
-            </div>
+            
+            <ul class="list-group" id="t_opcionCargo">
+            </ul>
+            
           </fieldset>
-
 
         </form>
       </div>

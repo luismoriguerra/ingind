@@ -1,5 +1,5 @@
 <script type="text/javascript">
-var cargo_id, opcion_id;
+var cargo_id, opcion_id, menus_selec=[];
 $(document).ready(function() {  
     Cargos.CargarCargos(activarTabla);
 
@@ -24,7 +24,7 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
             $('#form_cargos #slct_estado').val(1); 
-            $('#form_cargos #txt_nombre').focus();          
+            $('#form_cargos #txt_nombre').focus();
         }
         else{
             Cargos.CargarOpciones(cargo_id);
@@ -45,6 +45,8 @@ $(document).ready(function() {
         var modal = $(this); //captura el modal
         modal.find('.modal-body input').val(''); // busca un input para copiarle texto
         $("#slct_opciones,#slct_menus").multiselect('destroy');
+        $("#t_opcionCargo").html('');
+        menus_selec=[];
     });
 });
 
@@ -73,9 +75,42 @@ Agregar=function(){
 Nuevo=function(){
     //añadir registro opcion por usuario
     //necesito el id de la opcion y del cargo
+    var menu_id=$('#slct_menus option:selected').val();
+    var menu=$('#slct_menus option:selected').text();
+    //que haya seleccionado un menu y no este agregado
+    var buscar_menu = $('#menu_'+menu_id).text();
+    if (menu_id!=='') {
+        if (buscar_menu==="") {
 
-    Cargos.AgregarOpcion(cargo_id,opcion_id);
-}
+            var html='';
+            html+="<li class='list-group-item'><div class='row'>"+
+                "<div class='col-sm-4' id='menu_"+menu_id+"'><h5>"+menu+"</h5></div>";
+
+            $("#opcion_"+menu_id+" option").attr("selected",false);
+
+            html+="<div class='col-sm-6' opciones='' ><select class='form-control' multiple='multiple' name='slct_opciones"+menu_id+"[]' id='slct_opciones"+menu_id+"'></select></div>";
+            var envio = {menu_id: menu_id};
+
+            html+='<div class="col-sm-2"><button type="button" id="'+menu_id+'" Onclick="EliminarSubmodulo(this)" class="btn btn-danger btn-sm" ><i class="fa fa-minus fa-sm"></i> </button></div>';
+
+            html+="</div></li>";
+
+            $("#t_opcionCargo").append(html);
+            slctGlobal.listarSlct('opcion','slct_opciones'+menu_id,'multiple',null,envio);
+            menus_selec.push(menu_id);
+        } else 
+            alert("Ya se agrego este menu");
+    } else 
+        alert("Seleccione Menu");
+
+};
+EliminarSubmodulo=function(obj){
+    console.log(obj);
+    var valor= obj.id;
+    obj.parentNode.parentNode.parentNode.remove();
+    var index = menus_selec.indexOf(valor);
+    menus_selec.splice( index, 1 );
+};
 validaCargos=function(){
     $('#form_cargos [data-toggle="tooltip"]').css("display","none");
     var a=[];
