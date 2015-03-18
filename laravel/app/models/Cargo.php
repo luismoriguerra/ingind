@@ -20,7 +20,7 @@ class Cargo extends \Eloquent
     }
     public function getOpciones($cargoId)
     {
-
+        //subconsulta
         $sql = DB::table('cargo_opcion as co')
         ->join(
             'opciones as o', 
@@ -37,10 +37,10 @@ class Cargo extends \Eloquent
             GROUP_CONCAT(o.id)) as info"
             )
         )
-        ->whereRaw("co.cargo_id=$cargoId AND co.estado=1")
+        ->whereRaw("co.cargo_id=$cargoId AND co.estado=1 AND m.estado=1")
 
         ->groupBy('m.id');
-
+        //consulta
         $opciones = DB::table(DB::raw("(".$sql->toSql().") as o"))
                 ->select(
                     DB::raw("GROUP_CONCAT( info SEPARATOR '|'  ) as DATA ")

@@ -44,7 +44,10 @@ class CargoController extends \BaseController
                             'modulos as m', 
                             's.modulo_id', '=', 'm.id'
                         )
-                        ->select('m.nombre', DB::raw('MAX(su.estado) as estado'))
+                        ->select(
+                            'm.nombre',
+                            DB::raw('MAX(su.estado) as estado')
+                        )
                         ->where('m.estado', '=', 1)
                         ->groupBy('m.nombre')
                         ->orderBy('m.nombre')
@@ -106,10 +109,45 @@ class CargoController extends \BaseController
                 );
             }
 
-            $modulos = new Cargo;
-            $modulos->nombre = Input::get('nombre');
-            $modulos->estado = Input::get('estado');
-            $modulos->save();
+            $cargo = new Cargo;
+            $cargo->nombre = Input::get('nombre');
+            $cargo->estado = Input::get('estado');
+            $cargo->save();
+
+            $menus = Input::get('menus_selec');
+            $estado = Input::get('estado');
+            if ($estado == 0 ) {
+                return Response::json(
+                    array(
+                    'rst'=>1,
+                    'msj'=>'Registro actualizado correctamente',
+                    )
+                );
+            }
+            if ($menus) {//si selecciono algun menu
+                $menus = explode(',', $menus);
+                $opciones = array();
+                $opcionId = array();
+                for ($i=0; $i<count($menus); $i++) {
+                    $menuId = $menus[$i];
+                    //almacenar las opciones seleccionadas
+                    $opciones[] = Input::get('opciones'.$menuId);
+                }
+                for ($i=0; $i<count($opciones); $i++) {
+                    for ($j=0; $j <count($opciones[$i]); $j++) {
+                        //buscar la opcion en ls BD
+                        $opcionId[] = $opciones[$i][$j];
+                    }
+                }
+
+                for ($i=0; $i<count($opcionId); $i++) {
+                    $opcion = Opcion::find($opcionId[$i]);
+                    $cargo->opciones()->save(
+                        $opcion, array('estado' => 1)
+                    );
+                }
+            }
+
 
             return Response::json(
                 array(
@@ -157,36 +195,56 @@ class CargoController extends \BaseController
             $cargos->estado = Input::get('estado');
             $cargos->save();
             
-
             $menus = Input::get('menus_selec');
-            if ($menus) {
+            $estado = Input::get('estado');
 
-                DB::table('cargo_opcion')->where('cargo_id', $cargoId)->update(array('estado' => 0));
+            DB::table('cargo_opcion')
+                    ->where('cargo_id', $cargoId)
+                    ->update(array('estado' => 0));
+
+            if ($estado == 0 ) {
+                return Response::json(
+                    array(
+                    'rst'=>1,
+                    'msj'=>'Registro actualizado correctamente',
+                    )
+                );
+            }
+
+            if ($menus) {//si selecciono algun menu
+
                 $menus = explode(',', $menus);
                 $opciones=array();
 
                 for ($i=0; $i<count($menus); $i++) {
                     $menuId = $menus[$i];
-                    //recorrer opciones
+                    //almacenar las opciones seleccionadas
                     $opciones[] = Input::get('opciones'.$menuId);
                 }
-                //si no existe insertar
 
                 for ($i=0; $i<count($opciones); $i++) {
-                    for ($j=0; $j <count($opciones[$i]) ; $j++) { 
-                        $opcion[] = $opciones[$i][$j];
+                    for ($j=0; $j <count($opciones[$i]); $j++) {
+                        //buscar la opcion en ls BD
+                        $opcionId = $opciones[$i][$j];
+                        $opcion = Opcion::find($opcionId);
+                        $cargoOpciones = DB::table('cargo_opcion')
+                            ->where('cargo_id', '=', $cargoId)
+                            ->where('opcion_id', '=', $opcionId)
+                            ->first();
+                        if (is_null($cargoOpciones)) {
+                            $cargos->opciones()->save(
+                                $opcion, array('estado' => 1)
+                            );
+                        } else {
+                            //update a la tabla cargo_opcion
+                            DB::table('cargo_opcion')
+                                ->where('cargo_id', '=', $cargoId)
+                                ->where('opcion_id', '=', $opcionId)
+                                ->update(array('estado' => 1));
+                        }
                     }
                 }
-                DB::table('cargo_opcion')->whereIn('opcion_id', $opcion)->update(array('estado' => 1));
-
             }
-
-            /*if (Input::get('estado') == 0 ) {
-                //actualizando a estado 0 segun
-                DB::table('submodulos')
-                    ->where('modulo_id', $moduloId)
-                    ->update(array('estado' => 0));
-            }*/
             return Response::json(
                 array(
                 'rst'=>1,
@@ -206,10 +264,19 @@ class CargoController extends \BaseController
     {
 
         if ( Request::ajax() ) {
-
-            $cargo = Cargo::find(Input::get('id'));
+            $estado = Input::get('estado');
+            $cargoId = Input::get('id');
+            $cargo = Cargo::find($cargoId);
             $cargo->estado = Input::get('estado');
             $cargo->save();
+
+            //estado 0, en la tabla cargo_opcion, para este cargo
+            if ($estado == 0) {
+                DB::table('cargo_opcion')
+                    ->where('cargo_id', $cargoId)
+                    ->update(array('estado' => $estado));
+            }
+
             return Response::json(
                 array(
                 'rst'=>1,

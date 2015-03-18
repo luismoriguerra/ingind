@@ -47,12 +47,8 @@
                 </div>
               </div>
             </div>
-            
-            <ul class="list-group" id="t_opcionCargo">
-            </ul>
-            
+            <ul class="list-group" id="t_opcionCargo"></ul>
           </fieldset>
-
         </form>
       </div>
       <div class="modal-footer">
