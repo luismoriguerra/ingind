@@ -21,6 +21,7 @@ class OpcionController extends \BaseController
                             'o.ruta',
                             'o.estado',
                             'm.nombre as menu'
+                            , 'o.menu_id'
                         )
                         ->get();
             return Response::json(array('rst'=>1,'datos'=>$opciones));
