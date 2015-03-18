@@ -90,14 +90,14 @@ var Opciones={
             dataType    : 'json',
             success : function(obj) {
                 if(obj.rst==1){
-                    $('#slct_opcion_id').html('');
+                    $('#slct_menu_id').html('');
                     $.each(obj.datos,function(index,data){
-                        $('#slct_opcion_id').append('<option value='+data.id+'>'+data.nombre+'</option>');
+                        $('#slct_menu_id').append('<option value='+data.id+'>'+data.nombre+'</option>');
                     });
                     if (accion==='nuevo')
-                        $('#slct_opcion_id').append("<option selected style='display:none;'>--- Elige Menu ---</option>");
+                        $('#slct_menu_id').append("<option selected style='display:none;'>--- Elige Menu ---</option>");
                     else
-                       $('#slct_opcion_id').val( menu_id );
+                       $('#slct_menu_id').val( menu_id );
                 } 
             }
         });

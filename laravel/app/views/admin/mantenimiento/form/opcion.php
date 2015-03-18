@@ -29,7 +29,7 @@
           <div class="form-group">
             <label class="control-label">Menu:
             </label>
-            <select class="form-control" name="slct_opcion_id" id="slct_opcion_id">
+            <select class="form-control" name="slct_menu_id" id="slct_menu_id">
             </select>
           </div>
           
