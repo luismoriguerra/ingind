@@ -4,7 +4,7 @@ class MenuController extends \BaseController
 {
 
     /**
-     * cargar modulos, mantenimiento
+     * cargar menus, mantenimiento
      * POST /menu/cargar
      *
      * @return Response
@@ -31,21 +31,21 @@ class MenuController extends \BaseController
         //si la peticion es ajax
         if ( Request::ajax() ) {
             
-            if (Input::get('usuario_id')) {
-                $usuarioId = Input::get('usuario_id');
-                $menus = DB::table('submodulo_usuario as su')
+            if (Input::get('cargo_id')) {
+                $cargoId = Input::get('usuario_id');
+                $menus = DB::table('cargo_opcion as co')
                         ->rightJoin(
-                            'submodulos as s', function($join) use ($usuarioId)
+                            'opciones as o', function($join) use ($usuarioId)
                             {
-                            $join->on('su.submodulo_id', '=', 's.id')
-                            ->on('su.usuario_id', '=', DB::raw($usuarioId));
+                            $join->on('co.opcion_id', '=', 'o.id')
+                            ->on('co.cargo_id', '=', DB::raw($usuarioId));
                             }
                         )
                         ->rightJoin(
-                            'modulos as m', 
-                            's.modulo_id', '=', 'm.id'
+                            'menus as m', 
+                            'o.menu_id', '=', 'm.id'
                         )
-                        ->select('m.nombre', DB::raw('MAX(su.estado) as estado'))
+                        ->select('m.nombre', DB::raw('MAX(co.estado) as estado'))
                         ->where('m.estado', '=', 1)
                         ->groupBy('m.nombre')
                         ->orderBy('m.nombre')
@@ -141,17 +141,17 @@ class MenuController extends \BaseController
                 );
             }
             $menuId = Input::get('id');
-            $manu = Menu::find($menuId);
-            $manu['nombre'] = Input::get('nombre');
-            $manu['estado'] = Input::get('estado');
-            $manu['class_icono'] = Input::get('class_icono');
-            $manu->save();
-            /*if (Input::get('estado') == 0 ) {
+            $menu = Menu::find($menuId);
+            $menu['nombre'] = Input::get('nombre');
+            $menu['estado'] = Input::get('estado');
+            $menu['class_icono'] = Input::get('class_icono');
+            $menu->save();
+            if (Input::get('estado') == 0 ) {
                 //actualizando a estado 0 segun
-                DB::table('submodulos')
-                    ->where('modulo_id', $moduloId)
+                DB::table('opciones')
+                    ->where('menu_id', $menuId)
                     ->update(array('estado' => 0));
-            }*/
+            }
             return Response::json(
                 array(
                 'rst'=>1,
@@ -172,9 +172,9 @@ class MenuController extends \BaseController
 
         if ( Request::ajax() ) {
 
-            $manu = Manu::find(Input::get('id'));
-            $manu->estado = Input::get('estado');
-            $manu->save();
+            $menu = Menu::find(Input::get('id'));
+            $menu->estado = Input::get('estado');
+            $menu->save();
             return Response::json(
                 array(
                 'rst'=>1,
