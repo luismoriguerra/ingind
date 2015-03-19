@@ -4,7 +4,7 @@
 @section('includes')
     @parent
     @include( 'admin.mantenimiento.js.tiempo_ajax' )
-    @include( 'admin.mantenimiento.js.timepo' )
+    @include( 'admin.mantenimiento.js.tiempo' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -35,6 +35,8 @@
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
+                                        <th>Apocope</th>
+                                        <th>Minutos</th>
                                         <th>Estado</th>
                                         <th> [ ] </th>
                                     </tr>
@@ -44,6 +46,8 @@
                                 <tfoot>
                                     <tr>
                                         <th>Nombre</th>
+                                        <th>Apocope</th>
+                                        <th>Minutos</th>
                                         <th>Estado</th>
                                         <th> [ ] </th>
                                     </tr>

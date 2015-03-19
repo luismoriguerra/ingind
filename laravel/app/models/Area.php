@@ -1,9 +1,10 @@
 <?php
 
-class Area extends \Eloquent
+class Area extends Base
 {
     public $table = "areas";
-
+    public static $where =['id', 'nombre', 'estado'];
+    public static $selec =['id', 'nombre', 'estado'];
     /**
      * Cargos relationship
      */

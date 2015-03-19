@@ -13,9 +13,7 @@ class AreaController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $areas = DB::table('areas')
-                        ->select('id', 'nombre', 'estado')
-                        ->get();
+            $areas = Area::get(Input::all());
             return Response::json(array('rst'=>1,'datos'=>$areas));
         }
     }

@@ -35,6 +35,8 @@
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
+                                        <th>Tabla</th>
+                                        <th>Campo</th>
                                         <th>Estado</th>
                                         <th> [ ] </th>
                                     </tr>
@@ -44,6 +46,8 @@
                                 <tfoot>
                                     <tr>
                                         <th>Nombre</th>
+                                        <th>Tabla</th>
+                                        <th>Campo</th>
                                         <th>Estado</th>
                                         <th> [ ] </th>
                                     </tr>

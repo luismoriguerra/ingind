@@ -1,9 +1,10 @@
 <?php
 
-class Opcion extends \Eloquent
+class Opcion extends Base
 {
     public $table = "opciones";
-
+    public static $where =['id', 'nombre', 'ruta', 'menu_id', 'estado'];
+    public static $selec =['id', 'nombre', 'ruta', 'menu_id', 'estado'];
     /**
      * Cargos relationship
      */
@@ -17,5 +18,19 @@ class Opcion extends \Eloquent
     public function menu()
     {
         return $this->belongsTo('Menu');
+    }
+    public static function getOpciones()
+    {
+        return DB::table('opciones as o')
+                    ->join('menus as m', 'o.menu_id', '=', 'm.id')
+                    ->select(
+                        'o.id',
+                        'o.nombre',
+                        'o.ruta',
+                        'o.estado',
+                        'm.nombre as menu'
+                        , 'o.menu_id'
+                    )
+                    ->get();
     }
 }

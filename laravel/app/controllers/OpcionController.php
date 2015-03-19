@@ -13,17 +13,7 @@ class OpcionController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $opciones = DB::table('opciones as o')
-                        ->join('menus as m', 'o.menu_id', '=', 'm.id')
-                        ->select(
-                            'o.id',
-                            'o.nombre',
-                            'o.ruta',
-                            'o.estado',
-                            'm.nombre as menu'
-                            , 'o.menu_id'
-                        )
-                        ->get();
+            $opciones = Opcion::getOpciones();
             return Response::json(array('rst'=>1,'datos'=>$opciones));
         }
     }

@@ -13,9 +13,7 @@ class CargoController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $cargos = DB::table('cargos')
-                        ->select('id', 'nombre', 'estado')
-                        ->get();
+            $cargos = Cargo::get(Input::all());
             return Response::json(array('rst'=>1,'datos'=>$cargos));
         }
     }

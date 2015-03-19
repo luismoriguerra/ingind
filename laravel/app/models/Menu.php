@@ -1,9 +1,10 @@
 <?php
 
-class Menu extends \Eloquent
+class Menu extends Base
 {
     public $table = "menus";
-
+    public static $where =['id', 'nombre', 'class_icono', 'estado'];
+    public static $selec =['id', 'nombre', 'class_icono', 'estado'];
     /**
      * Opciones relationship
      */

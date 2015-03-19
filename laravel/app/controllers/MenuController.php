@@ -13,10 +13,7 @@ class MenuController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $menus = DB::table('menus')
-                        ->select('id', 'nombre', 'class_icono', 'estado')
-                        ->get();
-
+            $menus = Menu::get(Input::all());
             return Response::json(array('rst'=>1,'datos'=>$menus));
         }
     }
