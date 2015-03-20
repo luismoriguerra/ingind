@@ -1,15 +1,48 @@
 <script type="text/javascript">
 temporalBandeja=0;
+posruta=0;valorUlt="";
 $(document).ready(function() {
     $("[data-toggle='offcanvas']").click();
     $("#btn_nuevo").click(Nuevo);
     $("#btn_close").click(Close);
+    $("#btn_adicionar_ruta_detalle").click(adicionarRutaDetalle);
     Ruta.CargarRuta(HTMLCargarRuta);
     var data = {estado:1};
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     slctGlobal.listarSlct('area','slct_area_id','simple',ids,data);
+    slctGlobal.listarSlct('area','slct_area_id_2','simple',ids,data);
 });
+
+adicionarRutaDetalle=function(){
+    if($.trim($("#slct_area_id_2").val())==''){
+        alert('Seleccione un Area para adicionar');
+    }
+    else if($("#slct_area_id_2").val()==posruta && posruta!=''){
+        alert('No se puede asignar 2 veces continuas la misma Area');
+    }
+    else if($.trim($("#slct_area_id_2").val())!='' && $("#slct_area_id_2").val()!=posruta){
+        posruta++;
+        valorUlt=$("#slct_area_id_2").text();
+        var valor='';
+        valor=  "<tr id='tr-detalle-"+posruta+"'>"+
+                    "<td>"+
+                        "<button class='btn btn-danger btn-sm onclick='EliminarDetalle("+posruta+");' type='button'>"+
+                            "<i class='fa fa-minus fa-sm'></i>"+
+                        "</button>"+
+                        posruta+
+                    "</td>"+
+                    "<td>"+
+                        $("#slct_area_id_2").val()+
+                    "</td>"+
+                "</tr>";
+        $("#tb_rutaflujodetalleAreas").append(valor);
+    }
+}
+
+EliminarDetalle=function(t){
+    $("#tr-detalle-"+posruta).remove();
+}
 
 Nuevo=function(){
     $(".form-group").css("display","");
@@ -27,7 +60,7 @@ Actualiza=function(){
 }
 
 Close=function(){
-    $("#").css("display","none");
+    $(".form-group").css("display","none");
 }
 
 HTMLCargarRuta=function(datos){

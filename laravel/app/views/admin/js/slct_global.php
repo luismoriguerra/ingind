@@ -26,7 +26,7 @@ htmlListarSlct=function(obj,slct,tipo,valarray,afectado,afectados,slct_id,slctan
             }
 
             //si se recibe estado
-            if (data.estado==1)
+            if (data.select==1)// aqui enviar el selct = estado para pre seleccionar
                 html += "<option selected"+rel+rel2+" value=\"" + data.id + "\" "+disabled+">" + data.nombre + "</option>";
             else
                 html += "<option "+rel+rel2+" value=\"" + data.id + "\" "+disabled+">" + data.nombre + "</option>";

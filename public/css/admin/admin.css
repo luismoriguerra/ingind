@@ -3551,3 +3551,113 @@ fieldset[disabled] .btn-vk.active {
   color: #587ea3;
   background-color: #ffffff;
 }
+
+.area1 {
+    font-family: "Open Sans",sans-serif;
+    background-image: url('../../img/admin/area/area1.jpg');
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+.area2 {
+    font-family: "Open Sans",sans-serif;
+    background-image: url('../../img/admin/area/area2.jpg');
+    cursor: pointer;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+.area3 {
+    font-family: "Open Sans",sans-serif;
+    background-image: url('../../img/admin/area/area3.jpg');
+    cursor: pointer;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+.area4 {
+    font-family: "Open Sans",sans-serif;
+    background-image: url('../../img/admin/area/area4.jpg');
+    cursor: pointer;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+.area5 {
+    font-family: "Open Sans",sans-serif;
+    background-image: url('../../img/admin/area/area5.jpg');
+    cursor: pointer;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+.area6 {
+    font-family: "Open Sans",sans-serif;
+    background-image: url('../../img/admin/area/area6.jpg');
+    cursor: pointer;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+.area7 {
+    font-family: "Open Sans",sans-serif;
+    background-image: url('../../img/admin/area/area7.jpg');
+    cursor: pointer;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+.area8 {
+    font-family: "Open Sans",sans-serif;
+    background-image: url('../../img/admin/area/area8.jpg');
+    cursor: pointer;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+.area9 {
+    font-family: "Open Sans",sans-serif;
+    background-image: url('../../img/admin/area/area9.jpg');
+    cursor: pointer;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+.area10 {
+    font-family: "Open Sans",sans-serif;
+    background-image: url('../../img/admin/area/area10.jpg');
+    cursor: pointer;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+.area11 {
+    font-family: "Open Sans",sans-serif;
+    background-image: url('../../img/admin/area/area11.jpg');
+    cursor: pointer;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+    cursor: pointer;
+}

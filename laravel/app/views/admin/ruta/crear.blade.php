@@ -83,11 +83,6 @@
                                                 <span id="fecha_creacion"></span>
                                             </small>
                                             </h1>
-                                            <small>
-                                                <a class="btn btn-primary btn-sm">
-                                                    <i class="fa fa-plus-square fa-lg"></i>
-                                                </a>
-                                            </small>
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-2">
@@ -112,6 +107,64 @@
                                                 <label class="control-label"># Error:</label>
                                                 <input class="form-control" type="text" id="txt_error" name="txt_error" readonly>
                                             </div>
+                                        </div>                                        
+                                    </div>
+                                    <div class="row form-group" style="display:none">
+                                        <div class="col-sm-12">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr class="head">
+                                                            <th class="col-sm-2"> <a id="btn_adicionar_ruta_detalle" class="btn btn-primary btn-sm">
+                                                                    <i class="fa fa-plus-square fa-lg"></i>
+                                                                  </a>
+                                                                  <select class="form-control" name="slct_area_id_2" id="slct_area_id_2">
+                                                                  </select>
+                                                            </th>
+                                                            <th class="col-sm-2">Area1</th>
+                                                            <th class="col-sm-2">Area2</th>
+                                                            <th class="col-sm-2">Area3</th>
+                                                            <th class="col-sm-2">Area4</th>
+                                                            <th class="col-sm-2">Area5</th>
+                                                            <th class="col-sm-2">Area6</th>
+                                                            <th class="col-sm-2">Area7</th>
+                                                            <th class="col-sm-2">Area8</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tb_rutaflujodetalle">
+                                                        <tr class="body">
+                                                            <td>
+                                                                <table class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr class="head">
+                                                                            <th>#</th>
+                                                                            <th>Area</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="tb_rutaflujodetalleAreas">
+                                                                        <tr>
+                                                                            <td>1</td>
+                                                                            <td>Finanzas</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                            <td>
+                                                                <table class="table table-bordered">
+                                                                    <tr class="area1">
+                                                                        <td>1</td>
+                                                                        <td>Finanzas</td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr class="head">
+                                                            <th>#</th>
+                                                            <th>Area1</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
                                         </div>
                                         <div class="col-sm-12">
                                             <a class="btn btn-default btn-sm" id="btn_close">
@@ -120,31 +173,6 @@
                                             <a class="btn btn-primary btn-sm" id="btn_guardar">
                                                 <i class="fa fa-save fa-lg"></i>&nbsp;Guardar
                                             </a>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group" style="display:none">
-                                        <div class="col-sm-12">
-                                            <div class="col-sm-9">
-                                                <table class="table table-bordered">
-                                                    <thead>
-                                                        <tr class="head">
-                                                            <th>#</th>
-                                                            <th>Listado</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="tb_rutaflujodetalle">
-                                                        <tr class="body">
-                                                            <td></td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <tfoot>
-                                                        <tr class="head">
-                                                            <th>#</th>
-                                                            <th>Listado</th>
-                                                        </tr>
-                                                    </tfoot>
-                                                </table>
-                                            </div>
                                         </div>
                                     </div>
                                 </form>
