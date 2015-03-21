@@ -1,6 +1,6 @@
 <script type="text/javascript">
 temporalBandeja=0;
-posruta=0;valorUlt="";
+posruta=0;verificavalorUlt="";
 $(document).ready(function() {
     $("[data-toggle='offcanvas']").click();
     $("#btn_nuevo").click(Nuevo);
@@ -12,6 +12,8 @@ $(document).ready(function() {
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     slctGlobal.listarSlct('area','slct_area_id','simple',ids,data);
     slctGlobal.listarSlct('area','slct_area_id_2','simple',ids,data);
+
+    //$("#areasasignacion").DataTable();
 });
 
 adicionarRutaDetalle=function(){
@@ -21,19 +23,19 @@ adicionarRutaDetalle=function(){
     else if($("#slct_area_id_2").val()==posruta && posruta!=''){
         alert('No se puede asignar 2 veces continuas la misma Area');
     }
-    else if($.trim($("#slct_area_id_2").val())!='' && $("#slct_area_id_2").val()!=posruta){
+    else if($.trim($("#slct_area_id_2").val())!='' && $("#slct_area_id_2").val()!=verificavalorUlt){
         posruta++;
-        valorUlt=$("#slct_area_id_2").text();
+        verificavalorUlt=$("#slct_area_id_2").val();
+        valorUlt=$("#slct_area_id_2 option[value='"+$("#slct_area_id_2").val()+"']").text();
         var valor='';
         valor=  "<tr id='tr-detalle-"+posruta+"'>"+
                     "<td>"+
-                        "<button class='btn btn-danger btn-sm onclick='EliminarDetalle("+posruta+");' type='button'>"+
-                            "<i class='fa fa-minus fa-sm'></i>"+
+                        "<button class='btn btn-danger btn-sm' onclick='EliminarDetalle("+posruta+");' type='button'>"+
+                            posruta+" &nbsp;<i class='fa fa-remove fa-sm'></i>"+
                         "</button>"+
-                        posruta+
                     "</td>"+
                     "<td>"+
-                        $("#slct_area_id_2").val()+
+                        valorUlt+
                     "</td>"+
                 "</tr>";
         $("#tb_rutaflujodetalleAreas").append(valor);
