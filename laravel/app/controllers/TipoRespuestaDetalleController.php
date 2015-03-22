@@ -1,11 +1,11 @@
 <?php
 
-class TipoRespuestaDetalleController extends \BaseController
+class TipoRespuestaDetalleController extends BaseController
 {
 
     /**
-     * cargar menus, mantenimiento
-     * POST /menu/cargar
+     * cargar modulos, mantenimiento
+     * POST /tiporespuestadetalle/cargar
      *
      * @return Response
      */
@@ -18,8 +18,8 @@ class TipoRespuestaDetalleController extends \BaseController
         }
     }
     /**
-     * Store a newly created resource in storage.
-     * POST /menu/listar
+     * cargar modulos, mantenimiento
+     * POST /tiporespuestadetalle/listar
      *
      * @return Response
      */
@@ -27,41 +27,14 @@ class TipoRespuestaDetalleController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            
-            if (Input::get('cargo_id')) {
-                $cargoId = Input::get('usuario_id');
-                $menus = DB::table('cargo_opcion as co')
-                        ->rightJoin(
-                            'opciones as o', function($join) use ($usuarioId)
-                            {
-                            $join->on('co.opcion_id', '=', 'o.id')
-                            ->on('co.cargo_id', '=', DB::raw($usuarioId));
-                            }
-                        )
-                        ->rightJoin(
-                            'menus as m', 
-                            'o.menu_id', '=', 'm.id'
-                        )
-                        ->select('m.nombre', DB::raw('MAX(co.estado) as estado'))
-                        ->where('m.estado', '=', 1)
-                        ->groupBy('m.nombre')
-                        ->orderBy('m.nombre')
-                        ->get();
-            } else {
-                $menus = DB::table('menus')
-                            ->select('id', 'nombre','estado as block')
-                            ->where('estado', '=', '1')
-                            ->orderBy('nombre')
-                            ->get();
-            }
-            
-            return Response::json(array('rst'=>1,'datos'=>$menus));
+            $detalle = TipoRespuestaDetalle::getTipoRespuesta();
+            return Response::json(array('rst'=>1,'datos'=>$detalle));
         }
     }
-
+    
     /**
      * Store a newly created resource in storage.
-     * POST /menu/crear
+     * POST /tiporespuestadetalle/crear
      *
      * @return Response
      */
@@ -92,11 +65,11 @@ class TipoRespuestaDetalleController extends \BaseController
                 );
             }
 
-            $menus = new Menu;
-            $menus['nombre'] = Input::get('nombre');
-            $menus['estado'] = Input::get('estado');
-            $menus['class_icono'] = Input::get('class_icono');
-            $menus->save();
+            $detalles = new TipoRespuestaDetalle;
+            $detalles['nombre'] = Input::get('nombre');
+            $detalles['tipo_respuesta_id'] = Input::get('tiporespuesta_id');
+            $detalles['estado'] = Input::get('estado');
+            $detalles->save();
 
             return Response::json(
                 array(
@@ -109,7 +82,7 @@ class TipoRespuestaDetalleController extends \BaseController
 
     /**
      * Update the specified resource in storage.
-     * POST /menu/editar
+     * POST /tiporespuestadetalle/editar
      *
      * @return Response
      */
@@ -137,18 +110,13 @@ class TipoRespuestaDetalleController extends \BaseController
                     )
                 );
             }
-            $menuId = Input::get('id');
-            $menu = Menu::find($menuId);
-            $menu['nombre'] = Input::get('nombre');
-            $menu['estado'] = Input::get('estado');
-            $menu['class_icono'] = Input::get('class_icono');
-            $menu->save();
-            if (Input::get('estado') == 0 ) {
-                //actualizando a estado 0 segun
-                DB::table('opciones')
-                    ->where('menu_id', $menuId)
-                    ->update(array('estado' => 0));
-            }
+            $detalleId = Input::get('id');
+            $detalles = TipoRespuestaDetalle::find($detalleId);
+            $detalles['nombre'] = Input::get('nombre');
+            $detalles['tipo_respuesta_id'] = Input::get('tiporespuesta_id');
+            $detalles['estado'] = Input::get('estado');
+            $detalles->save();
+
             return Response::json(
                 array(
                 'rst'=>1,
@@ -160,7 +128,7 @@ class TipoRespuestaDetalleController extends \BaseController
 
     /**
      * Changed the specified resource from storage.
-     * POST /menu/cambiarestado
+     * POST /tiporespuestadetalle/cambiarestado
      *
      * @return Response
      */
@@ -169,9 +137,9 @@ class TipoRespuestaDetalleController extends \BaseController
 
         if ( Request::ajax() ) {
 
-            $menu = Menu::find(Input::get('id'));
-            $menu->estado = Input::get('estado');
-            $menu->save();
+            $detalle = TipoRespuestaDetalle::find(Input::get('id'));
+            $detalle->estado = Input::get('estado');
+            $detalle->save();
             return Response::json(
                 array(
                 'rst'=>1,

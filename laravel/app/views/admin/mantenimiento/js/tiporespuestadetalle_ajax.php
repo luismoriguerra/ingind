@@ -48,7 +48,7 @@ var Detalles={
     },
     CargarDetalles:function(evento){
         $.ajax({
-            url         : 'tiporespuestadetalle/cargar',
+            url         : 'tiporespuestadetalle/listar',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -83,10 +83,11 @@ var Detalles={
     },
     cargarTipoRespuesta:function(accion,tiporespuesta_id){
         $.ajax({
-            url         : 'tiporespuesta/listar',
+            url         : 'tiporespuesta/cargar',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
+            data        : {estado:1},
             success : function(obj) {
                 if(obj.rst==1){
                     $('#slct_tiporespuesta_id').html('');

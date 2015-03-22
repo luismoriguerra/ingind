@@ -52,11 +52,12 @@ class SoftwareController extends \BaseController
                 );
             }
 
-            $menus = new Menu;
-            $menus['nombre'] = Input::get('nombre');
-            $menus['estado'] = Input::get('estado');
-            $menus['class_icono'] = Input::get('class_icono');
-            $menus->save();
+            $softwares = new Software;
+            $softwares['nombre'] = Input::get('nombre');
+            $softwares['tabla'] = Input::get('tabla');
+            $softwares['campo'] = Input::get('campo');
+            $softwares['estado'] = Input::get('estado');
+            $softwares->save();
 
             return Response::json(
                 array(
@@ -97,18 +98,14 @@ class SoftwareController extends \BaseController
                     )
                 );
             }
-            $menuId = Input::get('id');
-            $menu = Menu::find($menuId);
-            $menu['nombre'] = Input::get('nombre');
-            $menu['estado'] = Input::get('estado');
-            $menu['class_icono'] = Input::get('class_icono');
-            $menu->save();
-            if (Input::get('estado') == 0 ) {
-                //actualizando a estado 0 segun
-                DB::table('opciones')
-                    ->where('menu_id', $menuId)
-                    ->update(array('estado' => 0));
-            }
+            $softwareId = Input::get('id');
+            $software = Software::find($softwareId);
+            $software['nombre'] = Input::get('nombre');
+            $software['tabla'] = Input::get('tabla');
+            $software['campo'] = Input::get('campo');
+            $software['estado'] = Input::get('estado');
+            $software->save();
+
             return Response::json(
                 array(
                 'rst'=>1,

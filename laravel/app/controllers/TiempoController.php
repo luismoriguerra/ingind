@@ -4,8 +4,8 @@ class TiempoController extends \BaseController
 {
 
     /**
-     * cargar menus, mantenimiento
-     * POST /menu/cargar
+     * cargar tiempos, mantenimiento
+     * POST /tiempo/cargar
      *
      * @return Response
      */
@@ -17,51 +17,10 @@ class TiempoController extends \BaseController
             return Response::json(array('rst'=>1,'datos'=>$tiempos));
         }
     }
-    /**
-     * Store a newly created resource in storage.
-     * POST /menu/listar
-     *
-     * @return Response
-     */
-    public function postListar()
-    {
-        //si la peticion es ajax
-        if ( Request::ajax() ) {
-            
-            if (Input::get('cargo_id')) {
-                $cargoId = Input::get('usuario_id');
-                $menus = DB::table('cargo_opcion as co')
-                        ->rightJoin(
-                            'opciones as o', function($join) use ($usuarioId)
-                            {
-                            $join->on('co.opcion_id', '=', 'o.id')
-                            ->on('co.cargo_id', '=', DB::raw($usuarioId));
-                            }
-                        )
-                        ->rightJoin(
-                            'menus as m', 
-                            'o.menu_id', '=', 'm.id'
-                        )
-                        ->select('m.nombre', DB::raw('MAX(co.estado) as estado'))
-                        ->where('m.estado', '=', 1)
-                        ->groupBy('m.nombre')
-                        ->orderBy('m.nombre')
-                        ->get();
-            } else {
-                $menus = DB::table('menus')
-                            ->select('id', 'nombre','estado as block')
-                            ->where('estado', '=', '1')
-                            ->orderBy('nombre')
-                            ->get();
-            }
-            
-            return Response::json(array('rst'=>1,'datos'=>$menus));
-        }
-    }
 
     /**
      * Store a newly created resource in storage.
-     * POST /menu/crear
+     * POST /tiempo/crear
      *
      * @return Response
      */
@@ -92,11 +51,12 @@ class TiempoController extends \BaseController
                 );
             }
 
-            $menus = new Menu;
-            $menus['nombre'] = Input::get('nombre');
-            $menus['estado'] = Input::get('estado');
-            $menus['class_icono'] = Input::get('class_icono');
-            $menus->save();
+            $tiempos = new Tiempo;
+            $tiempos['nombre'] = Input::get('nombre');
+            $tiempos['apocope'] = Input::get('apocope');
+            $tiempos['totalminutos'] = Input::get('minutos');
+            $tiempos['estado'] = Input::get('estado');
+            $tiempos->save();
 
             return Response::json(
                 array(
@@ -109,7 +69,7 @@ class TiempoController extends \BaseController
 
     /**
      * Update the specified resource in storage.
-     * POST /menu/editar
+     * POST /tiempo/editar
      *
      * @return Response
      */
@@ -137,18 +97,14 @@ class TiempoController extends \BaseController
                     )
                 );
             }
-            $menuId = Input::get('id');
-            $menu = Menu::find($menuId);
-            $menu['nombre'] = Input::get('nombre');
-            $menu['estado'] = Input::get('estado');
-            $menu['class_icono'] = Input::get('class_icono');
-            $menu->save();
-            if (Input::get('estado') == 0 ) {
-                //actualizando a estado 0 segun
-                DB::table('opciones')
-                    ->where('menu_id', $menuId)
-                    ->update(array('estado' => 0));
-            }
+            $tiempoId = Input::get('id');
+            $tiempo = Tiempo::find($tiempoId);
+            $tiempo['nombre'] = Input::get('nombre');
+            $tiempo['apocope'] = Input::get('apocope');
+            $tiempo['totalminutos'] = Input::get('minutos');
+            $tiempo['estado'] = Input::get('estado');
+            $tiempo->save();
+
             return Response::json(
                 array(
                 'rst'=>1,
@@ -160,7 +116,7 @@ class TiempoController extends \BaseController
 
     /**
      * Changed the specified resource from storage.
-     * POST /menu/cambiarestado
+     * POST /tiempo/cambiarestado
      *
      * @return Response
      */
@@ -169,9 +125,9 @@ class TiempoController extends \BaseController
 
         if ( Request::ajax() ) {
 
-            $menu = Menu::find(Input::get('id'));
-            $menu->estado = Input::get('estado');
-            $menu->save();
+            $tiempo = Tiempo::find(Input::get('id'));
+            $tiempo->estado = Input::get('estado');
+            $tiempo->save();
             return Response::json(
                 array(
                 'rst'=>1,

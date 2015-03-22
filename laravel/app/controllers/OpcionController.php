@@ -158,12 +158,12 @@ class OpcionController extends \BaseController
             $opciones['menu_id'] = Input::get('menu_id');
             $opciones['estado'] = Input::get('estado');
             $opciones->save();
-            /*if (Input::get('estado') == 0 ) {
+            if (Input::get('estado') == 0 ) {
                 //actualizando a estado 0 segun
-                DB::table('submodulos')
-                    ->where('modulo_id', $moduloId)
+                DB::table('cargo_opcion')
+                    ->where('opcion_id', $opcionId)
                     ->update(array('estado' => 0));
-            }*/
+            }
             return Response::json(
                 array(
                 'rst'=>1,
@@ -187,6 +187,12 @@ class OpcionController extends \BaseController
             $opcion = Opcion::find(Input::get('id'));
             $opcion->estado = Input::get('estado');
             $opcion->save();
+            if (Input::get('estado') == 0 ) {
+                //actualizando a estado 0 segun
+                DB::table('cargo_opcion')
+                    ->where('opcion_id', Input::get('id'))
+                    ->update(array('estado' => 0));
+            }
             return Response::json(
                 array(
                 'rst'=>1,

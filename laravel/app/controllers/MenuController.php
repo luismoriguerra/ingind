@@ -172,6 +172,12 @@ class MenuController extends \BaseController
             $menu = Menu::find(Input::get('id'));
             $menu->estado = Input::get('estado');
             $menu->save();
+            if (Input::get('estado') == 0 ) {
+                //actualizando a estado 0 segun
+                DB::table('opciones')
+                    ->where('menu_id', Input::get('id'))
+                    ->update(array('estado' => 0));
+            }
             return Response::json(
                 array(
                 'rst'=>1,

@@ -39,5 +39,5 @@ Route::controller('opcion', 'OpcionController');
 Route::controller('ruta_flujo', 'RutaFlujoController');
 Route::controller('software', 'SoftwareController');
 Route::controller('tiempo', 'TiempoController');
-Route::controller('tipoRespuesta', 'TipoRespuestaController');
-Route::controller('tipoRespuestaDetalle', 'TipoRespuestaDetalleController');
+Route::controller('tiporespuesta', 'TipoRespuestaController');
+Route::controller('tiporespuestadetalle', 'TipoRespuestaDetalleController');

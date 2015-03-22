@@ -75,7 +75,7 @@ var Tiempos={
                         html+="</tr>";
                     });                    
                 }      
-                $("#tb_timepos").html(html); 
+                $("#tb_tiempos").html(html); 
                 evento();  
             },
             error: function(){

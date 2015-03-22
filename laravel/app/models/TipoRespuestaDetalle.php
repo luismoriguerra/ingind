@@ -12,4 +12,23 @@ class TipoRespuestaDetalle extends Base
     {
         return $this->belongsTo('TipoRespuesta');
     }
+    public static function getTipoRespuesta()
+    {
+        $query = DB::table('tipos_respuesta_detalle as trd')
+                ->join(
+                    'tipos_respuesta as tr',
+                    'trd.tipo_respuesta_id', '=', 'tr.id'
+                )
+                ->select(
+                    'trd.id',
+                    'trd.nombre',
+                    'trd.estado',
+                    'tr.nombre as tiporespuesta',
+                    'tr.id as tiporespuesta_id'
+                )
+                ->where('tr.estado', '=', 1)
+                ->get();
+
+        return $query;
+    }
 }

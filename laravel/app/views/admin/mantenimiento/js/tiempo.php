@@ -2,7 +2,7 @@
 $(document).ready(function() {  
     Tiempos.CargarTiempos(activarTabla);
 
-    $('#softwareModal').on('show.bs.modal', function (event) {
+    $('#tiempoModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
       var titulo = button.data('titulo'); // extrae del atributo data-
       // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
@@ -30,7 +30,7 @@ $(document).ready(function() {
 
     });
 
-    $('#softwareModal').on('hide.bs.modal', function (event) {
+    $('#tiempoModal').on('hide.bs.modal', function (event) {
       var modal = $(this); //captura el modal
       modal.find('.modal-body input').val(''); // busca un input para copiarle texto
     });
