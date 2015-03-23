@@ -15,9 +15,9 @@ $(document).ready(function() {
         $('#form_cargos [data-toggle="tooltip"]').css("display","none");
         $("#form_cargos input[type='hidden']").remove();
 
-        slctGlobal.listarSlct('menu','slct_menus','simple');
 
         if(titulo=='Nuevo'){
+            slctGlobal.listarSlct('menu','slct_menus','simple');
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
             $('#form_cargos #slct_estado').val(1); 
@@ -74,7 +74,7 @@ Agregar=function(){
         Cargos.AgregarEditarCargo(0);
     }
 };
-Nuevo=function(){
+AgregarOpcion=function(){
     //añadir registro "opcion" por usuario
     var menu_id=$('#slct_menus option:selected').val();
     var menu=$('#slct_menus option:selected').text();
@@ -85,14 +85,14 @@ Nuevo=function(){
             var html='';
             html+="<li class='list-group-item'><div class='row'>";
             html+="<div class='col-sm-4' id='menu_"+menu_id+"'><h5>"+menu+"</h5></div>";
-            $("#opcion_"+menu_id+" option").attr("selected",false);
+            //$("#opcion_"+menu_id+" option").attr("selected",false);
 
             html+="<div class='col-sm-6'>";
             html+="<select class='form-control' multiple='multiple' name='slct_opciones"+menu_id+"[]' id='slct_opciones"+menu_id+"'></select></div>";
             var envio = {menu_id: menu_id};
 
             html+='<div class="col-sm-2">';
-            html+='<button type="button" id="'+menu_id+'" Onclick="EliminarSubmodulo(this)" class="btn btn-danger btn-sm" >';
+            html+='<button type="button" id="'+menu_id+'" Onclick="EliminarOpcion(this)" class="btn btn-danger btn-sm" >';
             html+='<i class="fa fa-minus fa-sm"></i> </button></div>';
             html+="</div></li>";
 
@@ -105,8 +105,8 @@ Nuevo=function(){
         alert("Seleccione Menu");
 
 };
-EliminarSubmodulo=function(obj){
-    console.log(obj);
+EliminarOpcion=function(obj){
+    //console.log(obj);
     var valor= obj.id;
     obj.parentNode.parentNode.parentNode.remove();
     var index = menus_selec.indexOf(valor);

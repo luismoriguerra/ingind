@@ -8,9 +8,9 @@ class Cargo extends Base
     /**
      * Areas relationship
      */
-    public function areas()
+    public function personas()
     {
-        return $this->belongsToMany('Area');
+        return $this->belongsToMany('Persona');
     }
     /**
      * Opciones relationship

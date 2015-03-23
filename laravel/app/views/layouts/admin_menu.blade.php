@@ -16,10 +16,11 @@
                                 <li><a href="admin.mantenimiento.cargo"><i class="fa fa-angle-double-right"></i> Cargos</a></li>
                                 <li><a href="admin.mantenimiento.menu"><i class="fa fa-angle-double-right"></i> Menus</a></li>
                                 <li><a href="admin.mantenimiento.opcion"><i class="fa fa-angle-double-right"></i> Opciones</a></li>
-                                <li><a href="admin.mantenimiento.software"><i class="fa fa-angle-double-right"></i> Softwares</a></li>
-                                <li><a href="admin.mantenimiento.tiempo"><i class="fa fa-angle-double-right"></i> Tiempos</a></li>
+                                <li><a href="admin.mantenimiento.persona"><i class="fa fa-angle-double-right"></i> Personas</a></li>
                                 <li><a href="admin.mantenimiento.tiporespuesta"><i class="fa fa-angle-double-right"></i> Respuestas</a></li>
                                 <li><a href="admin.mantenimiento.tiporespuestadetalle"><i class="fa fa-angle-double-right"></i> Respuestas (detalle)</a></li>
+                                <li><a href="admin.mantenimiento.software"><i class="fa fa-angle-double-right"></i> Softwares</a></li>
+                                <li><a href="admin.mantenimiento.tiempo"><i class="fa fa-angle-double-right"></i> Tiempos</a></li>
 
                             </ul>
                         </li>

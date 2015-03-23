@@ -40,7 +40,7 @@
                 </div>
                 <div class="col-sm-6">
                     <br>
-                    <button type="button" class="btn btn-success" Onclick="Nuevo();">
+                    <button type="button" class="btn btn-success" Onclick="AgregarOpcion();">
                       <i class="fa fa-plus fa-sm"></i>
                       &nbsp;Nuevo
                     </button>

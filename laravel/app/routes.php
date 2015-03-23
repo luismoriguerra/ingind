@@ -36,6 +36,7 @@ Route::controller('cargo', 'CargoController');
 Route::controller('flujo', 'FlujoController');
 Route::controller('menu', 'MenuController');
 Route::controller('opcion', 'OpcionController');
+Route::controller('persona', 'PersonaController');
 Route::controller('ruta_flujo', 'RutaFlujoController');
 Route::controller('software', 'SoftwareController');
 Route::controller('tiempo', 'TiempoController');

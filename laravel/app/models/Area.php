@@ -8,10 +8,10 @@ class Area extends Base
     /**
      * Cargos relationship
      */
-    public function cargos()
+    /*public function cargos()
     {
         return $this->belongsToMany('Cargo');
-    }
+    }*/
     /**
      * Rutas relationship
      */

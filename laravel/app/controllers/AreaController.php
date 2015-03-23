@@ -114,12 +114,16 @@ class AreaController extends \BaseController
                     )
                 );
             }
-            
-            $areas = Area::find(Input::get('id'));
+            $areaId = Input::get('id');
+            $areas = Area::find($areaId);
             $areas->nombre = Input::get('nombre');
             $areas->estado = Input::get('estado');
             $areas->save();
-
+            if (Input::get('estado') == 0) {
+                DB::table('area_cargo_persona')
+                    ->where('area_id','=',$areaId)
+                    ->update(array('estado' => 0));
+            }
             return Response::json(
                 array(
                 'rst'=>1,
@@ -139,10 +143,15 @@ class AreaController extends \BaseController
     {
 
         if ( Request::ajax() ) {
-
-            $area = Area::find(Input::get('id'));
+            $areaId = Input::get('id');
+            $area = Area::find($areaId);
             $area->estado = Input::get('estado');
             $area->save();
+            if (Input::get('estado') == 0) {
+                DB::table('area_cargo_persona')
+                    ->where('area_id','=',$areaId)
+                    ->update(array('estado' => 0));
+            }
             return Response::json(
                 array(
                 'rst'=>1,

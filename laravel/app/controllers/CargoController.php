@@ -61,7 +61,7 @@ class CargoController extends \BaseController
             return Response::json(array('rst'=>1,'datos'=>$cargos));
         }
     }
-        /**
+    /**
      * Store a newly created resource in storage.
      * POST /cargo/cargaropciones
      *
