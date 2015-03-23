@@ -32,34 +32,54 @@ adicionarRutaDetalle=function(){
         valorText=$("#slct_area_id_2 option[value='"+$("#slct_area_id_2").val()+"']").text();
         valor=$("#slct_area_id_2").val();
 
+
+        var adjunta=false; var position=areasGId.indexOf(valor);
+        if( position>=0 ){
+            adjunta=true;
+        }
+
         areasG.push(valorText);
         areasGId.push(valor);
 
-        head='<th class="eliminadetalleg" style="width:110px;min-width:100px !important;">'+valorText+'</th>';
-        theadArea.push(head);
+        if( adjunta==false ){
+            head='<th class="eliminadetalleg" style="width:110px;min-width:100px !important;">'+valorText+'</th>';
+            theadArea.push(head);
 
-        body=   '<td class="eliminadetalleg">'+
-                    '<table class="table table-bordered">'+
-                        '<tr>'+
-                            '<td class="area'+areasG.length+'" style="height:100px;">&nbsp;'+
-                            '<span class="badge bg-yellow">'+areasG.length+'</span>'+
-                            '</td>'+
-                        '</tr>'+
-                    '</table>'+
-                '</td>';
-        tbodyArea.push(body);
+            body=   '<tr>'+
+                        '<td class="area'+areasG.length+'" style="height:100px;">&nbsp;'+
+                        '<span class="badge bg-yellow">'+areasG.length+'</span>'+
+                        '</td>'+
+                    '</tr>';
+            tbodyArea.push([]);
+            tbodyArea[ (tbodyArea.length-1) ].push(body);
 
-        foot=   '<th class="eliminadetalleg">'+
-                    '<div>'+
-                    '<a id="" class="btn bg-olive btn-sm">'+
-                        '<i class="fa fa-clock-o fa-lg"></i>'+
-                    '</a>'+
-                    '<a id="" class="btn btn-info btn-sm">'+
-                        '<i class="fa fa-list-ul fa-lg"></i>'+
-                    '</a>'+
-                    '</div>'+
-                '</th>';
-        tfootArea.push(foot);
+            foot=   '<th class="eliminadetalleg">'+
+                        '<div>'+
+                        '<a id="" class="btn bg-olive btn-sm">'+
+                            '<i class="fa fa-clock-o fa-lg"></i>'+
+                        '</a>'+
+                        '<a id="" class="btn btn-info btn-sm">'+
+                            '<i class="fa fa-list-ul fa-lg"></i>'+
+                        '</a>'+
+                        '</div>'+
+                    '</th>';
+            tfootArea.push(foot);
+        }
+        else{
+
+            theadArea.push(0);
+            tfootArea.push(0);
+            tbodyArea.push([]);
+            tbodyArea[ (tbodyArea.length-1) ].push(position+"|"+tbodyArea[position].length );
+            body=   '<tr>'+
+                        '<td class="area'+(position+1)+'" style="height:100px;">&nbsp;'+
+                        '<span class="badge bg-yellow">'+areasG.length+'</span>'+
+                        '</td>'+
+                    '</tr>';
+            tbodyArea[position].push(body);
+
+        }
+        
 
         pintarAreasG();
     }
@@ -69,20 +89,50 @@ CambiarDetalle=function(t){
     var auxText=areasG[t];
     var aux=areasGId[t];
     var auxthead=theadArea[t];
-    var auxtbody=tbodyArea[t].split("area"+t).join("area"+(t-1)).split(">"+t).join(">"+(t-1));
+
+    var auxtbody=[];
+    if(auxthead==0){
+        auxtbody.push(tbodyArea[t][0]);
+        valorNuevo=tbodyArea[t][0].split("|");
+
+        tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+(t+1) ).join( ">"+t );
+    }
+    else{
+        for(var i=0; i<tbodyArea[t].length; i++){
+            auxtbody.push( tbodyArea[t][i].split( "area"+(t+1) ).join( "area"+t ).split( ">"+(t+1) ).join( ">"+t ) );
+        }
+    }
+    
     var auxtfoot=tfootArea[t];
 
 
     areasG[t]=areasG[(t-1)];
     areasGId[t]=areasGId[(t-1)];
     theadArea[t]=theadArea[(t-1)];
-    tbodyArea[t]=tbodyArea[(t-1)].split("area"+(t-1)).join("area"+t).split(">"+(t-1)).join(">"+t);
     tfootArea[t]=tfootArea[(t-1)];
+
+    tbodyArea[t]=[];
+    if(theadArea[(t-1)]==0){
+        tbodyArea[t].push( tbodyArea[(t-1)][0] );
+        valorNuevo=tbodyArea[(t-1)][0].split("|");
+
+        tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+t ).join( ">"+(t+1) );
+    }
+    else{
+        for(var i=0; i<tbodyArea[(t-1)].length; i++){
+            tbodyArea[t].push( tbodyArea[(t-1)][i].split( "area"+t ).join("area"+(t+1) ).split( ">"+t ).join( ">"+(t+1) ) );
+        }
+    }
+
+
+    tbodyArea[(t-1)]=[];
+    for(var i=0; i<auxtbody.length; i++){
+        tbodyArea[(t-1)].push(auxtbody[i]);
+    }
 
     areasG[(t-1)]=auxText;
     areasGId[(t-1)]=aux;
     theadArea[(t-1)]=auxthead;
-    tbodyArea[(t-1)]=auxtbody;
     tfootArea[(t-1)]=auxtfoot;
 
     pintarAreasG();
@@ -102,7 +152,7 @@ EliminarDetalle=function(t){
             areasG.splice(i, 1, areasG[(i+1)]);
             areasGId.splice(i, 1, areasGId[(i+1)]);
             theadArea.splice(i, 1, theadArea[(i+1)]);
-            tbodyArea.splice(i, 1, tbodyArea[(i+1)]).split("area"+(i+1)).join("area"+i).split(">"+(i+1)).join(">"+i);
+            tbodyArea.splice(i, 1, tbodyArea[(i+1)].split( "area"+(i+2) ).join( "area"+(i+1) ).split( ">"+(i+2) ).join( ">"+(i+1) ) );
             tfootArea.splice(i, 1, tfootArea[(i+1)]);
         }
     }
@@ -136,9 +186,27 @@ pintarAreasG=function(){
                     "</td>"+
                 "</tr>";
 
-        $("#areasasignacion>thead>tr.head").append(theadArea[i]);
-        $("#areasasignacion>tbody>tr.body").append(tbodyArea[i]);
-        $("#areasasignacion>tfoot>tr.head").append(tfootArea[i]);
+
+        if(theadArea[i]!=0){
+
+            $("#areasasignacion>thead>tr.head").append(theadArea[i]);
+            $("#areasasignacion>tfoot>tr.head").append(tfootArea[i]);
+
+            var detbody='<td class="eliminadetalleg">'+
+                            '<table class="table table-bordered">';
+            for(j=0; j<tbodyArea[i].length ; j++){
+                if(j>0){
+                    detbody+=   '<tr>'+
+                                    '<td style="height:8px;">&nbsp;'+
+                                    '</td>'+
+                                '</tr>';
+                }
+                detbody+=tbodyArea[i][j];
+            }
+            detbody+='</table> </td>';
+            $("#areasasignacion>tbody>tr.body").append(detbody);
+        }
+        
     };
 
     $("#areasasignacion>thead>tr.head").append('<th class="eliminadetalleg" style="min-width:1000px important!;">[]</th>'); // aqui para darle el area global

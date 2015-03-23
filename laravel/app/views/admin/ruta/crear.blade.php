@@ -141,24 +141,6 @@
                                                                     </tbody>
                                                                 </table>
                                                             </td>
-                                                            <!--td>
-                                                                <table class="table table-bordered">
-                                                                    <tr>
-                                                                        <td class="area1" style="height:100px;">&nbsp;
-                                                                        <span class="badge bg-yellow">1</span>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td style="height:8px;">&nbsp;
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td class="area1" style="height:100px;">&nbsp;
-                                                                        <span class="badge bg-yellow">4</span>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td-->
                                                         </tr>
                                                     </tbody>
                                                     <tfoot>
