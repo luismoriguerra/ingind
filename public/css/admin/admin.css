@@ -3560,7 +3560,7 @@ fieldset[disabled] .btn-vk.active {
     -o-background-size: 100% 100%;
     background-size: 100% 100%;
     cursor: pointer;
-    min-width: 75px;
+    min-width: 50px;
 }
 .area2 {
     font-family: "Open Sans",sans-serif;
@@ -3571,7 +3571,7 @@ fieldset[disabled] .btn-vk.active {
     -o-background-size: 100% 100%;
     background-size: 100% 100%;
     cursor: pointer;
-    min-width: 75px;
+    min-width: 50px;
 }
 .area3 {
     font-family: "Open Sans",sans-serif;
@@ -3582,7 +3582,7 @@ fieldset[disabled] .btn-vk.active {
     -o-background-size: 100% 100%;
     background-size: 100% 100%;
     cursor: pointer;
-    min-width: 75px;
+    min-width: 50px;
 }
 .area4 {
     font-family: "Open Sans",sans-serif;
@@ -3593,7 +3593,7 @@ fieldset[disabled] .btn-vk.active {
     -o-background-size: 100% 100%;
     background-size: 100% 100%;
     cursor: pointer;
-    min-width: 75px;
+    min-width: 50px;
 }
 .area5 {
     font-family: "Open Sans",sans-serif;
@@ -3604,7 +3604,7 @@ fieldset[disabled] .btn-vk.active {
     -o-background-size: 100% 100%;
     background-size: 100% 100%;
     cursor: pointer;
-    min-width: 75px;
+    min-width: 50px;
 }
 .area6 {
     font-family: "Open Sans",sans-serif;
@@ -3615,7 +3615,7 @@ fieldset[disabled] .btn-vk.active {
     -o-background-size: 100% 100%;
     background-size: 100% 100%;
     cursor: pointer;
-    min-width: 75px;
+    min-width: 50px;
 }
 .area7 {
     font-family: "Open Sans",sans-serif;
@@ -3626,7 +3626,7 @@ fieldset[disabled] .btn-vk.active {
     -o-background-size: 100% 100%;
     background-size: 100% 100%;
     cursor: pointer;
-    min-width: 75px;
+    min-width: 50px;
 }
 .area8 {
     font-family: "Open Sans",sans-serif;
@@ -3637,7 +3637,7 @@ fieldset[disabled] .btn-vk.active {
     -o-background-size: 100% 100%;
     background-size: 100% 100%;
     cursor: pointer;
-    min-width: 75px;
+    min-width: 50px;
 }
 .area9 {
     font-family: "Open Sans",sans-serif;
@@ -3648,7 +3648,7 @@ fieldset[disabled] .btn-vk.active {
     -o-background-size: 100% 100%;
     background-size: 100% 100%;
     cursor: pointer;
-    min-width: 75px;
+    min-width: 50px;
 }
 .area10 {
     font-family: "Open Sans",sans-serif;
@@ -3659,7 +3659,7 @@ fieldset[disabled] .btn-vk.active {
     -o-background-size: 100% 100%;
     background-size: 100% 100%;
     cursor: pointer;
-    min-width: 75px;
+    min-width: 50px;
 }
 .area11 {
     font-family: "Open Sans",sans-serif;
@@ -3670,5 +3670,19 @@ fieldset[disabled] .btn-vk.active {
     -o-background-size: 100% 100%;
     background-size: 100% 100%;
     cursor: pointer;
-    min-width: 75px;
+    min-width: 50px;
+}
+.table .badge {
+  position: relative;
+  left: 20px;
+  top: -20px;
+  right: center;
+  font-size: 15px;
+  font-weight: 700;
+}
+.table .divider{
+  height: 1px;
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
 }

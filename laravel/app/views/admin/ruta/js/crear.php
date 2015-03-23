@@ -1,6 +1,11 @@
 <script type="text/javascript">
 temporalBandeja=0;
-posruta=0;verificavalorUlt="";
+var areasG=[]; // texto area
+var areasGId=[]; // id area
+var theadArea=[]; // cabecera area
+var tbodyArea=[]; // cuerpo area
+var tfootArea=[]; // pie area
+
 $(document).ready(function() {
     $("[data-toggle='offcanvas']").click();
     $("#btn_nuevo").click(Nuevo);
@@ -17,33 +22,128 @@ $(document).ready(function() {
 });
 
 adicionarRutaDetalle=function(){
-    if($.trim($("#slct_area_id_2").val())==''){
+    if( $.trim($("#slct_area_id_2").val())=='' ){
         alert('Seleccione un Area para adicionar');
     }
-    else if($("#slct_area_id_2").val()==posruta && posruta!=''){
+    else if( areasGId.length>0 && $("#slct_area_id_2").val()==areasGId[(areasGId.length-1)] ){
         alert('No se puede asignar 2 veces continuas la misma Area');
     }
-    else if($.trim($("#slct_area_id_2").val())!='' && $("#slct_area_id_2").val()!=verificavalorUlt){
-        posruta++;
-        verificavalorUlt=$("#slct_area_id_2").val();
-        valorUlt=$("#slct_area_id_2 option[value='"+$("#slct_area_id_2").val()+"']").text();
-        var valor='';
-        valor=  "<tr id='tr-detalle-"+posruta+"'>"+
-                    "<td>"+
-                        "<button class='btn btn-danger btn-sm' onclick='EliminarDetalle("+posruta+");' type='button'>"+
-                            posruta+" &nbsp;<i class='fa fa-remove fa-sm'></i>"+
-                        "</button>"+
-                    "</td>"+
-                    "<td>"+
-                        valorUlt+
-                    "</td>"+
-                "</tr>";
-        $("#tb_rutaflujodetalleAreas").append(valor);
+    else if( $.trim($("#slct_area_id_2").val())!='' ){
+        valorText=$("#slct_area_id_2 option[value='"+$("#slct_area_id_2").val()+"']").text();
+        valor=$("#slct_area_id_2").val();
+
+        areasG.push(valorText);
+        areasGId.push(valor);
+
+        head='<th class="eliminadetalleg" style="width:110px;min-width:100px !important;">'+valorText+'</th>';
+        theadArea.push(head);
+
+        body=   '<td class="eliminadetalleg">'+
+                    '<table class="table table-bordered">'+
+                        '<tr>'+
+                            '<td class="area'+areasG.length+'" style="height:100px;">&nbsp;'+
+                            '<span class="badge bg-yellow">'+areasG.length+'</span>'+
+                            '</td>'+
+                        '</tr>'+
+                    '</table>'+
+                '</td>';
+        tbodyArea.push(body);
+
+        foot=   '<th class="eliminadetalleg">'+
+                    '<div>'+
+                    '<a id="" class="btn bg-olive btn-sm">'+
+                        '<i class="fa fa-clock-o fa-lg"></i>'+
+                    '</a>'+
+                    '<a id="" class="btn btn-info btn-sm">'+
+                        '<i class="fa fa-list-ul fa-lg"></i>'+
+                    '</a>'+
+                    '</div>'+
+                '</th>';
+        tfootArea.push(foot);
+
+        pintarAreasG();
     }
 }
 
+CambiarDetalle=function(t){
+    var auxText=areasG[t];
+    var aux=areasGId[t];
+    var auxthead=theadArea[t];
+    var auxtbody=tbodyArea[t].split("area"+t).join("area"+(t-1)).split(">"+t).join(">"+(t-1));
+    var auxtfoot=tfootArea[t];
+
+
+    areasG[t]=areasG[(t-1)];
+    areasGId[t]=areasGId[(t-1)];
+    theadArea[t]=theadArea[(t-1)];
+    tbodyArea[t]=tbodyArea[(t-1)].split("area"+(t-1)).join("area"+t).split(">"+(t-1)).join(">"+t);
+    tfootArea[t]=tfootArea[(t-1)];
+
+    areasG[(t-1)]=auxText;
+    areasGId[(t-1)]=aux;
+    theadArea[(t-1)]=auxthead;
+    tbodyArea[(t-1)]=auxtbody;
+    tfootArea[(t-1)]=auxtfoot;
+
+    pintarAreasG();
+}
+
 EliminarDetalle=function(t){
-    $("#tr-detalle-"+posruta).remove();
+    $("#tr-detalle-"+t).remove();
+    for( var i=t; i<areasG.length; i++){
+        if( (i+1)==areasG.length ){
+            areasG.pop();
+            areasGId.pop();
+            theadArea.pop();
+            tbodyArea.pop();
+            tfootArea.pop();
+        }
+        else{
+            areasG.splice(i, 1, areasG[(i+1)]);
+            areasGId.splice(i, 1, areasGId[(i+1)]);
+            theadArea.splice(i, 1, theadArea[(i+1)]);
+            tbodyArea.splice(i, 1, tbodyArea[(i+1)]).split("area"+(i+1)).join("area"+i).split(">"+(i+1)).join(">"+i);
+            tfootArea.splice(i, 1, tfootArea[(i+1)]);
+        }
+    }
+    
+    pintarAreasG();
+}
+
+pintarAreasG=function(){
+    var htm=''; var click=""; var imagen="";
+    $("#areasasignacion .eliminadetalleg").remove();
+    for ( var i=0; i<areasG.length; i++ ) {
+        click="";
+        imagen="";
+
+        if ( i>0 ) {
+            click=" onclick='CambiarDetalle("+i+");' ";
+            imagen="<i class='fa fa-sort-up fa-sm'></i>";
+        }
+
+        htm+=   "<tr id='tr-detalle-"+i+"'>"+
+                    "<td>"+
+                        "<button class='btn bg-navy btn-sm' "+click+" type='button'>"+
+                            (i+1)+"&nbsp;"+imagen+
+                        "</button>&nbsp;&nbsp;"+
+                        "<button class='btn btn-danger btn-sm' onclick='EliminarDetalle("+i+");' type='button'>"+
+                            "<i class='fa fa-remove fa-sm'></i>"+
+                        "</button>"+
+                    "</td>"+
+                    "<td>"+
+                        areasG[i]+
+                    "</td>"+
+                "</tr>";
+
+        $("#areasasignacion>thead>tr.head").append(theadArea[i]);
+        $("#areasasignacion>tbody>tr.body").append(tbodyArea[i]);
+        $("#areasasignacion>tfoot>tr.head").append(tfootArea[i]);
+    };
+
+    $("#areasasignacion>thead>tr.head").append('<th class="eliminadetalleg" style="min-width:1000px important!;">[]</th>'); // aqui para darle el area global
+
+    $("#tb_rutaflujodetalleAreas").html(htm);
 }
 
 Nuevo=function(){

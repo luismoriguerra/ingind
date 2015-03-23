@@ -112,25 +112,18 @@
                                     <div class="row form-group" style="display:none">
                                         <div class="col-sm-12">
                                             <div class="box-body table-responsive">
-                                                <table id="areasasignacion" class="table table-bordered">
+                                                <table id="areasasignacion" class="table table-bordered" style="min-height:300px">
                                                     <thead>
                                                         <tr class="head">
-                                                            <th class="col-sm-2"> 
+                                                            <th style="width:250px !important;min-width: 200px !important;" > 
                                                                 <a id="btn_adicionar_ruta_detalle" class="btn btn-primary btn-sm">
                                                                     <i class="fa fa-plus-square fa-lg"></i>
                                                                 </a>
                                                             </th>
-                                                            <th class="col-sm-1">Area1</th>
-                                                            <th class="col-sm-1">Area2</th>
-                                                            <th class="col-sm-1">Area3</th>
-                                                            <th class="col-sm-1">Area4</th>
-                                                            <th class="col-sm-1">Area5</th>
-                                                            <th class="col-sm-1">Area6</th>
-                                                            <th class="col-sm-1">Area7</th>
-                                                            <th class="col-sm-1">Area8</th>
+                                                            <th class="eliminadetalleg" style="min-width:1000px important!;">[]</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody id="tb_rutaflujodetalle">
+                                                    <tbody>
                                                         <tr class="body">
                                                             <td>
                                                                 <table class="table table-bordered">
@@ -148,191 +141,29 @@
                                                                     </tbody>
                                                                 </table>
                                                             </td>
-                                                            <td>
+                                                            <!--td>
                                                                 <table class="table table-bordered">
                                                                     <tr>
-                                                                        <td class="area1" style="width:60px;height:100px;">&nbsp;
+                                                                        <td class="area1" style="height:100px;">&nbsp;
+                                                                        <span class="badge bg-yellow">1</span>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td class="area1" style="width:60px;height:100px;">    
+                                                                        <td style="height:8px;">&nbsp;
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="area1" style="height:100px;">&nbsp;
+                                                                        <span class="badge bg-yellow">4</span>
                                                                         </td>
                                                                     </tr>
                                                                 </table>
-                                                            </td>
-                                                            <td>
-                                                                <table class="table table-bordered">
-                                                                    <tr>
-                                                                        <td class="area2" style="width:60px;height:100px;">&nbsp;
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                            <td>
-                                                                <table class="table table-bordered">
-                                                                    <tr>
-                                                                        <td class="area3" style="width:60px;height:100px;">&nbsp;
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                            <td>
-                                                                <table class="table table-bordered">
-                                                                    <tr>
-                                                                        <td class="area4" style="width:60px;height:100px;">&nbsp;
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                            <td>
-                                                                <table class="table table-bordered">
-                                                                    <tr>
-                                                                        <td class="area5" style="width:60px;height:100px;">&nbsp;
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                            <td>
-                                                                <table class="table table-bordered">
-                                                                    <tr>
-                                                                        <td class="area6" style="width:60px;height:100px;">&nbsp;
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                            <td>
-                                                                <table class="table table-bordered">
-                                                                    <tr>
-                                                                        <td class="area7" style="width:60px;height:100px;">&nbsp;
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                            <td>
-                                                                <table class="table table-bordered">
-                                                                    <tr>
-                                                                        <td class="area8" style="width:60px;height:100px;">&nbsp;
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
+                                                            </td-->
                                                         </tr>
                                                     </tbody>
                                                     <tfoot>
                                                         <tr class="head">
                                                             <th>#</th>
-                                                            <th>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-info btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                            </th>
-                                                            <th>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-info btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                            </th>
-                                                            <th>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-info btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                            </th>
-                                                            <th>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-info btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                            </th>
-                                                            <th>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-info btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                            </th>
-                                                            <th>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-info btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                            </th>
-                                                            <th>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-info btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                            </th>
-                                                            <th>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-info btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                                <a id="" class="btn btn-warning btn-sm">
-                                                                    <i class="fa fa-pencil fa-lg"></i>
-                                                                </a>
-                                                            </th>
                                                         </tr>
                                                     </tfoot>
                                                 </table>
