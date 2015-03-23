@@ -113,7 +113,7 @@
                                         <div class="col-sm-12">
                                             <div class="box-body table-responsive">
                                                 <table id="areasasignacion" class="table table-bordered" style="min-height:300px">
-                                                    <thead>
+                                                    <thead> 
                                                         <tr class="head">
                                                             <th style="width:250px !important;min-width: 200px !important;" > 
                                                                 <a id="btn_adicionar_ruta_detalle" class="btn btn-primary btn-sm">
