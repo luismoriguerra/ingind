@@ -5,12 +5,25 @@ class Persona extends Base
     public $table = "personas";
     public static $where =[
                         'id', 'paterno','materno','nombre','email','dni',
-                        'password','fecha_nacimiento','imagen', 'estado'
+                        'password','fecha_nacimiento','sexo', 'estado'
                         ];
     public static $selec =[
                         'id', 'paterno','materno','nombre','email','dni',
-                        'password','fecha_nacimiento','imagen', 'estado'
+                        'password','fecha_nacimiento','sexo', 'estado'
                         ];
+    public static function get(array $data =array()){
+
+        //recorrer la consulta
+        $personas = parent::get( $data);
+
+        foreach ($personas as $key => $value) {
+            if ($key=='password') {
+                $personas[$key]['password']='';
+            }
+        }
+
+        return $personas;
+    }
     /**
      * Cargos relationship
      */

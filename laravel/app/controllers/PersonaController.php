@@ -62,6 +62,7 @@ class PersonaController extends \BaseController
                 'materno' => $required.'|'.$regex,
                 'email' => 'required|email',
                 'password'      => 'required|min:6',
+                'dni'      => 'required|min:8',
             );
 
             $mensaje= array(
@@ -86,9 +87,11 @@ class PersonaController extends \BaseController
             $persona['nombre'] = Input::get('nombre');
             $persona['email'] = Input::get('email');
             $persona['dni'] = Input::get('dni');
+            $persona['sexo'] = Input::get('sexo');
             $persona['password'] = Hash::make(Input::get('password'));
-            $persona['fecha_nacimiento'] = Input::get('fecha_nacimiento');
-            $persona['imagen'] = Input::get('imagen');
+            $persona['fecha_nacimiento'] = Input::get('fecha_nac');
+
+            //$persona['imagen'] = Input::get('imagen');
             //$file  = Input::file('imagen');
             /*if (Input::hasFile('imagen'))
             {   
@@ -110,18 +113,21 @@ class PersonaController extends \BaseController
                 );
             }
 
-            $areas=Input::get('areas');
-            $cargos=Input::get('cargos');
-
-            for ($i=0; $i<count($areas); $i++) {
-                $areaId = $areas[$i];
-                $area = Area::find($areaId);
-                $persona->areas()->save($area, array('estado' => 1));
+            if (Input::has('areas')) {
+                $areas=Input::get('areas');
+                for ($i=0; $i<count($areas); $i++) {
+                    $areaId = $areas[$i];
+                    $area = Area::find($areaId);
+                    $persona->areas()->save($area, array('estado' => 1));
+                }
             }
-            for ($i=0; $i<count($cargos); $i++) {
-                $cargooId = $cargos[$i];
-                $cargo = Cargo::find($cargooId);
-                $persona->cargos()->save($cargo, array('estado' => 1));
+            if (Input::has('cargos')) {
+                $cargos=Input::get('cargos');
+                for ($i=0; $i<count($cargos); $i++) {
+                    $cargooId = $cargos[$i];
+                    $cargo = Cargo::find($cargooId);
+                    $persona->cargos()->save($cargo, array('estado' => 1));
+                }
             }
             return Response::json(
                 array(
@@ -148,6 +154,7 @@ class PersonaController extends \BaseController
                 'paterno' => $required.'|'.$regex,
                 'materno' => $required.'|'.$regex,
                 'email' => 'required|email',
+                'dni'      => 'required|min:8',
                 'password'      => 'required|min:6',
             );
 
@@ -173,9 +180,10 @@ class PersonaController extends \BaseController
             $persona['nombre'] = Input::get('nombre');
             $persona['email'] = Input::get('email');
             $persona['dni'] = Input::get('dni');
+            $persona['sexo'] = Input::get('sexo');
             $persona['password'] = Hash::make(Input::get('password'));
-            $persona['fecha_nacimiento'] = Input::get('fecha_nacimiento');
-            $persona['imagen'] = Input::get('imagen');
+            $persona['fecha_nacimiento'] = Input::get('fecha_nac');
+            //$persona['imagen'] = Input::get('imagen');
             //$file  = Input::file('imagen');
             /*if (Input::hasFile('imagen'))
             {   
@@ -290,16 +298,10 @@ class PersonaController extends \BaseController
     {
 
         if ( Request::ajax() ) {
+            $persona = Persona::find(Input::get('id'));
+            $persona->estado = Input::get('estado');
+            $persona->save();
 
-            $menu = Menu::find(Input::get('id'));
-            $menu->estado = Input::get('estado');
-            $menu->save();
-            if (Input::get('estado') == 0 ) {
-                //actualizando a estado 0 segun
-                DB::table('opciones')
-                    ->where('menu_id', Input::get('id'))
-                    ->update(array('estado' => 0));
-            }
             return Response::json(
                 array(
                 'rst'=>1,

@@ -48,7 +48,7 @@
                           <i class="fa fa-exclamation"></i>
                       </a>
                   </label>
-                  <input type="text" class="form-control" placeholder="Fecha de Nacimiento" name="txt_fecha_nac" id="txt_fecha_nac">
+                  <input type="text" class="form-control" placeholder="AAAA-MM-DD" id="txt_fecha_nac" name="txt_fecha_nac" onfocus="blur()"/>
                 </div>
               </div>
 
@@ -81,17 +81,16 @@
                   <input type="text" class="form-control" placeholder="Ingrese email" name="txt_email" id="txt_email">
                 </div>
                 <div class="col-sm-6">
-                  <label class="control-label">Imagen
-                      <a id="error_imagen" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese imagen">
-                          <i class="fa fa-exclamation"></i>
-                      </a>
+                  <label class="control-label">Sexo:
                   </label>
-                  <input type="text" class="form-control" placeholder="Ingrese imagen" name="txt_imagen" id="txt_imagen">
-                </div>
+                  <select class="form-control" name="slct_sexo" id="slct_sexo">
+                      <option value='' style="display:none">.:Seleccione:.</option>
+                      <option value='F'>Femenino</option>
+                      <option value='M' selected>Masculino</option>
+                  </select>
               </div>
 
               <div class="col-sm-12">
-
                 <div class="col-sm-6">
                   <label class="control-label">Estado:
                   </label>
