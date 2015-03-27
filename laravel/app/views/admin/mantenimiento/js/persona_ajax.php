@@ -1,5 +1,5 @@
 <script type="text/javascript">
-var persona_id, area_id, cargos_selec=[];
+var persona_id, area_id, cargos_selec=[], PersonaObj;
 var Persona={
     AgregarEditarPersona:function(AE){
         $("#form_personas").append("<input type='hidden' value='"+cargos_selec+"' name='cargos_selec'>");
@@ -61,6 +61,7 @@ var Persona={
             success : function(obj) {
                 if(obj.rst==1){
                     HTMLCargarPersona(obj.datos);
+                    PersonaObj=obj.datos;
                 }
                 $(".overlay,.loading-img").remove();
             },
@@ -113,9 +114,9 @@ var Persona={
         });
     },
     CambiarEstadoPersonas:function(id,AD){
-        $("#form_usuarios").append("<input type='hidden' value='"+id+"' name='id'>");
-        $("#form_usuarios").append("<input type='hidden' value='"+AD+"' name='estado'>");
-        var datos=$("#form_usuarios").serialize().split("txt_").join("").split("slct_").join("");
+        $("#form_personas").append("<input type='hidden' value='"+id+"' name='id'>");
+        $("#form_personas").append("<input type='hidden' value='"+AD+"' name='estado'>");
+        var datos=$("#form_personas").serialize().split("txt_").join("").split("slct_").join("");
         $.ajax({
             url         : 'persona/cambiarestado',
             type        : 'POST',
@@ -129,7 +130,7 @@ var Persona={
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
                     $('#t_personas').dataTable().fnDestroy();
-                    Usuario.CargarUsuarios(activarTabla);
+                    Persona.CargarPersonas(activarTabla);
                     $("#msj").html('<div class="alert alert-dismissable alert-success">'+
                                         '<i class="fa fa-check"></i>'+
                                         '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
