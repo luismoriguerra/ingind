@@ -86,56 +86,64 @@ adicionarRutaDetalle=function(){
 }
 
 CambiarDetalle=function(t){
-    var auxText=areasG[t];
-    var aux=areasGId[t];
-    var auxthead=theadArea[t];
-
-    var auxtbody=[];
-    if(auxthead==0){
-        auxtbody.push(tbodyArea[t][0]);
-        valorNuevo=tbodyArea[t][0].split("|");
-
-        tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+(t+1) ).join( ">"+t );
+    if( areasGId[t]==areasGId[(t-2)] ){
+        alert('No se puede asignar 2 veces continuas la misma Area'+areasG[t]);
+    }
+    else if( areasGId[(t-1)]==areasGId[(t+1)] ){
+        alert('No se puede asignar 2 veces continuas la misma Area'+areasG[(t-1)]);
     }
     else{
-        for(var i=0; i<tbodyArea[t].length; i++){
-            auxtbody.push( tbodyArea[t][i].split( "area"+(t+1) ).join( "area"+t ).split( ">"+(t+1) ).join( ">"+t ) );
+        var auxText=areasG[t];
+        var aux=areasGId[t];
+        var auxthead=theadArea[t];
+
+        var auxtbody=[];
+        if(auxthead==0){
+            auxtbody.push(tbodyArea[t][0]);
+            valorNuevo=tbodyArea[t][0].split("|");
+
+            tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+(t+1) ).join( ">"+t );
         }
-    }
-    
-    var auxtfoot=tfootArea[t];
-
-
-    areasG[t]=areasG[(t-1)];
-    areasGId[t]=areasGId[(t-1)];
-    theadArea[t]=theadArea[(t-1)];
-    tfootArea[t]=tfootArea[(t-1)];
-
-    tbodyArea[t]=[];
-    if(theadArea[(t-1)]==0){
-        tbodyArea[t].push( tbodyArea[(t-1)][0] );
-        valorNuevo=tbodyArea[(t-1)][0].split("|");
-
-        tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+t ).join( ">"+(t+1) );
-    }
-    else{
-        for(var i=0; i<tbodyArea[(t-1)].length; i++){
-            tbodyArea[t].push( tbodyArea[(t-1)][i].split( "area"+t ).join("area"+(t+1) ).split( ">"+t ).join( ">"+(t+1) ) );
+        else{
+            for(var i=0; i<tbodyArea[t].length; i++){
+                auxtbody.push( tbodyArea[t][i].split( "area"+(t+1) ).join( "area"+t ).split( ">"+(t+1) ).join( ">"+t ) );
+            }
         }
+        
+        var auxtfoot=tfootArea[t];
+
+
+        areasG[t]=areasG[(t-1)];
+        areasGId[t]=areasGId[(t-1)];
+        theadArea[t]=theadArea[(t-1)];
+        tfootArea[t]=tfootArea[(t-1)];
+
+        tbodyArea[t]=[];
+        if(theadArea[(t-1)]==0){
+            tbodyArea[t].push( tbodyArea[(t-1)][0] );
+            valorNuevo=tbodyArea[(t-1)][0].split("|");
+
+            tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+t ).join( ">"+(t+1) );
+        }
+        else{
+            for(var i=0; i<tbodyArea[(t-1)].length; i++){
+                tbodyArea[t].push( tbodyArea[(t-1)][i].split( "area"+t ).join("area"+(t+1) ).split( ">"+t ).join( ">"+(t+1) ) );
+            }
+        }
+
+
+        tbodyArea[(t-1)]=[];
+        for(var i=0; i<auxtbody.length; i++){
+            tbodyArea[(t-1)].push(auxtbody[i]);
+        }
+
+        areasG[(t-1)]=auxText;
+        areasGId[(t-1)]=aux;
+        theadArea[(t-1)]=auxthead;
+        tfootArea[(t-1)]=auxtfoot;
+
+        pintarAreasG();
     }
-
-
-    tbodyArea[(t-1)]=[];
-    for(var i=0; i<auxtbody.length; i++){
-        tbodyArea[(t-1)].push(auxtbody[i]);
-    }
-
-    areasG[(t-1)]=auxText;
-    areasGId[(t-1)]=aux;
-    theadArea[(t-1)]=auxthead;
-    tfootArea[(t-1)]=auxtfoot;
-
-    pintarAreasG();
 }
 
 EliminarDetalle=function(t){
