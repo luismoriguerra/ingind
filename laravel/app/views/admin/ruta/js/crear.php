@@ -147,25 +147,38 @@ CambiarDetalle=function(t){
 }
 
 EliminarDetalle=function(t){
-    $("#tr-detalle-"+t).remove();
-    for( var i=t; i<areasG.length; i++){
-        if( (i+1)==areasG.length ){
-            areasG.pop();
-            areasGId.pop();
-            theadArea.pop();
-            tbodyArea.pop();
-            tfootArea.pop();
-        }
-        else{
-            areasG.splice(i, 1, areasG[(i+1)]);
-            areasGId.splice(i, 1, areasGId[(i+1)]);
-            theadArea.splice(i, 1, theadArea[(i+1)]);
-            tbodyArea.splice(i, 1, tbodyArea[(i+1)].split( "area"+(i+2) ).join( "area"+(i+1) ).split( ">"+(i+2) ).join( ">"+(i+1) ) );
-            tfootArea.splice(i, 1, tfootArea[(i+1)]);
-        }
+    if( areasGId[(t-1)]==areasGId[(t+1)] && areasG.length>(t+1) ){
+        alert('No se puede asignar 2 veces continuas la misma Area'+areasG[(t+1)]);
     }
-    
-    pintarAreasG();
+    else{
+        $("#tr-detalle-"+t).remove();
+        for( var i=t; i<areasG.length; i++){
+            if( (i+1)==areasG.length ){
+
+                if(theadArea[t]==0){
+                    valorNuevo=tbodyArea[t][0].split("|");
+                    for(var i=0; i<tbodyArea[ valorNuevo[0] ].length; i++){
+                        //auxtbody.push( tbodyArea[t][i].split( "area"+(t+1) ).join( "area"+t ).split( ">"+(t+1) ).join( ">"+t ) );
+                    }
+                    //[ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+(t+1) ).join( ">"+t );
+                }
+
+                areasG.pop();
+                areasGId.pop();
+                theadArea.pop();
+                tbodyArea.pop();
+                tfootArea.pop();
+            }
+            else{
+                areasG.splice(i, 1, areasG[(i+1)]);
+                areasGId.splice(i, 1, areasGId[(i+1)]);
+                theadArea.splice(i, 1, theadArea[(i+1)]);
+                tbodyArea.splice(i, 1, tbodyArea[(i+1)].split( "area"+(i+2) ).join( "area"+(i+1) ).split( ">"+(i+2) ).join( ">"+(i+1) ) );
+                tfootArea.splice(i, 1, tfootArea[(i+1)]);
+            }
+        }
+        pintarAreasG();
+    }
 }
 
 pintarAreasG=function(){
