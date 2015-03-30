@@ -96,8 +96,86 @@ CambiarDetalle=function(t){
         var auxText=areasG[t];
         var aux=areasGId[t];
         var auxthead=theadArea[t];
+        var auxtfoot=tfootArea[t];
 
         var auxtbody=[];
+        //alert(t+"=>"+auxthead+" => "+tbodyArea[t][0]);
+        if(areasGId[t]==areasGId[(t-1)] && theadArea[(t-1)]!=0){
+            //no se realizará nada...
+        }
+        else{
+            if(auxthead==0){
+                auxtbody.push(tbodyArea[t][0]);
+                valorNuevo=tbodyArea[t][0].split("|");
+
+                tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+(t+1) ).join( ">"+t );
+            }
+            else{
+                var idfilas=0;
+                for(var i=0; i<tbodyArea[t].length; i++){
+                    idfilas=areasGId.indexOf(areasGId[t],idfilas); 
+                    if(i>0){
+                        //alert(idfilas+'|'+i+" INICIA "+t+" => "+(t-1));
+                        tbodyArea[idfilas][0]=(t-1)+'|'+i;
+                    }
+                    idfilas++;
+                    auxtbody.push( tbodyArea[t][i].split( "area"+(t+1) ).join( "area"+t ).split( ">"+(t+1) ).join( ">"+t ) );
+                }
+            }
+
+            tbodyArea[t]=[];
+            if(theadArea[(t-1)]==0){
+                tbodyArea[t].push( tbodyArea[(t-1)][0] );
+                valorNuevo=tbodyArea[(t-1)][0].split("|");
+
+                tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+t ).join( ">"+(t+1) );
+            }
+            else{
+                var idfilas=0;
+                for(var i=0; i<tbodyArea[(t-1)].length; i++){
+                    idfilas=areasGId.indexOf(areasGId[(t-1)],idfilas); 
+                    if(i>0){
+                        //alert(idfilas+'|'+i+' INICIA '+(t-1)+" => "+t);
+                        tbodyArea[idfilas][0]=t+'|'+i;
+                    }
+                    idfilas++;
+                    tbodyArea[t].push( tbodyArea[(t-1)][i].split( "area"+t ).join("area"+(t+1) ).split( ">"+t ).join( ">"+(t+1) ) );
+                }
+            }
+
+            areasG[t]=areasG[(t-1)];
+            areasGId[t]=areasGId[(t-1)];
+            theadArea[t]=theadArea[(t-1)];
+            tfootArea[t]=tfootArea[(t-1)];
+
+
+            tbodyArea[(t-1)]=[];
+            for(var i=0; i<auxtbody.length; i++){
+                tbodyArea[(t-1)].push(auxtbody[i]);
+            }
+
+            areasG[(t-1)]=auxText;
+            areasGId[(t-1)]=aux;
+            theadArea[(t-1)]=auxthead;
+            tfootArea[(t-1)]=auxtfoot;
+
+            pintarAreasG();
+        }
+    }
+}
+
+CambiarDetalleDinamico=function(t){
+var auxText=areasG[t];
+var aux=areasGId[t];
+var auxthead=theadArea[t];
+var auxtfoot=tfootArea[t];
+
+var auxtbody=[];
+//alert(t+"=>"+auxthead+" => "+tbodyArea[t][0]);
+    if(areasGId[t]==areasGId[(t-1)] && theadArea[(t-1)]!=0){
+        //no se realizará nada...
+    }
+    else{
         if(auxthead==0){
             auxtbody.push(tbodyArea[t][0]);
             valorNuevo=tbodyArea[t][0].split("|");
@@ -105,18 +183,17 @@ CambiarDetalle=function(t){
             tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+(t+1) ).join( ">"+t );
         }
         else{
+            var idfilas=0;
             for(var i=0; i<tbodyArea[t].length; i++){
+                idfilas=areasGId.indexOf(areasGId[t],idfilas); 
+                if(i>0){
+                    //alert(idfilas+'|'+i+" INICIA "+t+" => "+(t-1));
+                    tbodyArea[idfilas][0]=(t-1)+'|'+i;
+                }
+                idfilas++;
                 auxtbody.push( tbodyArea[t][i].split( "area"+(t+1) ).join( "area"+t ).split( ">"+(t+1) ).join( ">"+t ) );
             }
         }
-        
-        var auxtfoot=tfootArea[t];
-
-
-        areasG[t]=areasG[(t-1)];
-        areasGId[t]=areasGId[(t-1)];
-        theadArea[t]=theadArea[(t-1)];
-        tfootArea[t]=tfootArea[(t-1)];
 
         tbodyArea[t]=[];
         if(theadArea[(t-1)]==0){
@@ -126,10 +203,22 @@ CambiarDetalle=function(t){
             tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+t ).join( ">"+(t+1) );
         }
         else{
+            var idfilas=0;
             for(var i=0; i<tbodyArea[(t-1)].length; i++){
+                idfilas=areasGId.indexOf(areasGId[(t-1)],idfilas); 
+                if(i>0){
+                    //alert(idfilas+'|'+i+' INICIA '+(t-1)+" => "+t);
+                    tbodyArea[idfilas][0]=t+'|'+i;
+                }
+                idfilas++;
                 tbodyArea[t].push( tbodyArea[(t-1)][i].split( "area"+t ).join("area"+(t+1) ).split( ">"+t ).join( ">"+(t+1) ) );
             }
         }
+
+        areasG[t]=areasG[(t-1)];
+        areasGId[t]=areasGId[(t-1)];
+        theadArea[t]=theadArea[(t-1)];
+        tfootArea[t]=tfootArea[(t-1)];
 
 
         tbodyArea[(t-1)]=[];
@@ -153,28 +242,32 @@ EliminarDetalle=function(t){
     else{
         $("#tr-detalle-"+t).remove();
         for( var i=t; i<areasG.length; i++){
-            if( (i+1)==areasG.length ){
+            if( (i+1)==areasG.length && t==i){
 
-                if(theadArea[t]==0){
-                    valorNuevo=tbodyArea[t][0].split("|");
-                    for(var i=0; i<tbodyArea[ valorNuevo[0] ].length; i++){
-                        //auxtbody.push( tbodyArea[t][i].split( "area"+(t+1) ).join( "area"+t ).split( ">"+(t+1) ).join( ">"+t ) );
-                    }
-                    //[ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+(t+1) ).join( ">"+t );
+                if( theadArea[i]==0 ){
+                    valorNuevo=tbodyArea[i][0].split("|");
+                    tbodyArea[ valorNuevo[0] ].pop();
+                }
+                else{
+                    tbodyArea[i]=[];
+                    tbodyArea.pop();
                 }
 
                 areasG.pop();
                 areasGId.pop();
                 theadArea.pop();
-                tbodyArea.pop();
                 tfootArea.pop();
             }
+            else if( (i+1)==areasG.length ){
+                if( theadArea[i]==0 ){
+                    alert(tbodyArea[i][0]);
+                }
+                else{
+                    
+                }
+            }
             else{
-                areasG.splice(i, 1, areasG[(i+1)]);
-                areasGId.splice(i, 1, areasGId[(i+1)]);
-                theadArea.splice(i, 1, theadArea[(i+1)]);
-                tbodyArea.splice(i, 1, tbodyArea[(i+1)].split( "area"+(i+2) ).join( "area"+(i+1) ).split( ">"+(i+2) ).join( ">"+(i+1) ) );
-                tfootArea.splice(i, 1, tfootArea[(i+1)]);
+                CambiarDetalleDinamico( (i+1) );
             }
         }
         pintarAreasG();
