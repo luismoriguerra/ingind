@@ -263,7 +263,7 @@ EliminarDetalle=function(t){
                     alert(tbodyArea[i][0]);
                 }
                 else{
-                    
+                    alert(tbodyArea[i][0]);
                 }
             }
             else{
