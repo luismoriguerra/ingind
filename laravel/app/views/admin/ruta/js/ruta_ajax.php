@@ -1,9 +1,33 @@
 <script type="text/javascript">
 var Ruta={
     CrearRuta:function(evento){
-        var datos=$("#form_ruta").serialize().split("txt_").join("").split("slct_").join("");
-        var accion="ruta_flujo/crear";
+        //var datos=$("#form_ruta").serialize().split("txt_").join("").split("slct_").join("");
+        /*var areasG=[]; // texto area
+        var areasGId=[]; // id area
+        var theadArea=[]; // cabecera area
+        var tbodyArea=[]; // cuerpo area
+        var tfootArea=[]; // pie area
 
+        var tiempoGId=[]; // id posicion del modal en base a una area.
+        var tiempoG=[];
+        var verboG=[];
+        var posicionDetalleVerboG=0;*/
+        var accion="ruta_flujo/crear";
+        datos=  {
+                areasG:areasG.join("*"), 
+                areasGId:areasGId.join("*"),
+                theadArea:theadArea.join("*"),
+                tfootArea:tfootArea.join("*"),
+                tbodyArea:tbodyArea.join("*"),
+
+                tiempoGId:tiempoGId.join("*"),
+                tiempoG:tiempoG.join("*"),
+                verboG:verboG.join("*"),
+                flujo_id:$("#slct_flujo_id").val(),
+                area_id:$("#slct_area_id").val(),
+                ruta_flujo_id: $("#txt_ruta_flujo_id_modal").val(),
+
+                };
         $.ajax({
             url         : accion,
             type        : 'POST',
@@ -16,6 +40,10 @@ var Ruta={
             success : function(obj) {                
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
+                    $("#form_ruta_flujo").append('<input type="hidden" id="txt_ruta_flujo_id_modal" value="'+obj.ruta_flujo_id+'">');
+                    $("#txt_titulo").text("Act. Ruta");
+                    $("#texto_fecha_creacion").text("Fecha Actualización:");
+                    $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
                     Ruta.CargarRuta(evento);
                     $("#msj").html('<div class="alert alert-dismissable alert-success">'+
                                         '<i class="fa fa-check"></i>'+
@@ -23,12 +51,6 @@ var Ruta={
                                         '<b>'+obj.msj+'</b>'+
                                     '</div>');
                     $('#rolModal .modal-footer [data-dismiss="modal"]').click();
-                }
-                else{ 
-                    $.each(obj.msj,function(index,datos){                        
-                        $("#error_"+index).attr("data-original-title",datos);
-                        $('#error_'+index).css('display','');                                         
-                    });     
                 }
             },
             error: function(){

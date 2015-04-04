@@ -1,8 +1,7 @@
 <?php
-
-class RutaFlujo extends \Eloquent
+class RutaFlujo extends Eloquent
 {
-    protected $_table = "rutas_flujo";
+    public $table="rutas_flujo";
 
     /**
      * Areas relationship
@@ -11,7 +10,7 @@ class RutaFlujo extends \Eloquent
     {
         return $this->belongsTo('Area');
     }
-
+    
     public function getRutaFlujo(){
         $rutaFlujo =    DB::table('rutas_flujo AS rf')
                             ->join(
@@ -35,7 +34,9 @@ class RutaFlujo extends \Eloquent
                                     'a.nombre AS area',
                                     'rf.n_flujo_ok AS ok',
                                     'rf.n_flujo_error AS error',
-                                    'rf.ruta_id_dep AS dep',
+                                    DB::raw(
+                                        'IFNULL(rf.ruta_id_dep,"") AS dep'
+                                    ),
                                     DB::raw(
                                         'DATE(rf.created_at) AS fruta'
                                     )
@@ -44,5 +45,6 @@ class RutaFlujo extends \Eloquent
         return $rutaFlujo;
     }
 
-}
 
+}
+?>

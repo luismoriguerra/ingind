@@ -79,7 +79,7 @@
                                             <h1><span id="txt_titulo">Nueva Ruta</span>
                                             <small>
                                                 <i class="fa fa-angle-double-right fa-lg"></i>
-                                                Fecha Creación:
+                                                <span id="texto_fecha_creacion">Fecha Creación:</span>
                                                 <span id="fecha_creacion"></span>
                                             </small>
                                             </h1>
@@ -155,7 +155,7 @@
                                             <a class="btn btn-default btn-sm btn-sm" id="btn_close">
                                                 <i class="fa fa-remove fa-lg"></i>&nbsp;Close
                                             </a>
-                                            <a class="btn btn-primary btn-sm" id="btn_guardar">
+                                            <a class="btn btn-primary btn-sm" id="btn_guardar_todo">
                                                 <i class="fa fa-save fa-lg"></i>&nbsp;Guardar
                                             </a>
                                         </div>
@@ -167,4 +167,8 @@
                     </div>
 
                 </section><!-- /.content -->
+@stop
+
+@section('formulario')
+     @include( 'admin.ruta.form.ruta' )
 @stop
