@@ -59,6 +59,46 @@ class RutaFlujo extends Eloquent
         return $rutaFlujo;
     }
 
+    public function getRutaFlujoProduccion(){
+        $rutaFlujo =    DB::table('rutas_flujo AS rf')
+                            ->join(
+                                'flujos AS f',
+                                'f.id','=','rf.flujo_id'
+                            )
+                            ->join(
+                                'personas AS p',
+                                'p.id','=','rf.persona_id'
+                            )
+                            ->join(
+                                'areas AS a',
+                                'a.id','=','rf.area_id'
+                            )
+                            ->select('f.nombre AS flujo','rf.estado AS cestado',
+                                    'rf.id',
+                                    DB::raw(
+                                        'CONCAT(
+                                            p.paterno," ",p.materno," ",p.nombre
+                                        ) AS persona'
+                                    ),
+                                    'a.nombre AS area',
+                                    'rf.n_flujo_ok AS ok',
+                                    'rf.n_flujo_error AS error',
+                                    DB::raw(
+                                        'IFNULL(rf.ruta_id_dep,"") AS dep'
+                                    ),
+                                    DB::raw(
+                                        'DATE(rf.created_at) AS fruta'
+                                    ),
+                                    DB::raw(
+                                        'IF(rf.estado=1,"Produccion",
+                                            IF(rf.estado=2,"Pendiente","Inactivo")
+                                        ) AS estado'
+                                    )
+                            )
+                            ->get();
+        return $rutaFlujo;
+    }
+
     public function getRutaFlujoDetalle(){
         $rutaFlujoD =    DB::table('rutas_flujo AS rf')
                             ->join(

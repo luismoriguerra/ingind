@@ -26,6 +26,23 @@ class TablaRelacionController extends \BaseController
         }
     }
 
+    public function postRutaflujo()
+    {
+        //si la peticion es ajax
+        if ( Request::ajax() ) {
+            $rf             = new RutaFlujo;
+            $cargar         = Array();
+            $cargar         = $rf->getRutaFlujoProduccion();
+
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $cargar
+                )
+            );
+        }
+    }
+
     public function postGuardar()
     {
         if( Request::ajax() ) {
