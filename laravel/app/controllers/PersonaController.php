@@ -1,6 +1,6 @@
 <?php
 
-class PersonaController extends \BaseController
+class PersonaController extends BaseController
 {
 
     /**
@@ -211,7 +211,7 @@ class PersonaController extends \BaseController
                 );
             }
             
-            if ($cargos) {//si selecciono algun menu
+            if ($cargos) {//si selecciono algun cargo
                 $cargos = explode(',', $cargos);
                 $areas=array();
 

@@ -27,12 +27,6 @@ $(document).ready(function() {
             $('#form_personas #txt_nombre').focus();
         }
         else{
-/*            Persona.CargarQuiebres('editar',persona_id);
-            Persona.cargarEmpresas('editar',persona_id);
-            empresa_id=$('#t_personas #empresa_id_'+button.data('id') ).attr('empresa_id');
-            perfil_id=$('#t_personas #perfil_id_'+button.data('id') ).attr('perfil_id');
-            Persona.cargarEmpresa('editar',empresa_id);
-            Persona.cargarPerfiles('editar',perfil_id);*/
             Persona.CargarAreas(persona_id); //no es multiselect
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
@@ -60,8 +54,11 @@ $(document).ready(function() {
     });
 
     $('#personaModal').on('hide.bs.modal', function (event) {
-      var modal = $(this); //captura el modal
-      modal.find('.modal-body input').val(''); // busca un input para copiarle texto
+        var modal = $(this); //captura el modal
+        modal.find('.modal-body input').val(''); // busca un input para copiarle texto
+        //$('#slct_cargos').multiselect('destroy');
+        $('#slct_cargos').multiselect('deselectAll', false);
+        $('#slct_cargos').multiselect('refresh');
     });
 });
 

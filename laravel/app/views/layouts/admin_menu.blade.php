@@ -14,6 +14,8 @@
 
                                 <li><a href="admin.mantenimiento.area"><i class="fa fa-angle-double-right"></i> Areas</a></li>
                                 <li><a href="admin.mantenimiento.cargo"><i class="fa fa-angle-double-right"></i> Cargos</a></li>
+                                <li><a href="admin.mantenimiento.flujo"><i class="fa fa-angle-double-right"></i> Flujos</a></li>
+                                <li><a href="admin.mantenimiento.flujotiporespuesta"><i class="fa fa-angle-double-right"></i> Flujos Respuestas</a></li>
                                 <li><a href="admin.mantenimiento.menu"><i class="fa fa-angle-double-right"></i> Menus</a></li>
                                 <li><a href="admin.mantenimiento.opcion"><i class="fa fa-angle-double-right"></i> Opciones</a></li>
                                 <li><a href="admin.mantenimiento.persona"><i class="fa fa-angle-double-right"></i> Personas</a></li>

@@ -88,6 +88,7 @@
                       <option value='F'>Femenino</option>
                       <option value='M' selected>Masculino</option>
                   </select>
+                </div>
               </div>
 
               <div class="col-sm-12">
