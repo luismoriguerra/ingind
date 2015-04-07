@@ -31,7 +31,7 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li><a href="admin.ruta.crear"><i class="fa fa-angle-double-right"></i> Crear</a></li>
-                                <li><a href="#"><i class="fa fa-angle-double-right"></i> Asignar</a></li>
+                                <li><a href="admin.ruta.asignar"><i class="fa fa-angle-double-right"></i> Asignar</a></li>
                             </ul>
                         </li>
                         <li class="treeview">
