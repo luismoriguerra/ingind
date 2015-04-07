@@ -40,6 +40,7 @@ var Ruta={
             success : function(obj) {                
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
+                    $("#txt_ruta_flujo_id_modal").remove();
                     $("#form_ruta_flujo").append('<input type="hidden" id="txt_ruta_flujo_id_modal" value="'+obj.ruta_flujo_id+'">');
                     $("#txt_titulo").text("Act. Ruta");
                     $("#texto_fecha_creacion").text("Fecha Actualización:");
@@ -76,6 +77,65 @@ var Ruta={
             success : function(obj) {
                 if(obj.rst==1){                    
                     evento(obj.datos);
+                }  
+                $(".overlay,.loading-img").remove();
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
+                                        '<i class="fa fa-ban"></i>'+
+                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
+                                        '<b><?php echo trans("greetings.mensaje_error"); ?></b>'+
+                                    '</div>');
+            }
+        });
+    },
+    CargarDetalleRuta:function(id,permiso,evento){
+
+        $.ajax({
+            url         : 'ruta_flujo/cdetalle',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : {ruta_flujo_id:id},
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                if(obj.rst==1){                    
+                    evento(permiso,obj.datos);
+                }  
+                $(".overlay,.loading-img").remove();
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
+                                        '<i class="fa fa-ban"></i>'+
+                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
+                                        '<b><?php echo trans("greetings.mensaje_error"); ?></b>'+
+                                    '</div>');
+            }
+        });
+    },
+    ActivarRutaFlujo:function(id,evento){
+
+        $.ajax({
+            url         : 'ruta_flujo/activar',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : {ruta_flujo_id:id},
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                if(obj.rst==1){
+                    $("#msj").html('<div class="alert alert-dismissable alert-success">'+
+                                        '<i class="fa fa-check"></i>'+
+                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
+                                        '<b>'+obj.msj+'</b>'+
+                                    '</div>');
+                    Ruta.CargarRuta(evento);
                 }  
                 $(".overlay,.loading-img").remove();
             },

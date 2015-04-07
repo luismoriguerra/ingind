@@ -17,6 +17,38 @@ class RutaFlujoController extends \BaseController
         }
     }
 
+    public function postCdetalle()
+    {
+        if ( Request::ajax() ) {
+            $rf             = new RutaFlujo();
+            $cargar         = Array();
+            $cargar         = $rf->getRutaFlujoDetalle();
+
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $cargar
+                )
+            );
+        }
+    }
+
+    public function postActivar()
+    {
+        if ( Request::ajax() ) {
+            $rf                 = new RutaFlujo();
+            $actualizar         = Array();
+            $actualizar         = $rf->actualizarProduccion();
+
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'msj' => ".::Se actualizó correctamente::."
+                )
+            );
+        }
+    }
+
     public function postCrear()
     {
         if ( Request::ajax() ) {
@@ -33,6 +65,7 @@ class RutaFlujoController extends \BaseController
             else{
                 $rutaFlujo = new RutaFlujo;
                 $rutaFlujo['usuario_created_at']= Auth::user()->id;
+                $rutaFlujo['estado']= 2;
             }
 
             $rutaFlujo['flujo_id']= Input::get('flujo_id');

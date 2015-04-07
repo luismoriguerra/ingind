@@ -49,6 +49,7 @@
                                                 <th># Error</th>
                                                 <th>Depende</th>
                                                 <th>Fecha Creación</th>
+                                                <th>Estado</th>
                                                 <th> [ ] </th>
                                             </tr>
                                         </thead>
@@ -65,6 +66,7 @@
                                                 <th># Error</th>
                                                 <th>Depende</th>
                                                 <th>Fecha Creación</th>
+                                                <th>Estado</th>
                                                 <th> [ ] </th>
                                             </tr>
                                         </tfoot>
