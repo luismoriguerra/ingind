@@ -42,3 +42,4 @@ Route::controller('software', 'SoftwareController');
 Route::controller('tiempo', 'TiempoController');
 Route::controller('tiporespuesta', 'TipoRespuestaController');
 Route::controller('tiporespuestadetalle', 'TipoRespuestaDetalleController');
+Route::controller('tabla_relacion', 'TablaRelacionController');
