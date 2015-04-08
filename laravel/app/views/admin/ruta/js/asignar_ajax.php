@@ -26,13 +26,14 @@ var Asignar={
             }
         });
     },
-    mostrarRutaFlujo:function(evento){
+    mostrarRutaFlujo:function(datos,evento){
 
         $.ajax({
             url         : 'tabla_relacion/rutaflujo',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
+            data        : datos,
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
