@@ -19,6 +19,8 @@ $(document).ready(function() {
       $("#form_tabla_relacion input[type='text'], #form_tabla_relacion select").val("");
       $("#slct_software_id_modal").multiselect('refresh');
     });
+
+    $("#btn_guardar_todo").click(guardarTodo);
     //$("#areasasignacion").DataTable();
 });
 
@@ -45,20 +47,19 @@ mostrarRutaFlujoHTML=function(datos){
     $.each(datos,function(index,data){
         imagen="";
         clase="";
-        if(cont>1){
-            clase="class='success'";
+        cont++;
+        if(cont==1){
+            imagen="<a id='ruta_flujo_id' data-id='"+data.id+"' class='btn btn-success btn-sm'><i class='fa fa-check-square fa-lg'></i></a>";
         }
-    cont++;
-    html+="<tr "+cont+">"+
+    html+="<tr>"+
         "<td>"+cont+"</td>"+
         "<td>"+data.flujo+"</td>"+
         "<td>"+data.area+"</td>"+
         "<td>"+data.persona+"</td>"+
         "<td>"+data.ok+"</td>"+
         "<td>"+data.error+"</td>"+
-        "<td>"+data.dep+"</td>"+
         "<td>"+data.fruta+"</td>"+
-        "<td>"+" "+"</td>";
+        "<td>"+imagen+"</td>";
     html+="</tr>";
 
     });
@@ -101,7 +102,7 @@ SeleccionRelacion=function(id,codigo){
     CerrarTablaRelacion();
     $("#txt_codigo").val(codigo);
     $("#form_asignar input[type='hidden']").remove();
-    $("#form_asignar").append('<input type="hidden" id="txt_tabla_relacion_id" value="'+id+'">');
+    $("#form_asignar").append('<input type="hidden" id="txt_tabla_relacion_id" name="txt_tabla_relacion_id" value="'+id+'">');
 }
 
 guardarRelacion=function(){
@@ -113,6 +114,21 @@ guardarRelacion=function(){
     }
     else if( confirm("Esta conforme con los datos registrados? Click en aceptar para continuar.") ){
         Asignar.guardarRelacion();
+    }
+}
+
+guardarTodo=function(){
+    if( $.trim($("#txt_codigo").val())==''){
+        alert("Busque y seleccione un código");
+    }
+    else if( $("#slct_flujo_id").val()='' ){
+        alert("Seleccione un Tipo Flujo");
+    }
+    else if( $("#slct_area_id").val()='' ){
+        alert("Seleccione una Area");
+    }
+    else{
+        alert("Guardando");
     }
 }
 

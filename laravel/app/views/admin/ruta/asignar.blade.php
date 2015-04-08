@@ -99,7 +99,7 @@
                                     <div class="row form-group" id="tabla_ruta_flujo" style="display:none;">
                                         <div class="col-sm-12">
                                             <div class="box-body table-responsive">
-                                                <table id="t_ruta_flujo" class="table table-bordered table-striped">
+                                                <table id="t_ruta_flujo" class="table table-bordered table-hover">
                                                     <thead>
                                                         <tr>
                                                             <th>#</th>
@@ -108,7 +108,6 @@
                                                             <th>Creador</th>
                                                             <th># Ok</th>
                                                             <th># Error</th>
-                                                            <th>Depende</th>
                                                             <th>Fecha Creación</th>
                                                             <th> [ ] </th>
                                                         </tr>
@@ -124,7 +123,6 @@
                                                             <th>Creador</th>
                                                             <th># Ok</th>
                                                             <th># Error</th>
-                                                            <th>Depende</th>
                                                             <th>Fecha Creación</th>
                                                             <th> [ ] </th>
                                                         </tr>
@@ -133,11 +131,8 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
-                                            <a class="btn btn-primary btn-sm" onclick="CerrarTablaRelacion();" id="btn_cerrar_tabla_relacion">
-                                                <i class="fa fa-remove fa-lg"></i>&nbsp;Cerrar
-                                            </a>
-                                            <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#asignarModal">
-                                                <i class="fa fa-save fa-lg"></i>&nbsp;Nuevo
+                                            <a class="btn btn-primary btn-sm" id="btn_guardar_todo">
+                                                <i class="fa fa-save fa-lg"></i>&nbsp;Guardar
                                             </a>
                                         </div>
                                     </div>

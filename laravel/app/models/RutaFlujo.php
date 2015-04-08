@@ -95,6 +95,7 @@ class RutaFlujo extends Eloquent
                                         ) AS estado'
                                     )
                             )
+                            ->where('rf.estado', '=', '1')
                             ->where(
                                 function($query)
                                 {
