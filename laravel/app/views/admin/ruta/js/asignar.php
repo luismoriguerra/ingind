@@ -24,14 +24,13 @@ $(document).ready(function() {
 
 mostrarRutaFlujo=function(){
     $("#tabla_ruta_flujo").css("display","none");
-    if( $.trim($("#slct_flujo_id").val())!='' && $.trim($("#slct_area_id").val())!='' ){
-        /*$('#example').dataTable( {
-        "paging":   false,
-        "ordering": false,
-        "info":     false
-        } );*/
+    var flujo_id=$.trim($("#slct_flujo_id").val());
+    var area_id=$.trim($("#slct_area_id").val());
+
+    if( flujo_id!='' && area_id!='' ){
+        var datos={ flujo_id:flujo_id,area_id:area_id };
         $("#tabla_ruta_flujo").css("display","");
-        Asignar.mostrarRutaFlujo(mostrarRutaFlujoHTML);
+        Asignar.mostrarRutaFlujo(datos,mostrarRutaFlujoHTML);
     }
 }
 
@@ -39,13 +38,18 @@ mostrarRutaFlujoHTML=function(datos){
     var html="";
     var cont=0;
     var botton="";
+    var color="";
+    var clase="";
      $('#t_ruta_flujo').dataTable().fnDestroy();
 
     $.each(datos,function(index,data){
         imagen="";
-
+        clase="";
+        if(cont>1){
+            clase="class='success'";
+        }
     cont++;
-    html+="<tr>"+
+    html+="<tr "+cont+">"+
         "<td>"+cont+"</td>"+
         "<td>"+data.flujo+"</td>"+
         "<td>"+data.area+"</td>"+

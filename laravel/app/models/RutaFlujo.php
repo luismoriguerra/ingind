@@ -95,6 +95,26 @@ class RutaFlujo extends Eloquent
                                         ) AS estado'
                                     )
                             )
+                            ->where(
+                                function($query)
+                                {
+                                    if ( Input::get('flujo_id') ) {
+                                        $query->where(
+                                            'rf.flujo_id', 
+                                            '=', 
+                                            Input::get('flujo_id') 
+                                        )
+                                        ->where(
+                                            'rf.area_id', 
+                                            '=', 
+                                            Input::get('area_id') 
+                                        );
+                                    }
+                                    
+                                }
+                            )
+                            ->orderBy('n_flujo_ok','DESC')
+                            ->orderBy('n_flujo_error','ASC')
                             ->get();
         return $rutaFlujo;
     }
