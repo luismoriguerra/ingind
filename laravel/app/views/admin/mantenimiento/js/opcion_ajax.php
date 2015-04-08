@@ -13,10 +13,10 @@ var Opciones={
             cache       : false,
             dataType    : 'json',
             data        : datos,
-            beforeSend : function() {                
+            beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
-            success : function(obj) {                
+            success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
                     $('#t_opciones').dataTable().fnDestroy();
@@ -30,9 +30,9 @@ var Opciones={
                     $('#opcionModal .modal-footer [data-dismiss="modal"]').click();
                 }
                 else{ 
-                    $.each(obj.msj,function(index,datos){                        
+                    $.each(obj.msj,function(index,datos){
                         $("#error_"+index).attr("data-original-title",datos);
-                        $('#error_'+index).css('display','');                                         
+                        $('#error_'+index).css('display','');
                     });     
                 }
             },

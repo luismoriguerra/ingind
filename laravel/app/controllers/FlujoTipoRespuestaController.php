@@ -1,10 +1,11 @@
 <?php
-class FlujoController extends \BaseController
+
+class FlujoTipoRespuestaController extends \BaseController
 {
 
     /**
-     * cargar flujos, mantenimiento
-     * POST /flujo/cargar
+     * cargar modulos, mantenimiento
+     * POST /flujotiporespuesta/cargar
      *
      * @return Response
      */
@@ -12,36 +13,28 @@ class FlujoController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $flujos = Flujo::get(Input::all());
-            return Response::json(array('rst'=>1,'datos'=>$flujos));
+            $flujoTipoRsp = FlujoTipoRespuesta::getFlujoTipoRsp();
+            return Response::json(array('rst'=>1,'datos'=>$flujoTipoRsp));
         }
     }
-
     /**
-     * cargar flujos, mantenimiento
-     * POST /flujo/listar
+     * Store a newly created resource in storage.
+     * POST /flujotiporespuesta/listar
      *
      * @return Response
      */
     public function postListar()
     {
+        //si la peticion es ajax
         if ( Request::ajax() ) {
-            $f      = new Flujo();
-            $listar = Array();
-            $listar = $f->getFlujo();
-
-            return Response::json(
-                array(
-                    'rst'   => 1,
-                    'datos' => $listar
-                )
-            );
+            $flujoTipoRsp = FlujoTipoRespuesta::getFlujoTipoRsp();
+            return Response::json(array('rst'=>1,'datos'=>$flujoTipoRsp));
         }
     }
 
-/**
+    /**
      * Store a newly created resource in storage.
-     * POST /flujo/crear
+     * POST /flujotiporespuesta/crear
      *
      * @return Response
      */
@@ -49,16 +42,13 @@ class FlujoController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $regex='regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
-            $required='required';
             $reglas = array(
-                'nombre' => $required.'|'.$regex,
-                //'path' =>$regex.'|unique:modulos,path,',
+                'dtiempo' => 'required|numeric',
             );
 
             $mensaje= array(
                 'required'    => ':attribute Es requerido',
-                'regex'        => ':attribute Solo debe ser Texto',
+                'regex'        => ':attribute Solo debe ser Numero',
             );
 
             $validator = Validator::make(Input::all(), $reglas, $mensaje);
@@ -72,10 +62,13 @@ class FlujoController extends \BaseController
                 );
             }
 
-            $flujos = new Flujo;
-            $flujos['nombre'] = Input::get('nombre');
-            $flujos['estado'] = Input::get('estado');
-            $flujos->save();
+            $flujoTipoRespuesta = new FlujoTipoRespuesta;
+            $flujoTipoRespuesta['flujo_id'] = Input::get('flujo_id');
+            $flujoTipoRespuesta['tipo_respuesta_id'] = Input::get('tipo_respuesta_id');
+            $flujoTipoRespuesta['tiempo_id'] = Input::get('tiempo_id');
+            $flujoTipoRespuesta['dtiempo'] = Input::get('dtiempo');
+            $flujoTipoRespuesta['estado'] = Input::get('estado');
+            $flujoTipoRespuesta->save();
 
             return Response::json(
                 array(
@@ -88,22 +81,20 @@ class FlujoController extends \BaseController
 
     /**
      * Update the specified resource in storage.
-     * POST /flujo/editar
+     * POST /flujotiporespuesta/editar
      *
      * @return Response
      */
     public function postEditar()
     {
         if ( Request::ajax() ) {
-            $regex='regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
-            $required='required';
             $reglas = array(
-                'nombre' => $required.'|'.$regex,
+                'dtiempo' => 'required|numeric',
             );
 
             $mensaje= array(
                 'required'    => ':attribute Es requerido',
-                'regex'        => ':attribute Solo debe ser Texto',
+                'regex'        => ':attribute Solo debe ser Numero',
             );
 
             $validator = Validator::make(Input::all(), $reglas, $mensaje);
@@ -116,17 +107,15 @@ class FlujoController extends \BaseController
                     )
                 );
             }
-            $flujoId = Input::get('id');
-            $flujo = Flujo::find($flujoId);
-            $flujo['nombre'] = Input::get('nombre');
-            $flujo['estado'] = Input::get('estado');
-            $flujo->save();
-            if (Input::get('estado') == 0 ) {
-                //actualizando a estado 0 segun
-                DB::table('flujo_tipo_respuesta')
-                    ->where('flujo_id', $flujoId)
-                    ->update(array('estado' => 0));
-            }
+            $flujoTipoRespuestaId = Input::get('id');
+            $flujoTipoRespuesta = FlujoTipoRespuesta::find($flujoTipoRespuestaId);
+            $flujoTipoRespuesta['flujo_id'] = Input::get('flujo_id');
+            $flujoTipoRespuesta['tipo_respuesta_id'] = Input::get('tipo_respuesta_id');
+            $flujoTipoRespuesta['tiempo_id'] = Input::get('tiempo_id');
+            $flujoTipoRespuesta['dtiempo'] = Input::get('dtiempo');
+            $flujoTipoRespuesta['estado'] = Input::get('estado');
+            $flujoTipoRespuesta->save();
+
             return Response::json(
                 array(
                 'rst'=>1,
@@ -138,7 +127,7 @@ class FlujoController extends \BaseController
 
     /**
      * Changed the specified resource from storage.
-     * POST /flujo/cambiarestado
+     * POST /flujotiporespuesta/cambiarestado
      *
      * @return Response
      */
@@ -147,15 +136,10 @@ class FlujoController extends \BaseController
 
         if ( Request::ajax() ) {
 
-            $flujo = Flujo::find(Input::get('id'));
-            $flujo->estado = Input::get('estado');
-            $flujo->save();
-            if (Input::get('estado') == 0 ) {
-                //actualizando a estado 0 segun
-                DB::table('flujo_tipo_respuesta')
-                    ->where('flujo_id', Input::get('id'))
-                    ->update(array('estado' => 0));
-            }
+            $flujoTipoRespuesta = FlujoTipoRespuesta::find(Input::get('id'));
+            $flujoTipoRespuesta->estado = Input::get('estado');
+            $flujoTipoRespuesta->save();
+
             return Response::json(
                 array(
                 'rst'=>1,

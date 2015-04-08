@@ -17,6 +17,20 @@ class TiempoController extends \BaseController
             return Response::json(array('rst'=>1,'datos'=>$tiempos));
         }
     }
+    /**
+     * cargar tiempos, mantenimiento
+     * POST /tiempo/listar
+     *
+     * @return Response
+     */
+    public function postListar()
+    {
+        //si la peticion es ajax
+        if ( Request::ajax() ) {
+            $tiempos = Tiempo::get(Input::all());
+            return Response::json(array('rst'=>1,'datos'=>$tiempos));
+        }
+    }
 
     /**
      * Store a newly created resource in storage.

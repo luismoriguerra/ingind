@@ -5,7 +5,6 @@ $(document).ready(function() {
     $('#opcionModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // captura al boton
         var titulo = button.data('titulo'); // extrae del atributo data-
-        //var Opcion_id = button.data('id'); //extrae el id del atributo data
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this); //captura el modal

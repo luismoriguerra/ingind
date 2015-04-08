@@ -17,7 +17,20 @@ class TipoRespuestaController extends \BaseController
             return Response::json(array('rst'=>1,'datos'=>$tipoRespuesta));
         }
     }
-
+    /**
+     * cargar flujos, mantenimiento
+     * POST /tiporespuesta/listar
+     *
+     * @return Response
+     */
+    public function postListar()
+    {
+        //si la peticion es ajax
+        if ( Request::ajax() ) {
+            $tipoRespuesta = TipoRespuesta::get(Input::all());
+            return Response::json(array('rst'=>1,'datos'=>$tipoRespuesta));
+        }
+    }
     /**
      * Store a newly created resource in storage.
      * POST /tiporespuesta/crear

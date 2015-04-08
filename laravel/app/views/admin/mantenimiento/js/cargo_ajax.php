@@ -1,6 +1,8 @@
 <script type="text/javascript">
+var cargo_id, menus_selec=[], CargoObj;
 var Cargos={
     AgregarEditarCargo:function(AE){
+        $("#form_personas input[name='menus_selec']").remove();
         $("#form_cargos").append("<input type='hidden' value='"+menus_selec+"' name='menus_selec'>");
         var datos=$("#form_cargos").serialize().split("txt_").join("").split("slct_").join("");
         var accion="cargo/crear";
@@ -58,27 +60,11 @@ var Cargos={
                 slctGlobal.listarSlct('menu','slct_menus','simple');//para que cargue antes el menu
             },
             success : function(obj) {
-                var html="";
-                var estadohtml="";
                 if(obj.rst==1){
-                    $.each(obj.datos,function(index,data){
-                        estadohtml='<span id="'+data.id+'" onClick="activar('+data.id+')" class="btn btn-danger">Inactivo</span>';
-                        if(data.estado==1){
-                            estadohtml='<span id="'+data.id+'" onClick="desactivar('+data.id+')" class="btn btn-success">Activo</span>';
-                        }
-
-                        html+="<tr>"+
-                            "<td id='nombre_"+data.id+"'>"+data.nombre+"</td>"+
-                            "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
-                            '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#cargoModal" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
-
-                        html+="</tr>";
-                    });
+                    HTMLCargarCargo(obj.datos);
+                    CargoObj=obj.datos;
                 }
-                $("#tb_cargos").html(html); 
-                evento();
                 $(".overlay,.loading-img").remove();
-
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
@@ -113,9 +99,7 @@ var Cargos={
                         var data = opcion.split("-");
 
                         html+="<li class='list-group-item'><div class='row'>";
-                        //alert($("#slct_menus option[value=" +data[0] +"]").text());
                         html+="<div class='col-sm-4' id='menu_"+data[0]+"'><h5>"+$("#slct_menus option[value=" +data[0] +"]").text()+"</h5></div>";
-                        //$("#opcion_"+data[0]+" option").attr("selected",false);
                         var opciones = data[1].split(",");
                         html+="<div class='col-sm-6'><select class='form-control' multiple='multiple' name='slct_opciones"+data[0]+"[]' id='slct_opciones"+data[0]+"'></select></div>";
                         var envio = {menu_id: data[0]};

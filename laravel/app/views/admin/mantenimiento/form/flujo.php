@@ -1,5 +1,5 @@
 <!-- /.modal -->
-<div class="modal fade" id="moduloModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="flujoModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header logo">
@@ -9,7 +9,7 @@
         <h4 class="modal-title">New message</h4>
       </div>
       <div class="modal-body">
-        <form id="form_modulos" name="form_modulos" action="" method="post">
+        <form id="form_flujos" name="form_flujos" action="" method="post">
           <div class="form-group">
             <label class="control-label">Nombre
                 <a id="error_nombre" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Nombre">
@@ -17,14 +17,6 @@
                 </a>
             </label>
             <input type="text" class="form-control" placeholder="Ingrese Nombre" name="txt_nombre" id="txt_nombre">
-          </div>
-          <div class="form-group">
-            <label class="control-label">Ruta
-                <a id="error_path" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Ruta">
-                    <i class="fa fa-exclamation"></i>
-                </a>
-            </label>
-            <input type="text" class="form-control" placeholder="Ingrese Ruta" name="txt_path" id="txt_path">
           </div>
           <div class="form-group">
             <label class="control-label">Estado:

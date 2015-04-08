@@ -3,21 +3,21 @@
 
 @section('includes')
     @parent
-    @include( 'admin.mantenimiento.js.empresa_ajax' )
-    @include( 'admin.mantenimiento.js.empresa' )
+    @include( 'admin.mantenimiento.js.flujo_ajax' )
+    @include( 'admin.mantenimiento.js.flujo' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
     <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Mantenimiento de Empresas
+                Mantenimiento de Flujos
                 <small> </small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
                 <li><a href="#">Mantenimientos</a></li>
-                <li class="active">Mantenimiento de Empresas</li>
+                <li class="active">Mantenimiento de Flujos</li>
             </ol>
         </section>
 
@@ -31,7 +31,7 @@
                             <h3 class="box-title">Filtros</h3>
                         </div><!-- /.box-header -->
                         <div class="box-body table-responsive">
-                            <table id="t_empresas" class="table table-bordered table-striped">
+                            <table id="t_flujos" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
@@ -39,7 +39,7 @@
                                         <th> [ ] </th>
                                     </tr>
                                 </thead>
-                                <tbody id="tb_empresas">
+                                <tbody id="tb_flujos">
                                 </tbody>
                                 <tfoot>
                                     <tr>
@@ -50,7 +50,7 @@
                                 </tfoot>
                             </table>
                             <a class='btn btn-primary btn-sm' class="btn btn-primary" 
-                            data-toggle="modal" data-target="#empresaModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                            data-toggle="modal" data-target="#flujoModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->
@@ -61,5 +61,5 @@
 @stop
 
 @section('formulario')
-     @include( 'admin.mantenimiento.form.empresa' )
+     @include( 'admin.mantenimiento.form.flujo' )
 @stop
