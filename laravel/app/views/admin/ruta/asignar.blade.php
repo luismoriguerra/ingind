@@ -53,12 +53,12 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Tipo Flujo:</label>
-                                                <select class="form-control" name="slct_flujo_id" id="slct_flujo_id">
+                                                <select class="form-control" name="slct_flujo_id" id="slct_flujo_id" onchange="mostrarRutaFlujo();">
                                                 </select>
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Area:</label>
-                                                <select class="form-control" name="slct_area_id" id="slct_area_id">
+                                                <select class="form-control" name="slct_area_id" id="slct_area_id" onchange="mostrarRutaFlujo();">
                                                 </select>
                                             </div>
                                         </div>
@@ -96,8 +96,50 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="row form-group">
-                                        
+                                    <div class="row form-group" id="tabla_ruta_flujo" style="display:none;">
+                                        <div class="col-sm-12">
+                                            <div class="box-body table-responsive">
+                                                <table id="t_ruta_flujo" class="table table-bordered table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Tipo Flujo</th>
+                                                            <th>Area</th>
+                                                            <th>Creador</th>
+                                                            <th># Ok</th>
+                                                            <th># Error</th>
+                                                            <th>Depende</th>
+                                                            <th>Fecha Creación</th>
+                                                            <th> [ ] </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tb_ruta_flujo">
+                                                        
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Tipo Flujo</th>
+                                                            <th>Area</th>
+                                                            <th>Creador</th>
+                                                            <th># Ok</th>
+                                                            <th># Error</th>
+                                                            <th>Depende</th>
+                                                            <th>Fecha Creación</th>
+                                                            <th> [ ] </th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <a class="btn btn-primary btn-sm" onclick="CerrarTablaRelacion();" id="btn_cerrar_tabla_relacion">
+                                                <i class="fa fa-remove fa-lg"></i>&nbsp;Cerrar
+                                            </a>
+                                            <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#asignarModal">
+                                                <i class="fa fa-save fa-lg"></i>&nbsp;Nuevo
+                                            </a>
+                                        </div>
                                     </div>
                                 </form>
                             </div><!-- /.box -->

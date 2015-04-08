@@ -22,6 +22,48 @@ $(document).ready(function() {
     //$("#areasasignacion").DataTable();
 });
 
+mostrarRutaFlujo=function(){
+    $("#tabla_ruta_flujo").css("display","none");
+    if( $.trim($("#slct_flujo_id").val())!='' && $.trim($("#slct_area_id").val())!='' ){
+        /*$('#example').dataTable( {
+        "paging":   false,
+        "ordering": false,
+        "info":     false
+        } );*/
+        $("#tabla_ruta_flujo").css("display","");
+        Asignar.mostrarRutaFlujo(mostrarRutaFlujoHTML);
+    }
+}
+
+mostrarRutaFlujoHTML=function(datos){
+    var html="";
+    var cont=0;
+    var botton="";
+     $('#t_ruta_flujo').dataTable().fnDestroy();
+
+    $.each(datos,function(index,data){
+        imagen="";
+
+    cont++;
+    html+="<tr>"+
+        "<td>"+cont+"</td>"+
+        "<td>"+data.flujo+"</td>"+
+        "<td>"+data.area+"</td>"+
+        "<td>"+data.persona+"</td>"+
+        "<td>"+data.ok+"</td>"+
+        "<td>"+data.error+"</td>"+
+        "<td>"+data.dep+"</td>"+
+        "<td>"+data.fruta+"</td>"+
+        "<td>"+" "+"</td>";
+    html+="</tr>";
+
+    });
+    $("#tb_ruta_flujo").html(html); 
+    $('#t_ruta_flujo').dataTable({
+        "ordering": false
+    });
+}
+
 RelacionHTML=function(datos){
     var html="";
     var cont=0;
