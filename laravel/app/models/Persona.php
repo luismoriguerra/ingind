@@ -1,8 +1,21 @@
 <?php
 
-class Persona extends Base
+use Illuminate\Auth\UserTrait;
+use Illuminate\Auth\UserInterface;
+use Illuminate\Auth\Reminders\RemindableTrait;
+use Illuminate\Auth\Reminders\RemindableInterface;
+
+class Persona extends Base implements UserInterface, RemindableInterface
 {
+    use UserTrait, RemindableTrait;
+
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
     public $table = "personas";
+    
     public static $where =[
                         'id', 'paterno','materno','nombre','email','dni',
                         'password','fecha_nacimiento','sexo', 'estado'

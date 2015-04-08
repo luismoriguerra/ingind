@@ -2,6 +2,7 @@
 var persona_id, area_id, cargos_selec=[], PersonaObj;
 var Persona={
     AgregarEditarPersona:function(AE){
+        $("#form_personas input[name='cargos_selec']").remove();
         $("#form_personas").append("<input type='hidden' value='"+cargos_selec+"' name='cargos_selec'>");
         var datos=$("#form_personas").serialize().split("txt_").join("").split("slct_").join("");
         var accion="persona/crear";
@@ -66,6 +67,12 @@ var Persona={
                 $(".overlay,.loading-img").remove();
             },
             error: function(){
+                $(".overlay,.loading-img").remove();
+                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
+                    '<i class="fa fa-ban"></i>'+
+                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
+                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente. Si el problema persiste favor de comunicarse a ubicame@puedesencontrar.com</b>'+
+                '</div>');
             }
         });
     },

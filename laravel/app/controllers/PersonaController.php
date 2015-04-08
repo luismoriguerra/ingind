@@ -228,13 +228,13 @@ class PersonaController extends BaseController
                     $fechaRet = '';
                     if (is_null($cargoPersona)) {
                         $cargoPersona = $persona->cargos()->save(
-                                            $cargo,
-                                            array(
+                            $cargo,
+                            array(
                                                 'estado'=>1/*,
                                                 'fecha_ingreso'=>$fechIng,
                                                 'fecha_retiro'=>$fechaRet*/
                                             )
-                                        );
+                        );
                        
                     } else {
                         DB::table('cargo_persona')
@@ -257,8 +257,8 @@ class PersonaController extends BaseController
                         $areaId = $areas[$j];
 
                         $areaCargoPersona=DB::table('area_cargo_persona')
-                                ->where('area_id','=',$areaId)
-                                ->where('cargo_persona_id',$cargoPersona->id)
+                                ->where('area_id', '=', $areaId)
+                                ->where('cargo_persona_id', $cargoPersona->id)
                                 ->first();
                         if (is_null($areaCargoPersona)) {
                             DB::table('area_cargo_persona')->insert(
@@ -270,8 +270,8 @@ class PersonaController extends BaseController
                             );
                         } else {
                             DB::table('area_cargo_persona')
-                            ->where('area_id' ,'=', $areaId)
-                            ->where('cargo_persona_id' ,'=', $cargoPersona->id)
+                            ->where('area_id', '=', $areaId)
+                            ->where('cargo_persona_id', '=', $cargoPersona->id)
                             ->update(array('estado' => 1));
                         }
                     }
