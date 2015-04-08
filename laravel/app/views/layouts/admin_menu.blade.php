@@ -36,6 +36,18 @@
                                 <li><a href="admin.ruta.asignar"><i class="fa fa-angle-double-right"></i> Asignar</a></li>
                             </ul>
                         </li>
+
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-list-alt"></i> <span>Reporte</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="admin.reporte.rutatramite"><i class="fa fa-angle-double-right"></i>Ruta por Tramite</a></li>
+                                <li><a href="admin.reporte.cumprutatramite"><i class="fa fa-angle-double-right"></i>Cumplimiento de ruta por tramite</a></li>
+                                <li><a href="admin.reporte.cumparea"><i class="fa fa-angle-double-right"></i>Cumplimiento por Area</a></li>
+                            </ul>
+                        </li>
                         <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-shield"></i> <span>{{ trans('greetings.menu_info') }}</span>
