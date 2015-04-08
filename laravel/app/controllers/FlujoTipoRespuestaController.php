@@ -1,11 +1,11 @@
 <?php
 
-class TiempoController extends \BaseController
+class FlujoTipoRespuestaController extends \BaseController
 {
 
     /**
-     * cargar tiempos, mantenimiento
-     * POST /tiempo/cargar
+     * cargar modulos, mantenimiento
+     * POST /flujotiporespuesta/cargar
      *
      * @return Response
      */
@@ -13,13 +13,13 @@ class TiempoController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $tiempos = Tiempo::get(Input::all());
-            return Response::json(array('rst'=>1,'datos'=>$tiempos));
+            $flujoTipoRsp = FlujoTipoRespuesta::getFlujoTipoRsp();
+            return Response::json(array('rst'=>1,'datos'=>$flujoTipoRsp));
         }
     }
     /**
-     * cargar tiempos, mantenimiento
-     * POST /tiempo/listar
+     * Store a newly created resource in storage.
+     * POST /flujotiporespuesta/listar
      *
      * @return Response
      */
@@ -27,14 +27,14 @@ class TiempoController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $tiempos = Tiempo::get(Input::all());
-            return Response::json(array('rst'=>1,'datos'=>$tiempos));
+            $flujoTipoRsp = FlujoTipoRespuesta::getFlujoTipoRsp();
+            return Response::json(array('rst'=>1,'datos'=>$flujoTipoRsp));
         }
     }
 
     /**
      * Store a newly created resource in storage.
-     * POST /tiempo/crear
+     * POST /flujotiporespuesta/crear
      *
      * @return Response
      */
@@ -42,16 +42,13 @@ class TiempoController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $regex='regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
-            $required='required';
             $reglas = array(
-                'nombre' => $required.'|'.$regex,
-                //'path' =>$regex.'|unique:modulos,path,',
+                'dtiempo' => 'required|numeric',
             );
 
             $mensaje= array(
                 'required'    => ':attribute Es requerido',
-                'regex'        => ':attribute Solo debe ser Texto',
+                'regex'        => ':attribute Solo debe ser Numero',
             );
 
             $validator = Validator::make(Input::all(), $reglas, $mensaje);
@@ -65,12 +62,13 @@ class TiempoController extends \BaseController
                 );
             }
 
-            $tiempos = new Tiempo;
-            $tiempos['nombre'] = Input::get('nombre');
-            $tiempos['apocope'] = Input::get('apocope');
-            $tiempos['totalminutos'] = Input::get('minutos');
-            $tiempos['estado'] = Input::get('estado');
-            $tiempos->save();
+            $flujoTipoRespuesta = new FlujoTipoRespuesta;
+            $flujoTipoRespuesta['flujo_id'] = Input::get('flujo_id');
+            $flujoTipoRespuesta['tipo_respuesta_id'] = Input::get('tipo_respuesta_id');
+            $flujoTipoRespuesta['tiempo_id'] = Input::get('tiempo_id');
+            $flujoTipoRespuesta['dtiempo'] = Input::get('dtiempo');
+            $flujoTipoRespuesta['estado'] = Input::get('estado');
+            $flujoTipoRespuesta->save();
 
             return Response::json(
                 array(
@@ -83,22 +81,20 @@ class TiempoController extends \BaseController
 
     /**
      * Update the specified resource in storage.
-     * POST /tiempo/editar
+     * POST /flujotiporespuesta/editar
      *
      * @return Response
      */
     public function postEditar()
     {
         if ( Request::ajax() ) {
-            $regex='regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
-            $required='required';
             $reglas = array(
-                'nombre' => $required.'|'.$regex,
+                'dtiempo' => 'required|numeric',
             );
 
             $mensaje= array(
                 'required'    => ':attribute Es requerido',
-                'regex'        => ':attribute Solo debe ser Texto',
+                'regex'        => ':attribute Solo debe ser Numero',
             );
 
             $validator = Validator::make(Input::all(), $reglas, $mensaje);
@@ -111,13 +107,14 @@ class TiempoController extends \BaseController
                     )
                 );
             }
-            $tiempoId = Input::get('id');
-            $tiempo = Tiempo::find($tiempoId);
-            $tiempo['nombre'] = Input::get('nombre');
-            $tiempo['apocope'] = Input::get('apocope');
-            $tiempo['totalminutos'] = Input::get('minutos');
-            $tiempo['estado'] = Input::get('estado');
-            $tiempo->save();
+            $flujoTipoRespuestaId = Input::get('id');
+            $flujoTipoRespuesta = FlujoTipoRespuesta::find($flujoTipoRespuestaId);
+            $flujoTipoRespuesta['flujo_id'] = Input::get('flujo_id');
+            $flujoTipoRespuesta['tipo_respuesta_id'] = Input::get('tipo_respuesta_id');
+            $flujoTipoRespuesta['tiempo_id'] = Input::get('tiempo_id');
+            $flujoTipoRespuesta['dtiempo'] = Input::get('dtiempo');
+            $flujoTipoRespuesta['estado'] = Input::get('estado');
+            $flujoTipoRespuesta->save();
 
             return Response::json(
                 array(
@@ -130,7 +127,7 @@ class TiempoController extends \BaseController
 
     /**
      * Changed the specified resource from storage.
-     * POST /tiempo/cambiarestado
+     * POST /flujotiporespuesta/cambiarestado
      *
      * @return Response
      */
@@ -139,9 +136,10 @@ class TiempoController extends \BaseController
 
         if ( Request::ajax() ) {
 
-            $tiempo = Tiempo::find(Input::get('id'));
-            $tiempo->estado = Input::get('estado');
-            $tiempo->save();
+            $flujoTipoRespuesta = FlujoTipoRespuesta::find(Input::get('id'));
+            $flujoTipoRespuesta->estado = Input::get('estado');
+            $flujoTipoRespuesta->save();
+
             return Response::json(
                 array(
                 'rst'=>1,

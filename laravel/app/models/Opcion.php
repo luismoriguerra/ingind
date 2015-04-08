@@ -28,8 +28,8 @@ class Opcion extends Base
                         'o.nombre',
                         'o.ruta',
                         'o.estado',
-                        'm.nombre as menu'
-                        , 'o.menu_id'
+                        'm.nombre as menu',
+                        'o.menu_id'
                     )
                     ->get();
     }

@@ -1,5 +1,5 @@
 <script type="text/javascript">
-var persona_id, area_id, cargos_selec=[], PersonaObj;
+var persona_id, cargos_selec=[], PersonaObj;
 var Persona={
     AgregarEditarPersona:function(AE){
         $("#form_personas input[name='cargos_selec']").remove();
@@ -97,11 +97,8 @@ var Persona={
 
                     $.each(cargos, function(i,opcion){
                         var data = opcion.split("-");
-
                         html+="<li class='list-group-item'><div class='row'>";
-                        //alert($("#slct_cargos option[value=" +data[0] +"]").text());
                         html+="<div class='col-sm-4' id='cargo_"+data[0]+"'><h5>"+$("#slct_cargos option[value=" +data[0] +"]").text()+"</h5></div>";
-                        //$("#opcion_"+data[0]+" option").attr("selected",false);
                         var areas = data[1].split(",");
                         html+="<div class='col-sm-6'><select class='form-control' multiple='multiple' name='slct_areas"+data[0]+"[]' id='slct_areas"+data[0]+"'></select></div>";
                         var envio = {cargo_id: data[0]};

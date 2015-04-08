@@ -1,5 +1,4 @@
 <script type="text/javascript">
-var cargo_id, opcion_id, menus_selec=[];
 $(document).ready(function() {  
     Cargos.CargarCargos(activarTabla);
 
@@ -16,8 +15,8 @@ $(document).ready(function() {
         $("#form_cargos input[type='hidden']").remove();
 
 
+        slctGlobal.listarSlct('menu','slct_menus','simple');
         if(titulo=='Nuevo'){
-            slctGlobal.listarSlct('menu','slct_menus','simple');
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
             $('#form_cargos #slct_estado').val(1); 
@@ -27,8 +26,9 @@ $(document).ready(function() {
             Cargos.CargarOpciones(cargo_id); //no es multiselect
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
-            $('#form_cargos #txt_nombre').val( $('#t_cargos #nombre_'+button.data('id') ).text() );
-            $('#form_cargos #slct_estado').val( $('#t_cargos #estado_'+button.data('id') ).attr("data-estado") );
+
+            $('#form_cargos #txt_nombre').val( CargoObj[cargo_id-1].nombre );
+            $('#form_cargos #slct_estado').val( CargoObj[cargo_id-1].estado );
             $("#form_cargos").append("<input type='hidden' value='"+button.data('id')+"' name='id'>");
         }
         $( "#form_cargos #slct_estado" ).trigger('change');
@@ -46,7 +46,7 @@ $(document).ready(function() {
     $('#cargoModal').on('hide.bs.modal', function (event) {
         var modal = $(this); //captura el modal
         modal.find('.modal-body input').val(''); // busca un input para copiarle texto
-        $("#slct_opciones,#slct_menus").multiselect('destroy');
+        $("#slct_menus").multiselect('destroy');
         $("#t_opcionCargo").html('');
         menus_selec=[];
     });
@@ -85,7 +85,6 @@ AgregarOpcion=function(){
             var html='';
             html+="<li class='list-group-item'><div class='row'>";
             html+="<div class='col-sm-4' id='menu_"+menu_id+"'><h5>"+menu+"</h5></div>";
-            //$("#opcion_"+menu_id+" option").attr("selected",false);
 
             html+="<div class='col-sm-6'>";
             html+="<select class='form-control' multiple='multiple' name='slct_opciones"+menu_id+"[]' id='slct_opciones"+menu_id+"'></select></div>";
@@ -139,4 +138,25 @@ valida=function(inicial,id,v_default){
         return false;
     }   
 };
+HTMLCargarCargo=function(datos){
+    var html="";
+    $('#t_cargos').dataTable().fnDestroy();
+
+    $.each(datos,function(index,data){
+        estadohtml='<span id="'+data.id+'" onClick="activar('+data.id+')" class="btn btn-danger">Inactivo</span>';
+        if(data.estado==1){
+            estadohtml='<span id="'+data.id+'" onClick="desactivar('+data.id+')" class="btn btn-success">Activo</span>';
+        }
+
+        html+="<tr>"+
+            "<td >"+data.nombre+"</td>"+
+            "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
+            '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#cargoModal" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
+
+        html+="</tr>";
+    });
+    $("#tb_cargos").html(html); 
+    activarTabla();
+};
 </script>
+

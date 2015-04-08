@@ -27,12 +27,6 @@ $(document).ready(function() {
             $('#form_personas #txt_nombre').focus();
         }
         else{
-/*            Persona.CargarQuiebres('editar',persona_id);
-            Persona.cargarEmpresas('editar',persona_id);
-            empresa_id=$('#t_personas #empresa_id_'+button.data('id') ).attr('empresa_id');
-            perfil_id=$('#t_personas #perfil_id_'+button.data('id') ).attr('perfil_id');
-            Persona.cargarEmpresa('editar',empresa_id);
-            Persona.cargarPerfiles('editar',perfil_id);*/
             Persona.CargarAreas(persona_id); //no es multiselect
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
@@ -100,7 +94,6 @@ AgregarArea=function(){
             var html='';
             html+="<li class='list-group-item'><div class='row'>";
             html+="<div class='col-sm-4' id='cargo_"+cargo_id+"'><h5>"+cargo+"</h5></div>";
-            //$("#opcion_"+cargo_id+" option").attr("selected",false);
 
             html+="<div class='col-sm-6'>";
             html+="<select class='form-control' multiple='multiple' name='slct_areas"+cargo_id+"[]' id='slct_areas"+cargo_id+"'></select></div>";
