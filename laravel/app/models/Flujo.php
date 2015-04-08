@@ -1,7 +1,9 @@
 <?php
-class Flujo extends \Eloquent
+class Flujo extends Base
 {
     public $table = "flujos";
+    public static $where =['id', 'nombre', 'estado'];
+    public static $selec =['id', 'nombre', 'estado'];
 
     public function getFlujo(){
         $flujo=DB::table('flujos')
