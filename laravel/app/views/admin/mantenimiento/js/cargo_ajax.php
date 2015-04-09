@@ -2,7 +2,7 @@
 var cargo_id, menus_selec=[], CargoObj;
 var Cargos={
     AgregarEditarCargo:function(AE){
-        $("#form_personas input[name='menus_selec']").remove();
+        $("#form_cargos input[name='menus_selec']").remove();
         $("#form_cargos").append("<input type='hidden' value='"+menus_selec+"' name='menus_selec'>");
         var datos=$("#form_cargos").serialize().split("txt_").join("").split("slct_").join("");
         var accion="cargo/crear";

@@ -38,6 +38,7 @@ Route::controller('flujotiporespuesta', 'FlujoTipoRespuestaController');
 Route::controller('menu', 'MenuController');
 Route::controller('opcion', 'OpcionController');
 Route::controller('persona', 'PersonaController');
+Route::controller('reporte', 'ReporteController');
 Route::controller('ruta_flujo', 'RutaFlujoController');
 Route::controller('software', 'SoftwareController');
 Route::controller('tabla_relacion', 'TablaRelacionController');

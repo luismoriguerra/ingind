@@ -155,7 +155,7 @@ class PersonaController extends BaseController
                 'materno' => $required.'|'.$regex,
                 'email' => 'required|email',
                 'dni'      => 'required|min:8',
-                'password'      => 'required|min:6',
+                //'password'      => 'required|min:6',
             );
 
             $mensaje= array(
@@ -181,7 +181,8 @@ class PersonaController extends BaseController
             $persona['email'] = Input::get('email');
             $persona['dni'] = Input::get('dni');
             $persona['sexo'] = Input::get('sexo');
-            $persona['password'] = Hash::make(Input::get('password'));
+            if (Input::get('password')<>'') 
+                $persona['password'] = Hash::make(Input::get('password'));
             $persona['fecha_nacimiento'] = Input::get('fecha_nac');
             //$persona['imagen'] = Input::get('imagen');
             //$file  = Input::file('imagen');

@@ -7,10 +7,9 @@
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
     {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
-    {{ HTML::style('lib/bootstrap-fileinput/css/fileinput.min.css') }}
-    {{ HTML::script('lib/bootstrap-fileinput/js/fileinput.min.js') }} 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
+    @include( 'admin.reporte.js.ruta_tramite_ajax' )
     @include( 'admin.reporte.js.ruta_tramite' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
@@ -29,8 +28,56 @@
                 </section>
 
                 <!-- Main content -->
+                <!-- Main content -->
                 <section class="content">
-                    
+                    <form name="form_movimiento" id="form_movimiento" method="post" action="reporte/movimiento" enctype="multipart/form-data">
+                        <fieldset>
+                            <div class="row form-group" id="div_fecha">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-6">
+                                        <select class="form-control" name="slct_flujos" id="slct_flujos">
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha" onfocus="blur()"/>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </fieldset>
+                        
+                        </form>
+                        <div class="row form-group">
+                            <div class="col-sm-12">
+                                <button type="button" class="btn btn-primary" id="generar_movimientos" name="generar_movimientos">
+                                    Mostrar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="box-body table-responsive">
+                            <table id="t_reporte" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>software</th>
+                                        <th>Persona</th>
+                                        <th>Area</th>
+                                        <th>Fecha Inicio</th>
+                                        <th> [ ] </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tb_reporte">
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>software</th>
+                                        <th>Persona</th>
+                                        <th>Area</th>
+                                        <th>Fecha Inicio</th>
+                                        <th> [ ] </th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
 
                 </section><!-- /.content -->
 @stop
