@@ -49,6 +49,9 @@ mostrarRutaFlujoHTML=function(datos){
         clase="";
         cont++;
         if(cont==1){
+            $("#txt_ruta_flujo_id").remove();
+            $("#form_asignar").append('<input type="hidden" id="txt_ruta_flujo_id" name="txt_ruta_flujo_id" value="'+id+'">');
+            
             imagen="<a id='ruta_flujo_id' data-id='"+data.id+"' class='btn btn-success btn-sm'><i class='fa fa-check-square fa-lg'></i></a>";
         }
     html+="<tr>"+
@@ -101,7 +104,7 @@ CerrarTablaRelacion=function(){
 SeleccionRelacion=function(id,codigo){
     CerrarTablaRelacion();
     $("#txt_codigo").val(codigo);
-    $("#form_asignar input[type='hidden']").remove();
+    $("#txt_tabla_relacion_id").remove();
     $("#form_asignar").append('<input type="hidden" id="txt_tabla_relacion_id" name="txt_tabla_relacion_id" value="'+id+'">');
 }
 
