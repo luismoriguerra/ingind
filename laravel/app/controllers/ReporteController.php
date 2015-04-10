@@ -36,6 +36,26 @@ class ReporteController extends BaseController
     }
     /**
      * Listar registro de actividades con estado 1
+     * POST reporte/rutaxtramite
+     *
+     * @return Response
+     */
+    public function postRutaxtramitedetalle()
+    {
+        $rutaId=Input::get('ruta_id');
+        $table = DB::table('rutas_detalle')
+        ->where('ruta_id',array($rutaId))
+        ->get();
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$table
+            )
+        );
+
+    }
+    /**
+     * Listar registro de actividades con estado 1
      * POST reporte/tecnicoofficetrack
      *
      * @return Response

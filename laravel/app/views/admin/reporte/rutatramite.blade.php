@@ -54,6 +54,7 @@
                                 </button>
                             </div>
                         </div>
+
                         <div class="box-body table-responsive">
                             <table id="t_reporte" class="table table-bordered table-striped">
                                 <thead>
@@ -78,6 +79,8 @@
                                 </tfoot>
                             </table>
                         </div>
+                        <ul class="list-group" id="t_reporteDetalle"></ul>
+
 
                 </section><!-- /.content -->
 @stop
