@@ -7,6 +7,15 @@
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
     {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
+
+    {{ HTML::style('lib/startbootstrap/bower_components/bootstrap/dist/css/bootstrap.min.css') }}
+    {{ HTML::style('lib/startbootstrap/bower_components/metisMenu/dist/metisMenu.min.css') }}
+    {{ HTML::style('lib/startbootstrap/dist/css/timeline.css') }}
+    {{ HTML::style('lib/startbootstrap/dist/css/sb-admin-2.css') }}
+    {{ HTML::style('lib/startbootstrap/bower_components/morrisjs/morris.css') }}
+    {{ HTML::style('lib/startbootstrap/bower_components/font-awesome/css/font-awesome.min.css') }}
+
+
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
     @include( 'admin.reporte.js.ruta_tramite_ajax' )
@@ -83,5 +92,60 @@
 
 
                 </section><!-- /.content -->
+
+
+                <div id="wrapper">
+                    <div id="page-wrapper">
+                        <!-- /.row -->
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart Example
+                                        <div class="pull-right">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                                    Actions
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu pull-right" role="menu">
+                                                    <li><a href="#">Action</a>
+                                                    </li>
+                                                    <li><a href="#">Another action</a>
+                                                    </li>
+                                                    <li><a href="#">Something else here</a>
+                                                    </li>
+                                                    <li class="divider"></li>
+                                                    <li><a href="#">Separated link</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.panel-heading -->
+                                    <div class="panel-body">
+                                        <div id="morris-area-chart"></div>
+                                    </div>
+                                    <!-- /.panel-body -->
+
+                                    
+                                    <!-- /.panel-footer -->
+                                </div>
+                                <!-- /.panel .chat-panel -->
+                            </div>
+                            <!-- /.col-lg-4 -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /#page-wrapper -->
+
+                </div>
 @stop
 
+    {{ HTML::script('lib/startbootstrap/bower_components/jquery/dist/jquery.min.js') }}
+    {{ HTML::script('lib/startbootstrap/bower_components/bootstrap/dist/js/bootstrap.min.js') }}
+    {{ HTML::script('lib/startbootstrap/bower_components/metisMenu/dist/metisMenu.min.js') }}
+    {{ HTML::script('lib/startbootstrap/bower_components/raphael/raphael-min.js') }}
+    {{ HTML::script('lib/startbootstrap/bower_components/morrisjs/morris.min.js') }}
+    {{ HTML::script('lib/startbootstrap/js/morris-data.js') }}
+    {{ HTML::script('lib/startbootstrap/dist/js/sb-admin-2.js') }}

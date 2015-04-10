@@ -32,10 +32,10 @@ class MenuController extends \BaseController
                 $cargoId = Input::get('usuario_id');
                 $menus = DB::table('cargo_opcion as co')
                         ->rightJoin(
-                            'opciones as o', function($join) use ($usuarioId)
+                            'opciones as o', function($join) use ($cargoId)
                             {
                             $join->on('co.opcion_id', '=', 'o.id')
-                            ->on('co.cargo_id', '=', DB::raw($usuarioId));
+                            ->on('co.cargo_id', '=', DB::raw($cargoId));
                             }
                         )
                         ->rightJoin(
