@@ -8,9 +8,9 @@
     {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
     
-    {{ HTML::style('http://cdn.oesmith.co.uk/morris-0.4.3.min.css') }}
-    {{ HTML::script('http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js') }}
-    {{ HTML::script('http://cdn.oesmith.co.uk/morris-0.4.3.min.js') }}
+    {{ HTML::style('lib/morris/morris-0.4.3.min.css') }}
+    {{ HTML::script('lib/morris/raphael-min.js') }}
+    {{ HTML::script('lib/morris/morris-0.4.3.min.js') }}
     
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )

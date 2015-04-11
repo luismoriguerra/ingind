@@ -42,10 +42,27 @@ class ReporteController extends BaseController
      */
     public function postRutaxtramitedetalle()
     {
+
         $rutaId=Input::get('ruta_id');
-        $table = DB::table('rutas_detalle')
-        ->where('ruta_id',array($rutaId))
-        ->get();
+        $table = DB::table('rutas_detalle as rd')
+                    ->join('rutas_detalle_verbo as v','rd.id','=','v.ruta_detalle_id')
+                    ->join('areas as a','rd.area_id','=','a.id')
+                    ->join('tiempos as t','rd.tiempo_id','=','t.id')
+                    ->where('ruta_id',array($rutaId))
+                    ->select(
+                        'rd.ruta_id',
+                        'a.nombre as area',
+                        't.nombre as tiempo',
+                        'dtiempo',
+                        'dtiempo_final',
+                        'norden',
+                        'alerta',
+                        'v.nombre as verbo',
+                        'scaneo',
+                        'finalizo'
+                    )
+                    ->get();
+
         return Response::json(
             array(
                 'rst'=>1,
