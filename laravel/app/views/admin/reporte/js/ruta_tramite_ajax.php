@@ -1,5 +1,5 @@
 <script type="text/javascript">
-var Consulta, ConsultaDetalle, dataMorris=new Array();
+var Consulta, ConsultaDetalle, dataMorris=[];
 var Rutas={
     mostrar:function(flujo_id){
         $.ajax({
@@ -14,6 +14,7 @@ var Rutas={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
+                    dataMorris=[];
                     HTMLreporte(obj.datos);
                     Consulta=obj;
                 }
