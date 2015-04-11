@@ -83,21 +83,27 @@ var Asignar={
         });
     },
     guardarAsignacion:function(){
-        var datos=$("#form_tabla_relacion").serialize().split("txt_").join("").split("slct_").join("").split("_modal").join("");
+        var datos=$("#form_asignar").serialize().split("txt_").join("").split("slct_").join("").split("_modal").join("");
         $.ajax({
-            url         : 'rutas/crear',
+            url         : 'ruta/crear',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
             data        : datos,
-            beforeSend : function() {                
+            beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
             success : function(obj) {
                 if(obj.rst==1){
-                    $('#asignarModal .modal-footer [data-dismiss="modal"]').click();
-                    SeleccionRelacion(obj.id,obj.codigo);
-                    Asignar.Relacion(RelacionHTML);
+                    $("#tb_ruta_flujo").html("");
+                    $("#form_asignar input[type='hidden']").remove();
+                    $("#form_asignar input[type='text'],#form_asignar select").val("");
+                    $('#form_asignar select').multiselect('refresh');
+                    $("#msj").html('<div class="alert alert-dismissable alert-success">'+
+                                        '<i class="fa fa-check"></i>'+
+                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
+                                        '<b>'+obj.msj+'</b>'+
+                                    '</div>');
                 }  
                 $(".overlay,.loading-img").remove();
             },

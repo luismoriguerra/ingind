@@ -45,3 +45,4 @@ Route::controller('tabla_relacion', 'TablaRelacionController');
 Route::controller('tiempo', 'TiempoController');
 Route::controller('tiporespuesta', 'TipoRespuestaController');
 Route::controller('tiporespuestadetalle', 'TipoRespuestaDetalleController');
+Route::controller('ruta', 'RutaController');

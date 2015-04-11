@@ -43,14 +43,13 @@ mostrarRutaFlujoHTML=function(datos){
     var color="";
     var clase="";
      $('#t_ruta_flujo').dataTable().fnDestroy();
-
+     $("#txt_ruta_flujo_id").remove();
     $.each(datos,function(index,data){
         imagen="";
         clase="";
         cont++;
         if(cont==1){
-            $("#txt_ruta_flujo_id").remove();
-            $("#form_asignar").append('<input type="hidden" id="txt_ruta_flujo_id" name="txt_ruta_flujo_id" value="'+id+'">');
+            $("#form_asignar").append('<input type="hidden" id="txt_ruta_flujo_id" name="txt_ruta_flujo_id" value="'+data.id+'">');
             
             imagen="<a id='ruta_flujo_id' data-id='"+data.id+"' class='btn btn-success btn-sm'><i class='fa fa-check-square fa-lg'></i></a>";
         }
@@ -124,14 +123,19 @@ guardarTodo=function(){
     if( $.trim($("#txt_codigo").val())==''){
         alert("Busque y seleccione un código");
     }
-    else if( $("#slct_flujo_id").val()='' ){
+    else if( $("#slct_flujo_id").val()=='' ){
         alert("Seleccione un Tipo Flujo");
     }
-    else if( $("#slct_area_id").val()='' ){
+    else if( $("#slct_area_id").val()=='' ){
         alert("Seleccione una Area");
     }
+    else if( !$("#txt_ruta_flujo_id").val() || $("#txt_ruta_flujo_id").val()=='' ){
+        alert("Seleccione una combinacion donde almeno exita 1 registro");
+    }
     else{
-        alert("Guardando");
+        if ( confirm("Favor de confirmar para registrar") ){
+            Asignar.guardarAsignacion();
+        }
     }
 }
 
