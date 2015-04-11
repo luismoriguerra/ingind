@@ -8,21 +8,18 @@
     {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
 
-    {{ HTML::style('lib/startbootstrap/bower_components/bootstrap/dist/css/bootstrap.min.css') }}
-    {{ HTML::style('lib/startbootstrap/bower_components/metisMenu/dist/metisMenu.min.css') }}
-    {{ HTML::style('lib/startbootstrap/dist/css/timeline.css') }}
-    {{ HTML::style('lib/startbootstrap/dist/css/sb-admin-2.css') }}
-    {{ HTML::style('lib/startbootstrap/bower_components/morrisjs/morris.css') }}
-    {{ HTML::style('lib/startbootstrap/bower_components/font-awesome/css/font-awesome.min.css') }}
-
-
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-    @include( 'admin.reporte.js.ruta_tramite_ajax' )
-    @include( 'admin.reporte.js.ruta_tramite' )
+    
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {{ HTML::style('lib/startbootstrap/bower_components/metisMenu/dist/metisMenu.min.css') }}
+    {{ HTML::style('lib/startbootstrap/dist/css/sb-admin-2.css') }}
+    {{ HTML::style('lib/startbootstrap/bower_components/morrisjs/morris.css') }}
+    {{ HTML::style('lib/startbootstrap/bower_components/font-awesome/css/font-awesome.min.css') }}
             <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
@@ -55,97 +52,76 @@
                             </div>
                         </fieldset>
                         
-                        </form>
-                        <div class="row form-group">
-                            <div class="col-sm-12">
-                                <button type="button" class="btn btn-primary" id="generar_movimientos" name="generar_movimientos">
-                                    Mostrar
-                                </button>
-                            </div>
+                    </form>
+                    <div class="row form-group">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-primary" id="generar_movimientos" name="generar_movimientos">
+                                Mostrar
+                            </button>
                         </div>
+                    </div>
 
-                        <div class="box-body table-responsive">
-                            <table id="t_reporte" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>software</th>
-                                        <th>Persona</th>
-                                        <th>Area</th>
-                                        <th>Fecha Inicio</th>
-                                        <th> [ ] </th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tb_reporte">
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th>software</th>
-                                        <th>Persona</th>
-                                        <th>Area</th>
-                                        <th>Fecha Inicio</th>
-                                        <th> [ ] </th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <ul class="list-group" id="t_reporteDetalle"></ul>
+                    <div class="box-body table-responsive">
+                        <table id="t_reporte" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>software</th>
+                                    <th>Persona</th>
+                                    <th>Area</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>0</th>
+                                    <th>1</th>
+                                    <th>2</th>
+                                    <th> [ ] </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tb_reporte">
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>software</th>
+                                    <th>Persona</th>
+                                    <th>Area</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>0</th>
+                                    <th>1</th>
+                                    <th>2</th>
+                                    <th> [ ] </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <ul class="list-group" id="t_reporteDetalle"></ul>
 
 
-                </section><!-- /.content -->
-
-
-                <div id="wrapper">
                     <div id="page-wrapper">
                         <!-- /.row -->
                         <div class="row">
-                            <div class="col-lg-8">
+                            <div class="col-lg-6">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart Example
-                                        <div class="pull-right">
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                                    Actions
-                                                    <span class="caret"></span>
-                                                </button>
-                                                <ul class="dropdown-menu pull-right" role="menu">
-                                                    <li><a href="#">Action</a>
-                                                    </li>
-                                                    <li><a href="#">Another action</a>
-                                                    </li>
-                                                    <li><a href="#">Something else here</a>
-                                                    </li>
-                                                    <li class="divider"></li>
-                                                    <li><a href="#">Separated link</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
+                                        Area Chart Example
                                     </div>
                                     <!-- /.panel-heading -->
                                     <div class="panel-body">
                                         <div id="morris-area-chart"></div>
                                     </div>
                                     <!-- /.panel-body -->
-
-                                    
-                                    <!-- /.panel-footer -->
                                 </div>
-                                <!-- /.panel .chat-panel -->
+                                <!-- /.panel -->
                             </div>
-                            <!-- /.col-lg-4 -->
+
                         </div>
                         <!-- /.row -->
                     </div>
-                    <!-- /#page-wrapper -->
+                </section><!-- /.content -->
 
-                </div>
-@stop
 
-    {{ HTML::script('lib/startbootstrap/bower_components/jquery/dist/jquery.min.js') }}
-    {{ HTML::script('lib/startbootstrap/bower_components/bootstrap/dist/js/bootstrap.min.js') }}
     {{ HTML::script('lib/startbootstrap/bower_components/metisMenu/dist/metisMenu.min.js') }}
     {{ HTML::script('lib/startbootstrap/bower_components/raphael/raphael-min.js') }}
     {{ HTML::script('lib/startbootstrap/bower_components/morrisjs/morris.min.js') }}
-    {{ HTML::script('lib/startbootstrap/js/morris-data.js') }}
-    {{ HTML::script('lib/startbootstrap/dist/js/sb-admin-2.js') }}
+
+
+    @include( 'admin.reporte.js.ruta_tramite_ajax' )
+    @include( 'admin.reporte.js.ruta_tramite' )
+@stop

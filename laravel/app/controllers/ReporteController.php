@@ -14,9 +14,9 @@ class ReporteController extends BaseController
         $flujoId = Input::get('flujo_id');
         $query = "SELECT r.id, s.nombre as software,  p.nombre as persona,
                  a.nombre as area, r.fecha_inicio,
-                    (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=0) AS '0',
-                    (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=1) AS '1',
-                    (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=2) AS '2'
+                    (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=0) AS 'cero',
+                    (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=1) AS 'uno',
+                    (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=2) AS 'dos'
                     FROM rutas r 
                     JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id
                         JOIN softwares s ON tr.software_id=s.id

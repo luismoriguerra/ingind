@@ -1,5 +1,5 @@
 <script type="text/javascript">
-var Consulta, ConsultaDetalle;
+var Consulta, ConsultaDetalle, dataMorris=new Array();
 var Rutas={
     mostrar:function(flujo_id){
         $.ajax({
@@ -15,7 +15,7 @@ var Rutas={
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
                     HTMLreporte(obj.datos);
-                    Consulta=obj.datos;
+                    Consulta=obj;
                 }
             },
             error: function(){
@@ -42,7 +42,7 @@ var Rutas={
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
                     HTMLreporteDetalle(obj.datos);
-                    ConsultaDetalle=obj.datos;
+                    ConsultaDetalle=obj;
                 }
             },
             error: function(){
