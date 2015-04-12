@@ -12,17 +12,17 @@ class ReporteController extends BaseController
     public function postRutaxtramite()
     {
         $flujoId = Input::get('flujo_id');
-        $query = "SELECT r.id, s.nombre as software,  p.nombre as persona,
-                 a.nombre as area, r.fecha_inicio,
-                    (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=0) AS 'cero',
-                    (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=1) AS 'uno',
-                    (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=2) AS 'dos'
-                    FROM rutas r 
-                    JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id
-                        JOIN softwares s ON tr.software_id=s.id
-                    JOIN personas p ON r.persona_id=p.id
-                    JOIN areas a ON r.area_id=a.id
-                    WHERE r.flujo_id=?";
+        $query = "SELECT tr.id_union, r.id, s.nombre as software,
+                p.nombre as persona, a.nombre as area, r.fecha_inicio,
+                (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=0) AS 'ok',
+                (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=1) AS 'error',
+                (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=2) AS 'corregido'
+                FROM rutas r 
+                JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id
+                    JOIN softwares s ON tr.software_id=s.id
+                JOIN personas p ON r.persona_id=p.id
+                JOIN areas a ON r.area_id=a.id
+                WHERE r.flujo_id=?";
 
         $table=DB::select($query, array($flujoId));
 
@@ -50,17 +50,28 @@ class ReporteController extends BaseController
                     ->join('tiempos as t','rd.tiempo_id','=','t.id')
                     ->where('ruta_id',array($rutaId))
                     ->select(
+                        'rd.id',
                         'rd.ruta_id',
-                        'a.nombre as area',
-                        't.nombre as tiempo',
-                        'dtiempo',
-                        'dtiempo_final',
+                        DB::RAW('ifnull(a.nombre,"") as area'),
+                        DB::RAW('ifnull(t.nombre,"") as tiempo'),
+                        DB::RAW('ifnull(dtiempo,0) as dtiempo'),
+                        DB::RAW('ifnull(dtiempo_final,0) as dtiempo_final'),
                         'norden',
                         'alerta',
-                        'v.nombre as verbo',
-                        'scaneo',
-                        'finalizo'
+                        //'v.nombre as verbo',
+                        //DB::RAW('ifnull(scaneo,"") as scaneo'),
+                        //'finalizo',
+                        DB::RAW("
+                            GROUP_CONCAT( 
+                                CONCAT(
+                                    v.nombre,
+                                    ' -> ',
+                                     IF(v.finalizo=0,'Pendiente','Finalizado')
+                                ) SEPARATOR ',  '
+                            ) as verbo_finalizo
+                        ")
                     )
+                    ->groupBy('rd.id')
                     ->get();
 
         return Response::json(
