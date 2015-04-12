@@ -49,6 +49,6 @@ return array(
 'mensaje_seleccione'                        => 'Select',
 'mensaje_no_coinciden'                      => 'New passwords do not match',
 'error_confirm'                             => 'Want to delete the selected record',
-'mensaje_error'                             => 'Occurred an interruption in the process, Please try again. If the problem persists please contact a ubicame@puedesencontrar.com',
+'mensaje_error'                             => 'Occurred an interruption in the process, Please try again.',
 
 );

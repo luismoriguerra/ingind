@@ -34,6 +34,7 @@
                             <ul class="treeview-menu">
                                 <li><a href="admin.ruta.crear"><i class="fa fa-angle-double-right"></i> Crear</a></li>
                                 <li><a href="admin.ruta.asignar"><i class="fa fa-angle-double-right"></i> Asignar</a></li>
+                                <li><a href="admin.ruta.validar"><i class="fa fa-angle-double-right"></i> Validar Verbo(s)</a></li>
                             </ul>
                         </li>
 
@@ -43,9 +44,7 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="admin.reporte.rutatramite"><i class="fa fa-angle-double-right"></i>Ruta por Tramite</a></li>
-                                <li><a href="admin.reporte.cumprutatramite"><i class="fa fa-angle-double-right"></i>Cumplimiento de ruta por tramite</a></li>
-                                <li><a href="admin.reporte.cumparea"><i class="fa fa-angle-double-right"></i>Cumplimiento por Area</a></li>
+                                <li><a href="admin.reporte.rutatramite"><i class="fa fa-angle-double-right"></i>Cumplimiento Ruta</a></li>
                             </ul>
                         </li>
                         <li class="treeview">
