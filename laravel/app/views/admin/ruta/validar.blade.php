@@ -40,17 +40,6 @@
                                 <form name="form_validar" id="form_validar" method="POST" action="">
                                     <div class="row form-group" >
                                         <div class="col-sm-12">
-                                            <div class="col-sm-5">
-                                                <label class="control-label">Buscar Codigo:</label>
-                                                <div class="input-group margin">
-                                                    <input class="form-control" id="txt_codigo" type="text" placeholder="Busque código" readonly>
-                                                    <span class="input-group-btn">
-                                                        <button class="btn btn-warning btn-flat" onclick="MostrarTablaRelacion();" type="button">
-                                                        <i class="fa fa-search fa-lg"></i>
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                            </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Tipo Flujo:</label>
                                                 <select class="form-control" name="slct_flujo_id" id="slct_flujo_id" onchange="mostrarRutaFlujo();">
@@ -63,56 +52,23 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row form-group" id="tabla_relacion" style="display:none;">
+                                    <div class="row form-group" id="tabla_ruta_detalle" style="display:none;">
                                         <div class="col-sm-12">
                                             <div class="box-body table-responsive">
-                                                <table id="t_tablarelacion" class="table table-bordered table-striped">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Software</th>
-                                                            <th>Código</th>
-                                                            <th> [ ] </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="tb_tablarelacion">
-                                                        
-                                                    </tbody>
-                                                    <tfoot>
-                                                        <tr>
-                                                            <th>Software</th>
-                                                            <th>Código</th>
-                                                            <th> [ ] </th>
-                                                        </tr>
-                                                    </tfoot>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <a class="btn btn-primary btn-sm" onclick="CerrarTablaRelacion();" id="btn_cerrar_tabla_relacion">
-                                                <i class="fa fa-remove fa-lg"></i>&nbsp;Cerrar
-                                            </a>
-                                            <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#validarModal">
-                                                <i class="fa fa-save fa-lg"></i>&nbsp;Nuevo
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group" id="tabla_ruta_flujo" style="display:none;">
-                                        <div class="col-sm-12">
-                                            <div class="box-body table-responsive">
-                                                <table id="t_ruta_flujo" class="table table-bordered table-hover">
+                                                <table id="t_ruta_detalle" class="table table-bordered table-hover">
                                                     <thead>
                                                         <tr>
                                                             <th>#</th>
                                                             <th>Tipo Flujo</th>
                                                             <th>Area</th>
-                                                            <th>Creador</th>
-                                                            <th># Ok</th>
-                                                            <th># Error</th>
-                                                            <th>Fecha Creación</th>
+                                                            <th>ID Doc</th>
+                                                            <th>Fecha Inicio</th>
+                                                            <th>Orden</th>
+                                                            <th>Verbo(s)</th>
                                                             <th> [ ] </th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody id="tb_ruta_flujo">
+                                                    <tbody id="tb_ruta_detalle">
                                                         
                                                     </tbody>
                                                     <tfoot>
@@ -120,21 +76,21 @@
                                                             <th>#</th>
                                                             <th>Tipo Flujo</th>
                                                             <th>Area</th>
-                                                            <th>Creador</th>
-                                                            <th># Ok</th>
-                                                            <th># Error</th>
-                                                            <th>Fecha Creación</th>
+                                                            <th>ID Doc</th>
+                                                            <th>Fecha Inicio</th>
+                                                            <th>Orden</th>
+                                                            <th>Verbo(s)</th>
                                                             <th> [ ] </th>
                                                         </tr>
                                                     </tfoot>
                                                 </table>
                                             </div>
                                         </div>
-                                        <div class="col-sm-12">
+                                        <!--div class="col-sm-12">
                                             <a class="btn btn-primary btn-sm" id="btn_guardar_todo">
                                                 <i class="fa fa-save fa-lg"></i>&nbsp;Guardar
                                             </a>
-                                        </div>
+                                        </div-->
                                     </div>
                                 </form>
                             </div><!-- /.box -->
