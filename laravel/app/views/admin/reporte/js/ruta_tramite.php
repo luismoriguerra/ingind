@@ -5,9 +5,11 @@ $(document).ready(function() {
     graph =Morris.Bar({
         element: 'chart',
         data: [],
-        xkey: 'id',
-        ykeys: ['cant0', 'cant1', 'cant2'],
-        labels: ['cant0', 'cant1', 'cant2'],
+        xkey: 'id_union',
+        ykeys: ['ok', 'error', 'corregido'],
+        labels: ['Ok', 'Error', 'Corregido'],
+        barColors: ["#59E175", "#FE5629", "#FAC044"],
+        //stacked: true,
         pointSize: 2,
         hideHover: 'auto',//mostrar leyenda
         resize: true,
@@ -50,18 +52,19 @@ HTMLreporte=function(datos){
             estadohtml='<span id="'+data.id+'" onClick="desactivar('+data.id+')" class="btn btn-success">Activo</span>';
         }
         html+="<tr>"+
+            "<td id='id_union_"+data.id+"'>"+data.id_union+"</td>"+
             "<td id='software_"+data.id+"'>"+data.software+"</td>"+
             "<td id='persona_"+data.id+"'>"+data.persona+"</td>"+
             "<td id='area_"+data.id+"'>"+data.area+"</td>"+
             "<td id='fecha_inicio_"+data.id+"'>"+data.fecha_inicio+"</td>"+
-            "<td id='fecha_inicio_"+data.id+"'>"+data.cero+"</td>"+
-            "<td id='fecha_inicio_"+data.id+"'>"+data.uno+"</td>"+
-            "<td id='fecha_inicio_"+data.id+"'>"+data.dos+"</td>"+
+            "<td id='fecha_inicio_"+data.id+"'>"+data.ok+"</td>"+
+            "<td id='fecha_inicio_"+data.id+"'>"+data.error+"</td>"+
+            "<td id='fecha_inicio_"+data.id+"'>"+data.corregido+"</td>"+
             '<td><a onClick="detalle('+data.id+')" class="btn btn-primary btn-sm" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
 
         html+="</tr>";
 
-        var array={id: data.id, cant0: data.cero, cant1:data.uno, cant2:data.dos};
+        var array={id_union: data.id_union, ok: data.ok, error:data.error, corregido:data.corregido};
         dataMorris.push(array);
 
     });
@@ -74,22 +77,40 @@ HTMLreporte=function(datos){
 HTMLreporteDetalle=function(datos){
     var html="";
     $('#t_reporte_detalle').dataTable().fnDestroy();
-
+    //html+="<li class='list-group-item'>";
+        html+="<div class='row alert alert-dismissible '>";
+        html+="<div class='col-sm-2 col-xs-2'>Area</div>";
+        html+="<div class='col-sm-1 col-xs-1'>Tiempo</div>";
+        html+="<div class='col-sm-1 col-xs-1'>Cant</div>";
+        html+="<div class='col-sm-1 col-xs-1'>Tiempo final</div>";
+        html+="<div class='col-sm-1 col-xs-1'># orden</div>";
+        html+="<div class='col-sm-1 col-xs-1'>Alerta</div>";
+        html+="<div class='col-sm-5 col-xs-5'>Accion</div>";
+        //html+="<div class='col-sm-2 col-xs-2'>Scaneo</div>";
+        //html+="<div class='col-sm-1 col-xs-1'>Finalizo</div>";
+        html+="</div>";
+   // html+="</li>";
+    var alertOk ='alert alert-success';//verde
+    var alertError ='alert alert-warning';//ambar
+    var alertCorregido ='alert alert-danger';//rojo
+    var alert='';
     $.each(datos,function(index,data){
-
-        html+="<li class='list-group-item'>";
-        html+="<div class='row'>";
+        if (data.alerta===0) alert=alertOk;
+        if (data.alerta===1) alert=alertError;
+        if (data.alerta===2) alert=alertCorregido;
+        //html+="<li class='list-group-item'>";
+        html+="<div class='row "+alert+"'>";
         html+="<div class='col-sm-2 col-xs-2'>"+data.area+"</div>";
         html+="<div class='col-sm-1 col-xs-1'>"+data.tiempo+"</div>";
         html+="<div class='col-sm-1 col-xs-1'>"+data.dtiempo+"</div>";
         html+="<div class='col-sm-1 col-xs-1'>"+data.dtiempo_final+"</div>";
         html+="<div class='col-sm-1 col-xs-1'>"+data.norden+"</div>";
         html+="<div class='col-sm-1 col-xs-1'>"+data.alerta+"</div>";
-        html+="<div class='col-sm-2 col-xs-2'>"+data.verbo+"</div>";
-        html+="<div class='col-sm-2 col-xs-2'>"+data.scaneo+"</div>";
-        html+="<div class='col-sm-1 col-xs-1'>"+data.finalizo+"</div>";
+        html+="<div class='col-sm-5 col-xs-5'>"+data.verbo_finalizo+"</div>";
+        //html+="<div class='col-sm-2 col-xs-2'>"+data.scaneo+"</div>";
+       /// html+="<div class='col-sm-1 col-xs-1'>"+data.finalizo+"</div>";
         html+="</div>";
-        html+="</li>";
+        //html+="</li>";
 
     });
     $("#t_reporteDetalle").html(html); 

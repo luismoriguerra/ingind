@@ -65,13 +65,14 @@
             <table id="t_reporte" class="table table-bordered table-striped">
                 <thead>
                     <tr>
+                        <th>Id</th>
                         <th>software</th>
                         <th>Persona</th>
                         <th>Area</th>
                         <th>Fecha Inicio</th>
-                        <th>cero</th>
-                        <th>uno</th>
-                        <th>dos</th>
+                        <th>Ok</th>
+                        <th>Error</th>
+                        <th>Corregido</th>
                         <th> [ ] </th>
                     </tr>
                 </thead>
@@ -79,13 +80,14 @@
                 </tbody>
                 <tfoot>
                     <tr>
+                        <th>Id</th>
                         <th>software</th>
                         <th>Persona</th>
                         <th>Area</th>
                         <th>Fecha Inicio</th>
-                        <th>cero</th>
-                        <th>uno</th>
-                        <th>dos</th>
+                        <th>Ok</th>
+                        <th>Error</th>
+                        <th>Corregido</th>
                         <th> [ ] </th>
                     </tr>
                 </tfoot>
