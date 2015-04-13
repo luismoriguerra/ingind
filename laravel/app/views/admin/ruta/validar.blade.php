@@ -104,7 +104,7 @@
                                         <div class="col-sm-12">
                                             <div class="col-sm-2">
                                                 <label class="control-label">Tipo Flujo:</label>
-                                                <input type="text" class="form-control" id="txt_flujo" name="txt_flujo" readonly>
+                                                <input type="text" class="form-control" id="txt_flujo" readonly>
                                             </div>
                                             <div class="col-sm-2">
                                                 <label class="control-label">Area:</label>

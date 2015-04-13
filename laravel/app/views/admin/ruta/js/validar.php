@@ -38,8 +38,9 @@ validacheck=function(){
 }
 
 cerrar=function(){
-    $("#form_ruta_detalle form-group").css("display","none");
-    $("#form_ruta_detalle input[type='text'],#form_ruta_detalle textarea").val("");
+    $("#form_ruta_detalle .form-group").css("display","none");
+    $("#form_ruta_detalle input[type='text'],#form_ruta_detalle textarea,#form_ruta_detalle select").val("");
+    $('#form_ruta_detalle select').multiselect('refresh');
     $("#form_ruta_detalle t_detalle_verbo").html("");
 }
 
@@ -109,8 +110,6 @@ mostrarDetalleHTML=function(datos){
     $("#form_ruta_detalle #txt_tipo_respuesta,#form_ruta_detalle #txt_detalle_respuesta").multiselect('refresh');
 
     $("#t_detalle_verbo").html("");
-    $("#form_ruta_detalle>#txt_cant_verbo").remove();
-    $("#form_ruta_detalle").append("<input type='hidden' id='txt_cant_verbo'>");
     var detalle="";
     var html="";
     var imagen="";
@@ -120,7 +119,7 @@ mostrarDetalleHTML=function(datos){
             for (var i = 0; i < detalle.length; i++) {
                 imagen = "<i class='fa fa-check fa-lg'></i>";
                 if(detalle[i].split("=>")[2]=="Pendiente"){
-                    imagen="<input type='checkbox' onChange='validacheck();' value='"+detalle[i].split("=>")[0]+"' name='chk_verbo_"+detalle[i].split("=>")[0]+"' name='chk_verbo_"+detalle[i].split("=>")[0]+"'>";
+                    imagen="<input type='checkbox' onChange='validacheck();' value='"+detalle[i].split("=>")[0]+"' name='chk_verbo_"+detalle[i].split("=>")[0]+"' id='chk_verbo_"+detalle[i].split("=>")[0]+"'>";
                 }
 
                 html+=  "<tr>"+
@@ -150,6 +149,8 @@ guardarTodo=function(){
 
     if(conttotalcheck>0){
         verboaux=verboaux.substr(1);
+        $("#form_ruta_detalle #verbog").remove();
+        $("#form_ruta_detalle").append("<input type='hidden' id='verbog' name='verbog' value='"+verboaux+"'");
     }
 
     if( conttotalcheck>0 && contcheck==0 ) {
@@ -165,7 +166,9 @@ guardarTodo=function(){
         alert("Seleccione Detalle Tipo Respuesta");
     }
     else{
-        alert("guardando");
+        if( confirm("Favor de confirmar para actualizar su información") ){
+            Validar.guardarValidacion();
+        }
     }
     /*if( $.trim($("#txt_codigo").val())==''){
         alert("Busque y seleccione un código");

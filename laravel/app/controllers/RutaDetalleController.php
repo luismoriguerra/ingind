@@ -36,4 +36,16 @@ class RutaDetalleController extends \BaseController
         }
     }
 
+    public function postActualizar(){
+        if ( Request::ajax() ) {
+            return Response::json(
+                array(
+                    'rst'=>'2',
+                    'msj'=>'Detalle cargado',
+                    'datos'=>$res
+                )
+            );
+        }
+    }
+
 }

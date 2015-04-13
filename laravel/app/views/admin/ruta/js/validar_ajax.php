@@ -52,10 +52,10 @@ var Validar={
             }
         });
     },
-    guardarAsignacion:function(){
-        var datos=$("#form_validar").serialize().split("txt_").join("").split("slct_").join("").split("_modal").join("");
+    guardarValidacion:function(){
+        var datos=$("#form_ruta_detalle").serialize().split("txt_").join("").split("slct_").join("").split("_modal").join("");
         $.ajax({
-            url         : 'ruta/crear',
+            url         : 'ruta_detalle/actualizar',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -65,10 +65,7 @@ var Validar={
             },
             success : function(obj) {
                 if(obj.rst==1){
-                    $("#tb_ruta_flujo").html("");
-                    $("#form_validar input[type='hidden']").remove();
-                    $("#form_validar input[type='text'],#form_validar select").val("");
-                    $('#form_validar select').multiselect('refresh');
+                    cerrar();
                     $("#msj").html('<div class="alert alert-dismissable alert-success">'+
                                         '<i class="fa fa-check"></i>'+
                                         '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
