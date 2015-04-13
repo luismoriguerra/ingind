@@ -14,6 +14,29 @@ $(document).ready(function() {
     //$("#areasasignacion").DataTable();
 });
 
+validacheck=function(){
+    var verboaux="";
+    var validacheck=0;
+    $("#slct_tipo_respuesta,#slct_tipo_respuesta_detalle").multiselect("enable");
+    $("#txt_observacion").removeAttr("disabled");
+
+    $("#t_detalle_verbo input[type='checkbox']").each(
+        function( index ) { 
+            if ( $(this).is(':checked') ) {
+                verboaux+= "|"+$(this).val();
+            }
+            else{
+                validacheck=1;
+            }
+        }
+    );
+
+    if(validacheck==1){
+        $("#slct_tipo_respuesta,#slct_tipo_respuesta_detalle").multiselect("disable");
+        $("#txt_observacion").attr("disabled","true");
+    }
+}
+
 cerrar=function(){
     $("#form_ruta_detalle form-group").css("display","none");
     $("#form_ruta_detalle input[type='text'],#form_ruta_detalle textarea").val("");
@@ -97,7 +120,7 @@ mostrarDetalleHTML=function(datos){
             for (var i = 0; i < detalle.length; i++) {
                 imagen = "<i class='fa fa-check fa-lg'></i>";
                 if(detalle[i].split("=>")[2]=="Pendiente"){
-                    imagen="<input type='checkbox' name='chk_verbo_"+detalle[i].split("=>")[0]+"' name='chk_verbo_"+detalle[i].split("=>")[0]+"'>";
+                    imagen="<input type='checkbox' onChange='validacheck();' value='"+detalle[i].split("=>")[0]+"' name='chk_verbo_"+detalle[i].split("=>")[0]+"' name='chk_verbo_"+detalle[i].split("=>")[0]+"'>";
                 }
 
                 html+=  "<tr>"+
@@ -107,11 +130,43 @@ mostrarDetalleHTML=function(datos){
             };
             $("#t_detalle_verbo").html(html);
         }
-        
+    validacheck();
 
 }
 
 guardarTodo=function(){
+    var verboaux="";
+    var contcheck=0;
+    var conttotalcheck=0;
+    $("#t_detalle_verbo input[type='checkbox']").each(
+        function( index ) { 
+            if ( $(this).is(':checked') ) {
+                verboaux+= "|"+$(this).val();
+                contcheck++;
+            }
+            conttotalcheck++;
+        }
+    );
+
+    if(conttotalcheck>0){
+        verboaux=verboaux.substr(1);
+    }
+
+    if( conttotalcheck>0 && contcheck==0 ) {
+            alert("Seleccione almenos 1 check");
+    }
+    else if ( !$("#txt_observacion").attr("disabled") && $("#txt_observacion").val()=='' ) {
+        alert("Ingrese una observacion");
+    }
+    else if ( !$("#slct_tipo_respuesta").attr("disabled") && $("#slct_tipo_respuesta").val()=='' ) {
+        alert("Seleccione Tipo de Respuesta");
+    }
+    else if ( !$("#slct_tipo_respuesta_detalle").attr("disabled") && $("#slct_tipo_respuesta_detalle").val()=='' ) {
+        alert("Seleccione Detalle Tipo Respuesta");
+    }
+    else{
+        alert("guardando");
+    }
     /*if( $.trim($("#txt_codigo").val())==''){
         alert("Busque y seleccione un código");
     }
