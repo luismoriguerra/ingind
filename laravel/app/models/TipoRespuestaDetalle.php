@@ -24,7 +24,10 @@ class TipoRespuestaDetalle extends Base
                     'trd.nombre',
                     'trd.estado',
                     'tr.nombre as tiporespuesta',
-                    'tr.id as tiporespuesta_id'
+                    'tr.id as tiporespuesta_id',
+                    DB::raw(
+                        'CONCAT("TR",tr.id) AS relation'
+                    )
                 )
                 ->where('tr.estado', '=', 1)
                 ->get();

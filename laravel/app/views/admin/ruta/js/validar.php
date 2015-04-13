@@ -6,19 +6,28 @@ $(document).ready(function() {
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     slctGlobal.listarSlct('area','slct_area_id','simple',ids,data);
-
+    slctGlobal.listarSlct('tiporespuesta','slct_tipo_respuesta','simple',ids,data,0,'#slct_tipo_respuesta_detalle','TR');
+    slctGlobal.listarSlct('tiporespuestadetalle','slct_tipo_respuesta_detalle','simple',ids,data,1);
+    $("#btn_close").click(cerrar);
+    $("#btn_guardar_todo").click(guardarTodo);
     //$("#btn_guardar_todo").click(guardarTodo);
     //$("#areasasignacion").DataTable();
 });
 
+cerrar=function(){
+    $("#form_ruta_detalle form-group").css("display","none");
+    $("#form_ruta_detalle input[type='text'],#form_ruta_detalle textarea").val("");
+    $("#form_ruta_detalle t_detalle_verbo").html("");
+}
+
 mostrarRutaFlujo=function(){
-    $("#tabla_ruta_flujo").css("display","none");
+    $("#form_ruta_detalle>.form-group").css("display","none");
     var flujo_id=$.trim($("#slct_flujo_id").val());
     var area_id=$.trim($("#slct_area_id").val());
 
     if( flujo_id!='' && area_id!='' ){
         var datos={ flujo_id:flujo_id,area_id:area_id };
-        $("#tabla_ruta_flujo").css("display","");
+        $("#tabla_ruta_detalle").css("display","");
         Validar.mostrarRutaDetalle(datos,mostrarRutaDetalleHTML);
     }
 }
@@ -29,33 +38,77 @@ mostrarRutaDetalleHTML=function(datos){
     var botton="";
     var color="";
     var clase="";
-     $('#t_ruta_flujo').dataTable().fnDestroy();
-     $("#txt_ruta_flujo_id").remove();
+     $('#t_ruta_detalle').dataTable().fnDestroy();
+     $("#txt_ruta_detalle_id").remove();
     $.each(datos,function(index,data){
         imagen="";
         clase="";
         cont++;
-        if(cont==1){
-            $("#form_validar").append('<input type="hidden" id="txt_ruta_flujo_id" name="txt_ruta_flujo_id" value="'+data.id+'">');
-            
-            imagen="<a id='ruta_flujo_id' data-id='"+data.id+"' class='btn btn-success btn-sm'><i class='fa fa-check-square fa-lg'></i></a>";
+        if($.trim(data.fecha_inicio)!=''){
+            imagen="<a onClick='mostrarDetallle("+data.id+")' class='btn btn-primary btn-sm'><i class='fa fa-edit fa-lg'></i></a>";
         }
     html+="<tr>"+
         "<td>"+cont+"</td>"+
         "<td>"+data.flujo+"</td>"+
         "<td>"+data.area+"</td>"+
-        "<td>"+data.persona+"</td>"+
-        "<td>"+data.ok+"</td>"+
-        "<td>"+data.error+"</td>"+
-        "<td>"+data.fruta+"</td>"+
+        "<td>"+data.software+"</td>"+
+        "<td>"+data.id_doc+"</td>"+
+        "<td>"+data.norden+"</td>"+
+        "<td>"+data.fecha_inicio+"</td>"+
+        "<td>"+data.verbo.split("|").join("<br>")+"</td>"+
         "<td>"+imagen+"</td>";
     html+="</tr>";
 
     });
-    $("#tb_ruta_flujo").html(html); 
-    $('#t_ruta_flujo').dataTable({
+    $("#tb_ruta_detalle").html(html); 
+    $('#t_ruta_detalle').dataTable({
         "ordering": false
     });
+}
+
+mostrarDetallle=function(id){
+    $("#form_ruta_detalle>.form-group").css("display","");
+    var datos={ruta_detalle_id:id}
+    Validar.mostrarDetalle(datos,mostrarDetalleHTML);
+}
+
+mostrarDetalleHTML=function(datos){
+    
+    $("#form_ruta_detalle #txt_flujo").val(datos.flujo);
+    $("#form_ruta_detalle #txt_area").val(datos.area);
+    $("#form_ruta_detalle #txt_software").val(datos.software);
+    $("#form_ruta_detalle #txt_id_doc").val(datos.id_doc);
+    $("#form_ruta_detalle #txt_orden").val(datos.norden);
+    $("#form_ruta_detalle #txt_fecha_inicio").val(datos.fecha_inicio);
+    $("#form_ruta_detalle #txt_tiempo").val(datos.tiempo);
+    $("#form_ruta_detalle #txt_respuesta").val("-");
+    $("#form_ruta_detalle #txt_tipo_respuesta,#form_ruta_detalle #txt_detalle_respuesta").val("");
+    $("#form_ruta_detalle #txt_tipo_respuesta,#form_ruta_detalle #txt_detalle_respuesta").multiselect('refresh');
+
+    $("#t_detalle_verbo").html("");
+    $("#form_ruta_detalle>#txt_cant_verbo").remove();
+    $("#form_ruta_detalle").append("<input type='hidden' id='txt_cant_verbo'>");
+    var detalle="";
+    var html="";
+    var imagen="";
+        if ( datos.verbo!='' ) {
+            detalle=datos.verbo.split("|");
+            html="";
+            for (var i = 0; i < detalle.length; i++) {
+                imagen = "<i class='fa fa-check fa-lg'></i>";
+                if(detalle[i].split("=>")[2]=="Pendiente"){
+                    imagen="<input type='checkbox' name='chk_verbo_"+detalle[i].split("=>")[0]+"' name='chk_verbo_"+detalle[i].split("=>")[0]+"'>";
+                }
+
+                html+=  "<tr>"+
+                            "<td>"+detalle[i].split("=>")[1]+"<td>"+
+                            "<td>"+imagen+"<td>"+
+                        "</tr>";
+            };
+            $("#t_detalle_verbo").html(html);
+        }
+        
+
 }
 
 guardarTodo=function(){

@@ -46,3 +46,4 @@ Route::controller('tiempo', 'TiempoController');
 Route::controller('tiporespuesta', 'TipoRespuestaController');
 Route::controller('tiporespuestadetalle', 'TipoRespuestaDetalleController');
 Route::controller('ruta', 'RutaController');
+Route::controller('ruta_detalle', 'RutaDetalleController');
