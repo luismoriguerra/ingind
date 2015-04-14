@@ -1,5 +1,5 @@
 <script type="text/javascript">
-
+var fechaAux="";
 $(document).ready(function() {
     //$("[data-toggle='offcanvas']").click();
     var data = {estado:1};
@@ -31,6 +31,7 @@ if (segundo < 10) {segundo = "0" + segundo}
 var horita = anio+"-"+mes+"-"+dia+" "+hora + ":" + minuto + ":" + segundo;
 $("#txt_respuesta").val(horita);
 $("#div_cumple>span").html("CUMPLIENDO");
+$("#txt_alerta").val("0");
 
 $("#div_cumple").removeClass("progress-bar-danger").removeClass("progress-bar-warning").addClass("progress-bar-success");
     if( $("#txt_fecha_max").val() < $("#txt_respuesta").val() ){
@@ -225,8 +226,14 @@ guardarTodo=function(){
 }
 
 eventoSlctGlobalSimple=function(slct,valores){
+
     if( slct=="slct_tipo_respuesta" ){
-        alert(valores);
+        $("#txt_fecha_inicio").val();
+        fechaAux=<?php 
+                    $fecha="<script>$('#txt_fecha_inicio').val();</script>";
+                    echo $fecha; 
+                  ?> 
+        alert(valores+" "+fechaAux);
     }
 }
 </script>
