@@ -10,6 +10,7 @@ $(document).ready(function() {
     $("#btn_close").click(cerrar);
     $("#btn_guardar_todo").click(guardarTodo);
     hora();
+    $('#tiporespuesta,#tiporespuestadetalle').multiselect();
     //$("#btn_guardar_todo").click(guardarTodo);
     //$("#areasasignacion").DataTable();
 });
@@ -81,12 +82,6 @@ mostrarRutaFlujo=function(){
         var datos={ flujo_id:flujo_id,area_id:area_id };
         $("#tabla_ruta_detalle").css("display","");
         Validar.mostrarRutaDetalle(datos,mostrarRutaDetalleHTML);
-
-        var data={ flujo_id:flujo_id, estado:1 }
-        var ids = [];
-        $('#tiporespuesta,#tiporespuestadetalle').multiselect('destroy');
-        slctGlobal.listarSlct('tiporespuesta','slct_tipo_respuesta','simple',ids,data,0,'#slct_tipo_respuesta_detalle','TR');
-        slctGlobal.listarSlct('tiporespuestadetalle','slct_tipo_respuesta_detalle','simple',ids,data,1);
     }
 }
 
@@ -131,6 +126,11 @@ mostrarDetallle=function(id){
 }
 
 mostrarDetalleHTML=function(datos){
+    var data={ flujo_id:datos.flujo_id, estado:1,fecha_inicio:datos.fecha_inicio }
+    var ids = [];
+    $('#tiporespuesta,#tiporespuestadetalle').multiselect('destroy');
+    slctGlobal.listarSlct('tiporespuesta','slct_tipo_respuesta','simple',ids,data,0,'#slct_tipo_respuesta_detalle','TR');
+    slctGlobal.listarSlct('tiporespuestadetalle','slct_tipo_respuesta_detalle','simple',ids,data,1);
     
     $("#form_ruta_detalle #txt_flujo").val(datos.flujo);
     $("#form_ruta_detalle #txt_area").val(datos.area);
@@ -139,8 +139,6 @@ mostrarDetalleHTML=function(datos){
     $("#form_ruta_detalle #txt_orden").val(datos.norden);
     $("#form_ruta_detalle #txt_fecha_inicio").val(datos.fecha_inicio);
     $("#form_ruta_detalle #txt_tiempo").val(datos.tiempo);
-    $("#form_ruta_detalle #txt_tipo_respuesta,#form_ruta_detalle #txt_detalle_respuesta").val("");
-    $("#form_ruta_detalle #txt_tipo_respuesta,#form_ruta_detalle #txt_detalle_respuesta").multiselect('refresh');
 
     $("#form_ruta_detalle>#txt_fecha_max").remove();
     $("#form_ruta_detalle").append("<input type='hidden' id='txt_fecha_max' name='txt_fecha_max' value='"+datos.fecha_max+"'>");
@@ -228,11 +226,7 @@ guardarTodo=function(){
 eventoSlctGlobalSimple=function(slct,valores){
 
     if( slct=="slct_tipo_respuesta" ){
-        $("#txt_fecha_inicio").val();
-        fechaAux=<?php 
-                    $fecha="<script>$('#txt_fecha_inicio').val();</script>";
-                    echo $fecha; 
-                  ?> 
+        fechaAux=valores.split("|")[2];
         alert(valores+" "+fechaAux);
     }
 }

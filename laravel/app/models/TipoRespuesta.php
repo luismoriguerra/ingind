@@ -27,8 +27,13 @@ class TipoRespuesta extends Base
                     'tr.id','tr.nombre',
                     DB::raw(
                         'CONCAT( t.totalminutos*ftr.dtiempo,
-                                 "-",
-                                 tr.tiempo
+                                 "_",
+                                 tr.tiempo,
+                                 "_",
+                                 DATE_ADD(
+                                    "'.Input::get('fecha_inicio').'", 
+                                    INTERVAL (ftr.dtiempo*t.totalminutos) MINUTE
+                                )
                         ) AS evento'
                     )
                 )

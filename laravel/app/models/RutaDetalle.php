@@ -28,7 +28,7 @@ class RutaDetalle extends Eloquent
         }
 
         $query =
-            'SELECT rd.id, rd.dtiempo_final, 
+            'SELECT rd.id, rd.dtiempo_final, r.flujo_id,
             CONCAT(t.nombre," : ",rd.dtiempo) tiempo,
             rd.observacion,
             a.nombre AS area,f.nombre AS flujo,
