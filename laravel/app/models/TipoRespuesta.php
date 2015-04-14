@@ -12,4 +12,39 @@ class TipoRespuesta extends Base
     {
         return $this->hasMany('TipoRespuestaDetalle');
     }
+
+    public static function getTipoRespuesta(){
+        $r = DB::table('flujo_tipo_respuesta AS ftr')
+                ->join(
+                    'tipos_respuesta AS tr',
+                    'tr.id', '=', 'ftr.tipo_respuesta_id'
+                )
+                ->join(
+                    'tiempos AS t',
+                    't.id', '=', 'ftr.tiempo_id'
+                )
+                ->select(
+                    'tr.id','tr.nombre',
+                    DB::raw(
+                        'CONCAT( t.totalminutos*ftr.dtiempo,
+                                 "-",
+                                 tr.tiempo
+                        ) AS evento'
+                    )
+                )
+                ->where(
+                    function($query){
+                        if ( Input::get('estado') ) {
+                            $query->where('tr.estado', '=', Input::get('estado') )
+                                ->where('ftr.estado', '=', Input::get('estado') );
+                        }
+
+                        if ( Input::get('flujo_id') ) {
+                            $query->where( 'ftr.flujo_id', '=', Input::get('flujo_id'));
+                        }
+                    }
+                )
+                ->get();
+        return $r;
+    }
 }

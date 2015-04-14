@@ -19,6 +19,10 @@ class TipoRespuestaDetalle extends Base
                     'tipos_respuesta as tr',
                     'trd.tipo_respuesta_id', '=', 'tr.id'
                 )
+                ->join(
+                    'flujo_tipo_respuesta as ftr',
+                    'ftr.tipo_respuesta_id', '=', 'tr.id'
+                )
                 ->select(
                     'trd.id',
                     'trd.nombre',
@@ -29,7 +33,19 @@ class TipoRespuestaDetalle extends Base
                         'CONCAT("TR",tr.id) AS relation'
                     )
                 )
-                ->where('tr.estado', '=', 1)
+                ->where(
+                    function($query){
+                        if ( Input::get('estado') ) {
+                            $query->where('tr.estado', '=', Input::get('estado') )
+                                ->where('trd.estado', '=', Input::get('estado') )
+                                ->where('ftr.estado', '=', Input::get('estado') );
+                        }
+
+                        if( Input::get('flujo_id') ){
+                            $query->where('ftr.flujo_id', '=', Input::get('flujo_id') );
+                        }
+                    }
+                )
                 ->get();
 
         return $query;

@@ -42,7 +42,11 @@ class RutaDetalle extends Eloquent
                      "=>",
                     IF(rdv.finalizo=0,"Pendiente","Finalizó")
                 )
-            SEPARATOR "|"),"") AS verbo,IFNULL(rd.fecha_inicio,"9999") fi
+            SEPARATOR "|"),"") AS verbo,IFNULL(rd.fecha_inicio,"9999") fi,
+            DATE_ADD(
+                rd.fecha_inicio, 
+                INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
+            ) AS fecha_max, now() AS hoy
             FROM rutas_detalle rd
             INNER JOIN rutas r ON r.id=rd.ruta_id
             LEFT JOIN rutas_detalle_verbo rdv ON (rd.id=rdv.ruta_detalle_id AND rdv.estado=1)

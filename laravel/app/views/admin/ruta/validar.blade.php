@@ -162,10 +162,10 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Alerta:</label>
-                                                <input type="hidden" class="form-control" id="txt_alerta" name="txt_alerta" readonly>
+                                                <input type="hidden" class="form-control" id="txt_alerta" name="txt_alerta">
                                                 <div class="progress progress-striped active">
-                                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                                                        <span id="txt_cumple">Cumple</span>
+                                                    <div id="div_cumple" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                                        <span>Cumple</span>
                                                     </div>
                                                 </div>
                                             </div>

@@ -6,13 +6,40 @@ $(document).ready(function() {
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     slctGlobal.listarSlct('area','slct_area_id','simple',ids,data);
-    slctGlobal.listarSlct('tiporespuesta','slct_tipo_respuesta','simple',ids,data,0,'#slct_tipo_respuesta_detalle','TR');
-    slctGlobal.listarSlct('tiporespuestadetalle','slct_tipo_respuesta_detalle','simple',ids,data,1);
+    
     $("#btn_close").click(cerrar);
     $("#btn_guardar_todo").click(guardarTodo);
+    hora();
     //$("#btn_guardar_todo").click(guardarTodo);
     //$("#areasasignacion").DataTable();
 });
+
+hora=function(){
+var fecha = new Date()
+var anio = fecha.getFullYear()
+var mes = fecha.getMonth()
+var dia = fecha.getDate()
+var hora = fecha.getHours()
+var minuto = fecha.getMinutes()
+var segundo = fecha.getSeconds()
+
+if (dia < 10) {mes = "0" + dia}
+if (mes < 9) {mes = "0" + (mes*1+1)}
+if (hora < 10) {hora = "0" + hora}
+if (minuto < 10) {minuto = "0" + minuto}
+if (segundo < 10) {segundo = "0" + segundo}
+var horita = anio+"-"+mes+"-"+dia+" "+hora + ":" + minuto + ":" + segundo;
+$("#txt_respuesta").val(horita);
+$("#div_cumple>span").html("CUMPLIENDO");
+
+$("#div_cumple").removeClass("progress-bar-danger").removeClass("progress-bar-warning").addClass("progress-bar-success");
+    if( $("#txt_fecha_max").val() < $("#txt_respuesta").val() ){
+        $("#txt_alerta").val("1");
+        $("#div_cumple").removeClass("progress-bar-success").removeClass("progress-bar-warning").addClass("progress-bar-danger");
+        $("#div_cumple>span").html("NO CUMPLE");
+    }
+tiempo = setTimeout('hora()',1000);
+}
 
 validacheck=function(){
     var verboaux="";
@@ -53,6 +80,12 @@ mostrarRutaFlujo=function(){
         var datos={ flujo_id:flujo_id,area_id:area_id };
         $("#tabla_ruta_detalle").css("display","");
         Validar.mostrarRutaDetalle(datos,mostrarRutaDetalleHTML);
+
+        var data={ flujo_id:flujo_id, estado:1 }
+        var ids = [];
+        $('#tiporespuesta,#tiporespuestadetalle').multiselect('destroy');
+        slctGlobal.listarSlct('tiporespuesta','slct_tipo_respuesta','simple',ids,data,0,'#slct_tipo_respuesta_detalle','TR');
+        slctGlobal.listarSlct('tiporespuestadetalle','slct_tipo_respuesta_detalle','simple',ids,data,1);
     }
 }
 
@@ -105,9 +138,11 @@ mostrarDetalleHTML=function(datos){
     $("#form_ruta_detalle #txt_orden").val(datos.norden);
     $("#form_ruta_detalle #txt_fecha_inicio").val(datos.fecha_inicio);
     $("#form_ruta_detalle #txt_tiempo").val(datos.tiempo);
-    $("#form_ruta_detalle #txt_respuesta").val("-");
     $("#form_ruta_detalle #txt_tipo_respuesta,#form_ruta_detalle #txt_detalle_respuesta").val("");
     $("#form_ruta_detalle #txt_tipo_respuesta,#form_ruta_detalle #txt_detalle_respuesta").multiselect('refresh');
+
+    $("#form_ruta_detalle>#txt_fecha_max").remove();
+    $("#form_ruta_detalle").append("<input type='hidden' id='txt_fecha_max' name='txt_fecha_max' value='"+datos.fecha_max+"'>");
 
     $("#t_detalle_verbo").html("");
     var detalle="";
@@ -149,8 +184,8 @@ guardarTodo=function(){
 
     if(conttotalcheck>0){
         verboaux=verboaux.substr(1);
-        $("#form_ruta_detalle #verbog").remove();
-        $("#form_ruta_detalle").append("<input type='hidden' id='verbog' name='verbog' value='"+verboaux+"'");
+        $("#form_ruta_detalle>#verbog").remove();
+        $("#form_ruta_detalle").append("<input type='hidden' id='verbog' name='verbog' value='"+verboaux+"'>");
     }
 
     if( conttotalcheck>0 && contcheck==0 ) {
@@ -189,4 +224,9 @@ guardarTodo=function(){
     }*/
 }
 
+eventoSlctGlobalSimple=function(slct,valores){
+    if( slct=="slct_tipo_respuesta" ){
+        alert(valores);
+    }
+}
 </script>
