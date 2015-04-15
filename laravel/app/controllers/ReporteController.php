@@ -60,7 +60,7 @@ class ReporteController extends BaseController
                         DB::RAW('ifnull(a.nombre,"") as area'),
                         DB::RAW('ifnull(t.nombre,"") as tiempo'),
                         DB::RAW('ifnull(dtiempo,"") as dtiempo'),
-                        DB::RAW('ifnull(r.fecha_inicio,"") as fecha_inicio'),
+                        DB::RAW('ifnull(rd.fecha_inicio,"") as fecha_inicio'),
                         DB::RAW('ifnull(dtiempo_final,0) as dtiempo_final'),
                         'norden',
                         'alerta',
