@@ -74,9 +74,9 @@
                                 <th>Persona</th>
                                 <th>Area</th>
                                 <th>Fecha Inicio</th>
-                                <th>Ok</th>
-                                <th>Error</th>
-                                <th>Corregido</th>
+                                <th>Sin Alerta</th>
+                                <th>Alerta</th>
+                                <th>Alerta Validada</th>
                                 <th> [ ] </th>
                             </tr>
                         </thead>
@@ -89,9 +89,9 @@
                                 <th>Persona</th>
                                 <th>Area</th>
                                 <th>Fecha Inicio</th>
-                                <th>Ok</th>
-                                <th>Error</th>
-                                <th>Corregido</th>
+                                <th>Sin Alerta</th>
+                                <th>Alerta</th>
+                                <th>Alerta Validada</th>
                                 <th> [ ] </th>
                             </tr>
                         </tfoot>

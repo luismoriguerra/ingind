@@ -92,7 +92,7 @@ HTMLreporteDetalle=function(datos){
         html+=    "<td>"+data.dtiempo+"</td>";
         html+=    "<td>"+data.dtiempo_final+"</td>";
         html+=    "<td>"+data.norden+"</td>";
-        html+=    "<td>"+data.alerta+"</td>";
+        html+=    "<td>"+alerta+"</td>";
         html+=    "<td>"+data.verbo_finalizo+"</td>";
         html+="</tr>";
     });

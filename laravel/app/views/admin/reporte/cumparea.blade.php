@@ -43,12 +43,12 @@
                                     <div class="col-sm-12">
                                         <div class="col-sm-3">
                                             <label class="control-label">Tipo Flujo:</label>
-                                            <select class="form-control" name="slct_flujo_id" id="slct_flujo_id" onchange="mostrarRutaFlujo();">
+                                            <select class="form-control" name="slct_flujo_id" id="slct_flujo_id">
                                             </select>
                                         </div>
                                         <div class="col-sm-3">
                                             <label class="control-label">Area:</label>
-                                            <select class="form-control" name="slct_area_id" id="slct_area_id" onchange="mostrarRutaFlujo();">
+                                            <select class="form-control" name="slct_area_id" id="slct_area_id">
                                             </select>
                                         </div>
                                     </div>
@@ -75,7 +75,7 @@
                                                         <th>Cant</th>
                                                         <th>Tiempo final</th>
                                                         <th>Alerta</th>
-                                                        <th> [ ] </th>
+                                                        <!-- <th> [ ] </th> -->
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tb_reporte">
@@ -91,7 +91,7 @@
                                                         <th>Cant</th>
                                                         <th>Tiempo final</th>
                                                         <th>Alerta</th>
-                                                        <th> [ ] </th>
+                                                        <!-- <th> [ ] </th> -->
                                                     </tr>
                                                 </tfoot>
                                             </table>
@@ -99,7 +99,7 @@
                                     </div>
 
                                 </div>
-                                <div class="row form-group">
+                                <!-- <div class="row form-group">
                                     <div class="col-sm-12">
                                         <div id="chart"></div>
                                     </div>
@@ -125,7 +125,7 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 
                             </div><!-- /.box -->
                             <!-- Finaliza contenido -->

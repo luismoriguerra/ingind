@@ -139,69 +139,11 @@ class ReporteController extends BaseController
                     )
                     ->groupBy('rd.id')
                     ->get();
-/*
-        $query = "SELECT 
-                tr.id_union,
-                rd.id AS detalle,
-                rd.norden, 
-                GROUP_CONCAT( 
-                        CONCAT(
-                                v.nombre,
-                                ' => ',
-                                 IF(v.finalizo=0,'Pendiente','Finalizado')
-                        ) SEPARATOR '<br>'
-                ) AS verbo_finalizo,
-                rd.fecha_inicio,
-                t.nombre,
-                rd.dtiempo,
-                rd.dtiempo_final, 
-                CASE rd.alerta
-                    WHEN '0' THEN 'Sin Alerta'
-                    WHEN '1' THEN 'Alerta'
-                    WHEN '2' THEN 'Alerta Validada'
-                    ELSE '' 
-                END  AS alerta
-                ,  rd.alerta_tipo
-
-                FROM rutas r
-                JOIN rutas_detalle rd ON r.id=rd.ruta_id
-                JOIN rutas_detalle_verbo v ON rd.id=v.ruta_detalle_id
-                JOIN tiempos t ON rd.tiempo_id=t.id
-                JOIN tablas_relacion tr ON  r.tabla_relacion_id=tr.id
-                WHERE rd.flujo_id=? AND rd.area_id=?
-                GROUP BY rd.id";*/
-
-        //$table=DB::select($query, array($flujoId,$areaId));
-
         return Response::json(
             array(
                 'rst'=>1,
                 'datos'=>$query
             )
         );
-
-
-        return Response::json(
-            array(
-                'rst'=>1,
-                'datos'=>$table
-            )
-        );
-
     }
-    /**
-     * detalle de cumplimiento por area
-     * POST reporte/estadoofficetrack
-     *
-     * @return Response
-     */
-    public function postCumpareadetalle()
-    {
-        //recibir los parametros y enviarlos al modelo, ahi ejecutar el query
-
-    
-        return Response::make($output, 200, $headers);
-    }
-
-
 }

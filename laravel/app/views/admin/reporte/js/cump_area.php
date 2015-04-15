@@ -1,7 +1,7 @@
 <script type="text/javascript">
 var graph;
 $(document).ready(function() {
-    graph =Morris.Bar({
+    /*graph =Morris.Bar({
         element: 'chart',
         data: [],
         xkey: 'id_union',
@@ -16,7 +16,7 @@ $(document).ready(function() {
         ymax: 6,
         parseTime: false
     });
-    $("#chart").css('display','none');
+    $("#chart").css('display','none');*/
     var data = {estado:1};
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
@@ -37,17 +37,6 @@ $(document).ready(function() {
         
     });
 });
-mostrarRutaFlujo=function(){
-    $("#form_ruta_detalle>.form-group").css("display","none");
-    /*var flujo_id=$.trim($("#slct_flujo_id").val());
-    var area_id=$.trim($("#slct_area_id").val());
-
-    if( flujo_id!='' && area_id!='' ){
-        var datos={ flujo_id:flujo_id,area_id:area_id };
-        $("#tabla_ruta_detalle").css("display","");
-        Validar.mostrarRutaDetalle(datos,mostrarRutaDetalleHTML);
-    }*/
-};
 grafico=function(){
     $("#chart").css('display','block');
     graph.setData(dataMorris);
@@ -70,8 +59,8 @@ HTMLreporte=function(datos){
             "<td>"+data.tiempo+"</td>"+
             "<td>"+data.dtiempo+"</td>"+
             "<td>"+data.dtiempo_final+"</td>"+
-            "<td>"+data.alerta+"</td>"+
-            '<td><a onClick="detalle('+data.id+')" class="btn btn-primary btn-sm" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
+            "<td>"+data.alerta+"</td>";
+            //'<td><a onClick="detalle('+data.id+')" class="btn btn-primary btn-sm" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
         html+="</tr>";
 
         var array={id_union: data.id_union, ok: data.ok, error:data.error, corregido:data.corregido};
@@ -81,7 +70,7 @@ HTMLreporte=function(datos){
     $("#tb_reporte").html(html);
     activarTabla();
     $("#reporte").show();
-    grafico();
+    //grafico();
 
 };
 HTMLreporteDetalle=function(datos){
