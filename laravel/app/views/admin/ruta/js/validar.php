@@ -6,11 +6,11 @@ $(document).ready(function() {
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     slctGlobal.listarSlct('area','slct_area_id','simple',ids,data);
+    slctGlobalHtml('slct_tipo_respuesta,#slct_tipo_respuesta_detalle','simple');
     
     $("#btn_close").click(cerrar);
     $("#btn_guardar_todo").click(guardarTodo);
     hora();
-    $('#tiporespuesta,#tiporespuestadetalle').multiselect();
     //$("#btn_guardar_todo").click(guardarTodo);
     //$("#areasasignacion").DataTable();
 });
@@ -31,14 +31,29 @@ if (minuto < 10) {minuto = "0" + minuto}
 if (segundo < 10) {segundo = "0" + segundo}
 var horita = anio+"-"+mes+"-"+dia+" "+hora + ":" + minuto + ":" + segundo;
 $("#txt_respuesta").val(horita);
-$("#div_cumple>span").html("CUMPLIENDO");
+$("#div_cumple>span").html("CUMPLIENDO TIEMPO");
 $("#txt_alerta").val("0");
+$("#txt_alerta_tipo").val("0");
 
 $("#div_cumple").removeClass("progress-bar-danger").removeClass("progress-bar-warning").addClass("progress-bar-success");
-    if( $("#txt_fecha_max").val() < $("#txt_respuesta").val() ){
+    
+    if ( fechaAux!='' && fechaAux < $("#txt_respuesta").val() ) {
         $("#txt_alerta").val("1");
+        $("#txt_alerta_tipo").val("2");
         $("#div_cumple").removeClass("progress-bar-success").removeClass("progress-bar-warning").addClass("progress-bar-danger");
-        $("#div_cumple>span").html("NO CUMPLE");
+        $("#div_cumple>span").html("NO CUMPLE TIEMPO ALERTA");
+    }
+    else if ( fechaAux!='' ) {
+        $("#txt_alerta").val("1");
+        $("#txt_alerta_tipo").val("3");
+        $("#div_cumple").removeClass("progress-bar-success").removeClass("progress-bar-danger").addClass("progress-bar-warning");
+        $("#div_cumple>span").html("ALERTA ACTIVADA");
+    }
+    else if ( $("#txt_fecha_max").val() < $("#txt_respuesta").val() ) {
+        $("#txt_alerta").val("1");
+        $("#txt_alerta_tipo").val("1");
+        $("#div_cumple").removeClass("progress-bar-success").removeClass("progress-bar-warning").addClass("progress-bar-danger");
+        $("#div_cumple>span").html("NO CUMPLE TIEMPO");
     }
 tiempo = setTimeout('hora()',1000);
 }
@@ -121,14 +136,18 @@ mostrarRutaDetalleHTML=function(datos){
 
 mostrarDetallle=function(id){
     $("#form_ruta_detalle>.form-group").css("display","");
+    $("#form_ruta_detalle>#ruta_detalle_id").remove();
+    $("#form_ruta_detalle").append("<input type='hidden' id='ruta_detalle_id' name='ruta_detalle_id' value='"+id+"'>");
     var datos={ruta_detalle_id:id}
     Validar.mostrarDetalle(datos,mostrarDetalleHTML);
 }
 
 mostrarDetalleHTML=function(datos){
+    fechaAux="";
     var data={ flujo_id:datos.flujo_id, estado:1,fecha_inicio:datos.fecha_inicio }
     var ids = [];
-    $('#tiporespuesta,#tiporespuestadetalle').multiselect('destroy');
+    $('#slct_tipo_respuesta,#slct_tipo_respuesta_detalle').multiselect('destroy');
+    $('#slct_tipo_respuesta,#slct_tipo_respuesta_detalle').attr('disabled',"true");
     slctGlobal.listarSlct('tiporespuesta','slct_tipo_respuesta','simple',ids,data,0,'#slct_tipo_respuesta_detalle','TR');
     slctGlobal.listarSlct('tiporespuestadetalle','slct_tipo_respuesta_detalle','simple',ids,data,1);
     
@@ -163,7 +182,6 @@ mostrarDetalleHTML=function(datos){
             };
             $("#t_detalle_verbo").html(html);
         }
-    validacheck();
 
 }
 
@@ -201,7 +219,7 @@ guardarTodo=function(){
     }
     else{
         if( confirm("Favor de confirmar para actualizar su información") ){
-            Validar.guardarValidacion();
+            Validar.guardarValidacion(mostrarRutaFlujo);
         }
     }
     /*if( $.trim($("#txt_codigo").val())==''){
@@ -226,8 +244,11 @@ guardarTodo=function(){
 eventoSlctGlobalSimple=function(slct,valores){
 
     if( slct=="slct_tipo_respuesta" ){
-        fechaAux=valores.split("|")[2];
-        alert(valores+" "+fechaAux);
+        var detval=valores.split("|").join("").split("_");
+        fechaAux="";
+        if ( detval[1]==1 ) {
+        fechaAux=detval[2];
+        }
     }
 }
 </script>

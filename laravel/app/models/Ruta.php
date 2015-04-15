@@ -32,6 +32,19 @@ class Ruta extends Eloquent
                 $rutaDetalle['norden']=$rd->norden;
                 $rutaDetalle['usuario_created_at']= Auth::user()->id;
                 $rutaDetalle->save();
+
+                $qrutaDetalleVerbo=DB::table('rutas_flujo_detalle_verbo')
+                                ->where('ruta_flujo_detalle_id', '=', $rd->id)
+                                ->get();
+                    if(count($qrutaDetalleVerbo)>0){
+                        foreach ($qrutaDetalleVerbo as $rdv) {
+                            $rutaDetalleVerbo = new RutaDetalleVerbo;
+                            $rutaDetalleVerbo['ruta_detalle_id']= $rutaDetalle->id;
+                            $rutaDetalleVerbo['nombre']= $rdv->nombre;
+                            $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
+                            $rutaDetalleVerbo->save();
+                        }
+                    }
             }
 
         DB::commit();
