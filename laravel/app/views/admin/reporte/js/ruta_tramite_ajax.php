@@ -1,13 +1,13 @@
 <script type="text/javascript">
 var Consulta, ConsultaDetalle, dataMorris=[];
 var Rutas={
-    mostrar:function(flujo_id){
+    mostrar:function(flujo_id, fecha){
         $.ajax({
             url         : 'reporte/rutaxtramite',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
-            data        : {flujo_id:flujo_id},
+            data        : {flujo_id:flujo_id, fecha:fecha},
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },

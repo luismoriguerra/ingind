@@ -12,6 +12,9 @@ class ReporteController extends BaseController
     public function postRutaxtramite()
     {
         $flujoId = Input::get('flujo_id');
+        $fecha = Input::get('fecha');
+        list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+
         $query = "SELECT tr.id_union, r.id, s.nombre as software,
                 p.nombre as persona, a.nombre as area, r.fecha_inicio,
                 (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=0) AS 'ok',
@@ -22,7 +25,8 @@ class ReporteController extends BaseController
                     JOIN softwares s ON tr.software_id=s.id
                 JOIN personas p ON r.persona_id=p.id
                 JOIN areas a ON r.area_id=a.id
-                WHERE r.flujo_id=?";
+                WHERE r.fecha_inicio BETWEEN '$fechaIni' AND 
+                      DATE_ADD('$fechaFin',INTERVAL 1 DAY) AND r.flujo_id=?";
 
         $table=DB::select($query, array($flujoId));
 
@@ -44,7 +48,8 @@ class ReporteController extends BaseController
     {
 
         $rutaId=Input::get('ruta_id');
-        $table = DB::table('rutas_detalle as rd')
+        $table = DB::table('rutas as r')
+                    ->join('rutas_detalle as rd','r.id','=','rd.ruta_id')
                     ->join('rutas_detalle_verbo as v','rd.id','=','v.ruta_detalle_id')
                     ->join('areas as a','rd.area_id','=','a.id')
                     ->join('tiempos as t','rd.tiempo_id','=','t.id')
@@ -54,11 +59,11 @@ class ReporteController extends BaseController
                         'rd.ruta_id',
                         DB::RAW('ifnull(a.nombre,"") as area'),
                         DB::RAW('ifnull(t.nombre,"") as tiempo'),
-                        DB::RAW('ifnull(rd.dtiempo,"") as dtiempo'),
-                        DB::RAW('ifnull(rd.fecha_inicio,"") as fecha_inicio'),
-                        DB::RAW('ifnull(rd.dtiempo_final,0) as dtiempo_final'),
-                        'rd.norden',
-                        'rd.alerta',
+                        DB::RAW('ifnull(dtiempo,"") as dtiempo'),
+                        DB::RAW('ifnull(r.fecha_inicio,"") as fecha_inicio'),
+                        DB::RAW('ifnull(dtiempo_final,0) as dtiempo_final'),
+                        'norden',
+                        'alerta',
                         //'v.nombre as verbo',
                         //DB::RAW('ifnull(scaneo,"") as scaneo'),
                         //'finalizo',
@@ -73,7 +78,6 @@ class ReporteController extends BaseController
                         ")
                     )
                     ->groupBy('rd.id')
-                    ->orderBy('rd.norden','ASC')
                     ->get();
 
         return Response::json(
