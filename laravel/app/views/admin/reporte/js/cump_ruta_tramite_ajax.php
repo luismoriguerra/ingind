@@ -3,7 +3,7 @@ var Consulta, ConsultaDetalle, dataMorris=[];
 var Rutas={
     mostrar:function(flujo_id, fecha){
         $.ajax({
-            url         : 'reporte/rutaxtramite',
+            url         : 'reporte/cumprutaxtramite',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -31,7 +31,7 @@ var Rutas={
     },
     mostrarDetalle:function(ruta_id){
         $.ajax({
-            url         : 'reporte/rutaxtramitedetalle',
+            url         : 'reporte/cumprutaxtramitedetalle',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',

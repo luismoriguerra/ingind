@@ -1,8 +1,8 @@
 <script type="text/javascript">
-var filtro_fecha, filtro_averia, fecha_ini, fecha_fin, file,graph;
+var graph;
 $(document).ready(function() {
     //inicializand el grafico
-    $("#detalle").hide();
+    //$("#detalle").hide();
     graph =Morris.Bar({
         element: 'chart',
         data: [],
@@ -27,7 +27,7 @@ $(document).ready(function() {
 
     slctGlobal.listarSlct('flujo','slct_flujos','simple');
     //Mostrar 
-    $("#generar_movimientos").click(function (){
+    $("#generar").click(function (){
         flujo_id = $('#slct_flujos').val();
         var fecha=$("#fecha").val();
         if ( fecha!=="")
@@ -46,7 +46,7 @@ grafico=function(){
 HTMLreporte=function(datos){
     var html="";
     $('#t_reporte').dataTable().fnDestroy();
-    $("#detalle").hide();
+    $("#reporte_detalle").hide();
     $.each(datos,function(index,data){
         html+="<tr>"+
             "<td>"+data.id_union+"</td>"+
@@ -66,6 +66,7 @@ HTMLreporte=function(datos){
     });
     $("#tb_reporte").html(html);
     activarTabla();
+    $("#reporte").show();
     grafico();
 
 
@@ -78,7 +79,7 @@ HTMLreporteDetalle=function(datos){
     var alert=''; var alerta='';
     $.each(datos,function(index,data){
         alerta="NO";
-        if(data.alerta!=0){
+        if(data.alerta!==0){
             alerta="SI";
         }
         if (data.alerta===0) alert=alertOk;
@@ -95,9 +96,9 @@ HTMLreporteDetalle=function(datos){
         html+=    "<td>"+data.verbo_finalizo+"</td>";
         html+="</tr>";
     });
-    $("#detalle").show();
+    $("#reporte_detalle").show();
     $("#tb_reporteDetalle").html(html);
-}
+};
 activarTabla=function(){
     $("#t_reporte").dataTable();
 };

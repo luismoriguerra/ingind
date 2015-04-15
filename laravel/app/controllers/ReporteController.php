@@ -4,12 +4,12 @@ class ReporteController extends BaseController
 {
 
     /**
-     * Listar registro de actividades con estado 1
-     * POST reporte/rutaxtramite
+     * Cumplimiento de ruta por tramite
+     * POST reporte/cumprutaxtramite
      *
      * @return Response
      */
-    public function postRutaxtramite()
+    public function postCumprutaxtramite()
     {
         $flujoId = Input::get('flujo_id');
         $fecha = Input::get('fecha');
@@ -39,12 +39,12 @@ class ReporteController extends BaseController
 
     }
     /**
-     * Listar registro de actividades con estado 1
+     * Detalle del cumplimiento de ruta por tramite
      * POST reporte/rutaxtramite
      *
      * @return Response
      */
-    public function postRutaxtramitedetalle()
+    public function postCumprutaxtramitedetalle()
     {
 
         $rutaId=Input::get('ruta_id');
@@ -61,7 +61,7 @@ class ReporteController extends BaseController
                         DB::RAW('ifnull(t.nombre,"") as tiempo'),
                         DB::RAW('ifnull(dtiempo,"") as dtiempo'),
                         DB::RAW('ifnull(rd.fecha_inicio,"") as fecha_inicio'),
-                        DB::RAW('ifnull(dtiempo_final,0) as dtiempo_final'),
+                        DB::RAW('ifnull(dtiempo_final,"") as dtiempo_final'),
                         'norden',
                         'alerta',
                         //'v.nombre as verbo',
@@ -89,14 +89,97 @@ class ReporteController extends BaseController
 
     }
     /**
-     * Listar registro de actividades con estado 1
+     * Cumplimiento de are
      * POST reporte/tecnicoofficetrack
      *
      * @return Response
      */
-    public function postTecnicoofficetrack()
+    public function postCumparea()
     {
-        
+        $flujoId=Input::get('flujo_id');
+        $areaId=Input::get('area_id');
+
+        $query =  DB::table('rutas as r')
+                    ->join('rutas_detalle as rd','r.id','=','rd.ruta_id')
+                    ->join('rutas_detalle_verbo as v','rd.id','=','v.ruta_detalle_id')
+                    ->join('tiempos as t','rd.tiempo_id','=','t.id')
+                    ->join('tablas_relacion as tr','r.tabla_relacion_id','=','tr.id')
+                    ->where('rd.flujo_id',array($flujoId))
+                    ->where('rd.area_id',array($areaId))
+                    ->select(
+                        'tr.id_union',
+                        'rd.id',
+                        DB::RAW('ifnull(rd.norden,"") as norden'),
+                        DB::RAW('ifnull(rd.fecha_inicio,"") as fecha_inicio'),
+                        DB::RAW('ifnull(t.nombre,"") as tiempo'),
+                        DB::RAW('ifnull(rd.dtiempo,"") as dtiempo'),
+                        DB::RAW('ifnull(rd.dtiempo_final,"") as dtiempo_final'),
+                        'norden',
+                        'alerta',
+                        //'v.nombre as verbo',
+                        //DB::RAW('ifnull(scaneo,"") as scaneo'),
+                        //'finalizo',
+                        DB::RAW("
+                            GROUP_CONCAT( 
+                                    CONCAT(
+                                            v.nombre,
+                                            ' => ',
+                                             IF(v.finalizo=0,'Pendiente','Finalizado')
+                                    ) SEPARATOR '<br>'
+                            ) AS verbo_finalizo
+                        "),
+                        DB::RAW("
+                            CASE rd.alerta
+                                WHEN '0' THEN 'Sin Alerta'
+                                WHEN '1' THEN 'Alerta'
+                                WHEN '2' THEN 'Alerta Validada'
+                                ELSE '' 
+                            END  AS alerta
+                        ")
+                    )
+                    ->groupBy('rd.id')
+                    ->get();
+/*
+        $query = "SELECT 
+                tr.id_union,
+                rd.id AS detalle,
+                rd.norden, 
+                GROUP_CONCAT( 
+                        CONCAT(
+                                v.nombre,
+                                ' => ',
+                                 IF(v.finalizo=0,'Pendiente','Finalizado')
+                        ) SEPARATOR '<br>'
+                ) AS verbo_finalizo,
+                rd.fecha_inicio,
+                t.nombre,
+                rd.dtiempo,
+                rd.dtiempo_final, 
+                CASE rd.alerta
+                    WHEN '0' THEN 'Sin Alerta'
+                    WHEN '1' THEN 'Alerta'
+                    WHEN '2' THEN 'Alerta Validada'
+                    ELSE '' 
+                END  AS alerta
+                ,  rd.alerta_tipo
+
+                FROM rutas r
+                JOIN rutas_detalle rd ON r.id=rd.ruta_id
+                JOIN rutas_detalle_verbo v ON rd.id=v.ruta_detalle_id
+                JOIN tiempos t ON rd.tiempo_id=t.id
+                JOIN tablas_relacion tr ON  r.tabla_relacion_id=tr.id
+                WHERE rd.flujo_id=? AND rd.area_id=?
+                GROUP BY rd.id";*/
+
+        //$table=DB::select($query, array($flujoId,$areaId));
+
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$query
+            )
+        );
+
 
         return Response::json(
             array(
@@ -107,12 +190,12 @@ class ReporteController extends BaseController
 
     }
     /**
-     * Listar registro de actividades con estado 1
+     * detalle de cumplimiento por area
      * POST reporte/estadoofficetrack
      *
      * @return Response
      */
-    public function postEstadoOfficetrack()
+    public function postCumpareadetalle()
     {
         //recibir los parametros y enviarlos al modelo, ahi ejecutar el query
 
