@@ -54,10 +54,11 @@ class ReporteController extends BaseController
                         'rd.ruta_id',
                         DB::RAW('ifnull(a.nombre,"") as area'),
                         DB::RAW('ifnull(t.nombre,"") as tiempo'),
-                        DB::RAW('ifnull(dtiempo,0) as dtiempo'),
-                        DB::RAW('ifnull(dtiempo_final,0) as dtiempo_final'),
-                        'norden',
-                        'alerta',
+                        DB::RAW('ifnull(rd.dtiempo,"") as dtiempo'),
+                        DB::RAW('ifnull(rd.fecha_inicio,"") as fecha_inicio'),
+                        DB::RAW('ifnull(rd.dtiempo_final,0) as dtiempo_final'),
+                        'rd.norden',
+                        'rd.alerta',
                         //'v.nombre as verbo',
                         //DB::RAW('ifnull(scaneo,"") as scaneo'),
                         //'finalizo',
@@ -65,13 +66,14 @@ class ReporteController extends BaseController
                             GROUP_CONCAT( 
                                 CONCAT(
                                     v.nombre,
-                                    ' -> ',
+                                    ' => ',
                                      IF(v.finalizo=0,'Pendiente','Finalizado')
-                                ) SEPARATOR ',  '
+                                ) SEPARATOR '<br>'
                             ) as verbo_finalizo
                         ")
                     )
                     ->groupBy('rd.id')
+                    ->orderBy('rd.norden','ASC')
                     ->get();
 
         return Response::json(

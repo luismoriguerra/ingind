@@ -60,47 +60,66 @@
                 </button>
             </div>
         </div>
-
-        <div class="box-body table-responsive">
-            <table id="t_reporte" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>software</th>
-                        <th>Persona</th>
-                        <th>Area</th>
-                        <th>Fecha Inicio</th>
-                        <th>Ok</th>
-                        <th>Error</th>
-                        <th>Corregido</th>
-                        <th> [ ] </th>
-                    </tr>
-                </thead>
-                <tbody id="tb_reporte">
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th>Id</th>
-                        <th>software</th>
-                        <th>Persona</th>
-                        <th>Area</th>
-                        <th>Fecha Inicio</th>
-                        <th>Ok</th>
-                        <th>Error</th>
-                        <th>Corregido</th>
-                        <th> [ ] </th>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
         <div class="row form-group">
             <div class="col-sm-12">
-                <div id="chart"></div>
+                <div class="box-body table-responsive">
+                    <table id="t_reporte" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>software</th>
+                                <th>Persona</th>
+                                <th>Area</th>
+                                <th>Fecha Inicio</th>
+                                <th>Sin Alerta</th>
+                                <th>Alerta</th>
+                                <th>Alerta Validada</th>
+                                <th> [ ] </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tb_reporte">
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Id</th>
+                                <th>software</th>
+                                <th>Persona</th>
+                                <th>Area</th>
+                                <th>Fecha Inicio</th>
+                                <th>Sin Alerta</th>
+                                <th>Alerta</th>
+                                <th>Alerta Validada</th>
+                                <th> [ ] </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="row form-group">
             <div class="col-sm-12">
-                <ul class="list-group" id="t_reporteDetalle"></ul>
+                <div class="box-body table-responsive">
+                    <table id="t_reporteDetalle" class="table table-bordered" style="display:none">
+                        <thead>
+                            <tr>
+                                <th>Area</th>
+                                <th>Tiempo</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Final</th>
+                                <th>Orden</th>
+                                <th>Alerta</th>
+                                <th>Verbo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tb_reporteDetalle">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-12">
+                <div id="chart"></div>
             </div>
         </div>
     </section><!-- /.content -->

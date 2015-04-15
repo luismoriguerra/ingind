@@ -7,7 +7,7 @@ $(document).ready(function() {
         data: [],
         xkey: 'id_union',
         ykeys: ['ok', 'error', 'corregido'],
-        labels: ['Ok', 'Error', 'Corregido'],
+        labels: ['Sin Alerta', 'Alerta', 'Alerta Validada'],
         barColors: ["#59E175", "#FE5629", "#FAC044"],
         //stacked: true,
         pointSize: 2,
@@ -60,7 +60,7 @@ HTMLreporte=function(datos){
             "<td id='fecha_inicio_"+data.id+"'>"+data.ok+"</td>"+
             "<td id='fecha_inicio_"+data.id+"'>"+data.error+"</td>"+
             "<td id='fecha_inicio_"+data.id+"'>"+data.corregido+"</td>"+
-            '<td><a onClick="detalle('+data.id+')" class="btn btn-primary btn-sm" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
+            '<td><a onClick="detalle('+data.id+')" class="btn btn-primary btn-sm" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
 
         html+="</tr>";
 
@@ -76,47 +76,34 @@ HTMLreporte=function(datos){
 };
 HTMLreporteDetalle=function(datos){
     var html="";
-    $('#t_reporte_detalle').dataTable().fnDestroy();
-    //html+="<li class='list-group-item'>";
-        html+="<div class='row alert alert-dismissible '>";
-        html+="<div class='col-sm-2 col-xs-2'>Area</div>";
-        html+="<div class='col-sm-1 col-xs-1'>Tiempo</div>";
-        html+="<div class='col-sm-1 col-xs-1'>Cant</div>";
-        html+="<div class='col-sm-1 col-xs-1'>Tiempo final</div>";
-        html+="<div class='col-sm-1 col-xs-1'># orden</div>";
-        html+="<div class='col-sm-1 col-xs-1'>Alerta</div>";
-        html+="<div class='col-sm-5 col-xs-5'>Accion</div>";
-        //html+="<div class='col-sm-2 col-xs-2'>Scaneo</div>";
-        //html+="<div class='col-sm-1 col-xs-1'>Finalizo</div>";
-        html+="</div>";
-   // html+="</li>";
     var alertOk ='alert alert-success';//verde
-    var alertError ='alert alert-warning';//ambar
-    var alertCorregido ='alert alert-danger';//rojo
-    var alert='';
+    var alertError ='alert alert-danger';//ambar
+    var alertCorregido ='alert alert-warning';//rojo
+    var alert='';var alerta='';
     $.each(datos,function(index,data){
+        alerta="NO";
+        if(data.alerta!=0){
+            alerta="SI";
+        }
+
         if (data.alerta===0) alert=alertOk;
         if (data.alerta===1) alert=alertError;
         if (data.alerta===2) alert=alertCorregido;
-        //html+="<li class='list-group-item'>";
-        html+="<div class='row "+alert+"'>";
-        html+="<div class='col-sm-2 col-xs-2'>"+data.area+"</div>";
-        html+="<div class='col-sm-1 col-xs-1'>"+data.tiempo+"</div>";
-        html+="<div class='col-sm-1 col-xs-1'>"+data.dtiempo+"</div>";
-        html+="<div class='col-sm-1 col-xs-1'>"+data.dtiempo_final+"</div>";
-        html+="<div class='col-sm-1 col-xs-1'>"+data.norden+"</div>";
-        html+="<div class='col-sm-1 col-xs-1'>"+data.alerta+"</div>";
-        html+="<div class='col-sm-5 col-xs-5'>"+data.verbo_finalizo+"</div>";
-        //html+="<div class='col-sm-2 col-xs-2'>"+data.scaneo+"</div>";
-       /// html+="<div class='col-sm-1 col-xs-1'>"+data.finalizo+"</div>";
-        html+="</div>";
+        
+        html+="<tr class='"+alert+"'>";
+        html+="<td>"+data.area+"</td>";
+        html+="<td>"+data.tiempo+" : "+data.dtiempo+"</td>";
+        html+="<td>"+data.fecha_inicio+"</td>";
+        html+="<td>"+data.dtiempo_final+"</td>";
+        html+="<td>"+data.norden+"</td>";
+        html+="<td>"+alerta+"</td>";
+        html+="<td>"+data.verbo_finalizo+"</td>";
+        html+="</tr>";
         //html+="</li>";
 
     });
-    $("#t_reporteDetalle").html(html); 
-    //$("#tb_reporte_detalle").html(html);
-
-    $("#t_reporte_detalle").dataTable();
+    $("#tb_reporteDetalle").html(html); 
+    $("#t_reporteDetalle").css("display","");
 }
 activarTabla=function(){
     $("#t_reporte").dataTable(); // inicializo el datatable
