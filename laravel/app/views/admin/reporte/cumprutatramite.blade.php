@@ -24,13 +24,13 @@
 <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Reporte de Ruta por Tramite
+            Reporte de Cumplimiento por Ruta
             <small> </small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
             <li><a href="#">Reporte</a></li>
-            <li class="active">Reporte de Ruta por Tramite</li>
+            <li class="active">Reporte de Cumplimiento por Ruta</li>
         </ol>
     </section>
 
