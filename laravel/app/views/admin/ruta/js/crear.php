@@ -111,7 +111,7 @@ $(document).ready(function() {
 
 guardarTodo=function(){
     if( $("#slct_flujo_id").val()=="" ){
-        alert("Seleccione Tipo de Ruta");
+        alert("Seleccione Tipo de Flujo");
     }
     else if( $("#slct_area_id").val()=="" ){
         alert("Seleccione Area");
@@ -599,6 +599,7 @@ Nuevo=function(){
     $("#txt_persona").val('<?php echo Auth::user()->paterno." ".Auth::user()->materno." ".Auth::user()->nombre;?>');
     $("#txt_ok,#txt_error").val("0");
     $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
+    $("#btn_guardar_todo").css("display","");
 }
 
 Actualiza=function(){
@@ -632,7 +633,6 @@ HTMLCargarRuta=function(datos){
         "<td>"+data.persona+"</td>"+
         "<td>"+data.ok+"</td>"+
         "<td>"+data.error+"</td>"+
-        "<td>"+data.dep+"</td>"+
         "<td>"+data.fruta+"</td>"+
         "<td>"+botton+"</td>"+
         '<td>'+imagen+

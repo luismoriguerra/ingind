@@ -72,6 +72,8 @@ class AreaController extends \BaseController
 
             $areas = new Area;
             $areas->nombre = Input::get('nombre');
+            $areas->id_int = Input::get('id_int');
+            $areas->id_ext = Input::get('id_ext');
             $areas->estado = Input::get('estado');
             $areas->save();
 
@@ -117,6 +119,8 @@ class AreaController extends \BaseController
             $areaId = Input::get('id');
             $areas = Area::find($areaId);
             $areas->nombre = Input::get('nombre');
+            $areas->id_int = Input::get('id_int');
+            $areas->id_ext = Input::get('id_ext');
             $areas->estado = Input::get('estado');
             $areas->save();
             if (Input::get('estado') == 0) {

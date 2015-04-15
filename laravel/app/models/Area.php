@@ -3,8 +3,8 @@
 class Area extends Base
 {
     public $table = "areas";
-    public static $where =['id', 'nombre', 'estado'];
-    public static $selec =['id', 'nombre', 'estado'];
+    public static $where =['id', 'nombre', 'id_int', 'id_ext', 'estado'];
+    public static $selec =['id', 'nombre', 'id_int', 'id_ext', 'estado'];
     /**
      * Cargos relationship
      */

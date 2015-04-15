@@ -19,6 +19,22 @@
             <input type="text" class="form-control" placeholder="Ingrese Nombre" name="txt_nombre" id="txt_nombre">
           </div>
           <div class="form-group">
+            <label class="control-label">Id Int.
+                <a id="error_id_int" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Id Int.">
+                    <i class="fa fa-exclamation"></i>
+                </a>
+            </label>
+            <input type="text" class="form-control" placeholder="Ingrese Id Int." name="txt_id_int" id="txt_id_int">
+          </div>
+          <div class="form-group">
+            <label class="control-label">Id Ext.
+                <a id="error_id_ext" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Id Ext.">
+                    <i class="fa fa-exclamation"></i>
+                </a>
+            </label>
+            <input type="text" class="form-control" placeholder="Ingrese Id Ext." name="txt_id_ext" id="txt_id_ext">
+          </div>
+          <div class="form-group">
             <label class="control-label">Estado:
             </label>
             <select class="form-control" name="slct_estado" id="slct_estado">

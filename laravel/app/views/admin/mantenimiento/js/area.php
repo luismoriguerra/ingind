@@ -22,6 +22,8 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
             $('#form_areas #txt_nombre').val( $('#t_areas #nombre_'+button.data('id') ).text() );
+            $('#form_areas #txt_id_int').val( $('#t_areas #id_int_'+button.data('id') ).text() );
+            $('#form_areas #txt_id_ext').val( $('#t_areas #id_ext_'+button.data('id') ).text() );
             $('#form_areas #slct_estado').val( $('#t_areas #estado_'+button.data('id') ).attr("data-estado") );
             $("#form_areas").append("<input type='hidden' value='"+button.data('id')+"' name='id'>");
         }

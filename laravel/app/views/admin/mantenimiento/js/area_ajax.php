@@ -67,6 +67,8 @@ var Areas={
 
                         html+="<tr>"+
                             "<td id='nombre_"+data.id+"'>"+data.nombre+"</td>"+
+                            "<td id='id_int_"+data.id+"'>"+data.id_int+"</td>"+
+                            "<td id='id_ext_"+data.id+"'>"+data.id_ext+"</td>"+
                             "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
                             '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#areaModal" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
 

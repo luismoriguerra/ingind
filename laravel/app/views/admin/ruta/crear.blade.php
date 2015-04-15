@@ -47,7 +47,6 @@
                                                 <th>Creador</th>
                                                 <th># Ok</th>
                                                 <th># Error</th>
-                                                <th>Depende</th>
                                                 <th>Fecha Creación</th>
                                                 <th>Estado</th>
                                                 <th> [ ] </th>
@@ -64,7 +63,6 @@
                                                 <th>Creador</th>
                                                 <th># Ok</th>
                                                 <th># Error</th>
-                                                <th>Depende</th>
                                                 <th>Fecha Creación</th>
                                                 <th>Estado</th>
                                                 <th> [ ] </th>
