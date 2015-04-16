@@ -12,6 +12,7 @@ class Ruta extends Eloquent
 
         $ruta= new Ruta;
         $ruta['tabla_relacion_id']=Input::get('tabla_relacion_id');
+        $ruta['fecha_inicio']= Input::get('fecha_inicio');
         $ruta['ruta_flujo_id']=$rutaFlujo->id;
         $ruta['flujo_id']=$rutaFlujo->flujo_id;
         $ruta['persona_id']=$rutaFlujo->persona_id;
@@ -30,6 +31,9 @@ class Ruta extends Eloquent
                 $rutaDetalle['tiempo_id']=$rd->tiempo_id;
                 $rutaDetalle['dtiempo']=$rd->dtiempo;
                 $rutaDetalle['norden']=$rd->norden;
+                if($rd->norden==1){
+                    $rutaDetalle['fecha_inicio']=Input::get('fecha_inicio');
+                }
                 $rutaDetalle['usuario_created_at']= Auth::user()->id;
                 $rutaDetalle->save();
 

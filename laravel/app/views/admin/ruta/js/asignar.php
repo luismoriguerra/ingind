@@ -21,8 +21,29 @@ $(document).ready(function() {
     });
 
     $("#btn_guardar_todo").click(guardarTodo);
+    hora();
     //$("#areasasignacion").DataTable();
 });
+
+hora=function(){
+var fecha = new Date()
+var anio = fecha.getFullYear()
+var mes = fecha.getMonth()
+var dia = fecha.getDate()
+var hora = fecha.getHours()
+var minuto = fecha.getMinutes()
+var segundo = fecha.getSeconds()
+
+if (dia < 10) {mes = "0" + dia}
+if (mes < 9) {mes = "0" + (mes*1+1)}
+if (hora < 10) {hora = "0" + hora}
+if (minuto < 10) {minuto = "0" + minuto}
+if (segundo < 10) {segundo = "0" + segundo}
+var horita = anio+"-"+mes+"-"+dia+" "+hora + ":" + minuto + ":" + segundo;
+$("#txt_fecha_inicio").val(horita);
+
+tiempo = setTimeout('hora()',1000);
+}
 
 mostrarRutaFlujo=function(){
     $("#tabla_ruta_flujo").css("display","none");

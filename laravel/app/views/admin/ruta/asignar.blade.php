@@ -40,7 +40,7 @@
                                 <form name="form_asignar" id="form_asignar" method="POST" action="">
                                     <div class="row form-group" >
                                         <div class="col-sm-12">
-                                            <div class="col-sm-5">
+                                            <div class="col-sm-3">
                                                 <label class="control-label">Buscar Codigo:</label>
                                                 <div class="input-group margin">
                                                     <input class="form-control" id="txt_codigo" type="text" placeholder="Busque código" readonly>
@@ -50,6 +50,10 @@
                                                         </button>
                                                     </span>
                                                 </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label class="control-label">Fecha Inicio:</label>
+                                                <input type="text" class="form-control" name="txt_fecha_inicio" id="txt_fecha_inicio" readOnly>
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Tipo Flujo:</label>

@@ -83,6 +83,31 @@ class RutaDetalleController extends \BaseController
                     $rd2['usuario_updated_at']= Auth::user()->id;
                     $rd2->save();
                 }
+                else{
+                    $validaerror =  DB::table('rutas_detalle AS rd')
+                                    ->select('rd.id')
+                                    ->join(
+                                        'areas AS a',
+                                        'a.id', '=', 'rd.area_id'
+                                    )
+                                    ->where('rd.ruta_id', '=', $rd->ruta_id)
+                                    ->where('rd.alerta', '!=', 0)
+                                    ->get();
+
+                    $rutaFlujo= DB::table('rutas')
+                                    ->where('id', '=', $rd->ruta_id)
+                                    ->get();
+                    $rf = RutaFlujo::find($rutaFlujo[0]->ruta_flujo_id);
+
+                    if( count($validaerror)>0 ){
+                        $rf['n_flujo_error']=$rf['n_flujo_error']*1+1;
+                    }
+                    else{
+                        $rf['n_flujo_ok']=$rf['n_flujo_ok']*1+1;
+                    }
+                    $rf['usuario_updated_at']=Auth::user()->id;
+                    $rf->save();
+                }
                 /*try{
                     Mail::send('emails', $parametros , 
                         function($message){
