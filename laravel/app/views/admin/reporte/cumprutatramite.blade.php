@@ -99,11 +99,11 @@
                 </div>
             </div>
         </div>
-        <div class="row form-group">
-            <div class="col-sm-12">
-                <div id="chart"></div>
-            </div>
-        </div>
+<!--         <div class="row form-group">
+    <div class="col-sm-12">
+        <div id="chart"></div>
+    </div>
+</div> -->
         <div class="box-body table-responsive" >
             <div class="row form-group" id="reporte_detalle" style="display:none;">
                 <div class="col-sm-12">
@@ -111,9 +111,9 @@
                         <thead>
                             <tr>
                                 <th>Area</th>
-                                <th>Tiempo</th>
+                                <th>Tiempo Asignado</th>
                                 <th>Fecha</th>
-                                <th>Cant</th>
+                                <!-- <th>Cant</th> -->
                                 <th>Tiempo final</th>
                                 <th># orden</th>
                                 <th>Alerta</th>

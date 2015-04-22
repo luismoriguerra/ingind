@@ -206,7 +206,7 @@ guardarTodo=function(){
     }
 
     if( conttotalcheck>0 && contcheck==0 ) {
-            alert("Seleccione almenos 1 check");
+            alert("Seleccione al menos 1 check");
     }
     else if ( !$("#txt_observacion").attr("disabled") && $("#txt_observacion").val()=='' ) {
         alert("Ingrese una observacion");

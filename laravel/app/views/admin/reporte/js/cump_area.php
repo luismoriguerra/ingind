@@ -55,9 +55,9 @@ HTMLreporte=function(datos){
             "<td>"+data.id_union+"</td>"+
             "<td>"+data.norden+"</td>"+
             "<td>"+data.verbo_finalizo+"</td>"+
+            "<td>"+data.tiempo+": "+data.dtiempo+"</td>"+
+            //"<td>"+data.dtiempo+"</td>"+
             "<td>"+data.fecha_inicio+"</td>"+
-            "<td>"+data.tiempo+"</td>"+
-            "<td>"+data.dtiempo+"</td>"+
             "<td>"+data.dtiempo_final+"</td>"+
             "<td>"+data.alerta+"</td>";
             //'<td><a onClick="detalle('+data.id+')" class="btn btn-primary btn-sm" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';

@@ -3,7 +3,7 @@ var graph;
 $(document).ready(function() {
     //inicializand el grafico
     //$("#detalle").hide();
-    graph =Morris.Bar({
+    /*graph =Morris.Bar({
         element: 'chart',
         data: [],
         xkey: 'id_union',
@@ -19,7 +19,7 @@ $(document).ready(function() {
         parseTime: false
     });
     $("#chart").css('display','none');
-
+*/
     $('#fecha').daterangepicker({
         format: 'YYYY-MM-DD',
         singleDatePicker: false
@@ -39,10 +39,10 @@ $(document).ready(function() {
 
 });
 
-grafico=function(){
+/*grafico=function(){
     $("#chart").css('display','block');
     graph.setData(dataMorris);
-};
+};*/
 HTMLreporte=function(datos){
     var html="";
     $('#t_reporte').dataTable().fnDestroy();
@@ -67,7 +67,7 @@ HTMLreporte=function(datos){
     $("#tb_reporte").html(html);
     activarTabla();
     $("#reporte").show();
-    grafico();
+    //grafico();
 
 
 };
@@ -87,9 +87,9 @@ HTMLreporteDetalle=function(datos){
         if (data.alerta===2) alert=alertCorregido;
         html+="<tr class='"+alert+"'>";
         html+=    "<td>"+data.area+"</td>";
-        html+=    "<td>"+data.tiempo+"</td>";
+        html+=    "<td>"+data.tiempo+": "+data.dtiempo+"</td>";
         html+=    "<td>"+data.fecha_inicio+"</td>";
-        html+=    "<td>"+data.dtiempo+"</td>";
+        //html+=    "<td>"+data.dtiempo+"</td>";
         html+=    "<td>"+data.dtiempo_final+"</td>";
         html+=    "<td>"+data.norden+"</td>";
         html+=    "<td>"+alerta+"</td>";

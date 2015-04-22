@@ -70,9 +70,9 @@
                                                         <th>#</th>
                                                         <th>Orden</th>
                                                         <th>Verbo(s)</th>
+                                                        <th>Tiempo Asignado</th>
+                                                        <!-- <th>Cant</th> -->
                                                         <th>Fecha Inicio</th>
-                                                        <th>Tiempo</th>
-                                                        <th>Cant</th>
                                                         <th>Tiempo final</th>
                                                         <th>Alerta</th>
                                                         <!-- <th> [ ] </th> -->
@@ -86,9 +86,9 @@
                                                         <th>#</th>
                                                         <th>Orden</th>
                                                         <th>Verbo(s)</th>
+                                                        <th>Tiempo Asignado</th>
+                                                        <!-- <th>Cant</th> -->
                                                         <th>Fecha Inicio</th>
-                                                        <th>Tiempo</th>
-                                                        <th>Cant</th>
                                                         <th>Tiempo final</th>
                                                         <th>Alerta</th>
                                                         <!-- <th> [ ] </th> -->

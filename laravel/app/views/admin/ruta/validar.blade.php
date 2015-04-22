@@ -129,7 +129,7 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">
-                                                <label class="control-label">Tiempo:</label>
+                                                <label class="control-label">Tiempo asignado:</label>
                                                 <input type="text" class="form-control" id="txt_tiempo" readonly>
                                             </div>
                                             <div class="col-sm-3">
