@@ -50,10 +50,10 @@ HTMLreporte=function(datos){
     $.each(datos,function(index,data){
         html+="<tr>"+
             "<td>"+data.id_union+"</td>"+
+            "<td>"+data.fecha_inicio+"</td>"+
             "<td>"+data.software+"</td>"+
             "<td>"+data.persona+"</td>"+
             "<td>"+data.area+"</td>"+
-            "<td>"+data.fecha_inicio+"</td>"+
             "<td>"+data.ok+"</td>"+
             "<td>"+data.error+"</td>"+
             "<td>"+data.corregido+"</td>"+

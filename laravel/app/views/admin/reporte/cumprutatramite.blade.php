@@ -69,11 +69,11 @@
                     <table id="t_reporte" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>Id</th>
-                                <th>software</th>
-                                <th>Persona</th>
-                                <th>Area</th>
+                                <th>Código de Tramite</th>
                                 <th>Fecha Inicio</th>
+                                <th>software</th>
+                                <th>Dueño de Proceso</th>
+                                <th>Area</th>
                                 <th>Sin Alerta</th>
                                 <th>Alerta</th>
                                 <th>Alerta Validada</th>
@@ -84,11 +84,11 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>Id</th>
-                                <th>software</th>
-                                <th>Persona</th>
-                                <th>Area</th>
+                                <th>Código de Tramite</th>
                                 <th>Fecha Inicio</th>
+                                <th>software</th>
+                                <th>Dueño de Proceso</th>
+                                <th>Area</th>
                                 <th>Sin Alerta</th>
                                 <th>Alerta</th>
                                 <th>Alerta Validada</th>
