@@ -22,7 +22,7 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
             $('#form_tiporespuestas #txt_nombre').val( $('#t_tiporespuestas #nombre_'+button.data('id') ).text() );
-            $('#form_tiporespuestas #txt_tiempo').val( $('#t_tiporespuestas #tiempo_'+button.data('id') ).text() );
+            $('#form_tiporespuestas #slct_tiempo').val( $('#t_tiporespuestas #tiempo_'+button.data('id') ).attr("data-tiempo") );
             $('#form_tiporespuestas #slct_estado').val( $('#t_tiporespuestas #estado_'+button.data('id') ).attr("data-estado") );
             $("#form_tiporespuestas").append("<input type='hidden' value='"+button.data('id')+"' name='id'>");
         }

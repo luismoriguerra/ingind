@@ -5,6 +5,7 @@ $(document).ready(function() {
     $('#flujo_trModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // captura al boton
         var titulo = button.data('titulo'); // extrae del atributo data-
+        var flujo_tr_id = button.data('id');
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this); //captura el modal
@@ -22,19 +23,21 @@ $(document).ready(function() {
             $('#form_flujo_tr #txt_nombre').focus();
         }
         else {
-            flujo_id=$('#t_flujo_tr #flujo_id_'+button.data('id') ).attr('flujo_id');
-            tiempo_id=$('#t_flujo_tr #tiempo_id_'+button.data('id') ).attr('tiempo_id');
-            tipo_respuesta_id=$('#t_flujo_tr #tipo_respuesta_id_'+button.data('id') ).attr('tipo_respuesta_id');
+            flujo_id=FlujoObj[flujo_tr_id].flujo_id;
+            tiempo_id=FlujoObj[flujo_tr_id].tiempo_id;
+            tipo_respuesta_id=FlujoObj[flujo_tr_id].tipo_respuesta_id;
             Flujo_tr.cargarFlujos('editar',flujo_id);
             Flujo_tr.cargarTiempos('editar',tiempo_id);
             Flujo_tr.cargarTipoRespuestas('editar',tipo_respuesta_id);
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
-            $('#form_flujo_tr #txt_dtiempo').val( $('#t_flujo_tr #dtiempo_'+button.data('id') ).text() );
-            $('#form_flujo_tr #slct_estado').val( $('#t_flujo_tr #estado_'+button.data('id') ).attr("data-estado") );
-            $("#form_flujo_tr").append("<input type='hidden' value='"+button.data('id')+"' name='id'>");
+            $('#form_flujo_tr #txt_dtiempo').val( FlujoObj[flujo_tr_id].dtiempo );
+            $('#form_flujo_tr #slct_estado').val( FlujoObj[flujo_tr_id].estado );
+            $("#form_flujo_tr").append("<input type='hidden' value='"+FlujoObj[flujo_tr_id].id+"' name='id'>");
         }
-
+        $('#slct_tipo_respuesta_id').on("change", function(){
+            alternarFieldSetTiempo();
+        });
     });
 
     $('#flujo_trModal').on('hide.bs.modal', function (event) {
@@ -42,7 +45,24 @@ $(document).ready(function() {
       modal.find('.modal-body input').val(''); // busca un input para copiarle texto
     });
 });
-
+alternarFieldSetTiempo=function(){
+    var id = $('#slct_tipo_respuesta_id').val();
+    var tiempo;
+    for (var i = tiporespuesta.length - 1; i >= 0; i--) {
+        tiporespuesta[i]
+        if (tiporespuesta[i].id==id) {
+            tiempo = tiporespuesta[i].tiempo;
+            break;
+        }
+    };
+    if (tiempo==1) {//mostrar
+        $('#f_tiempo').css('display','block');
+    } else {
+        $('#f_tiempo').css('display','none');
+        $('#slct_tiempo_id').val('');
+        $('#txt_dtiempo').val('');
+    }
+};
 activarTabla=function(){
     $("#t_flujo_tr").dataTable(); // inicializo el datatable    
 };
@@ -70,7 +90,7 @@ Agregar=function(){
 validaFlujo_tr=function(){
     $('#form_flujo_tr [data-toggle="tooltip"]').css("display","none");
     var a=[];
-    a[0]=valida("txt","dtiempo","");
+    a[0]=valida("slct","estado","");
     var rpta=true;
 
     for(i=0;i<a.length;i++){
@@ -84,7 +104,7 @@ validaFlujo_tr=function(){
 
 valida=function(inicial,id,v_default){
     var texto="Seleccione";
-    if(inicial=="txt"){
+    if(inicial=="slct"){
         texto="Ingrese";
     }
 
@@ -93,5 +113,26 @@ valida=function(inicial,id,v_default){
         $('#error_'+id).css('display','');
         return false;
     }   
+};
+HTMLCargarFlujo=function(datos){
+    var html="";
+    var estadohtml="";
+    $.each(datos,function(index,data){
+        estadohtml='<span id="'+data.id+'" onClick="activar('+data.id+')" class="btn btn-danger">Inactivo</span>';
+        if(data.estado==1){
+            estadohtml='<span id="'+data.id+'" onClick="desactivar('+data.id+')" class="btn btn-success">Activo</span>';
+        }
+        var tiempo = (data.tiempo=='')? '':data.tiempo+': '+data.dtiempo;
+        html+="<tr>"+
+            "<td>"+data.flujo+"</td>"+
+            "<td>"+data.tipo_respuesta+"</td>"+
+            "<td>"+tiempo+"</td>"+
+            "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
+            '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#flujo_trModal" data-id="'+index+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
+
+        html+="</tr>";
+    });
+    $("#tb_flujo_tr").html(html); 
+    activarTabla();
 };
 </script>

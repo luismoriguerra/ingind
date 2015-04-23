@@ -19,12 +19,15 @@
             <input type="text" class="form-control" placeholder="Ingrese Nombre" name="txt_nombre" id="txt_nombre">
           </div>
           <div class="form-group">
-            <label class="control-label">Tiempo
+            <label class="control-label">Considera tiempo:
                 <a id="error_tiempo" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Tiempo">
                     <i class="fa fa-exclamation"></i>
                 </a>
             </label>
-            <input type="text" class="form-control" placeholder="Ingrese Tiempo" name="txt_tiempo" id="txt_tiempo">
+            <select class="form-control" name="slct_tiempo" id="slct_tiempo">
+                <option value='0'>No</option>
+                <option value='1'>Si</option>
+            </select>
           </div>
           <div class="form-group">
             <label class="control-label">Estado:

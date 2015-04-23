@@ -31,16 +31,16 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
             //PersonaObj[persona_id]
-            $('#form_personas #txt_nombre').val( PersonaObj[persona_id-1].nombre );
-            $('#form_personas #txt_paterno').val( PersonaObj[persona_id-1].paterno );
-            $('#form_personas #txt_materno').val( PersonaObj[persona_id-1].materno );
-            $('#form_personas #txt_fecha_nac').val( PersonaObj[persona_id-1].fecha_nacimiento );
-            $('#form_personas #txt_dni').val( PersonaObj[persona_id-1].dni );
+            $('#form_personas #txt_nombre').val( PersonaObj[persona_id].nombre );
+            $('#form_personas #txt_paterno').val( PersonaObj[persona_id].paterno );
+            $('#form_personas #txt_materno').val( PersonaObj[persona_id].materno );
+            $('#form_personas #txt_fecha_nac').val( PersonaObj[persona_id].fecha_nacimiento );
+            $('#form_personas #txt_dni').val( PersonaObj[persona_id].dni );
             $('#form_personas #txt_password').val( '' );
-            $('#form_personas #txt_email').val( PersonaObj[persona_id-1].email );
-            $('#form_personas #slct_sexo').val( PersonaObj[persona_id-1].sexo );
-            $('#form_personas #slct_estado').val( PersonaObj[persona_id-1].estado );
-            $("#form_personas").append("<input type='hidden' value='"+button.data('id')+"' name='id'>");
+            $('#form_personas #txt_email').val( PersonaObj[persona_id].email );
+            $('#form_personas #slct_sexo').val( PersonaObj[persona_id].sexo );
+            $('#form_personas #slct_estado').val( PersonaObj[persona_id].estado );
+            $("#form_personas").append("<input type='hidden' value='"+PersonaObj[persona_id].id+"' name='id'>");
         }
         $( "#form_personas #slct_estado" ).trigger('change');
         $( "#form_personas #slct_estado" ).change(function() {
@@ -164,7 +164,7 @@ HTMLCargarPersona=function(datos){
             "<td >"+data.email+"</td>"+
             "<td >"+data.dni+"</td>"+
             "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
-            '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#personaModal" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
+            '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#personaModal" data-id="'+index+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
 
         html+="</tr>";
     });

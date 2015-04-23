@@ -22,19 +22,23 @@
             <select class="form-control" name="slct_tipo_respuesta_id" id="slct_tipo_respuesta_id">
             </select>
           </div>
-          <div class="form-group">
-            <label class="control-label">Tiempo:
-            </label>
-            <select class="form-control" name="slct_tiempo_id" id="slct_tiempo_id">
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="control-label">Cantidad
-                <a id="error_dtiempo" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Cantidad">
-                    <i class="fa fa-exclamation"></i>
-                </a>
-            </label>
-            <input type="text" class="form-control" placeholder="Ingrese Cantidad" name="txt_dtiempo" id="txt_dtiempo">
+          <div class="row form-group">
+            <fieldset id="f_tiempo">
+              <div class="col-sm-6">
+                <label class="control-label">Tiempo:
+                </label>
+                <select class="form-control" name="slct_tiempo_id" id="slct_tiempo_id">
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <label class="control-label">Cantidad
+                    <a id="error_dtiempo" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Cantidad">
+                        <i class="fa fa-exclamation"></i>
+                    </a>
+                </label>
+                <input type="text" class="form-control" placeholder="Ingrese Cantidad" name="txt_dtiempo" id="txt_dtiempo">
+              </div>
+            </fieldset>
           </div>
           <div class="form-group">
             <label class="control-label">Estado:

@@ -43,7 +43,7 @@ class FlujoTipoRespuestaController extends \BaseController
         //si la peticion es ajax
         if ( Request::ajax() ) {
             $reglas = array(
-                'dtiempo' => 'required|numeric',
+                'estado' => 'required|numeric',
             );
 
             $mensaje= array(
@@ -61,12 +61,18 @@ class FlujoTipoRespuestaController extends \BaseController
                     )
                 );
             }
-
+            if (Input::has('tiempo_id')) {
+                $tiempoId = Input::get('tiempo_id');
+                $dtiempo = Input::get('dtiempo');
+            } else {
+                $tiempoId = 0;
+                $dtiempo = 0;
+            }
             $flujoTipoRespuesta = new FlujoTipoRespuesta;
             $flujoTipoRespuesta['flujo_id'] = Input::get('flujo_id');
             $flujoTipoRespuesta['tipo_respuesta_id'] = Input::get('tipo_respuesta_id');
-            $flujoTipoRespuesta['tiempo_id'] = Input::get('tiempo_id');
-            $flujoTipoRespuesta['dtiempo'] = Input::get('dtiempo');
+            $flujoTipoRespuesta['tiempo_id'] = $tiempoId;
+            $flujoTipoRespuesta['dtiempo'] = $dtiempo;
             $flujoTipoRespuesta['estado'] = Input::get('estado');
             $flujoTipoRespuesta->save();
 
@@ -89,7 +95,7 @@ class FlujoTipoRespuestaController extends \BaseController
     {
         if ( Request::ajax() ) {
             $reglas = array(
-                'dtiempo' => 'required|numeric',
+                'estado' => 'required|numeric',
             );
 
             $mensaje= array(
@@ -107,12 +113,19 @@ class FlujoTipoRespuestaController extends \BaseController
                     )
                 );
             }
+            if (Input::has('tiempo_id')) {
+                $tiempoId = Input::get('tiempo_id');
+                $dtiempo = Input::get('dtiempo');
+            } else {
+                $tiempoId = 0;
+                $dtiempo = 0;
+            }
             $flujoTipoRespuestaId = Input::get('id');
             $flujoTipoRespuesta = FlujoTipoRespuesta::find($flujoTipoRespuestaId);
             $flujoTipoRespuesta['flujo_id'] = Input::get('flujo_id');
             $flujoTipoRespuesta['tipo_respuesta_id'] = Input::get('tipo_respuesta_id');
-            $flujoTipoRespuesta['tiempo_id'] = Input::get('tiempo_id');
-            $flujoTipoRespuesta['dtiempo'] = Input::get('dtiempo');
+            $flujoTipoRespuesta['tiempo_id'] = $tiempoId;
+            $flujoTipoRespuesta['dtiempo'] = $dtiempo;
             $flujoTipoRespuesta['estado'] = Input::get('estado');
             $flujoTipoRespuesta->save();
 

@@ -37,7 +37,6 @@
                                         <th>Flujo</th>
                                         <th>Respuesta</th>
                                         <th>Tiempo</th>
-                                        <th>Cantidad</th>
                                         <th>Estado</th>
                                         <th> [ ] </th>
                                     </tr>
@@ -49,7 +48,6 @@
                                         <th>Flujo</th>
                                         <th>Respuesta</th>
                                         <th>Tiempo</th>
-                                        <th>Cantidad</th>
                                         <th>Estado</th>
                                         <th> [ ] </th>
                                     </tr>

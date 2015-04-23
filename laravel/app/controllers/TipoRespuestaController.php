@@ -27,7 +27,7 @@ class TipoRespuestaController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $tipoRespuesta = TipoRespuesta::getTipoRespuesta();
+            $tipoRespuesta = TipoRespuesta::get(Input::all());
             return Response::json(array('rst'=>1,'datos'=>$tipoRespuesta));
         }
     }

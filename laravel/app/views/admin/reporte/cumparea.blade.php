@@ -67,13 +67,13 @@
                                             <table id="t_reporte" class="table table-bordered">
                                                 <thead>
                                                     <tr>
-                                                        <th>#</th>
+                                                        <th>Código de Tramite</th>
                                                         <th>Orden</th>
                                                         <th>Verbo(s)</th>
                                                         <th>Tiempo Asignado</th>
                                                         <!-- <th>Cant</th> -->
-                                                        <th>Fecha Inicio</th>
-                                                        <th>Tiempo final</th>
+                                                        <th>Inicio</th>
+                                                        <th>Final</th>
                                                         <th>Alerta</th>
                                                         <!-- <th> [ ] </th> -->
                                                     </tr>
@@ -83,13 +83,13 @@
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
-                                                        <th>#</th>
+                                                        <th>Código de Tramite</th>
                                                         <th>Orden</th>
                                                         <th>Verbo(s)</th>
                                                         <th>Tiempo Asignado</th>
                                                         <!-- <th>Cant</th> -->
-                                                        <th>Fecha Inicio</th>
-                                                        <th>Tiempo final</th>
+                                                        <th>Inicio</th>
+                                                        <th>Final</th>
                                                         <th>Alerta</th>
                                                         <!-- <th> [ ] </th> -->
                                                     </tr>

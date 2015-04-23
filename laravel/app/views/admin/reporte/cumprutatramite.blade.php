@@ -74,9 +74,9 @@
                                 <th>software</th>
                                 <th>Dueño de Proceso</th>
                                 <th>Area</th>
-                                <th>Sin Alerta</th>
-                                <th>Alerta</th>
-                                <th>Alerta Validada</th>
+                                <th># Sin Alerta</th>
+                                <th># Alerta</th>
+                                <th># Alerta Validada</th>
                                 <th> [ ] </th>
                             </tr>
                         </thead>
@@ -89,9 +89,9 @@
                                 <th>software</th>
                                 <th>Dueño de Proceso</th>
                                 <th>Area</th>
-                                <th>Sin Alerta</th>
-                                <th>Alerta</th>
-                                <th>Alerta Validada</th>
+                                <th># Sin Alerta</th>
+                                <th># Alerta</th>
+                                <th># Alerta Validada</th>
                                 <th> [ ] </th>
                             </tr>
                         </tfoot>
@@ -112,11 +112,12 @@
                             <tr>
                                 <th>Area</th>
                                 <th>Tiempo Asignado</th>
-                                <th>Fecha</th>
+                                <th>Inicio</th>
                                 <!-- <th>Cant</th> -->
-                                <th>Tiempo final</th>
+                                <th>Final</th>
                                 <th># orden</th>
                                 <th>Alerta</th>
+                                <th>Tipo Alerta</th>
                                 <th>Accion</th>
                             </tr>
                         </thead>
