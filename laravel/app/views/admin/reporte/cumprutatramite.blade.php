@@ -5,13 +5,12 @@
     @parent
     {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
-    {{ HTML::script('http://cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
-    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
+    {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
     
-    {{ HTML::style('lib/morris/morris-0.4.3.min.css') }}
-    {{ HTML::script('lib/morris/raphael-min.js') }}
-    {{ HTML::script('lib/morris/morris-0.4.3.min.js') }}
+<!--     {{ HTML::style('lib/morris/morris-0.4.3.min.css') }}
+{{ HTML::script('lib/morris/raphael-min.js') }}
+{{ HTML::script('lib/morris/morris-0.4.3.min.js') }} -->
     
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )

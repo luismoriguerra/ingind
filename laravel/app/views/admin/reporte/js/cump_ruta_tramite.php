@@ -76,23 +76,35 @@ HTMLreporteDetalle=function(datos){
     var alertOk ='success';//verde
     var alertError ='danger';//ambar
     var alertCorregido ='warning';//rojo
-    var alert=''; var alerta='';
+    var alert='', alerta='', alerta_tipo='';
     $.each(datos,function(index,data){
         alerta="NO";
-        if(data.alerta!==0){
+        alerta_tipo = '';
+        if(data.alerta!=0){
             alerta="SI";
         }
-        if (data.alerta===0) alert=alertOk;
-        if (data.alerta===1) alert=alertError;
-        if (data.alerta===2) alert=alertCorregido;
+        if (data.alerta==0) alert=alertOk;
+        if (data.alerta==1) alert=alertError;
+        if (data.alerta==2) alert=alertCorregido;
+
+        if (data.alerta==1 || data.alerta==2) {
+            if (data.alerta_tipo==1) {
+                alerta_tipo = 'Tiempo asignado';
+            } else if (data.alerta_tipo==2) {
+                alerta_tipo = 'Tiempo de respuesta';
+            } else if (data.alerta_tipo==3) {
+                alerta_tipo = 'Tiempo aceptado';
+            }
+        }
+
         html+="<tr class='"+alert+"'>";
         html+=    "<td>"+data.area+"</td>";
         html+=    "<td>"+data.tiempo+": "+data.dtiempo+"</td>";
         html+=    "<td>"+data.fecha_inicio+"</td>";
-        //html+=    "<td>"+data.dtiempo+"</td>";
         html+=    "<td>"+data.dtiempo_final+"</td>";
         html+=    "<td>"+data.norden+"</td>";
         html+=    "<td>"+alerta+"</td>";
+        html+=    "<td>"+alerta_tipo+"</td>";
         html+=    "<td>"+data.verbo_finalizo+"</td>";
         html+="</tr>";
     });

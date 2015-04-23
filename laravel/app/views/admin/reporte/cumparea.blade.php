@@ -3,14 +3,9 @@
 
 @section('includes')
     @parent
-    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
-    {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
 
-    {{ HTML::style('lib/morris/morris-0.4.3.min.css') }}
-    {{ HTML::script('lib/morris/raphael-min.js') }}
-    {{ HTML::script('lib/morris/morris-0.4.3.min.js') }}
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
@@ -75,7 +70,7 @@
                                                         <th>Inicio</th>
                                                         <th>Final</th>
                                                         <th>Alerta</th>
-                                                        <!-- <th> [ ] </th> -->
+                                                        <th>Tipo Alerta</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tb_reporte">
@@ -91,7 +86,7 @@
                                                         <th>Inicio</th>
                                                         <th>Final</th>
                                                         <th>Alerta</th>
-                                                        <!-- <th> [ ] </th> -->
+                                                        <th>Tipo Alerta</th>
                                                     </tr>
                                                 </tfoot>
                                             </table>

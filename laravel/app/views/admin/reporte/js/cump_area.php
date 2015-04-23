@@ -46,11 +46,23 @@ HTMLreporte=function(datos){
     var alertOk ='success';//verde
     var alertError ='danger';//ambar
     var alertCorregido ='warning';//rojo
-    var alert='';
+    var alert='', alerta_tipo= '';
     $.each(datos,function(index,data){
-        if (data.alerta==='Sin Alerta') alert=alertOk;
-        if (data.alerta==='Alerta') alert=alertError;
-        if (data.alerta==='Alerta Validada') alert=alertCorregido;
+        alerta_tipo = '';
+        if (data.alerta=='Sin Alerta') alert=alertOk;
+        if (data.alerta=='Alerta') alert=alertError;
+        if (data.alerta=='Alerta Validada') alert=alertCorregido;
+
+        if (data.alerta=='Alerta' || data.alerta=='Alerta Validada') {
+            if (data.alerta_tipo==1) {
+                alerta_tipo = 'Tiempo asignado';
+            } else if (data.alerta_tipo==2) {
+                alerta_tipo = 'Tiempo de respuesta';
+            } else if (data.alerta_tipo==3) {
+                alerta_tipo = 'Tiempo aceptado';
+            }
+        }
+
         html+="<tr class='"+alert+"'>"+
             "<td>"+data.id_union+"</td>"+
             "<td>"+data.norden+"</td>"+
@@ -59,7 +71,8 @@ HTMLreporte=function(datos){
             //"<td>"+data.dtiempo+"</td>"+
             "<td>"+data.fecha_inicio+"</td>"+
             "<td>"+data.dtiempo_final+"</td>"+
-            "<td>"+data.alerta+"</td>";
+            "<td>"+data.alerta+"</td>"+
+            "<td>"+alerta_tipo+"</td>";
             //'<td><a onClick="detalle('+data.id+')" class="btn btn-primary btn-sm" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
         html+="</tr>";
 
