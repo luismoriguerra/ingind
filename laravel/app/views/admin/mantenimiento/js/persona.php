@@ -27,7 +27,7 @@ $(document).ready(function() {
             $('#form_personas #txt_nombre').focus();
         }
         else{
-            Persona.CargarAreas(persona_id); //no es multiselect
+            Persona.CargarAreas(PersonaObj[persona_id].id); //no es multiselect
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
             //PersonaObj[persona_id]
