@@ -19,6 +19,21 @@ class RutaDetalleController extends \BaseController
         }
     }
 
+    public function postListar()//aqui listará las areas unicas
+    {
+        if ( Request::ajax() ) {
+            $r      = new RutaDetalle;
+            $listar = Array();
+            $listar = $r->getListaareas();
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $listar
+                )
+            );
+        }
+    }
+
     public function postCargardetalle()
     {
         $r          = new RutaDetalle;

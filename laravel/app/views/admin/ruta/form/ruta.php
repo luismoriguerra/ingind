@@ -6,19 +6,19 @@
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs logo">
                 <li class="title active">
-                  <a href="#tab_tiempo" data-toggle="tab">
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fa fa-clock-o fa-lg"></i>
-                  </button>
-                  ASIG. TIEMPO
-                  </a>
-                </li>
-                <li class="title">
                   <a href="#tab_verbo" data-toggle="tab">
                   <button type="button" class="btn btn-default btn-sm">
                     <i class="fa fa-list-ul fa-lg"></i>
                   </button>
                   ASIG. VERBO
+                  </a>
+                </li>
+                <li class="title">
+                  <a href="#tab_tiempo" data-toggle="tab">
+                  <button type="button" class="btn btn-default btn-sm">
+                    <i class="fa fa-clock-o fa-lg"></i>
+                  </button>
+                  ASIG. TIEMPO
                   </a>
                 </li>
                 <li class="pull-right">
@@ -28,7 +28,7 @@
                 </li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane active" id="tab_tiempo">
+                <div class="tab-pane" id="tab_tiempo">
                     <form id="form_ruta_tiempo" name="form_areas" action="" method="post">
                       <div class="form-group">
                         <label class="control-label">Area:
@@ -60,7 +60,7 @@
                       <button id="btn_guardar_tiempo" type="button" class="btn btn-primary">Guardar</button>
                     </div>
                 </div><!-- /.tab-pane -->
-                <div class="tab-pane" id="tab_verbo">
+                <div class="tab-pane active" id="tab_verbo">
                     <form id="form_ruta_verbo" name="form_areas" action="" method="post">
                       <div class="form-group">
                         <label class="control-label">Area:

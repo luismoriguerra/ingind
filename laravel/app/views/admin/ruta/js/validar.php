@@ -5,7 +5,7 @@ $(document).ready(function() {
     var data = {estado:1};
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
-    slctGlobal.listarSlct('area','slct_area_id','simple',ids,data);
+    slctGlobal.listarSlct('ruta_detalle','slct_area_id','simple');
     slctGlobalHtml('slct_tipo_respuesta,#slct_tipo_respuesta_detalle','simple');
     
     $("#btn_close").click(cerrar);

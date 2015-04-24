@@ -526,9 +526,12 @@ pintarAreasG=function(permiso){
     var htm=''; var click=""; var imagen=""; var clickeli="";
     $("#areasasignacion .eliminadetalleg").remove();
     $("#btn_guardar_todo").css("display","none");
+    $("#slct_area_id_2").val("");$("#slct_area_id_2").multiselect("refresh");
+    $("#slct_area_id_2").multiselect("disable");
 
     if(permiso!=2){
         $("#btn_guardar_todo").css("display","");
+        $("#slct_area_id_2").multiselect("enable");
     }
 
     for ( var i=0; i<areasG.length; i++ ) {
@@ -600,6 +603,7 @@ Nuevo=function(){
     $("#txt_ok,#txt_error").val("0");
     $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
     $("#btn_guardar_todo").css("display","");
+    $("#slct_area_id_2").multiselect("enable");
 }
 
 Actualiza=function(){

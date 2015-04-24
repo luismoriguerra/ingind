@@ -36,15 +36,39 @@ class RutaFlujoController extends \BaseController
     public function postActivar()
     {
         if ( Request::ajax() ) {
+            $rpt=array();
+            $validaVerbo='';$validaTiempo='';
             $rf                 = new RutaFlujo();
+
+            $validaTiempo = $rf->validaTiempo();
+            
+            if($validaTiempo==''){
+            $validaVerbo = $rf->validaVerbo();
+            }
+
+            if($validaTiempo=='' and $validaVerbo==''){
             $actualizar         = Array();
             $actualizar         = $rf->actualizarProduccion();
-
-            return Response::json(
-                array(
+            $rpt=array(
                     'rst'   => 1,
                     'msj' => ".::Se actualizó correctamente::."
-                )
+                );
+            }
+            elseif ($validaTiempo!=''){
+                $rpt=array(
+                    'rst'   => 2,
+                    'msj' => $validaTiempo
+                );
+            }
+            elseif ($validaVerbo!=''){
+                $rpt=array(
+                    'rst'   => 2,
+                    'msj' => $validaVerbo
+                );
+            }
+
+            return Response::json(
+                $rpt
             );
         }
     }
@@ -122,6 +146,9 @@ class RutaFlujoController extends \BaseController
                 $post = array_search($areasGid[$i], $tiempoGid);
 
                 $posdetalleTiempoG= array("0","0");
+                // Inicializa valores en caso no tenga datos...
+                $rutaFlujoDetalle['tiempo_id']="1";
+                $rutaFlujoDetalle['dtiempo']="0";
 
                 if( trim($post)!='' and $post*1>=0 ){
                     $detalleTiempoG=explode( ",", $tiempoG[$post] );

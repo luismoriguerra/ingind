@@ -11,6 +11,53 @@ class RutaFlujo extends Eloquent
         return $this->belongsTo('Area');
     }
 
+    public function validaTiempo()
+    {
+        $resultado='';
+        $rf = DB::table('rutas_flujo_detalle AS rfd')
+                ->join(
+                    'areas AS a',
+                    'a.id', '=', 'rfd.area_id'
+                )
+                ->select('rfd.id','rfd.norden','a.nombre AS area')
+                ->where('rfd.ruta_flujo_id', '=', Input::get('ruta_flujo_id'))
+                ->where('rfd.dtiempo', '=', '0')
+                ->get();
+
+        if( count($rf)>0 ){
+            foreach ($rf as $r) {
+                $resultado.=',Falta Tiempo en Area: '.$r->area.' Pos: '.$r->norden;
+            }
+            $resultado=substr($resultado,1);
+        }
+
+        return $resultado;
+    }
+
+    public function validaVerbo()
+    {
+        $resultado='';
+        $ruta_flujo_id=Input::get('ruta_flujo_id');
+
+        $query='SELECT rfd.id,rfd.norden,a.nombre as area,IFNULL(GROUP_CONCAT(rfdv.nombre),"") verbo
+                FROM rutas_flujo_detalle rfd
+                INNER JOIN areas a ON a.id=rfd.area_id
+                LEFT JOIN rutas_flujo_detalle_verbo rfdv ON rfd.id=rfdv.ruta_flujo_detalle_id AND rfdv.estado=1
+                WHERE rfd.ruta_flujo_id='.$ruta_flujo_id.'
+                GROUP BY rfd.id
+                HAVING IFNULL(GROUP_CONCAT(rfdv.nombre),"")=""';
+        $rf = DB::select($query);
+
+        if( count($rf)>0 ){
+            foreach ($rf as $r) {
+                $resultado.=',Falta verbo en Area: '.$r->area.' Pos: '.$r->norden;
+            }
+            $resultado=substr($resultado,1);
+        }
+
+        return $resultado;
+    }
+
     public function actualizarProduccion()
     {
         $rf = DB::table('rutas_flujo')
