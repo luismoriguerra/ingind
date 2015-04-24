@@ -136,7 +136,14 @@ var Ruta={
                                         '<b>'+obj.msj+'</b>'+
                                     '</div>');
                     Ruta.CargarRuta(evento);
-                }  
+                } 
+                else if(obj.rst==2){
+                    $("#msj").html('<div class="alert alert-dismissable alert-info">'+
+                                        '<i class="fa fa-info"></i>'+
+                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
+                                        '<b>'+obj.msj+'</b>'+
+                                    '</div>');
+                }
                 $(".overlay,.loading-img").remove();
             },
             error: function(){
