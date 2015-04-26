@@ -151,6 +151,7 @@ class RutaDetalleController extends \BaseController
                     )); 
             }
             else{
+                DB::commit();
                 return Response::json(
                     array(
                         'rst'=>'1',

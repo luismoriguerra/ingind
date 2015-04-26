@@ -66,6 +66,11 @@
                         <label class="control-label">Area:
                         </label>
                         <input type="text" class="form-control" placeholder="Area" id="txt_nombre" readonly>
+                        <select name="slct_condicion_modal" id="slct_condicion_modal" style="display:none" > 
+                          <option value="0">No</option>
+                          <option value="1">+1</option>
+                          <option value="2">+2</option>
+                        </select>
                       </div>
                       <div class="form-group">
                         <div class="box-body table-responsive">
@@ -74,6 +79,7 @@
                             <tr>
                               <th>Posicion</th>
                               <th>Verbo</th>
+                              <th>Condicional</th>
                               <th>[X]</th>
                             </tr>
                           </thead>

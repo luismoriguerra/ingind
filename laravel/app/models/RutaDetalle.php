@@ -40,9 +40,20 @@ class RutaDetalle extends Eloquent
                      "=>",
                     rdv.nombre,
                      "=>",
+                    IF(rdv.finalizo=0,"Pendiente","Finalizó"),
+                    "=>",
+                    IF(rdv.condicion=1,"+1",
+                        IF(rdv.condicion=2,"+2","NO")
+                    )
+                )
+            SEPARATOR "|"),"") AS verbo,
+            IFNULL(GROUP_CONCAT(
+                CONCAT(
+                    rdv.nombre,
+                     "=>",
                     IF(rdv.finalizo=0,"Pendiente","Finalizó")
                 )
-            SEPARATOR "|"),"") AS verbo,IFNULL(rd.fecha_inicio,"9999") fi,
+            SEPARATOR "|"),"") AS verbo2,IFNULL(rd.fecha_inicio,"9999") fi,
             DATE_ADD(
                 rd.fecha_inicio, 
                 INTERVAL (rd.dtiempo*t.totalminutos) MINUTE

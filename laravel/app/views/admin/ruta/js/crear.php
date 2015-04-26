@@ -68,7 +68,7 @@ $(document).ready(function() {
         tiempoG[tid].push(posicioninicial+"__");
 
         verboG.push([]);
-        verboG[tid].push(posicioninicial+"_");
+        verboG[tid].push(posicioninicial+"__");
       }
 
       var posicioninicialf=posicioninicial;
@@ -79,7 +79,7 @@ $(document).ready(function() {
             if( i>=tiempoG[tid].length ){
                 tiempoG[tid].push(validapos+"__");
 
-                verboG[tid].push(validapos+"_");
+                verboG[tid].push(validapos+"__");
             }
             else{
                 detalle=tiempoG[tid][i].split("_");
@@ -140,20 +140,27 @@ guardarTiempo=function(){
 guardarVerbo=function(){
     var id=$("#form_ruta_tiempo #txt_area_id_modal").val();
     var tid=tiempoGId.indexOf(id);
-    var verboaux="";
+    var verboaux="";var verboaux2="";
     for(var i=0; i<tiempoG[tid].length; i++){
         detalle=verboG[tid][i].split("_");
-        verboaux="";
+        verboaux="";verboaux2="";
 
         $(".txt_verbo_"+detalle[0]+"_modal").each(
                 function( index ) { 
                     verboaux+= "|"+$(this).val();
                 }
         );
+
+        $(".slct_condicion_"+detalle[0]+"_modal").each(
+                function( index ) { 
+                    verboaux2+= "|"+$(this).val();
+                }
+        );
         //alert(verboaux.substr(1));
         detalle[1]=verboaux.substr(1);
+        detalle[2]=verboaux2.substr(1);
 
-        //alert("guardando: "+ detalle.join("_") +" tt=> "+$("#slct_tipo_tiempo_"+detalle[0]+"_modal").val()+"; t=> "+$("#txt_tiempo_"+detalle[0]+"_modal").val());
+        //alert("guardando: "+ detalle.join("_"));
         verboG[tid][i]=detalle.join("_");
     }
     alert('Verbo(s) Actualizado(s)');
@@ -166,7 +173,7 @@ pintarTiempoG=function(tid){
 
     posicionDetalleVerboG=0; // Inicializando posicion del detalle al pintar
 
-    var subdetalle2="";var imagen="";
+    var subdetalle2="";var subdetalle3="";var imagen="";
 
     for(var i=0;i<tiempoG[tid].length;i++){
         // tiempo //
@@ -189,9 +196,11 @@ pintarTiempoG=function(tid){
         //fin tiempo
 
         //verbo
+        
         detalle2=verboG[tid][i].split("_");
 
         subdetalle2=detalle2[1].split('|');
+        subdetalle3=detalle2[2].split('|');
 
         for(var j=0; j<subdetalle2.length; j++){
             posicionDetalleVerboG++;
@@ -213,9 +222,20 @@ pintarTiempoG=function(tid){
                         '<td>'+
                             '<input class="form-control txt_verbo_'+detalle2[0]+'_modal" value="'+subdetalle2[j]+'" placeholder="Ing. Verbo" type="text">'+
                         '</td>'+
+                        '<td>'+
+                            '<select class="form-control slct_condicion_'+detalle2[0]+'_modal">'+
+                                $('#slct_condicion_modal').html()+
+                            '</select>'+
+                        '</td>'+
                         '<td>'+imagen+'</td>'+
                     '</tr>';
             $("#tb_verbo").append(htm);
+
+            if(subdetalle3[j]==""){ // En caso no tenga valores se inicializa
+                subdetalle3[j]="0";
+            }
+            //alert(subdetalle3[j]);
+            $(".slct_condicion_"+detalle2[0]+"_modal:eq("+j+")").val(subdetalle3[j]);
         }
         //fin verbo
     }
@@ -235,6 +255,11 @@ adicionaDetalleVerbo=function(det){
                 '<td>'+(det*1+1)+'</td>'+
                 '<td>'+
                     '<input class="form-control txt_verbo_'+det+'_modal" placeholder="Ing. Verbo" type="text">'+
+                '</td>'+
+                '<td>'+
+                    '<select class="form-control slct_condicion_'+det+'_modal">'+
+                        $('#slct_condicion_modal').html()+
+                    '</select>'+
                 '</td>'+
                 '<td>'+imagen+'</td>'+
             '</tr>';
@@ -753,6 +778,15 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo){
       }
       //else{
         //alert("registrando");
+
+    var verboaux=verbo.split("|");
+    var verbo1=[];
+    var verbo2=[];
+    for(i=0;i<verboaux.length;i++ ){
+        verbo1.push(verboaux[i].split("^^")[0]);
+        verbo2.push(verboaux[i].split("^^")[1]);
+    }
+
     if( tiempo!='_' || verbo!='' ){
         if( adjunta==false ){ // primer registro
             tiempoGId.push(valor);
@@ -761,7 +795,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo){
             tiempoG[tid].push(posicioninicial+"_"+tiempo);
 
             verboG.push([]);
-            verboG[tid].push(posicioninicial+"_"+verbo);
+            verboG[tid].push(posicioninicial+"_"+verbo1.join("|")+"_"+verbo2.join("|"));
         }
       //}
         else{
@@ -774,7 +808,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo){
                     //alert(tiempo+" | "+verbo+" | "+valor+" | "+posicioninicial+"-"+validapos);
                     tiempoG[tid].push(validapos+"_"+tiempo);
 
-                    verboG[tid].push(validapos+"_"+verbo);
+                    verboG[tid].push(validapos+"_"+verbo1.join("|")+"_"+verbo2.join("|"));
                 }
                 /*else{
                     detalle=tiempoG[tid][i].split("_");

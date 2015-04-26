@@ -1,1 +1,3 @@
 nactualizar en rutas_flujo crear...
+condicion detalle verbo en ambos verbos tanto como ruta y como ruta flujo
+imagenc agregar en tabla areas

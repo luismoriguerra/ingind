@@ -11,7 +11,7 @@
       <div class="modal-body">
         <form id="form_tabla_relacion" name="form_tabla_relacion" action="" method="post">
           <div class="form-group">
-            <label class="control-label">Código
+            <label class="control-label">Código Trámite
             </label>
             <input type="text" class="form-control" placeholder="Ingrese Código" name="txt_codigo_modal" id="txt_codigo_modal">
           </div>

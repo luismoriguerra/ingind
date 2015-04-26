@@ -123,7 +123,7 @@ mostrarRutaDetalleHTML=function(datos){
         "<td>"+data.id_doc+"</td>"+
         "<td>"+data.norden+"</td>"+
         "<td>"+data.fecha_inicio+"</td>"+
-        "<td>"+data.verbo.split("|").join("<br>")+"</td>"+
+        "<td>"+data.verbo2.split("|").join("<br>")+"</td>"+
         "<td>"+imagen+"</td>";
     html+="</tr>";
 
@@ -176,8 +176,9 @@ mostrarDetalleHTML=function(datos){
                 }
 
                 html+=  "<tr>"+
-                            "<td>"+detalle[i].split("=>")[1]+"<td>"+
-                            "<td>"+imagen+"<td>"+
+                            "<td>"+detalle[i].split("=>")[3]+"</td>"+
+                            "<td>"+detalle[i].split("=>")[1]+"</td>"+
+                            "<td>"+imagen+"</td>"+
                         "</tr>";
             };
             $("#t_detalle_verbo").html(html);

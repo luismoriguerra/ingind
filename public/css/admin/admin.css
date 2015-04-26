@@ -3554,7 +3554,17 @@ fieldset[disabled] .btn-vk.active {
 
 .area1 {
     font-family: "Open Sans",sans-serif;
-    background-image: url('../../img/admin/area/area1.jpg');
+    background-image: url('../../img/admin/area/area1.png');
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+    cursor: pointer;
+    min-width: 50px;
+}
+.area1c {
+    font-family: "Open Sans",sans-serif;
+    background-image: url('../../img/admin/area/area1_c.png');
     -webkit-background-size: 100% 100%;
     -moz-background-size: 100% 100%;
     -o-background-size: 100% 100%;

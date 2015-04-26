@@ -22,6 +22,7 @@ class Ruta extends Eloquent
 
         $qrutaDetalle=DB::table('rutas_flujo_detalle')
             ->where('ruta_flujo_id', '=', $rutaFlujo->id)
+            ->where('estado', '=', '1')
             ->get();
 
             foreach($qrutaDetalle as $rd){
@@ -39,12 +40,14 @@ class Ruta extends Eloquent
 
                 $qrutaDetalleVerbo=DB::table('rutas_flujo_detalle_verbo')
                                 ->where('ruta_flujo_detalle_id', '=', $rd->id)
+                                ->where('estado', '=', '1')
                                 ->get();
                     if(count($qrutaDetalleVerbo)>0){
                         foreach ($qrutaDetalleVerbo as $rdv) {
                             $rutaDetalleVerbo = new RutaDetalleVerbo;
                             $rutaDetalleVerbo['ruta_detalle_id']= $rutaDetalle->id;
                             $rutaDetalleVerbo['nombre']= $rdv->nombre;
+                            $rutaDetalleVerbo['condicion']= $rdv->condicion;
                             $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
                             $rutaDetalleVerbo->save();
                         }

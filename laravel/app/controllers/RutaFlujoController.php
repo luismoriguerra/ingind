@@ -211,6 +211,8 @@ class RutaFlujoController extends \BaseController
                         $dtg=explode( "_", $detalleTiempoG[ $posdetalleTiempoG[1] ] );
                         if( trim($dtg[1])!='' ){
                             $detdtg=explode("|",$dtg[1]);
+                            $detdtg2=explode("|",$dtg[2]);
+
                             for($j=0;$j<count($detdtg);$j++){
                                 $rutaFlujoDetalleVerbo="";
                                 
@@ -218,6 +220,7 @@ class RutaFlujoController extends \BaseController
                                 $rutaFlujoDetalleVerbo['usuario_created_at']= Auth::user()->id;
                                 $rutaFlujoDetalleVerbo['ruta_flujo_detalle_id']= $rutaFlujoDetalle->id;
                                 $rutaFlujoDetalleVerbo['nombre']=$detdtg[$j];
+                                $rutaFlujoDetalleVerbo['condicion']=$detdtg2[$j];
                                 $rutaFlujoDetalleVerbo->save();
                             }
                         }

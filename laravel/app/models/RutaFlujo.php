@@ -211,7 +211,7 @@ class RutaFlujo extends Eloquent
                                         ) AS persona,
                                         IFNULL(
                                             GROUP_CONCAT(
-                                            rfdv.nombre SEPARATOR "|"
+                                            CONCAT(rfdv.nombre,"^^",rfdv.condicion) SEPARATOR "|"
                                             ),""
                                         ) as verbo'
                                     )

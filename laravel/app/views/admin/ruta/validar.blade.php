@@ -151,8 +151,8 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">
-                                                <table>
-                                                    <thead><tr><th>Verbo</th><th>[-]</th></tr></thead>
+                                                <table class="table table-bordered table-striped">
+                                                    <thead><tr><th>Condición</th><th>Verbo</th><th>[-]</th></tr></thead>
                                                     <tbody id="t_detalle_verbo"></tbody>
                                                 </table>
                                             </div>
