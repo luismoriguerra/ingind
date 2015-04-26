@@ -31,6 +31,13 @@ class FlujoTipoRespuesta extends Base
                         DB::raw('IFNULL(t.nombre,"") as tiempo'),
                         'ftr.tiempo_id'
                     )
+                    ->where(
+                        function($query){
+                            if( Input::get('usuario') ){
+                            $query->where('ftr.usuario_created_at', '=', Auth::user()->id);
+                            }
+                        }
+                    )
                     ->get();
     }
 }

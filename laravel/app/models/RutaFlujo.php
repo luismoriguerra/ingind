@@ -102,6 +102,12 @@ class RutaFlujo extends Eloquent
                                         ) AS estado'
                                     )
                             )
+                            ->where(
+                                function($query){
+                                    $query->where('rf.estado', '=', '2')
+                                    ->where('rf.persona_id', '=', Auth::user()->id);
+                                }
+                            )
                             ->get();
         return $rutaFlujo;
     }

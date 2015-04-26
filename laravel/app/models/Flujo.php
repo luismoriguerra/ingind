@@ -2,7 +2,7 @@
 class Flujo extends Base
 {
     public $table = "flujos";
-    public static $where =['id', 'nombre', 'estado'];
+    public static $where =['id', 'nombre', 'estado', 'usuario_created_at'];
     public static $selec =['id', 'nombre', 'estado'];
 
     public function getFlujo(){
@@ -12,6 +12,10 @@ class Flujo extends Base
                     function($query){
                         if ( Input::get('estado') ) {
                             $query->where('estado','=','1');
+                        }
+
+                        if ( Input::get('usuario') ) {
+                            $query->where('usuario_created_at', '=', Auth::user()->id);
                         }
                     }
                 )

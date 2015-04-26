@@ -52,6 +52,7 @@ var Flujo_tr={
             url         : 'flujotiporespuesta/cargar',
             type        : 'POST',
             cache       : false,
+            data        : {usuario:1},
             dataType    : 'json',
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
@@ -78,6 +79,7 @@ var Flujo_tr={
             url         : 'flujo/listar',
             type        : 'POST',
             cache       : false,
+            data        : {usuario:1},
             dataType    : 'json',
             success : function(obj) {
                 if(obj.rst==1){

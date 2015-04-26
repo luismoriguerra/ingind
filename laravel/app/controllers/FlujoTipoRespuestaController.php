@@ -74,6 +74,7 @@ class FlujoTipoRespuestaController extends \BaseController
             $flujoTipoRespuesta['tiempo_id'] = $tiempoId;
             $flujoTipoRespuesta['dtiempo'] = $dtiempo;
             $flujoTipoRespuesta['estado'] = Input::get('estado');
+            $flujoTipoRespuesta['usuario_created_at'] = Auth::user()->id;
             $flujoTipoRespuesta->save();
 
             return Response::json(
@@ -127,6 +128,7 @@ class FlujoTipoRespuestaController extends \BaseController
             $flujoTipoRespuesta['tiempo_id'] = $tiempoId;
             $flujoTipoRespuesta['dtiempo'] = $dtiempo;
             $flujoTipoRespuesta['estado'] = Input::get('estado');
+            $flujoTipoRespuesta['usuario_updated_at'] = Auth::user()->id;
             $flujoTipoRespuesta->save();
 
             return Response::json(

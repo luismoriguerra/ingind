@@ -11,7 +11,7 @@
     <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Mantenimiento de Opciones
+                Mantenimiento de Respuesta de Procesos
                 <small> </small>
             </h1>
             <ol class="breadcrumb">

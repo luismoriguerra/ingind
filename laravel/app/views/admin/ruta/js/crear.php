@@ -726,7 +726,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo){
         theadArea.push(head);
 
         body=   '<tr>'+
-                    '<td class="area'+areasG.length+'" style="height:100px;">&nbsp;'+
+                    '<td class="areafinal" style="height:100px; background-image: url('+"'"+'img/admin/area/area1.png'+"'"+');">&nbsp;'+
                     '<span class="badge bg-yellow">'+areasG.length+'</span>'+
                     '</td>'+
                 '</tr>';
@@ -749,7 +749,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo){
         tbodyArea.push([]);
         tbodyArea[ (tbodyArea.length-1) ].push(position+"|"+tbodyArea[position].length );
         body=   '<tr>'+
-                    '<td class="area'+(position+1)+'" style="height:100px;">&nbsp;'+
+                    '<td class="areafinal" style="height:100px; background-image: url('+"'"+'img/admin/area/area1c.png'+"'"+');">&nbsp;'+
                     '<span class="badge bg-yellow">'+areasG.length+'</span>'+
                     '</td>'+
                 '</tr>';

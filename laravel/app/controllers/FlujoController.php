@@ -12,7 +12,9 @@ class FlujoController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $flujos = Flujo::get(Input::all());
+            $datos=Input::all();
+            $datos['usuario_created_at']=Auth::user()->id;
+            $flujos = Flujo::get($datos);
             return Response::json(array('rst'=>1,'datos'=>$flujos));
         }
     }
@@ -75,6 +77,7 @@ class FlujoController extends \BaseController
             $flujos = new Flujo;
             $flujos['nombre'] = Input::get('nombre');
             $flujos['estado'] = Input::get('estado');
+            $flujos['usuario_created_at'] = Auth::user()->id;
             $flujos->save();
 
             return Response::json(
@@ -120,6 +123,7 @@ class FlujoController extends \BaseController
             $flujo = Flujo::find($flujoId);
             $flujo['nombre'] = Input::get('nombre');
             $flujo['estado'] = Input::get('estado');
+            $flujos['usuario_updated_at'] = Auth::user()->id;
             $flujo->save();
             if (Input::get('estado') == 0 ) {
                 //actualizando a estado 0 segun
