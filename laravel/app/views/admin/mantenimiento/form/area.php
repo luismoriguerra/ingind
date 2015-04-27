@@ -42,8 +42,10 @@
                 <option value='1' selected>Activo</option>
             </select>
           </div>
-          </form>
-          <div class="form-group">
+        </form>
+
+          <div class="form-group"> 
+          
             <div class="col-sm-12">
               <div class="col-sm-6">
                 <label class="control-label">Imagen
@@ -51,7 +53,7 @@
                         <i class="fa fa-exclamation"></i>
                     </a>
                 </label>
-                <img id="img_imagenp" src="" class="img-thumbnail" />
+                <img id="img_imagenp" src="" class="img-thumbnail imgArea" />
                 <form id="form_imagenp" name="form_imagenp" action="area/imagenp" enctype="multipart/form-data" method="post" >
                   <input type="file" id="imagenp" name="imagenp" accept="image/*" >
                   <input type='hidden' name='idp' id='idp'>
@@ -63,14 +65,16 @@
                         <i class="fa fa-exclamation"></i>
                     </a>
                 </label>
-                <img id="img_imagenc" src="" class="img-thumbnail" />
+                <img id="img_imagenc" src="" class="img-thumbnail imgArea" />
                 <form id="form_imagenc" name="form_imagenc" action="area/imagenc" enctype="multipart/form-data" method="post" >
                   <input type="file" id="imagenc" name="imagenc" accept="image/*">
                   <input type='hidden' name='idc' id='idc'>
-                </div>
+                </form>
               </div>
+
             </div>
           </div>
+          <!-- </div> -->
         
       </div>
       <div class="modal-footer">

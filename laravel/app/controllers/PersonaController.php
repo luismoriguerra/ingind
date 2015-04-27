@@ -112,22 +112,63 @@ class PersonaController extends BaseController
                 );
             }
 
-            if (Input::has('areas')) {
-                $areas=Input::get('areas');
-                for ($i=0; $i<count($areas); $i++) {
-                    $areaId = $areas[$i];
-                    $area = Area::find($areaId);
-                    $persona->areas()->save($area, array('estado' => 1));
+                if (Input::has('cargos_selec')) {
+                    $cargos=Input::get('cargos_selec');
+                    if (is_array($cargos)) {
+                        $cargos = explode(',', $cargos);
+                        for ($i=0; $i<count($cargos); $i++) {
+                            $cargoId = $cargos[$i];
+                            $cargo = Cargo::find($cargoId);
+                            $persona->cargos()->save($cargo, array('estado' => 1));
+                            $areas = Input::get('areas'.$cargoId);
+
+                            //busco el id
+                            $cargoPersona = DB::table('cargo_persona')
+                                            ->where('persona_id', '=', $persona['id'])
+                                            ->where('cargo_id', '=', $cargoId)
+                                            ->first();
+
+                            for ($j=0; $j<count($areas); $j++) {
+                                //recorrer las areas y buscar si exten
+                                $areaId = $areas[$j];
+
+                                DB::table('area_cargo_persona')->insert(
+                                    array(
+                                        'area_id' => $areaId,
+                                        'cargo_persona_id' => $cargoPersona->id,
+                                        'estado' => 1
+                                    )
+                                );
+                                
+                            }
+                        }
+                    } else {
+                        $cargoId = $cargos;
+                        $cargo = Cargo::find($cargoId);
+                        $persona->cargos()->save($cargo, array('estado' => 1));
+                        $areas = Input::get('areas'.$cargoId);
+
+                        //busco el id
+                        $cargoPersona = DB::table('cargo_persona')
+                                        ->where('persona_id', '=', $persona['id'])
+                                        ->where('cargo_id', '=', $cargoId)
+                                        ->first();
+
+                        for ($j=0; $j<count($areas); $j++) {
+                            //recorrer las areas y buscar si exten
+                            $areaId = $areas[$j];
+
+                            DB::table('area_cargo_persona')->insert(
+                                array(
+                                    'area_id' => $areaId,
+                                    'cargo_persona_id' => $cargoPersona->id,
+                                    'estado' => 1
+                                )
+                            );
+                            
+                        }
+                    }
                 }
-            }
-            if (Input::has('cargos')) {
-                $cargos=Input::get('cargos');
-                for ($i=0; $i<count($cargos); $i++) {
-                    $cargooId = $cargos[$i];
-                    $cargo = Cargo::find($cargooId);
-                    $persona->cargos()->save($cargo, array('estado' => 1));
-                }
-            }
             return Response::json(
                 array(
                 'rst'=>1,
