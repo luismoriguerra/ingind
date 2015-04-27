@@ -11,7 +11,7 @@
       <div class="modal-body">
         <form id="form_flujo_tr" name="form_flujo_tr" action="" method="post">
           <div class="form-group">
-            <label class="control-label">Flujo:
+            <label class="control-label">Proceso:
             </label>
             <select class="form-control" name="slct_flujo_id" id="slct_flujo_id">
             </select>

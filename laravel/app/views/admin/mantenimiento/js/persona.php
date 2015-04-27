@@ -97,7 +97,7 @@ AgregarArea=function(){
 
             html+="<div class='col-sm-6'>";
             html+="<select class='form-control' multiple='multiple' name='slct_areas"+cargo_id+"[]' id='slct_areas"+cargo_id+"'></select></div>";
-            var envio = {cargo_id: cargo_id};
+            var envio = {cargo_id: cargo_id,estado:1};
 
             html+='<div class="col-sm-2">';
             html+='<button type="button" id="'+cargo_id+'" Onclick="EliminarArea(this)" class="btn btn-danger btn-sm" >';

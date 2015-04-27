@@ -42,7 +42,7 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Tipo Flujo</th>
+                                                <th>Proceso</th>
                                                 <th>Area</th>
                                                 <th>Creador</th>
                                                 <th># Ok</th>
@@ -58,7 +58,7 @@
                                         <tfoot>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Tipo Flujo</th>
+                                                <th>Proceso</th>
                                                 <th>Area</th>
                                                 <th>Creador</th>
                                                 <th># Ok</th>
@@ -86,7 +86,7 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-2">
-                                                <label class="control-label">Tipo Flujo:</label>
+                                                <label class="control-label">Proceso:</label>
                                                 <select class="form-control" name="slct_flujo_id" id="slct_flujo_id">
                                                 </select>
                                             </div>

@@ -140,11 +140,29 @@ guardarTiempo=function(){
 guardarVerbo=function(){
     var id=$("#form_ruta_tiempo #txt_area_id_modal").val();
     var tid=tiempoGId.indexOf(id);
+    var position=areasGId.indexOf(id);
+    var imagen=$("#slct_area_id_2 option[value='"+id+"']").attr("data-evento").split("|").join("");
+    var imagenc= imagen.split(".").join("c.");
+    var alerta=false;
     var verboaux="";var verboaux2="";
+    var poseq=-1;
+
+    ///////////////ENCONTRAR POSICION DEL GRAFICO EN PANTALLA///////////////
+    $(".areafinal").each(
+                function( index ) { 
+                    if( ( $(this).attr("style").split(imagen).length>1 || $(this).attr("style").split(imagenc).length>1 ) && poseq==-1){
+                        //alert($(this).attr("style")+" Pos:"+index);
+                        poseq=index;
+                    }
+                }
+        );
+    ////////////////////////////////////7
+
+
     for(var i=0; i<tiempoG[tid].length; i++){
         detalle=verboG[tid][i].split("_");
         verboaux="";verboaux2="";
-
+        alerta=false;
         $(".txt_verbo_"+detalle[0]+"_modal").each(
                 function( index ) { 
                     verboaux+= "|"+$(this).val();
@@ -154,11 +172,28 @@ guardarVerbo=function(){
         $(".slct_condicion_"+detalle[0]+"_modal").each(
                 function( index ) { 
                     verboaux2+= "|"+$(this).val();
+                    if ( $(this).val()>0 ) {
+                        alerta=true;
+                    }
                 }
         );
+
+        if(i>0){
+            poseq++;
+        }
         //alert(verboaux.substr(1));
         detalle[1]=verboaux.substr(1);
         detalle[2]=verboaux2.substr(1);
+        if(alerta==true){
+            //alert(".areafinal:eq("+poseq+")  false");
+            $(".areafinal:eq("+poseq+")").attr("style","height:100px; background-image: url('img/admin/area/"+imagenc+"');")
+            tbodyArea[position][i]=tbodyArea[position][i].split(imagen).join(imagenc);
+        }
+        else{
+            //alert(".areafinal:eq("+poseq+") true");
+            $(".areafinal:eq("+poseq+")").attr("style","height:100px; background-image: url('img/admin/area/"+imagen+"');")
+            tbodyArea[position][i]=tbodyArea[position][i].split(imagenc).join(imagen);
+        }
 
         //alert("guardando: "+ detalle.join("_"));
         verboG[tid][i]=detalle.join("_");
@@ -266,6 +301,10 @@ adicionaDetalleVerbo=function(det){
     $("#tb_verbo").append(htm);
 }
 
+eventoSlctGlobalSimple=function(slct,valor){
+// por ahora nad solo necesito q se actie nomas
+}
+
 adicionarRutaDetalle=function(){
     if( $.trim($("#slct_area_id_2").val())=='' ){
         alert('Seleccione un Area para adicionar');
@@ -275,7 +314,9 @@ adicionarRutaDetalle=function(){
     }
     else if( $.trim($("#slct_area_id_2").val())!='' ){
         valorText=$("#slct_area_id_2 option[value='"+$("#slct_area_id_2").val()+"']").text();
+        imagen=$("#slct_area_id_2 option[value='"+$("#slct_area_id_2").val()+"']").attr("data-evento").split("|").join("");
         valor=$("#slct_area_id_2").val();
+
 
 
         var adjunta=false; var position=areasGId.indexOf(valor);
@@ -291,7 +332,7 @@ adicionarRutaDetalle=function(){
             theadArea.push(head);
 
             body=   '<tr>'+
-                        '<td class="area'+areasG.length+'" style="height:100px;">&nbsp;'+
+                        '<td class="areafinal" style="height:100px; background-image: url('+"'"+'img/admin/area/'+imagen+"'"+');">&nbsp;'+
                         '<span class="badge bg-yellow">'+areasG.length+'</span>'+
                         '</td>'+
                     '</tr>';
@@ -314,7 +355,7 @@ adicionarRutaDetalle=function(){
             tbodyArea.push([]);
             tbodyArea[ (tbodyArea.length-1) ].push(position+"|"+tbodyArea[position].length );
             body=   '<tr>'+
-                        '<td class="area'+(position+1)+'" style="height:100px;">&nbsp;'+
+                        '<td class="areafinal" style="height:100px; background-image: url('+"'"+'img/admin/area/'+imagen+"'"+');">&nbsp;'+
                         '<span class="badge bg-yellow">'+areasG.length+'</span>'+
                         '</td>'+
                     '</tr>';
@@ -350,7 +391,7 @@ CambiarDetalle=function(t){
                 auxtbody.push(tbodyArea[t][0]);
                 valorNuevo=tbodyArea[t][0].split("|");
 
-                tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+(t+1) ).join( ">"+t );
+                tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+(t+1)+"<" ).join( ">"+t+"<" );
             }
             else{
                 var idfilas=0;
@@ -361,7 +402,7 @@ CambiarDetalle=function(t){
                         tbodyArea[idfilas][0]=(t-1)+'|'+i;
                     }
                     idfilas++;
-                    auxtbody.push( tbodyArea[t][i].split( "area"+(t+1) ).join( "area"+t ).split( ">"+(t+1) ).join( ">"+t ) );
+                    auxtbody.push( tbodyArea[t][i].split( "area"+(t+1) ).join( "area"+t ).split( ">"+(t+1)+"<" ).join( ">"+t+"<" ) );
                 }
             }
 
@@ -370,7 +411,7 @@ CambiarDetalle=function(t){
                 tbodyArea[t].push( tbodyArea[(t-1)][0] );
                 valorNuevo=tbodyArea[(t-1)][0].split("|");
 
-                tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+t ).join( ">"+(t+1) );
+                tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+t+"<" ).join( ">"+(t+1)+"<" );
             }
             else{
                 var idfilas=0;
@@ -381,7 +422,7 @@ CambiarDetalle=function(t){
                         tbodyArea[idfilas][0]=t+'|'+i;
                     }
                     idfilas++;
-                    tbodyArea[t].push( tbodyArea[(t-1)][i].split( "area"+t ).join("area"+(t+1) ).split( ">"+t ).join( ">"+(t+1) ) );
+                    tbodyArea[t].push( tbodyArea[(t-1)][i].split( "area"+t ).join("area"+(t+1) ).split( ">"+t+"<" ).join( ">"+(t+1)+"<" ) );
                 }
             }
 
@@ -422,7 +463,7 @@ var auxtbody=[];
             auxtbody.push(tbodyArea[t][0]);
             valorNuevo=tbodyArea[t][0].split("|");
 
-            tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+(t+1) ).join( ">"+t );
+            tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+(t+1)+"<" ).join( ">"+t+"<" );
         }
         else{
             var idfilas=0;
@@ -433,7 +474,7 @@ var auxtbody=[];
                     tbodyArea[idfilas][0]=(t-1)+'|'+i;
                 }
                 idfilas++;
-                auxtbody.push( tbodyArea[t][i].split( "area"+(t+1) ).join( "area"+t ).split( ">"+(t+1) ).join( ">"+t ) );
+                auxtbody.push( tbodyArea[t][i].split( "area"+(t+1) ).join( "area"+t ).split( ">"+(t+1)+"<" ).join( ">"+t+"<" ) );
             }
         }
 
@@ -442,7 +483,7 @@ var auxtbody=[];
             tbodyArea[t].push( tbodyArea[(t-1)][0] );
             valorNuevo=tbodyArea[(t-1)][0].split("|");
 
-            tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+t ).join( ">"+(t+1) );
+            tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ]=tbodyArea[ valorNuevo[0] ][ valorNuevo[1] ].split( ">"+t+"<" ).join( ">"+(t+1)+"<" );
         }
         else{
             var idfilas=0;
@@ -453,7 +494,7 @@ var auxtbody=[];
                     tbodyArea[idfilas][0]=t+'|'+i;
                 }
                 idfilas++;
-                tbodyArea[t].push( tbodyArea[(t-1)][i].split( "area"+t ).join("area"+(t+1) ).split( ">"+t ).join( ">"+(t+1) ) );
+                tbodyArea[t].push( tbodyArea[(t-1)][i].split( "area"+t ).join("area"+(t+1) ).split( ">"+t+"<" ).join( ">"+(t+1)+"<" ) );
             }
         }
 
@@ -705,17 +746,30 @@ validandoconteo=0;
             $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
             $("#txt_persona").val(data.persona);
         }
-        adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo);
+        adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc);
     });
     pintarAreasG(permiso);
     //alertatodo();
 }
 
-adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo){
+adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imagenc){
     valor=""+valor;
     var adjunta=false; var position=areasGId.indexOf(valor);
     if( position>=0 ){
         adjunta=true;
+    }
+
+    var verboaux=verbo.split("|");
+    var verbo1=[];
+    var verbo2=[];
+    var imgfinal=imagen;
+    for(i=0;i<verboaux.length;i++ ){
+        verbo1.push(verboaux[i].split("^^")[0]);
+        verbo2.push(verboaux[i].split("^^")[1]);
+
+        if($.trim(verboaux[i].split("^^")[1])>0){
+            imgfinal=imagenc;
+        }
     }
 
     areasG.push(valorText);
@@ -726,7 +780,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo){
         theadArea.push(head);
 
         body=   '<tr>'+
-                    '<td class="areafinal" style="height:100px; background-image: url('+"'"+'img/admin/area/area1.png'+"'"+');">&nbsp;'+
+                    '<td class="areafinal" style="height:100px; background-image: url('+"'"+'img/admin/area/'+imgfinal+"'"+');">&nbsp;'+
                     '<span class="badge bg-yellow">'+areasG.length+'</span>'+
                     '</td>'+
                 '</tr>';
@@ -749,7 +803,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo){
         tbodyArea.push([]);
         tbodyArea[ (tbodyArea.length-1) ].push(position+"|"+tbodyArea[position].length );
         body=   '<tr>'+
-                    '<td class="areafinal" style="height:100px; background-image: url('+"'"+'img/admin/area/area1c.png'+"'"+');">&nbsp;'+
+                    '<td class="areafinal" style="height:100px; background-image: url('+"'"+'img/admin/area/'+imgfinal+"'"+');">&nbsp;'+
                     '<span class="badge bg-yellow">'+areasG.length+'</span>'+
                     '</td>'+
                 '</tr>';
@@ -778,14 +832,6 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo){
       }
       //else{
         //alert("registrando");
-
-    var verboaux=verbo.split("|");
-    var verbo1=[];
-    var verbo2=[];
-    for(i=0;i<verboaux.length;i++ ){
-        verbo1.push(verboaux[i].split("^^")[0]);
-        verbo2.push(verboaux[i].split("^^")[1]);
-    }
 
     if( tiempo!='_' || verbo!='' ){
         if( adjunta==false ){ // primer registro

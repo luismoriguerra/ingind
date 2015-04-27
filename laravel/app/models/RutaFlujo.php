@@ -206,6 +206,7 @@ class RutaFlujo extends Eloquent
                                 }
                             )
                             ->select('rf.area_id','a.nombre as area','rfd.id',
+                                    'a2.imagen','a2.imagenc',
                                     'rf.persona_id','f.nombre as flujo',
                                     'rfd.area_id as area_id2','a2.nombre as area2',
                                     'rfd.norden','rf.flujo_id',

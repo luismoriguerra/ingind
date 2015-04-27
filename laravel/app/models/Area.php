@@ -22,7 +22,7 @@ class Area extends Base
 
     public function getArea(){
         $area=DB::table('areas')
-                ->select('id','nombre','estado')
+                ->select('id','nombre','estado','imagen as evento')
                 ->where( 
                     function($query){
                         if ( Input::get('estado') ) {

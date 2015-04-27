@@ -11,13 +11,13 @@
     <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Mantenimiento de Flujos
+                Mantenimiento de Procesos
                 <small> </small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
                 <li><a href="#">Mantenimientos</a></li>
-                <li class="active">Mantenimiento de Flujos</li>
+                <li class="active">Mantenimiento de Procesos</li>
             </ol>
         </section>
 

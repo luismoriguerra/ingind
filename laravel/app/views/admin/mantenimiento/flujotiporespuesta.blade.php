@@ -17,7 +17,7 @@
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
                 <li><a href="#">Mantenimientos</a></li>
-                <li class="active">Mantenimiento de Opciones</li>
+                <li class="active">Mantenimiento de Respuesta de Procesos</li>
             </ol>
         </section>
 
@@ -34,7 +34,7 @@
                             <table id="t_flujo_tr" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Flujo</th>
+                                        <th>Proceso</th>
                                         <th>Respuesta</th>
                                         <th>Tiempo</th>
                                         <th>Estado</th>
@@ -45,7 +45,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>Flujo</th>
+                                        <th>Proceso</th>
                                         <th>Respuesta</th>
                                         <th>Tiempo</th>
                                         <th>Estado</th>
