@@ -3706,3 +3706,14 @@ fieldset[disabled] .btn-vk.active {
     cursor: pointer;
     min-width: 50px;
 }
+.imgArea {
+    font-family: "Open Sans",sans-serif;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+    cursor: pointer;
+    min-width: 50px;
+      height: 200px;
+  width: 200px;
+}

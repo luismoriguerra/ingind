@@ -45,12 +45,14 @@ class AreaController extends \BaseController
     {
         if (Input::hasFile('imagenp')) {
             if ( Input::file('imagenp')->isValid() ) {
+                $areaId = Input::get('idp');
                 $file = Input::file('imagenp');
                 $tmpArchivo = $file->getRealPath();
-                $name = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                //$name = $file->getClientOriginalName();
+                $name = 'a'.$areaId.'.'.$extension;
                 $destinationPath='img/admin/Area';
                 if ($file->move($destinationPath,$name)){
-                    $areaId = Input::get('idp');
                     $areas = Area::find($areaId);
                     $areas->imagen = $name;
                     $areas->save();
@@ -84,12 +86,14 @@ class AreaController extends \BaseController
     {
         if (Input::hasFile('imagenc')) {
             if ( Input::file('imagenc')->isValid() ) {
+                $areaId = Input::get('idc');
                 $file = Input::file('imagenc');
                 $tmpArchivo = $file->getRealPath();
-                $name = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                //$name = $file->getClientOriginalName();
+                $name = 'a'.$areaId.'c.'.$extension;
                 $destinationPath='img/admin/Area';
                 if ($file->move($destinationPath,$name)){
-                    $areaId = Input::get('idc');
                     $areas = Area::find($areaId);
                     $areas->imagenc = $name;
                     $areas->save();
