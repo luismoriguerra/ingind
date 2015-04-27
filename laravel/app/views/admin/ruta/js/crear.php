@@ -20,9 +20,10 @@ $(document).ready(function() {
     $("#btn_guardar_verbo").click(guardarVerbo);
     $("#btn_guardar_todo").click(guardarTodo);
     Ruta.CargarRuta(HTMLCargarRuta);
-    var data = {estado:1};
+    var data = {estado:1,usuario:1};
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
+    data = {estado:1};
     slctGlobal.listarSlct('area','slct_area_id','simple',ids,data);
     slctGlobal.listarSlct('area','slct_area_id_2','simple',ids,data);
 
@@ -700,9 +701,6 @@ HTMLCargarRuta=function(datos){
         "<td>"+cont+"</td>"+
         "<td>"+data.flujo+"</td>"+
         "<td>"+data.area+"</td>"+
-        "<td>"+data.persona+"</td>"+
-        "<td>"+data.ok+"</td>"+
-        "<td>"+data.error+"</td>"+
         "<td>"+data.fruta+"</td>"+
         "<td>"+botton+"</td>"+
         '<td>'+imagen+

@@ -10,12 +10,12 @@ class Flujo extends Base
                 ->select('id','nombre','estado')
                 ->where( 
                     function($query){
-                        if ( Input::get('estado') ) {
-                            $query->where('estado','=','1');
-                        }
-
                         if ( Input::get('usuario') ) {
-                            $query->where('usuario_created_at', '=', Auth::user()->id);
+                            $query->where('usuario_created_at', '=', Auth::user()->id)
+                                ->where('estado','=','1');
+                        }
+                        elseif ( Input::get('estado') ) {
+                            $query->where('estado','=','1');
                         }
                     }
                 )

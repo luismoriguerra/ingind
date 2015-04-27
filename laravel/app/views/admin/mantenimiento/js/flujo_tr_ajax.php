@@ -120,6 +120,7 @@ var Flujo_tr={
             url         : 'tiporespuesta/listar',
             type        : 'POST',
             cache       : false,
+            data        : {estado:1},
             dataType    : 'json',
             success : function(obj) {
                 if(obj.rst==1){
