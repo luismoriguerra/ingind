@@ -9,7 +9,7 @@
         <h4 class="modal-title">New message</h4>
       </div>
       <div class="modal-body">
-        <form id="form_areas" name="form_areas" action="" method="post">
+        <form id="form_areas" name="form_areas" action="" method="post" >
           <div class="form-group">
             <label class="control-label">Nombre
                 <a id="error_nombre" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Nombre">
@@ -42,7 +42,36 @@
                 <option value='1' selected>Activo</option>
             </select>
           </div>
-        </form>
+          </form>
+          <div class="form-group">
+            <div class="col-sm-12">
+              <div class="col-sm-6">
+                <label class="control-label">Imagen
+                    <a id="error_id_ext" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Id Ext.">
+                        <i class="fa fa-exclamation"></i>
+                    </a>
+                </label>
+                <img id="img_imagenp" src="" class="img-thumbnail" />
+                <form id="form_imagenp" name="form_imagenp" action="area/imagenp" enctype="multipart/form-data" method="post" >
+                  <input type="file" id="imagenp" name="imagenp" accept="image/*" >
+                  <input type='hidden' name='idp' id='idp'>
+                </form>
+              </div>
+              <div class="col-sm-6">
+                <label class="control-label">Imagen condicional
+                    <a id="error_id_ext" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Id Ext.">
+                        <i class="fa fa-exclamation"></i>
+                    </a>
+                </label>
+                <img id="img_imagenc" src="" class="img-thumbnail" />
+                <form id="form_imagenc" name="form_imagenc" action="area/imagenc" enctype="multipart/form-data" method="post" >
+                  <input type="file" id="imagenc" name="imagenc" accept="image/*">
+                  <input type='hidden' name='idc' id='idc'>
+                </div>
+              </div>
+            </div>
+          </div>
+        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

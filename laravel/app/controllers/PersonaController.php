@@ -40,8 +40,7 @@ class PersonaController extends BaseController
     public function postCargarareas()
     {
         $personaId = Input::get('persona_id');
-        $persona = new Persona;
-        $areas = $persona->getAreas($personaId);
+        $areas = Persona::getAreas($personaId);
         return Response::json(array('rst'=>1,'datos'=>$areas));
     }
     /**
@@ -249,7 +248,10 @@ class PersonaController extends BaseController
                                 )
                             );
                     }
-
+                    DB::table('area_cargo_persona')
+                            //->where('area_id', '=', $areaId)
+                            ->where('cargo_persona_id', '=', $cargoPersona->id)
+                            ->update(array('estado' => 0));
                     //almacenar las areas seleccionadas
                     //$areas[] = Input::get('areas'.$cargoId);
                     $areas = Input::get('areas'.$cargoId);

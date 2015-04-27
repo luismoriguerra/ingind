@@ -3,6 +3,7 @@
 
 @section('includes')
     @parent
+    {{ HTML::script('http://malsup.github.com/jquery.form.js') }} 
     @include( 'admin.mantenimiento.js.area_ajax' )
     @include( 'admin.mantenimiento.js.area' )
 @stop

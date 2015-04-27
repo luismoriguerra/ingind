@@ -44,7 +44,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
     {
         return $this->belongsToMany('Cargo');
     }
-    public function getAreas($personaId)
+    public static function getAreas($personaId)
     {
         //subconsulta
         $sql = DB::table('cargo_persona as cp')
@@ -68,8 +68,11 @@ class Persona extends Base implements UserInterface, RemindableInterface
                 ) AS info"
             )
         )
-        ->whereRaw("cp.persona_id=$personaId AND cp.estado=1 AND c.estado=1")
-
+        ->whereRaw("cp.persona_id=$personaId AND cp.estado=1 AND c.estado=1 AND acp.estado=1")
+        //->where("cp.persona_id",$personaId)
+        //->where("cp.estado","1")
+        //->where("c.estado","1")
+        //->where("acp.estado","1")
         ->groupBy('c.id');
         //consulta
         $areas = DB::table(DB::raw("(".$sql->toSql().") as a"))

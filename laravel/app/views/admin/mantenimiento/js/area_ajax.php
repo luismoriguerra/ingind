@@ -1,12 +1,24 @@
 <script type="text/javascript">
+var area_id, AreaObj;
 var Areas={
     AgregarEditarArea:function(AE){
+        //var formData = new FormData($("#form_areas")[0]); 
+        //$("#form_areas input[name='h_imagenp']").remove();
+        //$("#form_areas").append("<input type='hidden' value='"+$("#imagenp")[0]+"' name='h_imagenp'>");
+
         var datos=$("#form_areas").serialize().split("txt_").join("").split("slct_").join("");
         var accion="area/crear";
         if(AE==1){
             accion="area/editar";
         }
-
+        var options = { 
+            beforeSubmit:   beforeSubmit(),
+            success:        success(),
+            dataType: 'json' 
+        };
+        
+        $('#form_imagenp').ajaxForm(options).submit();
+        $('#form_imagenc').ajaxForm(options).submit();
         $.ajax({
             url         : accion,
             type        : 'POST',
@@ -16,7 +28,7 @@ var Areas={
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
-            success : function(obj) {                
+            success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
                     $('#t_areas').dataTable().fnDestroy();
@@ -27,12 +39,14 @@ var Areas={
                                         '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
                                         '<b>'+obj.msj+'</b>'+
                                     '</div>');
+
                     $('#areaModal .modal-footer [data-dismiss="modal"]').click();
+
                 }
                 else{ 
-                    $.each(obj.msj,function(index,datos){                        
+                    $.each(obj.msj,function(index,datos){
                         $("#error_"+index).attr("data-original-title",datos);
-                        $('#error_'+index).css('display','');                                         
+                        $('#error_'+index).css('display','');
                     });     
                 }
             },
@@ -45,6 +59,8 @@ var Areas={
                                 '</div>');
             }
         });
+        
+
     },
     CargarAreas:function(evento){
         $.ajax({
@@ -53,32 +69,22 @@ var Areas={
             cache       : false,
             dataType    : 'json',
             beforeSend : function() {
-                
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
             success : function(obj) {
-                var html="";
-                var estadohtml="";
                 if(obj.rst==1){
-                    $.each(obj.datos,function(index,data){
-                        estadohtml='<span id="'+data.id+'" onClick="activar('+data.id+')" class="btn btn-danger">Inactivo</span>';
-                        if(data.estado==1){
-                            estadohtml='<span id="'+data.id+'" onClick="desactivar('+data.id+')" class="btn btn-success">Activo</span>';
-                        }
-
-                        html+="<tr>"+
-                            "<td id='nombre_"+data.id+"'>"+data.nombre+"</td>"+
-                            "<td id='id_int_"+data.id+"'>"+data.id_int+"</td>"+
-                            "<td id='id_ext_"+data.id+"'>"+data.id_ext+"</td>"+
-                            "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
-                            '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#areaModal" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
-
-                        html+="</tr>";
-                    });                    
-                }      
-                $("#tb_areas").html(html); 
-                evento();  
+                    HTMLCargarArea(obj.datos);
+                    AreaObj = obj.datos;
+                }
+                $(".overlay,.loading-img").remove();
             },
             error: function(){
+                $(".overlay,.loading-img").remove();
+                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
+                    '<i class="fa fa-ban"></i>'+
+                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
+                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente. Si el problema persiste favor de comunicarse a ubicame@puedesencontrar.com</b>'+
+                '</div>');
             }
         });
     },

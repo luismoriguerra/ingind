@@ -102,7 +102,8 @@ var Persona={
                         html+="<div class='col-sm-4' id='cargo_"+data[0]+"'><h5>"+$("#slct_cargos option[value=" +data[0] +"]").text()+"</h5></div>";
                         var areas = data[1].split(",");
                         html+="<div class='col-sm-6'><select class='form-control' multiple='multiple' name='slct_areas"+data[0]+"[]' id='slct_areas"+data[0]+"'></select></div>";
-                        var envio = {cargo_id: data[0]};
+                        //var envio = {cargo_id: data[0]};
+                        var envio = {cargo_id: data[0],estado:1};
                         slctGlobal.listarSlct('area','slct_areas'+data[0],'multiple',areas,envio);
 
                         html+='<div class="col-sm-2">';

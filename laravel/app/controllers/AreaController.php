@@ -39,6 +39,84 @@ class AreaController extends \BaseController
         }
     }
     /**
+     * 
+     */
+    public function postImagenp()
+    {
+        if (Input::hasFile('imagenp')) {
+            if ( Input::file('imagenp')->isValid() ) {
+                $file = Input::file('imagenp');
+                $tmpArchivo = $file->getRealPath();
+                $name = $file->getClientOriginalName();
+                $destinationPath='img/admin/Area';
+                if ($file->move($destinationPath,$name)){
+                    $areaId = Input::get('idp');
+                    $areas = Area::find($areaId);
+                    $areas->imagen = $name;
+                    $areas->save();
+                    return Response::json(
+                        array(
+                            'rst'   => 1,
+                            'datos' => 'Se subio con exito'
+                        )
+                    );
+                } else {
+                    return Response::json(
+                        array(
+                            'rst'   => 0,
+                            'datos' => 'No se subio con exito'
+                        )
+                    );
+                }
+            }
+        }
+        return Response::json(
+            array(
+                'rst'   => 0,
+                'datos' => 'No se subio con exito'
+            )
+        );
+    }
+    /**
+     * 
+     */
+    public function postImagenc()
+    {
+        if (Input::hasFile('imagenc')) {
+            if ( Input::file('imagenc')->isValid() ) {
+                $file = Input::file('imagenc');
+                $tmpArchivo = $file->getRealPath();
+                $name = $file->getClientOriginalName();
+                $destinationPath='img/admin/Area';
+                if ($file->move($destinationPath,$name)){
+                    $areaId = Input::get('idc');
+                    $areas = Area::find($areaId);
+                    $areas->imagenc = $name;
+                    $areas->save();
+                    return Response::json(
+                        array(
+                            'rst'   => 1,
+                            'datos' => 'Se subio con exito'
+                        )
+                    );
+                } else {
+                    return Response::json(
+                        array(
+                            'rst'   => 0,
+                            'datos' => 'No se subio con exito'
+                        )
+                    );
+                }
+            }
+        }
+        return Response::json(
+            array(
+                'rst'   => 0,
+                'datos' => 'No se subio con exito'
+            )
+        );
+    }
+    /**
      * Store a newly created resource in storage.
      * POST /area/crear
      *
@@ -116,6 +194,7 @@ class AreaController extends \BaseController
                     )
                 );
             }
+
             $areaId = Input::get('id');
             $areas = Area::find($areaId);
             $areas->nombre = Input::get('nombre');
