@@ -25,12 +25,12 @@ $(document).ready(function() {
             if (AreaObj[area_id].imagen===null || AreaObj[area_id].imagen==='')
                 $("#img_imagenp").attr( "src",'');
             else
-                $("#img_imagenp").attr( "src", '/img/admin/area/'+AreaObj[area_id].imagen );
+                $("#img_imagenp").attr( "src", 'img/admin/area/'+AreaObj[area_id].imagen );
 
             if (AreaObj[area_id].imagenc===null || AreaObj[area_id].imagenc==='') 
                 $("#img_imagenc").attr( "src", '');
             else
-                $("#img_imagenc").attr( "src", '/img/admin/area/'+AreaObj[area_id].imagenc );
+                $("#img_imagenc").attr( "src", 'img/admin/area/'+AreaObj[area_id].imagenc );
 
 
             modal.find('.modal-footer .btn-primary').text('Actualizar');
