@@ -30,6 +30,7 @@ class Area extends Base
                         }
                     }
                 )
+                ->orderBy('nombre')
                 ->get();
                 
         return $area;
