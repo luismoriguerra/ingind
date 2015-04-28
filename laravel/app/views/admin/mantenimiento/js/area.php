@@ -21,16 +21,16 @@ $(document).ready(function() {
             $('#form_areas #txt_nombre').focus();
         }
         else{
-            var id = AreaObj[area_id].id
-            if (AreaObj[area_id].imagen==null || AreaObj[area_id].imagen=='')
+            var id = AreaObj[area_id].id;
+            if (AreaObj[area_id].imagen===null || AreaObj[area_id].imagen==='')
                 $("#img_imagenp").attr( "src",'');
             else
-                $("#img_imagenp").attr( "src", '/img/admin/Area/'+AreaObj[area_id].imagen );
+                $("#img_imagenp").attr( "src", '/img/admin/area/'+AreaObj[area_id].imagen );
 
-            if (AreaObj[area_id].imagenc==null || AreaObj[area_id].imagenc=='') 
+            if (AreaObj[area_id].imagenc===null || AreaObj[area_id].imagenc==='') 
                 $("#img_imagenc").attr( "src", '');
             else
-                $("#img_imagenc").attr( "src", '/img/admin/Area/'+AreaObj[area_id].imagenc );
+                $("#img_imagenc").attr( "src", '/img/admin/area/'+AreaObj[area_id].imagenc );
 
 
             modal.find('.modal-footer .btn-primary').text('Actualizar');
@@ -57,8 +57,8 @@ $(document).ready(function() {
         modal.find('.modal-body input').val(''); // busca un input para copiarle texto
         $("#imagenc").val('');
         $("#imagenp").val('');
-        $("#img_imagenp").attr( "src", '' )
-        $("#img_imagenc").attr( "src", '' )
+        $("#img_imagenp").attr( "src", '' );
+        $("#img_imagenc").attr( "src", '' );
     });
 });
 beforeSubmit=function (){};
@@ -103,7 +103,7 @@ CargarImagen=function(input, html){
 
         reader.onload = function (e) {
             $('#img_'+html).attr('src', e.target.result);
-        }
+        };
 
         reader.readAsDataURL(input.files[0]);
     }

@@ -51,7 +51,7 @@ class AreaController extends \BaseController
                 $extension = $file->getClientOriginalExtension();
                 //$name = $file->getClientOriginalName();
                 $name = 'a'.$areaId.'.'.$extension;
-                $destinationPath='img/admin/Area';
+                $destinationPath='img/admin/area';
                 if ($file->move($destinationPath,$name)){
                     $areas = Area::find($areaId);
                     $areas->imagen = $name;
@@ -92,7 +92,7 @@ class AreaController extends \BaseController
                 $extension = $file->getClientOriginalExtension();
                 //$name = $file->getClientOriginalName();
                 $name = 'a'.$areaId.'c.'.$extension;
-                $destinationPath='img/admin/Area';
+                $destinationPath='img/admin/area';
                 if ($file->move($destinationPath,$name)){
                     $areas = Area::find($areaId);
                     $areas->imagenc = $name;
