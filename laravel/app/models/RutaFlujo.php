@@ -80,6 +80,10 @@ class RutaFlujo extends Eloquent
                                 'areas AS a',
                                 'a.id','=','rf.area_id'
                             )
+                            ->join(
+                                'rutas_flujo_detalle AS rfd',
+                                'rf.id','=','rfd.ruta_flujo_id'
+                            )
                             ->select('f.nombre AS flujo','rf.estado AS cestado',
                                     'rf.id',
                                     DB::raw(
@@ -104,10 +108,26 @@ class RutaFlujo extends Eloquent
                             )
                             ->where(
                                 function($query){
-                                    $query->where('rf.estado', '=', '2')
-                                    ->where('rf.persona_id', '=', Auth::user()->id);
+                                    if ( Input::get('vista') ) {
+                                        $query->where('rf.estado', '=', '2')
+                                        ->whereRaw(
+                                            'rfd.area_id IN (
+                                                SELECT a.id
+                                                FROM area_cargo_persona acp
+                                                INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                                                INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                                WHERE acp.estado=1
+                                                AND cp.persona_id='.Auth::user()->id.'
+                                            )'
+                                        );
+                                    }
+                                    else{
+                                        $query->where('rf.estado', '=', '2')
+                                        ->where('rf.persona_id', '=', Auth::user()->id);
+                                    }
                                 }
                             )
+                            ->groupBy('rf.id')
                             ->get();
         return $rutaFlujo;
     }

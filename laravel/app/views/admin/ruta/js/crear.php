@@ -24,7 +24,7 @@ $(document).ready(function() {
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     data = {estado:1};
-    slctGlobal.listarSlct('area','slct_area_id','simple',ids,data);
+    slctGlobal.listarSlct('ruta_detalle','slct_area_id','simple');
     slctGlobal.listarSlct('area','slct_area_id_2','simple',ids,data);
 
     $('#rutaModal').on('show.bs.modal', function (event) {

@@ -15,14 +15,14 @@ $(document).ready(function() {
     $("[data-toggle='offcanvas']").click();
     $("#btn_close").click(Close);
     $("#btn_adicionar_ruta_detalle").click(adicionarRutaDetalle);
-    $("#btn_guardar_tiempo").click(guardarTiempo);
-    $("#btn_guardar_verbo").click(guardarVerbo);
-    Ruta.CargarRuta(HTMLCargarRuta);
-    var data = {estado:1,usuario:1};
+    $("#btn_guardar_tiempo").css("display","none");
+    $("#btn_guardar_verbo").css("display","none");
+    Ruta.CargarRuta(HTMLCargarRuta,1);
+    var data = {estado:1};
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     data = {estado:1};
-    slctGlobal.listarSlct('area','slct_area_id','simple',ids,data);
+    slctGlobal.listarSlct('area','slct_area_id','simple');
     slctGlobal.listarSlct('area','slct_area_id_2','simple',ids,data);
 
     $('#rutaModal').on('show.bs.modal', function (event) {
@@ -626,8 +626,8 @@ HTMLCargarRuta=function(datos){
 cargarRutaId=function(ruta_flujo_id,permiso){
     $("#txt_ruta_flujo_id_modal").remove();
     $("#form_ruta_flujo").append('<input type="hidden" id="txt_ruta_flujo_id_modal" value="'+ruta_flujo_id+'">');
-    $("#txt_titulo").text("Act. Ruta");
-    $("#texto_fecha_creacion").text("Fecha Actualización:");
+    $("#txt_titulo").text("Vista");
+    $("#texto_fecha_creacion").text("Fecha Vista:");
     $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
     $(".form-group").css("display","");
     Ruta.CargarDetalleRuta(ruta_flujo_id,permiso,CargarDetalleRutaHTML);
@@ -651,6 +651,7 @@ validandoconteo=0;
         if(validandoconteo==1){
             $("#slct_flujo_id").val(data.flujo_id);
             $("#slct_area_id").val(data.area_id);
+            $("#slct_flujo_id,#slct_area_id").multiselect('disable');
             $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
             $("#txt_persona").val(data.persona);
         }

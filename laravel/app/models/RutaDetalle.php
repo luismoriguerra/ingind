@@ -80,11 +80,10 @@ class RutaDetalle extends Eloquent
     {
         $query='SELECT a.id,a.nombre,a.estado
                 FROM area_cargo_persona acp
-                INNER JOIN areas a ON a.id=acp.area_id
+                INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
                 INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
-                INNER JOIN cargo_opcion co ON co.cargo_id=cp.cargo_id AND co.opcion_id=3 AND co.estado=1
                 WHERE acp.estado=1
-                AND cp.persona_id=1';
+                AND cp.persona_id='.Auth::user()->id;
         $area=DB::select($query);
                 
         return $area;

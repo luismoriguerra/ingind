@@ -64,13 +64,18 @@ var Ruta={
             }
         });
     },
-    CargarRuta:function(evento){
+    CargarRuta:function(evento,vista){
+        var datos={};
+        if(vista!=null && vista==1){
+            datos={vista:1};
+        }
 
         $.ajax({
             url         : 'ruta_flujo/cargar',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
+            data        : datos,
             beforeSend : function() {                
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
