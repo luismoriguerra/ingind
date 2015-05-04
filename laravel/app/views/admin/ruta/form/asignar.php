@@ -6,7 +6,7 @@
         <button class="btn btn-sm btn-default pull-right" data-dismiss="modal">
             <i class="fa fa-close"></i>
         </button>
-        <h4 class="modal-title">Crear Relación</h4>
+        <h4 class="modal-title">Crear Trámite</h4>
       </div>
       <div class="modal-body">
         <form id="form_tabla_relacion" name="form_tabla_relacion" action="" method="post">
@@ -16,7 +16,7 @@
             <input type="text" class="form-control" placeholder="Ingrese Código" name="txt_codigo_modal" id="txt_codigo_modal">
           </div>
           <div class="form-group">
-            <label class="control-label">Software:
+            <label class="control-label">Mesa Partes:
             </label>
             <select class="form-control" name="slct_software_id_modal" id="slct_software_id_modal">
             </select>

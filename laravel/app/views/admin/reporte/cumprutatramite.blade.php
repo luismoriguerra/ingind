@@ -29,7 +29,7 @@
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
             <li><a href="#">Reporte</a></li>
-            <li class="active">Reporte de Cumplimiento por Ruta</li>
+            <li class="active">Reporte de Cumplimiento del Trámite</li>
         </ol>
     </section>
 
@@ -41,7 +41,7 @@
                 <div class="row form-group" id="div_fecha">
                     <div class="col-sm-12">
                         <div class="col-sm-6">
-                            <label class="control-label">Tipo Flujo:</label>
+                            <label class="control-label">Proceso:</label>
                             <select class="form-control" name="slct_flujos" id="slct_flujos">
                             </select>
                         </div>
@@ -70,9 +70,9 @@
                             <tr>
                                 <th>Código de Tramite</th>
                                 <th>Fecha Inicio</th>
-                                <th>software</th>
+                                <th>Mesa Partes</th>
                                 <th>Dueño de Proceso</th>
-                                <th>Area</th>
+                                <th>Area del Dueño</th>
                                 <th># Sin Alerta</th>
                                 <th># Alerta</th>
                                 <th># Alerta Validada</th>
@@ -85,9 +85,9 @@
                             <tr>
                                 <th>Código de Tramite</th>
                                 <th>Fecha Inicio</th>
-                                <th>software</th>
+                                <th>Mesa Partes</th>
                                 <th>Dueño de Proceso</th>
-                                <th>Area</th>
+                                <th>Area del Dueño</th>
                                 <th># Sin Alerta</th>
                                 <th># Alerta</th>
                                 <th># Alerta Validada</th>
@@ -109,15 +109,14 @@
                     <table id="t_reporteDetalle" class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Area</th>
+                                <th>Paso</th>
+                                <th>Area del paso</th>
                                 <th>Tiempo Asignado</th>
                                 <th>Inicio</th>
                                 <!-- <th>Cant</th> -->
                                 <th>Final</th>
-                                <th># orden</th>
-                                <th>Alerta</th>
-                                <th>Tipo Alerta</th>
-                                <th>Accion</th>
+                                <th>Estado Final</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="tb_reporteDetalle">

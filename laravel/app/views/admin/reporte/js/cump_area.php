@@ -94,4 +94,8 @@ activarTabla=function(){
 detalle=function(ruta_id){
     //CumpArea.mostrarDetalle(ruta_id);
 };
+
+eventoSlctGlobalSimple=function(slct,valores){
+
+}
 </script>

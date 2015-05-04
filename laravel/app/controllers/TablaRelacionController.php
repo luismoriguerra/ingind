@@ -26,6 +26,23 @@ class TablaRelacionController extends \BaseController
         }
     }
 
+    public function postRelacionunico()
+    {
+        //si la peticion es ajax
+        if ( Request::ajax() ) {
+            $tr             = new TablaRelacion;
+            $cargar         = Array();
+            $cargar         = $tr->getRelacionunico();
+
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $cargar
+                )
+            );
+        }
+    }
+
     public function postRutaflujo()
     {
         //si la peticion es ajax

@@ -25,6 +25,40 @@ class TablaRelacion extends Eloquent
                         }
                     )
                     ->get();
+
+        return $tr;
+    }
+
+    public function getRelacionunico()
+    {
+        $tr=         DB::table('tablas_relacion AS tr')
+                    ->join(
+                        'softwares AS s',
+                        's.id', '=', 'tr.software_id'
+                    )
+                    ->leftJoin(
+                        'rutas AS r',
+                        'tr.id', '=', 'r.tabla_relacion_id'
+                    )
+                    ->select(
+                        's.nombre AS software','tr.id_union AS codigo',
+                        'tr.estado AS cestado','tr.id',
+                        DB::raw(
+                            'IF(tr.estado,"Activo","Desactivo") AS estado,
+                            count(r.id) AS count'
+                        )
+                    )
+                    ->where(
+                        function($query){
+                            if( Input::get('estado') ){
+                                $query->where('tr.estado', '=', Input::get('estado'));
+                            }
+                        }
+                    )
+                    ->groupBy('tr.id')
+                    ->having('count', '=', '0')
+                    ->get();
+
         return $tr;
     }
 

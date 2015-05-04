@@ -21,7 +21,7 @@
             <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        Crear Ruta
+                        Crear Ruta del Proceso
                         <small> </small>
                     </h1>
                     <ol class="breadcrumb">
@@ -70,7 +70,7 @@
                                 <form name="form_ruta_flujo" id="form_ruta_flujo" method="POST" action="">
                                     <div class="row form-group" style="display:none">
                                         <div class="col-sm-12">
-                                            <h1><span id="txt_titulo">Nueva Ruta</span>
+                                            <h1><span id="txt_titulo">Nueva Ruta del Proceso</span>
                                             <small>
                                                 <i class="fa fa-angle-double-right fa-lg"></i>
                                                 <span id="texto_fecha_creacion">Fecha Creación:</span>
@@ -79,20 +79,20 @@
                                             </h1>
                                         </div>
                                         <div class="col-sm-12">
+                                            <div class="col-sm-4">
+                                                <label class="control-label">Dueño del Proceso:</label>
+                                                <input class="form-control" type="text" id="txt_persona" name="txt_persona" readonly>
+                                            </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Proceso:</label>
                                                 <select class="form-control" name="slct_flujo_id" id="slct_flujo_id">
                                                 </select>
                                             </div>
                                             <div class="col-sm-3">
-                                                <label class="control-label">Area:</label>
+                                                <label class="control-label">Area del Dueño del Proceso:</label>
                                                 <select class="form-control" name="slct_area_id" id="slct_area_id">
                                                 </select>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <label class="control-label">Creador:</label>
-                                                <input class="form-control" type="text" id="txt_persona" name="txt_persona" readonly>
-                                            </div>                                            
                                             <!--div class="col-sm-2">
                                                 <label class="control-label"># Ok:</label>
                                                 <input class="form-control" type="text" id="txt_ok" name="txt_ok" readonly>

@@ -11,21 +11,22 @@ var tiempoG=[];
 var verboG=[];
 var posicionDetalleVerboG=0;
 
+var fechaAux="";
 $(document).ready(function() {
-    $("[data-toggle='offcanvas']").click();
-    $("#btn_nuevo").click(Nuevo);
-    $("#btn_close").click(Close);
+    //$("[data-toggle='offcanvas']").click();
+    $("#btn_close2").click(Close);
     $("#btn_adicionar_ruta_detalle").click(adicionarRutaDetalle);
     $("#btn_guardar_tiempo").click(guardarTiempo);
     $("#btn_guardar_verbo").click(guardarVerbo);
     $("#btn_guardar_todo").click(guardarTodo);
-    Ruta.CargarRuta(HTMLCargarRuta);
-    var data = {estado:1,usuario:1};
+    var data = {estado:1};
     var ids = [];
-    slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
-    data = {estado:1};
-    slctGlobal.listarSlct('ruta_detalle','slct_area_id','simple');
+    slctGlobal.listarSlct('flujo','slct_flujo_id,#slct_flujo2_id','simple',ids,data);
+    slctGlobal.listarSlct('area','slct_area_id','simple',ids,data);
     slctGlobal.listarSlct('area','slct_area_id_2','simple',ids,data);
+
+    slctGlobal.listarSlct('ruta_detalle','slct_area2_id','simple');
+    slctGlobalHtml('slct_tipo_respuesta,#slct_tipo_respuesta_detalle','simple');
 
     $('#rutaModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
@@ -107,8 +108,70 @@ $(document).ready(function() {
       $("#form_ruta_verbo input[type='hidden']").remove();
       modal.find('.modal-body input').val(''); // busca un input para copiarle texto
     });
+
+    //$("#btn_guardar_todo").click(guardarTodo);
     //$("#areasasignacion").DataTable();
 });
+
+reiniciarslct=function(){
+    $("#slct_flujo_id,#slct_area_id").multiselect("disable");
+}
+
+mostrarRutaFlujo=function(){
+    reiniciarslct();
+    $("#form_ruta_detalle>.form-group").css("display","none");
+    var flujo_id=$.trim($("#slct_flujo2_id").val());
+    var area_id=$.trim($("#slct_area2_id").val());
+
+    if( flujo_id!='' && area_id!='' ){
+        var datos={ flujo_id:flujo_id,area_id:area_id };
+        $("#tabla_ruta_detalle").css("display","");
+        Editar.mostrarRutaDetalleAlerta(datos,mostrarRutaDetalleAlertaHTML);
+    }
+}
+
+mostrarRutaDetalleAlertaHTML=function(datos){
+    var html="";
+    var cont=0;
+    var botton="";
+    var color="";
+    var clase=""; var iov1=0; var iov2=0;
+     $('#t_ruta_detalle').dataTable().fnDestroy();
+    $.each(datos,function(index,data){
+        imagen="";
+        clase="";
+        cont++;
+        if($.trim(data.fecha_inicio)!=''){
+            iov1=data.verbo.indexOf("+1");
+            iov2=data.verbo.indexOf("+2");
+
+            agrega=1;
+            if(iov1!=false || iov2!=false){
+                agrega=2;
+            }
+
+            imagen='<a onclick="cargarRutaId('+data.ruta_flujo_id+',1,'+data.id+','+data.ruta_id+','+(data.norden*agrega)+');" class="btn btn-primary btn-sm"><i class="fa fa-edit fa-lg"></i> </a>';
+        }
+    html+="<tr>"+
+        "<td>"+cont+"</td>"+
+        "<td>"+data.id_doc+"</td>"+
+        "<td>"+data.norden+"</td>"+
+        "<td>"+data.tiempo+"</td>"+
+        "<td>"+data.fecha_inicio+"</td>"+
+        "<td>"+data.fecha_final+"</td>"+
+        "<td>"+data.observacion+"</td>"+
+        "<td>"+data.alerta_tipo+"</td>"+
+        "<td>"+imagen+
+            '<a onclick="cargarRutaId('+data.ruta_flujo_id+',2)" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>'+
+        "</td>";
+    html+="</tr>";
+
+    });
+    $("#tb_ruta_detalle").html(html); 
+    $('#t_ruta_detalle').dataTable({
+        "ordering": false
+    });
+}
 
 guardarTodo=function(){
     if( $("#slct_flujo_id").val()=="" ){
@@ -117,8 +180,19 @@ guardarTodo=function(){
     else if( $("#slct_area_id").val()=="" ){
         alert("Seleccione Area");
     }
+    else if( $("#txt_iniciara").val()=="" || $("#txt_iniciara").val()*1<=0 || $("#txt_iniciara").val()*1>$("#txt_orden_max").val()*1 || $("#txt_iniciara").val()*1>areasG.length ){
+    var r=areasG.length;
+        if(r>$("#txt_orden_max").val()*1){
+            r=$("#txt_orden_max").val()*1;
+        }
+        alert("No es válido, ingrese un número dentro del rago de 1 a "+r);
+    }
+    else if( $("#slct_estado_final").val()=='' ){
+        alert("Seleccione el estado final");
+    }
     else{
-        Ruta.CrearRuta(HTMLCargarRuta);
+        $("#slct_flujo_id,#slct_area_id").multiselect("enable");
+        Editar.CrearRuta(mostrarRutaFlujo);
     }
 
 }
@@ -256,7 +330,7 @@ pintarTiempoG=function(tid){
             htm=   '<tr id="tr_detalle_verbo_'+posicionDetalleVerboG+'">'+
                         '<td>'+(detalle2[0]*1+1)+'</td>'+
                         '<td>'+
-                            '<textarea class="form-control txt_verbo_'+detalle2[0]+'_modal" placeholder="Ing. Verbo">'+subdetalle2[j]+'</textarea>'+
+                            '<input class="form-control txt_verbo_'+detalle2[0]+'_modal" value="'+subdetalle2[j]+'" placeholder="Ing. Verbo" type="text">'+
                         '</td>'+
                         '<td>'+
                             '<select class="form-control slct_condicion_'+detalle2[0]+'_modal">'+
@@ -290,7 +364,7 @@ adicionaDetalleVerbo=function(det){
     htm=   '<tr id="tr_detalle_verbo_'+posicionDetalleVerboG+'">'+
                 '<td>'+(det*1+1)+'</td>'+
                 '<td>'+
-                    '<textarea class="form-control txt_verbo_'+det+'_modal" placeholder="Ing. Verbo"></textarea>'+
+                    '<input class="form-control txt_verbo_'+det+'_modal" placeholder="Ing. Verbo" type="text">'+
                 '</td>'+
                 '<td>'+
                     '<select class="form-control slct_condicion_'+det+'_modal">'+
@@ -658,61 +732,19 @@ pintarAreasG=function(permiso){
     $("#tb_rutaflujodetalleAreas").html(htm);
 }
 
-Nuevo=function(){
-    $("#txt_ruta_flujo_id_modal").remove();
-    $("#txt_titulo").text("Nueva Ruta");
-    $("#texto_fecha_creacion").text("Fecha Creación:");
-    $(".form-group").css("display","");
-    $("#txt_titulo").val("Nueva Ruta");
-    $("#slct_flujo_id,#slct_area_id").val("");
-    $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
-    $("#txt_persona").val('<?php echo Auth::user()->paterno." ".Auth::user()->materno." ".Auth::user()->nombre;?>');
-    $("#txt_ok,#txt_error").val("0");
-    $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
-    $("#btn_guardar_todo").css("display","");
-    $("#slct_area_id_2").multiselect("enable");
-}
-
 Actualiza=function(){
     $("#txt_titulo").val("Actualiza Ruta");
     $("#fecha_creacion").html('');
 }
 
 Close=function(){
-    $(".form-group").css("display","none");
+    $("#form_ruta_flujo .form-group").css("display","none");
 }
 
-HTMLCargarRuta=function(datos){
-    var html="";
-    var cont=0;
-    var botton="";
-     $('#t_rutaflujo').dataTable().fnDestroy();
-
-    $.each(datos,function(index,data){
-        imagen="";
-        botton=data.estado;
-        if(data.cestado==2){
-            imagen='<a onclick="cargarRutaId('+data.id+',1)" class="btn btn-primary btn-sm"><i class="fa fa-edit fa-lg"></i> </a>';
-            botton="<button onclick='ProduccionRutaFlujo("+data.id+")' class='btn btn-success'>"+data.estado+"</button>";
-        }
-
-    cont++;
-    html+="<tr>"+
-        "<td>"+cont+"</td>"+
-        "<td>"+data.flujo+"</td>"+
-        "<td>"+data.area+"</td>"+
-        "<td>"+data.fruta+"</td>"+
-        "<td>"+botton+"</td>"+
-        '<td>'+imagen+
-        '</td>';
-    html+="</tr>";
-
-    });
-    $("#tb_rutaflujo").html(html); 
-    $("#t_rutaflujo").dataTable();
-}
-
-cargarRutaId=function(ruta_flujo_id,permiso){
+cargarRutaId=function(ruta_flujo_id,permiso,rdid,rid,norden){
+    $("#txt_ruta_detalle_id").val(rdid);
+    $("#txt_ruta_id").val(rid);
+    $("#txt_orden_max").val(norden);
     $("#txt_ruta_flujo_id_modal").remove();
     $("#form_ruta_flujo").append('<input type="hidden" id="txt_ruta_flujo_id_modal" value="'+ruta_flujo_id+'">');
     $("#txt_titulo").text("Act. Ruta");
@@ -866,11 +898,4 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
         }
     }
 }
-
-ProduccionRutaFlujo=function(id){
-    if( confirm("Esta apunto de pasar a produccion; Si actualiza no podra regrear al estado anterior.") ){
-        Ruta.ActivarRutaFlujo(id,HTMLCargarRuta);
-    }
-}
-
 </script>

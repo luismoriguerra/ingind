@@ -21,13 +21,13 @@
             <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        Crear Ruta
+                        Rutas donde estoy Involucrado(a)
                         <small> </small>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
                         <li><a href="#">Ruta</a></li>
-                        <li class="active">Crear</li>
+                        <li class="active">Involucradas</li>
                     </ol>
                 </section>
 
@@ -87,7 +87,7 @@
                                                 </select>
                                             </div>
                                             <div class="col-sm-4">
-                                                <label class="control-label">Creador:</label>
+                                                <label class="control-label">Dueño del Proceso:</label>
                                                 <input class="form-control" type="text" id="txt_persona" name="txt_persona" readonly>
                                             </div>                                            
                                             <!--div class="col-sm-2">

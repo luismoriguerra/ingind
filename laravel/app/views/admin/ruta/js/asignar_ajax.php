@@ -2,10 +2,11 @@
 var Asignar={
     Relacion:function(evento){
         $.ajax({
-            url         : 'tabla_relacion/relacion',
+            url         : 'tabla_relacion/relacionunico',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
+            data        : {estado:1},
             beforeSend : function() {                
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },

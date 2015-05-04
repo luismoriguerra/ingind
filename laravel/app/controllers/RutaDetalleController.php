@@ -19,6 +19,23 @@ class RutaDetalleController extends \BaseController
         }
     }
 
+    public function postCargarrdv()
+    {
+        if ( Request::ajax() ) {
+            $r           = new RutaDetalle;
+            $res         = Array();
+            $res         = $r->getRutadetallev();
+
+            return Response::json(
+                array(
+                    'rst'   => '1',
+                    'msj'   => 'Detalle Cargado',
+                    'datos' => $res
+                )
+            );
+        }
+    }
+
     public function postListar()//aqui listará las areas unicas
     {
         if ( Request::ajax() ) {
@@ -64,6 +81,9 @@ class RutaDetalleController extends \BaseController
 
             $rdid=Input::get('ruta_detalle_id');
             $rd = RutaDetalle::find($rdid);
+
+            $alerta= Input::get('alerta');
+            $alertaTipo= Input::get('alerta_tipo');
             
             if ( Input::get('tipo_respuesta') ) {
                 $rd['dtiempo_final']= Input::get('respuesta');
@@ -79,6 +99,16 @@ class RutaDetalleController extends \BaseController
                     'email'     => Input::get('email')
                 );
 
+                $query='
+                    SELECT condicion,sum(finalizo) suma,count(condicion) cant
+                    FROM rutas_detalle_verbo
+                    WHERE ruta_detalle_id='.$rdid.'
+                    GROUP BY condicion
+                    HAVING suma=cant
+                    ORDER BY condicion DESC';
+                $querycondicion= DB::select($query);
+                $siguiente= $querycondicion[0]->condicion;
+
                 $validaSiguiente= DB::table('rutas_detalle AS rd')
                                     ->select('rd.id', DB::raw('now() AS ahora') )
                                     ->join(
@@ -87,18 +117,42 @@ class RutaDetalleController extends \BaseController
                                     )
                                     ->where('rd.ruta_id', '=', $rd->ruta_id)
                                     ->where('rd.norden', '>', $rd->norden)
+                                    ->where('rd.condicion', '=', '0')
                                     ->get();
                                     
-                if( count($validaSiguiente)>0 ){
-                    $idSiguiente= $validaSiguiente[0]->id;
-                    $fechaInicio= $validaSiguiente[0]->ahora;
+                if( count($validaSiguiente)>0  and ( ($alerta==1 and $alertaTipo==1) or ($alerta==0 and $alertaTipo==0) ) ){
+                    if($siguiente==0){
+                        $idSiguiente= $validaSiguiente[0]->id;
+                        $fechaInicio= $validaSiguiente[0]->ahora;
+                    }
+                    elseif($siguiente==1){
+                        $idinvalido= $validaSiguiente[1]->id;
+                        $rdinv= RutaDetalle::find($idinvalido);
+                        $rdinv['condicion']=1;
+                        $rdinv['usuario_updated_at']= Auth::user()->id;
+                        $rdinv->save();
+
+                        $idSiguiente= $validaSiguiente[0]->id;
+                        $fechaInicio= $validaSiguiente[0]->ahora;
+                    }
+                    elseif($siguiente==2){
+                        $idinvalido= $validaSiguiente[0]->id;
+                        $rdinv= RutaDetalle::find($idinvalido);
+                        $rdinv['condicion']=1;
+                        $rdinv['usuario_updated_at']= Auth::user()->id;
+                        $rdinv->save();
+
+                        $idSiguiente= $validaSiguiente[1]->id;
+                        $fechaInicio= $validaSiguiente[1]->ahora;
+                    }
 
                     $rd2 = RutaDetalle::find($idSiguiente);
                     $rd2['fecha_inicio']= $fechaInicio ;
                     $rd2['usuario_updated_at']= Auth::user()->id;
                     $rd2->save();
+
                 }
-                else{
+                elseif( count($validaSiguiente)==0 ){
                     $validaerror =  DB::table('rutas_detalle AS rd')
                                     ->select('rd.id')
                                     ->join(

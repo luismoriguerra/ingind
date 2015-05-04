@@ -98,12 +98,11 @@ HTMLreporteDetalle=function(datos){
         }
 
         html+="<tr class='"+alert+"'>";
+        html+=    "<td>"+data.norden+"</td>";
         html+=    "<td>"+data.area+"</td>";
         html+=    "<td>"+data.tiempo+": "+data.dtiempo+"</td>";
         html+=    "<td>"+data.fecha_inicio+"</td>";
         html+=    "<td>"+data.dtiempo_final+"</td>";
-        html+=    "<td>"+data.norden+"</td>";
-        html+=    "<td>"+alerta+"</td>";
         html+=    "<td>"+alerta_tipo+"</td>";
         html+=    "<td>"+data.verbo_finalizo+"</td>";
         html+="</tr>";

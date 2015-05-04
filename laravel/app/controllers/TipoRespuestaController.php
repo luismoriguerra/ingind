@@ -25,10 +25,23 @@ class TipoRespuestaController extends \BaseController
      */
     public function postListar()
     {
-        //si la peticion es ajax
         if ( Request::ajax() ) {
-            $tipoRespuesta = TipoRespuesta::get(Input::all());
-            return Response::json(array('rst'=>1,'datos'=>$tipoRespuesta));
+            if( Input::get('fecha_inicio') ){
+                $a      = new TipoRespuesta;
+                $listar = Array();
+                $listar = $a->getTipoRespuesta();
+
+                return Response::json(
+                    array(
+                        'rst'   => 1,
+                        'datos' => $listar
+                    )
+                );
+            }
+            else {
+                $tipoRespuesta = TipoRespuesta::get(Input::all());
+                return Response::json(array('rst'=>1,'datos'=>$tipoRespuesta));
+            }
         }
     }
     /**

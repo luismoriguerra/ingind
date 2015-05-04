@@ -17,8 +17,9 @@ class RutaDetalle extends Eloquent
             $adicional=
             'WHERE rd.area_id= "'.$area_id.'" 
             AND r.flujo_id= "'.$flujo_id.'"
+            AND rd.condicion=0
             GROUP BY rd.id
-            HAVING ( MIN(rdv.finalizo)=0 OR IFNULL(rd.dtiempo_final,"")="" )
+            HAVING ( IFNULL(rd.dtiempo_final,"")="" )
             ORDER BY fi,rd.created_at';
         }
 
@@ -30,7 +31,7 @@ class RutaDetalle extends Eloquent
         $query =
             'SELECT rd.id, rd.dtiempo_final, r.flujo_id,
             CONCAT(t.nombre," : ",rd.dtiempo) tiempo,
-            rd.observacion,
+            rd.observacion,r.ruta_flujo_id,
             a.nombre AS area,f.nombre AS flujo,
             s.nombre AS software,tr.id_union AS id_doc,
             rd.norden, IFNULL(rd.fecha_inicio,"") AS fecha_inicio,
@@ -51,13 +52,99 @@ class RutaDetalle extends Eloquent
                 CONCAT(
                     rdv.nombre,
                      "=>",
-                    IF(rdv.finalizo=0,"Pendiente","Finalizó")
+                    IF(rdv.finalizo=0,"<font color=#EC2121>Pendiente</font>","<font color=#22D72F>Finalizó</font>")
                 )
             SEPARATOR "|"),"") AS verbo2,IFNULL(rd.fecha_inicio,"9999") fi,
-            DATE_ADD(
+            IFNULL(
+                DATE_ADD(
                 rd.fecha_inicio, 
                 INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
-            ) AS fecha_max, now() AS hoy
+                )
+            ,"<font color=#E50D1C>Tranquilo! el paso anterior aún no ha acabado</font>") AS fecha_max, now() AS hoy
+            FROM rutas_detalle rd
+            INNER JOIN rutas r ON r.id=rd.ruta_id
+            LEFT JOIN rutas_detalle_verbo rdv ON (rd.id=rdv.ruta_detalle_id AND rdv.estado=1)
+            INNER JOIN areas a ON a.id=rd.area_id
+            INNER JOIN flujos f ON f.id=r.flujo_id
+            INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id
+            INNER JOIN softwares s ON s.id=tr.software_id
+            INNER JOIN tiempos t ON t.id=rd.tiempo_id '.$adicional;
+        $rd = DB::select($query);
+
+        if ( Input::get('ruta_detalle_id') ) {
+            return $rd[0];
+        }
+        else{
+            return $rd;
+        }
+    }
+
+    public function getRutadetallev()
+    {
+        $area_id="";
+        $flujo_id="";
+        $ruta_detalle_id="";
+        $adicional="";
+
+        if ( Input::get('area_id') ) {
+            $area_id= Input::get('area_id');
+            $flujo_id= Input::get('flujo_id');
+
+            $adicional=
+            'WHERE rd.area_id= "'.$area_id.'" 
+            AND r.flujo_id= "'.$flujo_id.'"
+            AND rd.condicion=0
+            AND rd.alerta=1 
+            AND rd.alerta_tipo>0 
+            GROUP BY rd.id
+            HAVING ( IFNULL(rd.dtiempo_final,"")!="" )
+            ORDER BY fi,rd.created_at';
+        }
+
+        if ( Input::get('ruta_detalle_id') ) {
+            $ruta_detalle_id= Input::get('ruta_detalle_id');
+            $adicional='WHERE rd.id="'.$ruta_detalle_id.'"';
+        }
+
+        $query =
+            'SELECT rd.id, rd.dtiempo_final, r.flujo_id,
+            CONCAT(t.nombre," : ",rd.dtiempo) tiempo,
+            rd.observacion,r.ruta_flujo_id,r.id AS ruta_id,
+            a.nombre AS area,f.nombre AS flujo,
+            s.nombre AS software,tr.id_union AS id_doc,
+            rd.norden, IFNULL(rd.fecha_inicio,"") AS fecha_inicio,
+            IFNULL(rd.dtiempo_final,"") AS fecha_final,
+            IFNULL(GROUP_CONCAT(
+                CONCAT(
+                    rdv.id,
+                     "=>",
+                    rdv.nombre,
+                     "=>",
+                    IF(rdv.finalizo=0,"Pendiente","Finalizó"),
+                    "=>",
+                    IF(rdv.condicion=1,"+1",
+                        IF(rdv.condicion=2,"+2","NO")
+                    )
+                )
+            SEPARATOR "|"),"") AS verbo,
+            IFNULL(GROUP_CONCAT(
+                CONCAT(
+                    rdv.nombre,
+                     "=>",
+                    IF(rdv.finalizo=0,"<font color=#EC2121>Pendiente</font>","<font color=#22D72F>Finalizó</font>")
+                )
+            SEPARATOR "|"),"") AS verbo2,IFNULL(rd.dtiempo_final,"9999") fi,
+            IFNULL(
+                DATE_ADD(
+                rd.fecha_inicio, 
+                INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
+                )
+            ,"<font color=#E50D1C>Tranquilo! el paso anterior aún no ha acabado</font>" )AS fecha_max, now() AS hoy,
+            IF(rd.alerta_tipo=1,"NO CUMPLE TIEMPO",
+                IF(rd.alerta_tipo=2,"NO CUMPLE TIEMPO ALERTA",
+                    IF(rd.alerta_tipo=3,"ALERTA ACTIVADA","")
+                )
+            ) alerta_tipo
             FROM rutas_detalle rd
             INNER JOIN rutas r ON r.id=rd.ruta_id
             LEFT JOIN rutas_detalle_verbo rdv ON (rd.id=rdv.ruta_detalle_id AND rdv.estado=1)

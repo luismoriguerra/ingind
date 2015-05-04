@@ -19,20 +19,20 @@ class TipoRespuesta extends Base
                     'tipos_respuesta AS tr',
                     'tr.id', '=', 'ftr.tipo_respuesta_id'
                 )
-                ->join(
+                ->leftJoin(
                     'tiempos AS t',
                     't.id', '=', 'ftr.tiempo_id'
                 )
                 ->select(
                     'tr.id','tr.nombre',
                     DB::raw(
-                        'CONCAT( t.totalminutos*ftr.dtiempo,
+                        'CONCAT( IFNULL(t.totalminutos,0)*ftr.dtiempo,
                                  "_",
                                  tr.tiempo,
                                  "_",
                                  DATE_ADD(
                                     "'.Input::get('fecha_inicio').'", 
-                                    INTERVAL (ftr.dtiempo*t.totalminutos) MINUTE
+                                    INTERVAL (ftr.dtiempo*IFNULL(t.totalminutos,0)) MINUTE
                                 )
                         ) AS evento'
                     )

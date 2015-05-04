@@ -14,21 +14,21 @@
     @include( 'admin.js.slct_global' )
 
     @include( 'admin.ruta.js.ruta_ajax' )
-    @include( 'admin.ruta.js.validar_ajax' )
-    @include( 'admin.ruta.js.validar' )
+    @include( 'admin.ruta.js.editar_ajax' )
+    @include( 'admin.ruta.js.editar' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
             <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        Gestión de los Pasos del Trámite
+                        Editar Trámites Trabados
                         <small> </small>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
                         <li><a href="#">Ruta</a></li>
-                        <li class="active">gestión del paso</li>
+                        <li class="active">Editar</li>
                     </ol>
                 </section>
 
@@ -47,7 +47,7 @@
                                                 </select>
                                             </div>
                                             <div class="col-sm-3">
-                                                <label class="control-label">Area del Dueño del Proceso:</label>
+                                                <label class="control-label">Area:</label>
                                                 <select class="form-control" name="slct_area2_id" id="slct_area2_id" onchange="mostrarRutaFlujo();">
                                                 </select>
                                             </div>
@@ -62,11 +62,11 @@
                                                             <th>#</th>
                                                             <th>Nro Trámite</th>
                                                             <th>Paso</th>
-                                                            <th>Acciones</th>
+                                                            <th>Tiempo Asig. del Paso </th>
                                                             <th>Fecha Inicio del Paso</th>
-                                                            <th>F. Final Prog. del Paso</th>
-                                                            <th>Proceso</th>
-                                                            <th>Area</th>
+                                                            <th>Fecha Final del Paso</th>
+                                                            <th>Descripción de respuesta del Paso</th>
+                                                            <th>Estado Final del Paso</th>
                                                             <th> [ ] </th>
                                                         </tr>
                                                     </thead>
@@ -78,105 +78,16 @@
                                                             <th>#</th>
                                                             <th>Nro Trámite</th>
                                                             <th>Paso</th>
-                                                            <th>Acciones</th>
+                                                            <th>Tiempo Asig. del Paso </th>
                                                             <th>Fecha Inicio del Paso</th>
-                                                            <th>F. Final Prog. del Paso</th>
-                                                            <th>Proceso</th>
-                                                            <th>Area</th>
+                                                            <th>Fecha Final del Paso</th>
+                                                            <th>Descripción de respuesta del Paso</th>
+                                                            <th>Estado Final del Paso</th>
                                                             <th> [ ] </th>
                                                         </tr>
                                                     </tfoot>
                                                 </table>
                                             </div>
-                                        </div>
-                                    </div>
-                                </form>
-
-                                <form name="form_ruta_detalle" id="form_ruta_detalle" method="POST" action="">
-                                    <div class="row form-group" style="display:none">
-                                        <div class="col-sm-12">
-                                            <h1><span id="txt_titulo2">Gestionar</span>
-                                            <small>
-                                                <i class="fa fa-angle-double-right fa-lg"></i>
-                                                <span id="texto_fecha_creacion2">:</span>
-                                            </small>
-                                            </h1>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="col-sm-2">
-                                                <label class="control-label">Proceso:</label>
-                                                <input type="text" class="form-control" id="txt_flujo" readonly>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <label class="control-label">Area:</label>
-                                                <input type="text" class="form-control" id="txt_area" readonly>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <label class="control-label">Paso:</label>
-                                                <input type="text" class="form-control" id="txt_orden" readonly>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <label class="control-label">Fecha Inicio:</label>
-                                                <input type="text" class="form-control" id="txt_fecha_inicio" readonly>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <label class="control-label">Nro Trámite:</label>
-                                                <input type="text" class="form-control" id="txt_id_doc" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="col-sm-3">
-                                                <label class="control-label">Tiempo asignado al paso:</label>
-                                                <input type="text" class="form-control" id="txt_tiempo" readonly>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <label class="control-label">Tiempo Final:</label>
-                                                <input type="text" class="form-control" id="txt_respuesta" name="txt_respuesta" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="col-sm-3">
-                                                <table class="table table-bordered table-striped">
-                                                    <thead><tr><th>¿Es Condicional?</th><th>Acciones</th><th>[-]</th></tr></thead>
-                                                    <tbody id="t_detalle_verbo"></tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="col-sm-3">
-                                                <label class="control-label">Tipo de respuesta del Paso:</label>
-                                                <select id="slct_tipo_respuesta" name="slct_tipo_respuesta">
-                                                    <option>Seleccione</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <label class="control-label">Detalle de respuesta del Paso:</label>
-                                                <select id="slct_tipo_respuesta_detalle" name="slct_tipo_respuesta_detalle">
-                                                    <option>Seleccione</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <label class="control-label">Descripción de respuesta del Paso:</label>
-                                                <textarea class="form-control" id="txt_observacion" name="txt_observacion" rows="3"></textarea>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <label class="control-label">Estado Final del Paso(Alerta):</label>
-                                                <input type="hidden" class="form-control" id="txt_alerta" name="txt_alerta">
-                                                <input type="hidden" class="form-control" id="txt_alerta_tipo" name="txt_alerta_tipo">
-                                                <div class="progress progress-striped active">
-                                                    <div id="div_cumple" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                                                        <span>Cumple</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <a class="btn btn-default btn-sm btn-sm" id="btn_close">
-                                                <i class="fa fa-remove fa-lg"></i>&nbsp;Close
-                                            </a>
-                                            <a class="btn btn-primary btn-sm" id="btn_guardar_todo">
-                                                <i class="fa fa-save fa-lg"></i>&nbsp;Guardar
-                                            </a>
                                         </div>
                                     </div>
                                 </form>
@@ -192,21 +103,24 @@
                                             </small>
                                             </h1>
                                         </div>
+                                        <input type="hidden" id="txt_ruta_id" name="txt_ruta_id">
+                                        <input type="hidden" id="txt_ruta_detalle_id" name="txt_ruta_detalle_id">
+                                        <input type="hidden" id="txt_orden_max" name="txt_orden_max">
                                         <div class="col-sm-12">
-                                            <div class="col-sm-3">
-                                                <label class="control-label">Proceso:</label>
-                                                <select class="form-control" name="slct_flujo_id" id="slct_flujo_id">
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <label class="control-label">Area:</label>
-                                                <select class="form-control" name="slct_area_id" id="slct_area_id">
-                                                </select>
-                                            </div>
                                             <div class="col-sm-4">
                                                 <label class="control-label">Dueño del Proceso:</label>
                                                 <input class="form-control" type="text" id="txt_persona" name="txt_persona" readonly>
-                                            </div>                                            
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label class="control-label">Proceso:</label>
+                                                <select class="form-control" name="slct_flujo_id" id="slct_flujo_id" disabled>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label class="control-label">Area del Dueño del Proceso:</label>
+                                                <select class="form-control" name="slct_area_id" id="slct_area_id" disabled>
+                                                </select>
+                                            </div>
                                             <!--div class="col-sm-2">
                                                 <label class="control-label"># Ok:</label>
                                                 <input class="form-control" type="text" id="txt_ok" name="txt_ok" readonly>
@@ -223,7 +137,10 @@
                                                 <table id="areasasignacion" class="table table-bordered" style="min-height:300px">
                                                     <thead> 
                                                         <tr class="head">
-                                                            <th style="width:250px !important;min-width: 200px !important;" >
+                                                            <th style="width:250px !important;min-width: 200px !important;" > 
+                                                                <a id="btn_adicionar_ruta_detalle" class="btn btn-primary btn-sm">
+                                                                    <i class="fa fa-plus-square fa-lg"></i>
+                                                                </a>
                                                             </th>
                                                             <th class="eliminadetalleg" style="min-width:1000px important!;">[]</th>
                                                         </tr>
@@ -234,6 +151,8 @@
                                                                 <table class="table table-bordered">
                                                                     <thead>
                                                                         <tr><th colspan="2">
+                                                                            <select class="form-control" name="slct_area_id_2" id="slct_area_id_2">
+                                                                            </select>
                                                                         </th></tr>
                                                                         <tr class="head">
                                                                             <th>#</th>
@@ -255,8 +174,25 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
+                                            <div class="col-sm-1">
+                                                <label>Iniciará en el paso:</label>
+                                                <input type="number" id="txt_iniciara" name="txt_iniciara" class="form-control">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label>Estado Final:</label>
+                                                <select id="slct_estado_final" name="slct_estado_final">
+                                                    <option value="">Seleccione</option>
+                                                    <option value="2">Validado</option>
+                                                    <option value="3">Denegado</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
                                             <a class="btn btn-default btn-sm btn-sm" id="btn_close2">
                                                 <i class="fa fa-remove fa-lg"></i>&nbsp;Close
+                                            </a>
+                                            <a class="btn btn-primary btn-sm" id="btn_guardar_todo">
+                                                <i class="fa fa-save fa-lg"></i>&nbsp;Guardar
                                             </a>
                                         </div>
                                     </div>
