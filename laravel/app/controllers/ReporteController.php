@@ -2,7 +2,78 @@
 
 class ReporteController extends BaseController
 {
-
+    /**
+     * 
+     */
+    public function postTramitexfecha()
+    {
+        $fecha = Input::get('fecha');
+        list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+        //$fechaIni = Input::get('fechaIni');
+        $fechaFin = $fechaFin.' 23:59:59';
+        $rutaFlujo =    DB::table('rutas_flujo AS rf')
+                            ->join(
+                                'rutas_flujo_detalle AS rfd',
+                                'rf.id','=','rfd.ruta_flujo_id'
+                            )
+                            ->join(
+                                'flujos AS f',
+                                'f.id','=','rf.flujo_id'
+                            )
+                            ->join(
+                                'personas AS p',
+                                'p.id','=','rf.persona_id'
+                            )
+                            ->join(
+                                'areas AS a',
+                                'a.id','=','rf.area_id'
+                            )
+                            ->join(
+                                'areas AS a2',
+                                'a2.id','=','rfd.area_id'
+                            )
+                            ->join(
+                                'tiempos as t',
+                                't.id','=','rfd.tiempo_id'
+                            )
+                            ->select('f.nombre AS flujo','rf.estado AS cestado',
+                                    'rf.id','a2.nombre as area2', 'rfd.dtiempo',
+                                    't.nombre as tiempo','rfd.norden',
+                                    DB::raw(
+                                        'CONCAT(
+                                            p.paterno," ",p.materno," ",p.nombre
+                                        ) AS persona'
+                                    ),
+                                    'a.nombre AS area',
+                                    'rf.n_flujo_ok AS ok',
+                                    'rf.n_flujo_error AS error',
+                                    DB::raw(
+                                        'IFNULL(rf.ruta_id_dep,"") AS dep'
+                                    ),
+                                    DB::raw(
+                                        'DATE(rf.created_at) AS fruta'
+                                    ),
+                                    DB::raw(
+                                        'IF(rf.estado=1,"Produccion",
+                                            IF(rf.estado=2,"Pendiente","Inactivo")
+                                        ) AS estado'
+                                    )
+                            )
+                            ->whereBetween('rf.created_at', array($fechaIni, $fechaFin))
+                            //->where('rf.estado', '=', '1') }
+                            
+                            //->orderBy('n_flujo_ok','DESC')
+                            //->orderBy('n_flujo_error','ASC')
+                            ->orderBy('rf.id','desc')
+                            ->get();
+        //return $rutaFlujo;
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$rutaFlujo
+            )
+        );
+    }
     /**
      * Cumplimiento de ruta por tramite
      * POST reporte/cumprutaxtramite
