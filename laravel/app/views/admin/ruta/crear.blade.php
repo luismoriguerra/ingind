@@ -109,7 +109,7 @@
                                                 <table id="areasasignacion" class="table table-bordered" style="min-height:300px">
                                                     <thead> 
                                                         <tr class="head">
-                                                            <th style="width:250px !important;min-width: 200px !important;" > 
+                                                            <th style="width:450px !important;min-width: 200px !important;" > 
                                                                 <a id="btn_adicionar_ruta_detalle" class="btn btn-primary btn-sm">
                                                                     <i class="fa fa-plus-square fa-lg"></i>
                                                                 </a>
@@ -127,7 +127,7 @@
                                                                             </select>
                                                                         </th></tr>
                                                                         <tr class="head">
-                                                                            <th>#</th>
+                                                                            <th style="width:110px;">#</th>
                                                                             <th>Area</th>
                                                                         </tr>
                                                                     </thead>

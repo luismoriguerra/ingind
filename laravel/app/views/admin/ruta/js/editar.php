@@ -809,7 +809,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
         theadArea.push(head);
 
         body=   '<tr>'+
-                    '<td class="areafinal" style="height:100px; background-image: url('+"'"+'img/admin/area/'+imgfinal+"'"+');">&nbsp;'+
+                    '<td class="areafinal" onclick="AbreTv('+valor+');" style="height:100px; background-image: url('+"'"+'img/admin/area/'+imgfinal+"'"+');">&nbsp;'+
                     '<span class="badge bg-yellow">'+areasG.length+'</span>'+
                     '</td>'+
                 '</tr>';
@@ -832,7 +832,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
         tbodyArea.push([]);
         tbodyArea[ (tbodyArea.length-1) ].push(position+"|"+tbodyArea[position].length );
         body=   '<tr>'+
-                    '<td class="areafinal" style="height:100px; background-image: url('+"'"+'img/admin/area/'+imgfinal+"'"+');">&nbsp;'+
+                    '<td class="areafinal" onclick="AbreTv('+valor+');" style="height:100px; background-image: url('+"'"+'img/admin/area/'+imgfinal+"'"+');">&nbsp;'+
                     '<span class="badge bg-yellow">'+areasG.length+'</span>'+
                     '</td>'+
                 '</tr>';
@@ -897,5 +897,9 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
             }
         }
     }
+}
+
+AbreTv=function(val){
+    $("#areasasignacion [data-id='"+val+"']").click();
 }
 </script>

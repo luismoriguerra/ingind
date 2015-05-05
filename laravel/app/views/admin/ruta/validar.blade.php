@@ -223,7 +223,7 @@
                                                 <table id="areasasignacion" class="table table-bordered" style="min-height:300px">
                                                     <thead> 
                                                         <tr class="head">
-                                                            <th style="width:250px !important;min-width: 200px !important;" >
+                                                            <th style="width:150px !important;min-width: 200px !important;" >
                                                             </th>
                                                             <th class="eliminadetalleg" style="min-width:1000px important!;">[]</th>
                                                         </tr>

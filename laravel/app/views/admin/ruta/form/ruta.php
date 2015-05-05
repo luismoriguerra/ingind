@@ -1,7 +1,7 @@
 <!-- /.modal -->
 <div class="modal fade" id="rutaModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content" style="overflow: auto;height:600px;">
         <!-- Custom Tabs -->
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs logo">

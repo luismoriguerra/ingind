@@ -12,6 +12,7 @@ var verboG=[];
 var posicionDetalleVerboG=0;
 $(document).ready(function() {
     //$("[data-toggle='offcanvas']").click();
+    $("#btn_guardar_tiempo,#btn_guardar_verbo").remove();
     $("#btn_close").click(Close);
     var data = {estado:1};
     var ids = [];
@@ -276,12 +277,12 @@ pintarTiempoG=function(tid){
         htm=   '<tr>'+
                     '<td>'+(detalle[0]*1+1)+'</td>'+
                     '<td>'+
-                        '<select class="form-control" id="slct_tipo_tiempo_'+detalle[0]+'_modal">'+
+                        '<select class="form-control" id="slct_tipo_tiempo_'+detalle[0]+'_modal" disabled>'+
                             $('#slct_tipo_tiempo_modal').html()+
                         '</select>'+
                     '</td>'+
                     '<td>'+
-                        '<input class="form-control" type="number" id="txt_tiempo_'+detalle[0]+'_modal" value="'+detalle[2]+'">'+
+                        '<input class="form-control" type="number" id="txt_tiempo_'+detalle[0]+'_modal" value="'+detalle[2]+'" disabled>'+
                     '</td>'+
                 '</tr>';
         $("#tb_tiempo").append(htm);
@@ -300,24 +301,20 @@ pintarTiempoG=function(tid){
             posicionDetalleVerboG++;
             imagen="";
             if(subdetalle2.length>1){
-                imagen='<button onclick="eliminaDetalleVerbo('+posicionDetalleVerboG+');" type="button" class="btn btn-danger btn-sm">'+
-                          '<i class="fa fa-minus fa-lg"></i>'+
-                        '</button>';
+                imagen='';
             }
             
             if( (j+1)==subdetalle2.length ){
-                imagen='<button onclick="adicionaDetalleVerbo('+detalle2[0]+');" type="button" class="btn btn-success btn-sm">'+
-                          '<i class="fa fa-plus fa-lg"></i>'+
-                        '</button>';
+                imagen='';
             }
 
             htm=   '<tr id="tr_detalle_verbo_'+posicionDetalleVerboG+'">'+
                         '<td>'+(detalle2[0]*1+1)+'</td>'+
                         '<td>'+
-                            '<input class="form-control txt_verbo_'+detalle2[0]+'_modal" value="'+subdetalle2[j]+'" placeholder="Ing. Verbo" type="text">'+
+                            '<textarea disabled class="form-control txt_verbo_'+detalle2[0]+'_modal" placeholder="Ing. Verbo">'+subdetalle2[j]+'</textarea>'+
                         '</td>'+
                         '<td>'+
-                            '<select class="form-control slct_condicion_'+detalle2[0]+'_modal">'+
+                            '<select disabled class="form-control slct_condicion_'+detalle2[0]+'_modal">'+
                                 $('#slct_condicion_modal').html()+
                             '</select>'+
                         '</td>'+
@@ -429,7 +426,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
         theadArea.push(head);
 
         body=   '<tr>'+
-                    '<td class="areafinal" style="height:100px; background-image: url('+"'"+'img/admin/area/'+imgfinal+"'"+');">&nbsp;'+
+                    '<td class="areafinal" onclick="AbreTv('+valor+');" style="height:100px; background-image: url('+"'"+'img/admin/area/'+imgfinal+"'"+');">&nbsp;'+
                     '<span class="badge bg-yellow">'+areasG.length+'</span>'+
                     '</td>'+
                 '</tr>';
@@ -452,7 +449,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
         tbodyArea.push([]);
         tbodyArea[ (tbodyArea.length-1) ].push(position+"|"+tbodyArea[position].length );
         body=   '<tr>'+
-                    '<td class="areafinal" style="height:100px; background-image: url('+"'"+'img/admin/area/'+imgfinal+"'"+');">&nbsp;'+
+                    '<td class="areafinal" onclick="AbreTv('+valor+');" style="height:100px; background-image: url('+"'"+'img/admin/area/'+imgfinal+"'"+');">&nbsp;'+
                     '<span class="badge bg-yellow">'+areasG.length+'</span>'+
                     '</td>'+
                 '</tr>';
@@ -557,4 +554,7 @@ validandoconteo=0;
     //alertatodo();
 }
 
+AbreTv=function(val){
+    $("#areasasignacion [data-id='"+val+"']").click();
+}
 </script>
