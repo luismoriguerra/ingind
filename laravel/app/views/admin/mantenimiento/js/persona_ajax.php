@@ -46,7 +46,7 @@ var Persona={
                 $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
                                     '<i class="fa fa-ban"></i>'+
                                     '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente. Si el problema persiste favor de comunicarse a ubicame@puedesencontrar.com</b>'+
+                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.</b>'+
                                 '</div>');
                 cargos_selec=[];
             }
@@ -74,7 +74,7 @@ var Persona={
                 $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
                     '<i class="fa fa-ban"></i>'+
                     '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente. Si el problema persiste favor de comunicarse a ubicame@puedesencontrar.com</b>'+
+                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.</b>'+
                 '</div>');
             }
         });
@@ -158,7 +158,7 @@ var Persona={
                 $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
                                     '<i class="fa fa-ban"></i>'+
                                     '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente. Si el problema persiste favor de comunicarse a ubicame@puedesencontrar.com</b>'+
+                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.</b>'+
                                 '</div>');
             }
         });

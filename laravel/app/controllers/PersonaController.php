@@ -59,14 +59,15 @@ class PersonaController extends BaseController
                 'nombre' => $required.'|'.$regex,
                 'paterno' => $required.'|'.$regex,
                 'materno' => $required.'|'.$regex,
-                'email' => 'required|email',
+                'email' => 'required|email|unique:personas,email',
                 'password'      => 'required|min:6',
-                'dni'      => 'required|min:8',
+                'dni'      => 'required|min:8|unique:personas,dni',
             );
 
             $mensaje= array(
                 'required'    => ':attribute Es requerido',
                 'regex'        => ':attribute Solo debe ser Texto',
+                'exists'       => ':attribute ya existe',
             );
 
             $validator = Validator::make(Input::all(), $reglas, $mensaje);
@@ -193,8 +194,8 @@ class PersonaController extends BaseController
                 'nombre' => $required.'|'.$regex,
                 'paterno' => $required.'|'.$regex,
                 'materno' => $required.'|'.$regex,
-                'email' => 'required|email',
-                'dni'      => 'required|min:8',
+                'email' => 'required|email|unique:personas,email,'.Input::get('id'),
+                'dni'      => 'required|min:8|unique:personas,dni,'.Input::get('id'),
                 //'password'      => 'required|min:6',
             );
 

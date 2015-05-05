@@ -105,12 +105,12 @@
             </div>
           </fieldset>
           <fieldset id="f_areas_cargo">
-            <legend>Areas por cargo</legend>
+            <legend>Niveles de Acceso</legend>
 
             <div class="row form-group">
               <div class="col-sm-12">
                 <div class="col-sm-6">
-                  <label class="control-label">Cargos:
+                  <label class="control-label">Roles:
                   </label>
                   <select class="form-control" name="slct_cargos" id="slct_cargos">
                   </select>
