@@ -57,7 +57,7 @@ HTMLreporte=function(datos){
             "<td>"+data.ok+"</td>"+
             "<td>"+data.error+"</td>"+
             "<td>"+data.corregido+"</td>"+
-            '<td><a onClick="detalle('+data.id+')" class="btn btn-primary btn-sm" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
+            '<td><a onClick="detalle('+data.id+',this)" class="btn btn-primary btn-sm" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
         html+="</tr>";
 
         var array={id_union: data.id_union, ok: data.ok, error:data.error, corregido:data.corregido};
@@ -113,7 +113,12 @@ HTMLreporteDetalle=function(datos){
 activarTabla=function(){
     $("#t_reporte").dataTable();
 };
-detalle=function(ruta_id){
+detalle=function(ruta_id, boton){
+    var tr = boton.parentNode.parentNode;
+    var trs = tr.parentNode.children;
+    for(var i =0;i<trs.length;i++)
+        trs[i].style.backgroundColor="#f9f9f9";
+    tr.style.backgroundColor = "#9CD9DE";
     Rutas.mostrarDetalle(ruta_id);
 };
 </script>

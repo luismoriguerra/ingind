@@ -65,7 +65,7 @@
         <div class="box-body table-responsive">
             <div class="row form-group" id="reporte" style="display:none;">
                 <div class="col-sm-12">
-                    <table id="t_reporte" class="table table-bordered table-striped">
+                    <table id="t_reporte" class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>Código de Tramite</th>
