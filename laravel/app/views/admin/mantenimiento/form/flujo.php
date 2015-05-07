@@ -19,6 +19,11 @@
             <input type="text" class="form-control" placeholder="Ingrese Nombre" name="txt_nombre" id="txt_nombre">
           </div>
           <div class="form-group">
+              <label class="control-label">Area del Proceso:</label>
+              <select class="form-control" name="slct_area_id" id="slct_area_id">
+              </select>
+          </div>
+          <div class="form-group">
             <label class="control-label">Estado:
             </label>
             <select class="form-control" name="slct_estado" id="slct_estado">

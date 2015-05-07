@@ -1,6 +1,7 @@
 <script type="text/javascript">
 $(document).ready(function() {  
     Flujos.CargarFlujos(activarTabla);
+    slctGlobal.listarSlct('ruta_detalle','slct_area_id','simple');
 
     $('#flujoModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton

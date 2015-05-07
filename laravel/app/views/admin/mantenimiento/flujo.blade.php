@@ -35,6 +35,7 @@
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
+                                        <th>Area</th>
                                         <th>Estado</th>
                                         <th> [ ] </th>
                                     </tr>
@@ -44,6 +45,7 @@
                                 <tfoot>
                                     <tr>
                                         <th>Nombre</th>
+                                        <th>Area</th>
                                         <th>Estado</th>
                                         <th> [ ] </th>
                                     </tr>
