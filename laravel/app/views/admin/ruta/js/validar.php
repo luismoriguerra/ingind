@@ -18,7 +18,8 @@ $(document).ready(function() {
     $("#btn_guardar_tiempo,#btn_guardar_verbo").remove();
     var data = {estado:1};
     var ids = [];
-    slctGlobal.listarSlct('flujo','slct_flujo_id,#slct_flujo2_id','simple',ids,data);
+    slctGlobal.listarSlct('flujo','slct_flujo2_id','simple',ids,data);
+    slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     slctGlobal.listarSlct('area','slct_area_id','simple',ids,data);
 
     slctGlobal.listarSlct('ruta_detalle','slct_area2_id','simple');
@@ -196,7 +197,7 @@ cerrar=function(){
 }
 
 mostrarRutaFlujo=function(){
-    $("#form_ruta_detalle>.form-group").css("display","none");
+    /*$("#form_ruta_detalle>.form-group").css("display","none");
     var flujo_id=$.trim($("#slct_flujo2_id").val());
     var area_id=$.trim($("#slct_area2_id").val());
 
@@ -204,7 +205,7 @@ mostrarRutaFlujo=function(){
         var datos={ flujo_id:flujo_id,area_id:area_id };
         $("#tabla_ruta_detalle").css("display","");
         Validar.mostrarRutaDetalle(datos,mostrarRutaDetalleHTML);
-    }
+    }*/
 }
 
 mostrarRutaDetalleHTML=function(datos){
@@ -360,7 +361,6 @@ guardarTodo=function(){
 }
 
 eventoSlctGlobalSimple=function(slct,valores){
-
     if( slct=="slct_tipo_respuesta" ){
         var detval=valores.split("|").join("").split("_");
         fechaAux="";
@@ -368,8 +368,22 @@ eventoSlctGlobalSimple=function(slct,valores){
         fechaAux=detval[2];
         }
     }
-}
+    else if( slct=="slct_flujo2_id" ){
+        var valor=valores.split('|').join("");
+        $("#slct_area2_id").val(valor);
+        $("#slct_area2_id").multiselect('refresh');
 
+        $("#form_ruta_detalle>.form-group").css("display","none");
+        var flujo_id=$.trim($("#slct_flujo2_id").val());
+        var area_id=$.trim($("#slct_area2_id").val());
+
+        if( flujo_id!='' && area_id!='' ){
+            var datos={ flujo_id:flujo_id,area_id:area_id };
+            $("#tabla_ruta_detalle").css("display","");
+            Validar.mostrarRutaDetalle(datos,mostrarRutaDetalleHTML);
+        }
+    }
+}
 
 ////////////////////// Agregando para el mostrar detalle
 pintarTiempoG=function(tid){

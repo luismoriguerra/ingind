@@ -123,7 +123,16 @@ class RutaFlujo extends Eloquent
                                     }
                                     else{
                                         $query->where('rf.estado', '=', '2')
-                                        ->where('rf.persona_id', '=', Auth::user()->id);
+                                        ->whereRaw(
+                                            'rf.area_id IN (
+                                                SELECT a.id
+                                                FROM area_cargo_persona acp
+                                                INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                                                INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                                WHERE acp.estado=1
+                                                AND cp.persona_id='.Auth::user()->id.'
+                                            )'
+                                        );
                                     }
                                 }
                             )

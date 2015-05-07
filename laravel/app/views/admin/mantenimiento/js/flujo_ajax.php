@@ -52,6 +52,7 @@ var Flujos={
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
+            data        : {usuario:2},
             beforeSend : function() {
                 
             },
@@ -67,6 +68,7 @@ var Flujos={
 
                         html+="<tr>"+
                             "<td id='nombre_"+data.id+"'>"+data.nombre+"</td>"+
+                            "<td id='area_"+data.id+"' data-area='"+data.area_id+"'>"+data.area+"</td>"+
                             "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
                             '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#flujoModal" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
 
@@ -75,6 +77,29 @@ var Flujos={
                 }      
                 $("#tb_flujos").html(html); 
                 evento();  
+            },
+            error: function(){
+            }
+        });
+    },
+    ListarAreas:function(area){
+        $.ajax({
+            url         : 'ruta_detalle/listar',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : {usuario:2},
+            beforeSend : function() {
+                
+            },
+            success : function(obj) {
+                var html="<option value=''> Seleccione </option>";
+                if(obj.rst==1){
+                    $.each(obj.datos,function(index,data){
+                        html+='<option value="'+data.id+'">'+data.nombre+'</option>';
+                    });
+                }
+                 $("#"+area).html(html); 
             },
             error: function(){
             }

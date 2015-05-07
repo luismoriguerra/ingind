@@ -90,7 +90,7 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Area del Dueño del Proceso:</label>
-                                                <select class="form-control" name="slct_area_id" id="slct_area_id">
+                                                <select class="form-control" name="slct_area_id" id="slct_area_id" disabled>
                                                 </select>
                                             </div>
                                             <!--div class="col-sm-2">

@@ -12,10 +12,16 @@ class FlujoController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $datos=Input::all();
-            $datos['usuario_created_at']=Auth::user()->id;
-            $flujos = Flujo::get($datos);
-            return Response::json(array('rst'=>1,'datos'=>$flujos));
+            $f      = new Flujo();
+            $listar = Array();
+            $listar = $f->getFlujo();
+
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $listar
+                )
+            );
         }
     }
 
@@ -77,6 +83,7 @@ class FlujoController extends \BaseController
             $flujos = new Flujo;
             $flujos['nombre'] = Input::get('nombre');
             $flujos['estado'] = Input::get('estado');
+            $flujos['area_id'] = Input::get('area_id');
             $flujos['usuario_created_at'] = Auth::user()->id;
             $flujos->save();
 
@@ -122,6 +129,7 @@ class FlujoController extends \BaseController
             $flujoId = Input::get('id');
             $flujo = Flujo::find($flujoId);
             $flujo['nombre'] = Input::get('nombre');
+            $flujo['area_id'] = Input::get('area_id');
             $flujo['estado'] = Input::get('estado');
             $flujos['usuario_updated_at'] = Auth::user()->id;
             $flujo->save();

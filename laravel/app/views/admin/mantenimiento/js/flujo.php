@@ -1,7 +1,7 @@
 <script type="text/javascript">
 $(document).ready(function() {  
     Flujos.CargarFlujos(activarTabla);
-    slctGlobal.listarSlct('ruta_detalle','slct_area_id','simple');
+    Flujos.ListarAreas('slct_area_id');
 
     $('#flujoModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
@@ -17,6 +17,7 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
             $('#form_flujos #slct_estado').val(1); 
+            $('#form_flujos #slct_area_id').val(""); 
             $('#form_flujos #txt_nombre').focus();
         }
         else{
@@ -24,6 +25,7 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
             $('#form_flujos #txt_nombre').val( $('#t_flujos #nombre_'+button.data('id') ).text() );
             $('#form_flujos #slct_estado').val( $('#t_flujos #estado_'+button.data('id') ).attr("data-estado") );
+            $('#form_flujos #slct_area_id').val( $('#t_flujos #area_'+button.data('id') ).attr("data-area") );
             $("#form_flujos").append("<input type='hidden' value='"+button.data('id')+"' name='id'>");
         }
 

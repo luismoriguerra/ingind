@@ -43,6 +43,10 @@ $(document).ready(function() {
     $("#chart").css('display','block');
     graph.setData(dataMorris);
 };*/
+eventoSlctGlobalSimple=function(slct,valores){
+
+}
+
 HTMLreporte=function(datos){
     var html="";
     $('#t_reporte').dataTable().fnDestroy();

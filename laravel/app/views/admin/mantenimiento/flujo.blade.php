@@ -3,6 +3,7 @@
 
 @section('includes')
     @parent
+
     @include( 'admin.mantenimiento.js.flujo_ajax' )
     @include( 'admin.mantenimiento.js.flujo' )
 @stop

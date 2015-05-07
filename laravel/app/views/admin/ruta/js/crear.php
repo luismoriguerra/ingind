@@ -303,6 +303,11 @@ adicionaDetalleVerbo=function(det){
 }
 
 eventoSlctGlobalSimple=function(slct,valor){
+    valor=valor.split('|').join("");
+    if( slct=="slct_flujo_id" ){
+        $("#slct_area_id").val(valor);
+        $("#slct_area_id").multiselect('refresh');
+    }
 // por ahora nad solo necesito q se actie nomas
 }
 

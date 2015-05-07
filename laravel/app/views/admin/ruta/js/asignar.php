@@ -16,7 +16,8 @@ $(document).ready(function() {
     $("#btn_close").click(Close);
     var data = {estado:1};
     var ids = [];
-    slctGlobal.listarSlct('flujo','slct_flujo2_id,#slct_flujo_id','simple',ids,data);
+    slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
+    slctGlobal.listarSlct('flujo','slct_flujo2_id','simple',ids,data);
     slctGlobal.listarSlct('area','slct_area2_id,#slct_area_id','simple',ids,data);
     var data = {estado:1};
     slctGlobal.listarSlct('software','slct_software_id_modal','simple',ids,data);
@@ -119,9 +120,6 @@ $(document).ready(function() {
     //$("#areasasignacion").DataTable();
 });
 
-eventoSlctGlobalSimple=function(slct,valores){
-
-}
 
 hora=function(){
 var fecha = new Date()
@@ -143,15 +141,21 @@ $("#txt_fecha_inicio").val(horita);
 tiempo = setTimeout('hora()',1000);
 }
 
-mostrarRutaFlujo=function(){
-    $("#tabla_ruta_flujo").css("display","none");
-    var flujo_id=$.trim($("#slct_flujo2_id").val());
-    var area_id=$.trim($("#slct_area2_id").val());
+eventoSlctGlobalSimple=function(slct,valores){
+    if( slct=="slct_flujo2_id" ){
+        var valor=valores.split('|').join("");
+        $("#slct_area2_id").val(valor);
+        $("#slct_area2_id").multiselect('refresh');
 
-    if( flujo_id!='' && area_id!='' ){
-        var datos={ flujo_id:flujo_id,area_id:area_id };
-        $("#tabla_ruta_flujo").css("display","");
-        Asignar.mostrarRutaFlujo(datos,mostrarRutaFlujoHTML);
+        //$("#form_ruta_detalle>.form-group").css("display","none");
+        var flujo_id=$.trim($("#slct_flujo2_id").val());
+        var area_id=$.trim($("#slct_area2_id").val());
+
+        if( flujo_id!='' && area_id!='' ){
+            var datos={ flujo_id:flujo_id,area_id:area_id };
+            $("#tabla_ruta_flujo").css("display","");
+            Asignar.mostrarRutaFlujo(datos,mostrarRutaFlujoHTML);
+        }
     }
 }
 
