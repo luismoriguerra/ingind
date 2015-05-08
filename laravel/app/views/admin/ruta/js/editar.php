@@ -228,7 +228,7 @@ guardarVerbo=function(){
         alerta=false;
         $(".txt_verbo_"+detalle[0]+"_modal").each(
                 function( index ) { 
-                    verboaux+= "|"+$(this).val();
+                    verboaux+= "|"+$(this).val().split(",").join(";");
                 }
         );
 
@@ -261,7 +261,7 @@ guardarVerbo=function(){
         //alert("guardando: "+ detalle.join("_"));
         verboG[tid][i]=detalle.join("_");
     }
-    alert('Verbo(s) Actualizado(s)');
+    alert('Accion(es) Actualizado(s)');
 }
 
 pintarTiempoG=function(tid){
@@ -318,7 +318,7 @@ pintarTiempoG=function(tid){
             htm=   '<tr id="tr_detalle_verbo_'+posicionDetalleVerboG+'">'+
                         '<td>'+(detalle2[0]*1+1)+'</td>'+
                         '<td>'+
-                            '<input class="form-control txt_verbo_'+detalle2[0]+'_modal" value="'+subdetalle2[j]+'" placeholder="Ing. Verbo" type="text">'+
+                            '<input class="form-control txt_verbo_'+detalle2[0]+'_modal" value="'+subdetalle2[j]+'" placeholder="Ing. Acción" type="text">'+
                         '</td>'+
                         '<td>'+
                             '<select class="form-control slct_condicion_'+detalle2[0]+'_modal">'+
@@ -352,7 +352,7 @@ adicionaDetalleVerbo=function(det){
     htm=   '<tr id="tr_detalle_verbo_'+posicionDetalleVerboG+'">'+
                 '<td>'+(det*1+1)+'</td>'+
                 '<td>'+
-                    '<input class="form-control txt_verbo_'+det+'_modal" placeholder="Ing. Verbo" type="text">'+
+                    '<input class="form-control txt_verbo_'+det+'_modal" placeholder="Ing. Acción" type="text">'+
                 '</td>'+
                 '<td>'+
                     '<select class="form-control slct_condicion_'+det+'_modal">'+

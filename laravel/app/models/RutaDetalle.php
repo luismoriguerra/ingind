@@ -10,13 +10,19 @@ class RutaDetalle extends Eloquent
         $ruta_detalle_id="";
         $adicional="";
 
-        if ( Input::get('area_id') ) {
-            $area_id= Input::get('area_id');
-            $flujo_id= Input::get('flujo_id');
+        if ( Input::get('tramite') ) {
+            $tramite=Input::get('tramite');
 
             $adicional=
-            'WHERE rd.area_id= "'.$area_id.'" 
-            AND r.flujo_id= "'.$flujo_id.'"
+            'WHERE tr.id_union="'.$tramite.'"
+            AND rd.area_id IN (
+                    SELECT a.id
+                    FROM area_cargo_persona acp
+                    INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                    WHERE acp.estado=1
+                    AND cp.persona_id='.Auth::user()->id.'
+                    )
             AND rd.condicion=0
             GROUP BY rd.id
             HAVING ( IFNULL(rd.dtiempo_final,"")="" )
@@ -70,7 +76,7 @@ class RutaDetalle extends Eloquent
             INNER JOIN softwares s ON s.id=tr.software_id
             INNER JOIN tiempos t ON t.id=rd.tiempo_id '.$adicional;
         $rd = DB::select($query);
-
+        //echo $query;
         if ( Input::get('ruta_detalle_id') ) {
             return $rd[0];
         }

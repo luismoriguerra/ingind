@@ -64,6 +64,13 @@ validaFlujos=function(){
     $('#form_flujos [data-toggle="tooltip"]').css("display","none");
     var a=[];
     a[0]=valida("txt","nombre","");
+    a[1]=true;
+
+    if($("#slct_area_id").val()==""){
+        a[1]=false;
+        $('#error_area').attr('data-original-title','Seleccione Area');
+        $('#error_area').css('display','');
+    }
     var rpta=true;
 
     for(i=0;i<a.length;i++){

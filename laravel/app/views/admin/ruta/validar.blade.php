@@ -41,7 +41,7 @@
                                 <form name="form_validar" id="form_validar" method="POST" action="">
                                     <div class="row form-group" >
                                         <div class="col-sm-12">
-                                            <div class="col-sm-3">
+                                            <!--div class="col-sm-3">
                                                 <label class="control-label">Proceso:</label>
                                                 <select class="form-control" name="slct_flujo2_id" id="slct_flujo2_id">
                                                 </select>
@@ -50,6 +50,13 @@
                                                 <label class="control-label">Area del Dueño del Proceso:</label>
                                                 <select class="form-control" disabled name="slct_area2_id" id="slct_area2_id">
                                                 </select>
+                                            </div-->
+                                            <div class="col-sm-3">
+                                                <label class="control-label">Ingrese Nro Trámite:</label>
+                                                <input type="text" id="txt_tramite" name="txt_tramite">
+                                                <a class="btn btn-warning btn-sm" id="btn_buscar">
+                                                    <i class="fa fa-search fa-lg"></i>&nbsp;
+                                                </a>
                                             </div>
                                         </div>
                                     </div>

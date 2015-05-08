@@ -166,7 +166,7 @@ guardarVerbo=function(){
         alerta=false;
         $(".txt_verbo_"+detalle[0]+"_modal").each(
                 function( index ) { 
-                    verboaux+= "|"+$(this).val();
+                    verboaux+= "|"+$(this).val().split(",").join(";");
                 }
         );
 
@@ -199,7 +199,7 @@ guardarVerbo=function(){
         //alert("guardando: "+ detalle.join("_"));
         verboG[tid][i]=detalle.join("_");
     }
-    alert('Verbo(s) Actualizado(s)');
+    alert('Accion(es) Actualizado(s)');
 }
 
 pintarTiempoG=function(tid){
@@ -256,7 +256,7 @@ pintarTiempoG=function(tid){
             htm=   '<tr id="tr_detalle_verbo_'+posicionDetalleVerboG+'">'+
                         '<td>'+(detalle2[0]*1+1)+'</td>'+
                         '<td>'+
-                            '<textarea class="form-control txt_verbo_'+detalle2[0]+'_modal" placeholder="Ing. Verbo">'+subdetalle2[j]+'</textarea>'+
+                            '<textarea class="form-control txt_verbo_'+detalle2[0]+'_modal" placeholder="Ing. Acción">'+subdetalle2[j]+'</textarea>'+
                         '</td>'+
                         '<td>'+
                             '<select class="form-control slct_condicion_'+detalle2[0]+'_modal">'+
@@ -290,7 +290,7 @@ adicionaDetalleVerbo=function(det){
     htm=   '<tr id="tr_detalle_verbo_'+posicionDetalleVerboG+'">'+
                 '<td>'+(det*1+1)+'</td>'+
                 '<td>'+
-                    '<textarea class="form-control txt_verbo_'+det+'_modal" placeholder="Ing. Verbo"></textarea>'+
+                    '<textarea class="form-control txt_verbo_'+det+'_modal" placeholder="Ing. Acción"></textarea>'+
                 '</td>'+
                 '<td>'+
                     '<select class="form-control slct_condicion_'+det+'_modal">'+
@@ -873,7 +873,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
 }
 
 ProduccionRutaFlujo=function(id){
-    if( confirm("Esta apunto de pasar a produccion; Si actualiza no podra regrear al estado anterior.") ){
+    if( confirm("Esta apunto de pasar a produccion; Si acepta no podra regresar al estado anterior.") ){
         Ruta.ActivarRutaFlujo(id,HTMLCargarRuta);
     }
 }

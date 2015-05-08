@@ -10,7 +10,7 @@
                   <button type="button" class="btn btn-default btn-sm">
                     <i class="fa fa-list-ul fa-lg"></i>
                   </button>
-                  ASIG. VERBO
+                  ASIG. ACCION(ES)
                   </a>
                 </li>
                 <li class="title">
@@ -77,8 +77,8 @@
                         <table class="table table-bordered table-striped">
                           <thead>
                             <tr>
-                              <th>Posicion</th>
-                              <th>Verbo</th>
+                              <th>Paso</th>
+                              <th>Acción</th>
                               <th>Condicional</th>
                               <th>[X]</th>
                             </tr>

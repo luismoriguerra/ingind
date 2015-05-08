@@ -16,9 +16,10 @@ $(document).ready(function() {
     //$("[data-toggle='offcanvas']").click();
     $("#btn_close2").click(Close);
     $("#btn_guardar_tiempo,#btn_guardar_verbo").remove();
-    var data = {estado:1};
+    var data = {estado:1,usuario:1};
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo2_id','simple',ids,data);
+    data = {estado:1}
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     slctGlobal.listarSlct('area','slct_area_id','simple',ids,data);
 
@@ -27,6 +28,7 @@ $(document).ready(function() {
     
     $("#btn_close").click(cerrar);
     $("#btn_guardar_todo").click(guardarTodo);
+    $("#btn_buscar").click(buscar);
     hora();
 
     $('#rutaModal').on('show.bs.modal', function (event) {
@@ -194,6 +196,17 @@ cerrar=function(){
     $("#form_ruta_detalle input[type='text'],#form_ruta_detalle textarea,#form_ruta_detalle select").val("");
     $('#form_ruta_detalle select').multiselect('refresh');
     $("#form_ruta_detalle t_detalle_verbo").html("");
+}
+
+buscar=function(){
+    if( $("#txt_tramite").val()!="" ){
+     var datos={ tramite:$("#txt_tramite").val() };
+    $("#tabla_ruta_detalle").css("display","");
+    Validar.mostrarRutaDetalle(datos,mostrarRutaDetalleHTML);
+    }
+    else{
+        alert("Ingrese Nro Trámite y busque nuevamente");
+    }
 }
 
 mostrarRutaFlujo=function(){
@@ -373,7 +386,6 @@ eventoSlctGlobalSimple=function(slct,valores){
         $("#slct_area2_id").val(valor);
         $("#slct_area2_id").multiselect('refresh');
 
-        $("#form_ruta_detalle>.form-group").css("display","none");
         var flujo_id=$.trim($("#slct_flujo2_id").val());
         var area_id=$.trim($("#slct_area2_id").val());
 

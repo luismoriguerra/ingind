@@ -11,7 +11,7 @@
       <div class="modal-body">
         <form id="form_flujos" name="form_flujos" action="" method="post">
           <div class="form-group">
-            <label class="control-label">Nombre
+            <label class="control-label">Nombre:
                 <a id="error_nombre" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Nombre">
                     <i class="fa fa-exclamation"></i>
                 </a>
@@ -19,7 +19,11 @@
             <input type="text" class="form-control" placeholder="Ingrese Nombre" name="txt_nombre" id="txt_nombre">
           </div>
           <div class="form-group">
-              <label class="control-label">Area del Proceso:</label>
+              <label class="control-label">Area del Proceso:
+                <a id="error_area" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Seleccione Area">
+                    <i class="fa fa-exclamation"></i>
+                </a>
+              </label>
               <select class="form-control" name="slct_area_id" id="slct_area_id">
               </select>
           </div>
