@@ -19,6 +19,7 @@ $(document).ready(function() {
     $("#btn_guardar_tiempo").click(guardarTiempo);
     $("#btn_guardar_verbo").click(guardarVerbo);
     $("#btn_guardar_todo").click(guardarTodo);
+    $("#btn_buscar").click(buscar);
     var data = {estado:1};
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
@@ -114,6 +115,17 @@ $(document).ready(function() {
     //$("#areasasignacion").DataTable();
 });
 
+buscar=function(){
+    if( $("#txt_tramite").val()!="" ){
+     var datos={ tramite:$("#txt_tramite").val() };
+    $("#tabla_ruta_detalle").css("display","");
+    Editar.mostrarRutaDetalleAlerta(datos,mostrarRutaDetalleAlertaHTML);
+    }
+    else{
+        alert("Ingrese Nro Trámite y busque nuevamente");
+    }
+}
+
 reiniciarslct=function(){
     $("#slct_flujo_id,#slct_area_id").multiselect("disable");
 }
@@ -134,11 +146,11 @@ mostrarRutaDetalleAlertaHTML=function(datos){
             iov2=data.verbo.indexOf("+2");
 
             agrega=1;
-            if(iov1!=false || iov2!=false){
+            if(iov1>=0 || iov2>=0){
                 agrega=2;
             }
 
-            imagen='<a onclick="cargarRutaId('+data.ruta_flujo_id+',1,'+data.id+','+data.ruta_id+','+(data.norden*agrega)+');" class="btn btn-primary btn-sm"><i class="fa fa-edit fa-lg"></i> </a>';
+            imagen='<a onclick="cargarRutaId('+data.ruta_flujo_id+',1,'+data.id+','+data.ruta_id+','+(data.norden*1+agrega)+','+"'"+data.codalerta+"'"+','+agrega+');" class="btn btn-primary btn-sm"><i class="fa fa-edit fa-lg"></i> </a>';
         }
     html+="<tr>"+
         "<td>"+cont+"</td>"+
@@ -150,7 +162,6 @@ mostrarRutaDetalleAlertaHTML=function(datos){
         "<td>"+data.observacion+"</td>"+
         "<td>"+data.alerta_tipo+"</td>"+
         "<td>"+imagen+
-            '<a onclick="cargarRutaId('+data.ruta_flujo_id+',2)" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>'+
         "</td>";
     html+="</tr>";
 
@@ -168,19 +179,19 @@ guardarTodo=function(){
     else if( $("#slct_area_id").val()=="" ){
         alert("Seleccione Area");
     }
-    else if( $("#txt_iniciara").val()=="" || $("#txt_iniciara").val()*1<=0 || $("#txt_iniciara").val()*1>$("#txt_orden_max").val()*1 || $("#txt_iniciara").val()*1>areasG.length ){
+    else if( !$("#txt_iniciara").attr("disabled") && ($("#txt_iniciara").val()=="" || $("#txt_iniciara").val()*1<=0 || $("#txt_iniciara").val()*1>$("#txt_orden_max").val()*1 || $("#txt_iniciara").val()*1>areasG.length) ){
     var r=areasG.length;
         if(r>$("#txt_orden_max").val()*1){
             r=$("#txt_orden_max").val()*1;
         }
-        alert("No es válido, ingrese un número dentro del rago de 1 a "+r);
+        alert("No es válido, ingrese un número dentro del rango de 1 a "+r);
     }
     else if( $("#slct_estado_final").val()=='' ){
         alert("Seleccione el estado final");
     }
     else{
         $("#slct_flujo_id,#slct_area_id").multiselect("enable");
-        Editar.CrearRuta(mostrarRutaFlujo);
+        Editar.CrearRuta(buscar);
     }
 
 }
@@ -366,7 +377,7 @@ adicionaDetalleVerbo=function(det){
 
 eventoSlctGlobalSimple=function(slct,valor){
     if( slct=="slct_flujo2_id" ){
-        var valor=valores.split('|').join("");
+        var valor=valor.split('|').join("");
         $("#slct_area2_id").val(valor);
         $("#slct_area2_id").multiselect('refresh');
 
@@ -744,7 +755,16 @@ Close=function(){
     $("#form_ruta_flujo .form-group").css("display","none");
 }
 
-cargarRutaId=function(ruta_flujo_id,permiso,rdid,rid,norden){
+cargarRutaId=function(ruta_flujo_id,permiso,rdid,rid,norden,codalerta,ncond){
+    $("#txt_iniciara").removeAttr("disabled");
+    $("#condicional").val("0");
+    if(codalerta=='1-1'){
+        $("#txt_iniciara").attr("disabled","true");
+    }
+    if(ncond==2){
+        $("#condicional").val("1");
+    }
+    $("#txt_iniciara,#slct_estado_final").val("");
     $("#txt_ruta_detalle_id").val(rdid);
     $("#txt_ruta_id").val(rid);
     $("#txt_orden_max").val(norden);

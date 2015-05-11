@@ -144,7 +144,16 @@
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">
                                                 <table class="table table-bordered table-striped">
-                                                    <thead><tr><th>¿Es Condicional?</th><th>Acciones</th><th>[-]</th></tr></thead>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nro</th>
+                                                            <th>¿Es Condicional?</th>
+                                                            <th>Acciones</th>
+                                                            <th>Resultados</th>
+                                                            <th>Observaciones</th>
+                                                            <th>[-]</th>
+                                                        </tr>
+                                                    </thead>
                                                     <tbody id="t_detalle_verbo"></tbody>
                                                 </table>
                                             </div>

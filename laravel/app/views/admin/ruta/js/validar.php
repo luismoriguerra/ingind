@@ -288,11 +288,16 @@ mostrarDetalleHTML=function(datos){
     var detalle="";
     var html="";
     var imagen="";
+    var obs="";
+    var cod="";
         if ( datos.verbo!='' ) {
             detalle=datos.verbo.split("|");
             html="";
             for (var i = 0; i < detalle.length; i++) {
+
                 imagen = "<i class='fa fa-check fa-lg'></i>";
+                cod = detalle[i].split("=>")[4];
+                obs = detalle[i].split("=>")[5];
                 if(detalle[i].split("=>")[2]=="Pendiente"){
                     if(detalle[i].split("=>")[3]=="NO"){
                         valorenviado=0;
@@ -303,15 +308,20 @@ mostrarDetalleHTML=function(datos){
                     else if(detalle[i].split("=>")[3]=="+2"){
                         valorenviado=2;
                     }
+                    cod = "<textarea class='txt"+valorenviado+"' name='txt_"+detalle[i].split("=>")[0]+"' id='txt_"+detalle[i].split("=>")[0]+"'></textarea>";
+                    obs = "<textarea data-pos='"+(i*1+1)+"' class='area"+valorenviado+"' name='area_"+detalle[i].split("=>")[0]+"' id='area_"+detalle[i].split("=>")[0]+"'></textarea>";
                     imagen="<input type='checkbox' class='check"+valorenviado+"' onChange='validacheck("+valorenviado+",this.id);' value='"+detalle[i].split("=>")[0]+"' name='chk_verbo_"+detalle[i].split("=>")[0]+"' id='chk_verbo_"+detalle[i].split("=>")[0]+"'>";
                 }
 
                 html+=  "<tr>"+
+                            "<td>"+(i*1+1)+"</td>"+
                             "<td>"+detalle[i].split("=>")[3]+"</td>"+
                             "<td>"+detalle[i].split("=>")[1]+"</td>"+
+                            "<td>"+cod+"</td>"+
+                            "<td>"+obs+"</td>"+
                             "<td>"+imagen+"</td>"+
                         "</tr>";
-            };
+            }
             $("#t_detalle_verbo").html(html);
         }
 
@@ -319,13 +329,23 @@ mostrarDetalleHTML=function(datos){
 
 guardarTodo=function(){
     var verboaux="";
+    var codaux="";
+    var obsaux="";
     var contcheck=0;
     var conttotalcheck=0;
+    var alerta=false;
     $("#t_detalle_verbo input[type='checkbox']").each(
         function( index ) { 
-            if ( $(this).is(':checked') ) {
+            if ( $(this).is(':checked') && alerta==false ) {
                 verboaux+= "|"+$(this).val();
+                codaux+="|"+$("#txt_"+$(this).val()).val();
+                obsaux+="|"+$("#area_"+$(this).val()).val();
                 contcheck++;
+
+                if( $("#area_"+$(this).val()).val()=="" ){
+                    alert("Ingrese su observación de la acción "+$("#area_"+$(this).val()).attr("data-pos"));
+                    alerta=true;
+                }
             }
             conttotalcheck++;
         }
@@ -335,23 +355,29 @@ guardarTodo=function(){
         verboaux=verboaux.substr(1);
         $("#form_ruta_detalle>#verbog").remove();
         $("#form_ruta_detalle").append("<input type='hidden' id='verbog' name='verbog' value='"+verboaux+"'>");
+        codaux=codaux.substr(1);
+        $("#form_ruta_detalle>#codg").remove();
+        $("#form_ruta_detalle").append("<input type='hidden' id='codg' name='codg' value='"+codaux+"'>");
+        obsaux=obsaux.substr(1);
+        $("#form_ruta_detalle>#obsg").remove();
+        $("#form_ruta_detalle").append("<input type='hidden' id='obsg' name='obsg' value='"+obsaux+"'>");
     }
 
-    if( conttotalcheck>0 && contcheck==0 ) {
+    if( conttotalcheck>0 && contcheck==0 && alerta==false ) {
             alert("Seleccione al menos 1 check");
     }
-    else if ( !$("#txt_observacion").attr("disabled") && $("#txt_observacion").val()=='' ) {
-        alert("Ingrese una observacion");
-    }
-    else if ( !$("#slct_tipo_respuesta").attr("disabled") && $("#slct_tipo_respuesta").val()=='' ) {
+    else if ( !$("#slct_tipo_respuesta").attr("disabled") && $("#slct_tipo_respuesta").val()=='' && alerta==false ) {
         alert("Seleccione Tipo de Respuesta");
     }
-    else if ( !$("#slct_tipo_respuesta_detalle").attr("disabled") && $("#slct_tipo_respuesta_detalle").val()=='' ) {
+    else if ( !$("#slct_tipo_respuesta_detalle").attr("disabled") && $("#slct_tipo_respuesta_detalle").val()=='' && alerta==false ) {
         alert("Seleccione Detalle Tipo Respuesta");
     }
-    else{
+    else if ( !$("#txt_observacion").attr("disabled") && $("#txt_observacion").val()=='' && alerta==false ) {
+        alert("Ingrese observacion del paso");
+    }
+    else if( alerta==false ){
         if( confirm("Favor de confirmar para actualizar su información") ){
-            Validar.guardarValidacion(mostrarRutaFlujo);
+            Validar.guardarValidacion(buscar);
         }
     }
     /*if( $.trim($("#txt_codigo").val())==''){

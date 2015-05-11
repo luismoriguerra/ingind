@@ -51,7 +51,11 @@ class RutaDetalle extends Eloquent
                     "=>",
                     IF(rdv.condicion=1,"+1",
                         IF(rdv.condicion=2,"+2","NO")
-                    )
+                    ),
+                    "=>",
+                    IFNULL(rdv.documento,""),
+                    "=>",
+                    IFNULL(rdv.observacion,"")
                 )
             SEPARATOR "|"),"") AS verbo,
             IFNULL(GROUP_CONCAT(
@@ -92,13 +96,19 @@ class RutaDetalle extends Eloquent
         $ruta_detalle_id="";
         $adicional="";
 
-        if ( Input::get('area_id') ) {
-            $area_id= Input::get('area_id');
-            $flujo_id= Input::get('flujo_id');
+        if ( Input::get('tramite') ) {
+            $tramite= Input::get('tramite');
 
             $adicional=
-            'WHERE rd.area_id= "'.$area_id.'" 
-            AND r.flujo_id= "'.$flujo_id.'"
+            'WHERE tr.id_union="'.$tramite.'"
+            AND rd.area_id IN (
+                    SELECT a.id
+                    FROM area_cargo_persona acp
+                    INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                    WHERE acp.estado=1
+                    AND cp.persona_id='.Auth::user()->id.'
+                    )
             AND rd.condicion=0
             AND rd.alerta=1 
             AND rd.alerta_tipo>0 
@@ -150,7 +160,7 @@ class RutaDetalle extends Eloquent
                 IF(rd.alerta_tipo=2,"NO CUMPLE TIEMPO ALERTA",
                     IF(rd.alerta_tipo=3,"ALERTA ACTIVADA","")
                 )
-            ) alerta_tipo
+            ) alerta_tipo,CONCAT(rd.alerta,"-",rd.alerta_tipo) codalerta
             FROM rutas_detalle rd
             INNER JOIN rutas r ON r.id=rd.ruta_id
             LEFT JOIN rutas_detalle_verbo rdv ON (rd.id=rdv.ruta_detalle_id AND rdv.estado=1)

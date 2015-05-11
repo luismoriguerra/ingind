@@ -13,7 +13,7 @@ class TipoRespuesta extends Base
         return $this->hasMany('TipoRespuestaDetalle');
     }
 
-    public static function getTipoRespuesta(){
+    public function getTipoRespuesta(){
         $r = DB::table('flujo_tipo_respuesta AS ftr')
                 ->join(
                     'tipos_respuesta AS tr',

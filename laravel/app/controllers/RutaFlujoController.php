@@ -449,6 +449,7 @@ class RutaFlujoController extends \BaseController
         $ruta_id=Input::get('ruta_id');
         $ruta_detalle_id= Input::get('ruta_detalle_id');
         $estado_final=Input::get('estado_final');
+        $condicional=Input::get('condicional');
 
         if($verificando==false){
             $envioestado=1;
@@ -460,9 +461,8 @@ class RutaFlujoController extends \BaseController
                         AND rf.estado=1";
             $qrfinal= DB::select($qfinal);
         }
-        else{
-            $envioestado=0;
 
+        if( $iniciara!="" ){
             $sqldetalle="SELECT * 
                          FROM rutas_detalle
                          WHERE ruta_id='".$ruta_id."'
@@ -487,8 +487,21 @@ class RutaFlujoController extends \BaseController
                         $rd['fecha_inicio']=date("Y-m-d");
                     }
                     $rd->save();
+
+                    $sqldetalleverbo="SELECT * 
+                                      FROM rutas_detalle_verbo
+                                      WHERE ruta_detalle_id='".$qdetalle[$i]->id."'
+                                      ORDER BY id ";
+                    $qdetalleverbo= DB::select($sqldetalleverbo);
+                    for($j=0; $j<count($qdetalleverbo); $j++ ){
+                        $rdv= new RutaDetalleVerbo;
+                        $rdv['ruta_detalle_id']=$rd->id;
+                        $rdv['nombre']=$qdetalleverbo[$j]->nombre;
+                        $rdv['condicion']=$qdetalleverbo[$j]->condicion;
+                        $rdv->save();
+                    }
                 }
-                elseif( trim($qdetalle[$i]->dtiempo_final)=='' AND $qdetalle[$i]->norden<=$iniciara ){
+                elseif( trim($qdetalle[$i]->dtiempo_final)=='' AND $qdetalle[$i]->norden<=$iniciara+$condicional ){
                     if($qdetalle[$i]->norden==$iniciara){
                         $rda=RutaDetalle::find($qdetalle[$i]->id);
                         $rda['fecha_inicio']=date("Y-m-d");

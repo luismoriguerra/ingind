@@ -72,9 +72,13 @@ class RutaDetalleController extends \BaseController
         if ( Request::ajax() ) {
             DB::beginTransaction();
             $verbog= explode( "|",Input::get('verbog') );
+            $codg= explode( "|",Input::get('codg') );
+            $obsg= explode( "|",Input::get('obsg') );
             for( $i=0; $i<count($verbog); $i++ ){
                 $rdv= RutaDetalleVerbo::find($verbog[$i]);
                 $rdv['finalizo'] = '1';
+                $rdv['documento'] = $codg[$i];
+                $rdv['observacion'] = $obsg[$i];
                 $rdv['usuario_updated_at']= Auth::user()->id;
                 $rdv->save();
             }
