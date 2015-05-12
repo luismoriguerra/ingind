@@ -21,6 +21,10 @@ $(document).ready(function() {
     slctGlobal.listarSlct('area','slct_area2_id,#slct_area_id','simple',ids,data);
     var data = {estado:1};
     slctGlobal.listarSlct('software','slct_software_id_modal','simple',ids,data);
+    slctGlobalHtml("slct_tipo_persona","simple");
+
+    $("#txt_fecha_tramite").inputmask("yyyy/mm/dd", {"placeholder": "yyyy/mm/dd"});
+    $("[data-mask]").inputmask();
 
     Asignar.Relacion(RelacionHTML);
 
@@ -120,6 +124,15 @@ $(document).ready(function() {
     //$("#areasasignacion").DataTable();
 });
 
+tpersona=function(valor){
+    $(".natural, .juridica").css("display","none");
+    if(valor==1){
+        $(".natural").css("display","");
+    }
+    else if(valor==2){
+        $(".juridica").css("display","");
+    }
+}
 
 hora=function(){
 var fecha = new Date()
@@ -245,14 +258,32 @@ guardarRelacion=function(){
 }
 
 guardarTodo=function(){
-    if( $.trim($("#txt_codigo").val())==''){
-        alert("Busque y seleccione un código");
-    }
-    else if( $("#slct_flujo2_id").val()=='' ){
+    if( $("#slct_flujo2_id").val()=='' ){
         alert("Seleccione un Tipo Flujo");
     }
-    else if( $("#slct_area2_id").val()=='' ){
-        alert("Seleccione una Area");
+    else if( $.trim($("#txt_codigo").val())==''){
+        alert("Ingrese Nro Trámite");
+    }
+    else if( $("#txt_fecha_tramite").val()=='' ){
+        alert("Ingrese Fecha Trámite");
+    }
+    else if( $("#slct_tipo_persona").val()=='' ){
+        alert("Seleccione Tipo Persona");
+    }
+    else if( $("#slct_tipo_persona").val()=='2' && $("#txt_ruc").val()=='' ){
+        alert("Ingrese RUC");
+    }
+    else if( $("#slct_tipo_persona").val()=='2' && $("#txt_razon_social").val()==''){
+        alert("Ingrese Razon Social");
+    }
+    else if( $("#slct_tipo_persona").val()=='1' && $("#txt_paterno").val()=='' ){
+        alert("Ingrese Paterno");
+    }
+    else if( $("#slct_tipo_persona").val()=='1' && $("#txt_materno").val()=='' ){
+        alert("Ingrese Materno")
+    }
+    else if( $("#slct_tipo_persona").val()=='1' && $("#txt_nombre").val()=='' ){
+        alert("Ingrese Nombre");
     }
     else if( !$("#txt_ruta_flujo_id").val() || $("#txt_ruta_flujo_id").val()=='' ){
         alert("Seleccione una combinacion donde almeno exita 1 registro");

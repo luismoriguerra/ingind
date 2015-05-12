@@ -96,6 +96,7 @@ var Asignar={
                 if(obj.rst==1){
                     $("#tb_ruta_flujo").html("");
                     $("#form_asignar input[type='hidden']").remove();
+                    $(".natural, .juridica").css("display","none");
                     $("#form_asignar input[type='text'],#form_asignar select").val("");
                     $('#form_asignar select').multiselect('refresh');
                     $("#msj").html('<div class="alert alert-dismissable alert-success">'+
@@ -103,7 +104,14 @@ var Asignar={
                                         '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
                                         '<b>'+obj.msj+'</b>'+
                                     '</div>');
-                }  
+                }
+                else{
+                    $("#msj").html('<div class="alert alert-dismissable alert-warning">'+
+                                        '<i class="fa fa-warning"></i>'+
+                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
+                                        '<b>'+obj.msj+'</b>'+
+                                    '</div>');
+                }
                 $(".overlay,.loading-img").remove();
             },
             error: function(){

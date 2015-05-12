@@ -42,18 +42,7 @@
                                     <div class="row form-group" >
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">
-                                                <label class="control-label">Buscar Nro Trámite:</label>
-                                                <div class="input-group margin">
-                                                    <input class="form-control" id="txt_codigo" type="text" placeholder="Busque código" readonly>
-                                                    <span class="input-group-btn">
-                                                        <button class="btn btn-warning btn-flat" onclick="MostrarTablaRelacion();" type="button">
-                                                        <i class="fa fa-search fa-lg"></i>
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <label class="control-label">Fecha Inicio:</label>
+                                                <label class="control-label">Fecha Inicio de la Gestión:</label>
                                                 <input type="text" class="form-control" name="txt_fecha_inicio" id="txt_fecha_inicio" readOnly>
                                             </div>
                                             <div class="col-sm-3">
@@ -65,6 +54,53 @@
                                                 <label class="control-label">Area:</label>
                                                 <select class="form-control" disabled name="slct_area2_id" id="slct_area2_id">
                                                 </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-3">
+                                                <label class="control-label">Nro Trámite:</label>
+                                                <input class="form-control" id="txt_codigo" name="txt_codigo" type="text" placeholder="Ing. Trámite">
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label class="control-label"> Fecha Trámite:</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input class="form-control" id="txt_fecha_tramite" name="txt_fecha_tramite" data-inputmask="'alias': 'yyyy/mm/dd'" data-mask="" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label class="control-label">Tipo Persona:</label>
+                                                <select class="form-control" name="slct_tipo_persona" id="slct_tipo_persona" onchange="tpersona(this.value);">
+                                                    <option value="">Seleccione</option>
+                                                    <option value="1">Natural</option>
+                                                    <option value="2">Juridica</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 juridica" style="display:none">
+                                            <div class="col-sm-3">
+                                                <label class="control-label"> RUC:</label>
+                                                <input class="form-control" type="text" id="txt_ruc" name="txt_ruc" placeholder='RUC'>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label class="control-label"> Razon social:</label>
+                                                <input class="form-control" type="text" id="txt_razon_social" name="txt_razon_social" placeholder='Razon Social'>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 natural" style="display:none">
+                                            <div class="col-sm-3">
+                                                <label class="control-label"> Paterno:</label>
+                                                <input class="form-control" type="text" id="txt_paterno" name="txt_paterno" placeholder='Paterno'>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label class="control-label"> Materno:</label>
+                                                <input class="form-control" type="text" id="txt_materno" name="txt_materno" placeholder='Materno'>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label class="control-label"> Nombre:</label>
+                                                <input class="form-control" type="text" id="txt_nombre" name="txt_nombre" placeholder='Nombre'>
                                             </div>
                                         </div>
                                     </div>

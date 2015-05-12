@@ -8,10 +8,43 @@ class Ruta extends Eloquent
      */
     public function crearRuta(){
         DB::beginTransaction();
+
+        $tablaRelacion=DB::table('tablas_relacion')
+                        ->where('id_union', '=', Input::get('codigo'))
+                        ->get();
+
+        if(count($tablaRelacion)>0){
+            DB::rollback();
+            return  array(
+                    'rst'=>2,
+                    'msj'=>'Nro trámite ya registrado anteriormente'
+                );
+        }
+        else{
+
+        $tablaRelacion=new TablaRelacion;
+        $tablaRelacion['software_id']=1;
+        $tablaRelacion['id_union']=Input::get('codigo');
+        $tablaRelacion['fecha_tramite']=Input::get('fecha_tramite');
+        $tablaRelacion['tipo_persona']=Input::get('tipo_persona');
+        if(Input::get('tipo_persona')==1){
+            $tablaRelacion['paterno']=Input::get('paterno');
+            $tablaRelacion['materno']=Input::get('materno');
+            $tablaRelacion['nombre']=Input::get('nombre');
+        }
+        else{
+            $tablaRelacion['razon_social']=Input::get('razon_social');
+            $tablaRelacion['ruc']=Input::get('ruc');
+        }
+        $tablaRelacion['usuario_created_at']=Auth::user()->id;
+        $tablaRelacion->save();
+
+
+
         $rutaFlujo=RutaFlujo::find(Input::get('ruta_flujo_id'));
 
         $ruta= new Ruta;
-        $ruta['tabla_relacion_id']=Input::get('tabla_relacion_id');
+        $ruta['tabla_relacion_id']=$tablaRelacion->id;
         $ruta['fecha_inicio']= Input::get('fecha_inicio');
         $ruta['ruta_flujo_id']=$rutaFlujo->id;
         $ruta['flujo_id']=$rutaFlujo->flujo_id;
@@ -60,6 +93,7 @@ class Ruta extends Eloquent
                     'rst'=>1,
                     'msj'=>'Registro realizado con éxito'
                 );
+        }
     }
 
 }
