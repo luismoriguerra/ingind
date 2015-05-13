@@ -17,7 +17,7 @@ class Ruta extends Eloquent
             DB::rollback();
             return  array(
                     'rst'=>2,
-                    'msj'=>'Nro trámite ya registrado anteriormente'
+                    'msj'=>'El trámite ya fue registrado anteriormente'
                 );
         }
         else{

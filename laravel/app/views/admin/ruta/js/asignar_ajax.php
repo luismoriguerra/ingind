@@ -106,11 +106,7 @@ var Asignar={
                                     '</div>');
                 }
                 else{
-                    $("#msj").html('<div class="alert alert-dismissable alert-warning">'+
-                                        '<i class="fa fa-warning"></i>'+
-                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                        '<b>'+obj.msj+'</b>'+
-                                    '</div>');
+                    alert(obj.msj);
                 }
                 $(".overlay,.loading-img").remove();
             },

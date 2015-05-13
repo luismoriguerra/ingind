@@ -17,9 +17,10 @@ $(document).ready(function() {
     var data = {estado:1};
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
-    slctGlobal.listarSlct('flujo','slct_flujo2_id','simple',ids,data);
     slctGlobal.listarSlct('area','slct_area2_id,#slct_area_id','simple',ids,data);
-    var data = {estado:1};
+    data={soloruta:1};
+    slctGlobal.listarSlct('flujo','slct_flujo2_id','simple',ids,data);
+    data = {estado:1};
     slctGlobal.listarSlct('software','slct_software_id_modal','simple',ids,data);
     slctGlobalHtml("slct_tipo_persona","simple");
 
@@ -289,9 +290,7 @@ guardarTodo=function(){
         alert("Seleccione una combinacion donde almeno exita 1 registro");
     }
     else{
-        if ( confirm("Favor de confirmar para registrar") ){
-            Asignar.guardarAsignacion();
-        }
+        Asignar.guardarAsignacion();
     }
 }
 
