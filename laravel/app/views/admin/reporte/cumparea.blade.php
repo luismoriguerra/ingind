@@ -36,12 +36,12 @@
                                 
                                 <div class="row form-group" >
                                     <div class="col-sm-12">
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-4">
                                             <label class="control-label">Tipo Flujo:</label>
                                             <select class="form-control" name="slct_flujo_id" id="slct_flujo_id">
                                             </select>
                                         </div>
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-4">
                                             <label class="control-label">Area:</label>
                                             <select class="form-control" name="slct_area_id" id="slct_area_id">
                                             </select>

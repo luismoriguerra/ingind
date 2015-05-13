@@ -1,5 +1,6 @@
 <script type="text/javascript">
 temporalBandeja=0;
+valposg=0;
 var areasG=[]; // texto area
 var areasGId=[]; // id area
 var theadArea=[]; // cabecera area
@@ -296,7 +297,7 @@ mostrarDetalleHTML=function(datos){
             for (var i = 0; i < detalle.length; i++) {
 
                 imagen = "<i class='fa fa-check fa-lg'></i>";
-                cod = detalle[i].split("=>")[4];
+                imagenadd = "<ul><li>"+detalle[i].split("=>")[4].split("^").join("</li><li>")+"</li></ul>";
                 obs = detalle[i].split("=>")[5];
                 if(detalle[i].split("=>")[2]=="Pendiente"){
                     if(detalle[i].split("=>")[3]=="NO"){
@@ -308,7 +309,12 @@ mostrarDetalleHTML=function(datos){
                     else if(detalle[i].split("=>")[3]=="+2"){
                         valorenviado=2;
                     }
-                    cod = "<textarea class='txt"+valorenviado+"' name='txt_"+detalle[i].split("=>")[0]+"' id='txt_"+detalle[i].split("=>")[0]+"'></textarea>";
+                    imagenadd=  '<div class="input-group success">'+
+                                '   <div class="input-group-addon btn btn-success" onclick="adicionaDetalleVerbo('+detalle[i].split("=>")[0]+');">'+
+                                '       <i class="fa fa-plus fa-lg"></i>'+
+                                '   </div>'+
+                                '   <input type="text" class="txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'" data-inputmask="'+"'alias'"+': '+"'email'"+'" data-mask/>'+
+                                '</div>';
                     obs = "<textarea data-pos='"+(i*1+1)+"' class='area"+valorenviado+"' name='area_"+detalle[i].split("=>")[0]+"' id='area_"+detalle[i].split("=>")[0]+"'></textarea>";
                     imagen="<input type='checkbox' class='check"+valorenviado+"' onChange='validacheck("+valorenviado+",this.id);' value='"+detalle[i].split("=>")[0]+"' name='chk_verbo_"+detalle[i].split("=>")[0]+"' id='chk_verbo_"+detalle[i].split("=>")[0]+"'>";
                 }
@@ -317,14 +323,32 @@ mostrarDetalleHTML=function(datos){
                             "<td>"+(i*1+1)+"</td>"+
                             "<td>"+detalle[i].split("=>")[3]+"</td>"+
                             "<td>"+detalle[i].split("=>")[1]+"</td>"+
-                            "<td>"+cod+"</td>"+
+                            "<td id='td_"+detalle[i].split("=>")[0]+"'>"+imagenadd+"</td>"+
                             "<td>"+obs+"</td>"+
                             "<td>"+imagen+"</td>"+
                         "</tr>";
             }
             $("#t_detalle_verbo").html(html);
+            $('[data-mask]').inputmask('aaa-********');
+            
         }
 
+}
+
+adicionaDetalleVerbo=function(val){
+    valposg++;
+var  imagen='<div class="input-group" id="div_'+valposg+'">'+
+            '   <div class="input-group-addon btn btn-danger" onclick="eliminaDetalleVerbo('+valposg+');">'+
+            '       <i class="fa fa-minus fa-lg"></i>'+
+            '   </div>'+
+            '   <input type="text" class="txt_'+val+'" data-inputmask="'+"'alias'"+': '+"'email'"+'" data-mask/>'+
+            '</div>';
+$("#td_"+val).append(imagen);
+$('[data-mask]').inputmask('aaa-********');
+}
+
+eliminaDetalleVerbo=function(pos){
+    $("#div_"+pos).remove();
 }
 
 guardarTodo=function(){
@@ -334,11 +358,20 @@ guardarTodo=function(){
     var contcheck=0;
     var conttotalcheck=0;
     var alerta=false;
+    var codauxd="";
     $("#t_detalle_verbo input[type='checkbox']").each(
         function( index ) { 
             if ( $(this).is(':checked') && alerta==false ) {
-                verboaux+= "|"+$(this).val();
-                codaux+="|"+$("#txt_"+$(this).val()).val();
+                codauxd="";
+                $("#td_"+$(this).val()+" input[type='text']").each(
+                    function( indx ) {
+                        if( $(this).val()!="" ){
+                            codauxd+="^"+$(this).val();
+                        }
+                    }
+                );
+                verboaux+="|"+$(this).val();
+                codaux+= "|"+codauxd.substr(1);
                 obsaux+="|"+$("#area_"+$(this).val()).val();
                 contcheck++;
 

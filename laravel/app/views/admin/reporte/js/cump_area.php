@@ -96,6 +96,10 @@ detalle=function(ruta_id){
 };
 
 eventoSlctGlobalSimple=function(slct,valores){
-
+    if( slct=="slct_flujo_id" ){
+        var valor=valores.split('|').join("");
+        $("#slct_area_id").val(valor);
+        $("#slct_area_id").multiselect('refresh');
+    }
 }
 </script>
