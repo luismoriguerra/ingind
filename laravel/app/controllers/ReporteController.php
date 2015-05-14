@@ -176,7 +176,6 @@ class ReporteController extends BaseController
                     ->join('rutas_detalle_verbo as v','rd.id','=','v.ruta_detalle_id')
                     ->join('tiempos as t','rd.tiempo_id','=','t.id')
                     ->join('tablas_relacion as tr','r.tabla_relacion_id','=','tr.id')
-                    ->where('rd.flujo_id',array($flujoId))
                     ->where('rd.area_id',array($areaId))
                     ->select(
                         'tr.id_union',

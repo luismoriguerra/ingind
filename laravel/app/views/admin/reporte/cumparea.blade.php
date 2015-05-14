@@ -17,13 +17,13 @@
             <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        Reporte de Cumplimiento de ruta por tramite
+                        Reporte de Cumplimiento de ruta por Area
                         <small> </small>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
                         <li><a href="#">Reporte</a></li>
-                        <li class="active">Reporte de Cumplimiento de ruta por tramite</li>
+                        <li class="active">Reporte de Cumplimiento de ruta por Area</li>
                     </ol>
                 </section>
 
@@ -36,11 +36,11 @@
                                 
                                 <div class="row form-group" >
                                     <div class="col-sm-12">
-                                        <div class="col-sm-4">
+                                        <!--div class="col-sm-4">
                                             <label class="control-label">Tipo Flujo:</label>
                                             <select class="form-control" name="slct_flujo_id" id="slct_flujo_id">
                                             </select>
-                                        </div>
+                                        </div-->
                                         <div class="col-sm-4">
                                             <label class="control-label">Area:</label>
                                             <select class="form-control" name="slct_area_id" id="slct_area_id">

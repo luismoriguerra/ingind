@@ -19,21 +19,18 @@ $(document).ready(function() {
     $("#chart").css('display','none');*/
     var data = {estado:1};
     var ids = [];
-    slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
+    //slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     slctGlobal.listarSlct('area','slct_area_id','simple',ids,data);
     $("#generar").click(function (){
-        flujo_id = $('#slct_flujo_id').val();
+        //flujo_id = $('#slct_flujo_id').val();
         area_id = $('#slct_area_id').val();
         var fecha=$("#fecha").val();
-        if ( flujo_id!=="") {
-            if ( area_id!=="") {
-                CumpArea.mostrar(flujo_id, area_id);
+        if ( area_id!=="") {
+                CumpArea.mostrar(0, area_id);
                 //enviar y generar reporte
-            } else
+        } else{
                 alert("Seleccione Area");
         }
-        else
-            alert("Seleccione Tramite");
         
     });
 });
@@ -96,10 +93,10 @@ detalle=function(ruta_id){
 };
 
 eventoSlctGlobalSimple=function(slct,valores){
-    if( slct=="slct_flujo_id" ){
+    /*if( slct=="slct_flujo_id" ){
         var valor=valores.split('|').join("");
         $("#slct_area_id").val(valor);
         $("#slct_area_id").multiselect('refresh');
-    }
+    }*/
 }
 </script>
