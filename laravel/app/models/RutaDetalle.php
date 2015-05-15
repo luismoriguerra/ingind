@@ -14,7 +14,7 @@ class RutaDetalle extends Eloquent
             $tramite=Input::get('tramite');
 
             $adicional=
-            'WHERE tr.id_union="'.$tramite.'"
+            'WHERE tr.id_union like "'.$tramite.'%"
             AND rd.area_id IN (
                     SELECT a.id
                     FROM area_cargo_persona acp
@@ -100,7 +100,7 @@ class RutaDetalle extends Eloquent
             $tramite= Input::get('tramite');
 
             $adicional=
-            'WHERE tr.id_union="'.$tramite.'"
+            'WHERE tr.id_union like "'.$tramite.'%"
             AND rd.area_id IN (
                     SELECT a.id
                     FROM area_cargo_persona acp
