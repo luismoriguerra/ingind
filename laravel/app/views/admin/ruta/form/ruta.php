@@ -1,6 +1,6 @@
 <!-- /.modal -->
 <div class="modal fade" id="rutaModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content" style="overflow: auto;height:600px;">
         <!-- Custom Tabs -->
         <div class="nav-tabs-custom">
@@ -71,16 +71,39 @@
                           <option value="1">+1</option>
                           <option value="2">+2</option>
                         </select>
+                        <select name="slct_rol_modal" id="slct_rol_modal" style="display:none" > 
+                          <option value="">Seleccione</option>
+                          <option value="1">Secretaria</option>
+                          <option value="2">Jefe Area</option>
+                          <option value="2">Otros</option>
+                        </select>
+                        <select name="slct_verbo_modal" id="slct_verbo_modal" style="display:none" > 
+                          <option value="">Seleccione</option>
+                          <option value="1">Recepcionar</option>
+                          <option value="2">Generar</option>
+                          <option value="3">Validar</option>
+                        </select>
+                        <select name="slct_documento_modal" id="slct_documento_modal" style="display:none" > 
+                          <option value="">Sin documento</option>
+                          <option value="1">Proveido</option>
+                          <option value="2">Otros</option>
+                        </select>
                       </div>
                       <div class="form-group">
                         <div class="box-body table-responsive">
                         <table class="table table-bordered table-striped">
                           <thead>
                             <tr>
-                              <th>Paso</th>
-                              <th>Acción</th>
-                              <th>Condicional</th>
-                              <th>[X]</th>
+                              <th class="text-center" rowspan="2">Paso</th>
+                              <th class="text-center" colspan="4">Acción</th>
+                              <th class="text-center" rowspan="2">Condicional</th>
+                              <th class="text-center" rowspan="2">[X]</th>
+                            </tr>
+                            <tr>
+                              <th class="text-center">Rol</th>
+                              <th class="text-center">Verbo</th>
+                              <th class="text-center">Docum. Que Genera</th>
+                              <th class="text-center">Descripción</th>
                             </tr>
                           </thead>
                           <tbody id="tb_verbo"> </tbody>

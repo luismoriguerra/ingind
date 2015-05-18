@@ -76,6 +76,7 @@
                                                     <option value="">Seleccione</option>
                                                     <option value="1">Natural</option>
                                                     <option value="2">Juridica</option>
+                                                    <option value="3">Area Interna</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -101,6 +102,20 @@
                                             <div class="col-sm-3">
                                                 <label class="control-label"> Nombre:</label>
                                                 <input class="form-control" type="text" id="txt_nombre" name="txt_nombre" placeholder='Nombre'>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 area" style="display:none">
+                                            <div class="col-sm-3">
+                                                <label class="control-label"> Area Interna:</label>
+                                                <select class="form-control" type="text" id="slct_area_p_id" name="slct_area_p_id">
+                                                <option value="">.:Seleccione:.</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-6">
+                                                <label class="control-label"> Ingresar Sumilla:</label>
+                                                <textarea class="form-control" id="txt_sumilla" name="txt_sumilla"></textarea>
                                             </div>
                                         </div>
                                     </div>

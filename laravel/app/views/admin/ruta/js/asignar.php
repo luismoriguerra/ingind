@@ -17,7 +17,7 @@ $(document).ready(function() {
     var data = {estado:1};
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
-    slctGlobal.listarSlct('area','slct_area2_id,#slct_area_id','simple',ids,data);
+    slctGlobal.listarSlct('area','slct_area2_id,#slct_area_id,#slct_area_p_id','simple',ids,data);
     data={soloruta:1};
     slctGlobal.listarSlct('flujo','slct_flujo2_id','simple',ids,data);
     data = {estado:1};
@@ -126,12 +126,15 @@ $(document).ready(function() {
 });
 
 tpersona=function(valor){
-    $(".natural, .juridica").css("display","none");
+    $(".natural, .juridica, .area").css("display","none");
     if(valor==1){
         $(".natural").css("display","");
     }
     else if(valor==2){
         $(".juridica").css("display","");
+    }
+    else if(valor==3){
+        $(".area").css("display","");
     }
 }
 
@@ -285,6 +288,12 @@ guardarTodo=function(){
     }
     else if( $("#slct_tipo_persona").val()=='1' && $("#txt_nombre").val()=='' ){
         alert("Ingrese Nombre");
+    }
+    else if( $("#slct_tipo_persona").val()=='3' && $("#slct_area_p_id").val()=='' ){
+        alert("Seleccione Area Interna");
+    }
+    else if( $("#txt_sumilla").val()=='' ){
+        alert("Ingrese Sumilla");
     }
     else if( !$("#txt_ruta_flujo_id").val() || $("#txt_ruta_flujo_id").val()=='' ){
         alert("Seleccione una combinacion donde almeno exita 1 registro");

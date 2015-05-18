@@ -96,8 +96,8 @@ var Asignar={
                 if(obj.rst==1){
                     $("#tb_ruta_flujo").html("");
                     $("#form_asignar input[type='hidden']").remove();
-                    $(".natural, .juridica").css("display","none");
-                    $("#form_asignar input[type='text'],#form_asignar select").val("");
+                    $(".natural, .juridica, .area").css("display","none");
+                    $("#form_asignar input[type='text'],#form_asignar select,#form_asignar textarea").val("");
                     $('#form_asignar select').multiselect('refresh');
                     $("#msj").html('<div class="alert alert-dismissable alert-success">'+
                                         '<i class="fa fa-check"></i>'+

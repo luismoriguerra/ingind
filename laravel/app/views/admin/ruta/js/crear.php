@@ -256,6 +256,21 @@ pintarTiempoG=function(tid){
             htm=   '<tr id="tr_detalle_verbo_'+posicionDetalleVerboG+'">'+
                         '<td>'+(detalle2[0]*1+1)+'</td>'+
                         '<td>'+
+                            '<select class="form-control slct_rol_'+detalle2[0]+'_modal">'+
+                                $('#slct_rol_modal').html()+
+                            '</select>'+
+                        '</td>'+
+                        '<td>'+
+                            '<select class="form-control slct_verbo_'+detalle2[0]+'_modal">'+
+                                $('#slct_verbo_modal').html()+
+                            '</select>'+
+                        '</td>'+
+                        '<td>'+
+                            '<select class="form-control slct_documento_'+detalle2[0]+'_modal">'+
+                                $('#slct_documento_modal').html()+
+                            '</select>'+
+                        '</td>'+
+                        '<td>'+
                             '<textarea class="form-control txt_verbo_'+detalle2[0]+'_modal" placeholder="Ing. Acción">'+subdetalle2[j]+'</textarea>'+
                         '</td>'+
                         '<td>'+
