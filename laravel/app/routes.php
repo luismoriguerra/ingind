@@ -44,21 +44,23 @@ Route::get(
     )
 );
 
-Route::controller('language', 'LanguageController');
-
 Route::controller('area', 'AreaController');
 Route::controller('cargo', 'CargoController');
+Route::controller('documento', 'DocumentoController');
 Route::controller('flujo', 'FlujoController');
 Route::controller('flujotiporespuesta', 'FlujoTipoRespuestaController');
+Route::controller('language', 'LanguageController');
 Route::controller('menu', 'MenuController');
 Route::controller('opcion', 'OpcionController');
 Route::controller('persona', 'PersonaController');
 Route::controller('reporte', 'ReporteController');
+Route::controller('rol', 'RolController');
+Route::controller('ruta', 'RutaController');
+Route::controller('ruta_detalle', 'RutaDetalleController');
 Route::controller('ruta_flujo', 'RutaFlujoController');
 Route::controller('software', 'SoftwareController');
 Route::controller('tabla_relacion', 'TablaRelacionController');
 Route::controller('tiempo', 'TiempoController');
 Route::controller('tiporespuesta', 'TipoRespuestaController');
 Route::controller('tiporespuestadetalle', 'TipoRespuestaDetalleController');
-Route::controller('ruta', 'RutaController');
-Route::controller('ruta_detalle', 'RutaDetalleController');
+Route::controller('verbo', 'VerboController');

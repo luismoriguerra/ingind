@@ -90,19 +90,10 @@ class PersonaController extends BaseController
             $persona['sexo'] = Input::get('sexo');
             $persona['password'] = Hash::make(Input::get('password'));
             $persona['fecha_nacimiento'] = Input::get('fecha_nac');
-
-            //$persona['imagen'] = Input::get('imagen');
-            //$file  = Input::file('imagen');
-            /*if (Input::hasFile('imagen'))
-            {   
-                $destinationPath = public_path().'/img/user/e4774cdda0793f86414e8b9140bb6db4';
-                $filename        = str_random(6) . '_' . $file->getClientOriginalName();
-                Input::file('photo')->move($destinationPath, $fileName);
-
-            }*/
+            $personaId = $persona['id'];
             $persona['estado'] = Input::get('estado');
             $persona->save();
-//si es cero no seguir, si es 1 ->estado se debe copiar de celulas
+            //si es cero no seguir, si es 1 ->estado se debe copiar de celulas
             $estado = Input::get('estado');
             if ($estado == 0 ) {
                 return Response::json(
@@ -113,52 +104,25 @@ class PersonaController extends BaseController
                 );
             }
 
-                if (Input::has('cargos_selec')) {
-                    $cargos=Input::get('cargos_selec');
-                    if (is_array($cargos)) {
-                        $cargos = explode(',', $cargos);
-                        for ($i=0; $i<count($cargos); $i++) {
-                            $cargoId = $cargos[$i];
-                            $cargo = Cargo::find($cargoId);
-                            $persona->cargos()->save($cargo, array('estado' => 1));
-                            $areas = Input::get('areas'.$cargoId);
-
-                            //busco el id
-                            $cargoPersona = DB::table('cargo_persona')
-                                            ->where('persona_id', '=', $persona['id'])
-                                            ->where('cargo_id', '=', $cargoId)
-                                            ->first();
-
-                            for ($j=0; $j<count($areas); $j++) {
-                                //recorrer las areas y buscar si exten
-                                $areaId = $areas[$j];
-
-                                DB::table('area_cargo_persona')->insert(
-                                    array(
-                                        'area_id' => $areaId,
-                                        'cargo_persona_id' => $cargoPersona->id,
-                                        'estado' => 1
-                                    )
-                                );
-                                
-                            }
-                        }
-                    } else {
-                        $cargoId = $cargos;
+            if (Input::has('cargos_selec')) {
+                $cargos=Input::get('cargos_selec');
+                if (is_array($cargos)) {
+                    $cargos = explode(',', $cargos);
+                    for ($i=0; $i<count($cargos); $i++) {
+                        $cargoId = $cargos[$i];
                         $cargo = Cargo::find($cargoId);
                         $persona->cargos()->save($cargo, array('estado' => 1));
                         $areas = Input::get('areas'.$cargoId);
 
                         //busco el id
                         $cargoPersona = DB::table('cargo_persona')
-                                        ->where('persona_id', '=', $persona['id'])
+                                        ->where('persona_id', '=', $personaId)
                                         ->where('cargo_id', '=', $cargoId)
                                         ->first();
 
                         for ($j=0; $j<count($areas); $j++) {
                             //recorrer las areas y buscar si exten
                             $areaId = $areas[$j];
-
                             DB::table('area_cargo_persona')->insert(
                                 array(
                                     'area_id' => $areaId,
@@ -166,10 +130,35 @@ class PersonaController extends BaseController
                                     'estado' => 1
                                 )
                             );
-                            
                         }
                     }
+                } else {
+                    $cargoId = $cargos;
+                    $cargo = Cargo::find($cargoId);
+                    $persona->cargos()->save($cargo, array('estado' => 1));
+                    $areas = Input::get('areas'.$cargoId);
+
+                    //busco el id
+                    $cargoPersona = DB::table('cargo_persona')
+                                    ->where('persona_id', '=', $personaId)
+                                    ->where('cargo_id', '=', $cargoId)
+                                    ->first();
+
+                    for ($j=0; $j<count($areas); $j++) {
+                        //recorrer las areas y buscar si exten
+                        $areaId = $areas[$j];
+
+                        DB::table('area_cargo_persona')->insert(
+                            array(
+                                'area_id' => $areaId,
+                                'cargo_persona_id' => $cargoPersona->id,
+                                'estado' => 1
+                            )
+                        );
+                        
+                    }
                 }
+            }
             return Response::json(
                 array(
                 'rst'=>1,
@@ -225,15 +214,6 @@ class PersonaController extends BaseController
             if (Input::get('password')<>'') 
                 $persona['password'] = Hash::make(Input::get('password'));
             $persona['fecha_nacimiento'] = Input::get('fecha_nac');
-            //$persona['imagen'] = Input::get('imagen');
-            //$file  = Input::file('imagen');
-            /*if (Input::hasFile('imagen'))
-            {   
-                $destinationPath = public_path().'/img/user/e4774cdda0793f86414e8b9140bb6db4';
-                $filename        = str_random(6) . '_' . $file->getClientOriginalName();
-                Input::file('photo')->move($destinationPath, $fileName);
-
-            }*/
             $persona['estado'] = Input::get('estado');
             $persona->save();
             
@@ -258,7 +238,6 @@ class PersonaController extends BaseController
                 $areas=array();
 
                 //recorrer os cargos y verificar si existen
-
                 for ($i=0; $i<count($cargos); $i++) {
                     $cargoId = $cargos[$i];
                     $cargo = Cargo::find($cargoId);
@@ -269,15 +248,14 @@ class PersonaController extends BaseController
                     $fechIng = '';
                     $fechaRet = '';
                     if (is_null($cargoPersona)) {
-                        $cargoPersona = $persona->cargos()->save(
+                        $persona->cargos()->save(
                             $cargo,
                             array(
-                                                'estado'=>1/*,
-                                                'fecha_ingreso'=>$fechIng,
-                                                'fecha_retiro'=>$fechaRet*/
-                                            )
+                                'estado'=>1/*,
+                                'fecha_ingreso'=>$fechIng,
+                                'fecha_retiro'=>$fechaRet*/
+                            )
                         );
-                       
                     } else {
                         DB::table('cargo_persona')
                             ->where('persona_id', '=', $personaId)
@@ -290,17 +268,20 @@ class PersonaController extends BaseController
                                 )
                             );
                     }
+                    //busco el id
+                    $cargoPersona = DB::table('cargo_persona')
+                                    ->where('persona_id', '=', $personaId)
+                                    ->where('cargo_id', '=', $cargoId)
+                                    ->first();
                     DB::table('area_cargo_persona')
                             //->where('area_id', '=', $areaId)
                             ->where('cargo_persona_id', '=', $cargoPersona->id)
                             ->update(array('estado' => 0));
                     //almacenar las areas seleccionadas
-                    //$areas[] = Input::get('areas'.$cargoId);
                     $areas = Input::get('areas'.$cargoId);
                     for ($j=0; $j<count($areas); $j++) {
                         //recorrer las areas y buscar si exten
                         $areaId = $areas[$j];
-
                         $areaCargoPersona=DB::table('area_cargo_persona')
                                 ->where('area_id', '=', $areaId)
                                 ->where('cargo_persona_id', $cargoPersona->id)
@@ -320,10 +301,8 @@ class PersonaController extends BaseController
                             ->update(array('estado' => 1));
                         }
                     }
-
                 }
             }
-
             return Response::json(
                 array(
                 'rst'=>1,

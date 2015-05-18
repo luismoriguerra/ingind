@@ -24,7 +24,8 @@ class LoginController extends BaseController
                         WHERE p.estado=1 AND cp.estado=1 AND c.estado=1
                         AND co.estado=1 AND o.estado=1 AND m.estado=1
                         AND p.id=?
-                        GROUP BY m.id, o.id";
+                        GROUP BY m.id, o.id
+                        ORDER BY m.nombre, o.nombre";
                 $res = DB::select($query, array(Auth::id()));
 
                 $menus = array();
