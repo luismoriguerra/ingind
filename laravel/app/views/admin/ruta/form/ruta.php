@@ -1,7 +1,7 @@
 <!-- /.modal -->
 <div class="modal fade" id="rutaModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
-    <div class="modal-content" style="overflow: auto;height:600px;">
+    <div class="modal-content">
         <!-- Custom Tabs -->
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs logo">
@@ -29,7 +29,7 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane" id="tab_tiempo">
-                    <form id="form_ruta_tiempo" name="form_areas" action="" method="post">
+                    <form id="form_ruta_tiempo" name="form_areas" action="" method="post" style="overflow: auto;height:500px;">
                       <div class="form-group">
                         <label class="control-label">Area:
                         </label>
@@ -61,7 +61,7 @@
                     </div>
                 </div><!-- /.tab-pane -->
                 <div class="tab-pane active" id="tab_verbo">
-                    <form id="form_ruta_verbo" name="form_areas" action="" method="post">
+                    <form id="form_ruta_verbo" name="form_areas" action="" method="post" style="overflow: auto;height:500px;">
                       <div class="form-group">
                         <label class="control-label">Area:
                         </label>
@@ -73,20 +73,12 @@
                         </select>
                         <select name="slct_rol_modal" id="slct_rol_modal" style="display:none" > 
                           <option value="">Seleccione</option>
-                          <option value="1">Secretaria</option>
-                          <option value="2">Jefe Area</option>
-                          <option value="2">Otros</option>
                         </select>
                         <select name="slct_verbo_modal" id="slct_verbo_modal" style="display:none" > 
                           <option value="">Seleccione</option>
-                          <option value="1">Recepcionar</option>
-                          <option value="2">Generar</option>
-                          <option value="3">Validar</option>
                         </select>
                         <select name="slct_documento_modal" id="slct_documento_modal" style="display:none" > 
                           <option value="">Sin documento</option>
-                          <option value="1">Proveido</option>
-                          <option value="2">Otros</option>
                         </select>
                       </div>
                       <div class="form-group">

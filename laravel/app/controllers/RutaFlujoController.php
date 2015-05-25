@@ -98,6 +98,7 @@ class RutaFlujoController extends \BaseController
 
             $rutaFlujo->save();
 
+            $estadoG= explode( "*", Input::get('estadoG') );
             $areasGid= explode( "*", Input::get('areasGId') );
             $theadArea= explode( "*", Input::get('theadArea') );
             $tbodyArea= explode( "*", Input::get('tbodyArea') );
@@ -141,6 +142,7 @@ class RutaFlujoController extends \BaseController
                 }
                 $rutaFlujoDetalle['ruta_flujo_id']= $rutaFlujo->id;
                 $rutaFlujoDetalle['area_id']= $areasGid[$i];
+                $rutaFlujoDetalle['estado_ruta']= $estadoG[$i];
                 $rutaFlujoDetalle['norden']= ($i+1);
 
                 $post = array_search($areasGid[$i], $tiempoGid);
@@ -212,6 +214,9 @@ class RutaFlujoController extends \BaseController
                         if( trim($dtg[1])!='' ){
                             $detdtg=explode("|",$dtg[1]);
                             $detdtg2=explode("|",$dtg[2]);
+                            $detdtg3=explode("|",$dtg[3]);
+                            $detdtg4=explode("|",$dtg[4]);
+                            $detdtg5=explode("|",$dtg[5]);
 
                             for($j=0;$j<count($detdtg);$j++){
                                 $rutaFlujoDetalleVerbo="";
@@ -221,6 +226,18 @@ class RutaFlujoController extends \BaseController
                                 $rutaFlujoDetalleVerbo['ruta_flujo_detalle_id']= $rutaFlujoDetalle->id;
                                 $rutaFlujoDetalleVerbo['nombre']=$detdtg[$j];
                                 $rutaFlujoDetalleVerbo['condicion']=$detdtg2[$j];
+                                if($detdtg3[$j]!=''){
+                                $rutaFlujoDetalleVerbo['rol_id']=$detdtg3[$j];
+                                }
+
+                                if($detdtg4[$j]!=''){
+                                $rutaFlujoDetalleVerbo['verbo_id']=$detdtg4[$j];
+                                }
+
+                                if($detdtg5[$j]!=''){
+                                $rutaFlujoDetalleVerbo['documento_id']=$detdtg5[$j];
+                                }
+
                                 $rutaFlujoDetalleVerbo->save();
                             }
                         }

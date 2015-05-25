@@ -14,6 +14,7 @@ var Ruta={
         var posicionDetalleVerboG=0;*/
         var accion="ruta_flujo/crear";
         datos=  {
+                estadoG:estadoG.join("*"),
                 areasG:areasG.join("*"), 
                 areasGId:areasGId.join("*"),
                 theadArea:theadArea.join("*"),

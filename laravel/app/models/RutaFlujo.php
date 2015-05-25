@@ -235,8 +235,8 @@ class RutaFlujo extends Eloquent
                                 }
                             )
                             ->select('rf.area_id','a.nombre as area','rfd.id',
-                                    'a2.imagen','a2.imagenc',
-                                    'rf.persona_id','f.nombre as flujo',
+                                    'a2.imagen','a2.imagenc','a2.imagenp',
+                                    'rf.persona_id','f.nombre as flujo','rfd.estado_ruta',
                                     'rfd.area_id as area_id2','a2.nombre as area2',
                                     'rfd.norden','rf.flujo_id',
                                     DB::raw(
@@ -247,7 +247,7 @@ class RutaFlujo extends Eloquent
                                         ) AS persona,
                                         IFNULL(
                                             GROUP_CONCAT(
-                                            CONCAT(rfdv.nombre,"^^",rfdv.condicion) SEPARATOR "|"
+                                            CONCAT( rfdv.nombre,"^^",rfdv.condicion,"^^",IFNULL(rfdv.rol_id,""),"^^",IFNULL(rfdv.verbo_id,""),"^^",IFNULL(rfdv.documento_id,"") ) SEPARATOR "|"
                                             ),""
                                         ) as verbo'
                                     )
