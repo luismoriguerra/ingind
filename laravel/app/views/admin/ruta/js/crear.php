@@ -228,8 +228,8 @@ guardarVerbo=function(){
         i=1000;
         }
         else{
+            alert(".areafinal:eq("+poseq+")");
             if(alertap==true){
-                //alert(".areafinal:eq("+poseq+") p");
                 $(".areafinal:eq("+poseq+")").attr("style","height:100px; background-image: url('img/admin/area/"+imagenp+"');");
                 if(tbodyArea[position][i].split(imagenc).length>1){
                     tbodyArea[position][i]=tbodyArea[position][i].split(imagenc).join(imagenp);
@@ -892,6 +892,10 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
         if($.trim(verboaux[i].split("^^")[1])>0){
             imgfinal=imagenc;
         }
+    }
+
+    if(estruta>1){
+        imgfinal=imagenp;
     }
 
     estadoG.push(estruta);
