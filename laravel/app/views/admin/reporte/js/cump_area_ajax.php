@@ -1,13 +1,13 @@
 <script type="text/javascript">
 var Consulta, ConsultaDetalle, ConsultaDetalle2;
 var CumpArea={
-    mostrar:function(flujo_id, area_id){
+    mostrar:function( data){
         $.ajax({
             url         : 'reporte/cumparea',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
-            data        : {flujo_id:flujo_id, area_id:area_id},
+            data        : data,
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },

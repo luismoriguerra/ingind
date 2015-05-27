@@ -1,20 +1,19 @@
 <script type="text/javascript">
-var Consulta, ConsultaDetalle, dataMorris=[];
+var Consulta, ConsultaDetalle;
 var Rutas={
-    mostrar:function(flujo_id, fecha){
+    mostrar:function(data){
         $.ajax({
             url         : 'reporte/cumprutaxtramite',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
-            data        : {flujo_id:flujo_id, fecha:fecha},
+            data        : data,
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                    dataMorris=[];
                     HTMLreporte(obj.datos);
                     Consulta=obj;
                 }

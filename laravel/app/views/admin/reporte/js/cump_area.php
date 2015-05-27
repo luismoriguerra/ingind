@@ -1,21 +1,26 @@
 <script type="text/javascript">
 var graph;
 $(document).ready(function() {
-
+    $('#fecha').daterangepicker({
+        format: 'YYYY-MM-DD',
+        singleDatePicker: false
+    });
     var data = {estado:1};
     var ids = [];
     slctGlobal.listarSlct('area','slct_area_id','simple',ids,data);
     $("#generar").click(function (){
-        //flujo_id = $('#slct_flujo_id').val();
         area_id = $('#slct_area_id').val();
         var fecha=$("#fecha").val();
-        if ( area_id!=="") {
-            CumpArea.mostrar(0, area_id);
-            //enviar y generar reporte
-        } else{
-            alert("Seleccione Area");
+        if ( fecha!=="") {
+            if (area_id!=='') {
+                data = {area_id:area_id,fecha:fecha};
+                CumpArea.mostrar(data);
+            } else {
+                alert("Seleccione Área");
+            }
+        } else {
+            alert("Seleccione Fecha");
         }
-        
     });
 });
 HTMLreporte=function(datos){
@@ -41,7 +46,7 @@ HTMLreporte=function(datos){
             "<td>"+data.n_areas+"</td>"+
             "<td>"+data.n_pasos+"</td>"+
             "<td>"+data.tiempo+"</td>"+
-            '<td><a onClick="detalle('+data.ruta_flujo_id+')" class="btn btn-primary btn-sm" data-id="'+data.ruta_flujo_id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
+            '<td><a onClick="detalle('+data.ruta_flujo_id+',this)" class="btn btn-primary btn-sm" data-id="'+data.ruta_flujo_id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
         html+="</tr>";
     });
     $("#tb_reporte").html(html);
@@ -69,7 +74,7 @@ HTMLreporteDetalle=function(datos){
             "<td>"+data.ok+"</td>"+
             "<td>"+data.errorr+"</td>"+
             "<td>"+data.corregido+"</td>"+
-            '<td><a onClick="detalle2('+data.id+')" class="btn btn-primary btn-sm" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
+            '<td><a onClick="detalle2('+data.id+',this)" class="btn btn-primary btn-sm" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
         html+="</tr>";
 
     });
@@ -83,7 +88,7 @@ HTMLreporteDetalle2=function(datos){
     var alertOk ='success';//verde
     var alertError ='danger';//ambar
     var alertCorregido ='warning';//rojo
-    var alert='';
+    var alert='', i;
     $.each(datos,function(index,data){
         if (data.alerta=='Sin Alerta') alert=alertOk;
         if (data.alerta=='Alerta') alert=alertError;
@@ -108,25 +113,25 @@ HTMLreporteDetalle2=function(datos){
                 "<td>"+data.alerta+"</td>";
 
         html+=  "<td><table>";
-        for (var i = rol.length - 1; i >= 0; i--) 
+        for (i = rol.length - 1; i >= 0; i--) 
             html+=      "<tr><td>"+rol[i]+"</tr></td>";
         html+=  "</table></td><td><table>";
-        for (var i = verbo.length - 1; i >= 0; i--) 
+        for (i = verbo.length - 1; i >= 0; i--) 
             html+=      "<tr><td>"+verbo[i]+"</tr></td>";
         html+=  "</table></td><td><table>";
-        for (var i = documento.length - 1; i >= 0; i--) 
+        for (i = documento.length - 1; i >= 0; i--) 
             html+=      "<tr><td>"+documento[i]+"</tr></td>";
         html+=  "</table></td><td><table>";
-        for (var i = descripcion_v.length - 1; i >= 0; i--) 
+        for (i = descripcion_v.length - 1; i >= 0; i--) 
             html+=      "<tr><td>"+descripcion_v[i]+"</tr></td>";
         html+=  "</table></td><td><table>";
-        for (var i = verbo.length - 1; i >= 0; i--) //n_doc
+        for (i = verbo.length - 1; i >= 0; i--) //n_doc
             html+=      "<tr><td></tr></td>";
         html+=  "</table></td><td><table>";
-        for (var i = observacion.length - 1; i >= 0; i--) 
+        for (i = observacion.length - 1; i >= 0; i--) 
             html+=      "<tr><td>"+observacion[i]+"</tr></td>";
         html+=  "</table></td><td><table>";
-        for (var i = estado_accion.length - 1; i >= 0; i--) 
+        for (i = estado_accion.length - 1; i >= 0; i--) 
             html+=      "<tr><td>"+estado_accion[i]+"</tr></td>";
         html+=  "</table></td>";
         html+=  "</tr>";
@@ -139,17 +144,22 @@ HTMLreporteDetalle2=function(datos){
 activarTabla=function(){
     $("#t_reporte").dataTable();
 };
-detalle=function(ruta_flujo_id){
+detalle=function(ruta_flujo_id, boton){
+    var tr = boton.parentNode.parentNode;
+    var trs = tr.parentNode.children;
+    for(var i =0;i<trs.length;i++)
+        trs[i].style.backgroundColor="#f9f9f9";
+    tr.style.backgroundColor = "#9CD9DE";
     CumpArea.mostrarDetalle(ruta_flujo_id);
 };
-detalle2=function(ruta_flujo_id){
+detalle2=function(ruta_flujo_id,boton){
+    var tr = boton.parentNode.parentNode;
+    var trs = tr.parentNode.children;
+    for(var i =0;i<trs.length;i++)
+        trs[i].style.backgroundColor="#f9f9f9";
+    tr.style.backgroundColor = "#9CD9DE";
     CumpArea.mostrarDetalle2(ruta_flujo_id);
 };
 eventoSlctGlobalSimple=function(slct,valores){
-    /*if( slct=="slct_flujo_id" ){
-        var valor=valores.split('|').join("");
-        $("#slct_area_id").val(valor);
-        $("#slct_area_id").multiselect('refresh');
-    }*/
-}
+};
 </script>

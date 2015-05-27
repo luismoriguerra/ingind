@@ -8,10 +8,6 @@
     {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
     
-<!--     {{ HTML::style('lib/morris/morris-0.4.3.min.css') }}
-{{ HTML::script('lib/morris/raphael-min.js') }}
-{{ HTML::script('lib/morris/morris-0.4.3.min.js') }} -->
-    
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
     @include( 'admin.reporte.js.cump_ruta_tramite_ajax' )
@@ -29,7 +25,7 @@
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
             <li><a href="#">Reporte</a></li>
-            <li class="active">Reporte de Cumplimiento del Trámite</li>
+            <li class="active">Vista de estados de los trámites por Trámite</li>
         </ol>
     </section>
 
@@ -45,22 +41,17 @@
                             <select class="form-control" name="slct_flujos" id="slct_flujos">
                             </select>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <label class="control-label">Rango de Fechas:</label>
                             <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha" onfocus="blur()"/>
                         </div>
-                        
+                        <div class="col-sm-3">
+                            <label class="control-label"></label>
+                            <input type="button" class="form-control btn btn-primary" id="generar" name="generar" value="Mostrar">
+                        </div>
                     </div>
                 </div>
             </fieldset>
-
-            <div class="row form-group">
-                <div class="col-sm-12">
-                    <button type="button" class="btn btn-primary" id="generar" name="generar">
-                        Mostrar
-                    </button>
-                </div>
-            </div>
         </div>
         <div class="box-body table-responsive">
             <div class="row form-group" id="reporte" style="display:none;">

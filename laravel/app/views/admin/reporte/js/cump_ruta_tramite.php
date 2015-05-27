@@ -1,51 +1,31 @@
 <script type="text/javascript">
 var graph;
 $(document).ready(function() {
-    //inicializand el grafico
-    //$("#detalle").hide();
-    /*graph =Morris.Bar({
-        element: 'chart',
-        data: [],
-        xkey: 'id_union',
-        ykeys: ['ok', 'error', 'corregido'],
-        labels: ['Sin Alerta', 'Alerta', 'Alerta Validada'],
-        barColors: ["#59E175", "#FE5629", "#FAC044"],
-        //stacked: true,
-        pointSize: 2,
-        hideHover: 'auto',//mostrar leyenda
-        resize: true,
-        ymin: 0,
-        ymax: 6,
-        parseTime: false
-    });
-    $("#chart").css('display','none');
-*/
+
     $('#fecha').daterangepicker({
         format: 'YYYY-MM-DD',
         singleDatePicker: false
     });
-
-    slctGlobal.listarSlct('flujo','slct_flujos','simple');
+    var data = {estado:1};
+    var ids = [];
+    slctGlobal.listarSlct('flujo','slct_flujos','simple',ids,data);
     //Mostrar 
     $("#generar").click(function (){
         flujo_id = $('#slct_flujos').val();
         var fecha=$("#fecha").val();
-        if ( fecha!=="")
-            Rutas.mostrar(flujo_id, fecha);
-        else
+        if ( fecha!==""){
+            if (flujo_id!=='') {
+                data = {flujo_id:flujo_id,fecha:fecha};
+                Rutas.mostrar(data);
+            } else {
+                alert("Seleccione Proceso");
+            }
+        } else {
             alert("Seleccione Fecha");
-        
+        }
     });
 
 });
-
-/*grafico=function(){
-    $("#chart").css('display','block');
-    graph.setData(dataMorris);
-};*/
-eventoSlctGlobalSimple=function(slct,valores){
-
-}
 
 HTMLreporte=function(datos){
     var html="";
@@ -71,8 +51,6 @@ HTMLreporte=function(datos){
     $("#tb_reporte").html(html);
     activarTabla();
     $("#reporte").show();
-    //grafico();
-
 
 };
 HTMLreporteDetalle=function(datos){
@@ -84,7 +62,7 @@ HTMLreporteDetalle=function(datos){
     $.each(datos,function(index,data){
         alerta="NO";
         alerta_tipo = '';
-        if(data.alerta!=0){
+        if(data.alerta!==0){
             alerta="SI";
         }
         if (data.alerta==0) alert=alertOk;
@@ -124,5 +102,7 @@ detalle=function(ruta_id, boton){
         trs[i].style.backgroundColor="#f9f9f9";
     tr.style.backgroundColor = "#9CD9DE";
     Rutas.mostrarDetalle(ruta_id);
+};
+eventoSlctGlobalSimple=function(slct,valores){
 };
 </script>

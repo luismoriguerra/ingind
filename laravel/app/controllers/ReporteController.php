@@ -331,6 +331,8 @@ class ReporteController extends BaseController
      */
     public function postCumparea()
     {
+        $fecha = Input::get('fecha');
+        list($fechaIni,$fechaFin) = explode(" - ", $fecha);
         $areaId=Input::get('area_id');
         $query="SELECT rf.flujo_id,f.nombre AS proceso, rf.id AS ruta_flujo_id, 
                 CONCAT(p.paterno,' ',p.materno,' ',p.nombre) AS duenio,
@@ -362,7 +364,10 @@ class ReporteController extends BaseController
                         FROM rutas_flujo_detalle AS rfd 
                         JOIN tiempos t ON rfd.tiempo_id=t.id AND t.id='4'
                         WHERE rfd.ruta_flujo_id=rf.id AND rfd.estado=1)  ,'') 
-                ) AS tiempo
+                ) AS tiempo,
+                (   SELECT max(fecha_inicio)
+                    FROM rutas
+                    WHERE flujo_id=f.id) AS fecha_inicio
                 FROM flujos f 
                 JOIN rutas_flujo rf ON rf.flujo_id=f.id
                 JOIN personas p ON rf.persona_id=p.id
@@ -371,12 +376,14 @@ class ReporteController extends BaseController
                 JOIN areas a ON acp.area_id=a.id
                 WHERE f.area_id=? AND rf.estado=1 AND f.estado=1
                 AND cp.estado=1 AND acp.estado=1 AND a.estado=1
-                GROUP BY f.id";
+                GROUP BY f.id
+                HAVING fecha_inicio BETWEEN ? AND 
+                      DATE_ADD(?,INTERVAL 1 DAY)";
         //return DB::Select($query, array($areaId));
         return Response::json(
             array(
                 'rst'=>1,
-                'datos'=>DB::Select($query, array($areaId))
+                'datos'=>DB::Select($query, array($areaId,$fechaIni,$fechaFin))
             )
         );
     }
