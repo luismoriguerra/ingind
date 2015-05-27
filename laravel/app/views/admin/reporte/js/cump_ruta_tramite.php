@@ -1,5 +1,4 @@
 <script type="text/javascript">
-var graph;
 $(document).ready(function() {
 
     $('#fecha').daterangepicker({
@@ -43,10 +42,6 @@ HTMLreporte=function(datos){
             "<td>"+data.corregido+"</td>"+
             '<td><a onClick="detalle('+data.id+',this)" class="btn btn-primary btn-sm" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
         html+="</tr>";
-
-        var array={id_union: data.id_union, ok: data.ok, error:data.error, corregido:data.corregido};
-        dataMorris.push(array);
-
     });
     $("#tb_reporte").html(html);
     activarTabla();

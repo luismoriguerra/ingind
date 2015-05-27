@@ -14,7 +14,6 @@ var CumpArea={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                    dataMorris=[];
                     HTMLreporte(obj.datos);
                     Consulta=obj;
                 }

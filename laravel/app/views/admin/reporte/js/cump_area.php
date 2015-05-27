@@ -1,5 +1,4 @@
 <script type="text/javascript">
-var graph;
 $(document).ready(function() {
     $('#fecha').daterangepicker({
         format: 'YYYY-MM-DD',
