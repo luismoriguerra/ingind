@@ -58,8 +58,6 @@ HTMLreporteDetalle=function(datos){
     var html="";
     
     $.each(datos,function(index,data){
-        alerta_tipo = '';
-
         html+="<tr>"+
             "<td>"+data.tramite+"</td>"+
             "<td>"+data.tipo_persona+"</td>"+
@@ -89,9 +87,9 @@ HTMLreporteDetalle2=function(datos){
     var alertCorregido ='warning';//rojo
     var alert='', i;
     $.each(datos,function(index,data){
-        if (data.alerta=='Sin Alerta') alert=alertOk;
-        if (data.alerta=='Alerta') alert=alertError;
-        if (data.alerta=='Alerta Validada') alert=alertCorregido;
+        if (data.alerta=='0') alert=alertOk;
+        if (data.alerta=='1') alert=alertError;
+        if (data.alerta=='2') alert=alertCorregido;
 
         alerta_tipo = '';
         observacion = data.observacion.split(",");

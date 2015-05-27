@@ -65,7 +65,7 @@
                                         <th>N° de Áreas de la ruta</th>
                                         <th>N° de Pasos de la ruta</th>
                                         <th>Tiempo total de la ruta</th>
-                                        <th>Detalle</th>
+                                        <th> [ ] </th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_reporte">
@@ -92,7 +92,7 @@
                                         <th>Pasos Sin alertas</th>
                                         <th>Pasos Con alertas</th>
                                         <th>Pasos Alertas validadas</th>
-                                        <th>Detalle</th>
+                                        <th> [ ] </th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_reporteDetalle">

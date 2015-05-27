@@ -30,7 +30,7 @@ var Rutas={
     },
     mostrarDetalle:function(ruta_id){
         $.ajax({
-            url         : 'reporte/cumprutaxtramitedetalle',
+            url         : 'reporte/cumpareadetalle2',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',

@@ -86,7 +86,7 @@ class ReporteController extends BaseController
         $flujoId = Input::get('flujo_id');
         $fecha = Input::get('fecha');
         list($fechaIni,$fechaFin) = explode(" - ", $fecha);
-
+        /*
         $query = "SELECT tr.id_union, r.id, s.nombre as software,
                 p.nombre as persona, a.nombre as area, r.fecha_inicio,
                 (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=0) AS 'ok',
@@ -99,7 +99,57 @@ class ReporteController extends BaseController
                 JOIN areas a ON r.area_id=a.id
                 WHERE r.fecha_inicio BETWEEN '$fechaIni' AND 
                       DATE_ADD('$fechaFin',INTERVAL 1 DAY) AND r.flujo_id=?";
-
+*/
+        $query ="SELECT tr.id_union AS tramite, r.id, 
+                IF(tipo_persona='1','natural',
+                  IF(tipo_persona='2','juridica','interna')
+                  ) AS tipo_persona,
+                IF(tipo_persona='1',
+                   CONCAT(tr.paterno,' ',tr.materno,' ',tr.nombre),
+                  razon_social) AS persona,
+                  IFNULL(tr.sumilla,'') as sumilla,
+                  IF(
+                     (SELECT COUNT(rd.id)
+                        FROM rutas_detalle rd
+                        WHERE rd.ruta_id=r.id
+                              AND rd.alerta=1
+                            ),'Trunco',
+                        IF(
+                            (SELECT COUNT(norden)
+                             FROM rutas_detalle rd 
+                             WHERE rd.ruta_id=r.id
+                             AND rd.fecha_inicio IS NOT NULL
+                             AND rd.dtiempo_final IS NULL
+                             AND rd.estado=1 
+                            ),'Inconcluso','Concluido'
+                        )
+                    ) AS estado,
+                    IFNULL((SELECT norden
+                             FROM rutas_detalle rd 
+                             WHERE rd.ruta_id=r.id
+                             AND rd.fecha_inicio IS NOT NULL
+                             AND rd.dtiempo_final IS NULL
+                             AND rd.estado=1 
+                             ORDER BY norden LIMIT 1),'' 
+                        ) AS ultimo_paso,
+                        IFNULL((SELECT a.nombre
+                                 FROM rutas_detalle rd 
+                                 JOIN areas a ON rd.area_id=a.id
+                                 WHERE rd.ruta_id=r.id
+                                 AND rd.fecha_inicio IS NOT NULL
+                                 AND rd.dtiempo_final IS NULL
+                                 AND rd.estado=1 
+                                 ORDER BY norden LIMIT 1),'' 
+                            ) AS ultima_area,
+                tr.fecha_tramite, '' AS fecha_fin,
+                (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=0) AS 'ok',
+                (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=1) AS 'errorr',
+                (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=2) AS 'corregido'
+                FROM tablas_relacion tr 
+                JOIN rutas r ON tr.id=r.tabla_relacion_id
+                WHERE r.fecha_inicio BETWEEN '$fechaIni' AND 
+                      DATE_ADD('$fechaFin',INTERVAL 1 DAY) AND r.flujo_id=?
+                    AND tr.estado=1 AND r.estado=1 ";
         $table=DB::select($query, array($flujoId));
 
         return Response::json(
@@ -193,6 +243,7 @@ class ReporteController extends BaseController
                         DB::RAW('ifnull(rd.dtiempo_final,"") as dtiempo_final'),
                         'norden',
                         'alerta_tipo',
+                        'rd.alerta',
                         DB::RAW("
                             GROUP_CONCAT(
                                     IFNULL(v.nombre,'') SEPARATOR ', '
@@ -235,7 +286,7 @@ class ReporteController extends BaseController
                             GROUP_CONCAT( 
                                 IFNULL(vs.nombre,'') SEPARATOR ', '
                             ) AS verbo
-                        "),
+                        ")/*,
                         DB::RAW("
                             CASE rd.alerta
                                 WHEN '0' THEN 'Sin Alerta'
@@ -243,7 +294,7 @@ class ReporteController extends BaseController
                                 WHEN '2' THEN 'Alerta Validada'
                                 ELSE '' 
                             END  AS alerta
-                        ")
+                        ")*/
                     )
                     ->groupBy('rd.id')
                     ->orderBy('rd.norden')

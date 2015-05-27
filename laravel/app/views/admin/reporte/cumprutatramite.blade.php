@@ -59,55 +59,53 @@
                     <table id="t_reporte" class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Código de Tramite</th>
+                                <th>Tramite</th>
+                                <th>Tipo Sol.</th>
+                                <th>Solicitante</th>
+                                <th>Sumilla</th>
+                                <th>Estado</th>
+                                <th>N° paso actual</th>
+                                <th>área actual</th>
                                 <th>Fecha Inicio</th>
-                                <th>Mesa Partes</th>
-                                <th>Dueño de Proceso</th>
-                                <th>Area del Dueño</th>
-                                <th># Sin Alerta</th>
-                                <th># Alerta</th>
-                                <th># Alerta Validada</th>
+                                <th>Fecha Fin</th>
+                                <th>Pasos Sin alertas</th>
+                                <th>Pasos Con alertas</th>
+                                <th>Pasos Alertas validadas</th>
                                 <th> [ ] </th>
                             </tr>
                         </thead>
                         <tbody id="tb_reporte">
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>Código de Tramite</th>
-                                <th>Fecha Inicio</th>
-                                <th>Mesa Partes</th>
-                                <th>Dueño de Proceso</th>
-                                <th>Area del Dueño</th>
-                                <th># Sin Alerta</th>
-                                <th># Alerta</th>
-                                <th># Alerta Validada</th>
-                                <th> [ ] </th>
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
             </div>
         </div>
-<!--         <div class="row form-group">
-    <div class="col-sm-12">
-        <div id="chart"></div>
-    </div>
-</div> -->
         <div class="box-body table-responsive" >
             <div class="row form-group" id="reporte_detalle" style="display:none;">
                 <div class="col-sm-12">
                     <table id="t_reporteDetalle" class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Paso</th>
-                                <th>Area del paso</th>
-                                <th>Tiempo Asignado</th>
-                                <th>Inicio</th>
-                                <!-- <th>Cant</th> -->
-                                <th>Final</th>
-                                <th>Estado Final</th>
-                                <th>Acciones</th>
+                                <th colspan="6" style='background-color:#DEFAFA'>Datos del paso</th>
+                                <th colspan="4" style='background-color:#F5DF9D'>Acciones a realizar</th>
+                                <th colspan="3" style='background-color:#FCD790'>Acciones realizadas</th>
+                            </tr>
+                            <tr>
+                                <th style='background-color:#DEFAFA'>Paso</th>
+                                <th style='background-color:#DEFAFA'>Área</th>
+                                <th style='background-color:#DEFAFA'>Tiempo</th>
+                                <th style='background-color:#DEFAFA'>Inicio</th>
+                                <th style='background-color:#DEFAFA'>Final</th>
+                                <th style='background-color:#DEFAFA'>Estado final</th>
+
+                                <th style='background-color:#F5DF9D'>Rol</th>
+                                <th style='background-color:#F5DF9D'>Accion</th>
+                                <th style='background-color:#F5DF9D'>Tipo Doc.</th>
+                                <th style='background-color:#F5DF9D'>Descripcion</th>
+
+                                <th style='background-color:#FCD790'>N° Doc.</th>
+                                <th style='background-color:#FCD790'>Descripcion</th>
+                                <th style='background-color:#FCD790'>Estado</th>
                             </tr>
                         </thead>
                         <tbody id="tb_reporteDetalle">
