@@ -60,7 +60,7 @@ HTMLreporte=function(datos){
     });
     $("#tb_reporte").html(html);
     $("#tb_reporteDetalle").html('');
-    //activarTabla();
+    activarTabla();
     $("#reporte").show();
 
 };
@@ -95,25 +95,25 @@ HTMLreporteDetalle=function(datos){
 
         html+=  "<td><table>";
         for (i = rol.length - 1; i >= 0; i--) 
-            html+=      "<tr><td>"+rol[i]+"</tr></td>";
+            html+= "<tr><td style='height: 19px'>"+rol[i]+"</tr></td>";
         html+=  "</table></td><td><table>";
         for (i = verbo.length - 1; i >= 0; i--) 
-            html+=      "<tr><td>"+verbo[i]+"</tr></td>";
+            html+= "<tr><td style='height: 19px'>"+verbo[i]+"</tr></td>";
         html+=  "</table></td><td><table>";
         for (i = documento.length - 1; i >= 0; i--) 
-            html+=      "<tr><td>"+documento[i]+"</tr></td>";
+            html+= "<tr><td style='height: 19px'>"+documento[i]+"</tr></td>";
         html+=  "</table></td><td><table>";
         for (i = descripcion_v.length - 1; i >= 0; i--) 
-            html+=      "<tr><td>"+descripcion_v[i]+"</tr></td>";
+            html+= "<tr><td style='height: 19px'>"+descripcion_v[i]+"</tr></td>";
         html+=  "</table></td><td><table>";
         for (i = verbo.length - 1; i >= 0; i--) //n_doc
             html+=      "<tr><td></tr></td>";
         html+=  "</table></td><td><table>";
         for (i = observacion.length - 1; i >= 0; i--) 
-            html+=      "<tr><td>"+observacion[i]+"</tr></td>";
+            html+= "<tr><td style='height: 19px'>"+observacion[i]+"</tr></td>";
         html+=  "</table></td><td><table>";
         for (i = estado_accion.length - 1; i >= 0; i--) 
-            html+=      "<tr><td>"+estado_accion[i]+"</tr></td>";
+            html+= "<tr><td style='height: 19px'>"+estado_accion[i]+"</tr></td>";
         html+=  "</table></td>";
         html+=  "</tr>";
 

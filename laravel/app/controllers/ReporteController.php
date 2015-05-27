@@ -42,7 +42,9 @@ class ReporteController extends BaseController
                                 't.nombre as tiempo', 'rfd.norden',
                                 DB::raw(
                                     'CONCAT(
-                                            p.paterno," ",p.materno," ",p.nombre
+                                            IFNULL(p.paterno,"")," ",
+                                            IFNULL(p.materno,"")," ",
+                                            IFNULL(p.nombre,"")
                                         ) AS persona'
                                 ),
                                 'a.nombre AS area',
@@ -141,7 +143,7 @@ class ReporteController extends BaseController
                                  AND rd.estado=1 
                                  ORDER BY norden LIMIT 1),'' 
                             ) AS ultima_area,
-                tr.fecha_tramite, '' AS fecha_fin,
+                IFNULL(tr.fecha_tramite,'') AS fecha_tramite, '' AS fecha_fin,
                 (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=0) AS 'ok',
                 (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=1) AS 'errorr',
                 (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=2) AS 'corregido'
@@ -322,7 +324,10 @@ class ReporteController extends BaseController
                   IF(tipo_persona='2','juridica','interna')
                   ) AS tipo_persona,
                 IF(tipo_persona='1',
-                   CONCAT(tr.paterno,' ',tr.materno,' ',tr.nombre),
+                   CONCAT(
+                    IFNULL(tr.paterno,''),' ',
+                    IFNULL(tr.materno,''),' ',
+                    IFNULL(tr.nombre,'')),
                   razon_social) AS persona,
                   IFNULL(tr.sumilla,'') as sumilla,
                   IF(
@@ -358,7 +363,7 @@ class ReporteController extends BaseController
                                  AND rd.estado=1 
                                  ORDER BY norden LIMIT 1),'' 
                             ) AS ultima_area,
-                tr.fecha_tramite, '' AS fecha_fin,
+                IFNULL(tr.fecha_tramite,'') AS fecha_tramite, '' AS fecha_fin,
                 (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=0) AS 'ok',
                 (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=1) AS 'errorr',
                 (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=2) AS 'corregido'
