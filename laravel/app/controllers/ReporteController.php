@@ -176,6 +176,9 @@ class ReporteController extends BaseController
                     ->join('rutas_detalle as rd','r.id','=','rd.ruta_id')
                     ->join('areas as a','rd.area_id','=','a.id')
                     ->join('rutas_detalle_verbo as v','rd.id','=','v.ruta_detalle_id')
+                        ->leftjoin('roles as ro','v.rol_id','=','ro.id')
+                        ->leftjoin('verbos as vs','v.verbo_id','=','vs.id')
+                        ->leftjoin('documentos as d','v.documento_id','=','d.id')
                     ->join('tiempos as t','rd.tiempo_id','=','t.id')
                     ->join('tablas_relacion as tr','r.tabla_relacion_id','=','tr.id')
                     ->where('r.id',array($rutaId))
@@ -190,9 +193,25 @@ class ReporteController extends BaseController
                         DB::RAW('ifnull(rd.dtiempo_final,"") as dtiempo_final'),
                         'norden',
                         'alerta_tipo',
-                        //'v.nombre as verbo',
+                        DB::RAW("
+                            GROUP_CONCAT(
+                                    IFNULL(v.nombre,'') SEPARATOR ', '
+                            ) AS descripcion_v
+                        "),
+                        DB::RAW("
+                            GROUP_CONCAT(
+                                    IFNULL(v.observacion,'') SEPARATOR ', '
+                            ) AS observacion
+                        "),
+                        //'v.nombre AS descripcion_v',
                         //DB::RAW('ifnull(scaneo,"") as scaneo'),
                         //'finalizo',
+                        DB::RAW("
+                            GROUP_CONCAT( 
+                                IF(v.finalizo=0,'Pendiente','Finalizado')
+                                     SEPARATOR ', '
+                            ) AS estado_accion
+                        "),
                         DB::RAW("
                             GROUP_CONCAT( 
                                     CONCAT(
@@ -201,6 +220,21 @@ class ReporteController extends BaseController
                                              IF(v.finalizo=0,'Pendiente','Finalizado')
                                     ) SEPARATOR '<br>'
                             ) AS verbo_finalizo
+                        "),
+                        DB::RAW("
+                            GROUP_CONCAT( 
+                                IFNULL(ro.nombre,'') SEPARATOR ', '
+                            ) AS rol
+                        "),
+                        DB::RAW("
+                            GROUP_CONCAT( 
+                                IFNULL(d.nombre,'') SEPARATOR ', '
+                            ) AS documento
+                        "),
+                        DB::RAW("
+                            GROUP_CONCAT( 
+                                IFNULL(vs.nombre,'') SEPARATOR ', '
+                            ) AS verbo
                         "),
                         DB::RAW("
                             CASE rd.alerta
@@ -247,19 +281,20 @@ class ReporteController extends BaseController
                               AND rd.alerta=1
                             ),'Trunco',
                         IF(
-                                (SELECT COUNT(v.id)
-                                 FROM rutas_detalle rd
-                                 JOIN rutas_detalle_verbo v
-                                    ON rd.id=v.ruta_detalle_id 
-                                WHERE v.estado=1 AND v.finalizo=0
-                                    AND rd.ruta_id=r.id
-                                ),'Inconcluso','Concluido'
-                            )
+                            (SELECT COUNT(norden)
+                             FROM rutas_detalle rd 
+                             WHERE rd.ruta_id=r.id
+                             AND rd.fecha_inicio IS NOT NULL
+                             AND rd.dtiempo_final IS NULL
+                             AND rd.estado=1 
+                            ),'Inconcluso','Concluido'
+                        )
                     ) AS estado,
                     IFNULL((SELECT norden
                              FROM rutas_detalle rd 
                              WHERE rd.ruta_id=r.id
-                             AND rd.fecha_inicio IS NULL
+                             AND rd.fecha_inicio IS NOT NULL
+                             AND rd.dtiempo_final IS NULL
                              AND rd.estado=1 
                              ORDER BY norden LIMIT 1),'' 
                         ) AS ultimo_paso,
@@ -267,11 +302,15 @@ class ReporteController extends BaseController
                                  FROM rutas_detalle rd 
                                  JOIN areas a ON rd.area_id=a.id
                                  WHERE rd.ruta_id=r.id
-                                 AND rd.fecha_inicio IS NULL
+                                 AND rd.fecha_inicio IS NOT NULL
+                                 AND rd.dtiempo_final IS NULL
                                  AND rd.estado=1 
                                  ORDER BY norden LIMIT 1),'' 
                             ) AS ultima_area,
-                tr.fecha_tramite, '' AS fecha_fin
+                tr.fecha_tramite, '' AS fecha_fin,
+                (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=0) AS 'ok',
+                (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=1) AS 'errorr',
+                (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=2) AS 'corregido'
                 FROM tablas_relacion tr 
                 JOIN rutas r ON tr.id=r.tabla_relacion_id
                 WHERE r.ruta_flujo_id=? AND tr.estado=1
