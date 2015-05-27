@@ -14,57 +14,58 @@ class ReporteController extends BaseController
         $rutaFlujo =    DB::table('rutas_flujo AS rf')
                             ->join(
                                 'rutas_flujo_detalle AS rfd',
-                                'rf.id','=','rfd.ruta_flujo_id'
+                                'rf.id', '=', 'rfd.ruta_flujo_id'
                             )
                             ->join(
                                 'flujos AS f',
-                                'f.id','=','rf.flujo_id'
+                                'f.id', '=', 'rf.flujo_id'
                             )
                             ->join(
                                 'personas AS p',
-                                'p.id','=','rf.persona_id'
+                                'p.id', '=', 'rf.persona_id'
                             )
                             ->join(
                                 'areas AS a',
-                                'a.id','=','rf.area_id'
+                                'a.id', '=', 'rf.area_id'
                             )
                             ->join(
                                 'areas AS a2',
-                                'a2.id','=','rfd.area_id'
+                                'a2.id', '=', 'rfd.area_id'
                             )
                             ->join(
                                 'tiempos as t',
-                                't.id','=','rfd.tiempo_id'
+                                't.id', '=', 'rfd.tiempo_id'
                             )
-                            ->select('f.nombre AS flujo','rf.estado AS cestado',
-                                    'rf.id','a2.nombre as area2', 'rfd.dtiempo',
-                                    't.nombre as tiempo','rfd.norden',
-                                    DB::raw(
-                                        'CONCAT(
+                            ->select(
+                                'f.nombre AS flujo', 'rf.estado AS cestado',
+                                'rf.id', 'a2.nombre as area2', 'rfd.dtiempo',
+                                't.nombre as tiempo', 'rfd.norden',
+                                DB::raw(
+                                    'CONCAT(
                                             p.paterno," ",p.materno," ",p.nombre
                                         ) AS persona'
-                                    ),
-                                    'a.nombre AS area',
-                                    'rf.n_flujo_ok AS ok',
-                                    'rf.n_flujo_error AS error',
-                                    DB::raw(
-                                        'IFNULL(rf.ruta_id_dep,"") AS dep'
-                                    ),
-                                    DB::raw(
-                                        'DATE(rf.created_at) AS fruta'
-                                    ),
-                                    DB::raw(
-                                        'IF(rf.estado=1,"Produccion",
+                                ),
+                                'a.nombre AS area',
+                                'rf.n_flujo_ok AS ok',
+                                'rf.n_flujo_error AS error',
+                                DB::raw(
+                                    'IFNULL(rf.ruta_id_dep,"") AS dep'
+                                ),
+                                DB::raw(
+                                    'DATE(rf.created_at) AS fruta'
+                                ),
+                                DB::raw(
+                                    'IF(rf.estado=1,"Produccion",
                                             IF(rf.estado=2,"Pendiente","Inactivo")
                                         ) AS estado'
-                                    )
+                                )
                             )
                             ->whereBetween('rf.created_at', array($fechaIni, $fechaFin))
                             //->where('rf.estado', '=', '1') }
                             
                             //->orderBy('n_flujo_ok','DESC')
                             //->orderBy('n_flujo_error','ASC')
-                            ->orderBy('rf.id','desc')
+                            ->orderBy('rf.id', 'desc')
                             ->get();
         //return $rutaFlujo;
         return Response::json(
@@ -120,11 +121,11 @@ class ReporteController extends BaseController
 
         $rutaId=Input::get('ruta_id');
         $table = DB::table('rutas as r')
-                    ->join('rutas_detalle as rd','r.id','=','rd.ruta_id')
-                    ->join('rutas_detalle_verbo as v','rd.id','=','v.ruta_detalle_id')
-                    ->join('areas as a','rd.area_id','=','a.id')
-                    ->join('tiempos as t','rd.tiempo_id','=','t.id')
-                    ->where('ruta_id',array($rutaId))
+                    ->join('rutas_detalle as rd', 'r.id', '=', 'rd.ruta_id')
+                    ->join('rutas_detalle_verbo as v', 'rd.id', '=', 'v.ruta_detalle_id')
+                    ->join('areas as a', 'rd.area_id', '=', 'a.id')
+                    ->join('tiempos as t', 'rd.tiempo_id', '=', 't.id')
+                    ->where('ruta_id', array($rutaId))
                     ->select(
                         'rd.id',
                         'rd.ruta_id',
@@ -139,7 +140,8 @@ class ReporteController extends BaseController
                         //'v.nombre as verbo',
                         //DB::RAW('ifnull(scaneo,"") as scaneo'),
                         //'finalizo',
-                        DB::RAW("
+                        DB::RAW(
+                            "
                             GROUP_CONCAT( 
                                 CONCAT(
                                     v.nombre,
@@ -147,7 +149,8 @@ class ReporteController extends BaseController
                                      IF(v.finalizo=0,'Pendiente','Finalizado')
                                 ) SEPARATOR '<br>'
                             ) as verbo_finalizo
-                        ")
+                        "
+                        )
                     )
                     ->groupBy('rd.id')
                     ->get();
@@ -161,23 +164,23 @@ class ReporteController extends BaseController
 
     }
     /**
-     * Cumplimiento de are
-     * POST reporte/tecnicoofficetrack
+     * detalle de cumplimiento por area
+     * POST reporte/estadoofficetrack
      *
      * @return Response
      */
-    public function postCumparea()
+    public function postCumpareadetalle2()
     {
-        $flujoId=Input::get('flujo_id');
-        $areaId=Input::get('area_id');
-
+        $rutaId=Input::get('ruta_id');
         $query =  DB::table('rutas as r')
                     ->join('rutas_detalle as rd','r.id','=','rd.ruta_id')
+                    ->join('areas as a','rd.area_id','=','a.id')
                     ->join('rutas_detalle_verbo as v','rd.id','=','v.ruta_detalle_id')
                     ->join('tiempos as t','rd.tiempo_id','=','t.id')
                     ->join('tablas_relacion as tr','r.tabla_relacion_id','=','tr.id')
-                    ->where('rd.area_id',array($areaId))
+                    ->where('r.id',array($rutaId))
                     ->select(
+                        'a.nombre as area',
                         'tr.id_union',
                         'rd.id',
                         DB::RAW('ifnull(rd.norden,"") as norden'),
@@ -209,11 +212,132 @@ class ReporteController extends BaseController
                         ")
                     )
                     ->groupBy('rd.id')
+                    ->orderBy('rd.norden')
                     ->get();
+        return Response::json(
+             array(
+                 'rst'=>1,
+                'datos'=>$query
+             )
+        );
+    }
+    /**
+     * detalle de cumplimiento por area
+     * POST reporte/estadoofficetrack
+     *
+     * @return Response
+     */
+    public function postCumpareadetalle()
+    {
+        
+        $rutaFlujoId=Input::get('ruta_flujo_id');
+        //recibir los parametros y enviarlos al modelo, ahi ejecutar el query
+        $query ="SELECT tr.id_union AS tramite, r.id, 
+                IF(tipo_persona='1','natural',
+                  IF(tipo_persona='2','juridica','interna')
+                  ) AS tipo_persona,
+                IF(tipo_persona='1',
+                   CONCAT(tr.paterno,' ',tr.materno,' ',tr.nombre),
+                  razon_social) AS persona,
+                  IFNULL(tr.sumilla,'') as sumilla,
+                  IF(
+                     (SELECT COUNT(rd.id)
+                        FROM rutas_detalle rd
+                        WHERE rd.ruta_id=r.id
+                              AND rd.alerta=1
+                            ),'Trunco',
+                        IF(
+                                (SELECT COUNT(v.id)
+                                 FROM rutas_detalle rd
+                                 JOIN rutas_detalle_verbo v
+                                    ON rd.id=v.ruta_detalle_id 
+                                WHERE v.estado=1 AND v.finalizo=0
+                                    AND rd.ruta_id=r.id
+                                ),'Inconcluso','Concluido'
+                            )
+                    ) AS estado,
+                    IFNULL((SELECT norden
+                             FROM rutas_detalle rd 
+                             WHERE rd.ruta_id=r.id
+                             AND rd.fecha_inicio IS NULL
+                             AND rd.estado=1 
+                             ORDER BY norden LIMIT 1),'' 
+                        ) AS ultimo_paso,
+                        IFNULL((SELECT a.nombre
+                                 FROM rutas_detalle rd 
+                                 JOIN areas a ON rd.area_id=a.id
+                                 WHERE rd.ruta_id=r.id
+                                 AND rd.fecha_inicio IS NULL
+                                 AND rd.estado=1 
+                                 ORDER BY norden LIMIT 1),'' 
+                            ) AS ultima_area,
+                tr.fecha_tramite, '' AS fecha_fin
+                FROM tablas_relacion tr 
+                JOIN rutas r ON tr.id=r.tabla_relacion_id
+                WHERE r.ruta_flujo_id=? AND tr.estado=1
+                AND r.estado=1 AND tr.estado=1 ";
         return Response::json(
             array(
                 'rst'=>1,
-                'datos'=>$query
+                'datos'=>DB::Select($query, array($rutaFlujoId))
+            )
+        );
+        //return Response::make($output, 200, $headers);
+    }
+    /**
+     * Cumplimiento de are
+     * POST reporte/tecnicoofficetrack
+     *
+     * @return Response
+     */
+    public function postCumparea()
+    {
+        $areaId=Input::get('area_id');
+        $query="SELECT rf.flujo_id,f.nombre AS proceso, rf.id AS ruta_flujo_id, 
+                CONCAT(p.paterno,' ',p.materno,' ',p.nombre) AS duenio,
+                GROUP_CONCAT(a.nombre SEPARATOR ', ') AS area_duenio,
+                (SELECT COUNT(DISTINCT a.id) 
+                FROM areas a JOIN rutas_flujo_detalle rfd ON a.id=rfd.area_id
+                WHERE rfd.ruta_flujo_id=rf.id AND rfd.estado=1) AS n_areas,
+                (SELECT COUNT(DISTINCT rfd.id) 
+                FROM rutas_flujo_detalle rfd 
+                WHERE rfd.ruta_flujo_id=rf.id AND rfd.estado=1) AS n_pasos,
+                CONCAT(
+                    IFNULL(
+                        (SELECT CONCAT(t.nombre , ': ',SUM(dtiempo))
+                        FROM rutas_flujo_detalle AS rfd 
+                        JOIN tiempos t ON rfd.tiempo_id=t.id AND t.id='1'
+                        WHERE rfd.ruta_flujo_id=rf.id AND rfd.estado=1)  ,'') ,
+                    IFNULL(
+                        (SELECT CONCAT(' ', t.nombre , ': ',SUM(dtiempo))
+                        FROM rutas_flujo_detalle AS rfd 
+                        JOIN tiempos t ON rfd.tiempo_id=t.id AND t.id='2'
+                        WHERE rfd.ruta_flujo_id=rf.id AND rfd.estado=1)  ,'') ,
+                    IFNULL(
+                        (SELECT CONCAT(' ', t.nombre , ': ',SUM(dtiempo))
+                        FROM rutas_flujo_detalle AS rfd 
+                        JOIN tiempos t ON rfd.tiempo_id=t.id AND t.id='3'
+                        WHERE rfd.ruta_flujo_id=rf.id AND rfd.estado=1)  ,'') ,
+                    IFNULL(
+                        (SELECT CONCAT(' ', t.nombre , ': ',SUM(dtiempo))
+                        FROM rutas_flujo_detalle AS rfd 
+                        JOIN tiempos t ON rfd.tiempo_id=t.id AND t.id='4'
+                        WHERE rfd.ruta_flujo_id=rf.id AND rfd.estado=1)  ,'') 
+                ) AS tiempo
+                FROM flujos f 
+                JOIN rutas_flujo rf ON rf.flujo_id=f.id
+                JOIN personas p ON rf.persona_id=p.id
+                JOIN cargo_persona cp ON p.id=cp.persona_id AND cp.cargo_id='5'
+                JOIN area_cargo_persona acp ON cp.id=acp.cargo_persona_id
+                JOIN areas a ON acp.area_id=a.id
+                WHERE f.area_id=? AND rf.estado=1 AND f.estado=1
+                AND cp.estado=1 AND acp.estado=1 AND a.estado=1
+                GROUP BY f.id";
+        //return DB::Select($query, array($areaId));
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>DB::Select($query, array($areaId))
             )
         );
     }

@@ -17,13 +17,13 @@
             <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        Reporte de Cumplimiento de ruta por Area
+                        Vista de estados de los trámites por área
                         <small> </small>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
                         <li><a href="#">Reporte</a></li>
-                        <li class="active">Reporte de Cumplimiento de ruta por Area</li>
+                        <li class="active">Vista de estados de los trámites</li> por área
                     </ol>
                 </section>
 
@@ -62,42 +62,22 @@
                                             <table id="t_reporte" class="table table-bordered">
                                                 <thead>
                                                     <tr>
-                                                        <th>Código de Tramite</th>
-                                                        <th>Orden</th>
-                                                        <th>Verbo(s)</th>
-                                                        <th>Tiempo Asignado</th>
-                                                        <!-- <th>Cant</th> -->
-                                                        <th>Inicio</th>
-                                                        <th>Final</th>
-                                                        <th>Alerta</th>
-                                                        <th>Tipo Alerta</th>
+                                                        <th>Nombre del proceso</th>
+                                                        <th>Dueño del Proceso</th>
+                                                        <th>Área del dueño</th>
+                                                        <th>N° de Áreas de la ruta</th>
+                                                        <th>N° de Pasos de la ruta</th>
+                                                        <th>Tiempo total de la ruta</th>
+                                                        <th>Detalle</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tb_reporte">
                                                     
                                                 </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>Código de Tramite</th>
-                                                        <th>Orden</th>
-                                                        <th>Verbo(s)</th>
-                                                        <th>Tiempo Asignado</th>
-                                                        <!-- <th>Cant</th> -->
-                                                        <th>Inicio</th>
-                                                        <th>Final</th>
-                                                        <th>Alerta</th>
-                                                        <th>Tipo Alerta</th>
-                                                    </tr>
-                                                </tfoot>
                                             </table>
                                         </div>
                                     </div>
 
-                                </div>
-                                <!-- <div class="row form-group">
-                                    <div class="col-sm-12">
-                                        <div id="chart"></div>
-                                    </div>
                                 </div>
                                 <div class="row form-group" id="reporte_detalle" style="display:none;">
                                     <div class="col-sm-12">
@@ -105,14 +85,16 @@
                                             <table id="t_reporteDetalle" class="table table-bordered">
                                                 <thead>
                                                     <tr>
-                                                        <th>Area</th>
-                                                        <th>Tiempo</th>
-                                                        <th>Fecha</th>
-                                                        <th>Cant</th>
-                                                        <th>Tiempo final</th>
-                                                        <th># orden</th>
-                                                        <th>Alerta</th>
-                                                        <th>Accion</th>
+                                                        <th>Tramite</th>
+                                                        <th>Tipo Sol.</th>
+                                                        <th>Solicitante</th>
+                                                        <th>Sumilla</th>
+                                                        <th>Estado</th>
+                                                        <th>N° paso</th>
+                                                        <th>área</th>
+                                                        <th>Fecha Inicio</th>
+                                                        <th>Fecha Fin</th>
+                                                        <th>Detalle</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tb_reporteDetalle">
@@ -120,7 +102,27 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div> -->
+                                </div>
+                                <div class="row form-group" id="reporte_detalle2" style="display:none;">
+                                    <div class="col-sm-12">
+                                        <div class="box-body table-responsive">
+                                            <table id="t_reporteDetalle2" class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Paso</th>
+                                                        <th>Área</th>
+                                                        <th>Tiempo</th>
+                                                        <th>Inicio</th>
+                                                        <th>Final</th>
+                                                        <th>Tiempo final</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tb_reporteDetalle2">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                                 
                             </div><!-- /.box -->
                             <!-- Finaliza contenido -->
