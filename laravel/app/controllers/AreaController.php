@@ -41,12 +41,12 @@ class AreaController extends \BaseController
     /**
      * 
      */
-    public function postImagenp()
+    public function postImagen()
     {
-        if (Input::hasFile('imagenp')) {
-            if ( Input::file('imagenp')->isValid() ) {
-                $areaId = Input::get('idp');
-                $file = Input::file('imagenp');
+        if (Input::hasFile('upload_imagen')) {
+            if ( Input::file('upload_imagen')->isValid() ) {
+                $areaId = Input::get('upload_id');
+                $file = Input::file('upload_imagen');
                 $tmpArchivo = $file->getRealPath();
                 $extension = $file->getClientOriginalExtension();
                 //$name = $file->getClientOriginalName();
@@ -84,10 +84,10 @@ class AreaController extends \BaseController
      */
     public function postImagenc()
     {
-        if (Input::hasFile('imagenc')) {
-            if ( Input::file('imagenc')->isValid() ) {
-                $areaId = Input::get('idc');
-                $file = Input::file('imagenc');
+        if (Input::hasFile('upload_imagenc')) {
+            if ( Input::file('upload_imagenc')->isValid() ) {
+                $areaId = Input::get('upload_idc');
+                $file = Input::file('upload_imagenc');
                 $tmpArchivo = $file->getRealPath();
                 $extension = $file->getClientOriginalExtension();
                 //$name = $file->getClientOriginalName();
@@ -96,6 +96,47 @@ class AreaController extends \BaseController
                 if ($file->move($destinationPath,$name)){
                     $areas = Area::find($areaId);
                     $areas->imagenc = $name;
+                    $areas->save();
+                    return Response::json(
+                        array(
+                            'rst'   => 1,
+                            'datos' => 'Se subio con exito'
+                        )
+                    );
+                } else {
+                    return Response::json(
+                        array(
+                            'rst'   => 0,
+                            'datos' => 'No se subio con exito'
+                        )
+                    );
+                }
+            }
+        }
+        return Response::json(
+            array(
+                'rst'   => 0,
+                'datos' => 'No se subio con exito'
+            )
+        );
+    }
+    /**
+     * 
+     */
+    public function postImagenp()
+    {
+        if (Input::hasFile('upload_imagenp')) {
+            if ( Input::file('upload_imagenp')->isValid() ) {
+                $areaId = Input::get('upload_idp');
+                $file = Input::file('upload_imagenp');
+                $tmpArchivo = $file->getRealPath();
+                $extension = $file->getClientOriginalExtension();
+                //$name = $file->getClientOriginalName();
+                $name = 'a'.$areaId.'p.'.$extension;
+                $destinationPath='img/admin/area';
+                if ($file->move($destinationPath,$name)){
+                    $areas = Area::find($areaId);
+                    $areas->imagenp = $name;
                     $areas->save();
                     return Response::json(
                         array(
@@ -163,6 +204,7 @@ class AreaController extends \BaseController
                 array(
                 'rst'=>1,
                 'msj'=>'Registro realizado correctamente',
+                'area_id'=>$areas->id,
                 )
             );
         }

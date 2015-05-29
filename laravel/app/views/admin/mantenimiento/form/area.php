@@ -1,6 +1,6 @@
 <!-- /.modal -->
 <div class="modal fade" id="areaModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header logo">
         <button class="btn btn-sm btn-default pull-right" data-dismiss="modal">
@@ -47,31 +47,42 @@
           <div class="form-group"> 
           
             <div class="col-sm-12">
-              <div class="col-sm-6">
+              <div class="col-sm-4">
                 <label class="control-label">Imagen
-                    <a id="error_id_ext" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Id Ext.">
+                    <a id="error_imagen" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Id Ext.">
                         <i class="fa fa-exclamation"></i>
                     </a>
                 </label>
-                <img id="img_imagenp" src="" class="img-thumbnail imgArea" />
-                <form id="form_imagenp" name="form_imagenp" action="area/imagenp" enctype="multipart/form-data" method="post" >
-                  <input type="file" id="imagenp" name="imagenp" accept="image/*" >
-                  <input type='hidden' name='idp' id='idp'>
+                <img id="img_imagen_" src="" class="img-thumbnail imgArea" />
+                <form id="form_imagen_" name="form_imagen_" action="area/imagen" enctype="multipart/form-data" method="post" >
+                  <input type="file" id="upload_imagen" name="upload_imagen" accept="image/*" >
+                  <input type='hidden' name='upload_id' id='upload_id'>
                 </form>
               </div>
-              <div class="col-sm-6">
+              <div class="col-sm-4">
                 <label class="control-label">Imagen condicional
-                    <a id="error_id_ext" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Id Ext.">
+                    <a id="error_imagenc" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Id Ext.">
                         <i class="fa fa-exclamation"></i>
                     </a>
                 </label>
                 <img id="img_imagenc" src="" class="img-thumbnail imgArea" />
                 <form id="form_imagenc" name="form_imagenc" action="area/imagenc" enctype="multipart/form-data" method="post" >
-                  <input type="file" id="imagenc" name="imagenc" accept="image/*">
-                  <input type='hidden' name='idc' id='idc'>
+                  <input type="file" id="upload_imagenc" name="upload_imagenc" accept="image/*">
+                  <input type='hidden' name='upload_idc' id='upload_idc'>
                 </form>
               </div>
-
+              <div class="col-sm-4">
+                <label class="control-label">Imagen paralela
+                    <a id="error_imagenp" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Id Ext.">
+                        <i class="fa fa-exclamation"></i>
+                    </a>
+                </label>
+                <img id="img_imagenp" src="" class="img-thumbnail imgArea" />
+                <form id="form_imagenp" name="form_imagenp" action="area/imagenp" enctype="multipart/form-data" method="post" >
+                  <input type="file" id="upload_imagenp" name="upload_imagenp" accept="image/*">
+                  <input type='hidden' name='upload_idp' id='upload_idp'>
+                </form>
+              </div>
             </div>
           </div>
           <!-- </div> -->

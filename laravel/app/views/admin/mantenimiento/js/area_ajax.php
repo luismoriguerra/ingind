@@ -10,15 +10,15 @@ var Areas={
         var accion="area/crear";
         if(AE==1){
             accion="area/editar";
+            $('#form_imagen_').ajaxForm(options).submit();
+            $('#form_imagenp').ajaxForm(options).submit();
+            $('#form_imagenc').ajaxForm(options).submit();
         }
         var options = { 
             beforeSubmit:   beforeSubmit(),
             success:        success(),
             dataType: 'json' 
         };
-        
-        $('#form_imagenp').ajaxForm(options).submit();
-        $('#form_imagenc').ajaxForm(options).submit();
         $.ajax({
             url         : accion,
             type        : 'POST',
@@ -31,6 +31,15 @@ var Areas={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
+                    if(AE==0){//subir imagenes despues de crear el area
+                        var area_id=obj.area_id
+                        $('#upload_id').val(area_id);
+                        $('#upload_idc').val(area_id);
+                        $('#upload_idp').val(area_id);
+                        $('#form_imagen_').ajaxForm(options).submit();
+                        $('#form_imagenc').ajaxForm(options).submit();
+                        $('#form_imagenp').ajaxForm(options).submit();
+                    }
                     $('#t_areas').dataTable().fnDestroy();
 
                     Areas.CargarAreas(activarTabla);
@@ -60,7 +69,6 @@ var Areas={
             }
         });
         
-
     },
     CargarAreas:function(evento){
         $.ajax({

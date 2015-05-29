@@ -23,14 +23,18 @@ $(document).ready(function() {
         else{
             var id = AreaObj[area_id].id;
             if (AreaObj[area_id].imagen===null || AreaObj[area_id].imagen==='')
-                $("#img_imagenp").attr( "src",'');
+                $("#img_imagen_").attr( "src",'');
             else
-                $("#img_imagenp").attr( "src", 'img/admin/area/'+AreaObj[area_id].imagen );
+                $("#img_imagen_").attr( "src", 'img/admin/area/'+AreaObj[area_id].imagen );
 
             if (AreaObj[area_id].imagenc===null || AreaObj[area_id].imagenc==='') 
                 $("#img_imagenc").attr( "src", '');
             else
                 $("#img_imagenc").attr( "src", 'img/admin/area/'+AreaObj[area_id].imagenc );
+            if (AreaObj[area_id].imagenp===null || AreaObj[area_id].imagenp==='')
+                $("#img_imagenp").attr( "src",'');
+            else
+                $("#img_imagenp").attr( "src", 'img/admin/area/'+AreaObj[area_id].imagenp );
 
 
             modal.find('.modal-footer .btn-primary').text('Actualizar');
@@ -40,23 +44,28 @@ $(document).ready(function() {
             $('#form_areas #txt_id_ext').val( AreaObj[area_id].id_ext );
             $('#form_areas #slct_estado').val( AreaObj[area_id].estado );
             $("#form_areas").append("<input type='hidden' value='"+id+"' name='id'>");
-            $("#idp").val(AreaObj[area_id].id);
-            $("#idc").val(AreaObj[area_id].id);
+            $("#upload_id").val(AreaObj[area_id].id);
+            $("#upload_idc").val(AreaObj[area_id].id);
+            $("#upload_idp").val(AreaObj[area_id].id);
         }
-        $("#imagenp").on('change',function() {
-            CargarImagen(this, 'imagenp');
+        $("#upload_imagen").on('change',function() {
+            CargarImagen(this, 'imagen_');
         });
-        $("#imagenc").on('change',function() {
+        $("#upload_imagenc").on('change',function() {
             CargarImagen(this, 'imagenc');
         });
-
+        $("#upload_imagenp").on('change',function() {
+            CargarImagen(this, 'imagenp');
+        });
     });
 
     $('#areaModal').on('hide.bs.modal', function (event) {
         var modal = $(this); //captura el modal
         modal.find('.modal-body input').val(''); // busca un input para copiarle texto
-        $("#imagenc").val('');
-        $("#imagenp").val('');
+        $("#upload_imagen").val('');
+        $("#upload_imagenc").val('');
+        $("#upload_imagenp").val('');
+        $("#img_imagen_").attr( "src", '' );
         $("#img_imagenp").attr( "src", '' );
         $("#img_imagenc").attr( "src", '' );
     });
