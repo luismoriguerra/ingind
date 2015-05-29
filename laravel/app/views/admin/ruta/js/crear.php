@@ -228,7 +228,7 @@ guardarVerbo=function(){
         i=1000;
         }
         else{
-            alert(".areafinal:eq("+poseq+")");
+            //alert(".areafinal:eq("+poseq+")");
             if(alertap==true){
                 $(".areafinal:eq("+poseq+")").attr("style","height:100px; background-image: url('img/admin/area/"+imagenp+"');");
                 if(tbodyArea[position][i].split(imagenc).length>1){
