@@ -131,13 +131,17 @@ class FlujoController extends \BaseController
             $flujo['nombre'] = Input::get('nombre');
             $flujo['area_id'] = Input::get('area_id');
             $flujo['estado'] = Input::get('estado');
-            $flujos['usuario_updated_at'] = Auth::user()->id;
+            $flujo['usuario_updated_at'] = Auth::user()->id;
             $flujo->save();
             if (Input::get('estado') == 0 ) {
                 //actualizando a estado 0 segun
                 DB::table('flujo_tipo_respuesta')
                     ->where('flujo_id', $flujoId)
-                    ->update(array('estado' => 0));
+                    ->update(
+                        array(
+                            'estado' => 0,
+                            'usuario_updated_at' => Auth::user()->id
+                        ));
             }
             return Response::json(
                 array(
@@ -160,13 +164,19 @@ class FlujoController extends \BaseController
         if ( Request::ajax() ) {
 
             $flujo = Flujo::find(Input::get('id'));
+            $flujo->usuario_created_at = Auth::user()->id;
             $flujo->estado = Input::get('estado');
             $flujo->save();
             if (Input::get('estado') == 0 ) {
                 //actualizando a estado 0 segun
                 DB::table('flujo_tipo_respuesta')
                     ->where('flujo_id', Input::get('id'))
-                    ->update(array('estado' => 0));
+                    ->update(
+                        array(
+                            'estado' => 0,
+                            'usuario_updated_at' => Auth::user()->id
+                        )
+                    );
             }
             return Response::json(
                 array(

@@ -57,6 +57,7 @@ class SoftwareController extends \BaseController
             $softwares['tabla'] = Input::get('tabla');
             $softwares['campo'] = Input::get('campo');
             $softwares['estado'] = Input::get('estado');
+            $softwares['usuario_created_at'] = Auth::user()->id;
             $softwares->save();
 
             return Response::json(
@@ -104,6 +105,7 @@ class SoftwareController extends \BaseController
             $software['tabla'] = Input::get('tabla');
             $software['campo'] = Input::get('campo');
             $software['estado'] = Input::get('estado');
+            $software['usuario_updated_at'] = Auth::user()->id;
             $software->save();
 
             return Response::json(
@@ -128,6 +130,7 @@ class SoftwareController extends \BaseController
 
             $software = Software::find(Input::get('id'));
             $software->estado = Input::get('estado');
+            $software->usuario_updated_at = Auth::user()->id;
             $software->save();
             return Response::json(
                 array(

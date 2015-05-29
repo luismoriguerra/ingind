@@ -69,6 +69,7 @@ class TipoRespuestaDetalleController extends BaseController
             $detalles['nombre'] = Input::get('nombre');
             $detalles['tipo_respuesta_id'] = Input::get('tiporespuesta_id');
             $detalles['estado'] = Input::get('estado');
+            $detalles['usuario_created_at'] = Auth::user()->id;
             $detalles->save();
 
             return Response::json(
@@ -115,6 +116,7 @@ class TipoRespuestaDetalleController extends BaseController
             $detalles['nombre'] = Input::get('nombre');
             $detalles['tipo_respuesta_id'] = Input::get('tiporespuesta_id');
             $detalles['estado'] = Input::get('estado');
+            $detalles['usuario_updated_at'] = Auth::user()->id;
             $detalles->save();
 
             return Response::json(
@@ -139,6 +141,7 @@ class TipoRespuestaDetalleController extends BaseController
 
             $detalle = TipoRespuestaDetalle::find(Input::get('id'));
             $detalle->estado = Input::get('estado');
+            $detalle->usuario_updated_at = Auth::user()->id;
             $detalle->save();
             return Response::json(
                 array(

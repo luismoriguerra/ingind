@@ -153,6 +153,7 @@ class FlujoTipoRespuestaController extends \BaseController
 
             $flujoTipoRespuesta = FlujoTipoRespuesta::find(Input::get('id'));
             $flujoTipoRespuesta->estado = Input::get('estado');
+            $flujoTipoRespuesta->usuario_updated_at = Auth::user()->id;
             $flujoTipoRespuesta->save();
 
             return Response::json(

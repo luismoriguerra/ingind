@@ -32,6 +32,7 @@ var Persona={
                                         '<b>'+obj.msj+'</b>'+
                                     '</div>');
                     $('#personaModal .modal-footer [data-dismiss="modal"]').click();
+                    cargos_selec=[];
                 }
                 else{ 
                     $.each(obj.msj,function(index,datos){
@@ -39,7 +40,6 @@ var Persona={
                         $('#error_'+index).css('display','');
                     });
                 }
-                cargos_selec=[];
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
@@ -48,7 +48,7 @@ var Persona={
                                     '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
                                     '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.</b>'+
                                 '</div>');
-                cargos_selec=[];
+                //cargos_selec=[];
             }
         });
     },

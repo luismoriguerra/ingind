@@ -96,6 +96,7 @@ class MenuController extends \BaseController
             $menus['nombre'] = Input::get('nombre');
             $menus['estado'] = Input::get('estado');
             $menus['class_icono'] = Input::get('class_icono');
+            $menus['usuario_created_at'] = Auth::user()->id;
             $menus->save();
 
             return Response::json(
@@ -142,12 +143,17 @@ class MenuController extends \BaseController
             $menu['nombre'] = Input::get('nombre');
             $menu['estado'] = Input::get('estado');
             $menu['class_icono'] = Input::get('class_icono');
+            $menu['usuario_updated_at'] = Auth::user()->id;
             $menu->save();
             if (Input::get('estado') == 0 ) {
                 //actualizando a estado 0 segun
                 DB::table('opciones')
                     ->where('menu_id', $menuId)
-                    ->update(array('estado' => 0));
+                    ->update(
+                        array(
+                            'estado' => 0,
+                            'usuario_updated_at' => Auth::user()->id
+                        ));
             }
             return Response::json(
                 array(
@@ -171,12 +177,18 @@ class MenuController extends \BaseController
 
             $menu = Menu::find(Input::get('id'));
             $menu->estado = Input::get('estado');
+            $menu->usuario_updated_at = Auth::user()->id;
             $menu->save();
             if (Input::get('estado') == 0 ) {
                 //actualizando a estado 0 segun
                 DB::table('opciones')
                     ->where('menu_id', Input::get('id'))
-                    ->update(array('estado' => 0));
+                    ->update(
+                        array(
+                            'estado' => 0,
+                            'usuario_updated_at' => Auth::user()->id
+                            )
+                        );
             }
             return Response::json(
                 array(

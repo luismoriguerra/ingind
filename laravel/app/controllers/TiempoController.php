@@ -70,6 +70,7 @@ class TiempoController extends \BaseController
             $tiempos['apocope'] = Input::get('apocope');
             $tiempos['totalminutos'] = Input::get('minutos');
             $tiempos['estado'] = Input::get('estado');
+            $tiempos['usuario_created_at'] = Auth::user()->id;
             $tiempos->save();
 
             return Response::json(
@@ -117,6 +118,7 @@ class TiempoController extends \BaseController
             $tiempo['apocope'] = Input::get('apocope');
             $tiempo['totalminutos'] = Input::get('minutos');
             $tiempo['estado'] = Input::get('estado');
+            $tiempo['usuario_updated_at'] = Auth::user()->id;
             $tiempo->save();
 
             return Response::json(
@@ -141,6 +143,7 @@ class TiempoController extends \BaseController
 
             $tiempo = Tiempo::find(Input::get('id'));
             $tiempo->estado = Input::get('estado');
+            $tiempo->usuario_updated_at = Auth::user()->id;
             $tiempo->save();
             return Response::json(
                 array(

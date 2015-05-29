@@ -198,6 +198,7 @@ class AreaController extends \BaseController
             $areas->id_int = Input::get('id_int');
             $areas->id_ext = Input::get('id_ext');
             $areas->estado = Input::get('estado');
+            $areas->usuario_created_at = Auth::user()->id;
             $areas->save();
 
             return Response::json(
@@ -247,11 +248,16 @@ class AreaController extends \BaseController
             $areas->id_int = Input::get('id_int');
             $areas->id_ext = Input::get('id_ext');
             $areas->estado = Input::get('estado');
+            $areas->usuario_updated_at = Auth::user()->id;
             $areas->save();
             if (Input::get('estado') == 0) {
                 DB::table('area_cargo_persona')
                     ->where('area_id','=',$areaId)
-                    ->update(array('estado' => 0));
+                    ->update(
+                        array(
+                            'estado' => 0,
+                            'usuario_updated_at' => Auth::user()->id
+                        ));
             }
             return Response::json(
                 array(
@@ -274,12 +280,18 @@ class AreaController extends \BaseController
         if ( Request::ajax() ) {
             $areaId = Input::get('id');
             $area = Area::find($areaId);
+            $area->usuario_updated_at = Auth::user()->id;
             $area->estado = Input::get('estado');
             $area->save();
             if (Input::get('estado') == 0) {
                 DB::table('area_cargo_persona')
                     ->where('area_id','=',$areaId)
-                    ->update(array('estado' => 0));
+                    ->update(
+                            array(
+                                'estado' => 0,
+                                'usuario_updated_at' => Auth::user()->id
+                                )
+                        );
             }
             return Response::json(
                 array(

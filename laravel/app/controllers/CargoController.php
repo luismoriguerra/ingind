@@ -110,6 +110,7 @@ class CargoController extends \BaseController
             $cargo = new Cargo;
             $cargo->nombre = Input::get('nombre');
             $cargo->estado = Input::get('estado');
+            $cargo->usuario_created_at = Auth::user()->id;
             $cargo->save();
 
             $menus = Input::get('menus_selec');
@@ -191,6 +192,7 @@ class CargoController extends \BaseController
             $cargos = Cargo::find($cargoId);
             $cargos->nombre = Input::get('nombre');
             $cargos->estado = Input::get('estado');
+            $cargos->usuario_updated_at = Auth::user()->id;
             $cargos->save();
             
             $menus = Input::get('menus_selec');
@@ -198,7 +200,12 @@ class CargoController extends \BaseController
 
             DB::table('cargo_opcion')
                     ->where('cargo_id', $cargoId)
-                    ->update(array('estado' => 0));
+                    ->update(
+                        array(
+                            'estado' => 0,
+                            'usuario_updated_at' => Auth::user()->id
+                            )
+                        );
 
             if ($estado == 0 ) {
                 return Response::json(
@@ -231,14 +238,18 @@ class CargoController extends \BaseController
                             ->first();
                         if (is_null($cargoOpciones)) {
                             $cargos->opciones()->save(
-                                $opcion, array('estado' => 1)
+                                $opcion, array('estado' => 1,'usuario_created_at' => Auth::user()->id)
                             );
                         } else {
                             //update a la tabla cargo_opcion
                             DB::table('cargo_opcion')
                                 ->where('cargo_id', '=', $cargoId)
                                 ->where('opcion_id', '=', $opcionId)
-                                ->update(array('estado' => 1));
+                                ->update(array(
+                                    'estado' => 1,
+                                    'usuario_updated_at' => Auth::user()->id
+                                    )
+                                );
                         }
                     }
                 }
@@ -265,6 +276,7 @@ class CargoController extends \BaseController
             $estado = Input::get('estado');
             $cargoId = Input::get('id');
             $cargo = Cargo::find($cargoId);
+            $cargo->usuario_updated_at = Auth::user()->id;
             $cargo->estado = Input::get('estado');
             $cargo->save();
 
@@ -272,7 +284,11 @@ class CargoController extends \BaseController
             if ($estado == 0) {
                 DB::table('cargo_opcion')
                     ->where('cargo_id', $cargoId)
-                    ->update(array('estado' => $estado));
+                    ->update(
+                        array(
+                            'estado' => $estado,
+                            'usuario_updated_at' => Auth::user()->id
+                        ));
             }
 
             return Response::json(

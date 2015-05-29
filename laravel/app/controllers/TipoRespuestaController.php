@@ -81,6 +81,7 @@ class TipoRespuestaController extends \BaseController
             $tipoRespuesta['nombre'] = Input::get('nombre');
             $tipoRespuesta['tiempo'] = Input::get('tiempo');
             $tipoRespuesta['estado'] = Input::get('estado');
+            $tipoRespuesta['usuario_created_at'] = Auth::user()->id;
             $tipoRespuesta->save();
 
             return Response::json(
@@ -127,12 +128,16 @@ class TipoRespuestaController extends \BaseController
             $tipoRespuesta['nombre'] = Input::get('nombre');
             $tipoRespuesta['tiempo'] = Input::get('tiempo');
             $tipoRespuesta['estado'] = Input::get('estado');
+            $tipoRespuesta['usuario_updated_at'] = Auth::user()->id;
             $tipoRespuesta->save();
             if (Input::get('estado') == 0 ) {
                 //actualizando a estado 0 segun
                 DB::table('tipos_respuesta_detalle')
                     ->where('tipo_respuesta_id', $tiporespuestaId)
-                    ->update(array('estado' => 0));
+                    ->update(array(
+                        'estado' => 0,
+                        'usuario_updated_at' => Auth::user()->id
+                        ));
             }
             return Response::json(
                 array(
@@ -156,12 +161,16 @@ class TipoRespuestaController extends \BaseController
             $tiporespuestaId=Input::get('id');
             $tipoRespuesta = TipoRespuesta::find($tiporespuestaId);
             $tipoRespuesta->estado = Input::get('estado');
+            $tipoRespuesta->usuario_created_at = Auth::user()->id;
             $tipoRespuesta->save();
             if (Input::get('estado') == 0 ) {
                 //actualizando a estado 0 segun
                 DB::table('tipos_respuesta_detalle')
                     ->where('tipo_respuesta_id', $tiporespuestaId)
-                    ->update(array('estado' => 0));
+                    ->update(array(
+                        'estado' => 0,
+                        'usuario_updated_at' => Auth::user()->id
+                        ));
             }
             return Response::json(
                 array(

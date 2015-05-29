@@ -90,9 +90,10 @@ class PersonaController extends BaseController
             $persona['sexo'] = Input::get('sexo');
             $persona['password'] = Hash::make(Input::get('password'));
             $persona['fecha_nacimiento'] = Input::get('fecha_nac');
-            $personaId = $persona['id'];
             $persona['estado'] = Input::get('estado');
+            $persona['usuario_created_at'] = Auth::user()->id;
             $persona->save();
+            $personaId = $persona->id;
             //si es cero no seguir, si es 1 ->estado se debe copiar de celulas
             $estado = Input::get('estado');
             if ($estado == 0 ) {
@@ -106,12 +107,17 @@ class PersonaController extends BaseController
 
             if (Input::has('cargos_selec')) {
                 $cargos=Input::get('cargos_selec');
+                $cargos = explode(',', $cargos);
                 if (is_array($cargos)) {
-                    $cargos = explode(',', $cargos);
                     for ($i=0; $i<count($cargos); $i++) {
                         $cargoId = $cargos[$i];
                         $cargo = Cargo::find($cargoId);
-                        $persona->cargos()->save($cargo, array('estado' => 1));
+                        $persona->cargos()->save($cargo, 
+                            array(
+                                'estado' => 1,
+                                'usuario_created_at' => Auth::user()->id
+                                )
+                            );
                         $areas = Input::get('areas'.$cargoId);
 
                         //busco el id
@@ -127,7 +133,8 @@ class PersonaController extends BaseController
                                 array(
                                     'area_id' => $areaId,
                                     'cargo_persona_id' => $cargoPersona->id,
-                                    'estado' => 1
+                                    'estado' => 1,
+                                    'usuario_created_at' => Auth::user()->id
                                 )
                             );
                         }
@@ -135,7 +142,12 @@ class PersonaController extends BaseController
                 } else {
                     $cargoId = $cargos;
                     $cargo = Cargo::find($cargoId);
-                    $persona->cargos()->save($cargo, array('estado' => 1));
+                    $persona->cargos()->save($cargo, 
+                        array(
+                            'estado' => 1,
+                            'usuario_created_at' => Auth::user()->id
+                            )
+                        );
                     $areas = Input::get('areas'.$cargoId);
 
                     //busco el id
@@ -152,7 +164,8 @@ class PersonaController extends BaseController
                             array(
                                 'area_id' => $areaId,
                                 'cargo_persona_id' => $cargoPersona->id,
-                                'estado' => 1
+                                'estado' => 1,
+                                'usuario_created_at' => Auth::user()->id
                             )
                         );
                         
@@ -162,7 +175,7 @@ class PersonaController extends BaseController
             return Response::json(
                 array(
                 'rst'=>1,
-                'msj'=>'Registro realizado correctamente',
+                'msj'=>'Registro realizado correctamente'.$personaId,
                 )
             );
         }
@@ -215,6 +228,7 @@ class PersonaController extends BaseController
                 $persona['password'] = Hash::make(Input::get('password'));
             $persona['fecha_nacimiento'] = Input::get('fecha_nac');
             $persona['estado'] = Input::get('estado');
+            $persona['usuario_updated_at'] = Auth::user()->id;
             $persona->save();
             
             $cargos = Input::get('cargos_selec');
@@ -251,7 +265,8 @@ class PersonaController extends BaseController
                         $persona->cargos()->save(
                             $cargo,
                             array(
-                                'estado'=>1/*,
+                                'estado'=>1,
+                                'usuario_created_at' => Auth::user()->id/*,
                                 'fecha_ingreso'=>$fechIng,
                                 'fecha_retiro'=>$fechaRet*/
                             )
@@ -262,7 +277,8 @@ class PersonaController extends BaseController
                             ->where('cargo_id', '=', $cargoId)
                             ->update(
                                 array(
-                                    'estado'=>1/*,
+                                    'estado'=>1,
+                                    'usuario_updated_at' => Auth::user()->id/*,
                                     'fecha_ingreso'=>$fechIng,
                                     'fecha_retiro'=>$fechaRet*/
                                 )
@@ -276,7 +292,12 @@ class PersonaController extends BaseController
                     DB::table('area_cargo_persona')
                             //->where('area_id', '=', $areaId)
                             ->where('cargo_persona_id', '=', $cargoPersona->id)
-                            ->update(array('estado' => 0));
+                            ->update(
+                                array(
+                                    'estado' => 0,
+                                    'usuario_updated_at' => Auth::user()->id
+                                    )
+                                );
                     //almacenar las areas seleccionadas
                     $areas = Input::get('areas'.$cargoId);
                     for ($j=0; $j<count($areas); $j++) {
@@ -291,14 +312,19 @@ class PersonaController extends BaseController
                                 array(
                                     'area_id' => $areaId,
                                     'cargo_persona_id' => $cargoPersona->id,
-                                    'estado' => 1
+                                    'estado' => 1,
+                                    'usuario_created_at' => Auth::user()->id
                                 )
                             );
                         } else {
                             DB::table('area_cargo_persona')
                             ->where('area_id', '=', $areaId)
                             ->where('cargo_persona_id', '=', $cargoPersona->id)
-                            ->update(array('estado' => 1));
+                            ->update(
+                                array(
+                                    'estado' => 1,
+                                    'usuario_updated_at' => Auth::user()->id
+                                ));
                         }
                     }
                 }
@@ -324,6 +350,7 @@ class PersonaController extends BaseController
         if ( Request::ajax() ) {
             $persona = Persona::find(Input::get('id'));
             $persona->estado = Input::get('estado');
+            $persona->usuario_updated_at = Auth::user()->id;
             $persona->save();
 
             return Response::json(
