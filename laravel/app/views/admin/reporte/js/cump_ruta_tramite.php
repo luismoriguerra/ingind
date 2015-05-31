@@ -48,8 +48,8 @@ HTMLreporte=function(datos){
             "<td>"+data.persona+"</td>"+
             "<td>"+data.sumilla+"</td>"+
             "<td>"+data.estado+"</td>"+
-            "<td>"+data.ultimo_paso+"</td>"+
-            "<td>"+data.ultima_area+"</td>"+
+            "<td>"+data.ultimo_paso_area+"</td>"+
+            //"<td>"+data.ultima_area+"</td>"+
             "<td>"+data.fecha_tramite+"</td>"+
             "<td>"+data.fecha_fin+"</td>"+
             "<td>"+data.ok+"</td>"+

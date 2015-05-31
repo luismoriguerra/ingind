@@ -126,19 +126,18 @@ class ReporteController extends BaseController
                             ),'Inconcluso','Concluido'
                         )
                     ) AS estado,
-                    IFNULL((SELECT norden
+                    IFNULL((SELECT concat(  min(norden),' (',a.nombre,')'  )
                              FROM rutas_detalle rd 
+                             JOIN areas a ON rd.area_id=a.id
                              WHERE rd.ruta_id=r.id
-                             AND rd.fecha_inicio IS NOT NULL
                              AND rd.dtiempo_final IS NULL
                              AND rd.estado=1 
                              ORDER BY norden LIMIT 1),'' 
-                        ) AS ultimo_paso,
+                        ) AS ultimo_paso_area,
                         IFNULL((SELECT a.nombre
                                  FROM rutas_detalle rd 
                                  JOIN areas a ON rd.area_id=a.id
                                  WHERE rd.ruta_id=r.id
-                                 AND rd.fecha_inicio IS NOT NULL
                                  AND rd.dtiempo_final IS NULL
                                  AND rd.estado=1 
                                  ORDER BY norden LIMIT 1),'' 
@@ -234,6 +233,9 @@ class ReporteController extends BaseController
                     ->join('tiempos as t','rd.tiempo_id','=','t.id')
                     ->join('tablas_relacion as tr','r.tabla_relacion_id','=','tr.id')
                     ->where('r.id',array($rutaId))
+                    ->where('rd.condicion',0)
+                    ->where('r.estado',1)
+                    ->where('rd.estado',1)
                     ->select(
                         'a.nombre as area',
                         'tr.id_union',
