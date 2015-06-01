@@ -64,8 +64,8 @@
                                 <th>Solicitante</th>
                                 <th>Sumilla</th>
                                 <th>Estado</th>
-                                <th>N° paso actual</th>
-                                <th>área actual</th>
+                                <!-- <th>N° paso actual</th> -->
+                                <th>N° paso en (área)</th>
                                 <th>Fecha Inicio</th>
                                 <th>Fecha Fin</th>
                                 <th>Pasos Sin alertas</th>
