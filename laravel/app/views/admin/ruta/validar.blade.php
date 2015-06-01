@@ -111,6 +111,24 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-2">
+                                                <label class="control-label">Nro Trámite:</label>
+                                                <input type="text" class="form-control" id="txt_id_doc" readonly>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label class="control-label">Solicitante:</label>
+                                                <input type="text" class="form-control" id="txt_solicitante" readonly>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <label class="control-label">Fecha Trámite:</label>
+                                                <input type="text" class="form-control" id="txt_fecha_tramite" readonly>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label class="control-label">Sumilla:</label>
+                                                <textarea type="text" class="form-control" id="txt_sumilla" readonly></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-2">
                                                 <label class="control-label">Proceso:</label>
                                                 <input type="text" class="form-control" id="txt_flujo" readonly>
                                             </div>
@@ -125,10 +143,6 @@
                                             <div class="col-sm-2">
                                                 <label class="control-label">Fecha Inicio:</label>
                                                 <input type="text" class="form-control" id="txt_fecha_inicio" readonly>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <label class="control-label">Nro Trámite:</label>
-                                                <input type="text" class="form-control" id="txt_id_doc" readonly>
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
@@ -146,12 +160,20 @@
                                                 <table class="table table-bordered table-striped">
                                                     <thead>
                                                         <tr>
-                                                            <th>Nro</th>
-                                                            <th>¿Es Condicional?</th>
-                                                            <th>Acciones</th>
-                                                            <th>Resultados</th>
-                                                            <th>Observaciones</th>
-                                                            <th>[-]</th>
+                                                            <th style="text-align:center" rowspan="2">Nro</th>
+                                                            <th style="text-align:center" rowspan="2">¿Es Condicional?</th>
+                                                            <th style="text-align:center" rowspan="2">Rol que Realiza</th>
+                                                            <th style="text-align:center" colspan="3">Acciones a Realizar</th>
+                                                            <th style="text-align:center" colspan="3">Acciones Realizadas</th>
+                                                            <th style="text-align:center" rowspan="2">[-]</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th style="text-align:center">Verbo</th>
+                                                            <th style="text-align:center">Tipo Documento</th>
+                                                            <th style="text-align:center">Descripcion</th>
+                                                            <th style="text-align:center">Documento Generado</th>
+                                                            <th style="text-align:center">Observaciones</th>
+                                                            <th style="text-align:center">Adjuntar Doc. Generado</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="t_detalle_verbo"></tbody>

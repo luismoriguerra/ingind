@@ -22,6 +22,7 @@ class RutaFlujo extends Eloquent
                 ->select('rfd.id','rfd.norden','a.nombre AS area')
                 ->where('rfd.ruta_flujo_id', '=', Input::get('ruta_flujo_id'))
                 ->where('rfd.dtiempo', '=', '0')
+                ->where('rfd.estado', '=', '1')
                 ->get();
 
         if( count($rf)>0 ){
@@ -44,6 +45,7 @@ class RutaFlujo extends Eloquent
                 INNER JOIN areas a ON a.id=rfd.area_id
                 LEFT JOIN rutas_flujo_detalle_verbo rfdv ON rfd.id=rfdv.ruta_flujo_detalle_id AND rfdv.estado=1
                 WHERE rfd.ruta_flujo_id='.$ruta_flujo_id.'
+                AND rfd.estado=1
                 GROUP BY rfd.id
                 HAVING IFNULL(GROUP_CONCAT(rfdv.nombre),"")=""';
         $rf = DB::select($query);
@@ -247,7 +249,7 @@ class RutaFlujo extends Eloquent
                                         ) AS persona,
                                         IFNULL(
                                             GROUP_CONCAT(
-                                            CONCAT( rfdv.nombre,"^^",rfdv.condicion,"^^",IFNULL(rfdv.rol_id,""),"^^",IFNULL(rfdv.verbo_id,""),"^^",IFNULL(rfdv.documento_id,"") ) SEPARATOR "|"
+                                            CONCAT( rfdv.nombre,"^^",rfdv.condicion,"^^",IFNULL(rfdv.rol_id,""),"^^",IFNULL(rfdv.verbo_id,""),"^^",IFNULL(rfdv.documento_id,""),"^^",IFNULL(rfdv.orden,"") ) SEPARATOR "|"
                                             ),""
                                         ) as verbo'
                                     )

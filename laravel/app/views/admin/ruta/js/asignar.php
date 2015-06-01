@@ -24,6 +24,10 @@ $(document).ready(function() {
     slctGlobal.listarSlct('software','slct_software_id_modal','simple',ids,data);
     slctGlobalHtml("slct_tipo_persona","simple");
 
+    slctGlobal.listarSlct2('rol','slct_rol_modal',data);
+    slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
+    slctGlobal.listarSlct2('documento','slct_documento_modal',data);
+
     $("#txt_fecha_tramite").inputmask("yyyy/mm/dd", {"placeholder": "yyyy/mm/dd"});
     $("[data-mask]").inputmask();
 
@@ -81,7 +85,7 @@ $(document).ready(function() {
         tiempoG[tid].push(posicioninicial+"__");
 
         verboG.push([]);
-        verboG[tid].push(posicioninicial+"__");
+        verboG[tid].push(posicioninicial+"______");
       }
 
       var posicioninicialf=posicioninicial;
@@ -92,7 +96,7 @@ $(document).ready(function() {
             if( i>=tiempoG[tid].length ){
                 tiempoG[tid].push(validapos+"__");
 
-                verboG[tid].push(validapos+"__");
+                verboG[tid].push(validapos+"______");
             }
             else{
                 detalle=tiempoG[tid][i].split("_");
@@ -311,7 +315,7 @@ pintarTiempoG=function(tid){
 
     posicionDetalleVerboG=0; // Inicializando posicion del detalle al pintar
 
-    var subdetalle2="";var subdetalle3="";var imagen="";
+    var subdetalle1="";var subdetalle2="";var subdetalle3="";var subdetalle4="";var subdetalle5="";var subdetalle6="";var imagen="";
 
     for(var i=0;i<tiempoG[tid].length;i++){
         // tiempo //
@@ -320,12 +324,12 @@ pintarTiempoG=function(tid){
         htm=   '<tr>'+
                     '<td>'+(detalle[0]*1+1)+'</td>'+
                     '<td>'+
-                        '<select class="form-control" id="slct_tipo_tiempo_'+detalle[0]+'_modal" disabled>'+
+                        '<select disabled class="form-control" id="slct_tipo_tiempo_'+detalle[0]+'_modal">'+
                             $('#slct_tipo_tiempo_modal').html()+
                         '</select>'+
                     '</td>'+
                     '<td>'+
-                        '<input class="form-control" type="number" id="txt_tiempo_'+detalle[0]+'_modal" value="'+detalle[2]+'" disabled>'+
+                        '<input readonly class="form-control" type="number" id="txt_tiempo_'+detalle[0]+'_modal" value="'+detalle[2]+'">'+
                     '</td>'+
                 '</tr>';
         $("#tb_tiempo").append(htm);
@@ -337,24 +341,48 @@ pintarTiempoG=function(tid){
         
         detalle2=verboG[tid][i].split("_");
 
-        subdetalle2=detalle2[1].split('|');
-        subdetalle3=detalle2[2].split('|');
+        subdetalle1=detalle2[1].split('|');
+        subdetalle2=detalle2[2].split('|');
+        subdetalle3=detalle2[3].split('|');
+        subdetalle4=detalle2[4].split('|');
+        subdetalle5=detalle2[5].split('|');
+        subdetalle6=detalle2[6].split('|');
 
-        for(var j=0; j<subdetalle2.length; j++){
+        selectestado='';
+        for(var j=0; j<subdetalle1.length; j++){
             posicionDetalleVerboG++;
             imagen="";
-            if(subdetalle2.length>1){
-                imagen='';
-            }
             
-            if( (j+1)==subdetalle2.length ){
-                imagen='';
+            
+            if( (j+1)==subdetalle1.length ){
+                selectestado='<br><select disabled id="slct_paralelo_'+detalle2[0]+'_modal">'+
+                             '<option value="1">Normal</option>'+
+                             '<option value="2">Paralelo</option>'+
+                             '</select>';
             }
 
             htm=   '<tr id="tr_detalle_verbo_'+posicionDetalleVerboG+'">'+
-                        '<td>'+(detalle2[0]*1+1)+'</td>'+
+                        '<td>'+(detalle2[0]*1+1)+selectestado+'</td>'+
                         '<td>'+
-                            '<textarea disabled class="form-control txt_verbo_'+detalle2[0]+'_modal" placeholder="Ing. Verbo">'+subdetalle2[j]+'</textarea>'+
+                            '<input readonly type="number" class="form-control txt_orden_'+detalle2[0]+'_modal" placeholder="Ing. Orden" value="'+subdetalle6[j]+'">'+
+                        '</td>'+
+                        '<td>'+
+                            '<select disabled class="form-control slct_rol_'+detalle2[0]+'_modal">'+
+                                $('#slct_rol_modal').html()+
+                            '</select>'+
+                        '</td>'+
+                        '<td>'+
+                            '<select disabled class="form-control slct_verbo_'+detalle2[0]+'_modal">'+
+                                $('#slct_verbo_modal').html()+
+                            '</select>'+
+                        '</td>'+
+                        '<td>'+
+                            '<select disabled class="form-control slct_documento_'+detalle2[0]+'_modal">'+
+                                $('#slct_documento_modal').html()+
+                            '</select>'+
+                        '</td>'+
+                        '<td>'+
+                            '<textarea disabled class="form-control txt_verbo_'+detalle2[0]+'_modal" placeholder="Ing. Acción">'+subdetalle1[j]+'</textarea>'+
                         '</td>'+
                         '<td>'+
                             '<select disabled class="form-control slct_condicion_'+detalle2[0]+'_modal">'+
@@ -365,11 +393,18 @@ pintarTiempoG=function(tid){
                     '</tr>';
             $("#tb_verbo").append(htm);
 
-            if(subdetalle3[j]==""){ // En caso no tenga valores se inicializa
-                subdetalle3[j]="0";
+            if( (j+1)==subdetalle1.length ){
+                $("#slct_paralelo_"+detalle2[0]+"_modal").val(estadoG[detalle2[0]]);
             }
-            //alert(subdetalle3[j]);
-            $(".slct_condicion_"+detalle2[0]+"_modal:eq("+j+")").val(subdetalle3[j]);
+
+            if(subdetalle2[j]==""){ // En caso no tenga valores se inicializa
+                subdetalle2[j]="0";
+            }
+            //alert(subdetalle2[j]);
+            $(".slct_condicion_"+detalle2[0]+"_modal:eq("+j+")").val(subdetalle2[j]);
+            $(".slct_rol_"+detalle2[0]+"_modal:eq("+j+")").val(subdetalle3[j]);
+            $(".slct_verbo_"+detalle2[0]+"_modal:eq("+j+")").val(subdetalle4[j]);
+            $(".slct_documento_"+detalle2[0]+"_modal:eq("+j+")").val(subdetalle5[j]);
         }
         //fin verbo
     }
@@ -441,7 +476,7 @@ Close=function(){
     $("#form_ruta_flujo .form-group").css("display","none");
 }
 
-adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imagenc){
+adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imagenc,imagenp,estruta){
     valor=""+valor;
     var adjunta=false; var position=areasGId.indexOf(valor);
     if( position>=0 ){
@@ -451,16 +486,29 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
     var verboaux=verbo.split("|");
     var verbo1=[];
     var verbo2=[];
+    var verbo3=[];
+    var verbo4=[];
+    var verbo5=[];
+    var verbo6=[];
     var imgfinal=imagen;
     for(i=0;i<verboaux.length;i++ ){
         verbo1.push(verboaux[i].split("^^")[0]);
         verbo2.push(verboaux[i].split("^^")[1]);
+        verbo3.push(verboaux[i].split("^^")[2]);
+        verbo4.push(verboaux[i].split("^^")[3]);
+        verbo5.push(verboaux[i].split("^^")[4]);
+        verbo6.push(verboaux[i].split("^^")[5]);
 
         if($.trim(verboaux[i].split("^^")[1])>0){
             imgfinal=imagenc;
         }
     }
 
+    if(estruta>1){
+        imgfinal=imagenp;
+    }
+
+    estadoG.push(estruta);
     areasG.push(valorText);
     areasGId.push(valor);
 
@@ -530,7 +578,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
             tiempoG[tid].push(posicioninicial+"_"+tiempo);
 
             verboG.push([]);
-            verboG[tid].push(posicioninicial+"_"+verbo1.join("|")+"_"+verbo2.join("|"));
+            verboG[tid].push(posicioninicial+"_"+verbo1.join("|")+"_"+verbo2.join("|")+"_"+verbo3.join("|")+"_"+verbo4.join("|")+"_"+verbo5.join("|")+"_"+verbo6.join("|"));
         }
       //}
         else{
@@ -543,7 +591,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
                     //alert(tiempo+" | "+verbo+" | "+valor+" | "+posicioninicial+"-"+validapos);
                     tiempoG[tid].push(validapos+"_"+tiempo);
 
-                    verboG[tid].push(validapos+"_"+verbo1.join("|")+"_"+verbo2.join("|"));
+                    verboG[tid].push(validapos+"_"+verbo1.join("|")+"_"+verbo2.join("|")+"_"+verbo3.join("|")+"_"+verbo4.join("|")+"_"+verbo5.join("|")+"_"+verbo6.join("|"));
                 }
                 /*else{
                     detalle=tiempoG[tid][i].split("_");
@@ -573,6 +621,7 @@ cargarRutaId=function(ruta_flujo_id,permiso){
 CargarDetalleRutaHTML=function(permiso,datos){
 areasG="";  areasG=[]; // texto area
 areasGId="";  areasGId=[]; // id area
+estadoG="";  estadoG=[]; // Normal / Paralelo
 theadArea="";  theadArea=[]; // cabecera area
 tbodyArea="";  tbodyArea=[]; // cuerpo area
 tfootArea="";  tfootArea=[]; // pie area
@@ -587,11 +636,10 @@ validandoconteo=0;
         if(validandoconteo==1){
             $("#slct_flujo_id").val(data.flujo_id);
             $("#slct_area_id").val(data.area_id);
-            $("#slct_flujo_id,#slct_area_id").multiselect('disable');
             $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
             $("#txt_persona").val(data.persona);
         }
-        adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc);
+        adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta);
     });
     pintarAreasG(permiso);
     //alertatodo();

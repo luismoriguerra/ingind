@@ -60,8 +60,9 @@ class Ruta extends Eloquent
         $qrutaDetalle=DB::table('rutas_flujo_detalle')
             ->where('ruta_flujo_id', '=', $rutaFlujo->id)
             ->where('estado', '=', '1')
+            ->orderBy('norden','ASC')
             ->get();
-
+            $validaactivar=0;
             foreach($qrutaDetalle as $rd){
                 $rutaDetalle = new RutaDetalle;
                 $rutaDetalle['ruta_id']=$ruta->id;
@@ -69,8 +70,12 @@ class Ruta extends Eloquent
                 $rutaDetalle['tiempo_id']=$rd->tiempo_id;
                 $rutaDetalle['dtiempo']=$rd->dtiempo;
                 $rutaDetalle['norden']=$rd->norden;
-                if($rd->norden==1){
+                $rutaDetalle['estado_ruta']=$rd->estado_ruta;
+                if($rd->norden==1 or ($rd->norden>1 and $validaactivar==0 and $rd->estado_ruta==2) ){
                     $rutaDetalle['fecha_inicio']=Input::get('fecha_inicio');
+                }
+                else{
+                    $validaactivar=1;
                 }
                 $rutaDetalle['usuario_created_at']= Auth::user()->id;
                 $rutaDetalle->save();
@@ -78,6 +83,7 @@ class Ruta extends Eloquent
                 $qrutaDetalleVerbo=DB::table('rutas_flujo_detalle_verbo')
                                 ->where('ruta_flujo_detalle_id', '=', $rd->id)
                                 ->where('estado', '=', '1')
+                                ->orderBy('orden', 'ASC')
                                 ->get();
                     if(count($qrutaDetalleVerbo)>0){
                         foreach ($qrutaDetalleVerbo as $rdv) {
@@ -85,6 +91,10 @@ class Ruta extends Eloquent
                             $rutaDetalleVerbo['ruta_detalle_id']= $rutaDetalle->id;
                             $rutaDetalleVerbo['nombre']= $rdv->nombre;
                             $rutaDetalleVerbo['condicion']= $rdv->condicion;
+                            $rutaDetalleVerbo['rol_id']= $rdv->rol_id;
+                            $rutaDetalleVerbo['verbo_id']= $rdv->verbo_id;
+                            $rutaDetalleVerbo['documento_id']= $rdv->documento_id;
+                            $rutaDetalleVerbo['orden']= $rdv->orden;
                             $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
                             $rutaDetalleVerbo->save();
                         }

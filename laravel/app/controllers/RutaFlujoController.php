@@ -217,6 +217,7 @@ class RutaFlujoController extends \BaseController
                             $detdtg3=explode("|",$dtg[3]);
                             $detdtg4=explode("|",$dtg[4]);
                             $detdtg5=explode("|",$dtg[5]);
+                            $detdtg6=explode("|",$dtg[6]);
 
                             for($j=0;$j<count($detdtg);$j++){
                                 $rutaFlujoDetalleVerbo="";
@@ -236,6 +237,10 @@ class RutaFlujoController extends \BaseController
 
                                 if($detdtg5[$j]!=''){
                                 $rutaFlujoDetalleVerbo['documento_id']=$detdtg5[$j];
+                                }
+
+                                if($detdtg6[$j]!=''){
+                                $rutaFlujoDetalleVerbo['orden']=$detdtg6[$j];
                                 }
 
                                 $rutaFlujoDetalleVerbo->save();

@@ -275,6 +275,10 @@ mostrarDetalleHTML=function(datos){
     slctGlobal.listarSlct('tiporespuesta','slct_tipo_respuesta','simple',ids,data,0,'#slct_tipo_respuesta_detalle','TR');
     slctGlobal.listarSlct('tiporespuestadetalle','slct_tipo_respuesta_detalle','simple',ids,data,1);
     
+    $("#form_ruta_detalle #txt_fecha_tramite").val(datos.fecha_tramite);
+    $("#form_ruta_detalle #txt_sumilla").val(datos.sumilla);
+    $("#form_ruta_detalle #txt_solicitante").val(datos.solicitante);
+
     $("#form_ruta_detalle #txt_flujo").val(datos.flujo);
     $("#form_ruta_detalle #txt_area").val(datos.area);
     $("#form_ruta_detalle #txt_id_doc").val(datos.id_doc);
@@ -291,6 +295,11 @@ mostrarDetalleHTML=function(datos){
     var imagen="";
     var obs="";
     var cod="";
+    var rol="";
+    var verbo="";
+    var documento="";
+    var orden="";
+    var archivo="";
         if ( datos.verbo!='' ) {
             detalle=datos.verbo.split("|");
             html="";
@@ -299,6 +308,13 @@ mostrarDetalleHTML=function(datos){
                 imagen = "<i class='fa fa-check fa-lg'></i>";
                 imagenadd = "<ul><li>"+detalle[i].split("=>")[4].split("^").join("</li><li>")+"</li></ul>";
                 obs = detalle[i].split("=>")[5];
+
+                rol = detalle[i].split("=>")[6];
+                verbo = detalle[i].split("=>")[7];
+                documento = detalle[i].split("=>")[8];
+                orden = detalle[i].split("=>")[9];
+                archivo="";
+
                 if(detalle[i].split("=>")[2]=="Pendiente"){
                     if(detalle[i].split("=>")[3]=="NO"){
                         valorenviado=0;
@@ -309,27 +325,35 @@ mostrarDetalleHTML=function(datos){
                     else if(detalle[i].split("=>")[3]=="+2"){
                         valorenviado=2;
                     }
-                    imagenadd=  '<div class="input-group success">'+
+                    /*imagenadd=  '<div class="input-group success">'+
                                 '   <div class="input-group-addon btn btn-success" onclick="adicionaDetalleVerbo('+detalle[i].split("=>")[0]+');">'+
                                 '       <i class="fa fa-plus fa-lg"></i>'+
                                 '   </div>'+
                                 '   <input type="text" class="txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'" data-inputmask="'+"'alias'"+': '+"'email'"+'" data-mask/>'+
-                                '</div>';
-                    obs = "<textarea data-pos='"+(i*1+1)+"' class='area"+valorenviado+"' name='area_"+detalle[i].split("=>")[0]+"' id='area_"+detalle[i].split("=>")[0]+"'></textarea>";
+                                '</div>';*/
+                    obs = "<textarea class='area"+valorenviado+"' name='area_"+detalle[i].split("=>")[0]+"' id='area_"+detalle[i].split("=>")[0]+"'></textarea>";
                     imagen="<input type='checkbox' class='check"+valorenviado+"' onChange='validacheck("+valorenviado+",this.id);' value='"+detalle[i].split("=>")[0]+"' name='chk_verbo_"+detalle[i].split("=>")[0]+"' id='chk_verbo_"+detalle[i].split("=>")[0]+"'>";
+                    imagenadd= '<input disabled type="text" class="txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'"/>';
+                    if(verbo=="Generar"){
+                        imagenadd= '<input data-pos="'+(i*1+1)+'" type="text" class="txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'" id="documento_'+detalle[i].split("=>")[0]+'" name="documento_'+detalle[i].split("=>")[0]+'"/>';
+                        archivo='<input class="form-control" id="archivo_'+detalle[i].split("=>")[0]+'" name="archivo_'+detalle[i].split("=>")[0]+'" type="file">';
+                    }
                 }
 
                 html+=  "<tr>"+
-                            "<td>"+(i*1+1)+"</td>"+
+                            "<td>"+orden+"</td>"+
                             "<td>"+detalle[i].split("=>")[3]+"</td>"+
+                            "<td>"+rol+"</td>"+
+                            "<td>"+verbo+"</td>"+
+                            "<td>"+documento+"</td>"+
                             "<td>"+detalle[i].split("=>")[1]+"</td>"+
                             "<td id='td_"+detalle[i].split("=>")[0]+"'>"+imagenadd+"</td>"+
                             "<td>"+obs+"</td>"+
+                            "<td>"+archivo+"</td>"+
                             "<td>"+imagen+"</td>"+
                         "</tr>";
             }
             $("#t_detalle_verbo").html(html);
-            $('[data-mask]').inputmask('aaa-********');
             
         }
 
@@ -375,8 +399,8 @@ guardarTodo=function(){
                 obsaux+="|"+$("#area_"+$(this).val()).val();
                 contcheck++;
 
-                if( $("#area_"+$(this).val()).val()=="" ){
-                    alert("Ingrese su observación de la acción "+$("#area_"+$(this).val()).attr("data-pos"));
+                if( $("#documento_"+$(this).val()).val()=="" ){
+                    alert("Ingrese Nro del documento generado de la acción "+$("#documento_"+$(this).val()).attr("data-pos"));
                     alerta=true;
                 }
             }

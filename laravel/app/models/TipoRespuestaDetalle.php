@@ -19,10 +19,10 @@ class TipoRespuestaDetalle extends Base
                     'tipos_respuesta as tr',
                     'trd.tipo_respuesta_id', '=', 'tr.id'
                 )
-                /*->join(
+                ->join(
                     'flujo_tipo_respuesta as ftr',
                     'ftr.tipo_respuesta_id', '=', 'tr.id'
-                )*/
+                )
                 ->select(
                     'trd.id',
                     'trd.nombre',

@@ -87,6 +87,7 @@
                           <thead>
                             <tr>
                               <th class="text-center" rowspan="2">Paso</th>
+                              <th class="text-center col-sm-1" rowspan="2">N° Orden</th>
                               <th class="text-center" colspan="4">Acción</th>
                               <th class="text-center" rowspan="2">Condicional</th>
                               <th class="text-center" rowspan="2">[X]</th>

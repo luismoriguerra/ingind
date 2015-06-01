@@ -41,6 +41,13 @@ class RutaDetalle extends Eloquent
             a.nombre AS area,f.nombre AS flujo,
             s.nombre AS software,tr.id_union AS id_doc,
             rd.norden, IFNULL(rd.fecha_inicio,"") AS fecha_inicio,
+            if(tr.tipo_persona=1
+                ,CONCAT("P. Natural: ",tr.paterno," ",tr.materno,", ",tr.nombre)
+                ,if(tr.tipo_persona=2
+                    ,CONCAT("P. Juridica: ",tr.razon_social," => RUC:",tr.ruc) 
+                    ,a.nombre
+                )
+            ) solicitante,tr.fecha_tramite,tr.sumilla,
             IFNULL(GROUP_CONCAT(
                 CONCAT(
                     rdv.id,
@@ -55,7 +62,15 @@ class RutaDetalle extends Eloquent
                     "=>",
                     IFNULL(rdv.documento,""),
                     "=>",
-                    IFNULL(rdv.observacion,"")
+                    IFNULL(rdv.observacion,""),
+                    "=>",
+                    IFNULL(ro.nombre,""),
+                    "=>",
+                    IFNULL(ve.nombre,""),
+                    "=>",
+                    IFNULL(do.nombre,""),
+                    "=>",
+                    rdv.orden
                 )
             SEPARATOR "|"),"") AS verbo,
             IFNULL(GROUP_CONCAT(
@@ -74,6 +89,9 @@ class RutaDetalle extends Eloquent
             FROM rutas_detalle rd
             INNER JOIN rutas r ON r.id=rd.ruta_id
             LEFT JOIN rutas_detalle_verbo rdv ON (rd.id=rdv.ruta_detalle_id AND rdv.estado=1)
+            LEFT JOIN roles ro ON ro.id=rdv.rol_id
+            LEFT JOIN verbos ve ON ve.id=rdv.verbo_id
+            LEFT JOIN documentos do ON do.id=rdv.documento_id
             INNER JOIN areas a ON a.id=rd.area_id
             INNER JOIN flujos f ON f.id=r.flujo_id
             INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id

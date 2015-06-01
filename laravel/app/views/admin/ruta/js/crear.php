@@ -74,7 +74,7 @@ $(document).ready(function() {
         tiempoG[tid].push(posicioninicial+"__");
 
         verboG.push([]);
-        verboG[tid].push(posicioninicial+"_____");
+        verboG[tid].push(posicioninicial+"______");
       }
 
       var posicioninicialf=posicioninicial;
@@ -85,7 +85,7 @@ $(document).ready(function() {
             if( i>=tiempoG[tid].length ){
                 tiempoG[tid].push(validapos+"__");
 
-                verboG[tid].push(validapos+"_____");
+                verboG[tid].push(validapos+"______");
             }
             else{
                 detalle=tiempoG[tid][i].split("_");
@@ -153,7 +153,7 @@ guardarVerbo=function(){
     var alerta=false;
     var alertap=false;
     var alertafinal=false;
-    var verboaux="";var verboaux2="";
+    var verboaux="";var verboaux2="";var verboaux3="";var verboaux4="";var verboaux5="";var verboaux6="";
     var poseq=-1;
 
     ///////////////ENCONTRAR POSICION DEL GRAFICO EN PANTALLA///////////////
@@ -212,6 +212,12 @@ guardarVerbo=function(){
                 }
         );
 
+        $(".txt_orden_"+detalle[0]+"_modal").each(
+                function( index ) { 
+                    verboaux6+= "|"+$(this).val();
+                }
+        );
+
         if(i>0){
             poseq++;
         }
@@ -221,6 +227,7 @@ guardarVerbo=function(){
         detalle[3]=verboaux3.substr(1);
         detalle[4]=verboaux4.substr(1);
         detalle[5]=verboaux5.substr(1);
+        detalle[6]=verboaux6.substr(1);
 
         if(alertap==true && alerta==true){
         alert("Un paralelo no puede tener condicional");
@@ -276,7 +283,7 @@ pintarTiempoG=function(tid){
 
     posicionDetalleVerboG=0; // Inicializando posicion del detalle al pintar
 
-    var subdetalle1="";var subdetalle2="";var subdetalle3="";var subdetalle4="";var subdetalle5="";var imagen="";
+    var subdetalle1="";var subdetalle2="";var subdetalle3="";var subdetalle4="";var subdetalle5="";var subdetalle6="";var imagen="";
 
     for(var i=0;i<tiempoG[tid].length;i++){
         // tiempo //
@@ -307,6 +314,7 @@ pintarTiempoG=function(tid){
         subdetalle3=detalle2[3].split('|');
         subdetalle4=detalle2[4].split('|');
         subdetalle5=detalle2[5].split('|');
+        subdetalle6=detalle2[6].split('|');
 
         selectestado='';
         for(var j=0; j<subdetalle1.length; j++){
@@ -330,6 +338,9 @@ pintarTiempoG=function(tid){
 
             htm=   '<tr id="tr_detalle_verbo_'+posicionDetalleVerboG+'">'+
                         '<td>'+(detalle2[0]*1+1)+selectestado+'</td>'+
+                        '<td>'+
+                            '<input type="number" class="form-control txt_orden_'+detalle2[0]+'_modal" placeholder="Ing. Orden" value="'+subdetalle6[j]+'">'+
+                        '</td>'+
                         '<td>'+
                             '<select class="form-control slct_rol_'+detalle2[0]+'_modal">'+
                                 $('#slct_rol_modal').html()+
@@ -386,6 +397,9 @@ adicionaDetalleVerbo=function(det){
             '</button>';
     htm=   '<tr id="tr_detalle_verbo_'+posicionDetalleVerboG+'">'+
                 '<td>'+(det*1+1)+'</td>'+
+                '<td>'+
+                    '<input type="number" class="form-control txt_orden_'+det+'_modal" placeholder="Ing. Orden">'+
+                '</td>'+
                 '<td>'+
                     '<select class="form-control slct_rol_'+det+'_modal">'+
                         $('#slct_rol_modal').html()+
@@ -495,6 +509,7 @@ CambiarDetalle=function(t){
         alert('No se puede asignar 2 veces continuas la misma Area: '+areasG[(t-1)]);
     }
     else{
+        var auxestado=estadoG[t];
         var auxText=areasG[t];
         var aux=areasGId[t];
         var auxthead=theadArea[t];
@@ -545,6 +560,7 @@ CambiarDetalle=function(t){
                 }
             }
 
+            estadoG[t]=estadoG[(t-1)]
             areasG[t]=areasG[(t-1)];
             areasGId[t]=areasGId[(t-1)];
             theadArea[t]=theadArea[(t-1)];
@@ -556,6 +572,7 @@ CambiarDetalle=function(t){
                 tbodyArea[(t-1)].push(auxtbody[i]);
             }
 
+            estadoG[(t-1)]=auxestado;
             areasG[(t-1)]=auxText;
             areasGId[(t-1)]=aux;
             theadArea[(t-1)]=auxthead;
@@ -567,6 +584,7 @@ CambiarDetalle=function(t){
 }
 
 CambiarDetalleDinamico=function(t){
+var auxestado=estadoG[t];
 var auxText=areasG[t];
 var aux=areasGId[t];
 var auxthead=theadArea[t];
@@ -617,6 +635,7 @@ var auxtbody=[];
             }
         }
 
+        estadoG[t]=estadoG[(t-1)];
         areasG[t]=areasG[(t-1)];
         areasGId[t]=areasGId[(t-1)];
         theadArea[t]=theadArea[(t-1)];
@@ -628,6 +647,7 @@ var auxtbody=[];
             tbodyArea[(t-1)].push(auxtbody[i]);
         }
 
+        estadoG[(t-1)]=auxestado;
         areasG[(t-1)]=auxText;
         areasGId[(t-1)]=aux;
         theadArea[(t-1)]=auxthead;
@@ -679,6 +699,7 @@ EliminarDetalle=function(t){
                     tbodyArea[i]=0;
                     tbodyArea.pop();
 
+                    estadoG.pop();
                     areasG.pop();
                     areasGId.pop();
                     theadArea.pop();
@@ -881,6 +902,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
     var verbo3=[];
     var verbo4=[];
     var verbo5=[];
+    var verbo6=[];
     var imgfinal=imagen;
     for(i=0;i<verboaux.length;i++ ){
         verbo1.push(verboaux[i].split("^^")[0]);
@@ -888,6 +910,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
         verbo3.push(verboaux[i].split("^^")[2]);
         verbo4.push(verboaux[i].split("^^")[3]);
         verbo5.push(verboaux[i].split("^^")[4]);
+        verbo6.push(verboaux[i].split("^^")[5]);
 
         if($.trim(verboaux[i].split("^^")[1])>0){
             imgfinal=imagenc;
@@ -968,7 +991,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
             tiempoG[tid].push(posicioninicial+"_"+tiempo);
 
             verboG.push([]);
-            verboG[tid].push(posicioninicial+"_"+verbo1.join("|")+"_"+verbo2.join("|")+"_"+verbo3.join("|")+"_"+verbo4.join("|")+"_"+verbo5.join("|"));
+            verboG[tid].push(posicioninicial+"_"+verbo1.join("|")+"_"+verbo2.join("|")+"_"+verbo3.join("|")+"_"+verbo4.join("|")+"_"+verbo5.join("|")+"_"+verbo6.join("|"));
         }
       //}
         else{
@@ -981,7 +1004,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
                     //alert(tiempo+" | "+verbo+" | "+valor+" | "+posicioninicial+"-"+validapos);
                     tiempoG[tid].push(validapos+"_"+tiempo);
 
-                    verboG[tid].push(validapos+"_"+verbo1.join("|")+"_"+verbo2.join("|")+"_"+verbo3.join("|")+"_"+verbo4.join("|")+"_"+verbo5.join("|"));
+                    verboG[tid].push(validapos+"_"+verbo1.join("|")+"_"+verbo2.join("|")+"_"+verbo3.join("|")+"_"+verbo4.join("|")+"_"+verbo5.join("|")+"_"+verbo6.join("|"));
                 }
                 /*else{
                     detalle=tiempoG[tid][i].split("_");
