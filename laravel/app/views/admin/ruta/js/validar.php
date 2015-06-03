@@ -162,8 +162,8 @@ tiempo = setTimeout('hora()',1000);
 validacheck=function(val,idcheck){
     var verboaux="";
     var validacheck=0;
-    $("#slct_tipo_respuesta,#slct_tipo_respuesta_detalle").multiselect("enable");
-    $("#txt_observacion").removeAttr("disabled");
+    //$("#slct_tipo_respuesta,#slct_tipo_respuesta_detalle").multiselect("enable");
+    //$("#txt_observacion").removeAttr("disabled");
 
     $(".check1,.check2").removeAttr("disabled");
     if( val==1 && $("#"+idcheck).is(':checked') ){
@@ -180,16 +180,16 @@ validacheck=function(val,idcheck){
             if ( $(this).is(':checked') ) {
                 verboaux+= "|"+$(this).val();
             }
-            else if( !$(this).attr("disabled") ){
+            /*else if( !$(this).attr("disabled") ){
                 validacheck=1;
-            }
+            }*/
         }
     );
 
-    if(validacheck==1){
+    /*if(validacheck==1){
         $("#slct_tipo_respuesta,#slct_tipo_respuesta_detalle").multiselect("disable");
         $("#txt_observacion").attr("disabled","true");
-    }
+    }*/
 }
 
 cerrar=function(){
@@ -383,6 +383,7 @@ guardarTodo=function(){
     var conttotalcheck=0;
     var alerta=false;
     var codauxd="";
+    var validacheck=0;
     $("#t_detalle_verbo input[type='checkbox']").each(
         function( index ) { 
             if ( $(this).is(':checked') && alerta==false ) {
@@ -403,6 +404,9 @@ guardarTodo=function(){
                     alert("Ingrese Nro del documento generado de la acción "+$("#documento_"+$(this).val()).attr("data-pos"));
                     alerta=true;
                 }
+            }
+            else if( !$(this).attr("disabled") ){
+                validacheck=1;
             }
             conttotalcheck++;
         }
