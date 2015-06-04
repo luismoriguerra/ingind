@@ -271,7 +271,7 @@ mostrarDetalleHTML=function(datos){
     var data={ flujo_id:datos.flujo_id, estado:1,fecha_inicio:datos.fecha_inicio }
     var ids = [];
     $('#slct_tipo_respuesta,#slct_tipo_respuesta_detalle').multiselect('destroy');
-    $('#slct_tipo_respuesta,#slct_tipo_respuesta_detalle').attr('disabled',"true");
+    //$('#slct_tipo_respuesta,#slct_tipo_respuesta_detalle').attr('disabled',"true");
     slctGlobal.listarSlct('tiporespuesta','slct_tipo_respuesta','simple',ids,data,0,'#slct_tipo_respuesta_detalle','TR');
     slctGlobal.listarSlct('tiporespuestadetalle','slct_tipo_respuesta_detalle','simple',ids,data,1);
     
@@ -349,7 +349,7 @@ mostrarDetalleHTML=function(datos){
                             "<td>"+detalle[i].split("=>")[1]+"</td>"+
                             "<td id='td_"+detalle[i].split("=>")[0]+"'>"+imagenadd+"</td>"+
                             "<td>"+obs+"</td>"+
-                            "<td>"+archivo+"</td>"+
+                            //"<td>"+archivo+"</td>"+
                             "<td>"+imagen+"</td>"+
                         "</tr>";
             }
@@ -427,14 +427,22 @@ guardarTodo=function(){
     if( conttotalcheck>0 && contcheck==0 && alerta==false ) {
             alert("Seleccione al menos 1 check");
     }
-    else if ( !$("#slct_tipo_respuesta").attr("disabled") && $("#slct_tipo_respuesta").val()=='' && alerta==false ) {
+    else if ( $("#slct_tipo_respuesta").val()=='' && validacheck==0 && alerta==false ) {
         alert("Seleccione Tipo de Respuesta");
     }
-    else if ( !$("#slct_tipo_respuesta_detalle").attr("disabled") && $("#slct_tipo_respuesta_detalle").val()=='' && alerta==false ) {
+    else if ( $("#slct_tipo_respuesta_detalle").val()=='' && validacheck==0 && alerta==false ) {
         alert("Seleccione Detalle Tipo Respuesta");
     }
-    else if ( !$("#txt_observacion").attr("disabled") && $("#txt_observacion").val()=='' && alerta==false ) {
+    else if ( $("#txt_observacion").val()=='' && validacheck==0 && alerta==false ) {
         alert("Ingrese observacion del paso");
+    }
+    else if ( $("#slct_tipo_respuesta").val()!='' && validacheck==1 && alerta==false 
+                && $("#slct_tipo_respuesta option[value='"+$("#slct_tipo_respuesta").val()+"']").attr("data-evento").split("_")[1]=='0'
+            ) {
+        alert("El tipo de respuesta seleccionada solo esta permitida cuando este activada todas las acciones habilitadas");
+    }
+    else if ( $("#slct_tipo_respuesta_detalle").val()=='' && $("#slct_tipo_respuesta").val()!='' ) {
+        alert("Seleccione Detalle Tipo Respuesta");
     }
     else if( alerta==false ){
         if( confirm("Favor de confirmar para actualizar su información") ){

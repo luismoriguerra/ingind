@@ -164,7 +164,7 @@
                                                             <th style="text-align:center" rowspan="2">¿Es Condicional?</th>
                                                             <th style="text-align:center" rowspan="2">Rol que Realiza</th>
                                                             <th style="text-align:center" colspan="3">Acciones a Realizar</th>
-                                                            <th style="text-align:center" colspan="3">Acciones Realizadas</th>
+                                                            <th style="text-align:center" colspan="2">Acciones Realizadas</th>
                                                             <th style="text-align:center" rowspan="2">[-]</th>
                                                         </tr>
                                                         <tr>
@@ -173,7 +173,7 @@
                                                             <th style="text-align:center">Descripcion</th>
                                                             <th style="text-align:center">Documento Generado</th>
                                                             <th style="text-align:center">Observaciones</th>
-                                                            <th style="text-align:center">Adjuntar Doc. Generado</th>
+                                                            <!--th style="text-align:center">Adjuntar Doc. Generado</th-->
                                                         </tr>
                                                     </thead>
                                                     <tbody id="t_detalle_verbo"></tbody>
