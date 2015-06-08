@@ -31,12 +31,19 @@ class VerboController extends \BaseController
      *
      * @return Response
      */
-    public function postListar()
+   public function postListar()
     {
-        //si la peticion es ajax
         if ( Request::ajax() ) {
-            $verbos = Verbo::get(Input::all());
-            return Response::json(array('rst'=>1,'datos'=>$verbos));
+            $a      = new Verbo;
+            $listar = Array();
+            $listar = $a->getVerbo();
+
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $listar
+                )
+            );
         }
     }
 

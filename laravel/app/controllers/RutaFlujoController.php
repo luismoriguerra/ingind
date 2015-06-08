@@ -41,9 +41,25 @@ class RutaFlujoController extends \BaseController
             $rf                 = new RutaFlujo();
 
             $validaTiempo = $rf->validaTiempo();
-            
-            if($validaTiempo==''){
+
+            if($validaVerbo==''){
+            $validaVerbo = $rf->validaOrden();
+            }
+
+            if($validaVerbo==''){
+            $validaVerbo = $rf->validaRol();
+            }
+
+            if($validaVerbo==''){
             $validaVerbo = $rf->validaVerbo();
+            }
+
+            if($validaVerbo==''){
+            $validaVerbo = $rf->validaDocuento();
+            }
+
+            if($validaVerbo==''){
+            $validaVerbo = $rf->validaDescripcion();
             }
 
             if($validaTiempo=='' and $validaVerbo==''){
@@ -211,7 +227,7 @@ class RutaFlujoController extends \BaseController
 
                     if( isset($detalleTiempoG[ $posdetalleTiempoG[1] ]) and trim($detalleTiempoG[ $posdetalleTiempoG[1] ])!=''){
                         $dtg=explode( "_", $detalleTiempoG[ $posdetalleTiempoG[1] ] );
-                        if( trim($dtg[1])!='' ){
+                        //if( trim($dtg[1])!='' ){
                             $detdtg=explode("|",$dtg[1]);
                             $detdtg2=explode("|",$dtg[2]);
                             $detdtg3=explode("|",$dtg[3]);
@@ -245,7 +261,7 @@ class RutaFlujoController extends \BaseController
 
                                 $rutaFlujoDetalleVerbo->save();
                             }
-                        }
+                        //}
                     }
 
                 }

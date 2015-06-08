@@ -130,7 +130,7 @@ $(document).ready(function() {
 });
 
 tpersona=function(valor){
-    $(".natural, .juridica, .area").css("display","none");
+    $(".natural, .juridica, .area, .org").css("display","none");
     if(valor==1){
         $(".natural").css("display","");
     }
@@ -139,6 +139,9 @@ tpersona=function(valor){
     }
     else if(valor==3){
         $(".area").css("display","");
+    }
+    else if(valor==4){
+        $(".org").css("display","");
     }
 }
 
@@ -295,6 +298,9 @@ guardarTodo=function(){
     }
     else if( $("#slct_tipo_persona").val()=='3' && $("#slct_area_p_id").val()=='' ){
         alert("Seleccione Area Interna");
+    }
+    else if( $("#slct_tipo_persona").val()=='4' && $("#txt_razon_social").val()=='' ){
+        alert("Ingrese Razon Social");
     }
     else if( $("#txt_sumilla").val()=='' ){
         alert("Ingrese Sumilla");
@@ -636,6 +642,7 @@ validandoconteo=0;
         if(validandoconteo==1){
             $("#slct_flujo_id").val(data.flujo_id);
             $("#slct_area_id").val(data.area_id);
+            $("#slct_flujo_id,#slct_area_id").multiselect('disable');
             $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
             $("#txt_persona").val(data.persona);
         }

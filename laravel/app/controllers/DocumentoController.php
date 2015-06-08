@@ -33,10 +33,17 @@ class DocumentoController extends \BaseController
      */
     public function postListar()
     {
-        //si la peticion es ajax
         if ( Request::ajax() ) {
-            $documentos = Documento::get(Input::all());
-            return Response::json(array('rst'=>1,'datos'=>$documentos));
+            $a      = new Documento;
+            $listar = Array();
+            $listar = $a->getDocumento();
+
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $listar
+                )
+            );
         }
     }
 

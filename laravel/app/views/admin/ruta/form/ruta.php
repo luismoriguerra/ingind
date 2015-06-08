@@ -1,6 +1,6 @@
 <!-- /.modal -->
 <div class="modal fade" id="rutaModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg" style="width:1100px;">
     <div class="modal-content">
         <!-- Custom Tabs -->
         <div class="nav-tabs-custom">
@@ -86,17 +86,17 @@
                         <table class="table table-bordered table-striped">
                           <thead>
                             <tr>
-                              <th class="text-center" rowspan="2">Paso</th>
+                              <th class="text-center col-sm-1" rowspan="2">Paso</th>
                               <th class="text-center col-sm-1" rowspan="2">N° Orden</th>
-                              <th class="text-center" colspan="4">Acción</th>
-                              <th class="text-center" rowspan="2">Condicional</th>
-                              <th class="text-center" rowspan="2">[X]</th>
+                              <th class="text-center col-sm-4" colspan="4">Acción</th>
+                              <th class="text-center col-sm-2" rowspan="2">Condicional</th>
+                              <th class="text-center col-sm-2" rowspan="2">[X]</th>
                             </tr>
                             <tr>
-                              <th class="text-center">Rol</th>
-                              <th class="text-center">Verbo</th>
-                              <th class="text-center">Docum. Que Genera</th>
-                              <th class="text-center">Descripción</th>
+                              <th class="text-center col-sm-2">Rol</th>
+                              <th class="text-center col-sm-2">Verbo</th>
+                              <th class="text-center col-sm-2">Docum. Que Genera</th>
+                              <th class="text-center col-sm-4">Descripción</th>
                             </tr>
                           </thead>
                           <tbody id="tb_verbo"> </tbody>
