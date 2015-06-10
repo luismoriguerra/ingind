@@ -46,6 +46,7 @@ class FlujoTipoRespuesta extends Base
                             }
                         }
                     )
+                    ->orderBy('f.nombre')
                     ->get();
     }
 }

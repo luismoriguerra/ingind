@@ -15,7 +15,7 @@ class Base extends Eloquent
 
         foreach ($data as $field => $value) {
             if (isset($data[$field])) {
-                $q->where($field, $value);
+                $q->where($field, $value)->orderBy('nombre');
             }
         }
         return $q->get();
