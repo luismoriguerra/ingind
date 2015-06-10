@@ -109,28 +109,28 @@ HTMLreporteDetalle2=function(datos){
                 //"<td>"+data.verbo_finalizo+"</td>";
                 "<td>"+data.alerta+"</td>";
 
-        html+=  "<td><table>";
+        html+=  "<td><ul>";
         for (i = rol.length - 1; i >= 0; i--) 
-            html+= "<tr><td style='height: 19px'>"+rol[i]+"</tr></td>";
-        html+=  "</table></td><td><table>";
+            html+= "<li>"+rol[i]+"</li>";
+        html+=  "</ul></td><td><ul>";
         for (i = verbo.length - 1; i >= 0; i--) 
-            html+= "<tr><td style='height: 19px'>"+verbo[i]+"</tr></td>";
-        html+=  "</table></td><td><table>";
+            html+= "<li>"+verbo[i]+"</li>";
+        html+=  "</ul></td><td><ul>";
         for (i = documento.length - 1; i >= 0; i--) 
-            html+= "<tr><td style='height: 19px'>"+documento[i]+"</tr></td>";
-        html+=  "</table></td><td><table>";
+            html+= "<li>"+documento[i]+"</li>";
+        html+=  "</ul></td><td><ul>";
         for (i = descripcion_v.length - 1; i >= 0; i--) 
-            html+= "<tr><td style='height: 19px'>"+descripcion_v[i]+"</tr></td>";
-        html+=  "</table></td><td><table>";
+            html+= "<li>"+descripcion_v[i]+"</li>";
+        html+=  "</ul></td><td><ul>";
         for (i = verbo.length - 1; i >= 0; i--) //n_doc
-            html+=      "<tr><td></tr></td>";
-        html+=  "</table></td><td><table>";
+            html+=      "<li></li>";
+        html+=  "</ul></td><td><ul>";
         for (i = observacion.length - 1; i >= 0; i--) 
-            html+= "<tr><td style='height: 19px'>"+observacion[i]+"</tr></td>";
-        html+=  "</table></td><td><table>";
+            html+= "<li>"+observacion[i]+"</li>";
+        html+=  "</ul></td><td><ul>";
         for (i = estado_accion.length - 1; i >= 0; i--) 
-            html+= "<tr><td style='height: 19px'>"+estado_accion[i]+"</tr></td>";
-        html+=  "</table></td>";
+            html+= "<li>"+estado_accion[i]+"</li>";
+        html+=  "</ul></td>";
         html+=  "</tr>";
 
     });
