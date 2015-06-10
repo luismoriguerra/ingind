@@ -42,7 +42,12 @@ class FlujoTipoRespuestaController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
+            $flujoId = Input::get('flujo_id');
+            $tipoRespuestaId = Input::get('tipo_respuesta_id');
             $reglas = array(
+                'flujo_id'=>'required|numeric',
+                //select count(*) as aggregate from `flujo_tipo_respuesta` where `tipo_respuesta_id` = 3 and `flujo_id` = 21
+                'tipo_respuesta_id'=>'required|numeric|unique:flujo_tipo_respuesta,tipo_respuesta_id,NULL,id,flujo_id,'.$flujoId,
                 'estado' => 'required|numeric',
             );
 
@@ -69,8 +74,8 @@ class FlujoTipoRespuestaController extends \BaseController
                 $dtiempo = 0;
             }
             $flujoTipoRespuesta = new FlujoTipoRespuesta;
-            $flujoTipoRespuesta['flujo_id'] = Input::get('flujo_id');
-            $flujoTipoRespuesta['tipo_respuesta_id'] = Input::get('tipo_respuesta_id');
+            $flujoTipoRespuesta['flujo_id'] = $flujoId;
+            $flujoTipoRespuesta['tipo_respuesta_id'] = $tipoRespuestaId;
             $flujoTipoRespuesta['tiempo_id'] = $tiempoId;
             $flujoTipoRespuesta['dtiempo'] = $dtiempo;
             $flujoTipoRespuesta['estado'] = Input::get('estado');
@@ -95,7 +100,15 @@ class FlujoTipoRespuestaController extends \BaseController
     public function postEditar()
     {
         if ( Request::ajax() ) {
+            $id = Input::get('id');
+            $flujoId = Input::get('flujo_id');
+            $tipoRespuestaId = Input::get('tipo_respuesta_id');
             $reglas = array(
+                //select count(*) as aggregate from `flujo_tipo_respuesta` where `flujo_id` = 21 and `id` <> 32 and `tipo_respuesta_id` = 4
+                //'flujo_id'=>'required|numeric|unique:flujo_tipo_respuesta,flujo_id,'.$id.',id,tipo_respuesta_id,'.$tipoRespuestaId,
+                //'tipo_respuesta_id'=>'required|numeric',
+                'flujo_id'=>'required|numeric',
+                'tipo_respuesta_id'=>'required|numeric|unique:flujo_tipo_respuesta,tipo_respuesta_id,'.$id.',id,flujo_id,'.$flujoId,
                 'estado' => 'required|numeric',
             );
 
@@ -123,8 +136,8 @@ class FlujoTipoRespuestaController extends \BaseController
             }
             $flujoTipoRespuestaId = Input::get('id');
             $flujoTipoRespuesta = FlujoTipoRespuesta::find($flujoTipoRespuestaId);
-            $flujoTipoRespuesta['flujo_id'] = Input::get('flujo_id');
-            $flujoTipoRespuesta['tipo_respuesta_id'] = Input::get('tipo_respuesta_id');
+            $flujoTipoRespuesta['flujo_id'] = $flujoId;
+            $flujoTipoRespuesta['tipo_respuesta_id'] = $tipoRespuestaId;
             $flujoTipoRespuesta['tiempo_id'] = $tiempoId;
             $flujoTipoRespuesta['dtiempo'] = $dtiempo;
             $flujoTipoRespuesta['estado'] = Input::get('estado');
