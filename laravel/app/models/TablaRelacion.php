@@ -24,6 +24,7 @@ class TablaRelacion extends Eloquent
                             }
                         }
                     )
+                    ->orderBy('s.nombre')
                     ->get();
 
         return $tr;

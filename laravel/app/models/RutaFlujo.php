@@ -35,24 +35,120 @@ class RutaFlujo extends Eloquent
         return $resultado;
     }
 
-    public function validaVerbo()
+    public function validaDescripcion()
     {
         $resultado='';
         $ruta_flujo_id=Input::get('ruta_flujo_id');
 
-        $query='SELECT rfd.id,rfd.norden,a.nombre as area,IFNULL(GROUP_CONCAT(rfdv.nombre),"") verbo
+        $query='SELECT rfd.id,rfd.norden,a.nombre as area,rfdv.orden
                 FROM rutas_flujo_detalle rfd
                 INNER JOIN areas a ON a.id=rfd.area_id
                 LEFT JOIN rutas_flujo_detalle_verbo rfdv ON rfd.id=rfdv.ruta_flujo_detalle_id AND rfdv.estado=1
                 WHERE rfd.ruta_flujo_id='.$ruta_flujo_id.'
                 AND rfd.estado=1
-                GROUP BY rfd.id
-                HAVING IFNULL(GROUP_CONCAT(rfdv.nombre),"")=""';
+                AND rfdv.nombre=""';
         $rf = DB::select($query);
 
         if( count($rf)>0 ){
             foreach ($rf as $r) {
-                $resultado.=',Falta verbo en Area: '.$r->area.' Pos: '.$r->norden;
+                $resultado.=',Falta descripcion del verbo en el Area: '.$r->area.' con Orden:'.$r->orden.'  y Pos Ruta: '.$r->norden;
+            }
+            $resultado=substr($resultado,1);
+        }
+
+        return $resultado;
+    }
+
+    public function validaOrden()
+    {
+        $resultado='';
+        $ruta_flujo_id=Input::get('ruta_flujo_id');
+
+        $query='SELECT rfd.id,rfd.norden,a.nombre as area,rfdv.orden
+                FROM rutas_flujo_detalle rfd
+                INNER JOIN areas a ON a.id=rfd.area_id
+                LEFT JOIN rutas_flujo_detalle_verbo rfdv ON rfd.id=rfdv.ruta_flujo_detalle_id AND rfdv.estado=1
+                WHERE rfd.ruta_flujo_id='.$ruta_flujo_id.'
+                AND rfd.estado=1
+                AND rfdv.orden=""';
+        $rf = DB::select($query);
+
+        if( count($rf)>0 ){
+            foreach ($rf as $r) {
+                $resultado.=',Falta orden del verbo en el Area: '.$r->area.' Pos Ruta: '.$r->norden;
+            }
+            $resultado=substr($resultado,1);
+        }
+
+        return $resultado;
+    }
+
+    public function validaRol()
+    {
+        $resultado='';
+        $ruta_flujo_id=Input::get('ruta_flujo_id');
+
+        $query='SELECT rfd.id,rfd.norden,a.nombre as area,rfdv.orden
+                FROM rutas_flujo_detalle rfd
+                INNER JOIN areas a ON a.id=rfd.area_id
+                LEFT JOIN rutas_flujo_detalle_verbo rfdv ON rfd.id=rfdv.ruta_flujo_detalle_id AND rfdv.estado=1
+                WHERE rfd.ruta_flujo_id='.$ruta_flujo_id.'
+                AND rfd.estado=1
+                AND rfdv.rol_id is null';
+        $rf = DB::select($query);
+
+        if( count($rf)>0 ){
+            foreach ($rf as $r) {
+                $resultado.=',Falta rol del verbo en el Area: '.$r->area.' con Orden:'.$r->orden.' y Pos: '.$r->norden;
+            }
+            $resultado=substr($resultado,1);
+        }
+
+        return $resultado;
+    }
+
+    public function validaVerbo()
+    {
+        $resultado='';
+        $ruta_flujo_id=Input::get('ruta_flujo_id');
+
+        $query='SELECT rfd.id,rfd.norden,a.nombre as area,rfdv.orden
+                FROM rutas_flujo_detalle rfd
+                INNER JOIN areas a ON a.id=rfd.area_id
+                LEFT JOIN rutas_flujo_detalle_verbo rfdv ON rfd.id=rfdv.ruta_flujo_detalle_id AND rfdv.estado=1
+                WHERE rfd.ruta_flujo_id='.$ruta_flujo_id.'
+                AND rfd.estado=1
+                AND rfdv.verbo_id is null';
+        $rf = DB::select($query);
+
+        if( count($rf)>0 ){
+            foreach ($rf as $r) {
+                $resultado.=',Falta verbo en el Area: '.$r->area.' con Orden:'.$r->orden.' y Pos Ruta: '.$r->norden;
+            }
+            $resultado=substr($resultado,1);
+        }
+
+        return $resultado;
+    }
+
+    public function validaDocuento()
+    {
+        $resultado='';
+        $ruta_flujo_id=Input::get('ruta_flujo_id');
+
+        $query='SELECT rfd.id,rfd.norden,a.nombre as area,rfdv.orden
+                FROM rutas_flujo_detalle rfd
+                INNER JOIN areas a ON a.id=rfd.area_id
+                LEFT JOIN rutas_flujo_detalle_verbo rfdv ON rfd.id=rfdv.ruta_flujo_detalle_id AND rfdv.estado=1
+                WHERE rfd.ruta_flujo_id='.$ruta_flujo_id.'
+                AND rfd.estado=1
+                AND rfdv.verbo_id=1
+                AND rfdv.documento_id is null';
+        $rf = DB::select($query);
+
+        if( count($rf)>0 ){
+            foreach ($rf as $r) {
+                $resultado.=',Falta tipo documento en el Area: '.$r->area.' con Orden:'.$r->orden.' y Pos Ruta: '.$r->norden;
             }
             $resultado=substr($resultado,1);
         }
@@ -249,9 +345,13 @@ class RutaFlujo extends Eloquent
                                         ) AS persona,
                                         IFNULL(
                                             GROUP_CONCAT(
-                                            CONCAT( rfdv.nombre,"^^",rfdv.condicion,"^^",IFNULL(rfdv.rol_id,""),"^^",IFNULL(rfdv.verbo_id,""),"^^",IFNULL(rfdv.documento_id,""),"^^",IFNULL(rfdv.orden,"") ) SEPARATOR "|"
-                                            ),""
-                                        ) as verbo'
+                                                CONCAT( rfdv.nombre,"^^",rfdv.condicion,"^^",IFNULL(rfdv.rol_id,""),"^^",IFNULL(rfdv.verbo_id,""),"^^",IFNULL(rfdv.documento_id,""),"^^",IFNULL(rfdv.orden,"") 
+                                                ) 
+                                                ORDER BY rfdv.orden ASC
+                                                SEPARATOR "|"
+                                            ),
+                                            ""
+                                        ) as verbo '
                                     )
                             )
                             ->where( 'rf.id','=', Input::get('ruta_flujo_id') )

@@ -116,13 +116,16 @@ valida=function(inicial,id,v_default){
 };
 HTMLCargarFlujo=function(datos){
     var html="";
-    var estadohtml="";
+    var estadohtml="", tiempo='';
     $.each(datos,function(index,data){
         estadohtml='<span id="'+data.id+'" onClick="activar('+data.id+')" class="btn btn-danger">Inactivo</span>';
         if(data.estado==1){
             estadohtml='<span id="'+data.id+'" onClick="desactivar('+data.id+')" class="btn btn-success">Activo</span>';
+            tiempo = (data.tiempo=='')? '':data.tiempo+': '+data.dtiempo;
+        } else {
+            tiempo='';
         }
-        var tiempo = (data.tiempo=='')? '':data.tiempo+': '+data.dtiempo;
+        
         html+="<tr>"+
             "<td>"+data.flujo+"</td>"+
             "<td>"+data.tipo_respuesta+"</td>"+

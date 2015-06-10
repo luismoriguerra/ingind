@@ -75,9 +75,19 @@ class RutaDetalle extends Eloquent
             SEPARATOR "|"),"") AS verbo,
             IFNULL(GROUP_CONCAT(
                 CONCAT(
+                    "<b>",
+                    rdv.orden,
+                    "</b>",
+                     ".- ",
+                    ro.nombre,
+                     " tiene que ",
+                    ve.nombre,
+                     " ",
+                    do.nombre,
+                     " (",
                     rdv.nombre,
-                     "=>",
-                    IF(rdv.finalizo=0,"<font color=#EC2121>Pendiente</font>","<font color=#22D72F>Finalizó</font>")
+                     ")=>",
+                    IF(rdv.finalizo=0,"<font color=#EC2121>Pendiente</font>",CONCAT("<font color=#22D72F>Finalizó(",p.paterno," ",p.materno,", ",p.nombre,")</font>") )
                 )
             SEPARATOR "|"),"") AS verbo2,IFNULL(rd.fecha_inicio,"9999") fi,
             IFNULL(
@@ -86,9 +96,11 @@ class RutaDetalle extends Eloquent
                 INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
                 )
             ,"<font color=#E50D1C>Tranquilo! el paso anterior aún no ha acabado</font>") AS fecha_max, now() AS hoy
+            ,IFNULL( max( IF(rdv.finalizo=1,rdv.condicion,NULL) ) ,"0") maximo
             FROM rutas_detalle rd
             INNER JOIN rutas r ON r.id=rd.ruta_id
             LEFT JOIN rutas_detalle_verbo rdv ON (rd.id=rdv.ruta_detalle_id AND rdv.estado=1)
+            LEFT JOIN personas p ON p.id=rdv.usuario_updated_at
             LEFT JOIN roles ro ON ro.id=rdv.rol_id
             LEFT JOIN verbos ve ON ve.id=rdv.verbo_id
             LEFT JOIN documentos do ON do.id=rdv.documento_id

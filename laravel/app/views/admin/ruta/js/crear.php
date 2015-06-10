@@ -117,7 +117,7 @@ $(document).ready(function() {
 
 guardarTodo=function(){
     if( $("#slct_flujo_id").val()=="" ){
-        alert("Seleccione Tipo de Flujo");
+        alert("Seleccione Proceso");
     }
     else if( $("#slct_area_id").val()=="" ){
         alert("Seleccione Area");
@@ -174,7 +174,6 @@ guardarVerbo=function(){
         alerta=false;
         alertap=false;
 
-        estadoG[detalle[0]]=$("#slct_paralelo_"+detalle[0]+"_modal").val();
         if($("#slct_paralelo_"+detalle[0]+"_modal").val()=="2"){
             alertap=true;
         }
@@ -231,6 +230,7 @@ guardarVerbo=function(){
 
         if(alertap==true && alerta==true){
         alert("Un paralelo no puede tener condicional");
+        $("#slct_paralelo_"+detalle[0]+"_modal").val(1);
         alertafinal=true;
         i=1000;
         }
@@ -269,6 +269,7 @@ guardarVerbo=function(){
             //alert("guardando: "+ detalle.join("_"));
             verboG[tid][i]=detalle.join("_");
         }
+        estadoG[detalle[0]]=$("#slct_paralelo_"+detalle[0]+"_modal").val();
     }
 
     if(alertafinal==false){
@@ -339,7 +340,7 @@ pintarTiempoG=function(tid){
             htm=   '<tr id="tr_detalle_verbo_'+posicionDetalleVerboG+'">'+
                         '<td>'+(detalle2[0]*1+1)+selectestado+'</td>'+
                         '<td>'+
-                            '<input type="number" class="form-control txt_orden_'+detalle2[0]+'_modal" placeholder="Ing. Orden" value="'+subdetalle6[j]+'">'+
+                            '<input type="text" maxlength="3" onkeypress="return validaNumeros(event);" class="form-control txt_orden_'+detalle2[0]+'_modal" placeholder="Ing. Orden" value="'+subdetalle6[j]+'">'+
                         '</td>'+
                         '<td>'+
                             '<select class="form-control slct_rol_'+detalle2[0]+'_modal">'+
@@ -398,7 +399,7 @@ adicionaDetalleVerbo=function(det){
     htm=   '<tr id="tr_detalle_verbo_'+posicionDetalleVerboG+'">'+
                 '<td>'+(det*1+1)+'</td>'+
                 '<td>'+
-                    '<input type="number" class="form-control txt_orden_'+det+'_modal" placeholder="Ing. Orden">'+
+                    '<input type="text" maxlength="3" onkeypress="return validaNumeros(event);" class="form-control txt_orden_'+det+'_modal" placeholder="Ing. Orden">'+
                 '</td>'+
                 '<td>'+
                     '<select class="form-control slct_rol_'+det+'_modal">'+
@@ -804,6 +805,7 @@ Nuevo=function(){
     $(".form-group").css("display","");
     $("#txt_titulo").val("Nueva Ruta");
     $("#slct_flujo_id,#slct_area_id").val("");
+    $("#slct_flujo_id").multiselect('enable');
     $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
     $("#txt_persona").val('<?php echo Auth::user()->paterno." ".Auth::user()->materno." ".Auth::user()->nombre;?>');
     $("#txt_ok,#txt_error").val("0");
@@ -880,6 +882,7 @@ validandoconteo=0;
         if(validandoconteo==1){
             $("#slct_flujo_id").val(data.flujo_id);
             $("#slct_area_id").val(data.area_id);
+            $("#slct_flujo_id,#slct_area_id").multiselect('disable');
             $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
             $("#txt_persona").val(data.persona);
         }
@@ -1030,4 +1033,12 @@ AbreTv=function(val){
     $("#areasasignacion [data-id='"+val+"']").click();
 }
 
+
+validaNumeros=function(e) { // 1
+        tecla = (document.all) ? e.keyCode : e.which; // 2
+        if (tecla==8 || tecla==0 || tecla==46) return true;//8 barra, 0 flechas desplaz
+        patron = /\d/; // Solo acepta números
+        te = String.fromCharCode(tecla); // 5
+        return patron.test(te); // 6
+}
 </script>

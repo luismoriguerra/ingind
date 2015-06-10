@@ -46,6 +46,8 @@ class TipoRespuestaDetalle extends Base
                         }
                     }
                 )
+                ->groupBy('trd.id')
+                ->orderBy('trd.nombre')
                 ->get();
 
         return $query;

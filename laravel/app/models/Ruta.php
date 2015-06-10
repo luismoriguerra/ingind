@@ -36,8 +36,11 @@ class Ruta extends Eloquent
             $tablaRelacion['razon_social']=Input::get('razon_social');
             $tablaRelacion['ruc']=Input::get('ruc');
         }
-        else{
+        elseif(Input::get('tipo_persona')==3){
             $tablaRelacion['area_id']=Input::get('area_p_id');
+        }
+        else{
+            $tablaRelacion['razon_social']=Input::get('razon_social');
         }
         $tablaRelacion['sumilla']=Input::get('sumilla');
         $tablaRelacion['usuario_created_at']=Auth::user()->id;

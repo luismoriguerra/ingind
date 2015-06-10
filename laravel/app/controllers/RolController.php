@@ -33,10 +33,17 @@ class RolController extends \BaseController
      */
     public function postListar()
     {
-        //si la peticion es ajax
         if ( Request::ajax() ) {
-            $roles = Rol::get(Input::all());
-            return Response::json(array('rst'=>1,'datos'=>$roles));
+            $a      = new Rol;
+            $listar = Array();
+            $listar = $a->getRol();
+
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $listar
+                )
+            );
         }
     }
 

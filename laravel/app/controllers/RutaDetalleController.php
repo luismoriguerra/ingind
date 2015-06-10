@@ -111,7 +111,12 @@ class RutaDetalleController extends \BaseController
                     HAVING suma=cant
                     ORDER BY condicion DESC';
                 $querycondicion= DB::select($query);
-                $siguiente= $querycondicion[0]->condicion;
+                if( count($querycondicion) >0 ){
+                    $siguiente= $querycondicion[0]->condicion;
+                }
+                else{
+                    $siguiente= "0";
+                }
 
                 $validaSiguiente= DB::table('rutas_detalle AS rd')
                                     ->select('rd.id', DB::raw('now() AS ahora') )

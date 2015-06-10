@@ -52,6 +52,7 @@ class Flujo extends Base
                     }
                 )
                 ->groupBy('f.id')
+                ->orderBy('f.nombre')
                 ->get();
                 
         return $flujo;
