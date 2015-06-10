@@ -245,7 +245,7 @@ mostrarRutaDetalleHTML=function(datos){
         "<td>"+cont+"</td>"+
         "<td>"+data.id_doc+"</td>"+
         "<td>"+data.norden+"</td>"+
-        "<td><ul><li>"+data.verbo2.split("|").join("</li><li>")+"</li></ul></td>"+
+        "<td>"+data.verbo2.split("|").join("<br>")+"</td>"+
         "<td>"+data.fecha_inicio+"</td>"+
         "<td>"+data.fecha_max+"</td>"+
         "<td>"+data.flujo+"</td>"+
