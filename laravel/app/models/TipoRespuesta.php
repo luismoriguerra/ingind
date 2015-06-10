@@ -49,6 +49,7 @@ class TipoRespuesta extends Base
                         }
                     }
                 )
+                ->orderBy('tr.nombre')
                 ->get();
         return $r;
     }
