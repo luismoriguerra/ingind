@@ -54,6 +54,28 @@
             </fieldset>
         </div>
         <div class="box-body table-responsive">
+            <div class="row form-group" id="reporte_t" style="display:none;">
+                <div class="col-sm-12">
+                    <div class="box-body table-responsive">
+                        <table id="t_reporte_t" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Nombre del proceso</th>
+                                    <th>Dueño del Proceso</th>
+                                    <th>Área del dueño</th>
+                                    <th>N° de Áreas de la ruta</th>
+                                    <th>N° de Pasos de la ruta</th>
+                                    <th>Tiempo total de la ruta</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tb_reporte_t">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-body table-responsive">
             <div class="row form-group" id="reporte" style="display:none;">
                 <div class="col-sm-12">
                     <table id="t_reporte" class="table table-bordered">
@@ -64,8 +86,8 @@
                                 <th>Solicitante</th>
                                 <th>Sumilla</th>
                                 <th>Estado</th>
-                                <!-- <th>N° paso actual</th> -->
-                                <th>N° paso en (área)</th>
+                                <th>Paso a la fecha</th>
+                                <th>Total de pasos</th>
                                 <th>Fecha Inicio</th>
                                 <th>Fecha Fin</th>
                                 <th>Pasos Sin alertas</th>

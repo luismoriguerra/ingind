@@ -16,6 +16,8 @@ $(document).ready(function() {
             if (flujo_id!=='') {
                 data = {flujo_id:flujo_id,fecha:fecha};
                 Rutas.mostrar(data);
+                //data = {area_id:area_id,fecha:fecha};
+                Rutas.mostrar_t(data);
             } else {
                 alert("Seleccione Proceso");
             }
@@ -25,7 +27,38 @@ $(document).ready(function() {
     });
 
 });
-
+HTMLreporte_t=function(datos){
+    var html="";
+    
+    var alerta_tipo= '';
+    $.each(datos,function(index,data){
+        alerta_tipo = '';
+        
+        if (data.alerta=='Alerta' || data.alerta=='Alerta Validada') {
+            if (data.alerta_tipo==1) {
+                alerta_tipo = 'Tiempo asignado';
+            } else if (data.alerta_tipo==2) {
+                alerta_tipo = 'Tiempo de respuesta';
+            } else if (data.alerta_tipo==3) {
+                alerta_tipo = 'Tiempo aceptado';
+            }
+        }
+        html+="<tr>"+
+            "<td>"+data.proceso+"</td>"+
+            "<td>"+data.duenio+"</td>"+
+            "<td>"+data.area_duenio+"</td>"+
+            "<td>"+data.n_areas+"</td>"+
+            "<td>"+data.n_pasos+"</td>"+
+            "<td>"+data.tiempo+"</td>";
+            //'<td><a onClick="detalle('+data.ruta_flujo_id+',this)" class="btn btn-primary btn-sm" data-id="'+data.ruta_flujo_id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
+        html+="</tr>";
+    });
+    $("#tb_reporte_t").html(html);
+    //$("#tb_reporteDetalle").html('');
+    //$("#tb_reporteDetalle2").html('');
+    //activarTabla();
+    $("#reporte_t").show();
+};
 HTMLreporte=function(datos){
     var html="";
     $('#t_reporte').dataTable().fnDestroy();
@@ -49,7 +82,7 @@ HTMLreporte=function(datos){
             "<td>"+data.sumilla+"</td>"+
             "<td>"+data.estado+"</td>"+
             "<td>"+data.ultimo_paso_area+"</td>"+
-            //"<td>"+data.ultima_area+"</td>"+
+            "<td>"+data.total_pasos+"</td>"+
             "<td>"+data.fecha_tramite+"</td>"+
             "<td>"+data.fecha_fin+"</td>"+
             "<td>"+data.ok+"</td>"+

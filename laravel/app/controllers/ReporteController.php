@@ -103,8 +103,9 @@ class ReporteController extends BaseController
                       DATE_ADD('$fechaFin',INTERVAL 1 DAY) AND r.flujo_id=?";
 */
         $query ="SELECT tr.id_union AS tramite, r.id, 
-                IF(tipo_persona='1','natural',
-                  IF(tipo_persona='2','juridica','interna')
+                IF(tipo_persona='1','Natural',
+                  IF(tipo_persona='2','Juridica',
+                    IF(tipo_persona='3','Interna','Organización') )
                   ) AS tipo_persona,
                 IF(tipo_persona='1',
                    CONCAT(tr.paterno,' ',tr.materno,' ',tr.nombre),
@@ -133,19 +134,33 @@ class ReporteController extends BaseController
                              AND rd.dtiempo_final IS NULL
                              AND rd.estado=1 
                              ORDER BY norden LIMIT 1),'' 
-                        ) AS ultimo_paso_area,
-                        IFNULL((SELECT a.nombre
-                                 FROM rutas_detalle rd 
-                                 JOIN areas a ON rd.area_id=a.id
-                                 WHERE rd.ruta_id=r.id
-                                 AND rd.dtiempo_final IS NULL
-                                 AND rd.estado=1 
-                                 ORDER BY norden LIMIT 1),'' 
-                            ) AS ultima_area,
+                    ) AS ultimo_paso_area,
+                    IFNULL((SELECT a.nombre
+                             FROM rutas_detalle rd 
+                             JOIN areas a ON rd.area_id=a.id
+                             WHERE rd.ruta_id=r.id
+                             AND rd.dtiempo_final IS NULL
+                             AND rd.estado=1 
+                             ORDER BY norden LIMIT 1),'' 
+                    ) AS ultima_area,
+                    (SELECT count(norden)
+                       FROM rutas_detalle rd 
+                       WHERE rd.ruta_id=r.id
+                       AND rd.estado=1 
+                       ) AS total_pasos,
                 IFNULL(tr.fecha_tramite,'') AS fecha_tramite, '' AS fecha_fin,
-                (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=0) AS 'ok',
-                (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=1) AS 'errorr',
-                (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=2) AS 'corregido'
+                (SELECT COUNT(alerta) 
+                  FROM rutas_detalle rd 
+                  WHERE r.id=rd.ruta_id 
+                  AND alerta=0) AS 'ok',
+                (SELECT COUNT(alerta) 
+                  FROM rutas_detalle rd 
+                  WHERE r.id=rd.ruta_id 
+                  AND alerta=1) AS 'errorr',
+                (SELECT COUNT(alerta) 
+                  FROM rutas_detalle rd 
+                  WHERE r.id=rd.ruta_id 
+                  AND alerta=2) AS 'corregido'
                 FROM tablas_relacion tr 
                 JOIN rutas r ON tr.id=r.tabla_relacion_id
                 WHERE r.fecha_inicio BETWEEN '$fechaIni' AND 
@@ -233,7 +248,7 @@ class ReporteController extends BaseController
                     ->join('tiempos as t','rd.tiempo_id','=','t.id')
                     ->join('tablas_relacion as tr','r.tabla_relacion_id','=','tr.id')
                     ->where('r.id',array($rutaId))
-                    ->where('rd.condicion',0)
+                    //->where('rd.condicion',0)
                     ->where('r.estado',1)
                     ->where('rd.estado',1)
                     ->select(
@@ -372,7 +387,7 @@ class ReporteController extends BaseController
                 FROM tablas_relacion tr 
                 JOIN rutas r ON tr.id=r.tabla_relacion_id
                 WHERE r.ruta_flujo_id=? AND tr.estado=1
-                AND r.estado=1 AND tr.estado=1 ";
+                AND r.estado=1 ";
         return Response::json(
             array(
                 'rst'=>1,
@@ -433,6 +448,70 @@ class ReporteController extends BaseController
                 JOIN area_cargo_persona acp ON cp.id=acp.cargo_persona_id
                 JOIN areas a ON acp.area_id=a.id
                 WHERE f.area_id=? AND rf.estado=1 AND f.estado=1
+                AND cp.estado=1 AND acp.estado=1 AND a.estado=1
+                GROUP BY f.id
+                HAVING fecha_inicio BETWEEN ? AND 
+                      DATE_ADD(?,INTERVAL 1 DAY)";
+        //return DB::Select($query, array($areaId));
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>DB::Select($query, array($areaId,$fechaIni,$fechaFin))
+            )
+        );
+    }
+        /**
+     * Cumplimiento de are
+     * POST reporte/tecnicoofficetrack
+     *
+     * @return Response
+     */
+    public function postCumparea2()
+    {
+        $fecha = Input::get('fecha');
+        list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+        $areaId=Input::get('flujo_id');
+        $query="SELECT rf.flujo_id,f.nombre AS proceso, rf.id AS ruta_flujo_id, 
+                CONCAT(p.paterno,' ',p.materno,' ',p.nombre) AS duenio,
+                GROUP_CONCAT(a.nombre SEPARATOR ', ') AS area_duenio,
+                (SELECT COUNT(DISTINCT a.id) 
+                FROM areas a JOIN rutas_flujo_detalle rfd ON a.id=rfd.area_id
+                WHERE rfd.ruta_flujo_id=rf.id AND rfd.estado=1) AS n_areas,
+                (SELECT COUNT(DISTINCT rfd.id) 
+                FROM rutas_flujo_detalle rfd 
+                WHERE rfd.ruta_flujo_id=rf.id AND rfd.estado=1) AS n_pasos,
+                CONCAT(
+                    IFNULL(
+                        (SELECT CONCAT(t.nombre , ': ',SUM(dtiempo))
+                        FROM rutas_flujo_detalle AS rfd 
+                        JOIN tiempos t ON rfd.tiempo_id=t.id AND t.id='1'
+                        WHERE rfd.ruta_flujo_id=rf.id AND rfd.estado=1)  ,'') ,
+                    IFNULL(
+                        (SELECT CONCAT(' ', t.nombre , ': ',SUM(dtiempo))
+                        FROM rutas_flujo_detalle AS rfd 
+                        JOIN tiempos t ON rfd.tiempo_id=t.id AND t.id='2'
+                        WHERE rfd.ruta_flujo_id=rf.id AND rfd.estado=1)  ,'') ,
+                    IFNULL(
+                        (SELECT CONCAT(' ', t.nombre , ': ',SUM(dtiempo))
+                        FROM rutas_flujo_detalle AS rfd 
+                        JOIN tiempos t ON rfd.tiempo_id=t.id AND t.id='3'
+                        WHERE rfd.ruta_flujo_id=rf.id AND rfd.estado=1)  ,'') ,
+                    IFNULL(
+                        (SELECT CONCAT(' ', t.nombre , ': ',SUM(dtiempo))
+                        FROM rutas_flujo_detalle AS rfd 
+                        JOIN tiempos t ON rfd.tiempo_id=t.id AND t.id='4'
+                        WHERE rfd.ruta_flujo_id=rf.id AND rfd.estado=1)  ,'') 
+                ) AS tiempo,
+                (   SELECT max(fecha_inicio)
+                    FROM rutas
+                    WHERE flujo_id=f.id) AS fecha_inicio
+                FROM flujos f 
+                JOIN rutas_flujo rf ON rf.flujo_id=f.id
+                JOIN personas p ON rf.persona_id=p.id
+                JOIN cargo_persona cp ON p.id=cp.persona_id AND cp.cargo_id='5'
+                JOIN area_cargo_persona acp ON cp.id=acp.cargo_persona_id
+                JOIN areas a ON acp.area_id=a.id
+                WHERE f.id=? AND rf.estado=1 AND f.estado=1
                 AND cp.estado=1 AND acp.estado=1 AND a.estado=1
                 GROUP BY f.id
                 HAVING fecha_inicio BETWEEN ? AND 
