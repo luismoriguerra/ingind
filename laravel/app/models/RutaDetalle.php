@@ -83,12 +83,13 @@ class RutaDetalle extends Eloquent
                      " tiene que ",
                     ve.nombre,
                      " ",
-                    do.nombre,
+                    IFNULL(do.nombre,""),
                      " (",
                     rdv.nombre,
                      ")=>",
                     IF(rdv.finalizo=0,"<font color=#EC2121>Pendiente</font>",CONCAT("<font color=#22D72F>Finalizó(",p.paterno," ",p.materno,", ",p.nombre,")</font>") )
                 )
+            ORDER BY rdv.orden ASC
             SEPARATOR "|"),"") AS verbo2,IFNULL(rd.fecha_inicio,"9999") fi,
             IFNULL(
                 DATE_ADD(
