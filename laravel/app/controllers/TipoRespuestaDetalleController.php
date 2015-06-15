@@ -46,6 +46,7 @@ class TipoRespuestaDetalleController extends BaseController
             $required='required';
             $reglas = array(
                 'nombre' => $required.'|'.$regex,
+                'tiporespuesta_id' => $required.'|numeric',
                 //'path' =>$regex.'|unique:modulos,path,',
             );
 
@@ -94,6 +95,7 @@ class TipoRespuestaDetalleController extends BaseController
             $required='required';
             $reglas = array(
                 'nombre' => $required.'|'.$regex,
+                'tiporespuesta_id' => $required.'|numeric',
             );
 
             $mensaje= array(

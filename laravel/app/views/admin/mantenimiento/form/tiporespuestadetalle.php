@@ -20,6 +20,9 @@
           </div>
           <div class="form-group">
             <label class="control-label">Respuesta:
+                <a id="error_tiporespuesta_id" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Seleccione REspuesta">
+                    <i class="fa fa-exclamation"></i>
+                </a>
             </label>
             <select class="form-control" name="slct_tiporespuesta_id" id="slct_tiporespuesta_id">
             </select>
