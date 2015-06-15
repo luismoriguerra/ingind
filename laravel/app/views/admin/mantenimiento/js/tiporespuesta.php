@@ -9,22 +9,22 @@ $(document).ready(function() {
       // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
       var modal = $(this); //captura el modal
       modal.find('.modal-title').text(titulo+' Tipo Respuesta');
-      $('#form_tiporespuestas [data-toggle="tooltip"]').css("display","none");
-      $("#form_tiporespuestas input[type='hidden']").remove();
+      $('#form_flujo_tr [data-toggle="tooltip"]').css("display","none");
+      $("#form_flujo_tr input[type='hidden']").remove();
 
         if(titulo=='Nuevo'){
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
-            $('#form_tiporespuestas #slct_estado').val(1);
-            $('#form_tiporespuestas #txt_nombre').focus();
+            $('#form_flujo_tr #slct_estado').val(1);
+            $('#form_flujo_tr #txt_nombre').focus();
         }
         else{
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
-            $('#form_tiporespuestas #txt_nombre').val( $('#t_tiporespuestas #nombre_'+button.data('id') ).text() );
-            $('#form_tiporespuestas #slct_tiempo').val( $('#t_tiporespuestas #tiempo_'+button.data('id') ).attr("data-tiempo") );
-            $('#form_tiporespuestas #slct_estado').val( $('#t_tiporespuestas #estado_'+button.data('id') ).attr("data-estado") );
-            $("#form_tiporespuestas").append("<input type='hidden' value='"+button.data('id')+"' name='id'>");
+            $('#form_flujo_tr #txt_nombre').val( $('#t_tiporespuestas #nombre_'+button.data('id') ).text() );
+            $('#form_flujo_tr #slct_tiempo').val( $('#t_tiporespuestas #tiempo_'+button.data('id') ).attr("data-tiempo") );
+            $('#form_flujo_tr #slct_estado').val( $('#t_tiporespuestas #estado_'+button.data('id') ).attr("data-estado") );
+            $("#form_flujo_tr").append("<input type='hidden' value='"+button.data('id')+"' name='id'>");
         }
 
     });
@@ -59,7 +59,7 @@ Agregar=function(){
 };
 
 validaTipoRespuestas=function(){
-    $('#form_tiporespuestas [data-toggle="tooltip"]').css("display","none");
+    $('#form_flujo_tr [data-toggle="tooltip"]').css("display","none");
     var a=[];
     a[0]=valida("txt","nombre","");
     var rpta=true;

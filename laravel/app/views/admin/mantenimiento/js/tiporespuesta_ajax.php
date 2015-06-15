@@ -1,7 +1,7 @@
 <script type="text/javascript">
 var TipoRespuestas={
     AgregarEditarTipoRespuesta:function(AE){
-        var datos=$("#form_tiporespuestas").serialize().split("txt_").join("").split("slct_").join("");
+        var datos=$("#form_flujo_tr").serialize().split("txt_").join("").split("slct_").join("");
         var accion="tiporespuesta/crear";
         if(AE==1){
             accion="tiporespuesta/editar";
@@ -89,9 +89,9 @@ var TipoRespuestas={
         });
     },
     CambiarEstadoTipoRespuestas:function(id,AD){
-        $("#form_tiporespuestas").append("<input type='hidden' value='"+id+"' name='id'>");
-        $("#form_tiporespuestas").append("<input type='hidden' value='"+AD+"' name='estado'>");
-        var datos=$("#form_tiporespuestas").serialize().split("txt_").join("").split("slct_").join("");
+        $("#form_flujo_tr").append("<input type='hidden' value='"+id+"' name='id'>");
+        $("#form_flujo_tr").append("<input type='hidden' value='"+AD+"' name='estado'>");
+        var datos=$("#form_flujo_tr").serialize().split("txt_").join("").split("slct_").join("");
         $.ajax({
             url         : 'tiporespuesta/cambiarestado',
             type        : 'POST',
