@@ -57,8 +57,10 @@ class FileSessionHandler implements \SessionHandlerInterface {
 		{
 			return $this->files->get($path);
 		}
-
-		return '';
+		else
+		{
+			return '';
+		}
 	}
 
 	/**

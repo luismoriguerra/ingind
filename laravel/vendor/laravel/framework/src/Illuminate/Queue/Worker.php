@@ -156,10 +156,12 @@ class Worker {
 				$this->manager->getName($connectionName), $job, $maxTries, $delay
 			);
 		}
+		else
+		{
+			$this->sleep($sleep);
 
-		$this->sleep($sleep);
-
-		return ['job' => null, 'failed' => false];
+			return ['job' => null, 'failed' => false];
+		}
 	}
 
 	/**

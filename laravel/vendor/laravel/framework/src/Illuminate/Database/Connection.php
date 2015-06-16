@@ -709,7 +709,7 @@ class Connection implements ConnectionInterface {
 	 *
 	 * @param  string  $query
 	 * @param  array   $bindings
-	 * @param  float|null  $time
+	 * @param  $time
 	 * @return void
 	 */
 	public function logQuery($query, $bindings, $time = null)
@@ -831,9 +831,6 @@ class Connection implements ConnectionInterface {
 	 */
 	public function setPdo($pdo)
 	{
-		if ($this->transactions >= 1)
-			throw new \RuntimeException("Can't swap PDO instance while within transaction.");
-
 		$this->pdo = $pdo;
 
 		return $this;

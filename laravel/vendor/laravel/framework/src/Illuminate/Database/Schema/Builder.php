@@ -182,8 +182,10 @@ class Builder {
 		{
 			return call_user_func($this->resolver, $table, $callback);
 		}
-
-		return new Blueprint($table, $callback);
+		else
+		{
+			return new Blueprint($table, $callback);
+		}
 	}
 
 	/**

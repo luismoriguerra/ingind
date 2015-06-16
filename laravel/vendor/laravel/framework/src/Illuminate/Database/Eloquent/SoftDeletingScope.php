@@ -65,30 +65,12 @@ class SoftDeletingScope implements ScopeInterface {
 
 		$builder->onDelete(function(Builder $builder)
 		{
-			$column = $this->getDeletedAtColumn($builder);
+			$column = $builder->getModel()->getDeletedAtColumn();
 
 			return $builder->update(array(
 				$column => $builder->getModel()->freshTimestampString()
 			));
 		});
-	}
-
-	/**
-	 * Get the "deleted at" column for the builder.
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Builder  $builder
-	 * @return string
-	 */
-	protected function getDeletedAtColumn(Builder $builder)
-	{
-		if (count($builder->getQuery()->joins) > 0)
-		{
-			return $builder->getModel()->getQualifiedDeletedAtColumn();
-		}
-		else
-		{
-			return $builder->getModel()->getDeletedAtColumn();
-		}
 	}
 
 	/**

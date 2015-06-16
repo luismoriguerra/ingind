@@ -28,7 +28,7 @@ class AuthManager extends Manager {
 	 * Call a custom driver creator.
 	 *
 	 * @param  string  $driver
-	 * @return \Illuminate\Auth\Guard
+	 * @return mixed
 	 */
 	protected function callCustomCreator($driver)
 	{

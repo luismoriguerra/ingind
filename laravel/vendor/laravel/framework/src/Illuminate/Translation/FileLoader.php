@@ -52,8 +52,10 @@ class FileLoader implements LoaderInterface {
 		{
 			return $this->loadPath($this->path, $locale, $group);
 		}
-
-		return $this->loadNamespaced($locale, $group, $namespace);
+		else
+		{
+			return $this->loadNamespaced($locale, $group, $namespace);
+		}
 	}
 
 	/**

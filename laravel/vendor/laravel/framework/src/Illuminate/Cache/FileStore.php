@@ -39,7 +39,7 @@ class FileStore implements StoreInterface {
 	 */
 	public function get($key)
 	{
-		return array_get($this->getPayload($key), 'data');
+		return array_get($this->getPayload($key), 'data', null);
 	}
 
 	/**
@@ -189,12 +189,9 @@ class FileStore implements StoreInterface {
 	 */
 	public function flush()
 	{
-		if ($this->files->isDirectory($this->directory))
+		foreach ($this->files->directories($this->directory) as $directory)
 		{
-			foreach ($this->files->directories($this->directory) as $directory)
-			{
-				$this->files->deleteDirectory($directory);
-			}
+			$this->files->deleteDirectory($directory);
 		}
 	}
 

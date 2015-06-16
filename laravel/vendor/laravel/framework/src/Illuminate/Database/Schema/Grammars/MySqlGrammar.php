@@ -11,7 +11,7 @@ class MySqlGrammar extends Grammar {
 	 *
 	 * @var array
 	 */
-	protected $modifiers = array('Unsigned', 'Nullable', 'Default', 'Increment', 'Comment', 'After');
+	protected $modifiers = array('Unsigned', 'Nullable', 'Default', 'Increment', 'After', 'Comment');
 
 	/**
 	 * The possible column serials
@@ -401,8 +401,10 @@ class MySqlGrammar extends Grammar {
 		{
 			return "double({$column->total}, {$column->places})";
 		}
-
-		return 'double';
+		else
+		{
+			return 'double';
+		}
 	}
 
 	/**

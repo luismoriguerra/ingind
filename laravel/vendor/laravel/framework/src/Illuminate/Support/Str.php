@@ -8,27 +8,6 @@ class Str {
 	use MacroableTrait;
 
 	/**
-	 * The cache of snake-cased words.
-	 *
-	 * @var array
-	 */
-	protected static $snakeCache = [];
-
-	/**
-	 * The cache of camel-cased words.
-	 *
-	 * @var array
-	 */
-	protected static $camelCache = [];
-
-	/**
-	 * The cache of studly-cased words.
-	 *
-	 * @var array
-	 */
-	protected static $studlyCache = [];
-
-	/**
 	 * Transliterate a UTF-8 value to ASCII.
 	 *
 	 * @param  string  $value
@@ -47,12 +26,7 @@ class Str {
 	 */
 	public static function camel($value)
 	{
-		if (isset(static::$camelCache[$value]))
-		{
-			return static::$camelCache[$value];
-		}
-
-		return static::$camelCache[$value] = lcfirst(static::studly($value));
+		return lcfirst(static::studly($value));
 	}
 
 	/**
@@ -173,7 +147,9 @@ class Str {
 	{
 		preg_match('/^\s*+(?:\S++\s*+){1,'.$words.'}/u', $value, $matches);
 
-		if ( ! isset($matches[0]) || strlen($value) === strlen($matches[0])) return $value;
+		if ( ! isset($matches[0])) return $value;
+
+		if (strlen($value) == strlen($matches[0])) return $value;
 
 		return rtrim($matches[0]).$end;
 	}
@@ -239,7 +215,7 @@ class Str {
 	{
 		$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-		return substr(str_shuffle(str_repeat($pool, $length)), 0, $length);
+		return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
 	}
 
 	/**
@@ -309,19 +285,9 @@ class Str {
 	 */
 	public static function snake($value, $delimiter = '_')
 	{
-		if (isset(static::$snakeCache[$value.$delimiter]))
-		{
-			return static::$snakeCache[$value.$delimiter];
-		}
+		$replace = '$1'.$delimiter.'$2';
 
-		if ( ! ctype_lower($value))
-		{
-			$replace = '$1'.$delimiter.'$2';
-
-			$value = strtolower(preg_replace('/(.)([A-Z])/', $replace, $value));
-		}
-
-		return static::$snakeCache[$value.$delimiter] = $value;
+		return ctype_lower($value) ? $value : strtolower(preg_replace('/(.)([A-Z])/', $replace, $value));
 	}
 
 	/**
@@ -349,14 +315,9 @@ class Str {
 	 */
 	public static function studly($value)
 	{
-		if (isset(static::$studlyCache[$value]))
-		{
-			return static::$studlyCache[$value];
-		}
-
 		$value = ucwords(str_replace(array('-', '_'), ' ', $value));
 
-		return static::$studlyCache[$value] = str_replace(' ', '', $value);
+		return str_replace(' ', '', $value);
 	}
 
 }

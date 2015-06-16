@@ -157,6 +157,8 @@ class SqlServerGrammar extends Grammar {
 	 */
 	public function compileDropPrimary(Blueprint $blueprint, Fluent $command)
 	{
+		$table = $blueprint->getTable();
+
 		$table = $this->wrapTable($blueprint);
 
 		return "alter table {$table} drop constraint {$command->index}";

@@ -316,27 +316,27 @@ class Validator implements MessageProviderInterface {
 	}
 
 	/**
-	 * Returns the data which was valid.
-	 *
+ 	 * Returns the data which was valid.
+ 	 *
 	 * @return array
 	 */
 	public function valid()
 	{
 		if ( ! $this->messages) $this->passes();
 
-		return array_diff_key($this->data, $this->messages()->toArray());
+ 		return array_diff_key($this->data, $this->messages()->toArray());
 	}
 
 	/**
-	 * Returns the data which was invalid.
-	 *
+ 	 * Returns the data which was invalid.
+ 	 *
 	 * @return array
 	 */
 	public function invalid()
 	{
 		if ( ! $this->messages) $this->passes();
 
-		return array_intersect_key($this->data, $this->messages()->toArray());
+ 		return array_intersect_key($this->data, $this->messages()->toArray());
 	}
 
 	/**
@@ -368,8 +368,7 @@ class Validator implements MessageProviderInterface {
 	protected function isValidatable($rule, $attribute, $value)
 	{
 		return $this->presentOrRuleIsImplicit($rule, $attribute, $value) &&
-               $this->passesOptionalCheck($attribute) &&
-               $this->hasNotFailedPreviousRuleIfPresenceRule($rule, $attribute);
+               $this->passesOptionalCheck($attribute);
 	}
 
 	/**
@@ -396,11 +395,12 @@ class Validator implements MessageProviderInterface {
 		if ($this->hasRule($attribute, array('Sometimes')))
 		{
 			return array_key_exists($attribute, array_dot($this->data))
-				|| in_array($attribute, array_keys($this->data))
-				|| array_key_exists($attribute, $this->files);
+                || array_key_exists($attribute, $this->files);
 		}
-
-		return true;
+		else
+		{
+			return true;
+		}
 	}
 
 	/**
@@ -412,21 +412,6 @@ class Validator implements MessageProviderInterface {
 	protected function isImplicit($rule)
 	{
 		return in_array($rule, $this->implicitRules);
-	}
-
-	/**
-	 * Determine if it's a necessary presence validation.
-	 *
-	 * This is to avoid possible database type comparison errors.
-	 *
-	 * @param  string  $rule
-	 * @param  string  $attribute
-	 * @return bool
-	 */
-	protected function hasNotFailedPreviousRuleIfPresenceRule($rule, $attribute)
-	{
-		return in_array($rule, ['Unique', 'Exists'])
-						? ! $this->messages->has($attribute): true;
 	}
 
 	/**
@@ -490,7 +475,7 @@ class Validator implements MessageProviderInterface {
 		{
 			return false;
 		}
-		elseif ((is_array($value) || $value instanceof \Countable) && count($value) < 1)
+		elseif (is_array($value) && count($value) < 1)
 		{
 			return false;
 		}
@@ -515,8 +500,10 @@ class Validator implements MessageProviderInterface {
 		{
 			return $this->validateRequired($attribute, $value);
 		}
-
-		return true;
+		else
+		{
+			return true;
+		}
 	}
 
 	/**
@@ -816,8 +803,7 @@ class Validator implements MessageProviderInterface {
 
 		$length = strlen((string) $value);
 
-		return $this->validateNumeric($attribute, $value)
-		  && $length >= $parameters[0] && $length <= $parameters[1];
+		return $length >= $parameters[0] && $length <= $parameters[1];
 	}
 
 	/**
@@ -911,8 +897,10 @@ class Validator implements MessageProviderInterface {
 		{
 			return $value->getSize() / 1024;
 		}
-
-		return $this->getStringSize($value);
+		else
+		{
+			return $this->getStringSize($value);
+		}
 	}
 
 	/**
@@ -1023,8 +1011,10 @@ class Validator implements MessageProviderInterface {
 		{
 			return $this->getExtraConditions(array_slice($parameters, 4));
 		}
-
-		return array();
+		else
+		{
+			return array();
+		}
 	}
 
 	/**
@@ -1070,8 +1060,10 @@ class Validator implements MessageProviderInterface {
 		{
 			return $verifier->getMultiCount($table, $column, $value, $extra);
 		}
-
-		return $verifier->getCount($table, $column, $value, null, null, $extra);
+		else
+		{
+			return $verifier->getCount($table, $column, $value, null, null, $extra);
+		}
 	}
 
 	/**
@@ -1171,31 +1163,33 @@ class Validator implements MessageProviderInterface {
 	 * Validate the MIME type of a file upload attribute is in a set of MIME types.
 	 *
 	 * @param  string  $attribute
-	 * @param  mixed  $value
+	 * @param  array   $value
 	 * @param  array   $parameters
 	 * @return bool
 	 */
 	protected function validateMimes($attribute, $value, $parameters)
 	{
-		if ( ! $this->isAValidFileInstance($value))
+		if ( ! $value instanceof File)
 		{
 			return false;
 		}
 
-		return $value->getPath() != '' && in_array($value->guessExtension(), $parameters);
-	}
+		if ($value instanceof UploadedFile && ! $value->isValid())
+		{
+			return false;
+		}
 
-	/**
-	 * Check that the given value is a valid file instance.
-	 *
-	 * @param  mixed  $value
-	 * @return bool
-	 */
-	protected function isAValidFileInstance($value)
-	{
-		if ($value instanceof UploadedFile && ! $value->isValid()) return false;
-
-		return $value instanceof File;
+		// The Symfony File class should do a decent job of guessing the extension
+		// based on the true MIME type so we'll just loop through the array of
+		// extensions and compare it to the guessed extension of the files.
+		if ($value->getPath() != '')
+		{
+			return in_array($value->guessExtension(), $parameters);
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -1305,8 +1299,10 @@ class Validator implements MessageProviderInterface {
 		{
 			return strtotime($value) < strtotime($this->getValue($parameters[0]));
 		}
-
-		return strtotime($value) < $date;
+		else
+		{
+			return strtotime($value) < $date;
+		}
 	}
 
 	/**
@@ -1345,8 +1341,10 @@ class Validator implements MessageProviderInterface {
 		{
 			return strtotime($value) > strtotime($this->getValue($parameters[0]));
 		}
-
-		return strtotime($value) > $date;
+		else
+		{
+			return strtotime($value) > $date;
+		}
 	}
 
 	/**
@@ -1367,9 +1365,9 @@ class Validator implements MessageProviderInterface {
 	/**
 	 * Given two date/time strings, check that one is after the other.
 	 *
-	 * @param  string  $format
-	 * @param  string  $before
-	 * @param  string  $after
+	 * @param  string $format
+	 * @param  string $before
+	 * @param  string $after
 	 * @return bool
 	 */
 	protected function checkDateTimeOrder($format, $before, $after)
@@ -1384,8 +1382,8 @@ class Validator implements MessageProviderInterface {
 	/**
 	 * Get a DateTime instance from a string.
 	 *
-	 * @param  string  $format
-	 * @param  string  $value
+	 * @param  string $format
+	 * @param  string $value
 	 * @return \DateTime|null
 	 */
 	protected function getDateTimeWithOptionalFormat($format, $value)
@@ -1641,7 +1639,10 @@ class Validator implements MessageProviderInterface {
 		// If no language line has been specified for the attribute all of the
 		// underscores are removed from the attribute name and that will be
 		// used as default versions of the attribute's displayable names.
-		return str_replace('_', ' ', snake_case($attribute));
+		else
+		{
+			return str_replace('_', ' ', snake_case($attribute));
+		}
 	}
 
 	/**
@@ -1664,8 +1665,10 @@ class Validator implements MessageProviderInterface {
 		{
 			return $line;
 		}
-
-		return $value;
+		else
+		{
+			return $value;
+		}
 	}
 
 	/**
@@ -1707,7 +1710,7 @@ class Validator implements MessageProviderInterface {
 	 */
 	protected function replaceDigitsBetween($message, $attribute, $rule, $parameters)
 	{
-		return $this->replaceBetween($message, $attribute, $rule, $parameters);
+		return str_replace(array(':min', ':max'), $parameters, $message);
 	}
 
 	/**
@@ -1918,8 +1921,10 @@ class Validator implements MessageProviderInterface {
 		{
 			return str_replace(':date', $this->getAttribute($parameters[0]), $message);
 		}
-
-		return str_replace(':date', $parameters[0], $message);
+		else
+		{
+			return str_replace(':date', $parameters[0], $message);
+		}
 	}
 
 	/**

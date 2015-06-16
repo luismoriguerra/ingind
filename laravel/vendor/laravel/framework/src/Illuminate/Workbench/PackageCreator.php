@@ -84,7 +84,7 @@ class PackageCreator {
 	/**
 	 * Get the blocks for a given package.
 	 *
-	 * @param  bool  $plain
+	 * @param  bool $plain
 	 * @return array
 	 */
 	protected function getBlocks($plain)
@@ -307,8 +307,10 @@ class PackageCreator {
 		{
 			return $this->files->get(__DIR__.'/stubs/plain.provider.stub');
 		}
-
-		return $this->files->get(__DIR__.'/stubs/provider.stub');
+		else
+		{
+			return $this->files->get(__DIR__.'/stubs/provider.stub');
+		}
 	}
 
 	/**

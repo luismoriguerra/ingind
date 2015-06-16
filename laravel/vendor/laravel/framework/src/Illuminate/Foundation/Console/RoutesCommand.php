@@ -197,8 +197,10 @@ class RoutesCommand extends Command {
 		{
 			return null;
 		}
-
-		return $route;
+		else
+		{
+			return $route;
+		}
 	}
 
 	/**

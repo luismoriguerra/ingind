@@ -23,22 +23,22 @@ class FailConsoleServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->bindShared('command.queue.failed', function()
+		$this->app->bindShared('command.queue.failed', function($app)
 		{
 			return new ListFailedCommand;
 		});
 
-		$this->app->bindShared('command.queue.retry', function()
+		$this->app->bindShared('command.queue.retry', function($app)
 		{
 			return new RetryCommand;
 		});
 
-		$this->app->bindShared('command.queue.forget', function()
+		$this->app->bindShared('command.queue.forget', function($app)
 		{
 			return new ForgetFailedCommand;
 		});
 
-		$this->app->bindShared('command.queue.flush', function()
+		$this->app->bindShared('command.queue.flush', function($app)
 		{
 			return new FlushFailedCommand;
 		});

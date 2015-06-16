@@ -126,8 +126,10 @@ class DatabaseManager implements ConnectionResolverInterface {
 		{
 			return $this->connection($name);
 		}
-
-		return $this->refreshPdoConnections($name);
+		else
+		{
+			return $this->refreshPdoConnections($name);
+		}
 	}
 
 	/**

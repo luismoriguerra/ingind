@@ -100,7 +100,7 @@ class UrlGenerator {
 	 *
 	 * @param  string  $path
 	 * @param  mixed  $extra
-	 * @param  bool|null  $secure
+	 * @param  bool  $secure
 	 * @return string
 	 */
 	public function to($path, $extra = array(), $secure = null)
@@ -140,7 +140,7 @@ class UrlGenerator {
 	 * Generate a URL to an application asset.
 	 *
 	 * @param  string  $path
-	 * @param  bool|null  $secure
+	 * @param  bool    $secure
 	 * @return string
 	 */
 	public function asset($path, $secure = null)
@@ -182,7 +182,7 @@ class UrlGenerator {
 	/**
 	 * Get the scheme for a raw URL.
 	 *
-	 * @param  bool|null  $secure
+	 * @param  bool    $secure
 	 * @return string
 	 */
 	protected function getScheme($secure)
@@ -191,8 +191,10 @@ class UrlGenerator {
 		{
 			return $this->forceSchema ?: $this->request->getScheme().'://';
 		}
-
-		return $secure ? 'https://' : 'http://';
+		else
+		{
+			return $secure ? 'https://' : 'http://';
+		}
 	}
 
 	/**
@@ -227,8 +229,10 @@ class UrlGenerator {
 		{
 			return $this->toRoute($route, $parameters, $absolute);
 		}
-
-		throw new InvalidArgumentException("Route [{$name}] not defined.");
+		else
+		{
+			throw new InvalidArgumentException("Route [{$name}] not defined.");
+		}
 	}
 
 	/**
@@ -398,8 +402,10 @@ class UrlGenerator {
 		{
 			return $domain;
 		}
-
-		return $domain.':'.$this->request->getPort();
+		else
+		{
+			return $domain .= ':'.$this->request->getPort();
+		}
 	}
 
 	/**
@@ -430,8 +436,10 @@ class UrlGenerator {
 		{
 			return $this->getScheme(true);
 		}
-
-		return $this->getScheme(null);
+		else
+		{
+			return $this->getScheme(null);
+		}
 	}
 
 	/**
@@ -485,7 +493,7 @@ class UrlGenerator {
 	 */
 	public function isValidUrl($path)
 	{
-		if (starts_with($path, ['#', '//', 'mailto:', 'tel:', 'http://', 'https://'])) return true;
+		if (starts_with($path, array('#', '//', 'mailto:', 'tel:'))) return true;
 
 		return filter_var($path, FILTER_VALIDATE_URL) !== false;
 	}
