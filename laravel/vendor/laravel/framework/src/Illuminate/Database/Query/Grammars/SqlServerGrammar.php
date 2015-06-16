@@ -77,8 +77,10 @@ class SqlServerGrammar extends Grammar {
 		{
 			return $from.' with(rowlock,'.($query->lock ? 'updlock,' : '').'holdlock)';
 		}
-
-		return $from;
+		else
+		{
+			return $from;
+		}
 	}
 
 	/**

@@ -46,11 +46,13 @@ class RedirectResponse extends \Symfony\Component\HttpFoundation\RedirectRespons
 	 */
 	public function with($key, $value = null)
 	{
-		$key = is_array($key) ? $key : [$key => $value];
-
-		foreach ($key as $k => $v)
+		if (is_array($key))
 		{
-			$this->session->flash($k, $v);
+			foreach ($key as $k => $v) $this->with($k, $v);
+		}
+		else
+		{
+			$this->session->flash($key, $value);
 		}
 
 		return $this;
@@ -136,8 +138,10 @@ class RedirectResponse extends \Symfony\Component\HttpFoundation\RedirectRespons
 		{
 			return $provider->getMessageBag();
 		}
-
-		return new MessageBag((array) $provider);
+		else
+		{
+			return new MessageBag((array) $provider);
+		}
 	}
 
 	/**

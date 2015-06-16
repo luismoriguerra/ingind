@@ -10,14 +10,14 @@ class EnvironmentVariables {
 	/**
 	 * The environment loader implementation.
 	 *
-	 * @var \Illuminate\Config\EnvironmentVariablesLoaderInterface  $loader
+	 * @var \Illuminate\Config\EnvironmentLoaderInterface  $loader
 	 */
 	protected $loader;
 
 	/**
 	 * The server environment instance.
 	 *
-	 * @param  \Illuminate\Config\EnvironmentVariablesLoaderInterface  $loader
+	 * @param  \Illuminate\Config\EnvironmentLoaderInterface  $loader
 	 * @return void
 	 */
 	public function __construct(EnvironmentVariablesLoaderInterface $loader)

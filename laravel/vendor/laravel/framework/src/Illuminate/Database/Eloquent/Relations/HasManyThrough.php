@@ -32,7 +32,6 @@ class HasManyThrough extends Relation {
 	 * Create a new has many relationship instance.
 	 *
 	 * @param  \Illuminate\Database\Eloquent\Builder  $query
-	 * @param  \Illuminate\Database\Eloquent\Model  $farParent
 	 * @param  \Illuminate\Database\Eloquent\Model  $parent
 	 * @param  string  $firstKey
 	 * @param  string  $secondKey

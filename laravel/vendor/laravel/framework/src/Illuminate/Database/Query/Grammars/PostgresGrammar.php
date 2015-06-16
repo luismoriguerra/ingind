@@ -117,8 +117,10 @@ class PostgresGrammar extends Grammar {
 		{
 			return 'where '.$this->removeLeadingBoolean($joinWhere);
 		}
-
-		return $baseWhere.' '.$joinWhere;
+		else
+		{
+			return $baseWhere.' '.$joinWhere;
+		}
 	}
 
 	/**

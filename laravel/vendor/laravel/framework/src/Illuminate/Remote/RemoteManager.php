@@ -35,8 +35,10 @@ class RemoteManager {
 		{
 			return $this->connection($name);
 		}
-
-		return $this->connection(func_get_args());
+		else
+		{
+			return $this->connection(func_get_args());
+		}
 	}
 
 	/**

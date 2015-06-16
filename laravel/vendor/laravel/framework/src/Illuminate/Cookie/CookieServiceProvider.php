@@ -18,5 +18,4 @@ class CookieServiceProvider extends ServiceProvider {
 			return (new CookieJar)->setDefaultPathAndDomain($config['path'], $config['domain']);
 		});
 	}
-
 }
