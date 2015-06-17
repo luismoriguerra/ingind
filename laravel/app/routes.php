@@ -45,6 +45,7 @@ Route::get(
 );
 
 Route::controller('area', 'AreaController');
+Route::controller('tiposolicitante', 'TipoSolicitanteController');
 Route::controller('cargo', 'CargoController');
 Route::controller('documento', 'DocumentoController');
 Route::controller('flujo', 'FlujoController');
