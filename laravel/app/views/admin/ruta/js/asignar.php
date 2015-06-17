@@ -22,7 +22,7 @@ $(document).ready(function() {
     slctGlobal.listarSlct('flujo','slct_flujo2_id','simple',ids,data);
     data = {estado:1};
     slctGlobal.listarSlct('software','slct_software_id_modal','simple',ids,data);
-    slctGlobalHtml("slct_tipo_persona","simple");
+    slctGlobal.listarSlct('tiposolicitante','slct_tipo_persona','simple',ids,data);
 
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
@@ -129,7 +129,7 @@ $(document).ready(function() {
     //$("#areasasignacion").DataTable();
 });
 
-tpersona=function(valor){
+tpersona=function(valor){//1->natural,2->juridica,3->a.i. y 4->org social
     $(".natural, .juridica, .area, .org").css("display","none");
     if(valor==1){
         $(".natural").css("display","");
