@@ -83,8 +83,10 @@ class ChangesCommand extends Command {
 
 			return array($latest, $changes[$latest]);
 		}
-
-		return array($version, array_get($changes, $version, array()));
+		else
+		{
+			return array($version, array_get($changes, $version, array()));
+		}
 	}
 
 	/**

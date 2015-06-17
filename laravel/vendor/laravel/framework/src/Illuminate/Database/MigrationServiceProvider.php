@@ -145,7 +145,7 @@ class MigrationServiceProvider extends ServiceProvider {
 	 */
 	protected function registerRefreshCommand()
 	{
-		$this->app->bindShared('command.migrate.refresh', function()
+		$this->app->bindShared('command.migrate.refresh', function($app)
 		{
 			return new RefreshCommand;
 		});

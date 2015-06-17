@@ -280,8 +280,10 @@ class HtmlBuilder {
 		{
 			return $this->nestedListing($key, $type, $value);
 		}
-
-		return '<li>'.e($value).'</li>';
+		else
+		{
+			return '<li>'.e($value).'</li>';
+		}
 	}
 
 	/**
@@ -298,8 +300,10 @@ class HtmlBuilder {
 		{
 			return $this->listing($type, $value);
 		}
-
-		return '<li>'.$key.$this->listing($type, $value).'</li>';
+		else
+		{
+			return '<li>'.$key.$this->listing($type, $value).'</li>';
+		}
 	}
 
 	/**

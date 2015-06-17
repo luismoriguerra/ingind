@@ -101,6 +101,7 @@ var Flujo_tr={
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
+            data : {estado:1},
             success : function(obj) {
                 if(obj.rst==1){
                     $('#slct_tiempo_id').html('');

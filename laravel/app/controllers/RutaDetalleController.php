@@ -119,47 +119,73 @@ class RutaDetalleController extends \BaseController
                 }
 
                 $validaSiguiente= DB::table('rutas_detalle AS rd')
-                                    ->select('rd.id', DB::raw('now() AS ahora') )
+                                    ->select(
+                                        'rd.id',
+                                        'rd.estado_ruta',
+                                        'rd.fecha_inicio', 
+                                        DB::raw('now() AS ahora') 
+                                    )
                                     ->join(
                                         'areas AS a',
                                         'a.id', '=', 'rd.area_id'
                                     )
                                     ->where('rd.ruta_id', '=', $rd->ruta_id)
-                                    ->where('rd.norden', '>', $rd->norden)
+                                    ->whereRaw('dtiempo_final is null')
+                                    //->where('rd.norden', '>', $rd->norden)
                                     ->where('rd.condicion', '=', '0')
+                                    ->orderBy('rd.norden','ASC')
                                     ->get();
                                     
                 if( count($validaSiguiente)>0  and ( ($alerta==1 and $alertaTipo==1) or ($alerta==0 and $alertaTipo==0) ) ){
-                    if($siguiente==0){
-                        $idSiguiente= $validaSiguiente[0]->id;
-                        $fechaInicio= $validaSiguiente[0]->ahora;
+                    $faltaparalelo=0;
+                    $inciodato=0;
+                    $terminodato=0;
+                    foreach ($validaSiguiente as $r) {
+                        if(trim($r->fecha_inicio)!=''){
+                            $faltaparalelo++;
+                        }
+                        elseif($faltaparalelo==0 and $inciodato==0 and $terminodato==0 and $r->estado_ruta==1){
+                            $inciodato++;
+                            if($siguiente==0){
+                                $idSiguiente= $r->id;
+                                $fechaInicio= $r->ahora;
+                            }
+                            elseif($siguiente==1){
+                                $idinvalido= $validaSiguiente[1]->id;
+                                $rdinv= RutaDetalle::find($idinvalido);
+                                $rdinv['condicion']=1;
+                                $rdinv['usuario_updated_at']= Auth::user()->id;
+                                $rdinv->save();
+
+                                $idSiguiente= $validaSiguiente[0]->id;
+                                $fechaInicio= $validaSiguiente[0]->ahora;
+                            }
+                            elseif($siguiente==2){
+                                $idinvalido= $validaSiguiente[0]->id;
+                                $rdinv= RutaDetalle::find($idinvalido);
+                                $rdinv['condicion']=1;
+                                $rdinv['usuario_updated_at']= Auth::user()->id;
+                                $rdinv->save();
+
+                                $idSiguiente= $validaSiguiente[1]->id;
+                                $fechaInicio= $validaSiguiente[1]->ahora;
+                            }
+
+                            $rd2 = RutaDetalle::find($idSiguiente);
+                            $rd2['fecha_inicio']= $fechaInicio ;
+                            $rd2['usuario_updated_at']= Auth::user()->id;
+                            $rd2->save();
+                        }
+                        elseif($faltaparalelo==0 and $inciodato>0 and $terminodato==0 and $r->estado_ruta==2){
+                            $rd3 = RutaDetalle::find($r->id);
+                            $rd3['fecha_inicio']= $r->ahora ;
+                            $rd3['usuario_updated_at']= Auth::user()->id;
+                            $rd3->save();
+                        }
+                        else{
+                            $terminodato++;
+                        }
                     }
-                    elseif($siguiente==1){
-                        $idinvalido= $validaSiguiente[1]->id;
-                        $rdinv= RutaDetalle::find($idinvalido);
-                        $rdinv['condicion']=1;
-                        $rdinv['usuario_updated_at']= Auth::user()->id;
-                        $rdinv->save();
-
-                        $idSiguiente= $validaSiguiente[0]->id;
-                        $fechaInicio= $validaSiguiente[0]->ahora;
-                    }
-                    elseif($siguiente==2){
-                        $idinvalido= $validaSiguiente[0]->id;
-                        $rdinv= RutaDetalle::find($idinvalido);
-                        $rdinv['condicion']=1;
-                        $rdinv['usuario_updated_at']= Auth::user()->id;
-                        $rdinv->save();
-
-                        $idSiguiente= $validaSiguiente[1]->id;
-                        $fechaInicio= $validaSiguiente[1]->ahora;
-                    }
-
-                    $rd2 = RutaDetalle::find($idSiguiente);
-                    $rd2['fecha_inicio']= $fechaInicio ;
-                    $rd2['usuario_updated_at']= Auth::user()->id;
-                    $rd2->save();
-
                 }
                 elseif( count($validaSiguiente)==0 ){
                     $validaerror =  DB::table('rutas_detalle AS rd')

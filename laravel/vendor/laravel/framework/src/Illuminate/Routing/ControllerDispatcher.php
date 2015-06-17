@@ -213,7 +213,7 @@ class ControllerDispatcher {
 	 */
 	protected function filterFailsOn($filter, $request, $method)
 	{
-		$on = array_get($filter, 'options.on');
+		$on = array_get($filter, 'options.on', null);
 
 		if (is_null($on)) return false;
 

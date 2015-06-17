@@ -230,8 +230,10 @@ class PasswordBroker {
 		{
 			return call_user_func($this->passwordValidator, $credentials) && $password === $confirm;
 		}
-
-		return $this->validatePasswordWithDefaults($credentials);
+		else
+		{
+			return $this->validatePasswordWithDefaults($credentials);
+		}
 	}
 
 	/**

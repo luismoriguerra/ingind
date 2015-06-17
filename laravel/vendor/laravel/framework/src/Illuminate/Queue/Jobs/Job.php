@@ -142,18 +142,10 @@ abstract class Job {
 		{
 			return max(0, $delay->getTimestamp() - $this->getTime());
 		}
-
-		return (int) $delay;
-	}
-
-	/**
-	 * Get the current system time.
-	 *
-	 * @return int
-	 */
-	protected function getTime()
-	{
-		return time();
+		else
+		{
+			return (int) $delay;
+		}
 	}
 
 	/**

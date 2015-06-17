@@ -94,7 +94,7 @@ class ReminderServiceProvider extends ServiceProvider {
 			return new RemindersTableCommand($app['files']);
 		});
 
-		$this->app->bindShared('command.auth.reminders.clear', function()
+		$this->app->bindShared('command.auth.reminders.clear', function($app)
 		{
 			return new ClearRemindersCommand;
 		});

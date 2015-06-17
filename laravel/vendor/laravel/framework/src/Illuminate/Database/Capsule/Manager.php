@@ -157,7 +157,7 @@ class Manager {
 	/**
 	 * Get the database manager instance.
 	 *
-	 * @return \Illuminate\Database\DatabaseManager
+	 * @return \Illuminate\Database\Manager
 	 */
 	public function getDatabaseManager()
 	{
@@ -191,7 +191,7 @@ class Manager {
 	/**
 	 * Get the current cache manager instance.
 	 *
-	 * @return \Illuminate\Cache\CacheManager
+	 * @return \Illuminate\Cache\Manager
 	 */
 	public function getCacheManager()
 	{

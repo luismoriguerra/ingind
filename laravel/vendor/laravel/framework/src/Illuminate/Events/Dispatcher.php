@@ -332,20 +332,9 @@ class Dispatcher {
 	 */
 	public function forget($event)
 	{
-		unset($this->listeners[$event], $this->sorted[$event]);
-	}
+		unset($this->listeners[$event]);
 
-	/**
-	 * Forget all of the queued listeners.
-	 *
-	 * @return void
-	 */
-	public function forgetQueued()
-	{
-		foreach ($this->listeners as $key => $value)
-		{
-			if (ends_with($key, '_queue')) $this->forget($key);
-		}
+		unset($this->sorted[$event]);
 	}
 
 }

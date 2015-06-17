@@ -49,8 +49,10 @@ class SymfonyDisplayer implements ExceptionDisplayerInterface {
 				'line' => $exception->getLine(),
 			), 500);
 		}
-
-		return $this->symfony->createResponse($exception);
+		else
+		{
+			return $this->symfony->createResponse($exception);
+		}
 	}
 
 }

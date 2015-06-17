@@ -140,8 +140,10 @@ class ControllerGenerator {
 
 			return str_replace('{{namespace}}', ' namespace '.$namespace.';', $stub);
 		}
-
-		return str_replace('{{namespace}}', '', $stub);
+		else
+		{
+			return str_replace('{{namespace}}', '', $stub);
+		}
 	}
 
 	/**

@@ -149,8 +149,10 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
 		{
 			return count($this->items) > 0 ? reset($this->items) : null;
 		}
-
-		return array_first($this->items, $callback, $default);
+		else
+		{
+			return array_first($this->items, $callback, $default);
+		}
 	}
 
 	/**
@@ -213,7 +215,7 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
 
 		foreach ($this->items as $key => $value)
 		{
-			$results[$this->getGroupByKey($groupBy, $key, $value)][] = $value;
+			$results[$this->getGroupbyKey($groupBy, $key, $value)][] = $value;
 		}
 
 		return new static($results);
@@ -227,14 +229,16 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
 	 * @param  mixed  $value
 	 * @return string
 	 */
-	protected function getGroupByKey($groupBy, $key, $value)
+	protected function getGroupbyKey($groupBy, $key, $value)
 	{
 		if ( ! is_string($groupBy) && is_callable($groupBy))
 		{
 			return $groupBy($value, $key);
 		}
-
-		return data_get($value, $groupBy);
+		else
+		{
+			return data_get($value, $groupBy);
+		}
 	}
 
 	/**
@@ -277,6 +281,8 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
 	 */
 	public function implode($value, $glue = null)
 	{
+		if (is_null($glue)) return implode($this->lists($value));
+
 		return implode($glue, $this->lists($value));
 	}
 
