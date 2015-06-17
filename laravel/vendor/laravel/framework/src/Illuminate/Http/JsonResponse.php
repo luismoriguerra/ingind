@@ -31,8 +31,8 @@ class JsonResponse extends \Symfony\Component\HttpFoundation\JsonResponse {
 	/**
 	 * Get the json_decoded data from the response
 	 *
-	 * @param  bool $assoc
-	 * @param  int  $depth
+	 * @param  bool  $assoc
+	 * @param  int   $depth
 	 * @return mixed
 	 */
 	public function getData($assoc = false, $depth = 512)
@@ -50,6 +50,16 @@ class JsonResponse extends \Symfony\Component\HttpFoundation\JsonResponse {
 								   : json_encode($data, $this->jsonOptions);
 
 		return $this->update();
+	}
+
+	/**
+	 * Get the JSON encoding options.
+	 *
+	 * @return int
+	 */
+	public function getJsonOptions()
+	{
+		return $this->jsonOptions;
 	}
 
 	/**

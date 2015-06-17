@@ -268,7 +268,7 @@ class Request extends SymfonyRequest {
 
 		foreach ($keys as $key)
 		{
-			array_set($results, $key, array_get($input, $key, null));
+			array_set($results, $key, array_get($input, $key));
 		}
 
 		return $results;
@@ -350,10 +350,21 @@ class Request extends SymfonyRequest {
 
 		foreach ($files as $file)
 		{
-			if ($file instanceof SplFileInfo && $file->getPath() != '') return true;
+			if ($this->isValidFile($file)) return true;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Check that the given file is a valid file instance.
+	 *
+	 * @param  mixed  $file
+	 * @return bool
+	 */
+	protected function isValidFile($file)
+	{
+		return $file instanceof SplFileInfo && $file->getPath() != '';
 	}
 
 	/**
@@ -395,8 +406,8 @@ class Request extends SymfonyRequest {
 	/**
 	 * Flash the input for the current request to the session.
 	 *
-	 * @param  string $filter
-	 * @param  array  $keys
+	 * @param  string  $filter
+	 * @param  array   $keys
 	 * @return void
 	 */
 	public function flash($filter = null, $keys = array())
@@ -456,10 +467,8 @@ class Request extends SymfonyRequest {
 		{
 			return $this->$source->all();
 		}
-		else
-		{
-			return $this->$source->get($key, $default, true);
-		}
+
+		return $this->$source->get($key, $default, true);
 	}
 
 	/**

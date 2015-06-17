@@ -28,7 +28,7 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
 	 *
 	 * @var string
 	 */
-	const VERSION = '4.2.9';
+	const VERSION = '4.2.16';
 
 	/**
 	 * Indicates if the application has "booted".
@@ -234,10 +234,8 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
 		{
 			return in_array($this['env'], func_get_args());
 		}
-		else
-		{
-			return $this['env'];
-		}
+
+		return $this['env'];
 	}
 
 	/**
@@ -718,7 +716,7 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
 	{
 		$this->middlewares = array_filter($this->middlewares, function($m) use ($class)
 		{
-			return get_class($m['class']) != $class;
+			return $m['class'] != $class;
 		});
 	}
 
@@ -748,7 +746,7 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
 		}
 		catch (\Exception $e)
 		{
-			if ($this->runningUnitTests()) throw $e;
+			if ( ! $catch || $this->runningUnitTests()) throw $e;
 
 			return $this['exception']->handleException($e);
 		}
@@ -778,7 +776,7 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
 	}
 
 	/**
-	 * Terminate the request and send the response to the browser.
+	 * Call the "finish" and "shutdown" callbacks assigned to the application.
 	 *
 	 * @param  \Symfony\Component\HttpFoundation\Request  $request
 	 * @param  \Symfony\Component\HttpFoundation\Response  $response
@@ -910,10 +908,8 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
 		{
 			throw new NotFoundHttpException($message);
 		}
-		else
-		{
-			throw new HttpException($code, $message, null, $headers);
-		}
+
+		throw new HttpException($code, $message, null, $headers);
 	}
 
 	/**

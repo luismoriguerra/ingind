@@ -82,10 +82,8 @@ class Filesystem {
 		{
 			return $this->put($path, $data.$this->get($path));
 		}
-		else
-		{
-			return $this->put($path, $data);
-		}
+
+		return $this->put($path, $data);
 	}
 
 	/**
@@ -139,6 +137,17 @@ class Filesystem {
 	public function copy($path, $target)
 	{
 		return copy($path, $target);
+	}
+	
+	/**
+	 * Extract the file name from a file path.
+	 *
+	 * @param  string  $path
+	 * @return string
+	 */
+	public function name($path)
+	{
+		return pathinfo($path, PATHINFO_FILENAME);
 	}
 
 	/**
@@ -295,10 +304,8 @@ class Filesystem {
 		{
 			return @mkdir($path, $mode, $recursive);
 		}
-		else
-		{
-			return mkdir($path, $mode, $recursive);
-		}
+
+		return mkdir($path, $mode, $recursive);
 	}
 
 	/**
