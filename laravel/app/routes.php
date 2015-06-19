@@ -65,3 +65,4 @@ Route::controller('tiempo', 'TiempoController');
 Route::controller('tiporespuesta', 'TipoRespuestaController');
 Route::controller('tiporespuestadetalle', 'TipoRespuestaDetalleController');
 Route::controller('verbo', 'VerboController');
+Route::controller('usuario', 'UsuarioController');
