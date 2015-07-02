@@ -440,18 +440,22 @@ class ReporteController extends BaseController
                 ) AS tiempo,
                 (   SELECT max(fecha_inicio)
                     FROM rutas
-                    WHERE flujo_id=f.id) AS fecha_inicio
+                    WHERE flujo_id=f.id) AS fecha_inicio,
+                rf.created_at AS fecha_creacion,
+                rf.updated_at AS fecha_produccion,
+                (SELECT count(r.id) FROM rutas r WHERE r.ruta_flujo_id=rf.id) AS ntramites
                 FROM flujos f 
                 JOIN rutas_flujo rf ON rf.flujo_id=f.id
                 JOIN personas p ON rf.persona_id=p.id
                 JOIN cargo_persona cp ON p.id=cp.persona_id AND cp.cargo_id='5'
                 JOIN area_cargo_persona acp ON cp.id=acp.cargo_persona_id
                 JOIN areas a ON acp.area_id=a.id
-                WHERE f.area_id IN ('".$areaId."') AND rf.estado=1 AND f.estado=1
+                WHERE f.area_id IN ('".$areaId."') AND rf.estado IN (1,2) AND f.estado=1
                 AND cp.estado=1 AND acp.estado=1 AND a.estado=1
-                GROUP BY f.id
+                GROUP BY rf.id
                 HAVING fecha_inicio BETWEEN '$fechaIni' AND 
-                      DATE_ADD('$fechaFin',INTERVAL 1 DAY)";
+                      DATE_ADD('$fechaFin',INTERVAL 1 DAY)
+                ORDER BY a.nombre";
         $result= DB::Select($query);
         //echo $query;
         return Response::json(

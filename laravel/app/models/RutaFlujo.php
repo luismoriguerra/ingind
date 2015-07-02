@@ -46,7 +46,7 @@ class RutaFlujo extends Eloquent
                 LEFT JOIN rutas_flujo_detalle_verbo rfdv ON rfd.id=rfdv.ruta_flujo_detalle_id AND rfdv.estado=1
                 WHERE rfd.ruta_flujo_id='.$ruta_flujo_id.'
                 AND rfd.estado=1
-                AND rfdv.nombre=""';
+                AND trim(IFNULL(rfdv.nombre,""))';
         $rf = DB::select($query);
 
         if( count($rf)>0 ){
@@ -70,7 +70,7 @@ class RutaFlujo extends Eloquent
                 LEFT JOIN rutas_flujo_detalle_verbo rfdv ON rfd.id=rfdv.ruta_flujo_detalle_id AND rfdv.estado=1
                 WHERE rfd.ruta_flujo_id='.$ruta_flujo_id.'
                 AND rfd.estado=1
-                AND rfdv.orden=""';
+                AND trim(IFNULL(rfdv.orden,""))';
         $rf = DB::select($query);
 
         if( count($rf)>0 ){
@@ -160,7 +160,12 @@ class RutaFlujo extends Eloquent
     {
         $rf = DB::table('rutas_flujo')
               ->where('id', '=', Input::get('ruta_flujo_id'))
-              ->update(array("estado"=>1));
+              ->update(array(
+                        "estado"=>1,
+                        "updated_at"=>date("Y-m-d H:i:s"),
+                        "usuario_updated_at"=>Auth::user()->id
+                        )
+                );
         return $rf;
     }
     

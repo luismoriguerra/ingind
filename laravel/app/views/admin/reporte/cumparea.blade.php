@@ -65,6 +65,9 @@
                                         <th>N° de Áreas de la ruta</th>
                                         <th>N° de Pasos de la ruta</th>
                                         <th>Tiempo total de la ruta</th>
+                                        <th>Fecha Creación</th>
+                                        <th>Fecha Producción</th>
+                                        <th>N° Tramites</th>
                                         <th> [ ] </th>
                                     </tr>
                                 </thead>

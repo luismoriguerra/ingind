@@ -45,6 +45,9 @@ HTMLreporte=function(datos){
             "<td>"+data.n_areas+"</td>"+
             "<td>"+data.n_pasos+"</td>"+
             "<td>"+data.tiempo+"</td>"+
+            "<td>"+data.fecha_creacion+"</td>"+
+            "<td>"+data.fecha_produccion+"</td>"+
+            "<td>"+data.ntramites+"</td>"+
             '<td><a onClick="detalle('+data.ruta_flujo_id+',this)" class="btn btn-primary btn-sm" data-id="'+data.ruta_flujo_id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
         html+="</tr>";
     });
