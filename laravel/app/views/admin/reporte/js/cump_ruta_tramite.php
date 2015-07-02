@@ -7,13 +7,13 @@ $(document).ready(function() {
     });
     var data = {estado:1};
     var ids = [];
-    slctGlobal.listarSlct('flujo','slct_flujos','simple',ids,data);
+    slctGlobal.listarSlct('flujo','slct_flujos','multiple',ids,data);
     //Mostrar 
     $("#generar").click(function (){
         flujo_id = $('#slct_flujos').val();
         var fecha=$("#fecha").val();
         if ( fecha!==""){
-            if (flujo_id!=='') {
+            if ($.trim(flujo_id)!=='') {
                 data = {flujo_id:flujo_id,fecha:fecha};
                 Rutas.mostrar(data);
                 //data = {area_id:area_id,fecha:fecha};

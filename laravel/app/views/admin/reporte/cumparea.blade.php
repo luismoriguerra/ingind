@@ -37,7 +37,7 @@
                         <div class="col-sm-12">
                             <div class="col-sm-6">
                                 <label class="control-label">Area:</label>
-                                <select class="form-control" name="slct_area_id" id="slct_area_id">
+                                <select class="form-control" name="slct_area_id" id="slct_area_id" multiple>
                                 </select>
                             </div>
                             <div class="col-sm-3">

@@ -38,7 +38,7 @@
                     <div class="col-sm-12">
                         <div class="col-sm-6">
                             <label class="control-label">Proceso:</label>
-                            <select class="form-control" name="slct_flujos" id="slct_flujos">
+                            <select class="form-control" name="slct_flujos" id="slct_flujos" multiple>
                             </select>
                         </div>
                         <div class="col-sm-3">

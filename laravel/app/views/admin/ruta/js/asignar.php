@@ -131,7 +131,7 @@ $(document).ready(function() {
 
 tpersona=function(valor){//1->natural,2->juridica,3->a.i. y 4->org social
     $(".natural, .juridica, .area, .org").css("display","none");
-    if(valor==1){
+    if(valor==1 || valor==6){
         $(".natural").css("display","");
     }
     else if(valor==2){
@@ -140,7 +140,7 @@ tpersona=function(valor){//1->natural,2->juridica,3->a.i. y 4->org social
     else if(valor==3){
         $(".area").css("display","");
     }
-    else if(valor==4){
+    else if(valor==4 || valor==5){
         $(".org").css("display","");
     }
 }
@@ -287,19 +287,19 @@ guardarTodo=function(){
     else if( $("#slct_tipo_persona").val()=='2' && $("#txt_razon_social").val()==''){
         alert("Ingrese Razon Social");
     }
-    else if( $("#slct_tipo_persona").val()=='1' && $("#txt_paterno").val()=='' ){
+    else if( ($("#slct_tipo_persona").val()=='1' || $("#slct_tipo_persona").val()=='6') && $("#txt_paterno").val()=='' ){
         alert("Ingrese Paterno");
     }
-    else if( $("#slct_tipo_persona").val()=='1' && $("#txt_materno").val()=='' ){
+    else if( ($("#slct_tipo_persona").val()=='1' || $("#slct_tipo_persona").val()=='6') && $("#txt_materno").val()=='' ){
         alert("Ingrese Materno")
     }
-    else if( $("#slct_tipo_persona").val()=='1' && $("#txt_nombre").val()=='' ){
+    else if( ($("#slct_tipo_persona").val()=='1' || $("#slct_tipo_persona").val()=='6') && $("#txt_nombre").val()=='' ){
         alert("Ingrese Nombre");
     }
     else if( $("#slct_tipo_persona").val()=='3' && $("#slct_area_p_id").val()=='' ){
         alert("Seleccione Area Interna");
     }
-    else if( $("#slct_tipo_persona").val()=='4' && $("#txt_razon_social").val()=='' ){
+    else if( ($("#slct_tipo_persona").val()=='4' || $("#slct_tipo_persona").val()=='5') && $("#txt_razon_social").val()=='' ){
         alert("Ingrese Razon Social");
     }
     else if( $("#txt_sumilla").val()=='' ){

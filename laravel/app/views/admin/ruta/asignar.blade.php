@@ -74,13 +74,6 @@
                                                 <label class="control-label">Tipo Solicitante:</label>
                                                 <select class="form-control" name="slct_tipo_persona" id="slct_tipo_persona" onchange="tpersona(this.value);">
                                                 </select>
-                                                {{--
-                                                    <option value="">Seleccione</option>
-                                                    <option value="1">Natural</option>
-                                                    <option value="2">Juridica</option>
-                                                    <option value="3">Area Interna</option>
-                                                    <option value="4">Organización Social</option> --}}
-                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-sm-12">

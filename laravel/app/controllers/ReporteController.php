@@ -85,7 +85,7 @@ class ReporteController extends BaseController
      */
     public function postCumprutaxtramite()
     {
-        $flujoId = Input::get('flujo_id');
+        $flujoId = implode("','",Input::get('flujo_id'));
         $fecha = Input::get('fecha');
         list($fechaIni,$fechaFin) = explode(" - ", $fecha);
         /*
@@ -164,9 +164,9 @@ class ReporteController extends BaseController
                 FROM tablas_relacion tr 
                 JOIN rutas r ON tr.id=r.tabla_relacion_id
                 WHERE r.fecha_inicio BETWEEN '$fechaIni' AND 
-                      DATE_ADD('$fechaFin',INTERVAL 1 DAY) AND r.flujo_id=?
+                      DATE_ADD('$fechaFin',INTERVAL 1 DAY) AND r.flujo_id IN ('".$flujoId."')
                     AND tr.estado=1 AND r.estado=1 ";
-        $table=DB::select($query, array($flujoId));
+        $table=DB::select($query);
 
         return Response::json(
             array(
@@ -406,7 +406,7 @@ class ReporteController extends BaseController
     {
         $fecha = Input::get('fecha');
         list($fechaIni,$fechaFin) = explode(" - ", $fecha);
-        $areaId=Input::get('area_id');
+        $areaId=implode("','",Input::get('area_id'));
         $query="SELECT rf.flujo_id,f.nombre AS proceso, rf.id AS ruta_flujo_id, 
                 CONCAT(p.paterno,' ',p.materno,' ',p.nombre) AS duenio,
                 GROUP_CONCAT(a.nombre SEPARATOR ', ') AS area_duenio,
@@ -447,16 +447,17 @@ class ReporteController extends BaseController
                 JOIN cargo_persona cp ON p.id=cp.persona_id AND cp.cargo_id='5'
                 JOIN area_cargo_persona acp ON cp.id=acp.cargo_persona_id
                 JOIN areas a ON acp.area_id=a.id
-                WHERE f.area_id=? AND rf.estado=1 AND f.estado=1
+                WHERE f.area_id IN ('".$areaId."') AND rf.estado=1 AND f.estado=1
                 AND cp.estado=1 AND acp.estado=1 AND a.estado=1
                 GROUP BY f.id
-                HAVING fecha_inicio BETWEEN ? AND 
-                      DATE_ADD(?,INTERVAL 1 DAY)";
-        //return DB::Select($query, array($areaId));
+                HAVING fecha_inicio BETWEEN '$fechaIni' AND 
+                      DATE_ADD('$fechaFin',INTERVAL 1 DAY)";
+        $result= DB::Select($query);
+        //echo $query;
         return Response::json(
             array(
                 'rst'=>1,
-                'datos'=>DB::Select($query, array($areaId,$fechaIni,$fechaFin))
+                'datos'=>$result
             )
         );
     }
@@ -470,7 +471,7 @@ class ReporteController extends BaseController
     {
         $fecha = Input::get('fecha');
         list($fechaIni,$fechaFin) = explode(" - ", $fecha);
-        $areaId=Input::get('flujo_id');
+        $areaId=implode("','",Input::get('flujo_id'));
         $query="SELECT rf.flujo_id,f.nombre AS proceso, rf.id AS ruta_flujo_id, 
                 CONCAT(p.paterno,' ',p.materno,' ',p.nombre) AS duenio,
                 GROUP_CONCAT(a.nombre SEPARATOR ', ') AS area_duenio,
@@ -511,16 +512,16 @@ class ReporteController extends BaseController
                 JOIN cargo_persona cp ON p.id=cp.persona_id AND cp.cargo_id='5'
                 JOIN area_cargo_persona acp ON cp.id=acp.cargo_persona_id
                 JOIN areas a ON acp.area_id=a.id
-                WHERE f.id=? AND rf.estado=1 AND f.estado=1
+                WHERE f.id IN ('".$areaId."') AND rf.estado=1 AND f.estado=1
                 AND cp.estado=1 AND acp.estado=1 AND a.estado=1
                 GROUP BY f.id
-                HAVING fecha_inicio BETWEEN ? AND 
-                      DATE_ADD(?,INTERVAL 1 DAY)";
-        //return DB::Select($query, array($areaId));
+                HAVING fecha_inicio BETWEEN '".$fechaIni."' AND 
+                      DATE_ADD('".$fechaFin."',INTERVAL 1 DAY)";
+        $result =DB::Select($query);
         return Response::json(
             array(
                 'rst'=>1,
-                'datos'=>DB::Select($query, array($areaId,$fechaIni,$fechaFin))
+                'datos'=>$result
             )
         );
     }

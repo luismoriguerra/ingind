@@ -6,12 +6,12 @@ $(document).ready(function() {
     });
     var data = {estado:1};
     var ids = [];
-    slctGlobal.listarSlct('area','slct_area_id','simple',ids,data);
+    slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);
     $("#generar").click(function (){
         area_id = $('#slct_area_id').val();
         var fecha=$("#fecha").val();
         if ( fecha!=="") {
-            if (area_id!=='') {
+            if ($.trim(area_id)!=='') {
                 data = {area_id:area_id,fecha:fecha};
                 CumpArea.mostrar(data);
             } else {
