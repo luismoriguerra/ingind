@@ -7,13 +7,20 @@ $(document).ready(function() {
     var data = {estado:1};
     var ids = [];
     slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);
+    slctGlobalHtml('slct_estado_id','multiple');
     $("#generar").click(function (){
         area_id = $('#slct_area_id').val();
         var fecha=$("#fecha").val();
+        estado_id=$("#slct_estado_id").val();
         if ( fecha!=="") {
             if ($.trim(area_id)!=='') {
-                data = {area_id:area_id,fecha:fecha};
+                if($.trim(estado_id)!=''){
+                data = {area_id:area_id,fecha:fecha,estado_id:estado_id};
                 CumpArea.mostrar(data);
+                }
+                else{
+                    alert("Seleccione Estado");
+                }
             } else {
                 alert("Seleccione Área");
             }
@@ -45,10 +52,18 @@ HTMLreporte=function(datos){
             "<td>"+data.n_areas+"</td>"+
             "<td>"+data.n_pasos+"</td>"+
             "<td>"+data.tiempo+"</td>"+
-            "<td>"+data.fecha_creacion+"</td>"+
-            "<td>"+data.fecha_produccion+"</td>"+
-            "<td>"+data.ntramites+"</td>"+
-            '<td><a onClick="detalle('+data.ruta_flujo_id+',this)" class="btn btn-primary btn-sm" data-id="'+data.ruta_flujo_id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
+            "<td>"+data.fecha_creacion+"</td>";
+
+            if(data.estado_final==1){
+        html+="<td>"+data.fecha_produccion+"</td>";
+        html+="<td>"+data.ntramites+"</td>";
+        html+='<td><a onClick="detalle('+data.ruta_flujo_id+',this)" class="btn btn-primary btn-sm" data-id="'+data.ruta_flujo_id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
+            }
+            else{
+        html+="<td>&nbsp;</td>";
+        html+="<td>0</td>";
+        html+="<td>&nbsp;</td>";
+            }
         html+="</tr>";
     });
     $("#tb_reporte").html(html);

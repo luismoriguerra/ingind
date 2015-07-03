@@ -35,7 +35,7 @@
                 <fieldset>
                     <div class="row form-group" >
                         <div class="col-sm-12">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <label class="control-label">Area:</label>
                                 <select class="form-control" name="slct_area_id" id="slct_area_id" multiple>
                                 </select>
@@ -45,6 +45,13 @@
                                 <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha" onfocus="blur()"/>
                             </div>
                             <div class="col-sm-3">
+                                <label class="control-label">Estado:</label>
+                                <select class="form-control" name="slct_estado_id" id="slct_estado_id" multiple>
+                                <option value="1">Producción</option>
+                                <option value="2">Pendiente</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
                                 <label class="control-label"></label>
                                 <input type="button" class="form-control btn btn-primary" id="generar" name="generar" value="Mostrar">
                             </div>

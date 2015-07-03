@@ -36,7 +36,7 @@
             <fieldset>
                 <div class="row form-group" id="div_fecha">
                     <div class="col-sm-12">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <label class="control-label">Proceso:</label>
                             <select class="form-control" name="slct_flujos" id="slct_flujos" multiple>
                             </select>
@@ -46,6 +46,13 @@
                             <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha" onfocus="blur()"/>
                         </div>
                         <div class="col-sm-3">
+                                <label class="control-label">Estado:</label>
+                                <select class="form-control" name="slct_estado_id" id="slct_estado_id" multiple>
+                                <option value="1">Producción</option>
+                                <option value="2">Pendiente</option>
+                                </select>
+                            </div>
+                        <div class="col-sm-2">
                             <label class="control-label"></label>
                             <input type="button" class="form-control btn btn-primary" id="generar" name="generar" value="Mostrar">
                         </div>
@@ -66,6 +73,10 @@
                                     <th>N° de Áreas de la ruta</th>
                                     <th>N° de Pasos de la ruta</th>
                                     <th>Tiempo total de la ruta</th>
+                                    <th>Fecha Creación</th>
+                                    <th>Fecha Producción</th>
+                                    <th>N° Tramites</th>
+                                    <th> [ ] </th>
                                 </tr>
                             </thead>
                             <tbody id="tb_reporte_t">

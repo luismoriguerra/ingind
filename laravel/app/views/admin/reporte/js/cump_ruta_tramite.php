@@ -8,16 +8,22 @@ $(document).ready(function() {
     var data = {estado:1};
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujos','multiple',ids,data);
+    slctGlobalHtml('slct_estado_id','multiple');
     //Mostrar 
     $("#generar").click(function (){
         flujo_id = $('#slct_flujos').val();
         var fecha=$("#fecha").val();
+        estado_id=$("#slct_estado_id").val();
         if ( fecha!==""){
             if ($.trim(flujo_id)!=='') {
-                data = {flujo_id:flujo_id,fecha:fecha};
-                Rutas.mostrar(data);
+                if($.trim(estado_id)!=''){
+                data = {flujo_id:flujo_id,fecha:fecha,estado_id:estado_id};
                 //data = {area_id:area_id,fecha:fecha};
                 Rutas.mostrar_t(data);
+                }
+                else{
+                    alert("Seleccione Estado");
+                }
             } else {
                 alert("Seleccione Proceso");
             }
@@ -49,7 +55,19 @@ HTMLreporte_t=function(datos){
             "<td>"+data.area_duenio+"</td>"+
             "<td>"+data.n_areas+"</td>"+
             "<td>"+data.n_pasos+"</td>"+
-            "<td>"+data.tiempo+"</td>";
+            "<td>"+data.tiempo+"</td>"+
+            "<td>"+data.fecha_creacion+"</td>";
+
+            if(data.estado_final==1){
+        html+="<td>"+data.fecha_produccion+"</td>";
+        html+="<td>"+data.ntramites+"</td>";
+        html+='<td><a onClick="detalletra('+data.ruta_flujo_id+',this)" class="btn btn-primary btn-sm"><i class="fa fa-search fa-lg"></i> </a></td>';
+            }
+            else{
+        html+="<td>&nbsp;</td>";
+        html+="<td>0</td>";
+        html+="<td>&nbsp;</td>";
+            }
             //'<td><a onClick="detalle('+data.ruta_flujo_id+',this)" class="btn btn-primary btn-sm" data-id="'+data.ruta_flujo_id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
         html+="</tr>";
     });
@@ -59,6 +77,17 @@ HTMLreporte_t=function(datos){
     //activarTabla();
     $("#reporte_t").show();
 };
+
+detalletra=function(ruta_flujo_id, boton){
+    var tr = boton.parentNode.parentNode;
+    var trs = tr.parentNode.children;
+    for(var i =0;i<trs.length;i++)
+        trs[i].style.backgroundColor="#f9f9f9";
+    tr.style.backgroundColor = "#9CD9DE";
+    var data={id:ruta_flujo_id};
+    Rutas.mostrar(data);
+}
+
 HTMLreporte=function(datos){
     var html="";
     $('#t_reporte').dataTable().fnDestroy();
