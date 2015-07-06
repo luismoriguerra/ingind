@@ -15,6 +15,11 @@ class Flujo extends Base
                     'rutas_flujo AS rf',
                     'rf.flujo_id', '=', 'f.id'
                 )
+                ->leftJoin('rutas_flujo_detalle AS rfd', function($join)
+                {
+                    $join->on('rfd.ruta_flujo_id', '=', 'rf.id')
+                         ->where('rfd.norden', '=', 1);
+                })
                 ->select('f.id','f.nombre','f.estado','a.nombre AS area','f.area_id','f.area_id AS evento')
                 ->where( 
                     function($query){
@@ -36,7 +41,7 @@ class Flujo extends Base
                             $query->where('f.estado', '=', '1')
                                 ->where('rf.estado', '=', '1')
                                 ->whereRaw('rf.id is not null')
-                                ->whereRaw('a.id IN ('.
+                                ->whereRaw('rfd.area_id IN ('.
                                                 'SELECT a.id
                                                 FROM area_cargo_persona acp
                                                 INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
