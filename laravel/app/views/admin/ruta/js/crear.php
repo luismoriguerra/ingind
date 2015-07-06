@@ -836,6 +836,9 @@ HTMLCargarRuta=function(datos){
             imagen='<a onclick="cargarRutaId('+data.id+',1)" class="btn btn-primary btn-sm"><i class="fa fa-edit fa-lg"></i> </a>';
             botton="<button onclick='ProduccionRutaFlujo("+data.id+")' class='btn btn-success'>"+data.estado+"</button>";
         }
+        else if(data.cestado==1){
+            imagen='<a onclick="cargarRutaId('+data.id+',1)" class="btn btn-primary btn-sm"><i class="fa fa-edit fa-lg"></i> </a>';
+        }
 
     cont++;
     html+="<tr>"+
@@ -850,7 +853,9 @@ HTMLCargarRuta=function(datos){
 
     });
     $("#tb_rutaflujo").html(html); 
-    $("#t_rutaflujo").dataTable();
+    $("#t_rutaflujo").dataTable({
+        "order": [[ 4, "asc" ],[1,"asc"]]
+    });
 }
 
 cargarRutaId=function(ruta_flujo_id,permiso){

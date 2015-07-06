@@ -408,6 +408,7 @@ class ReporteController extends BaseController
         list($fechaIni,$fechaFin) = explode(" - ", $fecha);
         $areaId=implode("','",Input::get('area_id'));
         $estadoF=implode(",",Input::get('estado_id'));
+
         $query="SELECT rf.flujo_id,f.nombre AS proceso, rf.id AS ruta_flujo_id, 
                 CONCAT(p.paterno,' ',p.materno,' ',p.nombre) AS duenio,
                 GROUP_CONCAT(a.nombre SEPARATOR ', ') AS area_duenio,
@@ -454,10 +455,11 @@ class ReporteController extends BaseController
                 JOIN areas a ON acp.area_id=a.id
                 WHERE f.area_id IN ('".$areaId."') 
                 AND f.estado=1 AND cp.estado=1 AND acp.estado=1 AND a.estado=1
-                AND DATE(rf.created_at) BETWEEN '$fechaIni' AND '$fechaFin'
+                AND DATE(rf.created_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."'
                 AND rf.estado IN (".$estadoF.")
                 GROUP BY rf.id
                 ORDER BY rf.estado,a.nombre";
+                
         $result= DB::Select($query);
         //echo $query;
         return Response::json(
@@ -525,7 +527,7 @@ class ReporteController extends BaseController
                 JOIN areas a ON acp.area_id=a.id
                 WHERE f.id IN ('".$areaId."') AND f.estado=1
                 AND cp.estado=1 AND acp.estado=1 AND a.estado=1
-                AND DATE(rf.created_at) BETWEEN '$fechaIni' AND '$fechaFin'
+                AND DATE(rf.created_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."'
                 AND rf.estado IN (".$estadoF.")
                 GROUP BY rf.id
                 ORDER BY rf.estado,a.nombre";

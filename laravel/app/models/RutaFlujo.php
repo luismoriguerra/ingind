@@ -46,7 +46,7 @@ class RutaFlujo extends Eloquent
                 LEFT JOIN rutas_flujo_detalle_verbo rfdv ON rfd.id=rfdv.ruta_flujo_detalle_id AND rfdv.estado=1
                 WHERE rfd.ruta_flujo_id='.$ruta_flujo_id.'
                 AND rfd.estado=1
-                AND trim(IFNULL(rfdv.nombre,""))';
+                AND trim(IFNULL(rfdv.nombre,""))=""';
         $rf = DB::select($query);
 
         if( count($rf)>0 ){
@@ -70,7 +70,7 @@ class RutaFlujo extends Eloquent
                 LEFT JOIN rutas_flujo_detalle_verbo rfdv ON rfd.id=rfdv.ruta_flujo_detalle_id AND rfdv.estado=1
                 WHERE rfd.ruta_flujo_id='.$ruta_flujo_id.'
                 AND rfd.estado=1
-                AND trim(IFNULL(rfdv.orden,""))';
+                AND trim(IFNULL(rfdv.orden,""))=""';
         $rf = DB::select($query);
 
         if( count($rf)>0 ){
@@ -187,8 +187,18 @@ class RutaFlujo extends Eloquent
                                 'rutas_flujo_detalle AS rfd',
                                 'rf.id','=','rfd.ruta_flujo_id'
                             )
-                            ->select('f.nombre AS flujo','rf.estado AS cestado',
+                            ->select('rf.estado AS cestado',
                                     'rf.id',
+                                    DB::raw(
+                                        'CONCAT(
+                                            f.nombre,"-",
+                                            (   SELECT count(rf2.flujo_id) 
+                                                FROM rutas_flujo rf2 
+                                                WHERE rf2.flujo_id=rf.flujo_id
+                                                AND rf2.id<=rf.id
+                                            )
+                                        ) AS flujo'
+                                    ),
                                     DB::raw(
                                         'CONCAT(
                                             p.paterno," ",p.materno," ",p.nombre
@@ -225,8 +235,8 @@ class RutaFlujo extends Eloquent
                                         );
                                     }
                                     else{
-                                        $query->where('rf.estado', '=', '2')
-                                        ->whereRaw(
+                                        //->where('rf.estado', '=', '2')
+                                        $query->whereRaw(
                                             'rf.area_id IN (
                                                 SELECT a.id
                                                 FROM area_cargo_persona acp
@@ -234,7 +244,8 @@ class RutaFlujo extends Eloquent
                                                 INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
                                                 WHERE acp.estado=1
                                                 AND cp.persona_id='.Auth::user()->id.'
-                                            )'
+                                            )
+                                            AND rf.estado IN (1,2)'
                                         );
                                     }
                                 }
