@@ -67,11 +67,11 @@
                                                     <thead>
                                                         <tr>
                                                             <th>#</th>
-                                                            <th>Nro Trámite</th>
-                                                            <th>Paso</th>
-                                                            <th>Acciones</th>
-                                                            <th>Fecha Inicio del Paso</th>
-                                                            <th>F. Final Prog. del Paso</th>
+                                                            <th style="width:90px !important;">Nro Trámite</th>
+                                                            <th style="width:30px !important;">Paso</th>
+                                                            <th style="width:350px !important;">Acciones</th>
+                                                            <th style="width:90px !important;">Fecha Inicio del Paso</th>
+                                                            <th style="width:90px !important;">F. Final Prog. del Paso</th>
                                                             <th>Proceso</th>
                                                             <th>Area</th>
                                                             <th> [ ] </th>
