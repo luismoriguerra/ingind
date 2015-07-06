@@ -42,9 +42,9 @@
                                         <thead>
                                             <tr>
                                                 <th>N°</th>
-                                                <th>Proceso</th>
-                                                <th>Area</th>
-                                                <th>Fecha Creación</th>
+                                                <th style="width:250px !important;">Proceso</th>
+                                                <th style="width:250px !important;">Area</th>
+                                                <th style="width:200px !important;">Fecha Creación</th>
                                                 <th>Estado</th>
                                                 <th> [ ] </th>
                                             </tr>
@@ -76,20 +76,20 @@
                                             </h1>
                                         </div>
                                         <div class="col-sm-12">
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
+                                                <label class="control-label">Dueño del Proceso:</label>
+                                                <input class="form-control" type="text" id="txt_persona" name="txt_persona" readonly>
+                                            </div>                                            
+                                            <div class="col-sm-5">
                                                 <label class="control-label">Proceso:</label>
                                                 <select class="form-control" name="slct_flujo_id" id="slct_flujo_id">
                                                 </select>
                                             </div>
                                             <div class="col-sm-3">
-                                                <label class="control-label">Area:</label>
+                                                <label class="control-label">Area del Dueño del Proceso:</label>
                                                 <select class="form-control" name="slct_area_id" id="slct_area_id">
                                                 </select>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <label class="control-label">Dueño del Proceso:</label>
-                                                <input class="form-control" type="text" id="txt_persona" name="txt_persona" readonly>
-                                            </div>                                            
                                             <!--div class="col-sm-2">
                                                 <label class="control-label"># Ok:</label>
                                                 <input class="form-control" type="text" id="txt_ok" name="txt_ok" readonly>

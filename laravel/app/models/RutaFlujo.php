@@ -222,8 +222,8 @@ class RutaFlujo extends Eloquent
                             ->where(
                                 function($query){
                                     if ( Input::get('vista') ) {
-                                        $query->where('rf.estado', '=', '2')
-                                        ->whereRaw(
+                                        //$query->where('rf.estado', '=', '2')
+                                        $query->whereRaw(
                                             'rfd.area_id IN (
                                                 SELECT a.id
                                                 FROM area_cargo_persona acp
@@ -231,7 +231,8 @@ class RutaFlujo extends Eloquent
                                                 INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
                                                 WHERE acp.estado=1
                                                 AND cp.persona_id='.Auth::user()->id.'
-                                            )'
+                                            )
+                                            AND rf.estado IN (1,2)'
                                         );
                                     }
                                     else{
