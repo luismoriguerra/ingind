@@ -104,6 +104,7 @@ HTMLreporteDetalle2=function(datos){
     var alertError ='danger';//ambar
     var alertCorregido ='warning';//rojo
     var alert='', i;
+    var estado_final='';
     $.each(datos,function(index,data){
         if (data.alerta=='0') alert=alertOk;
         if (data.alerta=='1') alert=alertError;
@@ -117,6 +118,18 @@ HTMLreporteDetalle2=function(datos){
         rol = data.rol.split(",");
         verbo = data.verbo.split(",");
         verbo_finalizo = data.verbo_finalizo.split(",");
+        estado_final='Pendiente';
+        if(data.dtiempo_final!=''){
+            if(data.alerta=='0'){
+                estado_final='Concluido';
+            }
+            else if(data.alerta=='1'){
+                estado_final='Truncado';
+            }
+            else if(data.alerta=='2'){
+                estado_final='Truncado R.';
+            }
+        }
 
         html+="<tr class='"+alert+"'>"+
                 "<td>"+data.norden+"</td>"+
@@ -124,10 +137,11 @@ HTMLreporteDetalle2=function(datos){
                 "<td>"+data.tiempo+': '+data.dtiempo+"</td>"+
                 "<td>"+data.fecha_inicio+"</td>"+
                 "<td>"+data.dtiempo_final+"</td>"+
-                //"<td>"+data.verbo_finalizo+"</td>";
-                "<td>"+data.alerta+"</td>";
+                "<td>"+estado_final+"</td>"+
+                "<td colspan='4'>"+data.verbo2.split("|").join("<br>")+"</td>"+
+                "<td colspan='3'>"+data.ordenv.split("|").join("<br>")+"</td>";
 
-        html+=  "<td><ul>";
+        /*html+=  "<td><ul>";
         for (i = rol.length - 1; i >= 0; i--) 
             html+= "<li>"+rol[i]+"</li>";
         html+=  "</ul></td><td><ul>";
@@ -148,7 +162,7 @@ HTMLreporteDetalle2=function(datos){
         html+=  "</ul></td><td><ul>";
         for (i = estado_accion.length - 1; i >= 0; i--) 
             html+= "<li>"+estado_accion[i]+"</li>";
-        html+=  "</ul></td>";
+        html+=  "</ul></td>";*/
         html+=  "</tr>";
 
     });

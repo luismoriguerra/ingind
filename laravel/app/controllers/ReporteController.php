@@ -245,6 +245,7 @@ class ReporteController extends BaseController
                         ->leftjoin('roles as ro','v.rol_id','=','ro.id')
                         ->leftjoin('verbos as vs','v.verbo_id','=','vs.id')
                         ->leftjoin('documentos as d','v.documento_id','=','d.id')
+                        ->leftjoin('personas as p','v.usuario_updated_at','=','p.id')
                     ->join('tiempos as t','rd.tiempo_id','=','t.id')
                     ->join('tablas_relacion as tr','r.tabla_relacion_id','=','tr.id')
                     ->where('r.id',array($rutaId))
@@ -305,6 +306,37 @@ class ReporteController extends BaseController
                             GROUP_CONCAT( 
                                 IFNULL(vs.nombre,'') SEPARATOR ', '
                             ) AS verbo
+                        "),
+                        DB::RAW("
+                          IFNULL(GROUP_CONCAT(
+                              CONCAT(
+                                  '<b>',
+                                  IFNULL(v.orden,' '),
+                                  '</b>',
+                                   '.- ',
+                                  ro.nombre,
+                                   ' tiene que ',
+                                  vs.nombre,
+                                   ' ',
+                                  IFNULL(d.nombre,''),
+                                   ' (',
+                                  v.nombre,
+                                   ' )'
+                              )
+                          ORDER BY v.orden ASC
+                          SEPARATOR '|'),'') AS verbo2
+                        "),
+                        DB::RAW("
+                          IFNULL(GROUP_CONCAT(
+                              CONCAT(
+                                  '<b>',
+                                  IFNULL(v.orden,' '),
+                                  '</b>',
+                                   '.- ',
+                                  IF(v.finalizo=0,'<font color=#EC2121>Pendiente</font>',CONCAT('<font color=#22D72F>Finalizó</font>(',p.paterno,' ',p.materno,', ',p.nombre,' ',IFNULL(v.documento,''),'//',IFNULL(v.observacion,''),')' ) )
+                              )
+                          ORDER BY v.orden ASC
+                          SEPARATOR '|'),'') AS ordenv
                         ")/*,
                         DB::RAW("
                             CASE rd.alerta

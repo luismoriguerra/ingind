@@ -129,14 +129,16 @@
                                         <th style='background-color:#DEFAFA'>Final</th>
                                         <th style='background-color:#DEFAFA'>Estado final</th>
 
-                                        <th style='background-color:#F5DF9D'>Rol</th>
-                                        <th style='background-color:#F5DF9D'>Accion</th>
-                                        <th style='background-color:#F5DF9D'>Tipo Doc.</th>
-                                        <th style='background-color:#F5DF9D'>Descripcion</th>
+                                        <th colspan="4" style='background-color:#F5DF9D'>Rol "tiene que"
+                                        Accion
+                                        Tipo Doc.
+                                        (Descripcion)
+                                        </th>
 
-                                        <th style='background-color:#FCD790'>N° Doc.</th>
-                                        <th style='background-color:#FCD790'>Descripcion</th>
-                                        <th style='background-color:#FCD790'>Estado</th>
+                                        <th colspan="3" style='background-color:#FCD790'>Estado
+                                        (N° Doc.
+                                        Descripcion)
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_reporteDetalle2">
