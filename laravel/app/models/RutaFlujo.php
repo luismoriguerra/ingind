@@ -232,7 +232,8 @@ class RutaFlujo extends Eloquent
                                                 WHERE acp.estado=1
                                                 AND cp.persona_id='.Auth::user()->id.'
                                             )
-                                            AND rf.estado IN (1,2)'
+                                            AND rf.estado IN (1,2)
+                                            AND f.estado=1'
                                         );
                                     }
                                     else{
@@ -246,7 +247,8 @@ class RutaFlujo extends Eloquent
                                                 WHERE acp.estado=1
                                                 AND cp.persona_id='.Auth::user()->id.'
                                             )
-                                            AND rf.estado IN (1,2)'
+                                            AND rf.estado IN (1,2)
+                                            AND f.estado=1'
                                         );
                                     }
                                 }
@@ -375,6 +377,19 @@ class RutaFlujo extends Eloquent
                             ->where( 'rfd.estado', '=', '1')
                             ->groupBy( 'rfd.id' )
                             ->orderBy( 'rfd.norden', 'asc')
+                            ->get();
+        return $rutaFlujoD;
+    }
+
+    public function getValidar(){
+        $rutaFlujoD =    DB::table('rutas_flujo AS rf')
+                            ->join(
+                                'flujos AS f',
+                                'f.id','=','rf.flujo_id'
+                            )
+                            ->select('f.id'
+                            )
+                            ->where( 'f.id','=', Input::get('id') )
                             ->get();
         return $rutaFlujoD;
     }

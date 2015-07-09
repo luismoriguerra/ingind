@@ -432,10 +432,22 @@ adicionaDetalleVerbo=function(det){
 eventoSlctGlobalSimple=function(slct,valor){
     valor=valor.split('|').join("");
     if( slct=="slct_flujo_id" ){
+        Ruta.ValidaProceso($("#slct_flujo_id").val(),valor,HTMLValidaProceso);
+    }
+// por ahora nad solo necesito q se actie nomas
+}
+
+HTMLValidaProceso=function(estado,valor){
+    if(estado==1){
         $("#slct_area_id").val(valor);
         $("#slct_area_id").multiselect('refresh');
     }
-// por ahora nad solo necesito q se actie nomas
+    else{
+        $("#slct_flujo_id").val('');
+        $("#slct_area_id").val('');
+        $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
+        alert('Proceso seleccionado cuenta con ruta creada.');
+    }
 }
 
 adicionarRutaDetalle=function(){
@@ -812,6 +824,23 @@ Nuevo=function(){
     $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
     $("#btn_guardar_todo").css("display","");
     $("#slct_area_id_2").multiselect("enable");
+    $("#tb_rutaflujodetalleAreas").html('');
+    $("#areasasignacion .eliminadetalleg").remove();
+    $("#areasasignacion>thead>tr.head").append('<th class="eliminadetalleg" style="min-width:1000px important!;">[]</th>'); // aqui para darle el area global
+
+
+    areasG="";  areasG=[]; // texto area
+    areasGId="";  areasGId=[]; // id area
+    estadoG="";  estadoG=[]; // Normal / Paralelo
+    theadArea="";  theadArea=[]; // cabecera area
+    tbodyArea="";  tbodyArea=[]; // cuerpo area
+    tfootArea="";  tfootArea=[]; // pie area
+
+    tiempoGId="";  tiempoGId=[]; // id posicion del modal en base a una area.
+    tiempoG="";  tiempoG=[];
+    verboG="";  verboG=[];
+    posicionDetalleVerboG=0;
+    validandoconteo=0;
 }
 
 Actualiza=function(){

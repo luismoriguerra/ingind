@@ -17,6 +17,22 @@ class RutaFlujoController extends \BaseController
         }
     }
 
+    public function postValidar()
+    {
+        if ( Request::ajax() ) {
+            $rf             = new RutaFlujo();
+            $cargar         = Array();
+            $cargar         = $rf->getValidar();
+
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $cargar
+                )
+            );
+        }
+    }
+
     public function postCdetalle()
     {
         if ( Request::ajax() ) {
