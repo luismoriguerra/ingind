@@ -238,6 +238,7 @@ class ReporteController extends BaseController
     public function postCumpareadetalle2()
     {
         $rutaId=Input::get('ruta_id');
+        $set=DB::select('SET group_concat_max_len := @@max_allowed_packet');
         $query =  DB::table('rutas as r')
                     ->join('rutas_detalle as rd','r.id','=','rd.ruta_id')
                     ->join('areas as a','rd.area_id','=','a.id')

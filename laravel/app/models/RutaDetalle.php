@@ -34,6 +34,7 @@ class RutaDetalle extends Eloquent
             $adicional='WHERE rd.id="'.$ruta_detalle_id.'"';
         }
 
+        $set=DB::select('SET group_concat_max_len := @@max_allowed_packet');
         $query =
             'SELECT rd.id, rd.dtiempo_final, r.flujo_id,
             CONCAT(t.nombre," : ",rd.dtiempo) tiempo,
@@ -153,6 +154,7 @@ class RutaDetalle extends Eloquent
             $adicional='WHERE rd.id="'.$ruta_detalle_id.'"';
         }
 
+        $set=DB::select('SET group_concat_max_len := @@max_allowed_packet');
         $query =
             'SELECT rd.id, rd.dtiempo_final, r.flujo_id,
             CONCAT(t.nombre," : ",rd.dtiempo) tiempo,
