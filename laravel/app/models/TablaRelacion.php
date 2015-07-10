@@ -51,6 +51,7 @@ class TablaRelacion extends Eloquent
                     )
                     ->where(
                         function($query){
+                            $query->where('r.estado', '=', '1');
                             if( Input::get('estado') ){
                                 $query->where('tr.estado', '=', Input::get('estado'));
                             }

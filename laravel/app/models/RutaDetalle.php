@@ -24,6 +24,7 @@ class RutaDetalle extends Eloquent
                     AND cp.persona_id='.Auth::user()->id.'
                     )
             AND rd.condicion=0
+            AND rd.estado=1
             GROUP BY rd.id
             HAVING ( IFNULL(rd.dtiempo_final,"")="" )
             ORDER BY fi,rd.created_at';
@@ -100,7 +101,7 @@ class RutaDetalle extends Eloquent
             ,"<font color=#E50D1C>Tranquilo! el paso anterior aún no ha acabado</font>") AS fecha_max, now() AS hoy
             ,IFNULL( max( IF(rdv.finalizo=1,rdv.condicion,NULL) ) ,"0") maximo
             FROM rutas_detalle rd
-            INNER JOIN rutas r ON r.id=rd.ruta_id
+            INNER JOIN rutas r ON (r.id=rd.ruta_id AND r.estado=1)
             LEFT JOIN rutas_detalle_verbo rdv ON (rd.id=rdv.ruta_detalle_id AND rdv.estado=1)
             LEFT JOIN personas p ON p.id=rdv.usuario_updated_at
             LEFT JOIN roles ro ON ro.id=rdv.rol_id
@@ -143,6 +144,7 @@ class RutaDetalle extends Eloquent
                     )
             AND rd.condicion=0
             AND rd.alerta=1 
+            AND rd.estado=1
             AND rd.alerta_tipo>0 
             GROUP BY rd.id
             HAVING ( IFNULL(rd.dtiempo_final,"")!="" )
@@ -195,7 +197,7 @@ class RutaDetalle extends Eloquent
                 )
             ) alerta_tipo,CONCAT(rd.alerta,"-",rd.alerta_tipo) codalerta
             FROM rutas_detalle rd
-            INNER JOIN rutas r ON r.id=rd.ruta_id
+            INNER JOIN rutas r ON (r.id=rd.ruta_id AND r.estado=1)
             LEFT JOIN rutas_detalle_verbo rdv ON (rd.id=rdv.ruta_detalle_id AND rdv.estado=1)
             INNER JOIN areas a ON a.id=rd.area_id
             INNER JOIN flujos f ON f.id=r.flujo_id

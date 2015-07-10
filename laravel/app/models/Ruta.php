@@ -11,6 +11,7 @@ class Ruta extends Eloquent
 
         $tablaRelacion=DB::table('tablas_relacion')
                         ->where('id_union', '=', Input::get('codigo'))
+                        ->where('estado', '=', '1')
                         ->get();
 
         if(count($tablaRelacion)>0){
