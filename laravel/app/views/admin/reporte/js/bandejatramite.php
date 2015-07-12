@@ -1,5 +1,6 @@
 <script type="text/javascript">
 $(document).ready(function() {
+    slctGlobal.listarSlct('lista/tipovizualizacion','slct_tipo_visualizacion','multiple',null,null);
     Bandeja.mostrar();
 });
 HTMLreporte=function(datos){
@@ -19,13 +20,25 @@ HTMLreporte=function(datos){
             }
         }
         html+="<tr>"+
-            "<td>"+data.proceso+"</td>"+
-            "<td>"+data.duenio+"</td>"+
-            "<td>"+data.area_duenio+"</td>"+
-            "<td>"+data.n_areas+"</td>"+
-            "<td>"+data.n_pasos+"</td>"+
-            "<td>"+data.tiempo+"</td>"+
-            "<td>"+data.fecha_creacion+"</td>";
+            "<td>"+data.id_union+"</td>"+
+            "<td>"+data.nombre+': '+data.dtiempo+"</td>"+
+            "<td>"+data.respuesta+': '+data.respuestad+"</td>"+
+            "<td>"+data.observacion+"</td>"+
+            "<td>"+data.fecha_inicio+"</td>"+
+            "<td>"+data.norden+"</td>"+
+            "<td>"+data.alerta_tipo+"</td>"+
+            "<td>"+data.alerta+"</td>"+
+            "<td>"+data.condicion+"</td>"+
+            "<td>"+data.estado_ruta+"</td>"+
+            "<td>"+data.fecha_tramite+"</td>"+
+            "<td>"+data.tipo_solicitante+"</td>"+
+            "<td>"+data.razon_social+"</td>"+
+            "<td>"+data.ruc+"</td>"+
+            "<td>"+data.persona+"</td>"+
+            "<td>"+data.sumilla+"</td>"+
+            "<td>"+data.persona_visual+"</td>"+
+            "<td>"+data.email+"</td>"+
+            "<td>"+data.persona+"</td>";
 
             if(data.estado_final==1){
         html+="<td>"+data.fecha_produccion+"</td>";

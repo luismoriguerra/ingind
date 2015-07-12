@@ -25,7 +25,7 @@ class VisualizacionTramite extends Eloquent
                 IFNULL(tr.ruc,'') AS ruc,
                 CONCAT(tr.paterno, ' ',tr.materno,' ',tr.nombre) AS persona,
                 IFNULL(tr.sumilla,'') AS  sumilla,
-                IFNULL(tv.id,'') AS  id,
+                IFNULL(tv.id,'') AS  id_visual,
                 IFNULL(tv.nombre,'') AS estado_visual,
                 CONCAT(p.paterno,' ',p.materno, ' ',p.nombre) AS persona_visual,
                 IFNULL(p.email,'') AS email

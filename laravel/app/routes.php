@@ -45,12 +45,12 @@ Route::get(
 );
 
 Route::controller('area', 'AreaController');
-Route::controller('tiposolicitante', 'TipoSolicitanteController');
 Route::controller('cargo', 'CargoController');
 Route::controller('documento', 'DocumentoController');
 Route::controller('flujo', 'FlujoController');
 Route::controller('flujotiporespuesta', 'FlujoTipoRespuestaController');
 Route::controller('language', 'LanguageController');
+Route::controller('lista', 'ListaController');
 Route::controller('menu', 'MenuController');
 Route::controller('opcion', 'OpcionController');
 Route::controller('persona', 'PersonaController');
@@ -64,5 +64,6 @@ Route::controller('tabla_relacion', 'TablaRelacionController');
 Route::controller('tiempo', 'TiempoController');
 Route::controller('tiporespuesta', 'TipoRespuestaController');
 Route::controller('tiporespuestadetalle', 'TipoRespuestaDetalleController');
-Route::controller('verbo', 'VerboController');
+Route::controller('tiposolicitante', 'TipoSolicitanteController');
 Route::controller('usuario', 'UsuarioController');
+Route::controller('verbo', 'VerboController');
