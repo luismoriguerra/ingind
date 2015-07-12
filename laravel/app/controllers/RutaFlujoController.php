@@ -509,7 +509,7 @@ class RutaFlujoController extends \BaseController
             $envioestado=1;
             $qfinal="   SELECT * 
                         FROM rutas_flujo rf
-                        INNER JOIN rutas_flujo_detalle rfd ON rf.id=rfd.ruta_flujo_id
+                        INNER JOIN rutas_flujo_detalle rfd ON rf.id=rfd.ruta_flujo_id AND rf.estado=1
                         WHERE rf.flujo_id='".Input::get('flujo_id')."' 
                         AND rf.area_id='".Input::get('area_id')."'
                         AND rf.estado=1";
@@ -520,6 +520,7 @@ class RutaFlujoController extends \BaseController
             $sqldetalle="SELECT * 
                          FROM rutas_detalle
                          WHERE ruta_id='".$ruta_id."'
+                         AND estado=1
                          ORDER BY norden ";
             $qdetalle= DB::select($sqldetalle);
 

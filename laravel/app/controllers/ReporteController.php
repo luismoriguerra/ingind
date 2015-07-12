@@ -267,6 +267,7 @@ class ReporteController extends BaseController
                     //->where('rd.condicion',0)
                     ->where('r.estado',1)
                     ->where('rd.estado',1)
+                    ->where('v.estado',1)
                     ->select(
                         'a.nombre as area',
                         'tr.id_union',
@@ -399,6 +400,7 @@ class ReporteController extends BaseController
                         FROM rutas_detalle rd
                         WHERE rd.ruta_id=r.id
                               AND rd.alerta=1
+                              AND rd.estado=1
                             ),'Trunco',
                         IF(
                             (SELECT COUNT(norden)
@@ -428,9 +430,9 @@ class ReporteController extends BaseController
                                  ORDER BY norden LIMIT 1),'' 
                             ) AS ultima_area,
                 IFNULL(tr.fecha_tramite,'') AS fecha_tramite, '' AS fecha_fin,
-                (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=0) AS 'ok',
-                (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=1) AS 'errorr',
-                (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND alerta=2) AS 'corregido'
+                (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND estado=1 AND alerta=0) AS 'ok',
+                (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND estado=1 AND alerta=1) AS 'errorr',
+                (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND estado=1 AND alerta=2) AS 'corregido'
                 FROM tablas_relacion tr 
                 JOIN rutas r ON tr.id=r.tabla_relacion_id
                 WHERE r.ruta_flujo_id=? AND tr.estado=1
@@ -561,10 +563,11 @@ class ReporteController extends BaseController
                 ) AS tiempo,
                 (   SELECT max(fecha_inicio)
                     FROM rutas
-                    WHERE flujo_id=f.id) AS fecha_inicio,
+                    WHERE flujo_id=f.id
+                    AND estado=1) AS fecha_inicio,
                 rf.created_at AS fecha_creacion,
                 rf.updated_at AS fecha_produccion,
-                (SELECT count(r.id) FROM rutas r WHERE r.ruta_flujo_id=rf.id) AS ntramites,
+                (SELECT count(r.id) FROM rutas r WHERE r.estado=1 and r.ruta_flujo_id=rf.id) AS ntramites,
                 rf.estado AS estado_final
                 FROM flujos f 
                 JOIN rutas_flujo rf ON rf.flujo_id=f.id

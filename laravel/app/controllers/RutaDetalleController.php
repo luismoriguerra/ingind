@@ -107,6 +107,7 @@ class RutaDetalleController extends \BaseController
                     SELECT condicion,sum(finalizo) suma,count(condicion) cant
                     FROM rutas_detalle_verbo
                     WHERE ruta_detalle_id='.$rdid.'
+                    AND estado=1
                     GROUP BY condicion
                     HAVING suma=cant
                     ORDER BY condicion DESC';
@@ -133,6 +134,7 @@ class RutaDetalleController extends \BaseController
                                     ->whereRaw('dtiempo_final is null')
                                     //->where('rd.norden', '>', $rd->norden)
                                     ->where('rd.condicion', '=', '0')
+                                    ->where('rd.estado', '=', '1')
                                     ->orderBy('rd.norden','ASC')
                                     ->get();
                                     
@@ -196,6 +198,7 @@ class RutaDetalleController extends \BaseController
                                     )
                                     ->where('rd.ruta_id', '=', $rd->ruta_id)
                                     ->where('rd.alerta', '!=', 0)
+                                    ->where('rd.estado', '=', 1)
                                     ->get();
 
                     $rutaFlujo= DB::table('rutas')
