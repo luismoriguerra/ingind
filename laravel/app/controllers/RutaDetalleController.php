@@ -19,6 +19,23 @@ class RutaDetalleController extends \BaseController
         }
     }
 
+    public function postCargartramite()
+    {
+        if ( Request::ajax() ) {
+            $r           = new RutaDetalle;
+            $res         = Array();
+            $res         = $r->getTramite();
+
+            return Response::json(
+                array(
+                    'rst'   => '1',
+                    'msj'   => 'Detalle Cargado',
+                    'datos' => $res
+                )
+            );
+        }
+    }
+
     public function postCargarrdv()
     {
         if ( Request::ajax() ) {
@@ -63,6 +80,32 @@ class RutaDetalleController extends \BaseController
                     'rst'=>'1',
                     'msj'=>'Detalle cargado',
                     'datos'=>$res
+                )
+            );
+        }
+    }
+
+    public function postActualizartramite(){
+        if ( Request::ajax() ) {
+            $ruta_id=Input::get('ruta_id');
+            $tabla_relacion_id=Input::get('tabla_relacion_id');
+
+            DB::beginTransaction();
+            $r=Ruta::find($ruta_id);
+            $r['estado']=0;
+            $r['usuario_updated_at']=Auth::user()->id;
+            $r->save();
+
+            $tr=TablaRelacion::find($tabla_relacion_id);
+            $tr['estado']=0;
+            $tr['usuario_updated_at']=Auth::user()->id;
+            $tr->save();
+
+            DB::commit();
+            return Response::json(
+                array(
+                    'rst'=>'1',
+                    'msj'=>'Se realizó con éxito'
                 )
             );
         }

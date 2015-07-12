@@ -168,6 +168,19 @@ class RutaFlujo extends Eloquent
                 );
         return $rf;
     }
+
+    public function actualizarRuta()
+    {
+        $rf = DB::table('rutas_flujo')
+              ->where('id', '=', Input::get('ruta_flujo_id'))
+              ->update(array(
+                        "estado"=>Input::get('estado'),
+                        "updated_at"=>date("Y-m-d H:i:s"),
+                        "usuario_updated_at"=>Auth::user()->id
+                        )
+                );
+        return $rf;
+    }
     
     public function getRutaFlujo(){
         $rutaFlujo =    DB::table('rutas_flujo AS rf')
@@ -190,14 +203,7 @@ class RutaFlujo extends Eloquent
                             ->select('rf.estado AS cestado',
                                     'rf.id',
                                     DB::raw(
-                                        'CONCAT(
-                                            f.nombre,"-",
-                                            (   SELECT count(rf2.flujo_id) 
-                                                FROM rutas_flujo rf2 
-                                                WHERE rf2.flujo_id=rf.flujo_id
-                                                AND rf2.id<=rf.id
-                                            )
-                                        ) AS flujo'
+                                        'f.nombre AS flujo'
                                     ),
                                     DB::raw(
                                         'CONCAT(

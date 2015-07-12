@@ -105,6 +105,25 @@ class RutaFlujoController extends \BaseController
         }
     }
 
+    public function postActualizar()
+    {
+        if ( Request::ajax() ) {
+            $rpt=array();
+            $rf                 = new RutaFlujo();
+
+            $actualizar         = Array();
+            $actualizar         = $rf->actualizarRuta();
+            $rpt=array(
+                    'rst'   => 1,
+                    'msj' => ".::Se actualizó correctamente::."
+                );
+
+            return Response::json(
+                $rpt
+            );
+        }
+    }
+
     public function postCrear()
     {
         if ( Request::ajax() ) {
