@@ -164,6 +164,7 @@ class ReporteController extends BaseController
                        AND rd.estado=1 
                        ) AS total_pasos,
                 IFNULL(tr.fecha_tramite,'') AS fecha_tramite, '' AS fecha_fin,
+                IFNULL(r.fecha_inicio,'') AS fecha_inicio,
                 (SELECT COUNT(alerta) 
                   FROM rutas_detalle rd 
                   WHERE r.id=rd.ruta_id 
@@ -489,12 +490,10 @@ class ReporteController extends BaseController
                         JOIN tiempos t ON rfd.tiempo_id=t.id AND t.id='4'
                         WHERE rfd.ruta_flujo_id=rf.id AND rfd.estado=1)  ,'') 
                 ) AS tiempo,
-                (   SELECT max(fecha_inicio)
-                    FROM rutas
-                    WHERE flujo_id=f.id) AS fecha_inicio,
+                IFNULL(max(r.fecha_inicio),'')  AS fecha_inicio,
                 rf.created_at AS fecha_creacion,
                 rf.updated_at AS fecha_produccion,
-                (SELECT count(r.id) FROM rutas r WHERE r.ruta_flujo_id=rf.id) AS ntramites,
+                count(r.id) AS ntramites,
                 rf.estado AS estado_final
                 FROM flujos f 
                 JOIN rutas_flujo rf ON rf.flujo_id=f.id
@@ -502,9 +501,10 @@ class ReporteController extends BaseController
                 JOIN cargo_persona cp ON p.id=cp.persona_id AND cp.cargo_id='5'
                 JOIN area_cargo_persona acp ON cp.id=acp.cargo_persona_id
                 JOIN areas a ON acp.area_id=a.id
+                LEFT JOIN rutas r ON r.ruta_flujo_id=rf.id
                 WHERE f.area_id IN ('".$areaId."') 
                 AND f.estado=1 AND cp.estado=1 AND acp.estado=1 AND a.estado=1
-                AND DATE(rf.created_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."'
+                AND DATE(rf.updated_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."'
                 AND rf.estado IN (".$estadoF.")
                 GROUP BY rf.id
                 ORDER BY rf.estado,a.nombre";
@@ -530,6 +530,12 @@ class ReporteController extends BaseController
         list($fechaIni,$fechaFin) = explode(" - ", $fecha);
         $areaId=implode("','",Input::get('flujo_id'));
         $estadoF=implode(",",Input::get('estado_id'));
+        $tipofecha=Input::get('tipofecha');
+        $tf="rf.updated_at";
+        if($tipofecha==2){
+          $tf="r.fecha_inicio";
+        }
+
         $query="SELECT rf.flujo_id,f.nombre AS proceso, rf.id AS ruta_flujo_id, 
                 CONCAT(p.paterno,' ',p.materno,' ',p.nombre) AS duenio,
                 GROUP_CONCAT(a.nombre SEPARATOR ', ') AS area_duenio,
@@ -561,13 +567,10 @@ class ReporteController extends BaseController
                         JOIN tiempos t ON rfd.tiempo_id=t.id AND t.id='4'
                         WHERE rfd.ruta_flujo_id=rf.id AND rfd.estado=1)  ,'') 
                 ) AS tiempo,
-                (   SELECT max(fecha_inicio)
-                    FROM rutas
-                    WHERE flujo_id=f.id
-                    AND estado=1) AS fecha_inicio,
+                IFNULL(max(r.fecha_inicio),'')  AS fecha_inicio,
                 rf.created_at AS fecha_creacion,
                 rf.updated_at AS fecha_produccion,
-                (SELECT count(r.id) FROM rutas r WHERE r.estado=1 and r.ruta_flujo_id=rf.id) AS ntramites,
+                (SELECT CONCAT(count(r.id),'/',count(r2.id)) FROM rutas r2 WHERE r2.estado=1 and r2.ruta_flujo_id=rf.id) AS ntramites,
                 rf.estado AS estado_final
                 FROM flujos f 
                 JOIN rutas_flujo rf ON rf.flujo_id=f.id
@@ -575,13 +578,14 @@ class ReporteController extends BaseController
                 JOIN cargo_persona cp ON p.id=cp.persona_id AND cp.cargo_id='5'
                 JOIN area_cargo_persona acp ON cp.id=acp.cargo_persona_id
                 JOIN areas a ON acp.area_id=a.id
+                LEFT JOIN rutas r ON r.ruta_flujo_id=rf.id
                 WHERE f.id IN ('".$areaId."') AND f.estado=1
                 AND cp.estado=1 AND acp.estado=1 AND a.estado=1
-                AND DATE(rf.created_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."'
+                AND DATE(".$tf.") BETWEEN '".$fechaIni."' AND '".$fechaFin."'
                 AND rf.estado IN (".$estadoF.")
                 GROUP BY rf.id
                 ORDER BY rf.estado,a.nombre";
-
+//echo $query;
         $result =DB::Select($query);
         return Response::json(
             array(
