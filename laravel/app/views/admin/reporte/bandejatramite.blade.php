@@ -32,17 +32,19 @@
         <section class="content">
             <!-- Inicia contenido -->
             <div class="box">
-                <fieldset>
-                    <div class="row form-group" >
-                        <div class="col-sm-12">
-                            <div class="col-sm-4">
-                                <label class="control-label">Tipo:</label>
-                                <select class="form-control" name="slct_tipo_visualizacion" id="slct_tipo_visualizacion" multiple>
-                                </select>
+                <form id="form_reporte" name="form_reporte" action="" method="post">
+                    <fieldset>
+                        <div class="row form-group" >
+                            <div class="col-sm-12">
+                                <div class="col-sm-4">
+                                    <label class="control-label">Tipo:</label>
+                                    <select class="form-control" name="slct_tipo_visualizacion" id="slct_tipo_visualizacion" multiple>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </fieldset>
+                    </fieldset>
+                </form>
             </div><!-- /.box -->
             <div class="box-body table-responsive">
                 <div class="row form-group" id="reporte" style="display:none;">
@@ -51,25 +53,17 @@
                             <table id="t_reporte" class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Nombre del proceso</th>
-                                        <th>Dueño del Proceso</th>
-                                        <th>Área del dueño</th>
-                                        <th>N° de Áreas de la ruta</th>
-                                        <th>N° de Pasos de la ruta</th>
-                                        <th>Tiempo total de la ruta</th>
-                                        <th>Fecha Creación</th>
-                                        <th>Fecha Producción</th>
-                                        <th>N° Tramites</th>
-                                        <th>Nombre del proceso</th>
-                                        <th>Nombre del proceso</th>
-                                        <th>Dueño del Proceso</th>
-                                        <th>Área del dueño</th>
-                                        <th>N° de Áreas de la ruta</th>
-                                        <th>N° de Pasos de la ruta</th>
-                                        <th>Tiempo total de la ruta</th>
-                                        <th>Fecha Creación</th>
-                                        <th>Fecha Producción</th>
-                                        <th>N° Tramites</th>
+                                        <th>Tramite</th>
+                                        <th>Tiempo</th>
+                                        <th>Fecha Inicio</th>
+                                        <th>Orden</th>
+                                        <th>Fecha tramite</th>
+                                        <th>Nombre</th>
+                                        <th>Respuesta</th>
+                                        <th>observacion</th>
+                                        <th>Tipo solicitante</th>
+                                        <th>Solicitante</th>
+                                        <th>Observacion</th>
                                         <th> [ ] </th>
                                     </tr>
                                 </thead>
