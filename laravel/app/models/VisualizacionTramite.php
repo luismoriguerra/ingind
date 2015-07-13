@@ -68,6 +68,7 @@ class VisualizacionTramite extends Eloquent
                     WHERE acp.estado=1
                     AND cp.persona_id=?
                 )
+                GROUP BY rd.id
                 ORDER BY rd.fecha_inicio DESC, rd.norden DESC";
         $result = DB::select($query,array($personaId));
         return $result;
