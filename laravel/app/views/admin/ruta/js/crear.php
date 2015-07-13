@@ -758,24 +758,31 @@ pintarAreasG=function(permiso){
         imagen="";
         clickeli="";
         if(permiso!=2){
-            clickeli=" onclick='EliminarDetalle("+i+");' ";
+            clickeli="<button class='btn btn-danger btn-sm' onclick='EliminarDetalle("+i+");' type='button'>"+
+                "<i class='fa fa-remove fa-sm'></i>"+
+            "</button>";
         }
 
+        click=(i+1);
+        if( i==0 && permiso!=2){
+            click="<button class='btn bg-navy btn-sm' type='button'>"+
+                            (i+1)+"&nbsp;"+
+                        "</button>&nbsp;&nbsp;"
+        }
+        
         if ( i>0 ) {
-            if(permiso!=2){
-                click=" onclick='CambiarDetalle("+i+");' ";
-            }
             imagen="<i class='fa fa-sort-up fa-sm'></i>";
+            if(permiso!=2){
+                click="<button class='btn bg-navy btn-sm' onclick='CambiarDetalle("+i+");' type='button'>"+
+                            (i+1)+"&nbsp;"+imagen+
+                        "</button>&nbsp;&nbsp;";
+            }
         }
 
         htm+=   "<tr id='tr-detalle-"+i+"'>"+
                     "<td>"+
-                        "<button class='btn bg-navy btn-sm' "+click+" type='button'>"+
-                            (i+1)+"&nbsp;"+imagen+
-                        "</button>&nbsp;&nbsp;"+
-                        "<button class='btn btn-danger btn-sm' "+clickeli+" type='button'>"+
-                            "<i class='fa fa-remove fa-sm'></i>"+
-                        "</button>"+
+                        click+
+                        clickeli+
                     "</td>"+
                     "<td>"+
                         areasG[i]+
@@ -866,7 +873,7 @@ HTMLCargarRuta=function(datos){
             botton="<button onclick='ProduccionRutaFlujo("+data.id+")' class='btn btn-success'>"+data.estado+"</button>";
         }
         else if(data.cestado==1){
-            imagen='<a onclick="cargarRutaId('+data.id+',1)" class="btn btn-primary btn-sm"><i class="fa fa-edit fa-lg"></i> </a>';
+            imagen='<a onclick="cargarRutaId('+data.id+',2)" class="btn btn-primary btn-sm"><i class="fa fa-edit fa-lg"></i> </a>';
         }
 
     cont++;
