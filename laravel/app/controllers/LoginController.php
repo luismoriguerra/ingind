@@ -14,7 +14,10 @@ class LoginController extends BaseController
             if ( Auth::attempt($userdata, Input::get('remember', 0)) ) {
                 //buscar los permisos de este usuario y guardarlos en sesion
                 $query = "SELECT m.nombre as menu, o.nombre as opcion,
-                        CONCAT(m.ruta,'.',o.ruta) as ruta, m.class_icono as icon
+                        IF(LOCATE('.', o.ruta)>0,
+                            o.ruta,
+                            CONCAT(m.ruta,'.',o.ruta)
+                        ) as ruta, m.class_icono as icon
                         FROM personas p
                         JOIN cargo_persona cp ON p.id=cp.persona_id
                         JOIN cargos c ON cp.cargo_id=c.id
