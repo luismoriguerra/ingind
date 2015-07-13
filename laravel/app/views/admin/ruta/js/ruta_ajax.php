@@ -70,6 +70,9 @@ var Ruta={
         if(vista!=null && vista==1){
             datos={vista:1};
         }
+        else if(vista==3){
+            datos={estado:1}
+        }
 
         $.ajax({
             url         : 'ruta_flujo/cargar',

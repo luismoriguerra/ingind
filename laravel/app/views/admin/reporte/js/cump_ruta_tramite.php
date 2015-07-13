@@ -9,17 +9,24 @@ $(document).ready(function() {
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujos','multiple',ids,data);
     slctGlobalHtml('slct_estado_id','multiple');
+    slctGlobalHtml('slct_tipo_fecha','simple');
     //Mostrar 
     $("#generar").click(function (){
         flujo_id = $('#slct_flujos').val();
         var fecha=$("#fecha").val();
         estado_id=$("#slct_estado_id").val();
+        tipofecha=$("#slct_tipo_fecha").val();
         if ( fecha!==""){
             if ($.trim(flujo_id)!=='') {
                 if($.trim(estado_id)!=''){
-                data = {flujo_id:flujo_id,fecha:fecha,estado_id:estado_id};
-                //data = {area_id:area_id,fecha:fecha};
-                Rutas.mostrar_t(data);
+                    if(tipofecha!=''){
+                        data = {flujo_id:flujo_id,fecha:fecha,estado_id:estado_id,tipofecha:tipofecha};
+                        //data = {area_id:area_id,fecha:fecha};
+                        Rutas.mostrar_t(data);
+                    }
+                    else{
+                        alert("Seleccione Tipo Fecha");
+                    }
                 }
                 else{
                     alert("Seleccione Estado");
@@ -113,7 +120,7 @@ HTMLreporte=function(datos){
             "<td>"+data.ultimo_paso_area+"</td>"+
             "<td>"+data.total_pasos+"</td>"+
             "<td>"+data.fecha_tramite+"</td>"+
-            "<td>"+data.fecha_fin+"</td>"+
+            "<td>"+data.fecha_inicio+"</td>"+
             "<td>"+data.ok+"</td>"+
             "<td>"+data.errorr+"</td>"+
             "<td>"+data.corregido+"</td>"+

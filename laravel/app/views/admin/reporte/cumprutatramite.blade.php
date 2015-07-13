@@ -57,6 +57,15 @@
                             <input type="button" class="form-control btn btn-primary" id="generar" name="generar" value="Mostrar">
                         </div>
                     </div>
+                    <div class="col-sm-12">
+                        <div class="col-sm-3">
+                            <label class="control-label">Tipo Fecha:</label>
+                            <select class="form-control" name="slct_tipo_fecha" id="slct_tipo_fecha" >
+                            <option value="1">Producción del proceso</option>
+                            <option value="2">Ingreso del tramite al proceso</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </fieldset>
         </div>
@@ -99,8 +108,8 @@
                                 <th>Estado</th>
                                 <th>Paso a la fecha</th>
                                 <th>Total de pasos</th>
+                                <th>Fecha Trámite</th>
                                 <th>Fecha Inicio</th>
-                                <th>Fecha Fin</th>
                                 <th>Pasos Sin alertas</th>
                                 <th>Pasos Con alertas</th>
                                 <th>Pasos Alertas validadas</th>

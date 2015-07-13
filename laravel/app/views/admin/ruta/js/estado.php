@@ -17,7 +17,7 @@ $(document).ready(function() {
     $("#btn_close").click(Close);
     
     $("#btn_guardar_tiempo,#btn_guardar_verbo").remove();
-    Ruta.CargarRuta(HTMLCargarRuta);
+    Ruta.CargarRuta(HTMLCargarRuta,3);
     var data = {estado:1,usuario:1};
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
@@ -125,11 +125,11 @@ HTMLCargarRuta=function(datos){
     $.each(datos,function(index,data){
         imagen="";
         botton=data.estado;
-        imagen='<a onclick="cargarRutaId('+data.id+',1)" class="btn btn-primary btn-sm"><i class="fa fa-edit fa-lg"></i> </a>';
+        imagen='<a onclick="cargarRutaId('+data.id+',1)" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
         if(data.cestado==1){
             botton="<button onclick='PendienteRutaFlujo("+data.id+")' class='btn btn-success'>"+data.estado+"</button>";
         }
-        botton2="<button onclick='AnularRutaFlujo("+data.id+")' class='btn btn-danger'><i class='fa fa-remove'></button>";
+        //botton2="<button onclick='AnularRutaFlujo("+data.id+")' class='btn btn-danger'><i class='fa fa-remove'></button>";
 
     cont++;
     html+="<tr>"+
@@ -138,7 +138,7 @@ HTMLCargarRuta=function(datos){
         "<td>"+data.area+"</td>"+
         "<td>"+data.fruta+"</td>"+
         "<td>"+botton+"</td>"+
-        '<td>'+imagen+botton2+
+        '<td>'+imagen+
         '</td>';
     html+="</tr>";
 
