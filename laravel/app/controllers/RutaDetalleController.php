@@ -19,6 +19,23 @@ class RutaDetalleController extends \BaseController
         }
     }
 
+    public function postCargartramite()
+    {
+        if ( Request::ajax() ) {
+            $r           = new RutaDetalle;
+            $res         = Array();
+            $res         = $r->getTramite();
+
+            return Response::json(
+                array(
+                    'rst'   => '1',
+                    'msj'   => 'Detalle Cargado',
+                    'datos' => $res
+                )
+            );
+        }
+    }
+
     public function postCargarrdv()
     {
         if ( Request::ajax() ) {
@@ -68,6 +85,32 @@ class RutaDetalleController extends \BaseController
         }
     }
 
+    public function postActualizartramite(){
+        if ( Request::ajax() ) {
+            $ruta_id=Input::get('ruta_id');
+            $tabla_relacion_id=Input::get('tabla_relacion_id');
+
+            DB::beginTransaction();
+            $r=Ruta::find($ruta_id);
+            $r['estado']=0;
+            $r['usuario_updated_at']=Auth::user()->id;
+            $r->save();
+
+            $tr=TablaRelacion::find($tabla_relacion_id);
+            $tr['estado']=0;
+            $tr['usuario_updated_at']=Auth::user()->id;
+            $tr->save();
+
+            DB::commit();
+            return Response::json(
+                array(
+                    'rst'=>'1',
+                    'msj'=>'Se realizó con éxito'
+                )
+            );
+        }
+    }
+
     public function postActualizar(){
         if ( Request::ajax() ) {
             DB::beginTransaction();
@@ -107,6 +150,7 @@ class RutaDetalleController extends \BaseController
                     SELECT condicion,sum(finalizo) suma,count(condicion) cant
                     FROM rutas_detalle_verbo
                     WHERE ruta_detalle_id='.$rdid.'
+                    AND estado=1
                     GROUP BY condicion
                     HAVING suma=cant
                     ORDER BY condicion DESC';
@@ -133,6 +177,7 @@ class RutaDetalleController extends \BaseController
                                     ->whereRaw('dtiempo_final is null')
                                     //->where('rd.norden', '>', $rd->norden)
                                     ->where('rd.condicion', '=', '0')
+                                    ->where('rd.estado', '=', '1')
                                     ->orderBy('rd.norden','ASC')
                                     ->get();
                                     
@@ -196,6 +241,7 @@ class RutaDetalleController extends \BaseController
                                     )
                                     ->where('rd.ruta_id', '=', $rd->ruta_id)
                                     ->where('rd.alerta', '!=', 0)
+                                    ->where('rd.estado', '=', 1)
                                     ->get();
 
                     $rutaFlujo= DB::table('rutas')
