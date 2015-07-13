@@ -42,7 +42,8 @@ $(document).ready(function() {
 });
 HTMLreporte_t=function(datos){
     var html="";
-    
+    $("#tb_reporte").html('');
+    $("#tb_reporteDetalle").html('');
     var alerta_tipo= '';
     $.each(datos,function(index,data){
         alerta_tipo = '';
