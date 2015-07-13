@@ -495,7 +495,7 @@ class ReporteController extends BaseController
                 IFNULL(max(r.fecha_inicio),'')  AS fecha_inicio,
                 rf.created_at AS fecha_creacion,
                 rf.updated_at AS fecha_produccion,
-                count(distinct(rf.id)) AS ntramites,
+                count(distinct(r.id)) AS ntramites,
                 rf.estado AS estado_final
                 FROM flujos f 
                 JOIN rutas_flujo rf ON rf.flujo_id=f.id
@@ -503,7 +503,7 @@ class ReporteController extends BaseController
                 JOIN rutas_flujo_detalle rfd ON rfd.ruta_flujo_id=rf.id AND rfd.estado=1
                 JOIN areas a ON rf.area_id=a.id
                 LEFT JOIN rutas r ON r.ruta_flujo_id=rf.id
-                WHERE f.area_id IN ('".$areaId."') 
+                WHERE rf.area_id IN ('".$areaId."') 
                 AND rfd.area_id IN (
                                     SELECT a.id
                                     FROM area_cargo_persona acp
