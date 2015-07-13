@@ -143,7 +143,15 @@ class RutaDetalle extends Eloquent
                 inner join tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
                 LEFT JOIN areas a ON a.id=tr.area_id
                 WHERE r.estado=1
-                AND tr.id_union like '".Input::get('tramite')."%'";
+                AND tr.id_union like '".Input::get('tramite')."%'
+                AND r.area_id IN (
+                    SELECT a.id
+                    FROM area_cargo_persona acp
+                    INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                    WHERE acp.estado=1
+                    AND cp.persona_id=".Auth::user()->id."
+                )";
         $rd = DB::select($sql);
         //echo $query;
             return $rd;
