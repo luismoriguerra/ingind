@@ -78,7 +78,7 @@ $(document).ready(function() {
         tiempoG[tid].push(posicioninicial+"__");
 
         verboG.push([]);
-        verboG[tid].push(posicioninicial+"__");
+        verboG[tid].push(posicioninicial+"______");
       }
 
       var posicioninicialf=posicioninicial;
@@ -89,7 +89,7 @@ $(document).ready(function() {
             if( i>=tiempoG[tid].length ){
                 tiempoG[tid].push(validapos+"__");
 
-                verboG[tid].push(validapos+"__");
+                verboG[tid].push(validapos+"______");
             }
             else{
                 detalle=tiempoG[tid][i].split("_");

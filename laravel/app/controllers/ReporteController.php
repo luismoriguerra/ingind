@@ -504,14 +504,6 @@ class ReporteController extends BaseController
                 JOIN areas a ON rf.area_id=a.id
                 LEFT JOIN rutas r ON r.ruta_flujo_id=rf.id
                 WHERE rf.area_id IN ('".$areaId."') 
-                AND rfd.area_id IN (
-                                    SELECT a.id
-                                    FROM area_cargo_persona acp
-                                    INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
-                                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
-                                    WHERE acp.estado=1
-                                    AND cp.persona_id=".Auth::user()->id."
-                                  )
                 AND f.estado=1 
                 AND a.estado=1
                 AND DATE(rf.updated_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."'
@@ -589,14 +581,6 @@ class ReporteController extends BaseController
                 JOIN areas a ON rf.area_id=a.id
                 LEFT JOIN rutas r ON r.ruta_flujo_id=rf.id
                 WHERE f.id IN ('".$areaId."') 
-                AND rfd.area_id IN (
-                                    SELECT a.id
-                                    FROM area_cargo_persona acp
-                                    INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
-                                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
-                                    WHERE acp.estado=1
-                                    AND cp.persona_id=".Auth::user()->id."
-                                  )
                 AND f.estado=1
                 AND a.estado=1
                 AND DATE(".$tf.") BETWEEN '".$fechaIni."' AND '".$fechaFin."'
