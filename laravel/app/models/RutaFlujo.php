@@ -245,7 +245,7 @@ class RutaFlujo extends Eloquent
                                     elseif ( Input::get('estado') ) {
                                         //$query->where('rf.estado', '=', '2')
                                         $query->whereRaw(
-                                            'rfd.area_id IN (
+                                            'rf.area_id IN (
                                                 SELECT a.id
                                                 FROM area_cargo_persona acp
                                                 INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
