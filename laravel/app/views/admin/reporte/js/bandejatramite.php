@@ -3,59 +3,46 @@ $(document).ready(function() {
     slctGlobal.listarSlct('lista/tipovizualizacion','slct_tipo_visualizacion','multiple',null,null);
     Bandeja.mostrar();
 });
+activarTabla=function(){
+    $("#t_reporte").dataTable(); // inicializo el datatable  
+};
+activar=function(id,ruta_detalle_id){//establecer como visto
+    Bandeja.CambiarEstado(ruta_detalle_id, id,1);
+};
+desactivar=function(id,ruta_detalle_id){//establecer como no visto
+    Bandeja.CambiarEstado(ruta_detalle_id, id,2);
+};
 HTMLreporte=function(datos){
     var html="";
     
     var alerta_tipo= '';
     $.each(datos,function(index,data){
-        alerta_tipo = '';
-        
-        if (data.alerta=='Alerta' || data.alerta=='Alerta Validada') {
-            if (data.alerta_tipo==1) {
-                alerta_tipo = 'Tiempo asignado';
-            } else if (data.alerta_tipo==2) {
-                alerta_tipo = 'Tiempo de respuesta';
-            } else if (data.alerta_tipo==3) {
-                alerta_tipo = 'Tiempo aceptado';
-            }
-        }
         html+="<tr>"+
             "<td>"+data.id_union+"</td>"+
-            "<td>"+data.nombre+': '+data.dtiempo+"</td>"+
-            "<td>"+data.respuesta+': '+data.respuestad+"</td>"+
-            "<td>"+data.observacion+"</td>"+
+            "<td>"+data.tiempo+"</td>"+
             "<td>"+data.fecha_inicio+"</td>"+
             "<td>"+data.norden+"</td>"+
-            "<td>"+data.alerta_tipo+"</td>"+
-            "<td>"+data.alerta+"</td>"+
-            "<td>"+data.condicion+"</td>"+
-            "<td>"+data.estado_ruta+"</td>"+
             "<td>"+data.fecha_tramite+"</td>"+
+            "<td>"+data.nombre+"</td>"+
+            "<td>"+data.respuesta+' '+data.respuestad+"</td>"+
+            "<td>"+data.observacion+"</td>"+
             "<td>"+data.tipo_solicitante+"</td>"+
-            "<td>"+data.razon_social+"</td>"+
-            "<td>"+data.ruc+"</td>"+
-            "<td>"+data.persona+"</td>"+
-            "<td>"+data.sumilla+"</td>"+
-            "<td>"+data.persona_visual+"</td>"+
-            "<td>"+data.email+"</td>"+
-            "<td>"+data.persona+"</td>";
-
-            if(data.estado_final==1){
-        html+="<td>"+data.fecha_produccion+"</td>";
-        html+="<td>"+data.ntramites+"</td>";
-        html+='<td><a onClick="detalle('+data.ruta_flujo_id+',this)" class="btn btn-primary btn-sm" data-id="'+data.ruta_flujo_id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
+            "<td>"+data.solicitante+"</td>"+
+            "<td>"+data.observacion+"</td>";
+            if (data.id==='') {
+                data.id='0';
             }
-            else{
-        html+="<td>&nbsp;</td>";
-        html+="<td>0</td>";
-        html+="<td>&nbsp;</td>";
+            if(data.id==1){//est visto
+                //el boton debera cambiar  a no visto
+                estado='<span id="'+data.ruta_detalle_id+'" onClick="desactivar('+data.id+','+data.ruta_detalle_id+')" class="btn btn-success">Visto</span>';
+            } else {
+                estado='<span id="'+data.ruta_detalle_id+'" onClick="activar('+data.id+','+data.ruta_detalle_id+')" class="btn btn-danger">No visto</span>';
             }
+        html+="<td>"+estado+"</td>";
         html+="</tr>";
     });
     $("#tb_reporte").html(html);
-    $("#tb_reporteDetalle").html('');
-    $("#tb_reporteDetalle2").html('');
-    //activarTabla();
     $("#reporte").show();
+    activarTabla();
 };
 </script>

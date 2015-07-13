@@ -20,3 +20,7 @@ CREATE TABLE `ingind`.`visualizacion_tramite`(
   `usuario_updated_at` INT,
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
+
+
+ALTER TABLE `ingind`.`visualizacion_tramite`   
+  ADD COLUMN `estado` INT NULL AFTER `tipo_visualizacion_id`;
