@@ -27,8 +27,7 @@ HTMLreporte=function(datos){
             "<td>"+data.respuesta+' '+data.respuestad+"</td>"+
             "<td>"+data.observacion+"</td>"+
             "<td>"+data.tipo_solicitante+"</td>"+
-            "<td>"+data.solicitante+"</td>"+
-            "<td>"+data.observacion+"</td>";
+            "<td>"+data.solicitante+"</td>";
             if (data.id==='') {
                 data.id='0';
             }

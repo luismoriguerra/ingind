@@ -63,7 +63,6 @@
                                         <th>observacion</th>
                                         <th>Tipo solicitante</th>
                                         <th>Solicitante</th>
-                                        <th>Observacion</th>
                                         <th> [ ] </th>
                                     </tr>
                                 </thead>
