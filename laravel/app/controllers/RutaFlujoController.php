@@ -158,6 +158,16 @@ class RutaFlujoController extends \BaseController
             $tiempoG= explode( "*", Input::get('tiempoG') );
             $verboG= explode( "*", Input::get('verboG') );
 
+            $finalizar= DB::table('rutas_flujo_detalle')
+                          ->where('ruta_flujo_id', '=', $rutaFlujo->id)
+                          ->where('norden', '>', count($areasGid))
+                          ->where('estado', '=', 1)
+                          ->update( array(
+                                        'estado'=> 0,
+                                        'usuario_updated_at'=> Auth::user()->id
+                                    )
+                            );
+
             for($i=0; $i<count($areasGid); $i++ ){
                 $rutaFlujoDetalle="";
                 if ( Input::get('ruta_flujo_id') ) {
@@ -172,7 +182,11 @@ class RutaFlujoController extends \BaseController
                             ->where('ruta_flujo_id', '=', $rutaFlujo->id)
                             ->where('norden', '=', ($i+1))
                             ->where('estado', '=', 1)
-                            ->update(array('estado' => 0));
+                            ->update(array(
+                                        'estado' => 0,
+                                        'usuario_updated_at'=> Auth::user()->id
+                                    )
+                            );
                         $rutaFlujoDetalle = new RutaFlujoDetalle;
                         $rutaFlujoDetalle['usuario_created_at']= Auth::user()->id;
                     }
@@ -233,7 +247,11 @@ class RutaFlujoController extends \BaseController
                         $rfdv=DB::table('rutas_flujo_detalle_verbo')
                             ->where('ruta_flujo_detalle_id', '=', $rutaFlujoDetalle->id)
                             ->where('estado', '=', 1)
-                            ->update(array('estado' => 0));
+                            ->update(array(
+                                        'estado' => 0,
+                                        'usuario_updated_at'=> Auth::user()->id
+                                    )
+                            );
                        $probando="editar";
                         
                     }
