@@ -395,6 +395,7 @@ class RutaFlujoController extends \BaseController
 
                 $cantrfd= DB::table('rutas_flujo_detalle_verbo')
                             ->where('ruta_flujo_detalle_id', '=', $rutaFlujoDetalle->id)
+                            ->where('estado', '=', 1)
                             ->count();
                     $probando="";
                     $rfdv="";
