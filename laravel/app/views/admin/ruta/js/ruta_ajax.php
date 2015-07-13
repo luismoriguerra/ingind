@@ -144,6 +144,7 @@ var Ruta={
                                         '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
                                         '<b>'+obj.msj+'</b>'+
                                     '</div>');
+                    Close();
                     Ruta.CargarRuta(evento);
                 } 
                 else if(obj.rst==2){
