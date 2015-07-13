@@ -179,7 +179,9 @@ class ReporteController extends BaseController
                   AND alerta=2) AS 'corregido'
                 FROM tablas_relacion tr 
                 JOIN rutas r ON tr.id=r.tabla_relacion_id
-                WHERE r.ruta_flujo_id='".$rutaFlujoId."'";
+                WHERE r.ruta_flujo_id='".$rutaFlujoId."'
+                AND r.estado=1
+                AND tr.estado=1";
 
         $table=DB::select($query);
 
@@ -538,7 +540,7 @@ class ReporteController extends BaseController
 
         $query="SELECT rf.flujo_id,f.nombre AS proceso, rf.id AS ruta_flujo_id, 
                 CONCAT(p.paterno,' ',p.materno,' ',p.nombre) AS duenio,
-                GROUP_CONCAT(a.nombre SEPARATOR ', ') AS area_duenio,
+                a.nombre  AS area_duenio,
                 (SELECT COUNT(DISTINCT a.id) 
                 FROM areas a JOIN rutas_flujo_detalle rfd ON a.id=rfd.area_id
                 WHERE rfd.ruta_flujo_id=rf.id AND rfd.estado=1) AS n_areas,
@@ -577,7 +579,7 @@ class ReporteController extends BaseController
                 JOIN personas p ON rf.persona_id=p.id
                 JOIN cargo_persona cp ON p.id=cp.persona_id AND cp.cargo_id='5'
                 JOIN area_cargo_persona acp ON cp.id=acp.cargo_persona_id
-                JOIN areas a ON acp.area_id=a.id
+                JOIN areas a ON rf.area_id=a.id
                 LEFT JOIN rutas r ON r.ruta_flujo_id=rf.id
                 WHERE f.id IN ('".$areaId."') AND f.estado=1
                 AND cp.estado=1 AND acp.estado=1 AND a.estado=1
