@@ -8,11 +8,15 @@ class ReporteController extends BaseController
    */
    public function postBandejatramite()
    {
-        $rst=VisualizacionTramite::BandejaTramites();
+        $input=Input::all();
+        /*if (is_array($input)) {
+            $input=implode("','", $input);
+        }*/
+        $rst=VisualizacionTramite::BandejaTramites($input);
         return Response::json(
             array(
                 'rst'=>1,
-                'datos'=>$rst
+                'datos'=>$rst, 't'=>$input
             )
         );
    }

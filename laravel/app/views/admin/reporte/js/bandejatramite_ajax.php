@@ -1,12 +1,14 @@
 <script type="text/javascript">
 var Bandeja={
-    mostrar:function( ){
+    mostrar:function( data ){
         $.ajax({
             url         : 'reporte/bandejatramite',
             type        : 'POST',
+            contentType: false,
+            processData: false,
             cache       : false,
             dataType    : 'json',
-            //data        : data,
+            data        : data,
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },

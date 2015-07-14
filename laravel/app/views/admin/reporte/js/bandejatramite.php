@@ -1,8 +1,22 @@
 <script type="text/javascript">
 $(document).ready(function() {
     slctGlobal.listarSlct('lista/tipovizualizacion','slct_tipo_visualizacion','multiple',null,null);
+    $('#slct_tipo_visualizacion').change(function() {
+        FiltrarBandeja( $('#slct_tipo_visualizacion').val());
+    });
     Bandeja.mostrar();
 });
+FiltrarBandeja=function(values){
+    var form = new FormData();
+    //form.append('param',values);
+    if (values !== null) {
+        for (var i = 0; i < values.length; i++) {
+            form.append(String(i),values[i]);
+        }
+    }
+    Bandeja.mostrar(form);
+
+};
 activarTabla=function(){
     $("#t_reporte").dataTable(); // inicializo el datatable  
 };
