@@ -167,10 +167,9 @@ guardarVerbo=function(){
         );
     ////////////////////////////////////7
 
-
     for(var i=0; i<tiempoG[tid].length; i++){
         detalle=verboG[tid][i].split("_");
-        verboaux="";verboaux2="";verboaux3="";verboaux4="";verboaux5="";
+        verboaux="";verboaux2="";verboaux3="";verboaux4="";verboaux5="";verboaux6="";
         alerta=false;
         alertap=false;
 
@@ -268,6 +267,7 @@ guardarVerbo=function(){
 
             //alert("guardando: "+ detalle.join("_"));
             verboG[tid][i]=detalle.join("_");
+            //alert(verboG[tid][i]);
         }
         estadoG[detalle[0]]=$("#slct_paralelo_"+detalle[0]+"_modal").val();
     }
