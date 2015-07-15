@@ -225,7 +225,7 @@ guardarVerbo=function(){
     var alerta=false;
     var alertap=false;
     var alertafinal=false;
-    var verboaux="";var verboaux2="";var verboaux3="";var verboaux4="";var verboaux5="";var verboaux6="";
+    var verboaux="";var verboaux2="";var verboaux3="";var verboaux4="";var verboaux5="";var verboaux6="";var verboaux6="";
     var poseq=-1;
 
     ///////////////ENCONTRAR POSICION DEL GRAFICO EN PANTALLA///////////////
