@@ -7,13 +7,13 @@ $(document).ready(function() {
     Bandeja.mostrar();
 });
 FiltrarBandeja=function(values){
-    var form = new FormData();
+    /*var form = new FormData();
     //form.append('param',values);
     if (values !== null) {
         for (var i = 0; i < values.length; i++) {
             form.append(String(i),values[i]);
         }
-    }
+    }*/
     Bandeja.mostrar(form);
 
 };
@@ -31,7 +31,20 @@ HTMLreporte=function(datos){
     
     var alerta_tipo= '';
     $.each(datos,function(index,data){
-        html+="<tr>"+
+        if(data.id==1){//est visto
+            //el boton debera cambiar  a no visto
+            tr='<tr>';
+            estado='<span id="'+data.ruta_detalle_id+'" onClick="desactivar('+data.id+','+data.ruta_detalle_id+')" class="btn btn-success">Visto</span>';
+            img="<td class='small-col'><i class='fa fa-star-o'></i></td>"
+        } else {
+            //unread
+            tr="<tr class='unread'>";
+            estado='<span id="'+data.ruta_detalle_id+'" onClick="activar('+data.id+','+data.ruta_detalle_id+')" class="btn btn-danger">No visto</span>';
+            img="<td class='small-col'><i class='fa fa-star'></i></td>"
+        }
+        html+=tr+
+            "<td class='small-col'><input type='checkbox' /></td>"+
+            img+
             "<td>"+data.id_union+"</td>"+
             "<td>"+data.tiempo+"</td>"+
             "<td>"+data.fecha_inicio+"</td>"+
@@ -45,17 +58,11 @@ HTMLreporte=function(datos){
             if (data.id==='') {
                 data.id='0';
             }
-            if(data.id==1){//est visto
-                //el boton debera cambiar  a no visto
-                estado='<span id="'+data.ruta_detalle_id+'" onClick="desactivar('+data.id+','+data.ruta_detalle_id+')" class="btn btn-success">Visto</span>';
-            } else {
-                estado='<span id="'+data.ruta_detalle_id+'" onClick="activar('+data.id+','+data.ruta_detalle_id+')" class="btn btn-danger">No visto</span>';
-            }
-        html+="<td>"+estado+"</td>";
+        //html+="<td>"+estado+"</td>";
         html+="</tr>";
     });
     $("#tb_reporte").html(html);
     $("#reporte").show();
-    activarTabla();
+    //activarTabla();
 };
 </script>

@@ -72,10 +72,10 @@ class VisualizacionTramite extends Eloquent
                             ON cp.id=acp.cargo_persona_id AND cp.estado=1
                     WHERE acp.estado=1
                     AND cp.persona_id=?
-                )   AND tv.id IN ?
+                )   /*AND tv.id IN ?*/
                 GROUP BY rd.id
                 ORDER BY rd.fecha_inicio DESC, rd.norden DESC";
-        $result = DB::select($query,array($personaId,$input));
+        $result = DB::select($query,array($personaId/*,$input*/));
         return $result;
     }
 }
