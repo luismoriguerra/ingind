@@ -538,6 +538,7 @@ class RutaFlujoController extends \BaseController
                         $veriuno=false;
                     }
                     //else{
+                    $qdetalleedit=array();
                     if($veriuno==false){
                         $sqldetalle="SELECT *
                                      FROM rutas_detalle
@@ -547,7 +548,7 @@ class RutaFlujoController extends \BaseController
                                      ORDER BY norden ";
                         $qdetalleedit= DB::select($sqldetalle);
 
-                        $rda=RutaDetalle::find($qdetalleedit[$i]->id);
+                        $rda=RutaDetalle::find($qdetalleedit[0]->id);
                         $rda['area_id']=$qdetalleedit->area_id;
                         $rda['tiempo_id']=$qdetalleedit->tiempo_id;
                         $rda['dtiempo']=$qdetalleedit->dtiempo;
@@ -617,6 +618,38 @@ class RutaFlujoController extends \BaseController
                             }
                         }
                         else{
+                            if(count($qdetalleedit)==0){
+                                $sqldetalle="SELECT *
+                                             FROM rutas_detalle
+                                             WHERE ruta_id='".$ruta_id."'
+                                             AND norden='".$qrinicialaux[$i]->norden."'
+                                             AND estado=1
+                                             ORDER BY norden ";
+                                $qdetalleedit= DB::select($sqldetalle);
+                            }
+
+                            $rd= new RutaDetalleVerbo;
+                            $rd['usuario_created_at']= Auth::user()->id;
+                            $rd['ruta_flujo_detalle_id']= $qdetalleedit[0]->id;
+                            $rd['nombre']=$qrinicialverboaux[$j]->nombre;
+                            $rd['condicion']=$qrinicialverboaux[$j]->condicion;
+                            if(trim($qrinicialverboaux[$j]->rol_id)!=''){
+                            $rd['rol_id']=$qrinicialverboaux[$j]->rol_id;
+                            }
+
+                            if(trim($qrinicialverboaux[$j]->verbo_id)!=''){
+                            $rd['verbo_id']=$qrinicialverboaux[$j]->verbo_id;
+                            }
+
+                            if(trim($qrinicialverboaux[$j]->documento_id)!=''){
+                            $rd['documento_id']=$qrinicialverboaux[$j]->documento_id;
+                            }
+
+                            if(trim($qrinicialverboaux[$j]->orden)!=''){
+                            $rd['orden']=$qrinicialverboaux[$j]->orden;
+                            }
+
+                            $rd->save();
                             $verificando=false;
                         }
                     }// finliza for!! verbo
