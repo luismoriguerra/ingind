@@ -5,7 +5,7 @@ class VisualizacionTramite extends Eloquent
     public static function BandejaTramites( $input)
     {
         if ($input) {
-            $where=" AND IFNULL(tv.id,'1') IN ('$input')";
+            $where=" AND IFNULL(tv.id,'2') IN ('$input')";
         } else {
             $where='';
         }
