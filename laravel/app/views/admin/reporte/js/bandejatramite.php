@@ -21,7 +21,7 @@ activarTabla=function(){
     $("#t_reporte").dataTable(); // inicializo el datatable  
 };
 activar=function(id,ruta_detalle_id){//establecer como visto
-    Bandeja.CambiarEstado(ruta_detalle_id, id,1);
+    //Bandeja.CambiarEstado(ruta_detalle_id, id,1);
 };
 desactivar=function(id,ruta_detalle_id){//establecer como no visto
     Bandeja.CambiarEstado(ruta_detalle_id, id,2);
