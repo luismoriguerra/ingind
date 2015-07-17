@@ -4,11 +4,11 @@ class VisualizacionTramite extends Eloquent
     public $table="visualizacion_tramite";
     public static function BandejaTramites( $input)
     {
-        /*if ($input) {
-            $where=" AND tv.id IN ('$input')";
+        if ($input) {
+            $where=" AND IFNULL(tv.id,'1') IN ('$input')";
         } else {
             $where='';
-        } return $where;*/
+        }
         $personaId=Auth::user()->id;
         $query="SELECT 
                 IFNULL(tr.id_union,'') AS id_union,
@@ -31,7 +31,7 @@ class VisualizacionTramite extends Eloquent
                 IFNULL(rd.alerta,'') AS alerta,
                 IFNULL(rd.condicion,'') AS condicion,
                 IFNULL(rd.estado_ruta,'') AS estado_ruta,
-                IFNULL(tv.id,'') AS id, 
+                IFNULL(tv.id,'2') AS id, 
                 IFNULL(tv.nombre,'') AS tipo_estado_visual,
                 IFNULL(tv.estado,'') AS estado_visual,
                 IFNULL(
@@ -71,11 +71,10 @@ class VisualizacionTramite extends Eloquent
                     INNER JOIN cargo_persona cp 
                             ON cp.id=acp.cargo_persona_id AND cp.estado=1
                     WHERE acp.estado=1
-                    AND cp.persona_id=?
-                )   /*AND tv.id IN ?*/
+                    AND cp.persona_id= '$personaId'
+                )   $where
                 GROUP BY rd.id
                 ORDER BY rd.fecha_inicio DESC, rd.norden DESC";
-        $result = DB::select($query,array($personaId/*,$input*/));
-        return $result;
+        return DB::select($query);
     }
 }

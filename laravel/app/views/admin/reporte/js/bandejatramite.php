@@ -7,13 +7,13 @@ $(document).ready(function() {
     Bandeja.mostrar();
 });
 FiltrarBandeja=function(values){
-    /*var form = new FormData();
+    var form = new FormData();
     //form.append('param',values);
     if (values !== null) {
         for (var i = 0; i < values.length; i++) {
             form.append(String(i),values[i]);
         }
-    }*/
+    }
     Bandeja.mostrar(form);
 
 };
@@ -31,16 +31,16 @@ HTMLreporte=function(datos){
     
     var alerta_tipo= '';
     $.each(datos,function(index,data){
+        var ruta_detalle_id=data.ruta_detalle_id;
+        var id=data.id;
         if(data.id==1){//est visto
             //el boton debera cambiar  a no visto
             tr='<tr>';
-            estado='<span id="'+data.ruta_detalle_id+'" onClick="desactivar('+data.id+','+data.ruta_detalle_id+')" class="btn btn-success">Visto</span>';
-            img="<td class='small-col'><i class='fa fa-star-o'></i></td>"
+            img='<td class="small-col"><i onClick="desactivar('+id+','+ruta_detalle_id+')" class="fa fa-star-o"></i></td>';
         } else {
             //unread
             tr="<tr class='unread'>";
-            estado='<span id="'+data.ruta_detalle_id+'" onClick="activar('+data.id+','+data.ruta_detalle_id+')" class="btn btn-danger">No visto</span>';
-            img="<td class='small-col'><i class='fa fa-star'></i></td>"
+            img='<td class="small-col"><i onClick="activar('+id+','+ruta_detalle_id+')" class="fa fa-star"></i></td>';
         }
         html+=tr+
             "<td class='small-col'><input type='checkbox' /></td>"+

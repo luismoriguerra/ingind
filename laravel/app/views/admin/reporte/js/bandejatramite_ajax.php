@@ -31,17 +31,18 @@ var Bandeja={
     },
     CambiarEstado:function(ruta_detalle_id, id,AD){//si AD es 1, establecer como visto
 
-        $("#form_reporte input[type='hidden']").remove();
+        /*$("#form_reporte input[type='hidden']").remove();
         $("#form_reporte").append("<input type='hidden' value='"+id+"' name='id'>");
         $("#form_reporte").append("<input type='hidden' value='"+ruta_detalle_id+"' name='ruta_detalle_id'>");
-        $("#form_reporte").append("<input type='hidden' value='"+AD+"' name='estado'>");
-        var datos=$("#form_reporte").serialize().split("txt_").join("").split("slct_").join("");
+        $("#form_reporte").append("<input type='hidden' value='"+AD+"' name='estado'>");*/
+        parametros = {estado:AD,ruta_detalle_id:ruta_detalle_id,id:id};
+        //var datos=$("#form_reporte").serialize().split("txt_").join("").split("slct_").join("");
         $.ajax({
             url         : 'tramite/cambiarestado',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
-            data        : datos,
+            data        : parametros,
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },

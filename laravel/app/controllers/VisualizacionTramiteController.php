@@ -55,7 +55,10 @@ class VisualizacionTramiteController extends BaseController
         return Response::json(
             array(
                 'rst'=>1,
-                'datos'=>$rst
+                'datos'=>$rst,
+                'estado'=>$estado,
+                'rutaDetalleId'=>$rutaDetalleId,
+                'id'=>$id
             )
         );
     }

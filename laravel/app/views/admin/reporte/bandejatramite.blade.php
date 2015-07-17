@@ -86,25 +86,10 @@
             <div class="mailbox row">
                 <div class="col-md-12">
                     <div class="row pad">
-                        <div class="col-sm-6">
-                            <label style="margin-right: 10px;">
-                                <input type="checkbox" id="check-all"/>
-                            </label>
-                            <!-- Action button -->
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default btn-sm btn-flat dropdown-toggle" data-toggle="dropdown">
-                                    Action <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">Mark as read</a></li>
-                                    <li><a href="#">Mark as unread</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">Move to junk</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">Delete</a></li>
-                                </ul>
-                            </div>
-
+                        <div class="col-sm-4">
+                            <label class="control-label">Tipo:</label>
+                            <select class="form-control" name="slct_tipo_visualizacion" id="slct_tipo_visualizacion" multiple>
+                            </select>
                         </div>
                         <div class="col-sm-6 search-form">
                             <form action="#" class="text-right">
