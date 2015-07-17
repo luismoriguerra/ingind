@@ -24,7 +24,7 @@ activar=function(id,ruta_detalle_id){//establecer como visto
     Bandeja.CambiarEstado(ruta_detalle_id, id,1);
 };
 desactivar=function(id,ruta_detalle_id){//establecer como no visto
-    Bandeja.CambiarEstado(ruta_detalle_id, id,2);
+    //Bandeja.CambiarEstado(ruta_detalle_id, id,2);
 };
 HTMLreporte=function(datos){
     var html="";
@@ -32,20 +32,24 @@ HTMLreporte=function(datos){
     var alerta_tipo= '';
     $.each(datos,function(index,data){
         var ruta_detalle_id=data.ruta_detalle_id;
+        var persona_visual=data.persona_visual;
+        //var id=data.id;
         var id=data.id;
         if(data.id==1){//est visto
             //el boton debera cambiar  a no visto
-            tr='<tr>';
-            img='<td class="small-col"><i onClick="desactivar('+id+','+ruta_detalle_id+')" class="fa fa-star-o"></i></td>';
+            tr='<tr onClick="desactivar('+id+','+ruta_detalle_id+')" data-toggle="tooltip" data-placement="top" title="Visto por: '+persona_visual+'" >';
+            img='<td class="small-col"><i  class="fa fa-ban"></i></td>';
+
         } else {
             //unread
-            tr="<tr class='unread'>";
-            img='<td class="small-col"><i onClick="activar('+id+','+ruta_detalle_id+')" class="fa fa-star"></i></td>';
+            tr='<tr class="unread" onClick="activar('+id+','+ruta_detalle_id+')" >';
+            img='<td class="small-col"><i  class="fa fa-eye"></i></td>';
         }
+
         html+=tr+
-            "<td class='small-col'><input type='checkbox' /></td>"+
+            //"<td class='small-col'></td>"+
             img+
-            "<td>"+data.id_union+"</td>"+
+            "<td >"+data.id_union+"</td>"+
             "<td>"+data.tiempo+"</td>"+
             "<td>"+data.fecha_inicio+"</td>"+
             "<td>"+data.norden+"</td>"+
@@ -63,6 +67,7 @@ HTMLreporte=function(datos){
     });
     $("#tb_reporte").html(html);
     $("#reporte").show();
-    //activarTabla();
+    activarTabla();
+    $('[data-toggle="tooltip"]').tooltip();
 };
 </script>
