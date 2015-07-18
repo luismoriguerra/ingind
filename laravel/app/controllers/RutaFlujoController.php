@@ -616,6 +616,41 @@ class RutaFlujoController extends \BaseController
                                 $verificando=false;
                                 $veriunov=false;
                             }
+
+                            if($veriunov==false){
+                                $qdetalleeditv=DB::table('rutas_detalle_verbo AS rdv')
+                                               ->join('rutas_detalle AS rd',
+                                                      'rdv.ruta_detalle_id','=','rd.id')
+                                               ->select('rdv.id','rdv.ruta_detalle_id')
+                                               ->where('rd.norden', '=', $qrinicialaux[$i]->norden)
+                                               ->where('rd.ruta_id', '=', $ruta_id)
+                                               ->where('rdv.orden', '=', $qrinicialverboaux[$j]->orden)
+                                               ->get();
+
+                                $rd= RutaDetalleVerbo::find($qdetalleeditv[0]->id);
+                                $rd['ruta_flujo_detalle_id']= $qdetalleeditv[0]->ruta_detalle_id;
+                                $rd['usuario_created_at']= Auth::user()->id;
+                                $rd['nombre']=$qrinicialverboaux[$j]->nombre;
+                                $rd['condicion']=$qrinicialverboaux[$j]->condicion;
+                                if(trim($qrinicialverboaux[$j]->rol_id)!=''){
+                                $rd['rol_id']=$qrinicialverboaux[$j]->rol_id;
+                                }
+
+                                if(trim($qrinicialverboaux[$j]->verbo_id)!=''){
+                                $rd['verbo_id']=$qrinicialverboaux[$j]->verbo_id;
+                                }
+
+                                if(trim($qrinicialverboaux[$j]->documento_id)!=''){
+                                $rd['documento_id']=$qrinicialverboaux[$j]->documento_id;
+                                }
+
+                                if(trim($qrinicialverboaux[$j]->orden)!=''){
+                                $rd['orden']=$qrinicialverboaux[$j]->orden;
+                                }
+
+                                $rd->save();
+                                //aqui actualizando la data de la ruta actual de tramite
+                            }
                         }
                         else{
                             if(count($qdetalleedit)==0){

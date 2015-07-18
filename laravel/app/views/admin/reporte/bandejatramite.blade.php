@@ -29,11 +29,11 @@
   color: #000;
   font-weight: 600;
 }
-.mailbox .table-mailbox tr > td > .fa.fa-star,
-.mailbox .table-mailbox tr > td > .fa.fa-star-o,
-.mailbox .table-mailbox tr > td > .glyphicon.glyphicon-star,
-.mailbox .table-mailbox tr > td > .glyphicon.glyphicon-star-empty {
-  color: #f39c12;
+.mailbox .table-mailbox .unread
+/*.mailbox .table-mailbox tr > td > .fa.fa-ban,*/
+/*.mailbox .table-mailbox tr > td > .glyphicon.glyphicon-star,
+.mailbox .table-mailbox tr > td > .glyphicon.glyphicon-star-empty*/ {
+  /*color: #f39c12;*/
   cursor: pointer;
 }
 .mailbox .table-mailbox tr > td.small-col {
@@ -91,16 +91,6 @@
                             <select class="form-control" name="slct_tipo_visualizacion" id="slct_tipo_visualizacion" multiple>
                             </select>
                         </div>
-                        <div class="col-sm-6 search-form">
-                            <form action="#" class="text-right">
-                                <div class="input-group">
-                                    <input type="text" class="form-control input-sm" placeholder="Search">
-                                    <div class="input-group-btn">
-                                        <button type="submit" name="q" class="btn btn-sm btn-primary"><i class="fa fa-search"></i></button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
                     </div><!-- /.row -->
 
                     <div class="table-responsive">
@@ -108,7 +98,7 @@
                         <table class="table table-mailbox" id="t_reporte">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    
                                     <th></th>
                                     <th>Tramite</th>
                                     <th>Tiempo</th>
