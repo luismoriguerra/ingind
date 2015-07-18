@@ -194,6 +194,14 @@
                                                     <option value="3">Denegado</option>
                                                 </select>
                                             </div>
+                                            <div class="col-sm-2">
+                                                <label>Crear Ruta:</label>
+                                                <select id="slct_crear_nuevo" name="slct_crear_nuevo">
+                                                    <option value="">Seleccione</option>
+                                                    <option value="1">Crear</option>
+                                                    <option value="0">No Crear</option>
+                                                </select>
+                                            </div>
                                         </div>
                                         <div class="col-sm-12">
                                             <a class="btn btn-default btn-sm btn-sm" id="btn_close2">

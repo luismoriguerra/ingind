@@ -56,6 +56,7 @@ var Editar={
                 ruta_id:$("#txt_ruta_id").val(),
                 ruta_detalle_id:$("#txt_ruta_detalle_id").val(),
                 estado_final:$("#slct_estado_final").val(),
+                crear_nuevo:$("#slct_crear_nuevo").val(),
 
                 };
         $.ajax({
