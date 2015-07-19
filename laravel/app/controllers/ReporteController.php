@@ -20,6 +20,24 @@ class ReporteController extends BaseController
             )
         );
    }
+   /**
+   * bandeja de tramite, devuelve la consulta de tramites que se asignan 
+   * a una determinada area que pertenece el usuario
+   */
+   public function postBandejatramitedetalle()
+   {
+        $input=Input::all();
+        if (is_array($input)) {
+            $input=implode("','", $input);
+        }
+        $rst=VisualizacionTramite::BandejaTramites($input);
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$rst, 'input'=>$input
+            )
+        );
+   }
     /**
      * 
      */

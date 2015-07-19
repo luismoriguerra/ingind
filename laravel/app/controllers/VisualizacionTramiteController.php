@@ -58,7 +58,8 @@ class VisualizacionTramiteController extends BaseController
                 'datos'=>$rst,
                 'estado'=>$estado,
                 'rutaDetalleId'=>$rutaDetalleId,
-                'id'=>$id
+                'id'=>$id,
+                'msj' => 'se actualizo con exito',
             )
         );
     }

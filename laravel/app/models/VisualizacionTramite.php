@@ -5,7 +5,7 @@ class VisualizacionTramite extends Eloquent
     public static function BandejaTramites( $input)
     {
         if ($input) {
-            $where=" AND IFNULL(tv.id,'1') IN ('$input')";
+            $where=" AND IFNULL(tv.id,'2') IN ('$input')";
         } else {
             $where='';
         }
@@ -52,6 +52,7 @@ class VisualizacionTramite extends Eloquent
                         ON rd.tipo_respuesta_detalle_id=rspd.id
                 LEFT JOIN tipo_solicitante ts ON tr.tipo_persona=ts.id
                 LEFT JOIN visualizacion_tramite vt ON rd.id=vt.ruta_detalle_id
+                        AND vt.usuario_created_at='$personaId'
                 LEFT JOIN tipo_visualizacion tv 
                         ON vt.tipo_visualizacion_id=tv.id
                 LEFT JOIN ( SELECT MAX(vt2.id) AS id
