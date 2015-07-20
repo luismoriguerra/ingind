@@ -193,6 +193,9 @@ guardarTodo=function(){
     else if( $("#slct_estado_final").val()=='' ){
         alert("Seleccione el estado final");
     }
+    else if( $("#slct_crear_nuevo").val()==''){
+        alert("Seleccione si desea crear nueva ruta, (Solo creara si existe una modificacion y el estado es crear)");
+    }
     else{
         $("#slct_flujo_id,#slct_area_id").multiselect("enable");
         Editar.CrearRuta(buscar);

@@ -358,15 +358,6 @@ class RutaFlujoController extends \BaseController
             $tiempoG= explode( "*", Input::get('tiempoG') );
             $verboG= explode( "*", Input::get('verboG') );
 
-                /*$finalizar= DB::table('rutas_flujo_detalle')
-                          ->where('ruta_flujo_id', '=', $rutaFlujo->id)
-                          ->where('norden', '>', count($areasGid))
-                          ->where('estado', '=', 1)
-                          ->update( array(
-                                        'estado'=> 0,
-                                        'usuario_updated_at'=> Auth::user()->id
-                                    )
-                            );*/
 
             for($i=0; $i<count($areasGid); $i++ ){
                 $rutaFlujoDetalle = new RutaFlujoDetalleAux;
@@ -402,31 +393,6 @@ class RutaFlujoController extends \BaseController
                 }
 
                 $rutaFlujoDetalle->save();
-
-                /*$cantrfd= DB::table('rutas_flujo_detalle_verbo')
-                            ->where('ruta_flujo_detalle_id', '=', $rutaFlujoDetalle->id)
-                            ->where('estado', '=', 1)
-                            ->count();
-                    $probando="";
-                    $rfdv="";
-                    if($cantrfd>0){
-                        $rfdv=DB::table('rutas_flujo_detalle_verbo')
-                            ->where('ruta_flujo_detalle_id', '=', $rutaFlujoDetalle->id)
-                            ->where('estado', '=', 1)
-                            ->update(array('estado' => 0));
-                       $probando="editar";
-                        
-                    }*/
-                    /*return Response::json(
-                        array(
-                            'rst'   => 1,
-                            'msj'   => "Probando Ando",
-                            'datos' => $probando,
-                            'cantrfd' => $cantrfd,
-                            'rfdv' => $rfdv,
-                            'ruta_flujo_id'=>$rutaFlujo->id
-                        )
-                    );*/
 
                 // probando para los verbos
                 $posdetalleTiempoG= array("0","0");
@@ -507,6 +473,7 @@ class RutaFlujoController extends \BaseController
                     DB::table('rutas_detalle')
                        ->where('ruta_id', '=', $ruta_id)
                        ->where('norden', '>', count($qrinicialaux))
+                       ->where('estado', '=', '1')
                        ->update(array(
                                     'condicion'=>2,
                                     'usuario_updated_at'=>Auth::user()->id,
@@ -549,6 +516,7 @@ class RutaFlujoController extends \BaseController
                         $qdetalleedit= DB::select($sqldetalle);
 
                         $rda=RutaDetalle::find($qdetalleedit[0]->id);
+                        $rda['usuario_updated_at']= Auth::user()->id;
                         $rda['area_id']=$qdetalleedit->area_id;
                         $rda['tiempo_id']=$qdetalleedit->tiempo_id;
                         $rda['dtiempo']=$qdetalleedit->dtiempo;
@@ -581,6 +549,8 @@ class RutaFlujoController extends \BaseController
                                ->where('rd.norden', '=', $qrinicialaux[$i]->norden)
                                ->where('rd.ruta_id', '=', $ruta_id)
                                ->where('rdv.orden', '>', count($qrinicialverboaux))
+                               ->where('rdv.estado', '=', '1')
+                               ->where('rd.estado', '=', '1')
                                ->update(array(
                                             'rdv.estado'=>0,
                                             'rdv.usuario_updated_at'=>Auth::user()->id,
@@ -616,6 +586,43 @@ class RutaFlujoController extends \BaseController
                                 $verificando=false;
                                 $veriunov=false;
                             }
+
+                            if($veriunov==false){
+                                $qdetalleeditv=DB::table('rutas_detalle_verbo AS rdv')
+                                               ->join('rutas_detalle AS rd',
+                                                      'rdv.ruta_detalle_id','=','rd.id')
+                                               ->select('rdv.id','rdv.ruta_detalle_id')
+                                               ->where('rd.norden', '=', $qrinicialaux[$i]->norden)
+                                               ->where('rd.ruta_id', '=', $ruta_id)
+                                               ->where('rdv.orden', '=', $qrinicialverboaux[$j]->orden)
+                                               ->where('rdv.estado', '=', '1')
+                                               ->where('rd.estado', '=', '1')
+                                               ->get();
+
+                                $rd= RutaDetalleVerbo::find($qdetalleeditv[0]->id);
+                                $rd['ruta_flujo_detalle_id']= $qdetalleeditv[0]->ruta_detalle_id;
+                                $rd['usuario_updated_at']= Auth::user()->id;
+                                $rd['nombre']=$qrinicialverboaux[$j]->nombre;
+                                $rd['condicion']=$qrinicialverboaux[$j]->condicion;
+                                if(trim($qrinicialverboaux[$j]->rol_id)!=''){
+                                $rd['rol_id']=$qrinicialverboaux[$j]->rol_id;
+                                }
+
+                                if(trim($qrinicialverboaux[$j]->verbo_id)!=''){
+                                $rd['verbo_id']=$qrinicialverboaux[$j]->verbo_id;
+                                }
+
+                                if(trim($qrinicialverboaux[$j]->documento_id)!=''){
+                                $rd['documento_id']=$qrinicialverboaux[$j]->documento_id;
+                                }
+
+                                if(trim($qrinicialverboaux[$j]->orden)!=''){
+                                $rd['orden']=$qrinicialverboaux[$j]->orden;
+                                }
+
+                                $rd->save();
+                                //aqui actualizando la data de la ruta actual de tramite
+                            }
                         }
                         else{
                             if(count($qdetalleedit)==0){
@@ -630,7 +637,7 @@ class RutaFlujoController extends \BaseController
 
                             $rd= new RutaDetalleVerbo;
                             $rd['usuario_created_at']= Auth::user()->id;
-                            $rd['ruta_flujo_detalle_id']= $qdetalleedit[0]->id;
+                            $rd['ruta_detalle_id']= $qdetalleedit[0]->id;
                             $rd['nombre']=$qrinicialverboaux[$j]->nombre;
                             $rd['condicion']=$qrinicialverboaux[$j]->condicion;
                             if(trim($qrinicialverboaux[$j]->rol_id)!=''){
@@ -656,6 +663,7 @@ class RutaFlujoController extends \BaseController
                 }
                 else{
                     $rd=new RutaDetalle;
+                    $rd['usuario_created_at']= Auth::user()->id;
                     $rd['area_id']=$qrinicialaux[$i]->area_id;
                     $rd['tiempo_id']=$qrinicialaux[$i]->tiempo_id;
                     $rd['dtiempo']=$qrinicialaux[$i]->dtiempo;
@@ -664,6 +672,39 @@ class RutaFlujoController extends \BaseController
                     $rd->save();
                     $verificando=false;
 
+                    $qinicialverboadd=" SELECT nombre,condicion,
+                    IFNULL(rol_id,'') rol_id,IFNULL(verbo_id,'') verbo_id,
+                    IFNULL(documento_id,'') documento_id,IFNULL(orden,'') orden
+                                        FROM rutas_flujo_detalle_verbo_aux 
+                                        WHERE ruta_flujo_detalle_id='".$qrinicialaux[$i]->id."'
+                                        AND estado=1
+                                        ORDER BY ruta_flujo_detalle_id,nombre";
+                    $qrinicialverboadd=DB::select($qinicialverboadd);
+
+                    for($j=0;$j<count($qrinicialverboadd);$j++){
+                        $rdv= new RutaDetalleVerbo;
+                        $rdv['usuario_created_at']= Auth::user()->id;
+                        $rdv['ruta_detalle_id']= $rd->id;
+                        $rdv['nombre']=$qrinicialverboadd[$j]->nombre;
+                        $rdv['condicion']=$qrinicialverboadd[$j]->condicion;
+                        if(trim($qrinicialverboadd[$j]->rol_id)!=''){
+                        $rdv['rol_id']=$qrinicialverboadd[$j]->rol_id;
+                        }
+
+                        if(trim($qrinicialverboadd[$j]->verbo_id)!=''){
+                        $rdv['verbo_id']=$qrinicialverboadd[$j]->verbo_id;
+                        }
+
+                        if(trim($qrinicialverboadd[$j]->documento_id)!=''){
+                        $rdv['documento_id']=$qrinicialverboadd[$j]->documento_id;
+                        }
+
+                        if(trim($qrinicialverboadd[$j]->orden)!=''){
+                        $rdv['orden']=$qrinicialverboadd[$j]->orden;
+                        }
+
+                        $rdv->save();
+                    }
                     //falta crear sus verbos!!
                 }
                 //}
@@ -675,16 +716,139 @@ class RutaFlujoController extends \BaseController
         $ruta_detalle_id= Input::get('ruta_detalle_id');
         $estado_final=Input::get('estado_final');
         $condicional=Input::get('condicional');
+        $crear_nuevo= Input::get('crear_nuevo');
 
-        if($verificando==false){
-            $envioestado=1;
-            $qfinal="   SELECT * 
-                        FROM rutas_flujo rf
-                        INNER JOIN rutas_flujo_detalle rfd ON rf.id=rfd.ruta_flujo_id AND rf.estado=1
-                        WHERE rf.flujo_id='".Input::get('flujo_id')."' 
-                        AND rf.area_id='".Input::get('area_id')."'
-                        AND rf.estado=1";
-            $qrfinal= DB::select($qfinal);
+        if($verificando==false AND $crear_nuevo=='1'){
+            $rf= RutaFlujo::find(Input::get('ruta_flujo_id'));
+            $rf['n_flujo_error']=$rf['n_flujo_error']+1;
+            $rf['usuario_created_at']= Auth::user()->id;
+            $rf->save();
+
+            $rutaFlujo = new RutaFlujo;
+            $rutaFlujo['usuario_created_at']= Auth::user()->id;
+            $rutaFlujo['estado']= 1;
+
+            $rutaFlujo['flujo_id']= Input::get('flujo_id');
+            $rutaFlujo['persona_id']= Auth::user()->id;
+            $rutaFlujo['area_id']= Input::get('area_id');
+            $rutaFlujo['n_flujo_ok']= '1';
+            $rutaFlujo['ruta_id_dep']= Input::get('ruta_flujo_id');
+
+            $rutaFlujo->save();
+
+            $sqlparaactualizar="SELECT (SELECT count(rf2.id) 
+                                        FROM rutas_flujo rf2 
+                                        WHERE rf2.id<=rf.id 
+                                        AND rf2.flujo_id=rf.flujo_id 
+                                        AND rf2.orden>0
+                                        ) AS cant,rf.*
+                                FROM rutas_flujo rf
+                                WHERE rf.id='".$rutaFlujo->id."' ";
+            $sqlparaactualizar=DB::select($sqlparaactualizar);
+
+            /*$rff = RutaFlujo::find($sqlparaactualizar[0]->id);
+            $rff['orden']=$sqlparaactualizar[0]->cant;
+            $rff->save();*/
+
+            $areasGid= explode( "*", Input::get('areasGId') );
+            $theadArea= explode( "*", Input::get('theadArea') );
+            $tbodyArea= explode( "*", Input::get('tbodyArea') );
+
+            $tiempoGid= explode( "*", Input::get('tiempoGId') );
+            $tiempoG= explode( "*", Input::get('tiempoG') );
+            $verboG= explode( "*", Input::get('verboG') );
+
+            for($i=0; $i<count($areasGid); $i++ ){
+                $rutaFlujoDetalle = new RutaFlujoDetalle;
+                $rutaFlujoDetalle['usuario_created_at']= Auth::user()->id;
+                $rutaFlujoDetalle['ruta_flujo_id']= $rutaFlujo->id;
+                $rutaFlujoDetalle['area_id']= $areasGid[$i];
+                $rutaFlujoDetalle['norden']= ($i+1);
+
+                $post = array_search($areasGid[$i], $tiempoGid);
+
+                $posdetalleTiempoG= array("0","0");
+                // Inicializa valores en caso no tenga datos...
+                $rutaFlujoDetalle['tiempo_id']="1";
+                $rutaFlujoDetalle['dtiempo']="0";
+
+                if( trim($post)!='' and $post*1>=0 ){
+                    $detalleTiempoG=explode( ",", $tiempoG[$post] );
+                    
+                    if( $theadArea[$i]=="0" ){
+                        $posdetalleTiempoG= explode( "|", $tbodyArea[$i] );
+                    }
+
+                    $dtg="";
+
+                    if( isset($detalleTiempoG[ $posdetalleTiempoG[1] ]) and trim($detalleTiempoG[ $posdetalleTiempoG[1] ])!=''){
+                        $dtg=explode( "_", $detalleTiempoG[ $posdetalleTiempoG[1] ] );
+                        if( trim($dtg[1])!='' ){
+                            $rutaFlujoDetalle['tiempo_id']=$dtg[1];
+                            $rutaFlujoDetalle['dtiempo']=$dtg[2];
+                        }
+                    }
+
+                }
+
+                $rutaFlujoDetalle->save();
+
+                // probando para los verbos
+                $posdetalleTiempoG= array("0","0");
+
+                if( trim($post)!='' and $post*1>=0 ){
+                    $detalleTiempoG=explode( ",", $verboG[$post] );
+                    
+                    if( $theadArea[$i]=="0" ){
+                        $posdetalleTiempoG= explode( "|", $tbodyArea[$i] );
+                    }
+
+                    $dtg="";
+
+                    if( isset($detalleTiempoG[ $posdetalleTiempoG[1] ]) and trim($detalleTiempoG[ $posdetalleTiempoG[1] ])!=''){
+                        $dtg=explode( "_", $detalleTiempoG[ $posdetalleTiempoG[1] ] );
+                        //if( trim($dtg[1])!='' ){
+                            $detdtg=explode("|",$dtg[1]);
+                            $detdtg2=explode("|",$dtg[2]);
+                            $detdtg3=explode("|",$dtg[3]);
+                            $detdtg4=explode("|",$dtg[4]);
+                            $detdtg5=explode("|",$dtg[5]);
+                            $detdtg6=explode("|",$dtg[6]);
+
+                            for($j=0;$j<count($detdtg);$j++){
+                                $rutaFlujoDetalleVerbo="";
+                                
+                                $rutaFlujoDetalleVerbo= new RutaFlujoDetalleVerbo;
+                                $rutaFlujoDetalleVerbo['usuario_created_at']= Auth::user()->id;
+                                $rutaFlujoDetalleVerbo['ruta_flujo_detalle_id']= $rutaFlujoDetalle->id;
+                                $rutaFlujoDetalleVerbo['nombre']=$detdtg[$j];
+                                $rutaFlujoDetalleVerbo['condicion']=$detdtg2[$j];
+                                if($detdtg3[$j]!=''){
+                                $rutaFlujoDetalleVerbo['rol_id']=$detdtg3[$j];
+                                }
+
+                                if($detdtg4[$j]!=''){
+                                $rutaFlujoDetalleVerbo['verbo_id']=$detdtg4[$j];
+                                }
+
+                                if($detdtg5[$j]!=''){
+                                $rutaFlujoDetalleVerbo['documento_id']=$detdtg5[$j];
+                                }
+
+                                if($detdtg6[$j]!=''){
+                                $rutaFlujoDetalleVerbo['orden']=$detdtg6[$j];
+                                }
+
+                                $rutaFlujoDetalleVerbo->save();
+                            }
+                        //}
+                    }
+
+                }
+
+                //DB::rollback();
+            }
+            
         }
 
         if( $iniciara!="" ){
