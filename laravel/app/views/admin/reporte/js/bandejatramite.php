@@ -31,7 +31,8 @@ desactivar=function(id,ruta_detalle_id,td){//establecer como no visto
 };
 mostrarModal=function(id,ruta_detalle_id){//establecer como no visto
     //mostrar modal
-    $('#usuarios_vieron_tramite').modal('show');
+    Bandeja.MostrarUsuarios(ruta_detalle_id);
+    //$('#usuarios_vieron_tramite').modal('show');
 };
 
 detalle=function(id,ruta_detalle_id, tr){

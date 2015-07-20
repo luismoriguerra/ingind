@@ -2,6 +2,22 @@
 class VisualizacionTramite extends Eloquent
 {
     public $table="visualizacion_tramite";
+
+    public static function usuarios_visualizacion( $rutaDetalleId)
+    {
+        $query=" SELECT CONCAT(p.paterno,' ',p.materno,' ',p.nombre) AS persona,
+                vt.`created_at` AS fecha, tv.nombre AS estado
+                 FROM `rutas_detalle` rd
+                JOIN `visualizacion_tramite` vt
+                ON rd.id=vt.`ruta_detalle_id`
+                JOIN `tipo_visualizacion` tv
+                ON vt.tipo_visualizacion_id=tv.`id`
+                JOIN personas p
+                ON vt.`usuario_created_at`=p.id
+                WHERE rd.`id`='$rutaDetalleId'
+                ORDER BY vt.`created_at` DESC";
+        return DB::select($query);
+    }
     public static function BandejaTramites( $input)
     {
         if ($input) {
@@ -10,7 +26,7 @@ class VisualizacionTramite extends Eloquent
             $where='';
         }
         $personaId=Auth::user()->id;
-        $query="SELECT 
+        $query="SELECT
                 IFNULL(tr.id_union,'') AS id_union,
                 IFNULL(rd.id,'') AS ruta_detalle_id,
                 IFNULL( CONCAT(t.apocope,': ',rd.dtiempo),'') AS tiempo,
@@ -31,7 +47,7 @@ class VisualizacionTramite extends Eloquent
                 IFNULL(rd.alerta,'') AS alerta,
                 IFNULL(rd.condicion,'') AS condicion,
                 IFNULL(rd.estado_ruta,'') AS estado_ruta,
-                IFNULL(tv.id,'2') AS id, 
+                IFNULL(tv.id,'2') AS id,
                 IFNULL(tv.nombre,'') AS tipo_estado_visual,
                 IFNULL(tv.estado,'') AS estado_visual,
                 IFNULL(
@@ -42,18 +58,18 @@ class VisualizacionTramite extends Eloquent
                 IFNULL(tr.ruc,'') AS ruc,
                 IFNULL(tr.sumilla,'') AS sumilla
 
-                FROM rutas_detalle rd 
+                FROM rutas_detalle rd
                 JOIN rutas r ON rd.ruta_id=r.id
                 JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id
                 JOIN flujos f ON r.flujo_id=f.id
                 LEFT JOIN tiempos t ON rd.tiempo_id=t.id
                 LEFT JOIN tipos_respuesta rsp ON rd.tipo_respuesta_id=rsp.id
-                LEFT JOIN tipos_respuesta_detalle rspd 
+                LEFT JOIN tipos_respuesta_detalle rspd
                         ON rd.tipo_respuesta_detalle_id=rspd.id
                 LEFT JOIN tipo_solicitante ts ON tr.tipo_persona=ts.id
                 LEFT JOIN visualizacion_tramite vt ON rd.id=vt.ruta_detalle_id
                         AND vt.usuario_created_at='$personaId'
-                LEFT JOIN tipo_visualizacion tv 
+                LEFT JOIN tipo_visualizacion tv
                         ON vt.tipo_visualizacion_id=tv.id
                 LEFT JOIN ( SELECT MAX(vt2.id) AS id
                              FROM visualizacion_tramite vt2
@@ -69,7 +85,7 @@ class VisualizacionTramite extends Eloquent
                     SELECT a.id
                     FROM area_cargo_persona acp
                     INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
-                    INNER JOIN cargo_persona cp 
+                    INNER JOIN cargo_persona cp
                             ON cp.id=acp.cargo_persona_id AND cp.estado=1
                     WHERE acp.estado=1
                     AND cp.persona_id= '$personaId'
