@@ -15,6 +15,7 @@ var posicionDetalleVerboG=0;
 var fechaAux="";
 $(document).ready(function() {
     //$("[data-toggle='offcanvas']").click();
+    $("#form_validar").attr("onkeyup","return enterGlobal(event,'btn_buscar')");
     $("#btn_close2").click(Close);
     $("#btn_guardar_tiempo,#btn_guardar_verbo").remove();
     var data = {estado:1,usuario:1};
@@ -35,7 +36,7 @@ $(document).ready(function() {
     $("#btn_guardar_todo").click(guardarTodo);
     $("#btn_buscar").click(buscar);
     hora();
-
+    
     $('#rutaModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
       var text = $.trim( button.data('text') );

@@ -14,6 +14,7 @@ var posicionDetalleVerboG=0;
 var fechaAux="";
 $(document).ready(function() {
     //$("[data-toggle='offcanvas']").click();
+    $("#form_validar").attr("onkeyup","return enterGlobal(event,'btn_buscar')");
     $("#btn_close2").click(Close);
     $("#btn_adicionar_ruta_detalle").click(adicionarRutaDetalle);
     $("#btn_guardar_tiempo").click(guardarTiempo);
@@ -245,7 +246,7 @@ guardarVerbo=function(){
 
     for(var i=0; i<tiempoG[tid].length; i++){
         detalle=verboG[tid][i].split("_");
-        verboaux="";verboaux2="";verboaux3="";verboaux4="";verboaux5="";
+        verboaux="";verboaux2="";verboaux3="";verboaux4="";verboaux5="";verboaux6="";
         alerta=false;
         alertap=false;
 
