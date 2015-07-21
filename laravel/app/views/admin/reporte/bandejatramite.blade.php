@@ -125,7 +125,7 @@
                     <form name="form_ruta_detalle" id="form_ruta_detalle" method="POST" action="">
                         <div class="row form-group" id="reporte_detalle" style="display:none;">
                             <div class="col-sm-12">
-                                <h1><span id="txt_titulo2">Gestionar</span>
+                                <h1><span id="txt_titulo2">Detalle</span>
                                 <small>
                                     <i class="fa fa-angle-double-right fa-lg"></i>
                                     <span id="texto_fecha_creacion2">:</span>
@@ -173,36 +173,34 @@
                                     <label class="control-label">Tiempo asignado al paso:</label>
                                     <input type="text" class="form-control" id="txt_tiempo" readonly>
                                 </div>
-                                <div class="col-sm-3">
+                                <!--div class="col-sm-3">
                                     <label class="control-label">Tiempo Final:</label>
                                     <input type="text" class="form-control" id="txt_respuesta" name="txt_respuesta" readonly>
-                                </div>
+                                </div-->
                             </div>
                             <div class="col-sm-12">
-                                <div class="col-sm-3">
-                                    <table class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th style="text-align:center" rowspan="2">Nro</th>
-                                                <th style="text-align:center" rowspan="2">¿Es Condicional?</th>
-                                                <th style="text-align:center" rowspan="2">Rol que Realiza</th>
-                                                <th style="text-align:center" colspan="3">Acciones a Realizar</th>
-                                                <th style="text-align:center" colspan="2">Acciones Realizadas</th>
-                                                <th style="text-align:center" rowspan="2">Persona</th>
-                                                <th style="text-align:center" rowspan="2">Fecha]</th>
-                                            </tr>
-                                            <tr>
-                                                <th style="text-align:center">Verbo</th>
-                                                <th style="text-align:center">Tipo Documento</th>
-                                                <th style="text-align:center">Descripcion</th>
-                                                <th style="text-align:center">Documento Generado</th>
-                                                <th style="text-align:center">Observaciones</th>
-                                                <!--th style="text-align:center">Adjuntar Doc. Generado</th-->
-                                            </tr>
-                                        </thead>
-                                        <tbody id="t_detalle_verbo"></tbody>
-                                    </table>
-                                </div>
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align:center" rowspan="2">Nro</th>
+                                            <th style="text-align:center;width:60px !important;" rowspan="2">¿cond- icional?</th>
+                                            <th style="text-align:center" rowspan="2">Rol que Realiza</th>
+                                            <th style="text-align:center" colspan="3">Acciones a Realizar</th>
+                                            <th style="text-align:center" colspan="2">Acciones Realizadas</th>
+                                            <th style="text-align:center;width:150px !important;" rowspan="2">Persona</th>
+                                            <th style="text-align:center" rowspan="2">Fecha</th>
+                                        </tr>
+                                        <tr>
+                                            <th style="text-align:center">Verbo</th>
+                                            <th style="text-align:center">Tipo Documento</th>
+                                            <th style="text-align:center;width:250px !important;">Descripcion</th>
+                                            <th style="text-align:center">Documento Generado</th>
+                                            <th style="text-align:center">Observaciones</th>
+                                            <!--th style="text-align:center">Adjuntar Doc. Generado</th-->
+                                        </tr>
+                                    </thead>
+                                    <tbody id="t_detalle_verbo"></tbody>
+                                </table>
                             </div>
                         </div>
                     </form>

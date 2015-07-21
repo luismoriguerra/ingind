@@ -14,13 +14,10 @@ CREATE TABLE `visualizacion_tramite`(
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `ruta_detalle_id` INT NULL,
   `tipo_visualizacion_id` INT,
+  `estado` INT NULL,
   `created_at` DATETIME,
   `updated_at` DATETIME,
   `usuario_created_at` INT,
   `usuario_updated_at` INT,
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
-
-
-ALTER TABLE `visualizacion_tramite`   
-  ADD COLUMN `estado` INT NULL AFTER `tipo_visualizacion_id`;
