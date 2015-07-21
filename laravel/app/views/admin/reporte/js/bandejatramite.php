@@ -132,6 +132,11 @@ HTMLreporteDetalle=function(datos){
                 orden = detalle[i].split("=>")[9];
                 archivo="";
                 denegar=false;
+                persona=detalle[i].split("=>")[10];
+                fecha='';
+                if (persona!='') {
+                    fecha=detalle[i].split("=>")[11];
+                }
                 html+=  "<tr>"+
                             "<td>"+orden+"</td>"+
                             "<td>"+detalle[i].split("=>")[3]+"</td>"+
@@ -142,7 +147,8 @@ HTMLreporteDetalle=function(datos){
                             "<td id='td_"+detalle[i].split("=>")[0]+"'>"+imagenadd+"</td>"+
                             "<td>"+obs+"</td>"+
                             //"<td>"+archivo+"</td>"+
-                            "<td>"+imagen+"</td>"+
+                            "<td>"+persona+"</td>"+
+                            "<td>"+fecha+"</td>"+
                         "</tr>";
             }
             $("#t_detalle_verbo").html(html);

@@ -72,7 +72,11 @@ class RutaDetalle extends Eloquent
                     "=>",
                     IFNULL(do.nombre,""),
                     "=>",
-                    rdv.orden
+                    rdv.orden,
+                    "=>",
+                    IFNULL(concat(p.paterno," ",p.materno,", ",p.nombre),""),
+                    "=>",
+                    IFNULL(rdv.updated_at,"")
                 )
             SEPARATOR "|"),"") AS verbo,
             IFNULL(GROUP_CONCAT(

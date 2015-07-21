@@ -1,4 +1,4 @@
-CREATE TABLE `ingind`.`tipo_visualizacion`(  
+CREATE TABLE `tipo_visualizacion`(  
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(50),
   `estado` INT,
@@ -10,9 +10,9 @@ CREATE TABLE `ingind`.`tipo_visualizacion`(
 ) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
-CREATE TABLE `ingind`.`visualizacion_tramite`(  
+CREATE TABLE `visualizacion_tramite`(  
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `ruta_detalle_id` INT NULL;
+  `ruta_detalle_id` INT NULL,
   `tipo_visualizacion_id` INT,
   `created_at` DATETIME,
   `updated_at` DATETIME,
@@ -22,5 +22,5 @@ CREATE TABLE `ingind`.`visualizacion_tramite`(
 ) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
-ALTER TABLE `ingind`.`visualizacion_tramite`   
+ALTER TABLE `visualizacion_tramite`   
   ADD COLUMN `estado` INT NULL AFTER `tipo_visualizacion_id`;

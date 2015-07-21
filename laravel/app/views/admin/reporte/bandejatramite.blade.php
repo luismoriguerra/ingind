@@ -122,60 +122,90 @@
                             </div><!-- /.table-responsive -->
                         </div>
                     </div>
-                    <div class="row form-group" id="reporte_detalle" style="display:none;">
-                        <div class="col-sm-12">
-                            <div class="col-sm-3">
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th style="text-align:center" rowspan="2">Nro</th>
-                                            <th style="text-align:center" rowspan="2">¿Es Condicional?</th>
-                                            <th style="text-align:center" rowspan="2">Rol que Realiza</th>
-                                            <th style="text-align:center" colspan="3">Acciones a Realizar</th>
-                                            <th style="text-align:center" colspan="2">Acciones Realizadas</th>
-                                            <th style="text-align:center" rowspan="2">[-]</th>
-                                        </tr>
-                                        <tr>
-                                            <th style="text-align:center">Verbo</th>
-                                            <th style="text-align:center">Tipo Documento</th>
-                                            <th style="text-align:center">Descripcion</th>
-                                            <th style="text-align:center">Documento Generado</th>
-                                            <th style="text-align:center">Observaciones</th>
-                                            <!--th style="text-align:center">Adjuntar Doc. Generado</th-->
-                                        </tr>
-                                    </thead>
-                                    <tbody id="t_detalle_verbo"></tbody>
-                                </table>
+                    <form name="form_ruta_detalle" id="form_ruta_detalle" method="POST" action="">
+                        <div class="row form-group" id="reporte_detalle" style="display:none;">
+                            <div class="col-sm-12">
+                                <h1><span id="txt_titulo2">Gestionar</span>
+                                <small>
+                                    <i class="fa fa-angle-double-right fa-lg"></i>
+                                    <span id="texto_fecha_creacion2">:</span>
+                                </small>
+                                </h1>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="col-sm-2">
+                                    <label class="control-label">Nro Trámite:</label>
+                                    <input type="text" class="form-control" id="txt_id_doc" readonly>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label">Solicitante:</label>
+                                    <input type="text" class="form-control" id="txt_solicitante" readonly>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="control-label">Fecha Trámite:</label>
+                                    <input type="text" class="form-control" id="txt_fecha_tramite" readonly>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label">Sumilla:</label>
+                                    <textarea type="text" class="form-control" id="txt_sumilla" readonly></textarea>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="col-sm-2">
+                                    <label class="control-label">Proceso:</label>
+                                    <input type="text" class="form-control" id="txt_flujo" readonly>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="control-label">Area:</label>
+                                    <input type="text" class="form-control" id="txt_area" readonly>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="control-label">Paso:</label>
+                                    <input type="text" class="form-control" id="txt_orden" readonly>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="control-label">Fecha Inicio:</label>
+                                    <input type="text" class="form-control" id="txt_fecha_inicio" readonly>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Tiempo asignado al paso:</label>
+                                    <input type="text" class="form-control" id="txt_tiempo" readonly>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="control-label">Tiempo Final:</label>
+                                    <input type="text" class="form-control" id="txt_respuesta" name="txt_respuesta" readonly>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="col-sm-3">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align:center" rowspan="2">Nro</th>
+                                                <th style="text-align:center" rowspan="2">¿Es Condicional?</th>
+                                                <th style="text-align:center" rowspan="2">Rol que Realiza</th>
+                                                <th style="text-align:center" colspan="3">Acciones a Realizar</th>
+                                                <th style="text-align:center" colspan="2">Acciones Realizadas</th>
+                                                <th style="text-align:center" rowspan="2">Persona</th>
+                                                <th style="text-align:center" rowspan="2">Fecha]</th>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align:center">Verbo</th>
+                                                <th style="text-align:center">Tipo Documento</th>
+                                                <th style="text-align:center">Descripcion</th>
+                                                <th style="text-align:center">Documento Generado</th>
+                                                <th style="text-align:center">Observaciones</th>
+                                                <!--th style="text-align:center">Adjuntar Doc. Generado</th-->
+                                            </tr>
+                                        </thead>
+                                        <tbody id="t_detalle_verbo"></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- <div class="row form-group" id="reporte_detalle" style="display:none;">
-                        <div class="col-sm-12">
-                            <div class="box-body table-responsive">
-                                <table id="t_reporteDetalle" class="table table-mailbox">
-                                    <thead>
-                                        <tr>
-                                            <th>Tramite</th>
-                                            <th>Tipo Sol.</th>
-                                            <th>Solicitante</th>
-                                            <th>Sumilla</th>
-                                            <th>Estado</th>
-                                            <th>N° paso actual</th>
-                                            <th>área actual</th>
-                                            <th>Fecha Inicio</th>
-                                            <th>Fecha Fin</th>
-                                            <th>Pasos Sin alertas</th>
-                                            <th>Pasos Con alertas</th>
-                                            <th>Pasos Alertas validadas</th>
-                                            <th> [ ] </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tb_reporteDetalle">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div> -->
+                    </form>
                 </div><!-- /.col (RIGHT) -->
             </div>
             <!-- Finaliza contenido -->
