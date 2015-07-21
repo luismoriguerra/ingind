@@ -86,10 +86,11 @@ HTMLreporte=function(datos){
         //html+="<td>"+estado+"</td>";
         html+="</tr>";
     });
+    $('#t_reporte').dataTable().fnDestroy();
     $("#tb_reporte").html(html);
     $("#reporte").show();
     activarTabla();
-    $('[data-toggle="tooltip"]').tooltip();
+    //$('[data-toggle="tooltip"]').tooltip();
 };
 HTMLreporteDetalle=function(datos){
 
