@@ -18,7 +18,7 @@
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Vista de estados de los trámites por área
+            Vista de avances realizados
             <small> </small>
         </h1>
         <ol class="breadcrumb">
