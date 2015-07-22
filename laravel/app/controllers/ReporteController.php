@@ -618,4 +618,52 @@ class ReporteController extends BaseController
             )
         );
     }
+
+    public function postAcciones()
+    {
+        $fecha = Input::get('fecha');
+        list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+        $areaId=implode('","',Input::get('area_id'));
+        $estadoF=implode(",",Input::get('estado_id'));
+
+        $query='SELECT rd.id,a.nombre area,a2.nombre areapaso,CONCAT_WS(" ",p.paterno,p.materno,p.nombre) persona,f.nombre proceso,
+                IF(r.estado=1,"Producción",
+                  "Pendiente" 
+                ) estado,rd.norden,
+                CONCAT(count(rd.id),"/",
+                  IFNULL(
+                    (
+                    SELECT count(rdv2.id)
+                    FROM rutas_flujo_detalle_verbo rdv2
+                    WHERE rdv2.estado=1
+                    AND rdv2.ruta_flujo_detalle_id=rd.id
+                    GROUP BY rdv2.created_at
+                    ORDER BY rdv2.created_at DESC
+                    LIMIT 1,1
+                    ),"0"
+                  )
+                ) nverbos,max(rdv.created_at) fecha
+
+                FROM rutas_flujo r
+                INNER JOIN rutas_flujo_detalle rd ON r.id=rd.ruta_flujo_id AND rd.estado=1
+                INNER JOIN rutas_flujo_detalle_verbo rdv ON rd.id=rdv.ruta_flujo_detalle_id AND rdv.estado=1
+                INNER JOIN personas p ON p.id=r.persona_id
+                INNER JOIN flujos f ON f.id=r.flujo_id
+                INNER JOIN areas a ON a.id=r.area_id
+                INNER JOIN areas a2 ON a2.id=rd.area_id
+                WHERE r.area_id IN ("'.$areaId.'") 
+                AND r.estado IN ('.$estadoF.')
+                AND date(rdv.created_at) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'"
+                GROUP BY rd.id
+                ORDER BY r.id,rd.norden';
+                
+        $result= DB::Select($query);
+        //echo $query;
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$result
+            )
+        );
+    }
 }
