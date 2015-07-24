@@ -666,4 +666,37 @@ class ReporteController extends BaseController
             )
         );
     }
+
+    public function postDocumentos()
+    {
+        $fecha = Input::get('fecha');
+        list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+        $areaId=implode('","',Input::get('area_id'));
+
+        $query='SELECT rdv.id,a.nombre area, f.nombre proceso, ts.nombre tipo_solicitante,
+                t.id_union tramite, d.nombre tipo_documento, rdv.documento
+                FROM rutas r
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1
+                INNER JOIN rutas_detalle_verbo rdv ON rdv.ruta_detalle_id=rd.id AND rdv.estado=1
+                INNER JOIN documentos d ON rdv.documento_id=d.id 
+                INNER JOIN areas a ON rd.area_id=a.id
+                INNER JOIN flujos f ON r.flujo_id=f.id
+                INNER JOIN tablas_relacion t ON r.tabla_relacion_id=t.id
+                INNER JOIN areas a2 ON t.area_id=a2.id
+                INNER JOIN tipo_solicitante ts ON t.tipo_persona=ts.id
+                WHERE rdv.documento IS NOT NULL
+                AND rdv.verbo_id=1
+                AND rdv.finalizo=1
+                AND rd.area_id IN ("'.$areaId.'") 
+                AND date(rdv.updated_at) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
+                
+        $result= DB::Select($query);
+        //echo $query;
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$result
+            )
+        );
+    }
 }
