@@ -140,13 +140,19 @@ class ReporteController extends BaseController
                       DATE_ADD('$fechaFin',INTERVAL 1 DAY) AND r.flujo_id=?";
 */
         $query ="SELECT tr.id_union AS tramite, r.id, 
-                IF(tipo_persona='1','Natural',
-                  IF(tipo_persona='2','Juridica',
-                    IF(tipo_persona='3','Interna','Organización') )
-                  ) AS tipo_persona,
-                IF(tipo_persona='1',
-                   CONCAT(tr.paterno,' ',tr.materno,' ',tr.nombre),
-                  razon_social) AS persona,
+                ts.nombre AS tipo_persona,
+                IF(tr.tipo_persona=1 or tr.tipo_persona=6,
+                    CONCAT(tr.paterno,' ',tr.materno,', ',tr.nombre),
+                    IF(tr.tipo_persona=2,
+                        CONCAT(tr.razon_social,' | RUC:',tr.ruc),
+                        IF(tr.tipo_persona=3,
+                            a.nombre,
+                            IF(tr.tipo_persona=4 or tr.tipo_persona=5,
+                                tr.razon_social,''
+                            )
+                        )
+                    )
+                ) AS persona,
                   IFNULL(tr.sumilla,'') as sumilla,
                   IF(
                      (SELECT COUNT(rd.id)
@@ -200,9 +206,10 @@ class ReporteController extends BaseController
                   WHERE r.id=rd.ruta_id 
                   AND alerta=2) AS 'corregido'
                 FROM tablas_relacion tr 
-                JOIN rutas r ON tr.id=r.tabla_relacion_id
+                JOIN rutas r ON tr.id=r.tabla_relacion_id and r.estado=1
+                inner join tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
+                LEFT JOIN areas a ON a.id=tr.area_id
                 WHERE r.ruta_flujo_id='".$rutaFlujoId."'
-                AND r.estado=1
                 AND tr.estado=1";
 
         $table=DB::select($query);
@@ -410,15 +417,19 @@ class ReporteController extends BaseController
         $rutaFlujoId=Input::get('ruta_flujo_id');
         //recibir los parametros y enviarlos al modelo, ahi ejecutar el query
         $query ="SELECT tr.id_union AS tramite, r.id, 
-                IF(tipo_persona='1','natural',
-                  IF(tipo_persona='2','juridica','interna')
-                  ) AS tipo_persona,
-                IF(tipo_persona='1',
-                   CONCAT(
-                    IFNULL(tr.paterno,''),' ',
-                    IFNULL(tr.materno,''),' ',
-                    IFNULL(tr.nombre,'')),
-                  razon_social) AS persona,
+                ts.nombre AS tipo_persona,
+                IF(tr.tipo_persona=1 or tr.tipo_persona=6,
+                    CONCAT(tr.paterno,' ',tr.materno,', ',tr.nombre),
+                    IF(tr.tipo_persona=2,
+                        CONCAT(tr.razon_social,' | RUC:',tr.ruc),
+                        IF(tr.tipo_persona=3,
+                            a.nombre,
+                            IF(tr.tipo_persona=4 or tr.tipo_persona=5,
+                                tr.razon_social,''
+                            )
+                        )
+                    )
+                ) AS persona,
                   IFNULL(tr.sumilla,'') as sumilla,
                   IF(
                      (SELECT COUNT(rd.id)
@@ -460,6 +471,8 @@ class ReporteController extends BaseController
                 (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND estado=1 AND alerta=2) AS 'corregido'
                 FROM tablas_relacion tr 
                 JOIN rutas r ON tr.id=r.tabla_relacion_id
+                inner join tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
+                LEFT JOIN areas a ON a.id=tr.area_id
                 WHERE r.ruta_flujo_id=? AND tr.estado=1
                 AND r.estado=1 ";
         return Response::json(
@@ -698,5 +711,128 @@ class ReporteController extends BaseController
                 'datos'=>$result
             )
         );
+    }
+
+    public function postExpediente()
+    {
+        $fecha = Input::get('fecha');
+        list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+
+        $query ="SELECT tr.id_union AS tramite, r.id, 
+                ts.nombre AS tipo_persona,
+                IF(tr.tipo_persona=1 or tr.tipo_persona=6,
+                    CONCAT(tr.paterno,' ',tr.materno,', ',tr.nombre),
+                    IF(tr.tipo_persona=2,
+                        CONCAT(tr.razon_social,' | RUC:',tr.ruc),
+                        IF(tr.tipo_persona=3,
+                            a.nombre,
+                            IF(tr.tipo_persona=4 or tr.tipo_persona=5,
+                                tr.razon_social,''
+                            )
+                        )
+                    )
+                ) AS persona,
+                  IFNULL(tr.sumilla,'') as sumilla,
+                  IF(
+                     (SELECT COUNT(rd.id)
+                        FROM rutas_detalle rd
+                        WHERE rd.ruta_id=r.id
+                              AND rd.alerta=1
+                            ),'Trunco',
+                        IF(
+                            (SELECT COUNT(norden)
+                             FROM rutas_detalle rd 
+                             WHERE rd.ruta_id=r.id
+                             AND rd.fecha_inicio IS NOT NULL
+                             AND rd.dtiempo_final IS NULL
+                             AND rd.estado=1 
+                            ),'Inconcluso','Concluido'
+                        )
+                    ) AS estado,
+                    IFNULL((SELECT concat(  min(norden),' (',a.nombre,')'  )
+                             FROM rutas_detalle rd 
+                             JOIN areas a ON rd.area_id=a.id
+                             WHERE rd.ruta_id=r.id
+                             AND rd.dtiempo_final IS NULL
+                             AND rd.estado=1 
+                             ORDER BY norden LIMIT 1),'' 
+                    ) AS ultimo_paso_area,
+                    IFNULL((SELECT a.nombre
+                             FROM rutas_detalle rd 
+                             JOIN areas a ON rd.area_id=a.id
+                             WHERE rd.ruta_id=r.id
+                             AND rd.dtiempo_final IS NULL
+                             AND rd.estado=1 
+                             ORDER BY norden LIMIT 1),'' 
+                    ) AS ultima_area,
+                    (SELECT count(norden)
+                       FROM rutas_detalle rd 
+                       WHERE rd.ruta_id=r.id
+                       AND rd.estado=1 
+                       ) AS total_pasos,
+                IFNULL(tr.fecha_tramite,'') AS fecha_tramite, '' AS fecha_fin,
+                IFNULL(r.fecha_inicio,'') AS fecha_inicio,
+                (SELECT COUNT(alerta) 
+                  FROM rutas_detalle rd 
+                  WHERE r.id=rd.ruta_id 
+                  AND alerta=0) AS 'ok',
+                (SELECT COUNT(alerta) 
+                  FROM rutas_detalle rd 
+                  WHERE r.id=rd.ruta_id 
+                  AND alerta=1) AS 'errorr',
+                (SELECT COUNT(alerta) 
+                  FROM rutas_detalle rd 
+                  WHERE r.id=rd.ruta_id 
+                  AND alerta=2) AS 'corregido'
+                FROM tablas_relacion tr 
+                JOIN rutas r ON tr.id=r.tabla_relacion_id and r.estado=1
+                INNER JOIN tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
+                LEFT JOIN areas a ON a.id=tr.area_id
+                WHERE tr.estado=1
+                AND DATE(r.fecha_inicio) BETWEEN '".$fechaIni."' and '".$fechaFin."' ";
+
+        $table=DB::select($query);
+
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$table
+            )
+        );
+
+    }
+
+    public function postExpedientedetalle()
+    {
+      $id=Input::get('id');
+
+      $query="SELECT rdv.id,tr.id_union,ts.nombre tipo_solicitante,
+              a2.nombre area_proceso,f.nombre proceso,
+              (SELECT CONCAT(count(DISTINCT(rd2.area_id)),' / ',count(rd2.id)) FROM rutas_detalle rd2 WHERE rd2.ruta_id=r.id GROUP BY rd2.ruta_id)
+             nanp,
+            a2.nombre area_generada,d.nombre tipo_documento,rdv.documento   
+            FROM rutas r
+            inner join rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1
+            inner join rutas_detalle_verbo rdv ON rdv.ruta_detalle_id=rd.id AND rdv.estado=1
+            inner join documentos d ON d.id=rdv.documento_id
+            inner join areas a2 ON a2.id=r.area_id
+            inner join flujos f ON f.id=r.flujo_id AND f.estado=1
+            inner join tablas_relacion tr ON tr.id=r.tabla_relacion_id
+            inner join tipo_solicitante ts ON ts.id=tr.tipo_persona
+            LEFT JOIN areas a ON a.id=tr.area_id
+            WHERE r.estado=1
+            AND rdv.finalizo=1
+            AND rdv.verbo_id=1
+            AND r.id='".$id."' ";
+
+      $table=DB::select($query);
+
+      return Response::json(
+          array(
+              'rst'=>1,
+              'datos'=>$table
+          )
+      );
+
     }
 }
