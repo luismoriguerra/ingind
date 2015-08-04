@@ -104,7 +104,7 @@
                                             <th>Tramite</th>
                                             <th>Tiempo</th>
                                             <th>Fecha Inicio</th>
-                                            <th>Orden</th>
+                                            <th>Paso</th>
                                             <th>Fecha tramite</th>
                                             <th>Nombre</th>
                                             <th>Respuesta</th>
