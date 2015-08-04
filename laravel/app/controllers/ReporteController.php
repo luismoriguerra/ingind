@@ -238,6 +238,9 @@ class ReporteController extends BaseController
                     ->join('areas as a', 'rd.area_id', '=', 'a.id')
                     ->join('tiempos as t', 'rd.tiempo_id', '=', 't.id')
                     ->where('ruta_id', array($rutaId))
+                    ->where('r.estado',1)
+                    ->where('rd.estado',1)
+                    ->where('v.estado',1)
                     ->select(
                         'rd.id',
                         'rd.ruta_id',
@@ -700,6 +703,7 @@ class ReporteController extends BaseController
                 WHERE rdv.documento IS NOT NULL
                 AND rdv.verbo_id=1
                 AND rdv.finalizo=1
+                AND r.estado=1
                 AND rd.area_id IN ("'.$areaId.'") 
                 AND date(rdv.updated_at) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
                 
