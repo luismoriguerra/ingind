@@ -664,7 +664,7 @@ class ReporteController extends BaseController
                 INNER JOIN flujos f ON f.id=r.flujo_id
                 INNER JOIN areas a ON a.id=r.area_id
                 INNER JOIN areas a2 ON a2.id=rd.area_id
-                WHERE r.area_id IN ("'.$areaId.'") 
+                WHERE rd.area_id IN ("'.$areaId.'") 
                 AND r.estado IN ('.$estadoF.')
                 AND date(rdv.created_at) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'"
                 GROUP BY rd.id
