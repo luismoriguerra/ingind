@@ -206,7 +206,7 @@ class ReporteController extends BaseController
                   WHERE r.id=rd.ruta_id 
                   AND alerta=2) AS 'corregido'
                 FROM tablas_relacion tr 
-                JOIN rutas r ON tr.id=r.tabla_relacion_id and r.estado=1
+                inner JOIN rutas r ON tr.id=r.tabla_relacion_id and r.estado=1
                 inner join tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
                 LEFT JOIN areas a ON a.id=tr.area_id
                 WHERE r.ruta_flujo_id='".$rutaFlujoId."'
