@@ -698,8 +698,8 @@ class ReporteController extends BaseController
                 INNER JOIN areas a ON rd.area_id=a.id
                 INNER JOIN flujos f ON r.flujo_id=f.id
                 INNER JOIN tablas_relacion t ON r.tabla_relacion_id=t.id
-                INNER JOIN areas a2 ON t.area_id=a2.id
                 INNER JOIN tipo_solicitante ts ON t.tipo_persona=ts.id
+                LEFT JOIN areas a2 ON t.area_id=a2.id
                 WHERE rdv.documento IS NOT NULL
                 AND rdv.verbo_id=1
                 AND rdv.finalizo=1
