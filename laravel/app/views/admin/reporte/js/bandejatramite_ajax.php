@@ -71,16 +71,7 @@ var Bandeja={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                    //$('#t_reporte').dataTable().fnDestroy();
-                    //Bandeja.Mostrar(activarTabla);
-                    //mostrar el detalle
-                    //var data ={ruta_detalle_id:ruta_detalle_id};
-                    //Bandeja.MostrarDetalle(data);
-                    $("#msj").html('<div class="alert alert-dismissable alert-success">'+
-                                        '<i class="fa fa-check"></i>'+
-                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                        '<b>'+obj.msj+'</b>'+
-                                    '</div>');
+                    
                 }
                 else{ 
                     $.each(obj.msj,function(index,datos){

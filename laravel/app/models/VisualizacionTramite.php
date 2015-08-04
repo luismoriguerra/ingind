@@ -59,8 +59,8 @@ class VisualizacionTramite extends Eloquent
                 IFNULL(tr.sumilla,'') AS sumilla
 
                 FROM rutas_detalle rd
-                JOIN rutas r ON rd.ruta_id=r.id
-                JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id
+                JOIN rutas r ON rd.ruta_id=r.id and r.estado=1
+                JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id 
                 JOIN flujos f ON r.flujo_id=f.id
                 LEFT JOIN tiempos t ON rd.tiempo_id=t.id
                 LEFT JOIN tipos_respuesta rsp ON rd.tipo_respuesta_id=rsp.id

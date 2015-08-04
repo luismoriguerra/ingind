@@ -78,7 +78,7 @@ var Validar={
             }
         });
     },
-    guardarValidacion:function(evento){
+    guardarValidacion:function(evento,id){
         var datos=$("#form_ruta_detalle").serialize().split("txt_").join("").split("slct_").join("").split("_modal").join("");
         $.ajax({
             url         : 'ruta_detalle/actualizar',
@@ -92,7 +92,12 @@ var Validar={
             success : function(obj) {
                 if(obj.rst==1){
                     cerrar();
-                    evento();
+                    if(id!=null){
+                        evento(id);
+                    }
+                    else{
+                        evento();
+                    }
                     $("#msj").html('<div class="alert alert-dismissable alert-success">'+
                                         '<i class="fa fa-check"></i>'+
                                         '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
