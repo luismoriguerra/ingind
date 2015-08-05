@@ -575,7 +575,7 @@ guardarTodo=function(){
     }
     else if( alerta==false ){
         if( confirm("Favor de confirmar para actualizar su información") ){
-            if(validacheck==0){
+            if(validacheck==0 || $("#slct_tipo_respuesta").val()!=''){
                 $('#slct_tipo_visualizacion').multiselect('deselectAll');
                 $('#slct_tipo_visualizacion').multiselect('refresh');
                 Validar.guardarValidacion();

@@ -84,12 +84,14 @@ var Validar={
             url         : 'ruta_detalle/actualizar',
             type        : 'POST',
             cache       : false,
+            async       : false,//no ejecuta otro ajax hasta q este termine
             dataType    : 'json',
             data        : datos,
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
             success : function(obj) {
+                $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
                     cerrar();
                     if(id!=null){
@@ -109,7 +111,6 @@ var Validar={
                                         '<b>'+obj.msj+'</b>'+
                                     '</div>');
                 }  
-                $(".overlay,.loading-img").remove();
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
