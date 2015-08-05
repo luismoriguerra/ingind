@@ -95,8 +95,13 @@ var Validar={
                     if(id!=null){
                         evento(id);
                     }
-                    else{
+                    else if(evento!=null){
                         evento();
+                    }
+                    else{
+                        cerrar();
+                        Close();
+                        Bandeja.Mostrar();
                     }
                     $("#msj").html('<div class="alert alert-dismissable alert-success">'+
                                         '<i class="fa fa-check"></i>'+

@@ -81,6 +81,7 @@ class VisualizacionTramite extends Eloquent
                 LEFT JOIN personas p ON vt.usuario_created_at=p.id
                 WHERE  rd.fecha_inicio IS NOT NULL AND rd.dtiempo_final IS NULL
                 AND rd.estado=1
+                AND rd.condicion=0
                 AND rd.area_id IN (
                     SELECT a.id
                     FROM area_cargo_persona acp

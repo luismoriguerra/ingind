@@ -575,7 +575,14 @@ guardarTodo=function(){
     }
     else if( alerta==false ){
         if( confirm("Favor de confirmar para actualizar su información") ){
-            Validar.guardarValidacion(mostrarDetallle,$("#form_ruta_detalle>#ruta_detalle_id").val() );
+            if(validacheck==0){
+                $('#slct_tipo_visualizacion').multiselect('deselectAll');
+                $('#slct_tipo_visualizacion').multiselect('refresh');
+                Validar.guardarValidacion();
+            }
+            else{
+                Validar.guardarValidacion(mostrarDetallle,$("#form_ruta_detalle>#ruta_detalle_id").val() );
+            }
         }
     }
     /*if( $.trim($("#txt_codigo").val())==''){
