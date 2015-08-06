@@ -121,6 +121,7 @@ $(document).ready(function() {
 });
 
 buscar=function(){
+    $("#btn_close2").click();
     if( $("#txt_tramite").val()!="" ){
      var datos={ tramite:$("#txt_tramite").val() };
     $("#tabla_ruta_detalle").css("display","");

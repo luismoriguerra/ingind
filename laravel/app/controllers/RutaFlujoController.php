@@ -514,14 +514,20 @@ class RutaFlujoController extends \BaseController
                                      AND estado=1
                                      ORDER BY norden ";
                         $qdetalleedit= DB::select($sqldetalle);
-
+                        try{
                         $rda=RutaDetalle::find($qdetalleedit[0]->id);
                         $rda['usuario_updated_at']= Auth::user()->id;
-                        $rda['area_id']=$qdetalleedit->area_id;
-                        $rda['tiempo_id']=$qdetalleedit->tiempo_id;
-                        $rda['dtiempo']=$qdetalleedit->dtiempo;
-                        $rda['estado_ruta']=$qdetalleedit->estado_ruta;
+                        $rda['area_id']=$qdetalleedit[0]->area_id;
+                        $rda['tiempo_id']=$qdetalleedit[0]->tiempo_id;
+                        $rda['dtiempo']=$qdetalleedit[0]->dtiempo;
+                        $rda['estado_ruta']=$qdetalleedit[0]->estado_ruta;
                         $rda->save();
+                        }
+                        catch (Exception $e) {
+                            //echo $ruta_id."|".$qrinicialaux[$i]->norden."|".$i."|".$sqldetalle;
+                            DB::rollback();
+                            exit(0);
+                        }
                         //aqui actualizando la data de la ruta actual de tramite
                     }
                     $qinicialverbo="    SELECT nombre,condicion,
@@ -736,7 +742,7 @@ class RutaFlujoController extends \BaseController
 
             $rutaFlujo->save();
 
-            $sqlparaactualizar="SELECT (SELECT count(rf2.id) 
+            /*$sqlparaactualizar="SELECT (SELECT count(rf2.id) 
                                         FROM rutas_flujo rf2 
                                         WHERE rf2.id<=rf.id 
                                         AND rf2.flujo_id=rf.flujo_id 
@@ -746,7 +752,7 @@ class RutaFlujoController extends \BaseController
                                 WHERE rf.id='".$rutaFlujo->id."' ";
             $sqlparaactualizar=DB::select($sqlparaactualizar);
 
-            /*$rff = RutaFlujo::find($sqlparaactualizar[0]->id);
+            $rff = RutaFlujo::find($sqlparaactualizar[0]->id);
             $rff['orden']=$sqlparaactualizar[0]->cant;
             $rff->save();*/
 
