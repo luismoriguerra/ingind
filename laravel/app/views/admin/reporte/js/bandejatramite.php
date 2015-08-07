@@ -553,7 +553,7 @@ guardarTodo=function(){
         $("#form_ruta_detalle").append("<input type='hidden' id='obsg' name='obsg' value='"+obsaux+"'>");
     }
 
-    if( conttotalcheck>0 && contcheck==0 && alerta==false ) {
+    if( $("#slct_tipo_respuesta").val()=='' && conttotalcheck>0 && contcheck==0 && alerta==false ) {
             alert("Seleccione al menos 1 check");
     }
     else if ( $("#slct_tipo_respuesta").val()=='' && validacheck==0 && alerta==false ) {

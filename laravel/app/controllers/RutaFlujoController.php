@@ -606,7 +606,7 @@ class RutaFlujoController extends \BaseController
                                                ->get();
 
                                 $rd= RutaDetalleVerbo::find($qdetalleeditv[0]->id);
-                                $rd['ruta_flujo_detalle_id']= $qdetalleeditv[0]->ruta_detalle_id;
+                                $rd['ruta_detalle_id']= $qdetalleeditv[0]->ruta_detalle_id;
                                 $rd['usuario_updated_at']= Auth::user()->id;
                                 $rd['nombre']=$qrinicialverboaux[$j]->nombre;
                                 $rd['condicion']=$qrinicialverboaux[$j]->condicion;
@@ -669,6 +669,7 @@ class RutaFlujoController extends \BaseController
                 }
                 else{
                     $rd=new RutaDetalle;
+                    $rd['ruta_id']= $ruta_id;
                     $rd['usuario_created_at']= Auth::user()->id;
                     $rd['area_id']=$qrinicialaux[$i]->area_id;
                     $rd['tiempo_id']=$qrinicialaux[$i]->tiempo_id;
@@ -741,6 +742,11 @@ class RutaFlujoController extends \BaseController
             $rutaFlujo['ruta_id_dep']= Input::get('ruta_flujo_id');
 
             $rutaFlujo->save();
+
+            // Actualizamos modelo del flujo
+            $ract = Ruta::find($ruta_id);
+            $ract['ruta_flujo_id']=$rutaFlujo->id;
+            $ract->save();
 
             /*$sqlparaactualizar="SELECT (SELECT count(rf2.id) 
                                         FROM rutas_flujo rf2 
@@ -850,11 +856,10 @@ class RutaFlujoController extends \BaseController
                         //}
                     }
 
-                }
+                }// fin if
 
                 //DB::rollback();
-            }
-            
+            }// fin for
         }
 
         if( $iniciara!="" ){
