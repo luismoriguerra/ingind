@@ -840,7 +840,7 @@ class ReporteController extends BaseController
 
     }
 
-    public function postDocumentos()
+    public function postDocumentoxproceso()
     {
         $fecha = Input::get('fecha');
         list($fechaIni,$fechaFin) = explode(" - ", $fecha);
