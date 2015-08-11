@@ -115,7 +115,7 @@ class RutaDetalleController extends \BaseController
         if ( Request::ajax() ) {
             DB::beginTransaction();
 
-            if( Input::get('verbog') and Input::get('codg') and Input::get('obsg') ){
+            if( Input::get('verbog') OR Input::get('codg') OR Input::get('obsg') ){
             $verbog= explode( "|",Input::get('verbog') );
             $codg= explode( "|",Input::get('codg') );
             $obsg= explode( "|",Input::get('obsg') );
