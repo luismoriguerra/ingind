@@ -17,6 +17,28 @@ Route::get(
 Route::controller('check', 'LoginController');
 
 Route::get(
+    '/email/{email}', function($email){
+        $parametros=array(
+            'email'     => $email
+        );
+
+        try{
+            Mail::send('emails', $parametros , 
+                function($message){
+                $message->to($email,'Administrador')->subject('.::Se ha involucrado en nuevo proceso::.');
+                }
+            );
+
+            echo 'Se realizó con éxito su registro, <strong>valide su email.</strong>';
+        }
+        catch(Exception $e){
+            echo 'No se pudo realizar el envio de Email; Favor de verificar su email e intente nuevamente.');
+        }
+
+    }
+);
+
+Route::get(
     '/{ruta}', array('before' => 'auth', function ($ruta) {
         if (Session::has('accesos')) {
             $accesos = Session::get('accesos');
