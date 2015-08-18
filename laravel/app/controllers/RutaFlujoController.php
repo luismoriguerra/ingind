@@ -130,7 +130,9 @@ class RutaFlujoController extends \BaseController
             DB::beginTransaction();
             $rutaFlujo="";
             $mensajefinal=".::Se registro correctamente::.";
+            $modificap=false;
             if ( Input::get('ruta_flujo_id') ) {
+                $modificap=true;
                 $mensajefinal=".::Actualización finalizada::.";
                 $rutaFlujo = RutaFlujo::find( Input::get('ruta_flujo_id') );
                 $rutaFlujo['usuario_updated_at']= Auth::user()->id;
@@ -158,6 +160,8 @@ class RutaFlujoController extends \BaseController
             $tiempoG= explode( "*", Input::get('tiempoG') );
             $verboG= explode( "*", Input::get('verboG') );
 
+            $modificaG=Input::get('modificaG');
+
             $finalizar= DB::table('rutas_flujo_detalle')
                           ->where('ruta_flujo_id', '=', $rutaFlujo->id)
                           ->where('norden', '>', count($areasGid))
@@ -169,155 +173,158 @@ class RutaFlujoController extends \BaseController
                             );
 
             for($i=0; $i<count($areasGid); $i++ ){
-                $rutaFlujoDetalle="";
-                if ( Input::get('ruta_flujo_id') ) {
-                    $valor= DB::table('rutas_flujo_detalle')
-                            ->where('ruta_flujo_id', '=', $rutaFlujo->id)
-                            ->where('norden', '=', ($i+1))
-                            ->where('area_id', '=', $areasGid[$i] )
-                            ->where('estado', '=', 1)
-                            ->count();
-                    if($valor==0){
-                        $rfd=DB::table('rutas_flujo_detalle')
-                            ->where('ruta_flujo_id', '=', $rutaFlujo->id)
-                            ->where('norden', '=', ($i+1))
-                            ->where('estado', '=', 1)
-                            ->update(array(
-                                        'estado' => 0,
-                                        'usuario_updated_at'=> Auth::user()->id
-                                    )
-                            );
+                $validapase=explode("*".$i."*",$modificaG);
+                if( $modificap==false || ($modificap==true && count($validapase)>1) ){
+                    $rutaFlujoDetalle="";
+                    if ( Input::get('ruta_flujo_id') ) {
+                        $valor= DB::table('rutas_flujo_detalle')
+                                ->where('ruta_flujo_id', '=', $rutaFlujo->id)
+                                ->where('norden', '=', ($i+1))
+                                ->where('area_id', '=', $areasGid[$i] )
+                                ->where('estado', '=', 1)
+                                ->count();
+                        if($valor==0){
+                            $rfd=DB::table('rutas_flujo_detalle')
+                                ->where('ruta_flujo_id', '=', $rutaFlujo->id)
+                                ->where('norden', '=', ($i+1))
+                                ->where('estado', '=', 1)
+                                ->update(array(
+                                            'estado' => 0,
+                                            'usuario_updated_at'=> Auth::user()->id
+                                        )
+                                );
+                            $rutaFlujoDetalle = new RutaFlujoDetalle;
+                            $rutaFlujoDetalle['usuario_created_at']= Auth::user()->id;
+                        }
+                        else{
+                            $rfd=DB::table('rutas_flujo_detalle')
+                                ->where('ruta_flujo_id', '=', $rutaFlujo->id)
+                                ->where('norden', '=', ($i+1))
+                                ->where('estado', '=', 1)
+                                ->first();
+                            $rutaFlujoDetalle = RutaFlujoDetalle::find( $rfd->id );
+                            $rutaFlujoDetalle['usuario_updated_at']= Auth::user()->id;
+                        }
+                        //$rutaFlujoDetalle
+                    }
+                    else{
                         $rutaFlujoDetalle = new RutaFlujoDetalle;
                         $rutaFlujoDetalle['usuario_created_at']= Auth::user()->id;
                     }
-                    else{
-                        $rfd=DB::table('rutas_flujo_detalle')
-                            ->where('ruta_flujo_id', '=', $rutaFlujo->id)
-                            ->where('norden', '=', ($i+1))
-                            ->where('estado', '=', 1)
-                            ->first();
-                        $rutaFlujoDetalle = RutaFlujoDetalle::find( $rfd->id );
-                        $rutaFlujoDetalle['usuario_updated_at']= Auth::user()->id;
-                    }
-                    //$rutaFlujoDetalle
-                }
-                else{
-                    $rutaFlujoDetalle = new RutaFlujoDetalle;
-                    $rutaFlujoDetalle['usuario_created_at']= Auth::user()->id;
-                }
-                $rutaFlujoDetalle['ruta_flujo_id']= $rutaFlujo->id;
-                $rutaFlujoDetalle['area_id']= $areasGid[$i];
-                $rutaFlujoDetalle['estado_ruta']= $estadoG[$i];
-                $rutaFlujoDetalle['norden']= ($i+1);
+                    $rutaFlujoDetalle['ruta_flujo_id']= $rutaFlujo->id;
+                    $rutaFlujoDetalle['area_id']= $areasGid[$i];
+                    $rutaFlujoDetalle['estado_ruta']= $estadoG[$i];
+                    $rutaFlujoDetalle['norden']= ($i+1);
 
-                $post = array_search($areasGid[$i], $tiempoGid);
+                    $post = array_search($areasGid[$i], $tiempoGid);
 
-                $posdetalleTiempoG= array("0","0");
-                // Inicializa valores en caso no tenga datos...
-                $rutaFlujoDetalle['tiempo_id']="1";
-                $rutaFlujoDetalle['dtiempo']="0";
+                    $posdetalleTiempoG= array("0","0");
+                    // Inicializa valores en caso no tenga datos...
+                    $rutaFlujoDetalle['tiempo_id']="1";
+                    $rutaFlujoDetalle['dtiempo']="0";
 
-                if( trim($post)!='' and $post*1>=0 ){
-                    $detalleTiempoG=explode( ",", $tiempoG[$post] );
-                    
-                    if( $theadArea[$i]=="0" ){
-                        $posdetalleTiempoG= explode( "|", $tbodyArea[$i] );
-                    }
-
-                    $dtg="";
-
-                    if( isset($detalleTiempoG[ $posdetalleTiempoG[1] ]) and trim($detalleTiempoG[ $posdetalleTiempoG[1] ])!=''){
-                        $dtg=explode( "_", $detalleTiempoG[ $posdetalleTiempoG[1] ] );
-                        if( trim($dtg[1])!='' ){
-                            $rutaFlujoDetalle['tiempo_id']=$dtg[1];
-                            $rutaFlujoDetalle['dtiempo']=$dtg[2];
-                        }
-                    }
-
-                }
-
-                $rutaFlujoDetalle->save();
-
-                $cantrfd= DB::table('rutas_flujo_detalle_verbo')
-                            ->where('ruta_flujo_detalle_id', '=', $rutaFlujoDetalle->id)
-                            ->count();
-                    $probando="";
-                    $rfdv="";
-                    if($cantrfd>0){
-                        $rfdv=DB::table('rutas_flujo_detalle_verbo')
-                            ->where('ruta_flujo_detalle_id', '=', $rutaFlujoDetalle->id)
-                            ->where('estado', '=', 1)
-                            ->update(array(
-                                        'estado' => 0,
-                                        'usuario_updated_at'=> Auth::user()->id
-                                    )
-                            );
-                       $probando="editar";
+                    if( trim($post)!='' and $post*1>=0 ){
+                        $detalleTiempoG=explode( ",", $tiempoG[$post] );
                         
-                    }
-                    /*return Response::json(
-                        array(
-                            'rst'   => 1,
-                            'msj'   => "Probando Ando",
-                            'datos' => $probando,
-                            'cantrfd' => $cantrfd,
-                            'rfdv' => $rfdv,
-                            'ruta_flujo_id'=>$rutaFlujo->id
-                        )
-                    );*/
+                        if( $theadArea[$i]=="0" ){
+                            $posdetalleTiempoG= explode( "|", $tbodyArea[$i] );
+                        }
 
-                // probando para los verbos
-                $posdetalleTiempoG= array("0","0");
+                        $dtg="";
 
-                if( trim($post)!='' and $post*1>=0 ){
-                    $detalleTiempoG=explode( ",", $verboG[$post] );
-                    
-                    if( $theadArea[$i]=="0" ){
-                        $posdetalleTiempoG= explode( "|", $tbodyArea[$i] );
-                    }
-
-                    $dtg="";
-
-                    if( isset($detalleTiempoG[ $posdetalleTiempoG[1] ]) and trim($detalleTiempoG[ $posdetalleTiempoG[1] ])!=''){
-                        $dtg=explode( "_", $detalleTiempoG[ $posdetalleTiempoG[1] ] );
-                        //if( trim($dtg[1])!='' ){
-                            $detdtg=explode("|",$dtg[1]);
-                            $detdtg2=explode("|",$dtg[2]);
-                            $detdtg3=explode("|",$dtg[3]);
-                            $detdtg4=explode("|",$dtg[4]);
-                            $detdtg5=explode("|",$dtg[5]);
-                            $detdtg6=explode("|",$dtg[6]);
-
-                            for($j=0;$j<count($detdtg);$j++){
-                                $rutaFlujoDetalleVerbo="";
-                                
-                                $rutaFlujoDetalleVerbo= new RutaFlujoDetalleVerbo;
-                                $rutaFlujoDetalleVerbo['usuario_created_at']= Auth::user()->id;
-                                $rutaFlujoDetalleVerbo['ruta_flujo_detalle_id']= $rutaFlujoDetalle->id;
-                                $rutaFlujoDetalleVerbo['nombre']=$detdtg[$j];
-                                $rutaFlujoDetalleVerbo['condicion']=$detdtg2[$j];
-                                if($detdtg3[$j]!=''){
-                                $rutaFlujoDetalleVerbo['rol_id']=$detdtg3[$j];
-                                }
-
-                                if($detdtg4[$j]!=''){
-                                $rutaFlujoDetalleVerbo['verbo_id']=$detdtg4[$j];
-                                }
-
-                                if($detdtg5[$j]!=''){
-                                $rutaFlujoDetalleVerbo['documento_id']=$detdtg5[$j];
-                                }
-
-                                if($detdtg6[$j]!=''){
-                                $rutaFlujoDetalleVerbo['orden']=$detdtg6[$j];
-                                }
-
-                                $rutaFlujoDetalleVerbo->save();
+                        if( isset($detalleTiempoG[ $posdetalleTiempoG[1] ]) and trim($detalleTiempoG[ $posdetalleTiempoG[1] ])!=''){
+                            $dtg=explode( "_", $detalleTiempoG[ $posdetalleTiempoG[1] ] );
+                            if( trim($dtg[1])!='' ){
+                                $rutaFlujoDetalle['tiempo_id']=$dtg[1];
+                                $rutaFlujoDetalle['dtiempo']=$dtg[2];
                             }
-                        //}
+                        }
+
                     }
 
-                }
+                    $rutaFlujoDetalle->save();
+
+                    $cantrfd= DB::table('rutas_flujo_detalle_verbo')
+                                ->where('ruta_flujo_detalle_id', '=', $rutaFlujoDetalle->id)
+                                ->count();
+                        $probando="";
+                        $rfdv="";
+                        if($cantrfd>0){
+                            $rfdv=DB::table('rutas_flujo_detalle_verbo')
+                                ->where('ruta_flujo_detalle_id', '=', $rutaFlujoDetalle->id)
+                                ->where('estado', '=', 1)
+                                ->update(array(
+                                            'estado' => 0,
+                                            'usuario_updated_at'=> Auth::user()->id
+                                        )
+                                );
+                           $probando="editar";
+                            
+                        }
+                        /*return Response::json(
+                            array(
+                                'rst'   => 1,
+                                'msj'   => "Probando Ando",
+                                'datos' => $probando,
+                                'cantrfd' => $cantrfd,
+                                'rfdv' => $rfdv,
+                                'ruta_flujo_id'=>$rutaFlujo->id
+                            )
+                        );*/
+
+                    // probando para los verbos
+                    $posdetalleTiempoG= array("0","0");
+
+                    if( trim($post)!='' and $post*1>=0 ){
+                        $detalleTiempoG=explode( ",", $verboG[$post] );
+                        
+                        if( $theadArea[$i]=="0" ){
+                            $posdetalleTiempoG= explode( "|", $tbodyArea[$i] );
+                        }
+
+                        $dtg="";
+
+                        if( isset($detalleTiempoG[ $posdetalleTiempoG[1] ]) and trim($detalleTiempoG[ $posdetalleTiempoG[1] ])!=''){
+                            $dtg=explode( "_", $detalleTiempoG[ $posdetalleTiempoG[1] ] );
+                            //if( trim($dtg[1])!='' ){
+                                $detdtg=explode("|",$dtg[1]);
+                                $detdtg2=explode("|",$dtg[2]);
+                                $detdtg3=explode("|",$dtg[3]);
+                                $detdtg4=explode("|",$dtg[4]);
+                                $detdtg5=explode("|",$dtg[5]);
+                                $detdtg6=explode("|",$dtg[6]);
+
+                                for($j=0;$j<count($detdtg);$j++){
+                                    $rutaFlujoDetalleVerbo="";
+                                    
+                                    $rutaFlujoDetalleVerbo= new RutaFlujoDetalleVerbo;
+                                    $rutaFlujoDetalleVerbo['usuario_created_at']= Auth::user()->id;
+                                    $rutaFlujoDetalleVerbo['ruta_flujo_detalle_id']= $rutaFlujoDetalle->id;
+                                    $rutaFlujoDetalleVerbo['nombre']=$detdtg[$j];
+                                    $rutaFlujoDetalleVerbo['condicion']=$detdtg2[$j];
+                                    if($detdtg3[$j]!=''){
+                                    $rutaFlujoDetalleVerbo['rol_id']=$detdtg3[$j];
+                                    }
+
+                                    if($detdtg4[$j]!=''){
+                                    $rutaFlujoDetalleVerbo['verbo_id']=$detdtg4[$j];
+                                    }
+
+                                    if($detdtg5[$j]!=''){
+                                    $rutaFlujoDetalleVerbo['documento_id']=$detdtg5[$j];
+                                    }
+
+                                    if($detdtg6[$j]!=''){
+                                    $rutaFlujoDetalleVerbo['orden']=$detdtg6[$j];
+                                    }
+
+                                    $rutaFlujoDetalleVerbo->save();
+                                }
+                            //}
+                        }
+
+                    }
+                }// Fin del if cuando se valida
                 //DB::rollback();
             }
 

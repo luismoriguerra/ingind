@@ -392,7 +392,15 @@ class RutaFlujo extends Eloquent
                                                 SEPARATOR "|"
                                             ),
                                             ""
-                                        ) as verbo '
+                                        ) as verbo, 
+                                        (   SELECT count(acp.id)
+                                            FROM area_cargo_persona acp
+                                            INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                                            INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                            WHERE acp.estado=1
+                                            AND acp.area_id=rfd.area_id
+                                            AND cp.persona_id='.Auth::user()->id.'
+                                        ) as modifica'
                                     )
                             )
                             ->where( 'rf.id','=', Input::get('ruta_flujo_id') )

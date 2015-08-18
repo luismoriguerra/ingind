@@ -13,16 +13,18 @@ var verboG=[];
 var posicionDetalleVerboG=0;
 
 var modificaG=[];
+var permisoG=[];
 
 $(document).ready(function() {
     $("[data-toggle='offcanvas']").click();
     $("#btn_nuevo").click(Nuevo);
     $("#btn_close").click(Close);
     $("#btn_adicionar_ruta_detalle").click(adicionarRutaDetalle);
+    $("#btn_adicionar_ruta_detalle").hide(); // adicionado para no verlo
     $("#btn_guardar_tiempo").click(guardarTiempo);
     $("#btn_guardar_verbo").click(guardarVerbo);
     $("#btn_guardar_todo").click(guardarTodo);
-    Ruta.CargarRuta(HTMLCargarRuta);
+    Ruta.CargarRuta(HTMLCargarRuta,1);
     var data = {estado:1,usuario:1};
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
@@ -125,7 +127,7 @@ guardarTodo=function(){
         alert("Seleccione Area");
     }
     else{
-        Ruta.CrearRuta(HTMLCargarRuta);
+        Ruta.CrearRuta(HTMLCargarRuta,1);
     }
 
 }
@@ -296,6 +298,14 @@ pintarTiempoG=function(tid){
     posicionDetalleVerboG=0; // Inicializando posicion del detalle al pintar
 
     var subdetalle1="";var subdetalle2="";var subdetalle3="";var subdetalle4="";var subdetalle5="";var subdetalle6="";var imagen="";
+    var bloqueado="disabled";
+    $("#btn_guardar_tiempo").hide();
+    $("#btn_guardar_verbo").hide();
+    if(permisoG[tid]>0){
+        bloqueado="";
+        $("#btn_guardar_tiempo").show();
+        $("#btn_guardar_verbo").show();
+    }
 
     for(var i=0;i<tiempoG[tid].length;i++){
         // tiempo //
@@ -304,12 +314,12 @@ pintarTiempoG=function(tid){
         htm=   '<tr>'+
                     '<td>'+(detalle[0]*1+1)+'</td>'+
                     '<td>'+
-                        '<select class="form-control" id="slct_tipo_tiempo_'+detalle[0]+'_modal">'+
+                        '<select class="form-control" id="slct_tipo_tiempo_'+detalle[0]+'_modal" '+bloqueado+'>'+
                             $('#slct_tipo_tiempo_modal').html()+
                         '</select>'+
                     '</td>'+
                     '<td>'+
-                        '<input class="form-control" type="number" id="txt_tiempo_'+detalle[0]+'_modal" value="'+detalle[2]+'">'+
+                        '<input class="form-control" type="number" id="txt_tiempo_'+detalle[0]+'_modal" value="'+detalle[2]+'" '+bloqueado+'>'+
                     '</td>'+
                 '</tr>';
         $("#tb_tiempo").append(htm);
@@ -333,16 +343,16 @@ pintarTiempoG=function(tid){
             posicionDetalleVerboG++;
             imagen="";
             if(subdetalle1.length>1){
-                imagen='<button onclick="eliminaDetalleVerbo('+posicionDetalleVerboG+');" type="button" class="btn btn-danger btn-sm">'+
+                imagen='<button onclick="eliminaDetalleVerbo('+posicionDetalleVerboG+');" type="button" class="btn btn-danger btn-sm" '+bloqueado+'>'+
                           '<i class="fa fa-minus fa-lg"></i>'+
                         '</button>';
             }
             
             if( (j+1)==subdetalle1.length ){
-                imagen='<button onclick="adicionaDetalleVerbo('+detalle2[0]+');" type="button" class="btn btn-success btn-sm">'+
+                imagen='<button onclick="adicionaDetalleVerbo('+detalle2[0]+');" type="button" class="btn btn-success btn-sm" '+bloqueado+'>'+
                           '<i class="fa fa-plus fa-lg"></i>'+
                         '</button>';
-                selectestado='<br><select id="slct_paralelo_'+detalle2[0]+'_modal">'+
+                selectestado='<br><select id="slct_paralelo_'+detalle2[0]+'_modal" '+bloqueado+'>'+
                              '<option value="1">Normal</option>'+
                              '<option value="2">Paralelo</option>'+
                              '</select>';
@@ -351,28 +361,28 @@ pintarTiempoG=function(tid){
             htm=   '<tr id="tr_detalle_verbo_'+posicionDetalleVerboG+'">'+
                         '<td>'+(detalle2[0]*1+1)+selectestado+'</td>'+
                         '<td>'+
-                            '<input type="text" maxlength="3" onkeypress="return validaNumeros(event);" class="form-control txt_orden_'+detalle2[0]+'_modal" placeholder="Ing. Orden" value="'+subdetalle6[j]+'">'+
+                            '<input type="text" maxlength="3" onkeypress="return validaNumeros(event);" class="form-control txt_orden_'+detalle2[0]+'_modal" placeholder="Ing. Orden" value="'+subdetalle6[j]+'" '+bloqueado+'>'+
                         '</td>'+
                         '<td>'+
-                            '<select class="form-control slct_rol_'+detalle2[0]+'_modal">'+
+                            '<select class="form-control slct_rol_'+detalle2[0]+'_modal" '+bloqueado+'>'+
                                 $('#slct_rol_modal').html()+
                             '</select>'+
                         '</td>'+
                         '<td>'+
-                            '<select class="form-control slct_verbo_'+detalle2[0]+'_modal">'+
+                            '<select class="form-control slct_verbo_'+detalle2[0]+'_modal" '+bloqueado+'>'+
                                 $('#slct_verbo_modal').html()+
                             '</select>'+
                         '</td>'+
                         '<td>'+
-                            '<select class="form-control slct_documento_'+detalle2[0]+'_modal">'+
+                            '<select class="form-control slct_documento_'+detalle2[0]+'_modal" '+bloqueado+'>'+
                                 $('#slct_documento_modal').html()+
                             '</select>'+
                         '</td>'+
                         '<td>'+
-                            '<textarea class="form-control txt_verbo_'+detalle2[0]+'_modal" placeholder="Ing. Acción">'+subdetalle1[j]+'</textarea>'+
+                            '<textarea class="form-control txt_verbo_'+detalle2[0]+'_modal" placeholder="Ing. Acción" '+bloqueado+'>'+subdetalle1[j]+'</textarea>'+
                         '</td>'+
                         '<td>'+
-                            '<select class="form-control slct_condicion_'+detalle2[0]+'_modal">'+
+                            '<select class="form-control slct_condicion_'+detalle2[0]+'_modal" '+bloqueado+'>'+
                                 $('#slct_condicion_modal').html()+
                             '</select>'+
                         '</td>'+
@@ -761,21 +771,21 @@ pintarAreasG=function(permiso){
 
     if(permiso!=2){
         $("#btn_guardar_todo").css("display","");
-        $("#slct_area_id_2").multiselect("enable");
+        //$("#slct_area_id_2").multiselect("enable");
     }
 
     for ( var i=0; i<areasG.length; i++ ) {
         click="";
         imagen="";
         clickeli="";
-        if(permiso!=2){
+        /*if(permiso!=2){
             clickeli="<button class='btn btn-danger btn-sm' onclick='EliminarDetalle("+i+");' type='button'>"+
                 "<i class='fa fa-remove fa-sm'></i>"+
             "</button>";
-        }
+        }*/
 
         click=(i+1);
-        if( i==0 && permiso!=2){
+        /*if( i==0 && permiso!=2){
             click="<button class='btn bg-navy btn-sm' type='button'>"+
                             (i+1)+"&nbsp;"+
                         "</button>&nbsp;&nbsp;"
@@ -788,7 +798,7 @@ pintarAreasG=function(permiso){
                             (i+1)+"&nbsp;"+imagen+
                         "</button>&nbsp;&nbsp;";
             }
-        }
+        }*/
 
         htm+=   "<tr id='tr-detalle-"+i+"'>"+
                     "<td>"+
@@ -883,10 +893,6 @@ HTMLCargarRuta=function(datos){
         botton=data.estado;
         if(data.cestado==2){
             imagen='<a onclick="cargarRutaId('+data.id+',1)" class="btn btn-primary btn-sm"><i class="fa fa-edit fa-lg"></i> </a>';
-            botton="<button onclick='ProduccionRutaFlujo("+data.id+")' class='btn btn-success'>"+data.estado+"</button>";
-        }
-        else if(data.cestado==1){
-            imagen='<a onclick="cargarRutaId('+data.id+',2)" class="btn btn-primary btn-sm"><i class="fa fa-edit fa-lg"></i> </a>';
         }
 
     cont++;
@@ -932,6 +938,7 @@ tiempoGId="";  tiempoGId=[]; // id posicion del modal en base a una area.
 tiempoG="";  tiempoG=[];
 verboG="";  verboG=[];
 modificaG="";  modificaG=[];
+permisoG=""; permisoG=[];
 
 posicionDetalleVerboG=0;
 validandoconteo=0;
@@ -944,6 +951,7 @@ validandoconteo=0;
             $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
             $("#txt_persona").val(data.persona);
         }
+        permisoG.push(data.modifica);
         adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta);
     });
     pintarAreasG(permiso);

@@ -1,6 +1,6 @@
 <script type="text/javascript">
 var Ruta={
-    CrearRuta:function(evento){
+    CrearRuta:function(evento,vista){
         //var datos=$("#form_ruta").serialize().split("txt_").join("").split("slct_").join("");
         /*var areasG=[]; // texto area
         var areasGId=[]; // id area
@@ -24,6 +24,7 @@ var Ruta={
                 tiempoGId:tiempoGId.join("*"),
                 tiempoG:tiempoG.join("*"),
                 verboG:verboG.join("*"),
+                modificaG:"*"+modificaG.join("*")+"*",
                 flujo_id:$("#slct_flujo_id").val(),
                 area_id:$("#slct_area_id").val(),
                 ruta_flujo_id: $("#txt_ruta_flujo_id_modal").val(),
@@ -46,7 +47,12 @@ var Ruta={
                     $("#txt_titulo").text("Act. Ruta");
                     $("#texto_fecha_creacion").text("Fecha Actualización:");
                     $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
-                    Ruta.CargarRuta(evento);
+                    if(vista!=null){
+                        Ruta.CargarRuta(evento,vista);
+                    }
+                    else{
+                        Ruta.CargarRuta(evento);
+                    }
                     $("#msj").html('<div class="alert alert-dismissable alert-success">'+
                                         '<i class="fa fa-check"></i>'+
                                         '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
