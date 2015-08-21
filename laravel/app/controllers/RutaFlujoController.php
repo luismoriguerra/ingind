@@ -179,15 +179,19 @@ class RutaFlujoController extends \BaseController
 
             for($i=0; $i<count($areasGid); $i++ ){
                 $validapase=explode("*".$i."*",$modificaG);
-                if( $modificap==false || ($modificap==true && count($validapase)>1) ){ //Validacion solo q actualice o genre cuando sea nuevo o permitido
-                    $rutaFlujoDetalle="";
-                    if ( Input::get('ruta_flujo_id') ) {
-                        $valor= DB::table('rutas_flujo_detalle')
+                $valor=1;
+                if ( Input::get('ruta_flujo_id') ) {
+                    $valor= DB::table('rutas_flujo_detalle')
                                 ->where('ruta_flujo_id', '=', $rutaFlujo->id)
                                 ->where('norden', '=', ($i+1))
                                 ->where('area_id', '=', $areasGid[$i] )
                                 ->where('estado', '=', 1)
                                 ->count();
+                }
+                
+                if( $modificap==false || $valor==0 || ($modificap==true && count($validapase)>1) ){ //Validacion solo q actualice o genre cuando sea nuevo o permitido
+                    $rutaFlujoDetalle="";
+                    if ( Input::get('ruta_flujo_id') ) {
                         if($valor==0){
                             $rfd=DB::table('rutas_flujo_detalle')
                                 ->where('ruta_flujo_id', '=', $rutaFlujo->id)
