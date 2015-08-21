@@ -29,7 +29,7 @@ class LoginController extends BaseController
                         AND p.id=?
                         GROUP BY m.id, o.id
                         ORDER BY m.nombre, o.nombre";
-                $res = DB::select($query, array(Auth::id()));
+                $res = DB::select($query, array(Auth::user()->id));
 
                 $menus = array();
                 $accesos = array();
