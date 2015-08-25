@@ -25,11 +25,11 @@ $(document).ready(function() {
     $("#btn_guardar_verbo").click(guardarVerbo);
     $("#btn_guardar_todo").click(guardarTodo);
     Ruta.CargarRuta(HTMLCargarRuta,1);
-    var data = {estado:1,usuario:1};
+    var data = {estado:1};
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     data = {estado:1};
-    slctGlobal.listarSlct('ruta_detalle','slct_area_id','simple');
+    slctGlobal.listarSlct('area','slct_area_id','simple',ids,data);
     slctGlobal.listarSlct('area','slct_area_id_2','simple',ids,data);
 
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
@@ -301,7 +301,12 @@ pintarTiempoG=function(tid){
     var bloqueado="disabled";
     $("#btn_guardar_tiempo").hide();
     $("#btn_guardar_verbo").hide();
-    if(permisoG[tid]>0){
+
+    /*Validando ingresos*/
+    var idp=$("#form_ruta_tiempo #txt_area_id_modal").val();
+    var positionp=areasGId.indexOf(idp);
+    
+    if(permisoG[positionp]>0){
         bloqueado="";
         $("#btn_guardar_tiempo").show();
         $("#btn_guardar_verbo").show();
