@@ -14,6 +14,20 @@ var posicionDetalleVerboG=0;
 
 var modificaG=[];
 
+var areasGAux=[]; // texto area
+var areasGIdAux=[]; // id area
+var estadoGAux=[]; // normal/paralelo
+var theadAreaAux=[]; // cabecera area
+var tbodyAreaAux=[]; // cuerpo area
+var tfootAreaAux=[]; // pie area
+
+var tiempoGIdAux=[]; // id posicion del modal en base a una area.
+var tiempoGAux=[];
+var verboGAux=[];
+var posicionDetalleVerboGAux=0;
+
+var modificaG=[];
+
 $(document).ready(function() {
     $("[data-toggle='offcanvas']").click();
     $("#btn_nuevo").click(Nuevo);
@@ -33,6 +47,35 @@ $(document).ready(function() {
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
     slctGlobal.listarSlct2('documento','slct_documento_modal',data);
+
+    $('#fecha').daterangepicker({
+        format: 'YYYY-MM-DD',
+        singleDatePicker: false
+    });
+
+    slctGlobal.listarSlct('area','slct_area_id_r','multiple',ids,data);
+    slctGlobalHtml('slct_estado_id','multiple');
+
+    $("#generar").click(function (){
+        area_id = $('#slct_area_id').val();
+        var fecha=$("#fecha").val();
+        estado_id=$("#slct_estado_id").val();
+        if ( fecha!=="") {
+            if ($.trim(area_id)!=='') {
+                if($.trim(estado_id)!=''){
+                data = {area_id:area_id,fecha:fecha,estado_id:estado_id};
+                CumpArea.mostrar(data);
+                }
+                else{
+                    alert("Seleccione Estado");
+                }
+            } else {
+                alert("Seleccione Área");
+            }
+        } else {
+            alert("Seleccione Fecha");
+        }
+    });
 
     $('#rutaModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
@@ -116,6 +159,48 @@ $(document).ready(function() {
     });
     //$("#areasasignacion").DataTable();
 });
+
+HTMLreporte=function(datos){
+    var html="";
+    
+    var alerta_tipo= '';
+    $.each(datos,function(index,data){
+        alerta_tipo = '';
+        
+        if (data.alerta=='Alerta' || data.alerta=='Alerta Validada') {
+            if (data.alerta_tipo==1) {
+                alerta_tipo = 'Tiempo asignado';
+            } else if (data.alerta_tipo==2) {
+                alerta_tipo = 'Tiempo de respuesta';
+            } else if (data.alerta_tipo==3) {
+                alerta_tipo = 'Tiempo aceptado';
+            }
+        }
+        html+="<tr>"+
+            "<td>"+data.proceso+"</td>"+
+            "<td>"+data.duenio+"</td>"+
+            "<td>"+data.area_duenio+"</td>"+
+            "<td>"+data.n_areas+"</td>"+
+            "<td>"+data.n_pasos+"</td>"+
+            "<td>"+data.tiempo+"</td>"+
+            "<td>"+data.fecha_creacion+"</td>";
+
+            if(data.estado_final==1){
+        html+="<td>"+data.fecha_produccion+"</td>";
+        html+="<td>"+data.ntramites+"</td>";
+        html+='<td><a onClick="cargarRutaIdAux('+data.ruta_flujo_id+',2)" class="btn btn-primary btn-sm" data-id="'+data.ruta_flujo_id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
+            }
+            else{
+        html+="<td>&nbsp;</td>";
+        html+="<td>0</td>";
+        html+="<td>&nbsp;</td>";
+            }
+        html+="</tr>";
+    });
+    $("#tb_reporte").html(html);
+    //activarTabla();
+    $("#reporte").show();
+};
 
 guardarTodo=function(){
     if( $("#slct_flujo_id").val()=="" ){
@@ -296,6 +381,16 @@ pintarTiempoG=function(tid){
     posicionDetalleVerboG=0; // Inicializando posicion del detalle al pintar
 
     var subdetalle1="";var subdetalle2="";var subdetalle3="";var subdetalle4="";var subdetalle5="";var subdetalle6="";var imagen="";
+    var bloqueado="disabled";
+    $("#btn_guardar_tiempo").hide();
+    $("#btn_guardar_verbo").hide();
+
+    if ($("#btn_guardar_todo").css("display")!="none"){
+        bloqueado="";
+        $("#btn_guardar_tiempo").show();
+        $("#btn_guardar_verbo").show();
+    }
+
 
     for(var i=0;i<tiempoG[tid].length;i++){
         // tiempo //
@@ -304,12 +399,12 @@ pintarTiempoG=function(tid){
         htm=   '<tr>'+
                     '<td>'+(detalle[0]*1+1)+'</td>'+
                     '<td>'+
-                        '<select class="form-control" id="slct_tipo_tiempo_'+detalle[0]+'_modal">'+
+                        '<select class="form-control" id="slct_tipo_tiempo_'+detalle[0]+'_modal" '+bloqueado+'>'+
                             $('#slct_tipo_tiempo_modal').html()+
                         '</select>'+
                     '</td>'+
                     '<td>'+
-                        '<input class="form-control" type="number" id="txt_tiempo_'+detalle[0]+'_modal" value="'+detalle[2]+'">'+
+                        '<input class="form-control" type="number" id="txt_tiempo_'+detalle[0]+'_modal" value="'+detalle[2]+'" '+bloqueado+'>'+
                     '</td>'+
                 '</tr>';
         $("#tb_tiempo").append(htm);
@@ -333,16 +428,17 @@ pintarTiempoG=function(tid){
             posicionDetalleVerboG++;
             imagen="";
             if(subdetalle1.length>1){
-                imagen='<button onclick="eliminaDetalleVerbo('+posicionDetalleVerboG+');" type="button" class="btn btn-danger btn-sm">'+
+                imagen='<button onclick="eliminaDetalleVerbo('+posicionDetalleVerboG+');" type="button" class="btn btn-danger btn-sm" '+bloqueado+'>'+
                           '<i class="fa fa-minus fa-lg"></i>'+
                         '</button>';
             }
             
             if( (j+1)==subdetalle1.length ){
-                imagen='<button onclick="adicionaDetalleVerbo('+detalle2[0]+');" type="button" class="btn btn-success btn-sm">'+
+                imagen='<button onclick="adicionaDetalleVerbo('+detalle2[0]+');" type="button" class="btn btn-success btn-sm" '+bloqueado+'>'+
                           '<i class="fa fa-plus fa-lg"></i>'+
                         '</button>';
-                selectestado='<br><select id="slct_paralelo_'+detalle2[0]+'_modal">'+
+
+                selectestado='<br><select id="slct_paralelo_'+detalle2[0]+'_modal" '+bloqueado+'>'+
                              '<option value="1">Normal</option>'+
                              '<option value="2">Paralelo</option>'+
                              '</select>';
@@ -351,28 +447,28 @@ pintarTiempoG=function(tid){
             htm=   '<tr id="tr_detalle_verbo_'+posicionDetalleVerboG+'">'+
                         '<td>'+(detalle2[0]*1+1)+selectestado+'</td>'+
                         '<td>'+
-                            '<input type="text" maxlength="3" onkeypress="return validaNumeros(event);" class="form-control txt_orden_'+detalle2[0]+'_modal" placeholder="Ing. Orden" value="'+subdetalle6[j]+'">'+
+                            '<input type="text" maxlength="3" onkeypress="return validaNumeros(event);" class="form-control txt_orden_'+detalle2[0]+'_modal" placeholder="Ing. Orden" value="'+subdetalle6[j]+'" '+bloqueado+'>'+
                         '</td>'+
                         '<td>'+
-                            '<select class="form-control slct_rol_'+detalle2[0]+'_modal">'+
+                            '<select class="form-control slct_rol_'+detalle2[0]+'_modal" '+bloqueado+'>'+
                                 $('#slct_rol_modal').html()+
                             '</select>'+
                         '</td>'+
                         '<td>'+
-                            '<select class="form-control slct_verbo_'+detalle2[0]+'_modal">'+
+                            '<select class="form-control slct_verbo_'+detalle2[0]+'_modal" '+bloqueado+'>'+
                                 $('#slct_verbo_modal').html()+
                             '</select>'+
                         '</td>'+
                         '<td>'+
-                            '<select class="form-control slct_documento_'+detalle2[0]+'_modal">'+
+                            '<select class="form-control slct_documento_'+detalle2[0]+'_modal" '+bloqueado+'>'+
                                 $('#slct_documento_modal').html()+
                             '</select>'+
                         '</td>'+
                         '<td>'+
-                            '<textarea class="form-control txt_verbo_'+detalle2[0]+'_modal" placeholder="Ing. Acción">'+subdetalle1[j]+'</textarea>'+
+                            '<textarea class="form-control txt_verbo_'+detalle2[0]+'_modal" placeholder="Ing. Acción" '+bloqueado+'>'+subdetalle1[j]+'</textarea>'+
                         '</td>'+
                         '<td>'+
-                            '<select class="form-control slct_condicion_'+detalle2[0]+'_modal">'+
+                            '<select class="form-control slct_condicion_'+detalle2[0]+'_modal" '+bloqueado+'>'+
                                 $('#slct_condicion_modal').html()+
                             '</select>'+
                         '</td>'+
@@ -828,6 +924,74 @@ pintarAreasG=function(permiso){
     $("#tb_rutaflujodetalleAreas").html(htm);
 }
 
+pintarAreasGAux=function(permiso){
+    var htm=''; var click=""; var imagen=""; var clickeli="";
+    $("#areasasignacion_aux .eliminadetalleg").remove();
+
+    for ( var i=0; i<areasG.length; i++ ) {
+        click="";
+        imagen="";
+        clickeli="";
+        if(permiso!=2){
+            clickeli="<button class='btn btn-danger btn-sm' onclick='EliminarDetalle("+i+");' type='button'>"+
+                "<i class='fa fa-remove fa-sm'></i>"+
+            "</button>";
+        }
+
+        click=(i+1);
+        if( i==0 && permiso!=2){
+            click="<button class='btn bg-navy btn-sm' type='button'>"+
+                            (i+1)+"&nbsp;"+
+                        "</button>&nbsp;&nbsp;"
+        }
+        
+        if ( i>0 ) {
+            imagen="<i class='fa fa-sort-up fa-sm'></i>";
+            if(permiso!=2){
+                click="<button class='btn bg-navy btn-sm' onclick='CambiarDetalle("+i+");' type='button'>"+
+                            (i+1)+"&nbsp;"+imagen+
+                        "</button>&nbsp;&nbsp;";
+            }
+        }
+
+        htm+=   "<tr id='tr-detalle-"+i+"'>"+
+                    "<td>"+
+                        click+
+                        clickeli+
+                    "</td>"+
+                    "<td>"+
+                        areasG[i]+
+                    "</td>"+
+                "</tr>";
+
+
+        if(theadArea[i]!=0){
+
+            $("#areasasignacion_aux>thead>tr.head").append(theadArea[i]);
+            $("#areasasignacion_aux>tfoot>tr.head").append(tfootArea[i]);
+
+            var detbody='<td class="eliminadetalleg">'+
+                            '<table class="table table-bordered">';
+            for(j=0; j<tbodyArea[i].length ; j++){
+                if(j>0){
+                    detbody+=   '<tr>'+
+                                    '<td style="height:8px;">&nbsp;'+
+                                    '</td>'+
+                                '</tr>';
+                }
+                detbody+=tbodyArea[i][j];
+            }
+            detbody+='</table> </td>';
+            $("#areasasignacion_aux>tbody>tr.body").append(detbody);
+        }
+        
+    };
+
+    $("#areasasignacion_aux>thead>tr.head").append('<th class="eliminadetalleg" style="min-width:1000px important!;">[]</th>'); // aqui para darle el area global
+
+    $("#tb_rutaflujodetalleAreas_aux").html(htm);
+}
+
 Nuevo=function(){
     $("#txt_ruta_flujo_id_modal").remove();
     $("#txt_titulo").text("Nueva Ruta");
@@ -920,6 +1084,10 @@ cargarRutaId=function(ruta_flujo_id,permiso){
     //alert('Actualizando '+ruta_flujo_id+ "Con permiso =>"+permiso);
 }
 
+cargarRutaIdAux=function(ruta_flujo_id,permiso){
+    Ruta.CargarDetalleRuta(ruta_flujo_id,permiso,CargarDetalleRutaHTMLAux);
+}
+
 CargarDetalleRutaHTML=function(permiso,datos){
 areasG="";  areasG=[]; // texto area
 areasGId="";  areasGId=[]; // id area
@@ -947,6 +1115,29 @@ validandoconteo=0;
         adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta);
     });
     pintarAreasG(permiso);
+    //alertatodo();
+}
+
+CargarDetalleRutaHTMLAux=function(permiso,datos){
+areasGAux="";  areasGAux=[]; // texto area
+areasGIdAux="";  areasGIdAux=[]; // id area
+estadoGAux="";  estadoGAux=[]; // Normal / Paralelo
+theadAreaAux="";  theadAreaAux=[]; // cabecera area
+tbodyAreaAux="";  tbodyAreaAux=[]; // cuerpo area
+tfootAreaAux="";  tfootAreaAux=[]; // pie area
+
+tiempoGIdAux="";  tiempoGIdAux=[]; // id posicion del modal en base a una area.
+tiempoGAux="";  tiempoGAux=[];
+verboGAux="";  verboGAux=[];
+modificaGAux="";  modificaGAux=[];
+
+posicionDetalleVerboGAux=0;
+validandoconteo=0;
+    $.each(datos,function(index,data){
+        validandoconteo++;
+        adicionarRutaDetalleAutomaticoAux(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta);
+    });
+    pintarAreasGAux(permiso);
     //alertatodo();
 }
 
@@ -1076,6 +1267,116 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
                     detalle2[0]=validapos;
                     verboG[tid][i]=detalle2.join("_");
                 }*/
+            }
+        }
+    }
+}
+
+adicionarRutaDetalleAutomaticoAux=function(valorText,valor,tiempo,verbo,imagen,imagenc,imagenp,estruta){
+    valor=""+valor;
+    var adjunta=false; var position=areasGIdAux.indexOf(valor);
+    if( position>=0 ){
+        adjunta=true;
+    }
+
+    var verboaux=verbo.split("|");
+    var verbo1=[];
+    var verbo2=[];
+    var verbo3=[];
+    var verbo4=[];
+    var verbo5=[];
+    var verbo6=[];
+    var imgfinal=imagen;
+    for(i=0;i<verboaux.length;i++ ){
+        verbo1.push(verboaux[i].split("^^")[0]);
+        verbo2.push(verboaux[i].split("^^")[1]);
+        verbo3.push(verboaux[i].split("^^")[2]);
+        verbo4.push(verboaux[i].split("^^")[3]);
+        verbo5.push(verboaux[i].split("^^")[4]);
+        verbo6.push(verboaux[i].split("^^")[5]);
+
+        if($.trim(verboaux[i].split("^^")[1])>0){
+            imgfinal=imagenc;
+        }
+    }
+
+    if(estruta>1){
+        imgfinal=imagenp;
+    }
+
+    estadoGAux.push(estruta);
+    areasGAux.push(valorText);
+    areasGIdAux.push(valor);
+
+    if( adjunta==false ){
+        head='<th class="eliminadetalleg" style="width:110px;min-width:100px !important;">'+valorText+'</th>';
+        theadAreaAux.push(head);
+
+        body=   '<tr>'+
+                    '<td class="areafinal" onclick="AbreTv('+valor+');" style="height:100px; background-image: url('+"'"+'img/admin/area/'+imgfinal+"'"+');">&nbsp;'+
+                    '<span class="badge bg-yellow">'+areasGAux.length+'</span>'+
+                    '</td>'+
+                '</tr>';
+        tbodyAreaAux.push([]);
+        tbodyAreaAux[ (tbodyAreaAux.length-1) ].push(body);
+
+        foot=   '<th class="eliminadetalleg">'+
+                    '<div style="text-align:center;">'+
+                    '<a class="btn bg-olive btn-sm" data-toggle="modal" data-target="#rutaModal" data-id="'+valor+'" data-text="'+valorText+'">'+
+                        '<i class="fa fa-desktop fa-lg"></i>'+
+                    '</a>'+
+                    '</div>'+
+                '</th>';
+        tfootAreaAux.push(foot);
+    }
+    else{
+
+        theadAreaAux.push(0);
+        tfootAreaAux.push(0);
+        tbodyAreaAux.push([]);
+        tbodyAreaAux[ (tbodyAreaAux.length-1) ].push(position+"|"+tbodyAreaAux[position].length );
+        body=   '<tr>'+
+                    '<td class="areafinal" onclick="AbreTv('+valor+');" style="height:100px; background-image: url('+"'"+'img/admin/area/'+imgfinal+"'"+');">&nbsp;'+
+                    '<span class="badge bg-yellow">'+areasGAux.length+'</span>'+
+                    '</td>'+
+                '</tr>';
+        tbodyAreaAux[position].push(body);
+
+    }
+
+      var position=tiempoGIdAux.indexOf(valor);
+      var posicioninicial=areasGIdAux.indexOf(valor);
+      //alert("tiempo= "+position +" | areapos="+posicioninicial);
+      var tid=0;
+      var validapos=0;
+      var detalle=""; var detalle2="";
+      
+      if(position>=0){
+        tid=position;
+      }
+
+    if( tiempo!='_' || verbo!='' ){
+        if( adjunta==false ){ // primer registro
+            tiempoGIdAux.push(valor);
+            tiempoGAux.push([]);
+            tid=tiempoGAux.length-1;
+            tiempoGAux[tid].push(posicioninicial+"_"+tiempo);
+
+            verboGAux.push([]);
+            verboGAux[tid].push(posicioninicial+"_"+verbo1.join("|")+"_"+verbo2.join("|")+"_"+verbo3.join("|")+"_"+verbo4.join("|")+"_"+verbo5.join("|")+"_"+verbo6.join("|"));
+        }
+        else{
+            var posicioninicialf=posicioninicial;
+            for(var i=1; i<tbodyAreaAux[posicioninicial].length; i++){
+                posicioninicialf++;
+                validapos=areasGIdAux.indexOf(valor,posicioninicialf);
+                posicioninicialf=validapos;
+                if( i>=tiempoGAux[tid].length ){
+                    //alert(tiempo+" | "+verbo+" | "+valor+" | "+posicioninicial+"-"+validapos);
+                    tiempoGAux[tid].push(validapos+"_"+tiempo);
+
+                    verboGAux[tid].push(validapos+"_"+verbo1.join("|")+"_"+verbo2.join("|")+"_"+verbo3.join("|")+"_"+verbo4.join("|")+"_"+verbo5.join("|")+"_"+verbo6.join("|"));
+                }
             }
         }
     }
