@@ -215,7 +215,7 @@
                                                         <tr class="head">
                                                             <th style="width:450px !important;min-width: 200px !important;" > 
                                                                 <a id="btn_adicionar_ruta_detalle_aux" class="btn btn-primary btn-sm">
-                                                                    <i class="fa fa-plus-square fa-lg"></i>
+                                                                    Adicionar Ruta Proceso<i class="fa fa-plus-square fa-lg"></i>
                                                                 </a>
                                                             </th>
                                                             <th class="eliminadetalleg" style="min-width:1000px important!;">[]</th>
@@ -227,8 +227,7 @@
                                                                 <table class="table table-bordered">
                                                                     <thead>
                                                                         <tr><th colspan="2">
-                                                                            <select class="form-control" name="slct_area_id_2_aux" id="slct_area_id_2_aux">
-                                                                            </select>
+                                                                            
                                                                         </th></tr>
                                                                         <tr class="head">
                                                                             <th style="width:110px;">#</th>

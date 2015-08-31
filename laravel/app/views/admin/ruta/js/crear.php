@@ -36,6 +36,7 @@ $(document).ready(function() {
     $("#btn_guardar_tiempo").click(guardarTiempo);
     $("#btn_guardar_verbo").click(guardarVerbo);
     $("#btn_guardar_todo").click(guardarTodo);
+    $("#btn_adicionar_ruta_detalle_aux").click(adicionarProceso);
     Ruta.CargarRuta(HTMLCargarRuta);
     var data = {estado:1,usuario:1};
     var ids = [];
@@ -129,7 +130,7 @@ $(document).ready(function() {
           var posicioninicialf=posicioninicial;
             for(var i=1; i<tbodyAreaAuxi[posicioninicial].length; i++){
                 posicioninicialf++;
-                validapos=areasGIdAuxi.indexOf(id,posicioninicialf);
+                validapos=areasGIdAuxi.indexOf(id.split("_")[0],posicioninicialf);
                 posicioninicialf=validapos;
                 if( i>=tiempoGAuxi[tid].length ){
                     tiempoGAuxi[tid].push(validapos+"__");
@@ -213,6 +214,10 @@ $(document).ready(function() {
     });
     //$("#areasasignacion").DataTable();
 });
+
+adicionarProceso=function(){
+    alert("Adicionando...");
+}
 
 HTMLreporte=function(datos){
     var html="";
@@ -1542,6 +1547,7 @@ adicionarRutaDetalleAutomaticoAuxi=function(valorText,valor,tiempo,verbo,imagen,
             tiempoGIdAuxi.push(valor);
             tiempoGAuxi.push([]);
             tid=tiempoGAuxi.length-1;
+
             tiempoGAuxi[tid].push(posicioninicial+"_"+tiempo);
 
             verboGAuxi.push([]);
