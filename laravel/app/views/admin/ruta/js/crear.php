@@ -267,18 +267,17 @@ HTMLreporte=function(datos){
             if(data.estado_final==1){
         html+="<td>"+data.fecha_produccion+"</td>";
         html+="<td>"+data.ntramites+"</td>";
-        html+='<td><a onClick="cargarRutaIdAuxi('+data.ruta_flujo_id+',2)" class="btn btn-primary btn-sm" data-id="'+data.ruta_flujo_id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
             }
             else{
         html+="<td>&nbsp;</td>";
         html+="<td>0</td>";
-        html+="<td>&nbsp;</td>";
             }
+        html+='<td><a onClick="cargarRutaIdAuxi('+data.ruta_flujo_id+',2)" class="btn btn-primary btn-sm" data-id="'+data.ruta_flujo_id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
         html+="</tr>";
     });
     $("#tb_reporte").html(html);
     $("#t_reporte").dataTable();
-    $("#reporte").show();
+    //$("#reporte").show();
 };
 
 guardarTodo=function(){
