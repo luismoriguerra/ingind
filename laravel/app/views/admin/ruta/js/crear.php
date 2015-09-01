@@ -28,6 +28,9 @@ var posicionDetalleVerboGAuxi=0;
 
 var modificaGAuxi=[];
 
+var datosG=""; // para adicionar.
+var permisoG="";
+
 $(document).ready(function() {
     $("[data-toggle='offcanvas']").click();
     $("#btn_nuevo").click(Nuevo);
@@ -216,7 +219,23 @@ $(document).ready(function() {
 });
 
 adicionarProceso=function(){
-    alert("Adicionando...");
+    if(areasGIdAuxi.length==0){
+        alert("Busque y visualice ruta de un proceso a cargar");
+    }
+    else{
+        if(confirm("Favor de confirmar, esta apunto de adicionar el proceso cargado")){
+            if(areasGId[(areasGId.length-1)]!=datosG[0].area_id2){
+                $.each(datosG,function(index,data){
+                    adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta);
+                });
+                pintarAreasG(permisoG);
+                $('.nav-tabs-custom [href="#tab_1"]').click();
+            }
+            else{
+                alert("El area inicial a cargar no puede ser igual a la area final de la ruta cargada a modificar y/o crear");
+            }
+        }
+    }
 }
 
 HTMLreporte=function(datos){
@@ -1301,6 +1320,7 @@ validandoconteo=0;
         }
         adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta);
     });
+    permisoG=permiso;
     pintarAreasG(permiso);
     //alertatodo();
 }
@@ -1318,6 +1338,7 @@ tiempoGAuxi="";  tiempoGAuxi=[];
 verboGAuxi="";  verboGAuxi=[];
 modificaGAuxi="";  modificaGAuxi=[];
 
+datosG = datos;
 posicionDetalleVerboGAuxi=0;
 validandoconteo=0;
     $.each(datos,function(index,data){

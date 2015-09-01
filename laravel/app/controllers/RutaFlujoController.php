@@ -143,11 +143,11 @@ class RutaFlujoController extends \BaseController
                 $rutaFlujo = new RutaFlujo;
                 $rutaFlujo['usuario_created_at']= Auth::user()->id;
                 $rutaFlujo['estado']= 2;
+                $rutaFlujo['flujo_id']= Input::get('flujo_id');
+                $rutaFlujo['persona_id']= Auth::user()->id;
+                $rutaFlujo['area_id']= Input::get('area_id');
             }
 
-            $rutaFlujo['flujo_id']= Input::get('flujo_id');
-            $rutaFlujo['persona_id']= Auth::user()->id;
-            $rutaFlujo['area_id']= Input::get('area_id');
 
             $rutaFlujo->save();
 
