@@ -5,20 +5,20 @@
     @parent
 
     @include( 'admin.mantenimiento.js.flujo_ajax' )
-    @include( 'admin.mantenimiento.js.flujo' )
+    @include( 'admin.mantenimiento.js.flujoe' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
     <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Crear Procesos
+                Editar Procesos
                 <small> </small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
                 <li><a href="#">Mantenimientos</a></li>
-                <li class="active">Crear Procesos</li>
+                <li class="active">Editar Procesos</li>
             </ol>
         </section>
 
@@ -52,8 +52,6 @@
                                     </tr>
                                 </tfoot>
                             </table>
-                            <a class='btn btn-primary btn-sm' class="btn btn-primary" 
-                            data-toggle="modal" data-target="#flujoModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->

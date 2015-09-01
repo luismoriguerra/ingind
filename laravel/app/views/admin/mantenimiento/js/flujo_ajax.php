@@ -19,9 +19,8 @@ var Flujos={
             success : function(obj) {                
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                    $('#t_flujos').dataTable().fnDestroy();
 
-                    Flujos.CargarFlujos(activarTabla);
+                    Flujos.CargarFlujos(htmlCargarFlujos);
                     $("#msj").html('<div class="alert alert-dismissable alert-success">'+
                                         '<i class="fa fa-check"></i>'+
                                         '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
@@ -57,26 +56,7 @@ var Flujos={
                 
             },
             success : function(obj) {
-                var html="";
-                var estadohtml="";
-                if(obj.rst==1){
-                    $.each(obj.datos,function(index,data){
-                        estadohtml='<span id="'+data.id+'" onClick="activar('+data.id+')" class="btn btn-danger">Inactivo</span>';
-                        if(data.estado==1){
-                            estadohtml='<span id="'+data.id+'" onClick="desactivar('+data.id+')" class="btn btn-success">Activo</span>';
-                        }
-
-                        html+="<tr>"+
-                            "<td id='nombre_"+data.id+"'>"+data.nombre+"</td>"+
-                            "<td id='area_"+data.id+"' data-area='"+data.area_id+"'>"+data.area+"</td>"+
-                            "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
-                            '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#flujoModal" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
-
-                        html+="</tr>";
-                    });                    
-                }      
-                $("#tb_flujos").html(html); 
-                evento();  
+                evento(obj);
             },
             error: function(){
             }
@@ -121,8 +101,7 @@ var Flujos={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                    $('#t_flujos').dataTable().fnDestroy();
-                    Flujos.CargarFlujos(activarTabla);
+                    Flujos.CargarFlujos(htmlCargarFlujos);
                     $("#msj").html('<div class="alert alert-dismissable alert-info">'+
                                         '<i class="fa fa-info"></i>'+
                                         '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
