@@ -229,7 +229,6 @@ adicionarProceso=function(){
                     adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta);
                 });
                 pintarAreasG(permisoG);
-                $('.nav-tabs-custom [href="#tab_1"]').click();
             }
             else{
                 alert("El area inicial a cargar no puede ser igual a la area final de la ruta cargada a modificar y/o crear");
@@ -1054,6 +1053,7 @@ alertatodoAuxi=function(){
 }
 
 pintarAreasG=function(permiso){
+    $('.nav-tabs-custom [href="#tab_1"]').click();
     var htm=''; var click=""; var imagen=""; var clickeli="";
     $("#areasasignacion .eliminadetalleg").remove();
     $("#btn_guardar_todo").css("display","none");
