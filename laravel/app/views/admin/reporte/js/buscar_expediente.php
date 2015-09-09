@@ -128,7 +128,7 @@ HTMLreporteDetalle2=function(datos){
 
     });
     $("#tb_reporteDetalle2").html(html);
-    $("#reporte_detalle2").show();
+    $("#reporte2").show();
 };
 
 
