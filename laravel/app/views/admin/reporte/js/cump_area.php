@@ -33,6 +33,8 @@ HTMLreporte=function(datos){
     var html="";
     
     var alerta_tipo= '';
+
+    $('#t_reporte').dataTable().fnDestroy();
     $.each(datos,function(index,data){
         alerta_tipo = '';
         
@@ -70,6 +72,11 @@ HTMLreporte=function(datos){
     $("#tb_reporteDetalle").html('');
     $("#tb_reporteDetalle2").html('');
     //activarTabla();
+    $("#t_reporte").dataTable(
+        {
+            "order": [[ 0, "asc" ]],
+        }
+    ); 
     $("#reporte").show();
 };
 HTMLreporteDetalle=function(datos){

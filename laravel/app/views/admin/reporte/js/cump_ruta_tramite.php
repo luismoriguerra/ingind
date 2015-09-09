@@ -44,6 +44,9 @@ HTMLreporte_t=function(datos){
     var html="";
     $("#tb_reporte").html('');
     $("#tb_reporteDetalle").html('');
+
+    $('#t_reporte').dataTable().fnDestroy();
+
     var alerta_tipo= '';
     $.each(datos,function(index,data){
         alerta_tipo = '';
@@ -83,6 +86,11 @@ HTMLreporte_t=function(datos){
     //$("#tb_reporteDetalle").html('');
     //$("#tb_reporteDetalle2").html('');
     //activarTabla();
+    $("#t_reporte").dataTable(
+        {
+            "order": [[ 0, "asc" ]],
+        }
+    ); 
     $("#reporte_t").show();
 };
 
