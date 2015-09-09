@@ -739,8 +739,14 @@ class ReporteController extends BaseController
     {
         $fecha = Input::get('fecha');
         list($fechaIni,$fechaFin) = explode(" - ", $fecha);
-
-        $query ="SELECT tr.id_union AS tramite, r.id, 
+        $filtrofecha=" AND DATE(r.fecha_inicio) BETWEEN '".$fechaIni."' and '".$fechaFin."'";
+        $flujo="";$filtroflujo="";
+        if( Input::has('flujo') ){
+          $flujo=implode("','",Input::get('flujo'));
+          $filtrofecha=" AND DATE(tr.fecha_tramite) BETWEEN '".$fechaIni."' and '".$fechaFin."'";
+          $filtroflujo=" AND r.flujo_id IN ('".$flujo."')";
+        }
+        $query ="SELECT tr.id_union AS tramite, r.id, f.nombre flujo,
                 ts.nombre AS tipo_persona,
                 IF(tr.tipo_persona=1 or tr.tipo_persona=6,
                     CONCAT(tr.paterno,' ',tr.materno,', ',tr.nombre),
@@ -808,10 +814,11 @@ class ReporteController extends BaseController
                   AND alerta=2) AS 'corregido'
                 FROM tablas_relacion tr 
                 JOIN rutas r ON tr.id=r.tabla_relacion_id and r.estado=1
+                INNER JOIN flujos f ON f.id=r.flujo_id and f.estado=1
                 INNER JOIN tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
                 LEFT JOIN areas a ON a.id=tr.area_id
                 WHERE tr.estado=1
-                AND DATE(r.fecha_inicio) BETWEEN '".$fechaIni."' and '".$fechaFin."' ";
+                ".$filtrofecha.$filtroflujo;
 
         $table=DB::select($query);
 
