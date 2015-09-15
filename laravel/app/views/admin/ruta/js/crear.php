@@ -286,6 +286,10 @@ guardarTodo=function(){
     else if( $("#slct_area_id").val()=="" ){
         alert("Seleccione Area");
     }
+    else if( !$("#slct_tipo_ruta").attr("enabled") && $("#slct_tipo_ruta").val()=="" ){
+        alert("Seleccione Tipo de ruta");
+        $("#slct_tipo_ruta").focuss();
+    }
     else{
         Ruta.CrearRuta(HTMLCargarRuta);
     }
@@ -1215,6 +1219,7 @@ Nuevo=function(){
     $("#areasasignacion .eliminadetalleg").remove();
     $("#areasasignacion>thead>tr.head").append('<th class="eliminadetalleg" style="min-width:1000px important!;">[]</th>'); // aqui para darle el area global
 
+    $("#slct_tipo_ruta").removeAttr("disabled");
 
     areasG="";  areasG=[]; // texto area
     areasGId="";  areasGId=[]; // id area
@@ -1285,6 +1290,8 @@ cargarRutaId=function(ruta_flujo_id,permiso){
     $("#texto_fecha_creacion").text("Fecha Actualización:");
     $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
     $(".form-group").css("display","");
+
+    $("#slct_tipo_ruta").attr("disabled","true");
     Ruta.CargarDetalleRuta(ruta_flujo_id,permiso,CargarDetalleRutaHTML);
     //alert('Actualizando '+ruta_flujo_id+ "Con permiso =>"+permiso);
 }
@@ -1316,6 +1323,7 @@ validandoconteo=0;
             $("#slct_flujo_id,#slct_area_id").multiselect('disable');
             $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
             $("#txt_persona").val(data.persona);
+            $("#slct_tipo_ruta").val(data.tipo_ruta);
         }
         adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta);
     });

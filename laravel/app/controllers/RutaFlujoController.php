@@ -146,6 +146,7 @@ class RutaFlujoController extends \BaseController
                 $rutaFlujo['flujo_id']= Input::get('flujo_id');
                 $rutaFlujo['persona_id']= Auth::user()->id;
                 $rutaFlujo['area_id']= Input::get('area_id');
+                $rutaFlujo['tipo_ruta']=Input::get('tipo_ruta');
             }
 
 

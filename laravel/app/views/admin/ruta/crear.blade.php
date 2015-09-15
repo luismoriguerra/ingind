@@ -253,6 +253,16 @@
                                 </div><!-- /.nav -->
                             </div><!-- /.col sm  12-->
                             <div class="col-sm-12">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Tipo de Ruta:</label>
+                                    <select id="slct_tipo_ruta" name="slct_tipo_ruta">
+                                        <option value="">--Seleccione--</option>
+                                        <option value="1">Trámite</option>
+                                        <option value="2">Orden Trabajo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
                                 <a class="btn btn-default btn-sm btn-sm" id="btn_close">
                                     <i class="fa fa-remove fa-lg"></i>&nbsp;Close
                                 </a>

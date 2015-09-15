@@ -28,7 +28,7 @@ var Ruta={
                 flujo_id:$("#slct_flujo_id").val(),
                 area_id:$("#slct_area_id").val(),
                 ruta_flujo_id: $("#txt_ruta_flujo_id_modal").val(),
-
+                tipo_ruta: $("#slct_tipo_ruta").val(),
                 };
         $.ajax({
             url         : accion,
@@ -47,6 +47,8 @@ var Ruta={
                     $("#txt_titulo").text("Act. Ruta");
                     $("#texto_fecha_creacion").text("Fecha Actualización:");
                     $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
+                    $("#slct_tipo_ruta").attr("disabled","true");
+
                     if(vista!=null){
                         Ruta.CargarRuta(evento,vista);
                     }

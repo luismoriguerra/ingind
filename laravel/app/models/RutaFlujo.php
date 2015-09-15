@@ -377,7 +377,7 @@ class RutaFlujo extends Eloquent
                                     'a2.imagen','a2.imagenc','a2.imagenp',
                                     'rf.persona_id','f.nombre as flujo','rfd.estado_ruta',
                                     'rfd.area_id as area_id2','a2.nombre as area2',
-                                    'rfd.norden','rf.flujo_id',
+                                    'rfd.norden','rf.flujo_id','rf.tipo_ruta',
                                     DB::raw(
                                         'IFNULL(rfd.tiempo_id,"") AS tiempo_id,
                                         IFNULL(rfd.dtiempo,"") AS dtiempo,
