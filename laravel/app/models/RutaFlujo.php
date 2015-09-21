@@ -269,6 +269,7 @@ class RutaFlujo extends Eloquent
                                                 AND cp.persona_id='.Auth::user()->id.'
                                             )
                                             AND rf.estado IN (1,2)
+                                            AND rf.tipo_ruta=1 
                                             AND f.estado=1'
                                         );
                                     }

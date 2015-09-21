@@ -211,7 +211,7 @@ class RutaFlujoController extends \BaseController
                                     INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
                                     INNER JOIN personas p ON p.id=cp.persona_id AND p.estado=1
                                     WHERE acp.estado=1
-                                    AND cp.cargo_id IN (5,8)
+                                    AND cp.cargo_id=5
                                     AND acp.area_id=".$areasGid[$i]."
                                     ORDER BY cp.persona_id";
                             $qem= DB::select($em);
@@ -263,7 +263,7 @@ class RutaFlujoController extends \BaseController
                                 INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
                                 INNER JOIN personas p ON p.id=cp.persona_id AND p.estado=1
                                 WHERE acp.estado=1
-                                AND cp.cargo_id IN (5,8)
+                                AND cp.cargo_id=5
                                 AND acp.area_id=".$areasGid[$i]."
                                 ORDER BY cp.persona_id";
                         $qem= DB::select($em);

@@ -252,11 +252,11 @@
                                     </div><!-- /.tab content -->
                                 </div><!-- /.nav -->
                             </div><!-- /.col sm  12-->
-                            <div class="col-sm-12" style="display:none">
+                            <div class="col-sm-12">
                                 <div class="col-sm-3">
                                     <label class="control-label">Tipo de Ruta:</label>
                                     <select id="slct_tipo_ruta" name="slct_tipo_ruta">
-                                        <option value="1">Trámite</option>
+                                        <option value="2">Orden Trabajo</option>
                                     </select>
                                 </div>
                             </div>
