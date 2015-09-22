@@ -14,6 +14,7 @@ Route::get(
     }
 );
 
+/*
 Route::get(
     'email/{email}', function($email){
         $i=4;
@@ -37,16 +38,17 @@ Route::get(
             );
 
             echo 'Se realizó con éxito su registro, <strong>valide su email.</strong>';
-        /*}
-        catch(Exception $e){
-            var_dump($e);
-            echo 'No se pudo realizar el envio de Email; Favor de verificar su email e intente nuevamente.';
-        }*/
+        //}
+        //catch(Exception $e){
+        //    var_dump($e);
+        //    echo 'No se pudo realizar el envio de Email; Favor de verificar su email e intente nuevamente.';
+        //}
 
     }
-);
+);*/
 
 Route::controller('check', 'LoginController');
+Route::controller('cargar', 'CargarController');
 
 Route::get(
     '/{ruta}', array('before' => 'auth', function ($ruta) {

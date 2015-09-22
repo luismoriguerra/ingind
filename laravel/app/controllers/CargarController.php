@@ -1,0 +1,177 @@
+<?php
+class CargarController extends BaseController
+{
+
+    public function postAsignacion()
+    {
+        if (isset($_FILES['carga']) and $_FILES['carga']['size'] > 0) {
+
+            $uploadFolder = 'txt/asignacion';
+            
+            if ( !is_dir($uploadFolder) ) {
+                mkdir($uploadFolder);
+            }
+
+
+            $nombreArchivo = explode(".",$_FILES['carga']['name']);
+            $tmpArchivo = $_FILES['carga']['tmp_name'];
+            $archivoNuevo = $nombreArchivo[0]."_u".Auth::user()->id."_".date("Ymd_his")."." . $nombreArchivo[1];
+            $file = $uploadFolder . '/' . $archivoNuevo;
+
+            //@unlink($file);
+
+            $m="Ocurrio un error al subir el archivo. No pudo guardarse.";
+            if (!move_uploaded_file($tmpArchivo, $file)) {
+                return Response::json(
+                    array(
+                        'upload' => FALSE,
+                        'rst'    => '2',
+                        'msj'    => $m,
+                        'error'  => $_FILES['archivo'],
+                    )
+                );
+            }
+
+            $array=array();
+            $arrayExist=array();
+
+            //$file=file('C:\\wamp\\www\\ingind\\public\\txt\\asignacion\\'.$archivoNuevo);
+            $file=file('/home/m1ndepen/public_html/procesosmuni/public/txt/asignacion/'.$archivoNuevo);
+                for($i=0; $i < count($file); $i++) {
+                    $detfile=explode("\t",$file[$i]);
+                    for ($j=0; $j < count($detfile); $j++) { 
+                        $array[$i][$j]=$detfile[$j];
+                    }
+
+                    if($i>0){
+                        $ainterna=AreaInterna::find($detfile[12]);
+                        $exist=TablaRelacion::where('id_union','=',$detfile[0])->get();
+
+                        if( count($exist)>0 ){
+                            $arrayExist[]=$detfile[0];
+                        }
+                        else{
+                            DB::beginTransaction();
+
+                            $tr = new TablaRelacion;
+
+                            $tipoPersona=TipoSolicitante::where('nombre_relacion','=',$detfile[2])->first();
+                            if( count($tipoPersona)>0 ){
+                                $tr['tipo_persona']=$tipoPersona->id;
+                            }
+                            else{
+                                $arrayExist[]=$detfile[0]." TipoPersona";
+                            }
+
+                            if( $detfile[3]!="" ){ // razon social
+                                $tr['razon_social']=$detfile[3];
+                            }
+
+                            if( $detfile[4]!="" ){ // ruc
+                                $tr['ruc']=$detfile[4];
+                            }
+
+                            if( $detfile[5]!="" ){ // dni
+                                $tr['ruc']=$detfile[5];
+                            }
+
+                            if( $detfile[6]!="" ){ // paterno
+                                $tr['ruc']=$detfile[6];
+                            }
+
+                            if( $detfile[7]!="" ){ // materno
+                                $tr['ruc']=$detfile[7];
+                            }
+
+                            if( $detfile[8]!="" ){ // nombre
+                                $tr['ruc']=$detfile[8];
+                            }
+                            
+                            $tr['software_id']= '1';
+                            $tr['id_union']= $detfile[0];
+                            $tr['fecha_tramite']=$detfile[1];
+                            $tr['sumilla']=$detfile[9];
+                            $tr['email']=$detfile[10];
+                            $tr['telefono']=$detfile[11];
+                            $tr['usuario_created_at'] = Auth::user()->id;
+                            $tr->save();
+
+                            $rf=RutaFlujo::where( 'flujo_id','=',$ainterna->flujo_id )
+                                            ->where('estado','=','1')
+                                            ->first();
+
+                            $rutaFlujo=RutaFlujo::find($rf->id);
+                            $fecha_inicio=date("Y-m-d H:i:s");
+
+                            $ruta= new Ruta;
+                            $ruta['tabla_relacion_id']=$tr->id;
+                            $ruta['fecha_inicio']= $fecha_inicio;
+                            $ruta['ruta_flujo_id']=$rutaFlujo->id;
+                            $ruta['flujo_id']=$rutaFlujo->flujo_id;
+                            $ruta['persona_id']=$rutaFlujo->persona_id;
+                            $ruta['area_id']=$rutaFlujo->area_id;
+                            $ruta['usuario_created_at']= Auth::user()->id;
+                            $ruta->save();
+
+                            $qrutaDetalle=DB::table('rutas_flujo_detalle')
+                                ->where('ruta_flujo_id', '=', $rutaFlujo->id)
+                                ->where('estado', '=', '1')
+                                ->orderBy('norden','ASC')
+                                ->get();
+                                $validaactivar=0;
+                            foreach($qrutaDetalle as $rd){
+                                $rutaDetalle = new RutaDetalle;
+                                $rutaDetalle['ruta_id']=$ruta->id;
+                                $rutaDetalle['area_id']=$rd->area_id;
+                                $rutaDetalle['tiempo_id']=$rd->tiempo_id;
+                                $rutaDetalle['dtiempo']=$rd->dtiempo;
+                                $rutaDetalle['norden']=$rd->norden;
+                                $rutaDetalle['estado_ruta']=$rd->estado_ruta;
+                                if($rd->norden==1 or ($rd->norden>1 and $validaactivar==0 and $rd->estado_ruta==2) ){
+                                    $rutaDetalle['fecha_inicio']=$fecha_inicio;
+                                }
+                                else{
+                                    $validaactivar=1;
+                                }
+                                $rutaDetalle['usuario_created_at']= Auth::user()->id;
+                                $rutaDetalle->save();
+
+                                $qrutaDetalleVerbo=DB::table('rutas_flujo_detalle_verbo')
+                                                ->where('ruta_flujo_detalle_id', '=', $rd->id)
+                                                ->where('estado', '=', '1')
+                                                ->orderBy('orden', 'ASC')
+                                                ->get();
+                                    if(count($qrutaDetalleVerbo)>0){
+                                        foreach ($qrutaDetalleVerbo as $rdv) {
+                                            $rutaDetalleVerbo = new RutaDetalleVerbo;
+                                            $rutaDetalleVerbo['ruta_detalle_id']= $rutaDetalle->id;
+                                            $rutaDetalleVerbo['nombre']= $rdv->nombre;
+                                            $rutaDetalleVerbo['condicion']= $rdv->condicion;
+                                            $rutaDetalleVerbo['rol_id']= $rdv->rol_id;
+                                            $rutaDetalleVerbo['verbo_id']= $rdv->verbo_id;
+                                            $rutaDetalleVerbo['documento_id']= $rdv->documento_id;
+                                            $rutaDetalleVerbo['orden']= $rdv->orden;
+                                            $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
+                                            $rutaDetalleVerbo->save();
+                                        }
+                                    }
+                            }
+                            DB::commit();
+                        } //es codigo nuevo
+                    }// Apartir del 2 registro
+                }// for del file
+
+            return Response::json(
+                array(
+                    'rst'       => '1',
+                    'msj'       => 'Archivo procesado correctamente',
+                    'file'    => $archivoNuevo,
+                    'upload'    => TRUE, 
+                    'data'      => $array,
+                    'existe'    => $arrayExist
+                )
+            );
+        }
+    }
+
+}
