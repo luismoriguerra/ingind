@@ -182,7 +182,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
-                                            <div class="col-sm-1">
+                                            <div class="col-sm-2">
                                                 <label>Iniciará en el paso:</label>
                                                 <input type="number" id="txt_iniciara" name="txt_iniciara" class="form-control">
                                             </div>
