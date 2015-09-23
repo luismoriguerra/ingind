@@ -1,5 +1,6 @@
 <script type="text/javascript">
 temporalBandeja=0;
+BandejaTramite='';
 var areasG=[]; // texto area
 var areasGId=[]; // id area
 var theadArea=[]; // cabecera area
