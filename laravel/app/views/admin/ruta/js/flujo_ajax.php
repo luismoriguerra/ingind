@@ -69,6 +69,7 @@ var Flujos={
                         html+="<tr>"+
                             "<td id='nombre_"+data.id+"'>"+data.nombre+"</td>"+
                             "<td id='area_"+data.id+"' data-area='"+data.area_id+"'>"+data.area+"</td>"+
+                            "<td id='tipo_"+data.id+"' data-tipo='"+data.tipo_flujo_id+"'>"+data.tipo_flujo+"</td>"+
                             "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
                             '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#flujoModal" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
 

@@ -37,6 +37,7 @@
                                     <tr>
                                         <th>Nombre</th>
                                         <th>Area</th>
+                                        <th>Tipo</th>
                                         <th>Estado</th>
                                         <th> [ ] </th>
                                     </tr>
@@ -47,6 +48,7 @@
                                     <tr>
                                         <th>Nombre</th>
                                         <th>Area</th>
+                                        <th>Tipo</th>
                                         <th>Estado</th>
                                         <th> [ ] </th>
                                     </tr>
@@ -62,5 +64,5 @@
 @stop
 
 @section('formulario')
-     @include( 'admin.mantenimiento.form.flujo' )
+     @include( 'admin.ruta.form.flujo' )
 @stop

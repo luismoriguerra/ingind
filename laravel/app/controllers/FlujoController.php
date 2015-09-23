@@ -84,6 +84,7 @@ class FlujoController extends \BaseController
             $flujos['nombre'] = Input::get('nombre');
             $flujos['estado'] = Input::get('estado');
             $flujos['area_id'] = Input::get('area_id');
+            $flujos['tipo_flujo'] = Input::get('tipo');
             $flujos['usuario_created_at'] = Auth::user()->id;
             $flujos->save();
 
@@ -130,6 +131,7 @@ class FlujoController extends \BaseController
             $flujo = Flujo::find($flujoId);
             $flujo['nombre'] = Input::get('nombre');
             $flujo['area_id'] = Input::get('area_id');
+            $flujo['tipo_flujo'] = Input::get('tipo');
             $flujo['estado'] = Input::get('estado');
             $flujo['usuario_updated_at'] = Auth::user()->id;
             $flujo->save();

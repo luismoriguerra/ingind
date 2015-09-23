@@ -20,7 +20,9 @@ class Flujo extends Base
                     $join->on('rfd.ruta_flujo_id', '=', 'rf.id')
                          ->where('rfd.norden', '=', 1);
                 })
-                ->select('f.id','f.nombre','f.estado','a.nombre AS area','f.area_id','f.area_id AS evento')
+                ->select('f.id','f.nombre','f.estado','a.nombre AS area','f.area_id','f.area_id AS evento',
+                    DB::raw('IF(f.tipo_flujo=1,"Trámite","Orden Trabajo") as tipo_flujo,f.tipo_flujo as tipo_flujo_id')
+                )
                 ->where( 
                     function($query){
                         if ( Input::get('usuario') ) {
@@ -53,6 +55,13 @@ class Flujo extends Base
                         }
                         elseif ( Input::get('estado') ) {
                             $query->where('f.estado','=','1');
+                        }
+
+                        if( Input::has('tipo_flujo') AND Input::get('tipo_flujo')==2 ){
+                            $query->where('f.tipo_flujo','=',2);
+                        }
+                        elseif( Input::has('tipo_flujo') AND Input::get('tipo_flujo')==1 ){
+                            $query->where('f.tipo_flujo','=',1);
                         }
                     }
                 )

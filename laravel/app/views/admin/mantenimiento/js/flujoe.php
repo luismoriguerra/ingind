@@ -17,6 +17,7 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
             $('#form_flujos #slct_estado').val(1); 
+            $('#form_flujos #slct_tipo').val(''); 
             $('#form_flujos #slct_area_id').val(""); 
             $('#form_flujos #txt_nombre').focus();
         }
@@ -25,6 +26,7 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
             $('#form_flujos #txt_nombre').val( $('#t_flujos #nombre_'+button.data('id') ).text() );
             $('#form_flujos #slct_estado').val( $('#t_flujos #estado_'+button.data('id') ).attr("data-estado") );
+            $('#form_flujos #slct_tipo').val( $('#t_flujos #tipo_'+button.data('id') ).attr("data-tipo") );
             $('#form_flujos #slct_area_id').val( $('#t_flujos #area_'+button.data('id') ).attr("data-area") );
             $("#form_flujos").append("<input type='hidden' value='"+button.data('id')+"' name='id'>");
         }
@@ -52,12 +54,13 @@ htmlCargarFlujos=function(obj){
             html+="<tr>"+
                 "<td id='nombre_"+data.id+"'>"+data.nombre+"</td>"+
                 "<td id='area_"+data.id+"' data-area='"+data.area_id+"'>"+data.area+"</td>"+
+                "<td id='tipo_"+data.id+"' data-tipo='"+data.tipo_flujo_id+"'>"+data.tipo_flujo+"</td>"+
                 "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
                 '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#flujoModal" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
 
             html+="</tr>";
         });                    
-    }      
+    } 
     $("#tb_flujos").html(html); 
     $("#t_flujos").dataTable();
 }
@@ -90,11 +93,18 @@ validaFlujos=function(){
     var a=[];
     a[0]=valida("txt","nombre","");
     a[1]=true;
+    a[2]=true;
 
     if($("#slct_area_id").val()==""){
         a[1]=false;
         $('#error_area').attr('data-original-title','Seleccione Area');
         $('#error_area').css('display','');
+    }
+
+    if($("#slct_tipo").val()==""){
+        a[2]=false;
+        $('#error_tipo').attr('data-original-title','Seleccione Tipo');
+        $('#error_tipo').css('display','');
     }
     var rpta=true;
 

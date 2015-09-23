@@ -28,6 +28,18 @@
               </select>
           </div>
           <div class="form-group">
+              <label class="control-label">Tipo del Proceso:
+                <a id="error_tipo" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Seleccione Tipo">
+                    <i class="fa fa-exclamation"></i>
+                </a>
+              </label>
+              <select class="form-control" name="slct_tipo" id="slct_tipo">
+                <option value="">--Seleccione--</option>
+                <option value="1">Trámite</option>
+                <option value="2">Orden de Trabajo</option>
+              </select>
+          </div>
+          <div class="form-group">
             <label class="control-label">Estado:
             </label>
             <select class="form-control" name="slct_estado" id="slct_estado">
