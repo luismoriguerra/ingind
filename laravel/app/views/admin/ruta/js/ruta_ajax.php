@@ -47,7 +47,7 @@ var Ruta={
                     $("#txt_titulo").text("Act. Ruta");
                     $("#texto_fecha_creacion").text("Fecha Actualización:");
                     $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
-                    $("#slct_tipo_ruta").attr("disabled","true");
+                    //$("#slct_tipo_ruta").attr("disabled","true");
 
                     if(vista!=null){
                         Ruta.CargarRuta(evento,vista);
@@ -75,11 +75,15 @@ var Ruta={
     },
     CargarRuta:function(evento,vista){
         var datos={};
+
         if(vista!=null && vista==1){
-            datos={vista:1};
+            datos={vista:1,tipo_flujo:BandejaTramite};
         }
         else if(vista==3){
-            datos={estado:1}
+            datos={estado:1,tipo_flujo:BandejaTramite};
+        }
+        else{
+            datos={tipo_flujo:BandejaTramite};
         }
 
         $.ajax({

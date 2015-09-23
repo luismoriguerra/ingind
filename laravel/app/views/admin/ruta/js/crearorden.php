@@ -1,6 +1,6 @@
 <script type="text/javascript">
 temporalBandeja=0;
-BandejaTramite=1;
+BandejaTramite=2;
 var areasG=[]; // texto area
 var areasGId=[]; // id area
 var estadoG=[]; // normal/paralelo
@@ -42,7 +42,7 @@ $(document).ready(function() {
     $("#btn_guardar_todo").click(guardarTodo);
     $("#btn_adicionar_ruta_detalle_aux").click(adicionarProceso);
     Ruta.CargarRuta(HTMLCargarRuta);
-    var data = {estado:1,usuario:1,tipo_flujo:1};
+    var data = {estado:1,usuario:1,tipo_flujo:2};
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     data = {estado:1};

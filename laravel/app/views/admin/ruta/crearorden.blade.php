@@ -15,14 +15,14 @@
 
     @include( 'admin.reporte.js.cump_area_ajax' )
     @include( 'admin.ruta.js.ruta_ajax' )
-    @include( 'admin.ruta.js.crear' )
+    @include( 'admin.ruta.js.crearorden' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
 <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Crear Ruta del Proceso
+            Crear Ruta del Proceso - Orden de Trabajo
             <small> </small>
         </h1>
         <ol class="breadcrumb">
