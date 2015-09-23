@@ -273,6 +273,13 @@ class RutaFlujo extends Eloquent
                                             AND f.estado=1'
                                         );
                                     }
+
+                                    if( Input::has('tipo_flujo') AND Input::get('tipo_flujo')==1 ){
+                                        $query->where('f.tipo_flujo', '=', '1');
+                                    }
+                                    elseif( Input::has('tipo_flujo') AND Input::get('tipo_flujo')==2 ){
+                                        $query->where('f.tipo_flujo', '=', '2');
+                                    }
                                 }
                             )
                             ->groupBy('rf.id')
