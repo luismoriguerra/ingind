@@ -71,6 +71,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-3">
+                                                <label class="control-label"> Referente:</label>
+                                                <input class="form-control" id="txt_referente" name="txt_referente" type="text" placeholder="Ing. Trámite Ref.">
+                                            </div>
+                                            <div class="col-sm-3">
                                                 <label class="control-label">Tipo Solicitante:</label>
                                                 <select class="form-control" name="slct_tipo_persona" id="slct_tipo_persona" onchange="tpersona(this.value);">
                                                 </select>

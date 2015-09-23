@@ -58,8 +58,8 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">
+                                                <label class="control-label">Nro Trámite:</label>
                                                 <div class="input-group">
-                                                    <label class="control-label">Nro Trámite:</label>
                                                     <span class="input-group-addon">CI-</span>
                                                     <input class="form-control" id="txt_codigo" name="txt_codigo" type="text" placeholder="Ing. Trámite">
                                                 </div>
@@ -72,6 +72,10 @@
                                                     </div>
                                                     <input class="form-control" id="txt_fecha_tramite" name="txt_fecha_tramite" data-inputmask="'alias': 'yyyy/mm/dd'" data-mask="" type="text">
                                                 </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label class="control-label"> Referente:</label>
+                                                <input class="form-control" id="txt_referente" name="txt_referente" type="text" placeholder="Ing. Trámite Ref.">
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Tipo Solicitante:</label>
