@@ -14,6 +14,10 @@ class TipoSolicitante extends Base
                 if ( Input::get('estado') ) {
                     $query->where('estado','=','1');
                 }
+
+                if ( Input::get('id') ) {
+                    $query->where('id','=', Input::get('id') );
+                }
             }
             )
         ->orderBy('nombre')

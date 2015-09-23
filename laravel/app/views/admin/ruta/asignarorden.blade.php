@@ -43,7 +43,7 @@
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">
                                                 <label class="control-label">Fecha Inicio de la Gestión:</label>
-                                                <input type="text" class="form-control" name="txt_fecha_inicio" id="txt_fecha_inicio" readOnly>
+                                                <input type="text" class="form-control" name="txt_fecha_inicio" id="txt_fecha_inicio">
                                             </div>
                                             <div class="col-sm-5">
                                                 <label class="control-label">Proceso:</label>
@@ -58,8 +58,11 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">
-                                                <label class="control-label">Nro Trámite:</label>
-                                                <input class="form-control" id="txt_codigo" name="txt_codigo" type="text" placeholder="Ing. Trámite">
+                                                <div class="input-group">
+                                                    <label class="control-label">Nro Trámite:</label>
+                                                    <span class="input-group-addon">CI-</span>
+                                                    <input class="form-control" id="txt_codigo" name="txt_codigo" type="text" placeholder="Ing. Trámite">
+                                                </div>
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label"> Fecha Trámite:</label>

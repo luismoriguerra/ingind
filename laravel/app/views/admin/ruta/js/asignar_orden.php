@@ -14,16 +14,19 @@ $(document).ready(function() {
     //$("[data-toggle='offcanvas']").click();
     $("#btn_guardar_tiempo,#btn_guardar_verbo").remove();
     $("#btn_close").click(Close);
-    var data = {estado:1};
+    var data = {estado:1,tipo_flujo:2};
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
+    data = {estado:1};
     slctGlobal.listarSlct('area','slct_area2_id,#slct_area_id,#slct_area_p_id','simple',ids,data);
-    data={soloruta:1};
+    data={soloruta:1,tipo_flujo:2};
     slctGlobal.listarSlct('flujo','slct_flujo2_id','simple',ids,data);
     data = {estado:1};
     slctGlobal.listarSlct('software','slct_software_id_modal','simple',ids,data);
+    data = {id:3};
     slctGlobal.listarSlct('tiposolicitante','slct_tipo_persona','simple',ids,data);
 
+    data = {estado:1};
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
     slctGlobal.listarSlct2('documento','slct_documento_modal',data);
@@ -162,7 +165,7 @@ if (segundo < 10) {segundo = "0" + segundo}
 var horita = anio+"-"+mes+"-"+dia+" "+hora + ":" + minuto + ":" + segundo;
 $("#txt_fecha_inicio").val(horita);
 
-tiempo = setTimeout('hora()',1000);
+//tiempo = setTimeout('hora()',1000);
 }
 
 eventoSlctGlobalSimple=function(slct,valores){
