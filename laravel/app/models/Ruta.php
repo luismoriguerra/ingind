@@ -9,9 +9,15 @@ class Ruta extends Eloquent
     public function crearRuta(){
         DB::beginTransaction();
 
-        $tablaRelacion=DB::table('tablas_relacion')
-                        ->where('id_union', '=', Input::get('codigo'))
-                        ->where('estado', '=', '1')
+        $tablaRelacion=DB::table('tablas_relacion as tr')
+                        ->join(
+                            'rutas as r',
+                            'tr.id','=','r.tabla_relacion_id'
+                        )
+                        ->where('tr.id_union', '=', Input::get('codigo'))
+                        ->where('r.ruta_flujo_id', '=', Input::get('ruta_flujo_id'))
+                        ->where('tr.estado', '=', '1')
+                        ->where('r.estado', '=', '1')
                         ->get();
 
         if(count($tablaRelacion)>0){
@@ -28,19 +34,19 @@ class Ruta extends Eloquent
         $tablaRelacion['id_union']=Input::get('codigo');
         $tablaRelacion['fecha_tramite']=Input::get('fecha_tramite');
         $tablaRelacion['tipo_persona']=Input::get('tipo_persona');
-        if(Input::get('tipo_persona')==1){
+        if( Input::has('paterno') AND Input::has('materno') AND Input::has('nombre') ){
             $tablaRelacion['paterno']=Input::get('paterno');
             $tablaRelacion['materno']=Input::get('materno');
             $tablaRelacion['nombre']=Input::get('nombre');
         }
-        elseif(Input::get('tipo_persona')==2){
+        elseif( Input::has('razon_social') AND Input::has('ruc') ){
             $tablaRelacion['razon_social']=Input::get('razon_social');
             $tablaRelacion['ruc']=Input::get('ruc');
         }
-        elseif(Input::get('tipo_persona')==3){
+        elseif( Input::has('area_p_id') ){
             $tablaRelacion['area_id']=Input::get('area_p_id');
         }
-        else{
+        elseif( Input::has('razon_social') ){
             $tablaRelacion['razon_social']=Input::get('razon_social');
         }
         $tablaRelacion['sumilla']=Input::get('sumilla');

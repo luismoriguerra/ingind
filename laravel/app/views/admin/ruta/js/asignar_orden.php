@@ -31,8 +31,7 @@ $(document).ready(function() {
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
     slctGlobal.listarSlct2('documento','slct_documento_modal',data);
 
-    $("#txt_fecha_tramite").inputmask("yyyy/mm/dd", {"placeholder": "yyyy/mm/dd"});
-    $("[data-mask]").inputmask();
+    $("#txt_fecha_tramite").datetimepicker();
 
     Asignar.Relacion(RelacionHTML);
 
@@ -134,6 +133,9 @@ $(document).ready(function() {
 
 tpersona=function(valor){//1->natural,2->juridica,3->a.i. y 4->org social
     $(".natural, .juridica, .area, .org").css("display","none");
+    $(".natural input[type='text'], .juridica input[type='text'], .area select, .org input[type='text']").val("");
+    $(".area select").multiselect("refresh");
+
     if(valor==1 || valor==6){
         $(".natural").css("display","");
     }
@@ -165,6 +167,9 @@ if (segundo < 10) {segundo = "0" + segundo}
 var horita = anio+"-"+mes+"-"+dia+" "+hora + ":" + minuto + ":" + segundo;
 $("#txt_fecha_inicio").val(horita);
 
+    if( $("#txt_fecha_tramite").val()=='' ){
+        $("#txt_fecha_tramite").val(horita);
+    }
 //tiempo = setTimeout('hora()',1000);
 }
 

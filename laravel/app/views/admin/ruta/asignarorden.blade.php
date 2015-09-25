@@ -3,13 +3,11 @@
 
 @section('includes')
     @parent
-    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
+    {{ HTML::style('lib/datetime/css/bootstrap-datetimepicker.min.css') }}
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
-    {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
     
-    {{ HTML::script('lib/input-mask/js/jquery.inputmask.js') }}
-    {{ HTML::script('lib/input-mask/js/jquery.inputmask.date.extensions.js') }}
+    {{ HTML::script('lib/datetime/js/bootstrap-datetimepicker.min.js') }}
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
 
@@ -70,7 +68,7 @@
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input class="form-control" id="txt_fecha_tramite" name="txt_fecha_tramite" data-inputmask="'alias': 'yyyy/mm/dd'" data-mask="" type="text">
+                                                    <input class="form-control" id="txt_fecha_tramite" name="txt_fecha_tramite" type="text">
                                                 </div>
                                             </div>
                                             <div class="col-sm-3">
