@@ -31,7 +31,13 @@ class Ruta extends Eloquent
 
         $tablaRelacion=new TablaRelacion;
         $tablaRelacion['software_id']=1;
-        $tablaRelacion['id_union']=Input::get('codigo');
+
+        if( Input::has('ci') ){
+            $tablaRelacion['id_union']=Input::get('ci').Input::get('codigo');
+        }
+        else{
+            $tablaRelacion['id_union']=Input::get('codigo');
+        }
         $tablaRelacion['fecha_tramite']=Input::get('fecha_tramite');
         $tablaRelacion['tipo_persona']=Input::get('tipo_persona');
         if( Input::has('paterno') AND Input::has('materno') AND Input::has('nombre') ){

@@ -58,6 +58,7 @@
                                             <div class="col-sm-3">
                                                 <label class="control-label">Nro Trámite:</label>
                                                 <div class="input-group">
+                                                    <input type="hidden" value="CI-" name="txt_ci" id="txt_ci">
                                                     <span class="input-group-addon">CI-</span>
                                                     <input class="form-control" id="txt_codigo" name="txt_codigo" type="text" placeholder="Ing. Trámite">
                                                 </div>
