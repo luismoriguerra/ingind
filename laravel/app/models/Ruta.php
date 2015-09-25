@@ -49,6 +49,10 @@ class Ruta extends Eloquent
         elseif( Input::has('razon_social') ){
             $tablaRelacion['razon_social']=Input::get('razon_social');
         }
+
+        if( Input::has('referente') AND trim(Input::get('referente'))!='' ){
+            $tablaRelacion['referente']=Input::get('referente');
+        }
         $tablaRelacion['sumilla']=Input::get('sumilla');
         $tablaRelacion['usuario_created_at']=Auth::user()->id;
         $tablaRelacion->save();
@@ -109,6 +113,44 @@ class Ruta extends Eloquent
                             $rutaDetalleVerbo->save();
                         }
                     }
+            }
+
+            if( Input::has('referente') ){
+                $rutaid=$ruta->id;
+                $referente=trim( Input::get('referente') );
+                $sql="  SELECT r.id, IFNULL(tr.referente,'') referente
+                        FROM rutas r
+                        INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1
+                        WHERE r.estado=1
+                        AND tr.id_union='".$referente."'
+                        AND r.id < ".$rutaid."
+                        ORDER BY r.id DESC
+                        LIMIT 0,1
+                        ";
+                $padre= DB::select($sql);
+
+                while( count($padre)>0 ){
+                    $insert='INSERT INTO referentes (ruta_id,ruta_id_padre) 
+                             VALUES ('.$ruta->id.','.$padre[0]->id.')';
+                    $ins=DB::insert($insert);
+                    if( trim($padre[0]->referente)!='' ){
+                        $referente=$padre[0]->referente;
+                        $rutaid=$padre[0]->id;
+                        $sql="  SELECT r.id, IFNULL(tr.referente,'') referente
+                                FROM rutas r
+                                INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1
+                                WHERE r.estado=1
+                                AND tr.id_union='".$referente."'
+                                AND r.id < ".$rutaid."
+                                ORDER BY r.id DESC
+                                LIMIT 0,1
+                                ";
+                        $padre= DB::select($sql);
+                    }
+                    else{
+                        $padre=''; $padre=array();
+                    }
+                }
             }
 
         DB::commit();

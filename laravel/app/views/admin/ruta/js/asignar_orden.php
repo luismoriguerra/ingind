@@ -165,12 +165,15 @@ if (hora < 10) {hora = "0" + hora}
 if (minuto < 10) {minuto = "0" + minuto}
 if (segundo < 10) {segundo = "0" + segundo}
 var horita = anio+"-"+mes+"-"+dia+" "+hora + ":" + minuto + ":" + segundo;
-$("#txt_fecha_inicio").val(horita);
+
+    if( $("#txt_fecha_inicio").val()=='' ){
+        $("#txt_fecha_inicio").val(horita);
+    }
 
     if( $("#txt_fecha_tramite").val()=='' ){
         $("#txt_fecha_tramite").val(horita);
     }
-//tiempo = setTimeout('hora()',1000);
+tiempo = setTimeout('hora()',1000);
 }
 
 eventoSlctGlobalSimple=function(slct,valores){
