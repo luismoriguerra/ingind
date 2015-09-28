@@ -313,6 +313,9 @@ guardarTodo=function(){
     else if( ($("#slct_tipo_persona").val()=='4' || $("#slct_tipo_persona").val()=='5') && $("#txt_razon_social").val()=='' ){
         alert("Ingrese Razon Social");
     }
+    else if( $("#txt_responsable").val()=='' ){
+        alert("Ingrese Responsable de la Orden de Trabajo");
+    }
     else if( $("#txt_sumilla").val()=='' ){
         alert("Ingrese Sumilla");
     }

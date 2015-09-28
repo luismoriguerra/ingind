@@ -59,6 +59,10 @@ class Ruta extends Eloquent
         if( Input::has('referente') AND trim(Input::get('referente'))!='' ){
             $tablaRelacion['referente']=Input::get('referente');
         }
+
+        if( Input::has('responsable') AND trim(Input::get('responsable'))!='' ){
+            $tablaRelacion['responsable']=Input::get('responsable');
+        }
         $tablaRelacion['sumilla']=Input::get('sumilla');
         $tablaRelacion['usuario_created_at']=Auth::user()->id;
         $tablaRelacion->save();

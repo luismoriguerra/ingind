@@ -56,15 +56,15 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">
-                                                <label class="control-label">Nro Trámite:</label>
+                                                <label class="control-label">Nro Orden Trabajo:</label>
                                                 <div class="input-group">
                                                     <input type="hidden" value="CI-" name="txt_ci" id="txt_ci">
                                                     <span class="input-group-addon">CI-</span>
-                                                    <input class="form-control" id="txt_codigo" name="txt_codigo" type="text" placeholder="Ing. Trámite">
+                                                    <input class="form-control" id="txt_codigo" name="txt_codigo" type="text" placeholder="Ing. Orden Trabajo">
                                                 </div>
                                             </div>
                                             <div class="col-sm-3">
-                                                <label class="control-label"> Fecha Trámite:</label>
+                                                <label class="control-label"> Fecha Orden Trabajo:</label>
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
@@ -74,7 +74,7 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label"> Referente:</label>
-                                                <input class="form-control" id="txt_referente" name="txt_referente" type="text" placeholder="Ing. Trámite Ref.">
+                                                <input class="form-control" id="txt_referente" name="txt_referente" type="text" placeholder="Ing. Orden Trabajo Ref.">
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Tipo Solicitante:</label>
@@ -112,6 +112,12 @@
                                                 <select class="form-control" type="text" id="slct_area_p_id" name="slct_area_p_id">
                                                 <option value="">.:Seleccione:.</option>
                                                 </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-6">
+                                                <label class="control-label"> Responsable del Orden de Trabajo:</label>
+                                                <input class="form-control" type="text" id="txt_responsable" name="txt_responsable" placeholder='Responsable'>
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
