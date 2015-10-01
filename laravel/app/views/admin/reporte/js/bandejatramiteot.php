@@ -133,7 +133,7 @@ var minuto = fecha.getMinutes()
 var segundo = fecha.getSeconds()
 
 if (dia < 10) {dia = "0" + dia}
-if (mes < 9) {mes = "0" + (mes*1+1)}
+if (mes < 9) {mes = "0" + (mes*1+1)} else { mes=mes*1+1 }
 if (hora < 10) {hora = "0" + hora}
 if (minuto < 10) {minuto = "0" + minuto}
 if (segundo < 10) {segundo = "0" + segundo}
