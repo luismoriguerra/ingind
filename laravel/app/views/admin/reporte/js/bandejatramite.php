@@ -244,14 +244,13 @@ HTMLreporte=function(datos){
         html+=tr+
             //"<td class='small-col'></td>"+
             img+
+            "<td>"+'-'+"</td>"+
             "<td>"+data.id_union+"</td>"+
             "<td>"+data.tiempo+"</td>"+
             "<td>"+data.fecha_inicio+"</td>"+
             "<td>"+data.norden+"</td>"+
             "<td>"+data.fecha_tramite+"</td>"+
             "<td>"+data.nombre+"</td>"+
-            "<td>"+data.respuesta+' '+data.respuestad+"</td>"+
-            "<td>"+data.observacion+"</td>"+
             "<td>"+data.tipo_solicitante+"</td>"+
             "<td>"+data.solicitante+"</td>";
             if (data.id==='') {

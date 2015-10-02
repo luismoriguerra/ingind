@@ -103,14 +103,13 @@
                                         <tr>
                                             
                                             <th></th>
-                                            <th>Tramite</th>
+                                            <th>Doc. Generado por el paso anterior</th>
+                                            <th>Primer Doc. ingresado por Mesa de Partes</th>
                                             <th>Tiempo</th>
                                             <th>Fecha Inicio</th>
                                             <th>Paso</th>
                                             <th>Fecha tramite</th>
-                                            <th>Nombre</th>
-                                            <th>Respuesta</th>
-                                            <th>observacion</th>
+                                            <th>Asunto</th>
                                             <th>Tipo solicitante</th>
                                             <th>Solicitante</th>
                                             
