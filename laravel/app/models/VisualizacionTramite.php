@@ -57,8 +57,16 @@ class VisualizacionTramite extends Eloquent
                 ) AS persona_visual,
                 IFNULL(p.email,'') AS email,
                 IFNULL(tr.ruc,'') AS ruc,
-                IFNULL(tr.sumilla,'') AS sumilla
-
+                IFNULL(tr.sumilla,'') AS sumilla,
+                IF( rd.norden=1, tr.id_union,
+                    (
+                    SELECT group_concat( IF(rdv2.documento='',NULL,rdv2.documento) separator '//')
+                    FROM rutas_detalle_verbo rdv2
+                    INNER JOIN rutas_detalle rd2 ON rd2.id=rdv2.ruta_detalle_id
+                    WHERE rd2.ruta_id=rd.ruta_id
+                    AND rd2.norden=(rd.norden-1)
+                    )
+                ) id_union_ant
                 FROM rutas_detalle rd
                 JOIN rutas r ON rd.ruta_id=r.id and r.estado=1
                 JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id 

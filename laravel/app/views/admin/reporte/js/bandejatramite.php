@@ -244,7 +244,7 @@ HTMLreporte=function(datos){
         html+=tr+
             //"<td class='small-col'></td>"+
             img+
-            "<td>"+'-'+"</td>"+
+            "<td>"+$.trim(data.id_union_ant)+"</td>"+
             "<td>"+data.id_union+"</td>"+
             "<td>"+data.tiempo+"</td>"+
             "<td>"+data.fecha_inicio+"</td>"+
