@@ -78,7 +78,8 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Tipo Solicitante:</label>
-                                                <select class="form-control" name="slct_tipo_persona" id="slct_tipo_persona" onchange="tpersona(this.value);">
+                                                <select class="form-control" name="slct_tipo_persona" id="slct_tipo_persona">
+                                                    <option value="3" selected>Area Interna</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -106,18 +107,46 @@
                                                 <input class="form-control" type="text" id="txt_nombre" name="txt_nombre" placeholder='Nombre'>
                                             </div>
                                         </div>
-                                        <div class="col-sm-12 area" style="display:none">
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-3">
+                                                <label class="control-label">Autoriza Paterno:</label>
+                                                <input class="form-control" type="text" id="txt_paterno_autoriza" name="txt_paterno_autoriza" placeholder='Paterno'>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label class="control-label">Autoriza Materno:</label>
+                                                <input class="form-control" type="text" id="txt_materno_autoriza" name="txt_materno_autoriza" placeholder='Materno'>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label class="control-label">Autoriza Nombre:</label>
+                                                <input class="form-control" type="text" id="txt_nombre_autoriza" name="txt_nombre_autoriza" placeholder='Nombre'>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
                                             <div class="col-sm-3">
                                                 <label class="control-label"> Area Interna:</label>
                                                 <select class="form-control" type="text" id="slct_area_p_id" name="slct_area_p_id">
                                                 <option value="">.:Seleccione:.</option>
                                                 </select>
                                             </div>
+                                            <div class="col-sm-3">
+                                                <label class="control-label"> Rol de la persona que Autoriza:</label>
+                                                <select class="form-control" type="text" id="slct_rol_id" name="slct_rol_id">
+                                                <option value="">.:Seleccione:.</option>
+                                                </select>
+                                            </div>
                                         </div>
                                         <div class="col-sm-12">
-                                            <div class="col-sm-6">
-                                                <label class="control-label"> Responsable del Orden de Trabajo:</label>
-                                                <input class="form-control" type="text" id="txt_responsable" name="txt_responsable" placeholder='Responsable'>
+                                            <div class="col-sm-3">
+                                                <label class="control-label">Responsable Paterno:</label>
+                                                <input class="form-control" type="text" id="txt_paterno_responsable" name="txt_paterno_responsable" placeholder='Paterno'>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label class="control-label">Responsable Materno:</label>
+                                                <input class="form-control" type="text" id="txt_materno_responsable" name="txt_materno_responsable" placeholder='Materno'>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label class="control-label">Responsable Nombre:</label>
+                                                <input class="form-control" type="text" id="txt_nombre_responsable" name="txt_nombre_responsable" placeholder='Nombre'>
                                             </div>
                                         </div>
                                         <div class="col-sm-12">

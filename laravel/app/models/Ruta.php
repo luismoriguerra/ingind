@@ -40,6 +40,17 @@ class Ruta extends Eloquent
         }
         $tablaRelacion['fecha_tramite']=Input::get('fecha_tramite');
         $tablaRelacion['tipo_persona']=Input::get('tipo_persona');
+        if( Input::has('paterno_autoriza') AND Input::has('materno_autoriza') AND Input::has('nombre_autoriza') ){
+            $tablaRelacion['paterno_autoriza']=Input::get('paterno_autoriza');
+            $tablaRelacion['materno_autoriza']=Input::get('materno_autoriza');
+            $tablaRelacion['nombre_autoriza']=Input::get('nombre_autoriza');
+        }
+        if( Input::has('paterno_responsable') AND Input::has('materno_responsable') AND Input::has('nombre_responsable') ){
+            $tablaRelacion['paterno_responsable']=Input::get('paterno_responsable');
+            $tablaRelacion['materno_responsable']=Input::get('materno_responsable');
+            $tablaRelacion['nombre_responsable']=Input::get('nombre_responsable');
+        }
+
         if( Input::has('paterno') AND Input::has('materno') AND Input::has('nombre') ){
             $tablaRelacion['paterno']=Input::get('paterno');
             $tablaRelacion['materno']=Input::get('materno');
@@ -103,6 +114,19 @@ class Ruta extends Eloquent
                 }
                 $rutaDetalle['usuario_created_at']= Auth::user()->id;
                 $rutaDetalle->save();
+
+                if( $rd->norden==1 AND Input::has('ci') ){
+                    $rutaDetalleVerbo = new RutaDetalleVerbo;
+                    $rutaDetalleVerbo['ruta_detalle_id']= $rutaDetalle->id;
+                    $rutaDetalleVerbo['nombre']= '';
+                    $rutaDetalleVerbo['condicion']= '0';
+                    $rutaDetalleVerbo['rol_id']= Input::get('rol_id');
+                    $rutaDetalleVerbo['verbo_id']= '1';
+                    $rutaDetalleVerbo['orden']= '0';
+                    $rutaDetalleVerbo['finalizo']='1';
+                    $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
+                    $rutaDetalleVerbo->save();
+                }
 
                 $qrutaDetalleVerbo=DB::table('rutas_flujo_detalle_verbo')
                                 ->where('ruta_flujo_detalle_id', '=', $rd->id)

@@ -96,9 +96,10 @@ var Asignar={
                 if(obj.rst==1){
                     $("#tb_ruta_flujo").html("");
                     $("#form_asignar input[type='hidden']").remove();
+                    $("#form_asignar").append('<input type="hidden" value="CI-" name="txt_ci" id="txt_ci">');
                     $(".natural, .juridica, .area").css("display","none");
-                    $("#form_asignar input[type='text'],#form_asignar select,#form_asignar textarea").val("");
-                    $('#form_asignar select').multiselect('refresh');
+                    $("#form_asignar input[type='text'],#form_asignar textarea,#form_asignar #slct_flujo2_id,#form_asignar #slct_area2_id,#form_asignar #slct_area_p_id,#form_asignar #slct_rol_id").val("");
+                    $('#form_asignar #slct_flujo2_id,#form_asignar #slct_area2_id,#form_asignar #slct_area_p_id,#form_asignar #slct_rol_id').multiselect('refresh');
                     $("#msj").html('<div class="alert alert-dismissable alert-success">'+
                                         '<i class="fa fa-check"></i>'+
                                         '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+

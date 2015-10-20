@@ -24,9 +24,11 @@ $(document).ready(function() {
     data = {estado:1};
     slctGlobal.listarSlct('software','slct_software_id_modal','simple',ids,data);
     data = {id:3};
-    slctGlobal.listarSlct('tiposolicitante','slct_tipo_persona','simple',ids,data);
+    //slctGlobal.listarSlct('tiposolicitante','slct_tipo_persona','simple',ids,data);
 
     data = {estado:1};
+    slctGlobal.listarSlct('rol','slct_rol_id','simple',ids,data);
+
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
     slctGlobal.listarSlct2('documento','slct_documento_modal',data);
@@ -313,8 +315,26 @@ guardarTodo=function(){
     else if( ($("#slct_tipo_persona").val()=='4' || $("#slct_tipo_persona").val()=='5') && $("#txt_razon_social").val()=='' ){
         alert("Ingrese Razon Social");
     }
-    else if( $("#txt_responsable").val()=='' ){
-        alert("Ingrese Responsable de la Orden de Trabajo");
+    else if( $("#slct_rol_id").val()=='' ){
+        alert("Seleccione Rol de la persona que autoriza");
+    }
+    else if( $("#txt_paterno_autoriza").val()=='' ){
+        alert("Ingrese Autoriza Paterno");
+    }
+    else if( $("#txt_materno_autoriza").val()=='' ){
+        alert("Ingrese Autoriza Materno")
+    }
+    else if( $("#txt_nombre_autoriza").val()=='' ){
+        alert("Ingrese Autoriza Nombre");
+    }
+    else if( $("#txt_paterno_responsable").val()=='' ){
+        alert("Ingrese Responsable Paterno");
+    }
+    else if( $("#txt_materno_responsable").val()=='' ){
+        alert("Ingrese Responsable Materno")
+    }
+    else if( $("#txt_nombre_responsable").val()=='' ){
+        alert("Ingrese Responsable Nombre");
     }
     else if( $("#txt_sumilla").val()=='' ){
         alert("Ingrese Sumilla");
