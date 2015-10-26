@@ -188,6 +188,7 @@ class ReporteController extends BaseController
                         FROM rutas_detalle rd
                         WHERE rd.ruta_id=r.id
                               AND rd.alerta=1
+                              AND rd.alerta_tipo>1
                             ),'Trunco',
                         IF(
                             (SELECT COUNT(norden)

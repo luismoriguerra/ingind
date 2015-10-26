@@ -167,11 +167,17 @@ HTMLreporteDetalle=function(datos){
             if(data.alerta=='0'){
                 estado_final='Concluido';
             }
-            else if(data.alerta=='1'){
-                estado_final='Truncado';
+            else if(data.alerta=='1' && data.alerta_tipo=='1'){
+                estado_final='A Destiempo';
+            }
+            else if(data.alerta=='1' && data.alerta_tipo=='2'){
+                estado_final='Lo He Detenido a Destiempo';
+            }
+            else if(data.alerta=='1' && data.alerta_tipo=='3'){
+                estado_final='Lo He Detenido';
             }
             else if(data.alerta=='2'){
-                estado_final='Truncado R.';
+                estado_final='Lo He Detenido R.';
             }
         }
 
