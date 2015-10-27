@@ -640,7 +640,9 @@ class ReporteController extends BaseController
                 IFNULL(max(r.fecha_inicio),'')  AS fecha_inicio,
                 rf.created_at AS fecha_creacion,
                 rf.updated_at AS fecha_produccion,
-                (SELECT CONCAT(count(distinct(r.id)),'/',count(r2.id)) FROM rutas r2 WHERE r2.estado=1 and r2.ruta_flujo_id=rf.id) AS ntramites,
+                CONCAT(count(distinct(r.id)),'/',count(DISTINCT(ruf.id))) ntramites,
+                count(DISTINCT(IF(ruf.dtiempo_final is null,null,ruf.id))) concluidos,
+                count(DISTINCT(IF(ruf.dtiempo_final is null,ruf.id,null))) inconclusos,
                 rf.estado AS estado_final
                 FROM flujos f 
                 JOIN rutas_flujo rf ON rf.flujo_id=f.id
@@ -648,6 +650,18 @@ class ReporteController extends BaseController
                 JOIN rutas_flujo_detalle rfd ON rfd.ruta_flujo_id=rf.id AND rfd.estado=1
                 JOIN areas a ON rf.area_id=a.id
                 LEFT JOIN rutas r ON r.ruta_flujo_id=rf.id
+                LEFT JOIN (
+                      SELECT ru.id,rd.fecha_inicio,rd.id rdid,rd.alerta,rd.alerta_tipo,rd.dtiempo_final
+                      FROM rutas ru 
+                      INNER JOIN rutas_detalle rd ON rd.ruta_id=ru.id AND rd.estado=1
+                      WHERE ru.estado=1
+                      AND CONCAT(rd.fecha_inicio,'_',rd.id) IN (
+                        SELECT MAX(CONCAT(rdf.fecha_inicio,'_',rdf.id))
+                        FROM rutas_detalle rdf
+                        WHERE rdf.ruta_id=ru.id
+                      )
+                      GROUP BY ru.id
+                ) ruf ON ruf.id=r.id
                 WHERE f.id IN ('".$areaId."') 
                 AND f.estado=1
                 AND a.estado=1
