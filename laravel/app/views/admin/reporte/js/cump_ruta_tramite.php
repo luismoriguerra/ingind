@@ -213,6 +213,11 @@ detalletra=function(ruta_flujo_id, boton){
         trs[i].style.backgroundColor="#f9f9f9";
     tr.style.backgroundColor = "#9CD9DE";
     var data={id:ruta_flujo_id};
+
+    fecha=$("#fecha").val();
+    tipofecha=$("#slct_tipo_fecha").val();
+    data = {id:ruta_flujo_id,fecha:fecha,tipofecha:tipofecha};
+
     Rutas.mostrar(data);
 }
 

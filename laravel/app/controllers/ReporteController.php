@@ -154,6 +154,14 @@ class ReporteController extends BaseController
         $fecha = Input::get('fecha');
         list($fechaIni,$fechaFin) = explode(" - ", $fecha);*/
         $rutaFlujoId=Input::get('id');
+
+        $fecha = Input::get('fecha');
+        list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+        $tipofecha=Input::get('tipofecha');
+        $tf='';
+        if($tipofecha==2){
+          $tf=" AND r.fecha_inicio BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+        }
         /*
         $query = "SELECT tr.id_union, r.id, s.nombre as software,
                 p.nombre as persona, a.nombre as area, r.fecha_inicio,
@@ -240,6 +248,7 @@ class ReporteController extends BaseController
                 inner join tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
                 LEFT JOIN areas a ON a.id=tr.area_id
                 WHERE r.ruta_flujo_id='".$rutaFlujoId."'
+                $tf
                 AND tr.estado=1";
 
         $table=DB::select($query);
