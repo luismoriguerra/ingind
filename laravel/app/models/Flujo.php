@@ -21,7 +21,7 @@ class Flujo extends Base
                          ->where('rfd.norden', '=', 1);
                 })
                 ->select('f.id','f.nombre','f.estado','a.nombre AS area','f.area_id','f.area_id AS evento',
-                    DB::raw('IF(f.tipo_flujo=1,"Trámite","Orden Trabajo") as tipo_flujo,f.tipo_flujo as tipo_flujo_id')
+                    DB::raw('IF(f.tipo_flujo=1,"Trámite","Proceso de oficio") as tipo_flujo,f.tipo_flujo as tipo_flujo_id')
                 )
                 ->where( 
                     function($query){
