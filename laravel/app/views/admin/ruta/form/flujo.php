@@ -36,7 +36,7 @@
               <select class="form-control" name="slct_tipo" id="slct_tipo">
                 <option value="">--Seleccione--</option>
                 <option value="1">Trámite</option>
-                <option value="2">Orden de Trabajo</option>
+                <option value="2">Proceso de oficio</option>
               </select>
           </div>
           <div class="form-group">
