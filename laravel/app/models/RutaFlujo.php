@@ -227,6 +227,17 @@ class RutaFlujo extends Eloquent
                             )
                             ->where(
                                 function($query){
+                                    if ( Input::get('fecha') ){
+                                        $fecha = Input::get('fecha');
+                                        list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+                                        $areaId=implode('","',Input::get('area_id'));
+                                        $query->whereRaw(
+                                            ' rf.area_id IN ("'.$areaId.'") 
+                                            AND date(rf.created_at) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'"
+                                            AND rf.estado IN (1,2)
+                                            AND f.estado=1'
+                                        );
+                                    }
                                     if ( Input::get('vista') ) {
                                         //$query->where('rf.estado', '=', '2')
                                         $query->whereRaw(

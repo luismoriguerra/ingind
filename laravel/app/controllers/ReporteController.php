@@ -934,4 +934,15 @@ class ReporteController extends BaseController
             )
         );
     }
+
+    public function postUsuarios(){
+      $r=Usuario::ListarUsuarios();
+
+      return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$r
+            )
+        );
+    }
 }

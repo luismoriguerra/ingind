@@ -76,7 +76,10 @@ var Ruta={
     CargarRuta:function(evento,vista){
         var datos={};
 
-        if(vista!=null && vista==1){
+        if(dataG!=null){
+            datos=dataG;
+        }
+        else if(vista!=null && vista==1){
             datos={vista:1,tipo_flujo:BandejaTramite};
         }
         else if(vista==3){
