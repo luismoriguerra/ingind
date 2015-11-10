@@ -76,7 +76,7 @@ var Ruta={
     CargarRuta:function(evento,vista){
         var datos={};
 
-        if(dataG!=null){
+        if(typeof dataG != "undefined" && dataG!=null){
             datos=dataG;
         }
         else if(vista!=null && vista==1){

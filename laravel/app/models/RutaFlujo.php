@@ -238,7 +238,7 @@ class RutaFlujo extends Eloquent
                                             AND f.estado=1'
                                         );
                                     }
-                                    if ( Input::get('vista') ) {
+                                    elseif ( Input::get('vista') ) {
                                         //$query->where('rf.estado', '=', '2')
                                         $query->whereRaw(
                                             'rfd.area_id IN (
