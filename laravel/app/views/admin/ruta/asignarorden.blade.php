@@ -20,7 +20,7 @@
             <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        Asignar orden de trabajo al Proceso
+                        Asignar Proceso de oficio
                         <small> </small>
                     </h1>
                     <ol class="breadcrumb">
@@ -48,7 +48,7 @@
                                                 <select class="form-control" name="slct_flujo2_id" id="slct_flujo2_id">
                                                 </select>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-3" style="display:none">
                                                 <label class="control-label">Area:</label>
                                                 <select class="form-control" disabled name="slct_area2_id" id="slct_area2_id">
                                                 </select>
@@ -56,7 +56,7 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">
-                                                <label class="control-label">Nro Orden Trabajo:</label>
+                                                <label class="control-label">N° de Carta de Inicio:</label>
                                                 <div class="input-group">
                                                     <input type="hidden" value="CI-" name="txt_ci" id="txt_ci">
                                                     <span class="input-group-addon">CI-</span>
@@ -72,11 +72,11 @@
                                                     <input class="form-control" id="txt_fecha_tramite" name="txt_fecha_tramite" type="text">
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-3" style="display:none">
                                                 <label class="control-label"> Referente:</label>
                                                 <input class="form-control" id="txt_referente" name="txt_referente" type="text" placeholder="Ing. Orden Trabajo Ref.">
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-3" style="display:none">
                                                 <label class="control-label">Tipo Solicitante:</label>
                                                 <select class="form-control" name="slct_tipo_persona" id="slct_tipo_persona">
                                                     <option value="3" selected>Area Interna</option>
@@ -110,20 +110,25 @@
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">
                                                 <label class="control-label">Autoriza Paterno:</label>
-                                                <input class="form-control" type="text" id="txt_paterno_autoriza" name="txt_paterno_autoriza" placeholder='Paterno'>
+                                                <input class="form-control" type="text" id="txt_paterno_autoriza" name="txt_paterno_autoriza" placeholder='Paterno' readonly>
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Autoriza Materno:</label>
-                                                <input class="form-control" type="text" id="txt_materno_autoriza" name="txt_materno_autoriza" placeholder='Materno'>
+                                                <input class="form-control" type="text" id="txt_materno_autoriza" name="txt_materno_autoriza" placeholder='Materno' readonly>
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Autoriza Nombre:</label>
-                                                <input class="form-control" type="text" id="txt_nombre_autoriza" name="txt_nombre_autoriza" placeholder='Nombre'>
+                                                <input class="form-control" type="text" id="txt_nombre_autoriza" name="txt_nombre_autoriza" placeholder='Nombre' readonly>
+                                            </div>
+                                            <div class="col-sm-1"><br>
+                                                <a class="btn btn-primary btn-sm">
+                                                    <i class='fa fa-seach fa-lg'>Buscar</i>
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
-                                            <div class="col-sm-3">
-                                                <label class="control-label"> Area Interna:</label>
+                                            <div class="col-sm-5">
+                                                <label class="control-label"> Área del que autoriza y del responsable:</label>
                                                 <select class="form-control" type="text" id="slct_area_p_id" name="slct_area_p_id">
                                                 <option value="">.:Seleccione:.</option>
                                                 </select>
@@ -138,21 +143,26 @@
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">
                                                 <label class="control-label">Responsable Paterno:</label>
-                                                <input class="form-control" type="text" id="txt_paterno_responsable" name="txt_paterno_responsable" placeholder='Paterno'>
+                                                <input class="form-control" type="text" id="txt_paterno_responsable" name="txt_paterno_responsable" placeholder='Paterno' readonly>
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Responsable Materno:</label>
-                                                <input class="form-control" type="text" id="txt_materno_responsable" name="txt_materno_responsable" placeholder='Materno'>
+                                                <input class="form-control" type="text" id="txt_materno_responsable" name="txt_materno_responsable" placeholder='Materno' readonly>
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Responsable Nombre:</label>
-                                                <input class="form-control" type="text" id="txt_nombre_responsable" name="txt_nombre_responsable" placeholder='Nombre'>
+                                                <input class="form-control" type="text" id="txt_nombre_responsable" name="txt_nombre_responsable" placeholder='Nombre' readonly>
+                                            </div>
+                                            <div class="col-sm-1"><br>
+                                                <a class="btn btn-primary btn-sm">
+                                                    <i class='fa fa-seach fa-lg'>Buscar</i>
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-6">
-                                                <label class="control-label"> Ingresar Sumilla:</label>
-                                                <textarea class="form-control" id="txt_sumilla" name="txt_sumilla"></textarea>
+                                                <label class="control-label"> Objetivo de la carta de inicio:</label>
+                                                <textarea class="form-control" id="txt_sumilla" name="txt_sumilla" readonly></textarea>
                                             </div>
                                         </div>
                                     </div>
