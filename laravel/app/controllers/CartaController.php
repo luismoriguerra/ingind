@@ -16,38 +16,15 @@ class CartaController extends \BaseController
         }
     }
 
-    /*public function postCrear()
+    public function postGuardar()
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $regex='regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
-            $required='required';
-            $reglas = array(
-                'nombre' => $required.'|'.$regex,
-                //'path' =>$regex.'|unique:modulos,path,',
-            );
-
-            $mensaje= array(
-                'required'    => ':attribute Es requerido',
-                'regex'        => ':attribute Solo debe ser Texto',
-            );
-
-            $validator = Validator::make(Input::all(), $reglas, $mensaje);
-
-            if ( $validator->fails() ) {
-                return Response::json(
-                    array(
-                    'rst'=>2,
-                    'msj'=>$validator->messages(),
-                    )
-                );
-            }
-
-            $documento = new Documento;
+            /*$documento = new Documento;
             $documento['nombre'] = Input::get('nombre');
             $documento['estado'] = Input::get('estado');
             $documento['usuario_created_at'] = Auth::user()->id;
-            $documento->save();
+            $documento->save();*/
 
             return Response::json(
                 array(
@@ -56,5 +33,5 @@ class CartaController extends \BaseController
                 )
             );
         }
-    }*/
+    }
 }

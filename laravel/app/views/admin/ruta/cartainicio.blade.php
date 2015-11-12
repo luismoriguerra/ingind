@@ -35,7 +35,7 @@
         <div class="col-xs-12">
             <!-- Inicia contenido -->
             <div class="box">
-                <form name="form_asignar" id="form_asignar" method="POST" action="">
+                <form name="form_carta" id="form_carta" method="POST" action="">
                     <div class="row form-group" id="tabla_relacion">
                         <div class="col-sm-12">
                             <div class="box-body table-responsive">
@@ -73,35 +73,44 @@
                     <br>
                     <div class="row form-group" id="cartainicio" style="display:none">
                         <div class="col-sm-12">
-                            <div class="col-sm-4">
-                                <label class="control-label title">Carta N° : <input id="txt_nro_carta" name="txt_nro_carta" type="text"></label>
+                            <div class="col-sm-2">
+                                <div class="box box-solid bg-blue">Carta N° :</div>
+                            </div>
+                            <div class="col-sm-3">
+                                <input id="txt_nro_carta" name="txt_nro_carta" type="text">
                             </div>
                         </div>
                         <div class="col-sm-12">
+                            <div class="col-sm-2">
+                                <label class="box box-solid bg-blue">Objetivo del Proyecto:</label>
+                            </div>
                             <div class="col-sm-10">
-                                <label class="control-label">Objetivo del Proyecto:</label>
                                 <textarea class="form-control" id="txt_objetivo" name="txt_objetivo"></textarea>
                             </div>
                         </div>
                         <div class="col-sm-12">
+                            <div class="col-sm-2">
+                                <label class="box box-solid bg-blue">Entregables del Proyecto:</label>
+                            </div>
                             <div class="col-sm-10">
-                                <label class="control-label">Entregables del Proyecto:</label>
                                 <textarea class="form-control" id="txt_entregable" name="txt_entregable"></textarea>
                             </div>
                         </div>
                         <div class="col-sm-12">
+                            <div class="col-sm-2">
+                                <label class="box box-solid bg-blue">Alcance del Proyecto:</label>
+                            </div>
                             <div class="col-sm-10">
-                                <label class="control-label">Alcance del Proyecto:</label>
                                 <textarea class="form-control" id="txt_alcance" name="txt_alcance"></textarea>
                             </div>
                         </div>
                         <div class="col-sm-12">
-                            <div class="col-sm-3">
-                                <label class="control-label">Recursos (No humanos):</label>
-                                <a class="btn btn-success btn-sm">
+                                <label class="box box-solid bg-blue">
+                                <a id="btn_recursos_0" onclick="AddTr(this.id);" class="btn btn-success btn-sm">
                                     <i class="fa fa-plus fa-lg"></i>
                                 </a>
-                            </div>
+                                Recursos (No humanos):
+                                </label>
                         </div>
                         <div class="row form-group" id="tabla_recursos">
                             <div class="col-sm-12">
@@ -121,19 +130,14 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="col-sm-12">
-                                <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#asignarModal">
-                                    <i class="fa fa-save fa-lg"></i>&nbsp;Nuevo
-                                </a>
-                            </div>
                         </div>
                         <div class="col-sm-12">
-                            <div class="col-sm-3">
-                                <label class="control-label">Métricos:</label>
-                                <a class="btn btn-success btn-sm">
+                                <label class="box box-solid bg-blue">
+                                <a id="btn_metricos_1" onclick="AddTr(this.id);" class="btn btn-success btn-sm">
                                     <i class="fa fa-plus fa-lg"></i>
                                 </a>
-                            </div>
+                                Métricos:
+                                </label>
                         </div>
                         <div class="row form-group" id="tabla_metricos">
                             <div class="col-sm-12">
@@ -154,24 +158,19 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="col-sm-12">
-                                <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#asignarModal">
-                                    <i class="fa fa-save fa-lg"></i>&nbsp;Nuevo
-                                </a>
-                            </div>
                         </div>
                         <div class="col-sm-12">
-                            <div class="col-sm-3">
-                                <label class="control-label">Desglose de Carta de Inicio N°:</label>
-                                <a class="btn btn-success btn-sm">
+                                <label class="box box-solid bg-blue">
+                                <a id="btn_desgloses_2" onclick="AddTr(this.id);" class="btn btn-success btn-sm">
                                     <i class="fa fa-plus fa-lg"></i>
                                 </a>
-                            </div>
+                                Desglose de Carta de Inicio N°:
+                                </label>
                         </div>
-                        <div class="row form-group" id="tabla_metricos">
+                        <div class="row form-group" id="tabla_desgloses">
                             <div class="col-sm-12">
                                 <div class="box-body table-responsive">
-                                    <table id="t_metricos" class="table table-bordered table-striped">
+                                    <table id="t_desgloses" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th>N°</th>
@@ -192,8 +191,8 @@
                                 </div>
                             </div>
                             <div class="col-sm-12">
-                                <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#asignarModal">
-                                    <i class="fa fa-save fa-lg"></i>&nbsp;Nuevo
+                                <a class="btn btn-primary btn-sm" id="btn_guardar">
+                                    <i class="fa fa-save fa-lg"></i>&nbsp;Guardar
                                 </a>
                             </div>
                         </div>
