@@ -7,31 +7,30 @@ class CartaController extends \BaseController
         $this->beforeFilter('auth');
     }
 
-    public function postCargar()
+    public function postCargardetalle()
     {
-        //si la peticion es ajax
         if ( Request::ajax() ) {
-            $r = Carta::Cargar();
+            $r = Carta::CargarDetalle();
             return Response::json(array('rst'=>1,'datos'=>$r));
         }
     }
 
     public function postGuardar()
     {
-        //si la peticion es ajax
         if ( Request::ajax() ) {
-            /*$documento = new Documento;
-            $documento['nombre'] = Input::get('nombre');
-            $documento['estado'] = Input::get('estado');
-            $documento['usuario_created_at'] = Auth::user()->id;
-            $documento->save();*/
-
+            $r=Carta::CrearActualizar();
             return Response::json(
-                array(
-                'rst'=>1,
-                'msj'=>'Registro realizado correctamente',
-                )
+                $r
             );
         }
     }
+
+    public function postCargar()
+    {
+        if ( Request::ajax() ) {
+            $r = Carta::Cargar();
+            return Response::json(array('rst'=>1,'datos'=>$r));
+        }
+    }
+
 }

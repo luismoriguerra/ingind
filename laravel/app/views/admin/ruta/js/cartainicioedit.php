@@ -3,7 +3,7 @@ var PosCarta=[];
 PosCarta[0]=0;PosCarta[1]=0;PosCarta[2]=0;
 var recursos=[]; var recursosid=[];
 recursos.push("Ingrese Descripción");       recursosid.push("rec_des");
-recursos.push("Ingrese Cantidad");          recursosid.push("rec_cant");
+recursos.push("Ingrese Cantidad");          recursosid.push("rec_can");
 recursos.push("Ingrese Total");             recursosid.push("rec_tot");
 var metricos=[]; var metricosid=[];
 metricos.push("Ingrese Métrico");           metricosid.push("met_met");
@@ -19,21 +19,56 @@ desgloses.push("Seleccione Fecha Inicio");  desglosesid.push("des_fin");
 desgloses.push("Seleccione Fecha Fin");     desglosesid.push("des_ffi");
 desgloses.push("Seleccione Hora Inicio");   desglosesid.push("des_hin");
 desgloses.push("Seleccione Hora Fin");      desglosesid.push("des_hfi");
+
 $(document).ready(function() {
     Carta.CargarCartas(HTMLCargarCartas);
     $("#btn_nuevo").click(Nuevo);
     $("#btn_close").click(Close);
     $("#btn_guardar").click(Guardar);
-
-    /*
-    $("#btn_guardar_tiempo,#btn_guardar_verbo").remove();
-    var data = {estado:1,tipo_flujo:1};
-    var ids = [];
-    slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
-    data = {estado:1};
-    slctGlobal.listarSlct('area','slct_area2_id,#slct_area_id,#slct_area_p_id','simple',ids,data);
-    */
 });
+
+HTMLCargarDetalleCartas=function(datos){
+    Nuevo();
+    var html="";
+    var rec=[];var met=[]; var des=[];
+
+    $("#form_carta #txt_carta_id").remove();
+    $.each(datos,function(index,data){
+        $("#form_carta").append("<input type='hidden' name='txt_carta_id' id='txt_carta_id' value='"+data.id+"'>");
+        $("#txt_nro_carta").val(data.nro_carta);
+        $("#txt_objetivo").val(data.objetivo);
+        $("#txt_entregable").val(data.entregable);
+        $("#txt_alcance").val(data.alcance);
+
+        if( data.recursos!=null && data.recursos.split("|").length>1 ){
+            rec=data.recursos.split("*");
+            for( i=0; i<rec.length; i++ ){
+                AddTr("btn_recursos_0",rec[i]);
+            }
+        }
+
+        if( data.metricos!=null && data.metricos.split("|").length>1 ){
+            met=data.metricos.split("*");
+            for( i=0; i<met.length; i++ ){
+                AddTr("btn_metricos_1",met[i]);
+            }
+        }
+
+        if( data.desgloses!=null && data.desgloses.split("|").length>1 ){
+            des=data.desgloses.split("*");
+            for( i=0; i<des.length; i++ ){
+                AddTr("btn_desgloses_2",des[i]);
+            }
+        }
+
+    });
+}
+
+CargarRegistro=function(id){
+    Limpiar();
+    var datos={carta_id:id};
+    Carta.CargarDetalleCartas(HTMLCargarDetalleCartas,datos);
+}
 
 Validacion=function(){
     var r=true;
@@ -50,7 +85,6 @@ Validacion=function(){
 Limpiar=function(){
     $("#form_carta input[type='text'],#form_carta textarea,#form_carta select").val("");
     $("#t_recursos tbody,#t_metricos tbody,#t_desgloses tbody").html("");
-    Carta.CargarCartas(HTMLCargarCartas);
     Close();
 }
 
@@ -61,17 +95,24 @@ Guardar=function(){
     }
 }
 
-AddTr=function(id){
+AddTr=function(id,value){
     var idf=id.split("_")[1];
     var pos=id.split("_")[2];
     PosCarta[pos]++;
-    var datatext=""; var dataid="";
+    var datatext=""; var dataid=""; var val="";
+    var clase="";
 
     var add="<tr id='tr_"+idf+"_"+PosCarta[pos]+"'>";
         add+="<td>";
         add+=$("#t_"+idf+" tbody tr").length+1;
         add+="</td>";
     for (var i = 0; i < ($("#t_"+idf+" thead tr th").length-2); i++) {
+
+        clase='';
+        if ( value!='0' ){
+            val=value.split("|")[i].split("0000-00-00").join("").split("00:00:00").join("");
+        }
+
         if ( idf=="recursos" ){
             datatext=recursos[i];
             dataid=recursosid[i];
@@ -88,8 +129,9 @@ AddTr=function(id){
                 clase='fecha';
             }
         }
+
         add+="<td>";
-        add+="<input class='form-control col-sm-12 "+clase+"' type='text' data-text='"+datatext+"' data-type='txt' id='txt_"+idf+"_"+PosCarta[pos]+"' name='txt_"+dataid+"[]'>";
+        add+="<input class='form-control col-sm-12 "+clase+"' type='text' data-text='"+datatext+"' data-type='txt' id='txt_"+idf+"_"+PosCarta[pos]+"' name='txt_"+dataid+"[]' value='"+val+"'>";
         add+="</td>";
     };
         add+="<td>";
@@ -135,7 +177,8 @@ HTMLCargarCartas=function(datos){
         html+="<tr>"+
             "<td >"+data.nro_carta+"</td>"+
             "<td >"+data.objetivo+"</td>"+
-            "<td >"+data.entregable+"</td>";
+            "<td >"+data.entregable+"</td>"+
+            "<td> <a class='btn btn-primary btn-sm' onClick='CargarRegistro("+data.id+")'><i class='fa fa-edit fa-lg'></i></a></td>";
         html+="</tr>";
     });
     $("#tb_carta").html(html); 

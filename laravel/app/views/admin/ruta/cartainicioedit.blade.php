@@ -3,23 +3,23 @@
 
 @section('includes')
     @parent
-    {{ HTML::style('lib/datetime/css/bootstrap-datetimepicker.min.css') }}
+    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
-    
-    {{ HTML::script('lib/datetime/js/bootstrap-datetimepicker.min.js') }}
+    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
+    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
 
     @include( 'admin.ruta.js.cartainicio_ajax' )
-    @include( 'admin.ruta.js.cartainicio' )
+    @include( 'admin.ruta.js.cartainicioedit' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
             <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Crear Carta de Inicio
+        Editar Carta de Inicio
         <small> </small>
     </h1>
     <ol class="breadcrumb">
@@ -45,6 +45,7 @@
                                             <th>Carta</th>
                                             <th>Objetivo</th>
                                             <th>Entregable</th>
+                                            <th>[ ]</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tb_carta">
@@ -55,15 +56,11 @@
                                             <th>Carta</th>
                                             <th>Objetivo</th>
                                             <th>Entregable</th>
+                                            <th>[ ]</th>
                                         </tr>
                                     </tfoot>
                                 </table>
                             </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <a class="btn btn-primary btn-sm" id="btn_nuevo">
-                                <i class="fa fa-save fa-lg"></i>&nbsp;Nuevo
-                            </a>
                         </div>
                     </div>
                     <br>
@@ -104,7 +101,7 @@
                         </div>
                         <div class="col-sm-12">
                                 <label class="box box-solid bg-blue">
-                                <a id="btn_recursos_0" onclick="AddTr(this.id);" class="btn btn-success btn-sm">
+                                <a id="btn_recursos_0" onclick="AddTr(this.id,0);" class="btn btn-success btn-sm">
                                     <i class="fa fa-plus fa-lg"></i>
                                 </a>
                                 Recursos (No humanos):
@@ -131,7 +128,7 @@
                         </div>
                         <div class="col-sm-12">
                                 <label class="box box-solid bg-blue">
-                                <a id="btn_metricos_1" onclick="AddTr(this.id);" class="btn btn-success btn-sm">
+                                <a id="btn_metricos_1" onclick="AddTr(this.id,0);" class="btn btn-success btn-sm">
                                     <i class="fa fa-plus fa-lg"></i>
                                 </a>
                                 Métricos:
@@ -159,7 +156,7 @@
                         </div>
                         <div class="col-sm-12">
                                 <label class="box box-solid bg-blue">
-                                <a id="btn_desgloses_2" onclick="AddTr(this.id);" class="btn btn-success btn-sm">
+                                <a id="btn_desgloses_2" onclick="AddTr(this.id,0);" class="btn btn-success btn-sm">
                                     <i class="fa fa-plus fa-lg"></i>
                                 </a>
                                 Desglose de Carta de Inicio N°:
@@ -188,11 +185,11 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="col-sm-12">
-                                <a class="btn btn-primary btn-sm" id="btn_guardar">
-                                    <i class="fa fa-save fa-lg"></i>&nbsp;Guardar
-                                </a>
-                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <a class="btn btn-primary btn-sm" id="btn_guardar">
+                                <i class="fa fa-save fa-lg"></i>&nbsp;Guardar
+                            </a>
                         </div>
                     </div>
                 </form>
