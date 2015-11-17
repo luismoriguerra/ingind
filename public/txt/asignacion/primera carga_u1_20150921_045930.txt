@@ -1,0 +1,2 @@
+cod_tramite	fecha_hora_tramite	tipo_persona	razon_social	ruc	dni	paterno	materno	nombre	asunto	email	telefono	area_interna_id
+DS-prueba1-2015	2015-09-15 08:10:03	ORG SOCIAL	mi razon	2012121212					asunto 1	email.1	telfono1	5
