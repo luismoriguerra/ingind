@@ -43,7 +43,7 @@ class CargarController extends BaseController
                         $array[$i][$j]=$detfile[$j];
                     }
 
-                    if($i>0){
+                    //if($i>0){
                         $ainterna=AreaInterna::find($detfile[12]);
 
                         if( count($ainterna)==0 ){
@@ -181,7 +181,7 @@ class CargarController extends BaseController
                                 }
                             } //es codigo nuevo
                         }// valida si tiene flujo id
-                    }// Apartir del 2 registro
+                    //}// Apartir del 2 registro
                 }// for del file
 
             return Response::json(
