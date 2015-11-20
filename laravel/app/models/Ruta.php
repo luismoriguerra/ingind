@@ -8,13 +8,20 @@ class Ruta extends Eloquent
      */
     public function crearRuta(){
         DB::beginTransaction();
+        $codigounico="";
+        if( Input::has('ci') ){
+            $codigounico=Input::get('ci').Input::get('codigo');
+        }
+        else{
+            $codigounico=Input::get('codigo');
+        }
 
         $tablaRelacion=DB::table('tablas_relacion as tr')
                         ->join(
                             'rutas as r',
                             'tr.id','=','r.tabla_relacion_id'
                         )
-                        ->where('tr.id_union', '=', Input::get('codigo'))
+                        ->where('tr.id_union', '=', $codigounico)
                         ->where('r.ruta_flujo_id', '=', Input::get('ruta_flujo_id'))
                         ->where('tr.estado', '=', '1')
                         ->where('r.estado', '=', '1')
@@ -75,6 +82,10 @@ class Ruta extends Eloquent
             $tablaRelacion['responsable']=Input::get('responsable');
         }
         $tablaRelacion['sumilla']=Input::get('sumilla');
+
+        $tablaRelacion['persona_autoriza_id']=Input::get('id_autoriza');
+        $tablaRelacion['persona_responsable_id']=Input::get('id_responsable');
+
         $tablaRelacion['usuario_created_at']=Auth::user()->id;
         $tablaRelacion->save();
 

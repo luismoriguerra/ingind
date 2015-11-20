@@ -14,6 +14,10 @@
     @include( 'admin.ruta.js.ruta_ajax' )
     @include( 'admin.ruta.js.asignar_orden_ajax' )
     @include( 'admin.ruta.js.asignar_orden' )
+
+    @include( 'admin.ruta.js.cartainicio_ajax' )
+    @include( 'admin.ruta.js.cartainicioview' )
+
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -60,8 +64,13 @@
                                                 <div class="input-group">
                                                     <input type="hidden" value="CI-" name="txt_ci" id="txt_ci">
                                                     <span class="input-group-addon">CI-</span>
-                                                    <input class="form-control" id="txt_codigo" name="txt_codigo" type="text" placeholder="Ing. Orden Trabajo">
+                                                    <input class="form-control" id="txt_codigo" name="txt_codigo" type="text" placeholder="Ing. Orden Trabajo" readonly>
                                                 </div>
+                                            </div>
+                                            <div class="col-sm-1"><br>
+                                                <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#asignarModal">
+                                                    <i class='fa fa-search fa-lg'>Buscar</i>
+                                                </a>
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label"> Fecha Orden Trabajo:</label>
@@ -72,11 +81,11 @@
                                                     <input class="form-control" id="txt_fecha_tramite" name="txt_fecha_tramite" type="text">
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3" style="display:none">
+                                            <div class="col-sm-2" style="display:none">
                                                 <label class="control-label"> Referente:</label>
                                                 <input class="form-control" id="txt_referente" name="txt_referente" type="text" placeholder="Ing. Orden Trabajo Ref.">
                                             </div>
-                                            <div class="col-sm-3" style="display:none">
+                                            <div class="col-sm-2" style="display:none">
                                                 <label class="control-label">Tipo Solicitante:</label>
                                                 <select class="form-control" name="slct_tipo_persona" id="slct_tipo_persona">
                                                     <option value="3" selected>Area Interna</option>
@@ -121,8 +130,9 @@
                                                 <input class="form-control" type="text" id="txt_nombre_autoriza" name="txt_nombre_autoriza" placeholder='Nombre' readonly>
                                             </div>
                                             <div class="col-sm-1"><br>
-                                                <a class="btn btn-primary btn-sm">
-                                                    <i class='fa fa-seach fa-lg'>Buscar</i>
+                                                <input type="hidden" id="txt_id_autoriza" name="txt_id_autoriza">
+                                                <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#personaModal" data-id="autoriza">
+                                                    <i class='fa fa-search fa-lg'>Buscar</i>
                                                 </a>
                                             </div>
                                         </div>
@@ -154,8 +164,9 @@
                                                 <input class="form-control" type="text" id="txt_nombre_responsable" name="txt_nombre_responsable" placeholder='Nombre' readonly>
                                             </div>
                                             <div class="col-sm-1"><br>
-                                                <a class="btn btn-primary btn-sm">
-                                                    <i class='fa fa-seach fa-lg'>Buscar</i>
+                                                <input type="hidden" id="txt_id_responsable" name="txt_id_responsable">
+                                                <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#personaModal" data-id="responsable">
+                                                    <i class='fa fa-search fa-lg'>Buscar</i>
                                                 </a>
                                             </div>
                                         </div>
@@ -332,4 +343,5 @@
 @section('formulario')
      @include( 'admin.ruta.form.asignar' )
      @include( 'admin.ruta.form.ruta' )
+     @include( 'admin.ruta.form.persona' )
 @stop
