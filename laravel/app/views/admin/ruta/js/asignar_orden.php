@@ -1,4 +1,5 @@
 <script type="text/javascript">
+var personaModalId='';
 temporalBandeja=0;
 var areasG=[]; // texto area
 var areasGId=[]; // id area
@@ -36,6 +37,16 @@ $(document).ready(function() {
     $("#txt_fecha_tramite").datetimepicker();
 
     Asignar.Relacion(RelacionHTML);
+    Asignar.ListarPersona(ListarPersonaHTML);
+
+    $('#personaModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget); // captura al boton
+      var modal = $(this); //captura el modal
+      personaModalId= $.trim( button.data('id') );
+    });
+
+    $('#personaModal').on('hide.bs.modal', function (event) {
+    });
 
     $('#asignarModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
@@ -132,6 +143,35 @@ $(document).ready(function() {
     hora();
     //$("#areasasignacion").DataTable();
 });
+
+ListarPersonaHTML=function(datos){
+    $('#t_persona').dataTable().fnDestroy();
+    var html='';
+    $.each(datos,function(index,data){
+    html+="<tr>"+
+        "<td>"+data.paterno+"</td>"+
+        "<td>"+data.materno+"</td>"+
+        "<td>"+data.nombre+"</td>"+
+        "<td>"+data.dni+"</td>"+
+        "<td>"+
+            '<a onclick="SeleccionPersonaModal('+"'"+data.id+'_'+data.paterno+'_'+data.materno+'_'+data.nombre+"'"+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>'+
+        "</td>";
+    html+="</tr>";
+    });
+
+    $("#t_persona tbody").html(html); 
+    $('#t_persona').dataTable({
+        "ordering": false
+    });
+}
+
+SeleccionPersonaModal=function(valor){
+    $("#txt_id_"+personaModalId).val(valor.split("_")[0]);
+    $("#txt_paterno_"+personaModalId).val(valor.split("_")[1]);
+    $("#txt_materno_"+personaModalId).val(valor.split("_")[2]);
+    $("#txt_nombre_"+personaModalId).val(valor.split("_")[3]);
+    $("#btn_cerrar_persona").click();
+}
 
 tpersona=function(valor){//1->natural,2->juridica,3->a.i. y 4->org social
     $(".natural, .juridica, .area, .org").css("display","none");

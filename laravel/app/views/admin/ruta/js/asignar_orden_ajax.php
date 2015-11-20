@@ -1,5 +1,31 @@
 <script type="text/javascript">
 var Asignar={
+    ListarPersona:function(evento){
+        $.ajax({
+            url         : 'persona/cargar',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : {estado:1},
+            beforeSend : function() {                
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                if(obj.rst==1){                    
+                    evento(obj.datos);
+                }  
+                $(".overlay,.loading-img").remove();
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
+                                        '<i class="fa fa-ban"></i>'+
+                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
+                                        '<b><?php echo trans("greetings.mensaje_error"); ?></b>'+
+                                    '</div>');
+            }
+        });
+    },
     Relacion:function(evento){
         $.ajax({
             url         : 'tabla_relacion/relacionunico',
@@ -97,6 +123,8 @@ var Asignar={
                     $("#tb_ruta_flujo").html("");
                     $("#form_asignar input[type='hidden']").remove();
                     $("#form_asignar").append('<input type="hidden" value="CI-" name="txt_ci" id="txt_ci">');
+                    $("#form_asignar").append('<input type="hidden" name="txt_id_autoriza" id="txt_id_autoriza">');
+                    $("#form_asignar").append('<input type="hidden" name="txt_id_responsable" id="txt_id_responsable">');
                     $(".natural, .juridica, .area").css("display","none");
                     $("#form_asignar input[type='text'],#form_asignar textarea,#form_asignar #slct_flujo2_id,#form_asignar #slct_area2_id,#form_asignar #slct_area_p_id,#form_asignar #slct_rol_id").val("");
                     $('#form_asignar #slct_flujo2_id,#form_asignar #slct_area2_id,#form_asignar #slct_area_p_id,#form_asignar #slct_rol_id').multiselect('refresh');
