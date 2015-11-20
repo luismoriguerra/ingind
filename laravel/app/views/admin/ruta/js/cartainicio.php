@@ -66,12 +66,15 @@ AddTr=function(id){
     var pos=id.split("_")[2];
     PosCarta[pos]++;
     var datatext=""; var dataid="";
+    var clase="";
 
     var add="<tr id='tr_"+idf+"_"+PosCarta[pos]+"'>";
         add+="<td>";
         add+=$("#t_"+idf+" tbody tr").length+1;
         add+="</td>";
     for (var i = 0; i < ($("#t_"+idf+" thead tr th").length-2); i++) {
+        
+        clase='';
         if ( idf=="recursos" ){
             datatext=recursos[i];
             dataid=recursosid[i];
