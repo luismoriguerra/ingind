@@ -129,7 +129,7 @@ class RutaDetalle extends Eloquent
     public function getTramite()
     {
         $sql="  SELECT r.ruta_flujo_id,r.id,tr.id as tramite_id,tr.id_union,tr.fecha_tramite,
-                ts.nombre as solicitante,
+                IFNULL(ts.nombre,'') as solicitante,
                 IF(tr.tipo_persona=1 or tr.tipo_persona=6,
                     CONCAT(tr.paterno,' ',tr.materno,', ',tr.nombre),
                     IF(tr.tipo_persona=2,
@@ -144,7 +144,7 @@ class RutaDetalle extends Eloquent
                 ) des_solicitante,tr.sumilla
                 from rutas r
                 inner join tablas_relacion tr ON r.tabla_relacion_id=tr.id and tr.estado=1
-                inner join tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
+                LEFT join tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
                 LEFT JOIN areas a ON a.id=tr.area_id
                 WHERE r.estado=1
                 AND tr.id_union like '".Input::get('tramite')."%'

@@ -3,7 +3,7 @@ var PosCarta=[];
 PosCarta[0]=0;PosCarta[1]=0;PosCarta[2]=0;
 var recursos=[]; var recursosid=[];
 recursos.push("Ingrese Descripción");       recursosid.push("rec_des");
-recursos.push("Ingrese Cantidad");          recursosid.push("rec_cant");
+recursos.push("Ingrese Cantidad");          recursosid.push("rec_can");
 recursos.push("Ingrese Total");             recursosid.push("rec_tot");
 var metricos=[]; var metricosid=[];
 metricos.push("Ingrese Métrico");           metricosid.push("met_met");
@@ -66,12 +66,15 @@ AddTr=function(id){
     var pos=id.split("_")[2];
     PosCarta[pos]++;
     var datatext=""; var dataid="";
+    var clase="";
 
     var add="<tr id='tr_"+idf+"_"+PosCarta[pos]+"'>";
         add+="<td>";
         add+=$("#t_"+idf+" tbody tr").length+1;
         add+="</td>";
     for (var i = 0; i < ($("#t_"+idf+" thead tr th").length-2); i++) {
+        
+        clase='';
         if ( idf=="recursos" ){
             datatext=recursos[i];
             dataid=recursosid[i];

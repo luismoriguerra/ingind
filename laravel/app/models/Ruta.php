@@ -129,14 +129,16 @@ class Ruta extends Eloquent
                 if( $rd->norden==1 AND Input::has('ci') ){
                     $rutaDetalleVerbo = new RutaDetalleVerbo;
                     $rutaDetalleVerbo['ruta_detalle_id']= $rutaDetalle->id;
-                    $rutaDetalleVerbo['nombre']= '';
+                    $rutaDetalleVerbo['nombre']= '-';
                     $rutaDetalleVerbo['condicion']= '0';
                     $rutaDetalleVerbo['rol_id']= Input::get('rol_id');
                     $rutaDetalleVerbo['verbo_id']= '1';
+                    $rutaDetalleVerbo['documento_id']= '57';//Carta de inicio
                     $rutaDetalleVerbo['orden']= '0';
                     $rutaDetalleVerbo['finalizo']='1';
                     $rutaDetalleVerbo['documento']=Input::get('ci').Input::get('codigo');
                     $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
+                    $rutaDetalleVerbo['usuario_updated_at']= Auth::user()->id;
                     $rutaDetalleVerbo->save();
                 }
 
