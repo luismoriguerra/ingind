@@ -2,9 +2,8 @@
 var PosCarta=[];
 PosCarta[0]=0;PosCarta[1]=0;PosCarta[2]=0;
 var recursos=[]; var recursosid=[];
-recursos.push("Ingrese Descripción");       recursosid.push("rec_des");
+recursos.push("Seleccione Tipo Recurso");   recursosid.push("rec_des");
 recursos.push("Ingrese Cantidad");          recursosid.push("rec_can");
-recursos.push("Ingrese Total");             recursosid.push("rec_tot");
 var metricos=[]; var metricosid=[];
 metricos.push("Ingrese Métrico");           metricosid.push("met_met");
 metricos.push("Ingrese Actual");            metricosid.push("met_act");
