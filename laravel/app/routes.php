@@ -103,3 +103,5 @@ Route::controller('tramite', 'VisualizacionTramiteController');
 Route::controller('usuario', 'UsuarioController');
 Route::controller('verbo', 'VerboController');
 Route::controller('carta', 'CartaController');
+Route::controller('tiporecurso', 'TipoRecursoController');
+Route::controller('tipoactividad', 'TipoActividadController');

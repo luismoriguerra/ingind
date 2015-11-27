@@ -66,6 +66,10 @@
                     <br>
                     <hr>
                     <br>
+                    <div style="display:none">
+                    <select id="slct_tipo_recurso_id"></select>
+                    <select id="slct_tipo_actividad_id"></select>
+                    </div>
                     <div class="row form-group" id="cartainicio" style="display:none">
                         <div class="col-sm-12">
                             <div class="col-sm-2">
@@ -109,14 +113,13 @@
                         </div>
                         <div class="row form-group" id="tabla_recursos">
                             <div class="col-sm-12">
-                                <div class="box-body table-responsive">
+                                <div class="box-body ">
                                     <table id="t_recursos" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th>N°</th>
-                                                <th>Descripción</th>
+                                                <th>Tipo Recurso</th>
                                                 <th>Cantidad</th>
-                                                <th>Total</th>
                                                 <th> [ ] </th>
                                             </tr>
                                         </thead>
@@ -136,7 +139,7 @@
                         </div>
                         <div class="row form-group" id="tabla_metricos">
                             <div class="col-sm-12">
-                                <div class="box-body table-responsive">
+                                <div class="box-body ">
                                     <table id="t_metricos" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
@@ -164,11 +167,12 @@
                         </div>
                         <div class="row form-group" id="tabla_desgloses">
                             <div class="col-sm-12">
-                                <div class="box-body table-responsive">
+                                <div class="box-body ">
                                     <table id="t_desgloses" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th>N°</th>
+                                                <th>Tipo Actividad</th>
                                                 <th>Actividad</th>
                                                 <th>Responsable</th>
                                                 <th>Area</th>

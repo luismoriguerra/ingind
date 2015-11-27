@@ -9,9 +9,8 @@ class Carta extends Base
                 GROUP_CONCAT( 
                     DISTINCT(
                         CONCAT(
-                            cr.descripcion,'|',
-                            cr.cantidad,'|',
-                            cr.total
+                            cr.tipo_recurso_id,'|',
+                            cr.cantidad,'|'
                         ) 
                     )
                     SEPARATOR '*' 
@@ -30,6 +29,7 @@ class Carta extends Base
                 GROUP_CONCAT( 
                     DISTINCT(
                         CONCAT(
+                            cd.tipo_actividad_id,'|',
                             cd.actividad,'|',
                             cd.responsable,'|',
                             cd.area,'|',
@@ -101,19 +101,17 @@ class Carta extends Base
         $carta->save();
 
         $recursos=array();
-        if( Input::has('rec_des') ){
-            $recursos[]=Input::get('rec_des');
+        if( Input::has('rec_tre') ){
+            $recursos[]=Input::get('rec_tre');
             $recursos[]=Input::get('rec_can');
-            $recursos[]=Input::get('rec_tot');
 
             for( $i=0; $i<count($recursos[0]); $i++ ){
                 $cartaRecurso=new CartaRecurso;
                 $cartaRecurso['usuario_created_at']=Auth::user()->id;
 
                 $cartaRecurso['carta_id']=$carta->id;
-                $cartaRecurso['descripcion']=$recursos[0][$i];
+                $cartaRecurso['tipo_recurso_id']=$recursos[0][$i];
                 $cartaRecurso['cantidad']=$recursos[1][$i];
-                $cartaRecurso['total']=$recursos[2][$i];
 
                 $cartaRecurso->save();
             }
@@ -141,7 +139,8 @@ class Carta extends Base
         }
 
         $desgloses=array();
-        if( Input::has('des_act') ){
+        if( Input::has('des_tac') ){
+            $desgloses[]=Input::get('des_tac');
             $desgloses[]=Input::get('des_act');
             $desgloses[]=Input::get('des_res');
             $desgloses[]=Input::get('des_are');
@@ -156,14 +155,15 @@ class Carta extends Base
                 $cartaDesglose['usuario_created_at']=Auth::user()->id;
 
                 $cartaDesglose['carta_id']=$carta->id;
-                $cartaDesglose['actividad']=$desgloses[0][$i];
-                $cartaDesglose['responsable']=$desgloses[1][$i];
-                $cartaDesglose['area']=$desgloses[2][$i];
-                $cartaDesglose['recursos']=$desgloses[3][$i];
-                $cartaDesglose['fecha_inicio']=$desgloses[4][$i];
-                $cartaDesglose['fecha_fin']=$desgloses[5][$i];
-                $cartaDesglose['hora_inicio']=$desgloses[6][$i];
-                $cartaDesglose['hora_fin']=$desgloses[7][$i];
+                $cartaDesglose['tipo_actividad_id']=$desgloses[0][$i];
+                $cartaDesglose['actividad']=$desgloses[1][$i];
+                $cartaDesglose['responsable']=$desgloses[2][$i];
+                $cartaDesglose['area']=$desgloses[3][$i];
+                $cartaDesglose['recursos']=$desgloses[4][$i];
+                $cartaDesglose['fecha_inicio']=$desgloses[5][$i];
+                $cartaDesglose['fecha_fin']=$desgloses[6][$i];
+                $cartaDesglose['hora_inicio']=$desgloses[7][$i];
+                $cartaDesglose['hora_fin']=$desgloses[8][$i];
 
                 $cartaDesglose->save();
             }
