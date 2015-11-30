@@ -5,13 +5,16 @@ class Carta extends Base
     public $table = "cartas";
 
     public static function CargarDetalle (){
-        $sql="  SELECT c.id,c.nro_carta,c.objetivo,c.entregable,c.alcance,
+        $sql="  SELECT c.id,c.nro_carta,c.objetivo,c.entregable,c.alcance, c.informe_objetivo, c.informe_alcance, c.informe_entregable,
                 GROUP_CONCAT( 
                     DISTINCT(
                         CONCAT(
                             cr.tipo_recurso_id,'|',
-                            cr.cantidad,'|'
-                        ) 
+                            cr.cantidad,'|',
+                            cr.informe_sobro,'|',
+                            cr.id
+
+                        )
                     )
                     SEPARATOR '*' 
                 ) recursos,
@@ -21,8 +24,10 @@ class Carta extends Base
                             cm.metrico,'|',
                             cm.actual,'|',
                             cm.objetivo,'|',
-                            cm.comentario
-                        ) 
+                            cm.comentario ,'|',
+                            cm.informe_alcanzo,'|',
+                            cm.id
+                        )
                     )
                     SEPARATOR '*' 
                 ) metricos,
@@ -31,13 +36,16 @@ class Carta extends Base
                         CONCAT(
                             cd.tipo_actividad_id,'|',
                             cd.actividad,'|',
-                            cd.persona_id,'|',
+                            cd.responsable,'|',
                             cd.area,'|',
                             cd.recursos,'|',
                             cd.fecha_inicio,'|',
                             cd.fecha_fin,'|',
                             cd.hora_inicio,'|',
-                            cd.hora_fin
+                            cd.hora_fin,'|',
+                            cd.informe_responsable,'|',
+                            cd.informe_recurso,'|',
+                            cd.id
                         ) 
                     )
                     SEPARATOR '*' 
@@ -61,14 +69,47 @@ class Carta extends Base
             $carta=Carta::find(Input::get('carta_id'));
             if( Input::has('inf_rec') ){
                 $inforec[]=Input::get('inf_rec');
+                $data = Input::all();
 
-                for( $i=0; $i<count($inforec[0]); $i++ ){
-                    $cartaRecurso=CartaRecurso::where('carta_id','=',$carta->id);
-                    $cartaRecurso['usuario_updated_at']=Auth::user()->id;
-                    $cartaRecurso['evaluacion_sobro']=$inforec[0][$i];
+                // Carta data base
+                Carta::where('id','=',Input::get('carta_id')) ->update(array(
+                    'usuario_updated_at'=>Auth::user()->id,
+                    'informe_objetivo'=>$data["objetivo_inf"],
+                    'informe_entregable'=>$data["entregable_inf"],
+                    'informe_alcance'=>$data["alcance_inf"]
+                ));
 
-                    $cartaRecurso->save();
+                $recursos = $data["recursos_id"];
+                $count = -1;
+                foreach($recursos as $rec_id){
+                    $count++;
+                    CartaRecurso::where('id','=',$rec_id)->update(array(
+                        'usuario_updated_at'=>Auth::user()->id,
+                        'informe_sobro'=>$data["inf_sob"][$count]
+                    ));
                 }
+
+                $metrico = $data["metricos_id"];
+                $count = -1;
+                foreach($metrico as $rec_id){
+                    $count++;
+                    CartaMetrico::where('id','=',$rec_id)->update(array(
+                    'usuario_updated_at'=>Auth::user()->id,
+                    'informe_alcanzo'=>$data["inf_alc"][$count]
+                    ));
+                }
+
+                $desgloses = $data["desgloses_id"];
+                $count = -1;
+                foreach($desgloses as $rec_id){
+                    $count++;
+                    CartaDesglose::where('id','=',$rec_id)->update(array(
+                    'usuario_updated_at'=>Auth::user()->id,
+                    'informe_responsable'=>$data["inf_res"][$count],
+                    'informe_recurso'=>$data["inf_rec"][$count]
+                ));
+                }
+
             }
         }
         else{
