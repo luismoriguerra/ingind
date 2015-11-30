@@ -17,13 +17,52 @@ class Persona extends Base implements UserInterface, RemindableInterface
     public $table = "personas";
     
     public static $where =[
-                        'id', 'paterno','materno','nombre','email','dni',
+                        'id', 'paterno','materno','nombre','email','dni','rol_id','area_id',
                         'password','fecha_nacimiento','sexo', 'estado'
                         ];
     public static $selec =[
-                        'id', 'paterno','materno','nombre','email','dni',
+                        'id', 'paterno','materno','nombre','email','dni','rol_id','area_id',
                         'password','fecha_nacimiento','sexo', 'estado'
                         ];
+    /**
+     * Cargos relationship
+     */
+    public function cargos()
+    {
+        return $this->belongsToMany('Cargo');
+    }
+
+    public static function getCargarp()
+    {
+        $sql="  SELECT p.id ,a.id area_id,r.id rol_id,p.dni,
+                    p.paterno,p.materno,p.nombre,a.nombre area,r.nombre rol
+                FROM personas p
+                INNER JOIN areas a ON a.id=p.area_id 
+                INNER JOIN roles r ON r.id=p.rol_id 
+                WHERE p.estado=1";
+        $personas = DB::select($sql);
+
+        return $personas;
+    }
+
+    public static function getPersonas()
+    {
+        $sql="  SELECT CONCAT(p.id,'-',a.id) id,
+                    p.paterno,p.materno,p.nombre nombres,p.dni,a.nombre area,
+                    CONCAT(p.paterno,' ',substr(p.materno,1,4),'. ',substr(p.nombre,1,7),'. |',a.nombre) nombre
+                FROM personas p
+                INNER JOIN cargo_persona cp on cp.persona_id=p.id AND cp.estado=1
+                INNER JOIN area_cargo_persona acp on acp.cargo_persona_id=cp.id AND acp.estado=1
+                INNER JOIN cargos c ON c.id=cp.cargo_id AND c.estado=1
+                INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                WHERE p.estado=1
+                GROUP BY p.id,a.id
+                ORDER BY p.paterno,p.materno,p.nombre,a.nombre";
+
+        $personas= DB::select($sql);
+        return $personas;
+    }
+
     public static function get(array $data =array()){
 
         //recorrer la consulta
@@ -37,13 +76,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
 
         return $personas;
     }
-    /**
-     * Cargos relationship
-     */
-    public function cargos()
-    {
-        return $this->belongsToMany('Cargo');
-    }
+
     public static function getAreas($personaId)
     {
         //subconsulta

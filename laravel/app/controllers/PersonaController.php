@@ -17,6 +17,15 @@ class PersonaController extends BaseController
             return Response::json(array('rst'=>1,'datos'=>$personas));
         }
     }
+
+    public function postCargarp()
+    {
+        //si la peticion es ajax
+        if ( Request::ajax() ) {
+            $personas = Persona::getCargarp();
+            return Response::json(array('rst'=>1,'datos'=>$personas));
+        }
+    }
     /**
      * cargar personas, mantenimiento
      * POST /persona/listar
@@ -27,7 +36,14 @@ class PersonaController extends BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $personas = Persona::getCargoArea();
+            $personas=array();
+            if ( Input::has('estado_persona') ) {
+                $personas = Persona::getPersonas();
+            }
+            else{
+                $personas = Persona::getCargoArea();
+            }
+            
             return Response::json(array('rst'=>1,'datos'=>$personas));
         }
     }
@@ -90,6 +106,8 @@ class PersonaController extends BaseController
             $persona['sexo'] = Input::get('sexo');
             $persona['password'] = Hash::make(Input::get('password'));
             $persona['fecha_nacimiento'] = Input::get('fecha_nac');
+            $persona['area_id'] = Input::get('area');
+            $persona['rol_id'] = Input::get('rol');
             $persona['estado'] = Input::get('estado');
             $persona['usuario_created_at'] = Auth::user()->id;
             $persona->save();
@@ -224,6 +242,8 @@ class PersonaController extends BaseController
             $persona['email'] = Input::get('email');
             $persona['dni'] = Input::get('dni');
             $persona['sexo'] = Input::get('sexo');
+            $persona['area_id'] = Input::get('area');
+            $persona['rol_id'] = Input::get('rol');
             if (Input::get('password')<>'') 
                 $persona['password'] = Hash::make(Input::get('password'));
             $persona['fecha_nacimiento'] = Input::get('fecha_nac');

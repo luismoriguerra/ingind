@@ -4,16 +4,15 @@ PosCarta[0]=0;PosCarta[1]=0;PosCarta[2]=0;
 var recursos=[]; var recursosid=[];
 recursos.push("Ingrese Descripción");       recursosid.push("rec_des");
 recursos.push("Ingrese Cantidad");          recursosid.push("rec_can");
-recursos.push("Ingrese Total");             recursosid.push("rec_tot");
 var metricos=[]; var metricosid=[];
 metricos.push("Ingrese Métrico");           metricosid.push("met_met");
 metricos.push("Ingrese Actual");            metricosid.push("met_act");
 metricos.push("Ingrese Objetivo");          metricosid.push("met_obj");
 metricos.push("Ingrese Comentario");        metricosid.push("met_com");
 var desgloses=[]; var desglosesid=[];
+desgloses.push("Seleccione Tipo Actividad");desglosesid.push("des_tac");
 desgloses.push("Ingrese Actividad");        desglosesid.push("des_act");
 desgloses.push("Ingrese Responsable");      desglosesid.push("des_res");
-desgloses.push("Ingrese Area");             desglosesid.push("des_are");
 desgloses.push("Ingrese Recursos");         desglosesid.push("des_rec");
 desgloses.push("Seleccione Fecha Inicio");  desglosesid.push("des_fin");
 desgloses.push("Seleccione Fecha Fin");     desglosesid.push("des_ffi");
@@ -21,7 +20,8 @@ desgloses.push("Seleccione Hora Inicio");   desglosesid.push("des_hin");
 desgloses.push("Seleccione Hora Fin");      desglosesid.push("des_hfi");
 
 $(document).ready(function() {
-    Carta.CargarCartas(HTMLCargarCartas);
+    var datos={union:1};
+    Carta.CargarCartas(HTMLCargarCartas,datos);
     $("#btn_nuevo").click(Nuevo);
     $("#btn_close").click(CloseCartaInicio);
 });
@@ -73,7 +73,7 @@ HTMLCargarDetalleCartas=function(datos){
 
 CargarRegistro=function(id){
     Limpiar();
-    var datos={carta_id:id};
+    var datos={carta_id:id,vista:1};
     Carta.CargarDetalleCartas(HTMLCargarDetalleCartas,datos);
 }
 

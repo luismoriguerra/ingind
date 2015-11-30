@@ -88,9 +88,8 @@
                               <thead>
                                   <tr>
                                       <th>N°</th>
-                                      <th>Descripción</th>
+                                      <th>Tipo Recurso</th>
                                       <th>Cantidad</th>
-                                      <th>Total</th>
                                       <th> [ ] </th>
                                   </tr>
                               </thead>
@@ -143,14 +142,14 @@
                               <thead>
                                   <tr>
                                       <th>N°</th>
+                                      <th>Tipo Actividad</th>
                                       <th>Actividad</th>
-                                      <th>Responsable</th>
-                                      <th>Area</th>
+                                      <th style="width:300px !important;">Responsable - Area</th>
                                       <th>Recursos</th>
-                                      <th>Fecha Inicio</th>
-                                      <th>Fecha Fin</th>
-                                      <th>Hora Inicio</th>
-                                      <th>Hora Fin</th>
+                                      <th style="width:106px !important;">Fecha Inicio</th>
+                                      <th style="width:106px !important;">Fecha Fin</th>
+                                      <th style="width:70px !important;">Hora Inicio</th>
+                                      <th style="width:70px !important;">Hora Fin</th>
                                       <th> [ ] </th>
                                   </tr>
                               </thead>

@@ -19,7 +19,7 @@ $(document).ready(function() {
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     data = {estado:1};
-    slctGlobal.listarSlct('area','slct_area2_id,#slct_area_id,#slct_area_p_id','simple',ids,data);
+    slctGlobal.listarSlct('area','slct_area2_id,#slct_area_id','simple',ids,data);
     data={soloruta:1,tipo_flujo:2};
     slctGlobal.listarSlct('flujo','slct_flujo2_id','simple',ids,data);
     data = {estado:1};
@@ -27,8 +27,13 @@ $(document).ready(function() {
     data = {id:3};
     //slctGlobal.listarSlct('tiposolicitante','slct_tipo_persona','simple',ids,data);
 
-    data = {estado:1};
-    slctGlobal.listarSlct('rol','slct_rol_id','simple',ids,data);
+    var idsarea = []; idsarea.push("<?php echo Auth::user()->area_id;?>");
+    slctGlobal.listarSlct('area','slct_area_p_id','simple',idsarea,data);
+    slctGlobal.listarSlct('area','slct_area_p2_id','simple',null,data);
+    
+    var idsrol = []; idsrol.push("<?php echo Auth::user()->rol_id;?>");
+    slctGlobal.listarSlct('rol','slct_rol_id','simple',idsrol,data);
+    slctGlobal.listarSlct('rol','slct_rol2_id','simple',null,data);
 
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
@@ -153,8 +158,10 @@ ListarPersonaHTML=function(datos){
         "<td>"+data.materno+"</td>"+
         "<td>"+data.nombre+"</td>"+
         "<td>"+data.dni+"</td>"+
+        "<td>"+data.area+"</td>"+
+        "<td>"+data.rol+"</td>"+
         "<td>"+
-            '<a onclick="SeleccionPersonaModal('+"'"+data.id+'_'+data.paterno+'_'+data.materno+'_'+data.nombre+"'"+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>'+
+            '<a onclick="SeleccionPersonaModal('+"'"+data.id+'_'+data.paterno+'_'+data.materno+'_'+data.nombre+'_'+data.area_id+'_'+data.rol_id+"'"+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>'+
         "</td>";
     html+="</tr>";
     });
@@ -170,6 +177,12 @@ SeleccionPersonaModal=function(valor){
     $("#txt_paterno_"+personaModalId).val(valor.split("_")[1]);
     $("#txt_materno_"+personaModalId).val(valor.split("_")[2]);
     $("#txt_nombre_"+personaModalId).val(valor.split("_")[3]);
+
+    if( personaModalId=="responsable" ){
+        $("#slct_area_p2_id").val(valor.split("_")[4]);
+        $("#slct_rol2_id").val(valor.split("_")[5]);
+        $("#slct_area_p2_id,#slct_rol2_id").multiselect("refresh");
+    }
     $("#btn_cerrar_persona").click();
 }
 

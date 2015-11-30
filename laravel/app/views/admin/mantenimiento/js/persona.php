@@ -1,6 +1,9 @@
 <script type="text/javascript">
 $(document).ready(function() {  
     Persona.CargarPersonas(activarTabla);
+    var datos={estado:1};
+    slctGlobal.listarSlct('area','slct_area','simple',null,datos);
+    slctGlobal.listarSlct('rol','slct_rol','simple',null,datos);
 
     $('#personaModal').on('show.bs.modal', function (event) {
         
@@ -25,6 +28,8 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
             $('#form_personas #slct_estado').val(1); 
             $('#form_personas #txt_nombre').focus();
+            $('#form_personas #slct_rol,#form_personas #slct_area').val( "" );
+            $('#form_personas #slct_rol,#form_personas #slct_area').multiselect( "refresh" );
         }
         else{
             Persona.CargarAreas(PersonaObj[persona_id].id); //no es multiselect
@@ -40,7 +45,10 @@ $(document).ready(function() {
             $('#form_personas #txt_email').val( PersonaObj[persona_id].email );
             $('#form_personas #slct_sexo').val( PersonaObj[persona_id].sexo );
             $('#form_personas #slct_estado').val( PersonaObj[persona_id].estado );
+            $('#form_personas #slct_area').val( PersonaObj[persona_id].area_id );
+            $('#form_personas #slct_rol').val( PersonaObj[persona_id].rol_id );
             $("#form_personas").append("<input type='hidden' value='"+PersonaObj[persona_id].id+"' name='id'>");
+            $('#form_personas #slct_rol,#form_personas #slct_area').multiselect( "refresh" );
         }
         $( "#form_personas #slct_estado" ).trigger('change');
         $( "#form_personas #slct_estado" ).change(function() {
@@ -60,6 +68,9 @@ $(document).ready(function() {
         $("#t_cargoPersona").html('');
     });
 });
+
+eventoSlctGlobalSimple=function(){
+}
 
 activarTabla=function(){
     $("#t_personas").dataTable(); // inicializo el datatable    

@@ -72,6 +72,7 @@
                     <div style="display:none">
                     <select id="slct_tipo_recurso_id"></select>
                     <select id="slct_tipo_actividad_id"></select>
+                    <select id="slct_persona_id"></select>
                     </div>
                     <div class="row form-group" id="cartainicio" style="display:none">
                         <div class="col-sm-12">
@@ -177,13 +178,12 @@
                                                 <th>N°</th>
                                                 <th>Tipo Actividad</th>
                                                 <th>Actividad</th>
-                                                <th>Responsable</th>
-                                                <th>Area</th>
+                                                <th style="width:300px !important;">Responsable - Area</th>
                                                 <th>Recursos</th>
-                                                <th>Fecha Inicio</th>
-                                                <th>Fecha Fin</th>
-                                                <th>Hora Inicio</th>
-                                                <th>Hora Fin</th>
+                                                <th style="width:106px !important;">Fecha Inicio</th>
+                                                <th style="width:106px !important;">Fecha Fin</th>
+                                                <th style="width:70px !important;">Hora Inicio</th>
+                                                <th style="width:70px !important;">Hora Fin</th>
                                                 <th> [ ] </th>
                                             </tr>
                                         </thead>

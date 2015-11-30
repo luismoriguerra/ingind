@@ -9,12 +9,8 @@ class Ruta extends Eloquent
     public function crearRuta(){
         DB::beginTransaction();
         $codigounico="";
-        if( Input::has('ci') ){
-            $codigounico=Input::get('ci').Input::get('codigo');
-        }
-        else{
-            $codigounico=Input::get('codigo');
-        }
+        $codigounico=Input::get('codigo');
+        
 
         $tablaRelacion=DB::table('tablas_relacion as tr')
                         ->join(
@@ -39,12 +35,8 @@ class Ruta extends Eloquent
         $tablaRelacion=new TablaRelacion;
         $tablaRelacion['software_id']=1;
 
-        if( Input::has('ci') ){
-            $tablaRelacion['id_union']=Input::get('ci').Input::get('codigo');
-        }
-        else{
-            $tablaRelacion['id_union']=Input::get('codigo');
-        }
+        $tablaRelacion['id_union']=Input::get('codigo');
+        
         $tablaRelacion['fecha_tramite']=Input::get('fecha_tramite');
         $tablaRelacion['tipo_persona']=Input::get('tipo_persona');
         if( Input::has('paterno_autoriza') AND Input::has('materno_autoriza') AND Input::has('nombre_autoriza') ){
@@ -89,7 +81,14 @@ class Ruta extends Eloquent
         $tablaRelacion['usuario_created_at']=Auth::user()->id;
         $tablaRelacion->save();
 
-
+        $cartas=DB::table('cartas')
+                    ->where('nro_carta','=',$codigounico)
+                    ->update(
+                        array(
+                            'union' => 1,
+                            'usuario_updated_at' => Auth::user()->id
+                        )
+                    );
 
         $rutaFlujo=RutaFlujo::find(Input::get('ruta_flujo_id'));
 

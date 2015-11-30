@@ -5,50 +5,112 @@ class Carta extends Base
     public $table = "cartas";
 
     public static function CargarDetalle (){
-        $sql="  SELECT c.id,c.nro_carta,c.objetivo,c.entregable,c.alcance,
-                GROUP_CONCAT( 
-                    DISTINCT(
-                        CONCAT(
-                            cr.tipo_recurso_id,'|',
-                            cr.cantidad,'|'
-                        ) 
-                    )
-                    SEPARATOR '*' 
-                ) recursos,
-                GROUP_CONCAT( 
-                    DISTINCT(
-                        CONCAT(
-                            cm.metrico,'|',
-                            cm.actual,'|',
-                            cm.objetivo,'|',
-                            cm.comentario
-                        ) 
-                    )
-                    SEPARATOR '*' 
-                ) metricos,
-                GROUP_CONCAT( 
-                    DISTINCT(
-                        CONCAT(
-                            cd.tipo_actividad_id,'|',
-                            cd.actividad,'|',
-                            cd.persona_id,'|',
-                            cd.area,'|',
-                            cd.recursos,'|',
-                            cd.fecha_inicio,'|',
-                            cd.fecha_fin,'|',
-                            cd.hora_inicio,'|',
-                            cd.hora_fin
-                        ) 
-                    )
-                    SEPARATOR '*' 
-                ) desgloses
-                FROM cartas c
-                LEFT JOIN carta_recurso cr ON c.id=cr.carta_id AND cr.estado=1
-                LEFT JOIN carta_metrico cm ON c.id=cm.carta_id AND cm.estado=1
-                LEFT JOIN carta_desglose cd ON c.id=cd.carta_id AND cd.estado=1
-                WHERE c.id = '".Input::get('carta_id')."'
-                GROUP BY c.id";
-
+        if( Input::has('vista') ){
+            $sql="  SELECT c.id,c.nro_carta,c.objetivo,c.entregable,c.alcance,
+                    GROUP_CONCAT( 
+                        DISTINCT(
+                            CONCAT(
+                                (
+                                SELECT tr.nombre
+                                FROM tipo_recurso tr
+                                WHERE tr.id=cr.tipo_recurso_id
+                                ),'|',
+                                cr.cantidad,'|'
+                            ) 
+                        )
+                        SEPARATOR '*' 
+                    ) recursos,
+                    GROUP_CONCAT( 
+                        DISTINCT(
+                            CONCAT(
+                                cm.metrico,'|',
+                                cm.actual,'|',
+                                cm.objetivo,'|',
+                                cm.comentario
+                            ) 
+                        )
+                        SEPARATOR '*' 
+                    ) metricos,
+                    GROUP_CONCAT( 
+                        DISTINCT(
+                            CONCAT(
+                                (
+                                SELECT nombre
+                                FROM tipo_actividad ta
+                                WHERE ta.id=cd.tipo_actividad_id
+                                )
+                                ,'|',
+                                cd.actividad,'|',
+                                (
+                                SELECT CONCAT(p.paterno,' ',substr(p.materno,1,4),'. ',substr(p.nombre,1,7))
+                                FROM personas p 
+                                WHERE p.id=cd.persona_id
+                                ),'-',
+                                (
+                                SELECT a.nombre
+                                FROM areas a
+                                WHERE a.id=cd.area_id
+                                ),'|',
+                                cd.recursos,'|',
+                                cd.fecha_inicio,'|',
+                                cd.fecha_fin,'|',
+                                cd.hora_inicio,'|',
+                                cd.hora_fin
+                            ) 
+                        )
+                        SEPARATOR '*' 
+                    ) desgloses
+                    FROM cartas c
+                    LEFT JOIN carta_recurso cr ON c.id=cr.carta_id AND cr.estado=1
+                    LEFT JOIN carta_metrico cm ON c.id=cm.carta_id AND cm.estado=1
+                    LEFT JOIN carta_desglose cd ON c.id=cd.carta_id AND cd.estado=1
+                    WHERE c.id = '".Input::get('carta_id')."'
+                    GROUP BY c.id";
+        }
+        else {
+            $sql="  SELECT c.id,c.nro_carta,c.objetivo,c.entregable,c.alcance,
+                    GROUP_CONCAT( 
+                        DISTINCT(
+                            CONCAT(
+                                cr.tipo_recurso_id,'|',
+                                cr.cantidad,'|'
+                            ) 
+                        )
+                        SEPARATOR '*' 
+                    ) recursos,
+                    GROUP_CONCAT( 
+                        DISTINCT(
+                            CONCAT(
+                                cm.metrico,'|',
+                                cm.actual,'|',
+                                cm.objetivo,'|',
+                                cm.comentario
+                            ) 
+                        )
+                        SEPARATOR '*' 
+                    ) metricos,
+                    GROUP_CONCAT( 
+                        DISTINCT(
+                            CONCAT(
+                                cd.tipo_actividad_id,'|',
+                                cd.actividad,'|',
+                                cd.persona_id,'-',cd.area_id,'|',
+                                cd.recursos,'|',
+                                cd.fecha_inicio,'|',
+                                cd.fecha_fin,'|',
+                                cd.hora_inicio,'|',
+                                cd.hora_fin
+                            ) 
+                        )
+                        SEPARATOR '*' 
+                    ) desgloses
+                    FROM cartas c
+                    LEFT JOIN carta_recurso cr ON c.id=cr.carta_id AND cr.estado=1
+                    LEFT JOIN carta_metrico cm ON c.id=cm.carta_id AND cm.estado=1
+                    LEFT JOIN carta_desglose cd ON c.id=cd.carta_id AND cd.estado=1
+                    WHERE c.id = '".Input::get('carta_id')."'
+                    GROUP BY c.id";
+        }
         $r=DB::select($sql);
 
         return $r;
@@ -158,7 +220,6 @@ class Carta extends Base
                 $desgloses[]=Input::get('des_tac');
                 $desgloses[]=Input::get('des_act');
                 $desgloses[]=Input::get('des_res');
-                $desgloses[]=Input::get('des_are');
                 $desgloses[]=Input::get('des_rec');
                 $desgloses[]=Input::get('des_fin');
                 $desgloses[]=Input::get('des_ffi');
@@ -172,13 +233,14 @@ class Carta extends Base
                     $cartaDesglose['carta_id']=$carta->id;
                     $cartaDesglose['tipo_actividad_id']=$desgloses[0][$i];
                     $cartaDesglose['actividad']=$desgloses[1][$i];
-                    $cartaDesglose['responsable']=$desgloses[2][$i];
-                    $cartaDesglose['area']=$desgloses[3][$i];
-                    $cartaDesglose['recursos']=$desgloses[4][$i];
-                    $cartaDesglose['fecha_inicio']=$desgloses[5][$i];
-                    $cartaDesglose['fecha_fin']=$desgloses[6][$i];
-                    $cartaDesglose['hora_inicio']=$desgloses[7][$i];
-                    $cartaDesglose['hora_fin']=$desgloses[8][$i];
+                    $pa=explode("-",$desgloses[2][$i]);
+                    $cartaDesglose['persona_id']=$pa[0];
+                    $cartaDesglose['area_id']=$pa[1];
+                    $cartaDesglose['recursos']=$desgloses[3][$i];
+                    $cartaDesglose['fecha_inicio']=$desgloses[4][$i];
+                    $cartaDesglose['fecha_fin']=$desgloses[5][$i];
+                    $cartaDesglose['hora_inicio']=$desgloses[6][$i];
+                    $cartaDesglose['hora_fin']=$desgloses[7][$i];
 
                     $cartaDesglose->save();
                 }
@@ -198,9 +260,9 @@ class Carta extends Base
                 ->select('id','nro_carta','objetivo','entregable')
                 ->where( 
                     function($query){
-                        /*if ( Input::get('estado') ) {
-                            $query->where('estado','=','1');
-                        }*/
+                        if ( Input::get('union') ) {
+                            $query->where('union','=',0);
+                        }
                     }
                 )
                 ->orderBy('nro_carta')

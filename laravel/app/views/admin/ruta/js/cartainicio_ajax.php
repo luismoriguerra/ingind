@@ -1,11 +1,12 @@
 <script type="text/javascript">
 var Carta={
-    CargarCartas:function(evento){
+    CargarCartas:function(evento,datos){
         $.ajax({
             url         : 'carta/cargar',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
+            data        : datos,
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
@@ -25,7 +26,7 @@ var Carta={
             }
         });
     },
-    GuardarCartas:function(evento,datos){
+    GuardarCartas:function(evento,datos,edit){
         $.ajax({
             url         : 'carta/guardar',
             type        : 'POST',
@@ -38,7 +39,13 @@ var Carta={
             success : function(obj) {
                 if(obj.rst==1){
                     evento();
-                    Carta.CargarCartas(HTMLCargarCartas);
+                    if( edit!=null ){
+                        var datosf={union:1};
+                        Carta.CargarCartas(HTMLCargarCartas,datosf);
+                    }
+                    else{
+                        Carta.CargarCartas(HTMLCargarCartas);
+                    }
                 }  
                 $(".overlay,.loading-img").remove();
             },

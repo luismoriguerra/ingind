@@ -1,6 +1,6 @@
 <!-- /.modal -->
 <div class="modal fade" id="personaModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header logo">
         <button class="btn btn-sm btn-default pull-right" data-dismiss="modal">
@@ -17,6 +17,8 @@
                     <th>Materno</th>
                     <th>Nombre</th>
                     <th>DNI</th>
+                    <th>Area</th>
+                    <th>Rol</th>
                     <th>[ ]</th>
                 </tr>
               </thead>

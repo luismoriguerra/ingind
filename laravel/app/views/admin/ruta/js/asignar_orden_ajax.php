@@ -2,7 +2,7 @@
 var Asignar={
     ListarPersona:function(evento){
         $.ajax({
-            url         : 'persona/cargar',
+            url         : 'persona/cargarp',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -123,11 +123,16 @@ var Asignar={
                     $("#tb_ruta_flujo").html("");
                     $("#form_asignar input[type='hidden']").remove();
                     $("#form_asignar").append('<input type="hidden" value="CI-" name="txt_ci" id="txt_ci">');
-                    $("#form_asignar").append('<input type="hidden" name="txt_id_autoriza" id="txt_id_autoriza">');
                     $("#form_asignar").append('<input type="hidden" name="txt_id_responsable" id="txt_id_responsable">');
+                    $("#form_asignar").append('<input type="hidden" name="txt_id_autoriza" id="txt_id_autoriza" value="<?php echo Auth::user()->id; ?>">');
                     $(".natural, .juridica, .area").css("display","none");
-                    $("#form_asignar input[type='text'],#form_asignar textarea,#form_asignar #slct_flujo2_id,#form_asignar #slct_area2_id,#form_asignar #slct_area_p_id,#form_asignar #slct_rol_id").val("");
-                    $('#form_asignar #slct_flujo2_id,#form_asignar #slct_area2_id,#form_asignar #slct_area_p_id,#form_asignar #slct_rol_id').multiselect('refresh');
+                    $("#form_asignar input[type='text'],#form_asignar textarea,#form_asignar #slct_flujo2_id,#form_asignar #slct_area2_id,#form_asignar #slct_area_p2_id,#form_asignar #slct_rol2_id").val("");
+                    $("#txt_paterno_autoriza").val("<?php echo Auth::user()->paterno; ?>");
+                    $("#txt_materno_autoriza").val("<?php echo Auth::user()->materno; ?>");
+                    $("#txt_nombre_autoriza").val("<?php echo Auth::user()->nombre; ?>");
+                    $('#form_asignar #slct_flujo2_id,#form_asignar #slct_area2_id,#form_asignar #slct_area_p2_id,#form_asignar #slct_rol2_id').multiselect('refresh');
+                    var datos={union:1};
+                    Carta.CargarCartas(HTMLCargarCartas,datos);
                     $("#msj").html('<div class="alert alert-dismissable alert-success">'+
                                         '<i class="fa fa-check"></i>'+
                                         '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+

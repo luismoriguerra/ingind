@@ -11,9 +11,9 @@ metricos.push("Ingrese Objetivo");          metricosid.push("met_obj");     metr
 metricos.push("Ingrese Comentario");        metricosid.push("met_com");     metricostype.push("txt");
 var desgloses=[]; var desglosesid=[]; var desglosestype=[]; var desglosescopy=[];
 desgloses.push("Seleccione Tipo Actividad");desglosesid.push("des_tac");    desglosestype.push("slct");     desglosescopy.push("slct_tipo_actividad_id");
-desgloses.push("Ingrese Actividad");        desglosesid.push("des_act");    desglosestype.push("txt");
-desgloses.push("Ingrese Responsable");      desglosesid.push("des_res");    desglosestype.push("txt");
-desgloses.push("Ingrese Area");             desglosesid.push("des_are");    desglosestype.push("txt");
+desgloses.push("Ingrese Actividad");        desglosesid.push("des_act");    desglosestype.push("txt");      desglosescopy.push("");
+desgloses.push("Seleccione Responsable");   desglosesid.push("des_res");    desglosestype.push("slct");     desglosescopy.push("slct_persona_id");
+//desgloses.push("Ingrese Area");             desglosesid.push("des_are");    desglosestype.push("txt");
 desgloses.push("Ingrese Recursos");         desglosesid.push("des_rec");    desglosestype.push("txt");
 desgloses.push("Seleccione Fecha Inicio");  desglosesid.push("des_fin");    desglosestype.push("txt");
 desgloses.push("Seleccione Fecha Fin");     desglosesid.push("des_ffi");    desglosestype.push("txt");
@@ -21,7 +21,8 @@ desgloses.push("Seleccione Hora Inicio");   desglosesid.push("des_hin");    desg
 desgloses.push("Seleccione Hora Fin");      desglosesid.push("des_hfi");    desglosestype.push("txt");
 
 $(document).ready(function() {
-    Carta.CargarCartas(HTMLCargarCartas);
+    var datos={union:1};
+    Carta.CargarCartas(HTMLCargarCartas,datos);
     $("#btn_nuevo").click(Nuevo);
     $("#btn_close").click(Close);
     $("#btn_guardar").click(Guardar);
@@ -30,6 +31,8 @@ $(document).ready(function() {
     var data={estado:1};
     slctGlobal.listarSlct('tiporecurso','slct_tipo_recurso_id','simple',ids,data);
     slctGlobal.listarSlct('tipoactividad','slct_tipo_actividad_id','simple',ids,data);
+    data={estado_persona:1};
+    slctGlobal.listarSlct('persona','slct_persona_id','simple',ids,data);
 });
 
 HTMLCargarDetalleCartas=function(datos){
@@ -96,7 +99,7 @@ Limpiar=function(){
 Guardar=function(){
     var datos=$("#form_carta").serialize().split("txt_").join("").split("slct_").join("");
     if( Validacion() ){
-        Carta.GuardarCartas(Limpiar,datos);
+        Carta.GuardarCartas(Limpiar,datos,1);
     }
 }
 
@@ -146,22 +149,22 @@ AddTr=function(id,value){
                 ccopy = desglosescopy[i];
             }
 
-            if( i==5 || i==6 ){ //para cargar la fecha
+            if( i==5 || i==4 ){ //para cargar la fecha
                 clase='fecha';
             }
         }
 
         if( ctype=="slct" ){
             add+="<td>";
-            add+="<select class='form-control col-sm-12' data-text='"+datatext+"' data-type='slct' id='slct_"+idf+"_"+PosCarta[pos]+"' name='slct_"+dataid+"[]'>";
+            add+="<select class='form-control col-sm-12' data-text='"+datatext+"' data-type='slct' id='slct_"+idf+"_"+PosCarta[pos]+"_"+dataid+"' name='slct_"+dataid+"[]'>";
             add+="</select>";
             add+="</td>";
-
-            vcopy.push("slct_"+idf+"_"+PosCarta[pos]+"|"+ccopy+"|"+val);
+            //alert("slct_"+idf+"_"+PosCarta[pos]+"_"+dataid+"|"+ccopy+"|"+val);
+            vcopy.push("slct_"+idf+"_"+PosCarta[pos]+"_"+dataid+"|"+ccopy+"|"+val);
         }
         else{
             add+="<td>";
-            add+="<input class='form-control col-sm-12 "+clase+"' type='text' data-text='"+datatext+"' data-type='txt' id='txt_"+idf+"_"+PosCarta[pos]+"' name='txt_"+dataid+"[]' value='"+val+"'>";
+            add+="<input class='form-control col-sm-12 "+clase+"' type='text' data-text='"+datatext+"' data-type='txt' id='txt_"+idf+"_"+PosCarta[pos]+"_"+dataid+"' name='txt_"+dataid+"[]' value='"+val+"'>";
             add+="</td>";
         }
 
@@ -177,6 +180,8 @@ AddTr=function(id,value){
         $("#"+vcopy[i].split("|")[0]).val( vcopy[i].split("|")[2] );
 
         slctGlobalHtml(vcopy[i].split("|")[0],'simple');
+        $(".multiselect").css("font-size","11px").css("text-transform","lowercase");
+        $(".multiselect-container>li").css("font-size","12px").css("text-transform","lowercase");
     };
 
     $('.fecha').daterangepicker({

@@ -63,7 +63,6 @@
                                                 <label class="control-label">N° de Carta de Inicio:</label>
                                                 <div class="input-group">
                                                     <input type="hidden" value="CI-" name="txt_ci" id="txt_ci">
-                                                    <span class="input-group-addon">CI-</span>
                                                     <input class="form-control" id="txt_codigo" name="txt_codigo" type="text" placeholder="Ing. Orden Trabajo" readonly>
                                                 </div>
                                             </div>
@@ -93,6 +92,12 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
+                                            <div class="col-sm-6">
+                                                <label class="control-label"> Objetivo de la carta de inicio:</label>
+                                                <textarea class="form-control" id="txt_sumilla" name="txt_sumilla" readonly></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
                                             <div class="col-sm-3 juridica" style="display:none">
                                                 <label class="control-label"> RUC:</label>
                                                 <input class="form-control" type="text" id="txt_ruc" name="txt_ruc" placeholder='RUC'>
@@ -119,33 +124,30 @@
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">
                                                 <label class="control-label">Autoriza Paterno:</label>
-                                                <input class="form-control" type="text" id="txt_paterno_autoriza" name="txt_paterno_autoriza" placeholder='Paterno' readonly>
+                                                <input class="form-control" type="text" id="txt_paterno_autoriza" name="txt_paterno_autoriza" placeholder='Paterno' value="{{Auth::user()->paterno}}" readonly>
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Autoriza Materno:</label>
-                                                <input class="form-control" type="text" id="txt_materno_autoriza" name="txt_materno_autoriza" placeholder='Materno' readonly>
+                                                <input class="form-control" type="text" id="txt_materno_autoriza" name="txt_materno_autoriza" placeholder='Materno' value="{{Auth::user()->materno}}" readonly>
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Autoriza Nombre:</label>
-                                                <input class="form-control" type="text" id="txt_nombre_autoriza" name="txt_nombre_autoriza" placeholder='Nombre' readonly>
+                                                <input class="form-control" type="text" id="txt_nombre_autoriza" name="txt_nombre_autoriza" placeholder='Nombre' value="{{Auth::user()->nombre}}" readonly>
                                             </div>
                                             <div class="col-sm-1"><br>
-                                                <input type="hidden" id="txt_id_autoriza" name="txt_id_autoriza">
-                                                <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#personaModal" data-id="autoriza">
-                                                    <i class='fa fa-search fa-lg'>Buscar</i>
-                                                </a>
+                                                <input type="hidden" id="txt_id_autoriza" name="txt_id_autoriza" value="{{Auth::user()->id}}">
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-5">
                                                 <label class="control-label"> Área del que autoriza y del responsable:</label>
-                                                <select class="form-control" type="text" id="slct_area_p_id" name="slct_area_p_id">
+                                                <select class="form-control" type="text" id="slct_area_p_id" name="slct_area_p_id" disabled>
                                                 <option value="">.:Seleccione:.</option>
                                                 </select>
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label"> Rol de la persona que Autoriza:</label>
-                                                <select class="form-control" type="text" id="slct_rol_id" name="slct_rol_id">
+                                                <select class="form-control" type="text" id="slct_rol_id" name="slct_rol_id" disabled>
                                                 <option value="">.:Seleccione:.</option>
                                                 </select>
                                             </div>
@@ -171,9 +173,17 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
-                                            <div class="col-sm-6">
-                                                <label class="control-label"> Objetivo de la carta de inicio:</label>
-                                                <textarea class="form-control" id="txt_sumilla" name="txt_sumilla" readonly></textarea>
+                                            <div class="col-sm-5">
+                                                <label class="control-label"> Área del Responsable:</label>
+                                                <select class="form-control" type="text" id="slct_area_p2_id" name="slct_area_p2_id" disabled>
+                                                <option value="">.:Seleccione:.</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label class="control-label"> Rol del Responsable:</label>
+                                                <select class="form-control" type="text" id="slct_rol2_id" name="slct_rol2_id" disabled>
+                                                <option value="">.:Seleccione:.</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
