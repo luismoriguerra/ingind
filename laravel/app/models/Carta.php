@@ -31,7 +31,7 @@ class Carta extends Base
                         CONCAT(
                             cd.tipo_actividad_id,'|',
                             cd.actividad,'|',
-                            cd.responsable,'|',
+                            cd.persona_id,'|',
                             cd.area,'|',
                             cd.recursos,'|',
                             cd.fecha_inicio,'|',
@@ -57,115 +57,131 @@ class Carta extends Base
     public static function CrearActualizar (){
         DB::beginTransaction(); // Iniciando transacción
         $carta=array();
-        if( Input::has('carta_id') ){
+        if( Input::has('informe') ){
             $carta=Carta::find(Input::get('carta_id'));
-            $carta['usuario_updated_at']=Auth::user()->id;
+            if( Input::has('inf_rec') ){
+                $inforec[]=Input::get('inf_rec');
 
-            DB::table('carta_recurso')
-                ->where('carta_id', '=', Input::get('carta_id'))
-                ->update(array(
-                    "estado"=>0,
-                    "updated_at"=>date("Y-m-d H:i:s"),
-                    "usuario_updated_at"=>Auth::user()->id
-                )
-            );
+                for( $i=0; $i<count($inforec[0]); $i++ ){
+                    $cartaRecurso=CartaRecurso::where('carta_id','=',$carta->id);
+                    $cartaRecurso['usuario_updated_at']=Auth::user()->id;
+                    $cartaRecurso['evaluacion_sobro']=$inforec[0][$i];
 
-            DB::table('carta_metrico')
-                ->where('carta_id', '=', Input::get('carta_id'))
-                ->update(array(
-                    "estado"=>0,
-                    "updated_at"=>date("Y-m-d H:i:s"),
-                    "usuario_updated_at"=>Auth::user()->id
-                )
-            );
-
-            DB::table('carta_desglose')
-                ->where('carta_id', '=', Input::get('carta_id'))
-                ->update(array(
-                    "estado"=>0,
-                    "updated_at"=>date("Y-m-d H:i:s"),
-                    "usuario_updated_at"=>Auth::user()->id
-                )
-            );
+                    $cartaRecurso->save();
+                }
+            }
         }
         else{
-            $carta=new Carta;
-            $carta['usuario_created_at']=Auth::user()->id;
-        }
+            if( Input::has('carta_id') ){
+                $carta=Carta::find(Input::get('carta_id'));
+                $carta['usuario_updated_at']=Auth::user()->id;
 
-        $carta['nro_carta']=Input::get('nro_carta');
-        $carta['objetivo']=Input::get('objetivo');
-        $carta['entregable']=Input::get('entregable');
-        $carta['alcance']=Input::get('alcance');
+                DB::table('carta_recurso')
+                    ->where('carta_id', '=', Input::get('carta_id'))
+                    ->update(array(
+                        "estado"=>0,
+                        "updated_at"=>date("Y-m-d H:i:s"),
+                        "usuario_updated_at"=>Auth::user()->id
+                    )
+                );
 
-        $carta->save();
+                DB::table('carta_metrico')
+                    ->where('carta_id', '=', Input::get('carta_id'))
+                    ->update(array(
+                        "estado"=>0,
+                        "updated_at"=>date("Y-m-d H:i:s"),
+                        "usuario_updated_at"=>Auth::user()->id
+                    )
+                );
 
-        $recursos=array();
-        if( Input::has('rec_tre') ){
-            $recursos[]=Input::get('rec_tre');
-            $recursos[]=Input::get('rec_can');
-
-            for( $i=0; $i<count($recursos[0]); $i++ ){
-                $cartaRecurso=new CartaRecurso;
-                $cartaRecurso['usuario_created_at']=Auth::user()->id;
-
-                $cartaRecurso['carta_id']=$carta->id;
-                $cartaRecurso['tipo_recurso_id']=$recursos[0][$i];
-                $cartaRecurso['cantidad']=$recursos[1][$i];
-
-                $cartaRecurso->save();
+                DB::table('carta_desglose')
+                    ->where('carta_id', '=', Input::get('carta_id'))
+                    ->update(array(
+                        "estado"=>0,
+                        "updated_at"=>date("Y-m-d H:i:s"),
+                        "usuario_updated_at"=>Auth::user()->id
+                    )
+                );
             }
-        }
-
-        $metricos=array();
-        if( Input::has('met_met') ){
-            $metricos[]=Input::get('met_met');
-            $metricos[]=Input::get('met_act');
-            $metricos[]=Input::get('met_obj');
-            $metricos[]=Input::get('met_com');
-
-            for( $i=0; $i<count($metricos[0]); $i++ ){
-                $cartaMetrico=new CartaMetrico;
-                $cartaMetrico['usuario_created_at']=Auth::user()->id;
-
-                $cartaMetrico['carta_id']=$carta->id;
-                $cartaMetrico['metrico']=$metricos[0][$i];
-                $cartaMetrico['actual']=$metricos[1][$i];
-                $cartaMetrico['objetivo']=$metricos[2][$i];
-                $cartaMetrico['comentario']=$metricos[3][$i];
-
-                $cartaMetrico->save();
+            else{
+                $carta=new Carta;
+                $carta['usuario_created_at']=Auth::user()->id;
             }
-        }
 
-        $desgloses=array();
-        if( Input::has('des_tac') ){
-            $desgloses[]=Input::get('des_tac');
-            $desgloses[]=Input::get('des_act');
-            $desgloses[]=Input::get('des_res');
-            $desgloses[]=Input::get('des_are');
-            $desgloses[]=Input::get('des_rec');
-            $desgloses[]=Input::get('des_fin');
-            $desgloses[]=Input::get('des_ffi');
-            $desgloses[]=Input::get('des_hin');
-            $desgloses[]=Input::get('des_hfi');
+            $carta['nro_carta']=Input::get('nro_carta');
+            $carta['objetivo']=Input::get('objetivo');
+            $carta['entregable']=Input::get('entregable');
+            $carta['alcance']=Input::get('alcance');
 
-            for( $i=0; $i<count($desgloses[0]); $i++ ){
-                $cartaDesglose=new CartaDesglose;
-                $cartaDesglose['usuario_created_at']=Auth::user()->id;
+            $carta->save();
 
-                $cartaDesglose['carta_id']=$carta->id;
-                $cartaDesglose['tipo_actividad_id']=$desgloses[0][$i];
-                $cartaDesglose['actividad']=$desgloses[1][$i];
-                $cartaDesglose['responsable']=$desgloses[2][$i];
-                $cartaDesglose['area']=$desgloses[3][$i];
-                $cartaDesglose['recursos']=$desgloses[4][$i];
-                $cartaDesglose['fecha_inicio']=$desgloses[5][$i];
-                $cartaDesglose['fecha_fin']=$desgloses[6][$i];
-                $cartaDesglose['hora_inicio']=$desgloses[7][$i];
-                $cartaDesglose['hora_fin']=$desgloses[8][$i];
+            $recursos=array();
+            if( Input::has('rec_tre') ){
+                $recursos[]=Input::get('rec_tre');
+                $recursos[]=Input::get('rec_can');
 
-                $cartaDesglose->save();
+                for( $i=0; $i<count($recursos[0]); $i++ ){
+                    $cartaRecurso=new CartaRecurso;
+                    $cartaRecurso['usuario_created_at']=Auth::user()->id;
+
+                    $cartaRecurso['carta_id']=$carta->id;
+                    $cartaRecurso['tipo_recurso_id']=$recursos[0][$i];
+                    $cartaRecurso['cantidad']=$recursos[1][$i];
+
+                    $cartaRecurso->save();
+                }
+            }
+
+            $metricos=array();
+            if( Input::has('met_met') ){
+                $metricos[]=Input::get('met_met');
+                $metricos[]=Input::get('met_act');
+                $metricos[]=Input::get('met_obj');
+                $metricos[]=Input::get('met_com');
+
+                for( $i=0; $i<count($metricos[0]); $i++ ){
+                    $cartaMetrico=new CartaMetrico;
+                    $cartaMetrico['usuario_created_at']=Auth::user()->id;
+
+                    $cartaMetrico['carta_id']=$carta->id;
+                    $cartaMetrico['metrico']=$metricos[0][$i];
+                    $cartaMetrico['actual']=$metricos[1][$i];
+                    $cartaMetrico['objetivo']=$metricos[2][$i];
+                    $cartaMetrico['comentario']=$metricos[3][$i];
+
+                    $cartaMetrico->save();
+                }
+            }
+
+            $desgloses=array();
+            if( Input::has('des_tac') ){
+                $desgloses[]=Input::get('des_tac');
+                $desgloses[]=Input::get('des_act');
+                $desgloses[]=Input::get('des_res');
+                $desgloses[]=Input::get('des_are');
+                $desgloses[]=Input::get('des_rec');
+                $desgloses[]=Input::get('des_fin');
+                $desgloses[]=Input::get('des_ffi');
+                $desgloses[]=Input::get('des_hin');
+                $desgloses[]=Input::get('des_hfi');
+
+                for( $i=0; $i<count($desgloses[0]); $i++ ){
+                    $cartaDesglose=new CartaDesglose;
+                    $cartaDesglose['usuario_created_at']=Auth::user()->id;
+
+                    $cartaDesglose['carta_id']=$carta->id;
+                    $cartaDesglose['tipo_actividad_id']=$desgloses[0][$i];
+                    $cartaDesglose['actividad']=$desgloses[1][$i];
+                    $cartaDesglose['responsable']=$desgloses[2][$i];
+                    $cartaDesglose['area']=$desgloses[3][$i];
+                    $cartaDesglose['recursos']=$desgloses[4][$i];
+                    $cartaDesglose['fecha_inicio']=$desgloses[5][$i];
+                    $cartaDesglose['fecha_fin']=$desgloses[6][$i];
+                    $cartaDesglose['hora_inicio']=$desgloses[7][$i];
+                    $cartaDesglose['hora_fin']=$desgloses[8][$i];
+
+                    $cartaDesglose->save();
+                }
             }
         }
         //DB::rollback();
