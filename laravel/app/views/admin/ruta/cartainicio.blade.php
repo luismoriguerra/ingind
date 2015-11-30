@@ -123,6 +123,7 @@
                                             <tr>
                                                 <th>N°</th>
                                                 <th>Tipo Recurso</th>
+                                                <th>Descripción</th>
                                                 <th>Cantidad</th>
                                                 <th> [ ] </th>
                                             </tr>

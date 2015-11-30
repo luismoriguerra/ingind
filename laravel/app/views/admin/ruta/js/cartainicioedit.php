@@ -3,6 +3,7 @@ var PosCarta=[];
 PosCarta[0]=0;PosCarta[1]=0;PosCarta[2]=0;
 var recursos=[]; var recursosid=[]; var recursostype=[]; var recursoscopy=[];
 recursos.push("Seleccione Tipo Recurso");   recursosid.push("rec_tre");     recursostype.push("slct");      recursoscopy.push("slct_tipo_recurso_id");
+recursos.push("Ingrese Descripcion");       recursosid.push("rec_des");     recursostype.push("txt");
 recursos.push("Ingrese Cantidad");          recursosid.push("rec_can");     recursostype.push("txt");
 var metricos=[]; var metricosid=[]; var metricostype=[]; var metricoscopy=[];
 metricos.push("Ingrese Métrico");           metricosid.push("met_met");     metricostype.push("txt");
@@ -13,7 +14,6 @@ var desgloses=[]; var desglosesid=[]; var desglosestype=[]; var desglosescopy=[]
 desgloses.push("Seleccione Tipo Actividad");desglosesid.push("des_tac");    desglosestype.push("slct");     desglosescopy.push("slct_tipo_actividad_id");
 desgloses.push("Ingrese Actividad");        desglosesid.push("des_act");    desglosestype.push("txt");      desglosescopy.push("");
 desgloses.push("Seleccione Responsable");   desglosesid.push("des_res");    desglosestype.push("slct");     desglosescopy.push("slct_persona_id");
-//desgloses.push("Ingrese Area");             desglosesid.push("des_are");    desglosestype.push("txt");
 desgloses.push("Ingrese Recursos");         desglosesid.push("des_rec");    desglosestype.push("txt");
 desgloses.push("Seleccione Fecha Inicio");  desglosesid.push("des_fin");    desglosestype.push("txt");
 desgloses.push("Seleccione Fecha Fin");     desglosesid.push("des_ffi");    desglosestype.push("txt");

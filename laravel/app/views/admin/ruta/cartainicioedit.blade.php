@@ -77,7 +77,7 @@
                                 <div class="box box-solid bg-blue">Carta N° :</div>
                             </div>
                             <div class="col-sm-3">
-                                <input class="form-control" data-text="Ingrese Nro Carta" data-type="txt" id="txt_nro_carta" name="txt_nro_carta" type="text">
+                                <input class="form-control" data-text="Ingrese Nro Carta" data-type="txt" id="txt_nro_carta" name="txt_nro_carta" type="text" readonly>
                             </div>
                         </div>
                         <div class="col-sm-12">
@@ -120,6 +120,7 @@
                                             <tr>
                                                 <th>N°</th>
                                                 <th>Tipo Recurso</th>
+                                                <th>Descripción</th>
                                                 <th>Cantidad</th>
                                                 <th> [ ] </th>
                                             </tr>

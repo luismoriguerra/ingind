@@ -51,13 +51,10 @@ class Persona extends Base implements UserInterface, RemindableInterface
                     p.paterno,p.materno,p.nombre nombres,p.dni,a.nombre area,
                     CONCAT(p.paterno,' ',substr(p.materno,1,4),'. ',substr(p.nombre,1,7),'. |',a.nombre) nombre
                 FROM personas p
-                INNER JOIN cargo_persona cp on cp.persona_id=p.id AND cp.estado=1
-                INNER JOIN area_cargo_persona acp on acp.cargo_persona_id=cp.id AND acp.estado=1
-                INNER JOIN cargos c ON c.id=cp.cargo_id AND c.estado=1
-                INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                INNER JOIN areas a ON a.id=p.area_id 
                 WHERE p.estado=1
                 GROUP BY p.id,a.id
-                ORDER BY p.paterno,p.materno,p.nombre,a.nombre";
+                ORDER BY p.paterno,p.materno,p.nombre";
 
         $personas= DB::select($sql);
         return $personas;

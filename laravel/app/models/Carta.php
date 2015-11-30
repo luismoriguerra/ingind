@@ -16,7 +16,8 @@ class Carta extends Base
                                 FROM tipo_recurso tr
                                 WHERE tr.id=cr.tipo_recurso_id
                                 ),'|',
-                                cr.cantidad,'|'
+                                cr.descripcion,'|',
+                                cr.cantidad
                             ) 
                         )
                         SEPARATOR '*' 
@@ -74,10 +75,10 @@ class Carta extends Base
                         DISTINCT(
                             CONCAT(
                                 cr.tipo_recurso_id,'|',
+                                cr.descripcion,'|',
                                 cr.cantidad,'|',
                                 cr.informe_sobro,'|',
                                 cr.id
-
                             )
                         )
                         SEPARATOR '*' 
@@ -223,6 +224,7 @@ class Carta extends Base
             $recursos=array();
             if( Input::has('rec_tre') ){
                 $recursos[]=Input::get('rec_tre');
+                $recursos[]=Input::get('rec_des');
                 $recursos[]=Input::get('rec_can');
 
                 for( $i=0; $i<count($recursos[0]); $i++ ){
@@ -231,7 +233,8 @@ class Carta extends Base
 
                     $cartaRecurso['carta_id']=$carta->id;
                     $cartaRecurso['tipo_recurso_id']=$recursos[0][$i];
-                    $cartaRecurso['cantidad']=$recursos[1][$i];
+                    $cartaRecurso['descripcion']=$recursos[1][$i];
+                    $cartaRecurso['cantidad']=$recursos[2][$i];
 
                     $cartaRecurso->save();
                 }

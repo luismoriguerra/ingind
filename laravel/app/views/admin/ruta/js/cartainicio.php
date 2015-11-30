@@ -3,6 +3,7 @@ var PosCarta=[];
 PosCarta[0]=0;PosCarta[1]=0;PosCarta[2]=0;
 var recursos=[]; var recursosid=[]; var recursostype=[]; var recursoscopy=[];
 recursos.push("Seleccione Tipo Recurso");   recursosid.push("rec_tre");     recursostype.push("slct");      recursoscopy.push("slct_tipo_recurso_id");
+recursos.push("Ingrese Descripcion");       recursosid.push("rec_des");     recursostype.push("txt");
 recursos.push("Ingrese Cantidad");          recursosid.push("rec_can");     recursostype.push("txt");
 var metricos=[]; var metricosid=[]; var metricostype=[]; var metricoscopy=[];
 metricos.push("Ingrese Métrico");           metricosid.push("met_met");     metricostype.push("txt");
