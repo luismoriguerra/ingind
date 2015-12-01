@@ -2,10 +2,6 @@
 
 class TipoActividadController extends BaseController
 {
-
-    public function __construct(ErrorController $ErrorController){
-        $this->error = $ErrorController;
-    }
     /**
      * cargar areas, mantenimiento
      * POST /area/cargar
@@ -16,11 +12,7 @@ class TipoActividadController extends BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            try{
-                $tipoActividad = TipoActividad::get(Input::all());
-            }catch (Exception $error){
-                $this->error->handlerError($error);
-            }
+            $tipoActividad = TipoActividad::get(Input::all());
             return Response::json(array('rst'=>1,'datos'=>$tipoActividad));
         }
     }
@@ -34,8 +26,16 @@ class TipoActividadController extends BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $tipoActividad = TipoActividad::get(Input::all());
-            return Response::json(array('rst'=>1,'datos'=>$tipoActividad));
+            $a      = new TipoActividad;
+            $listar = Array();
+            $listar = $a->getTipoActividad();
+
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $listar
+                )
+            );
         }
     }
 
