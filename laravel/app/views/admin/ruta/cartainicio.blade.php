@@ -88,7 +88,7 @@
                                 <label class="box box-solid bg-blue">Objetivo del Proyecto:</label>
                             </div>
                             <div class="col-sm-10">
-                                <textarea class="form-control" data-text="Ingrese Objetivo del Proyecto" data-type="txt" id="txt_objetivo" name="txt_objetivo"></textarea>
+                                <textarea class="form-control col-sm-12" data-text="Ingrese Objetivo del Proyecto" data-type="txt" id="txt_objetivo" name="txt_objetivo"></textarea>
                             </div>
                         </div>
                         <div class="col-sm-12">
@@ -96,7 +96,7 @@
                                 <label class="box box-solid bg-blue">Entregables del Proyecto:</label>
                             </div>
                             <div class="col-sm-10">
-                                <textarea class="form-control" data-text="Ingrese Entregables del Proyecto" data-type="txt" id="txt_entregable" name="txt_entregable"></textarea>
+                                <textarea class="form-control col-sm-12" data-text="Ingrese Entregables del Proyecto" data-type="txt" id="txt_entregable" name="txt_entregable"></textarea>
                             </div>
                         </div>
                         <div class="col-sm-12">
@@ -104,7 +104,7 @@
                                 <label class="box box-solid bg-blue">Alcance del Proyecto:</label>
                             </div>
                             <div class="col-sm-10">
-                                <textarea class="form-control" data-text="Ingrese Alcance del Proyecto" data-type="txt" id="txt_alcance" name="txt_alcance"></textarea>
+                                <textarea class="form-control col-sm-12" data-text="Ingrese Alcance del Proyecto" data-type="txt" id="txt_alcance" name="txt_alcance"></textarea>
                             </div>
                         </div>
                         <div class="col-sm-12">

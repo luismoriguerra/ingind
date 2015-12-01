@@ -8,8 +8,9 @@
         recursosstado=[];
 
     recursos.push("Seleccione Tipo Recurso");   recursosid.push("rec_tre");     recursostype.push("slct");      recursoscopy.push("slct_tipo_recurso_id");  recursosstado.push("disabled");
+    recursos.push("Ingrese Descripcion");       recursosid.push("rec_des");     recursostype.push("txt");                                                   recursosstado.push("disabled");
     recursos.push("Ingrese Cantidad");          recursosid.push("rec_can");     recursostype.push("txt");                                                   recursosstado.push("disabled");
-    recursos.push("Ingrese cuanto Sobró");          recursosid.push("inf_sob");     recursostype.push("txt");                                               recursosstado.push("");
+    recursos.push("Ingrese cuanto Sobró");      recursosid.push("inf_sob");     recursostype.push("txt");                                               recursosstado.push("");
 //    recursos.push("Ingrese cuanto Sobró");          recursosid.push("rec_id");     recursostype.push("txt");                                               recursosstado.push("");
 
     var metricos=[],
@@ -22,20 +23,19 @@
     metricos.push("Ingrese Actual");            metricosid.push("met_act");     metricostype.push("txt");metricosestado.push("disabled");
     metricos.push("Ingrese Objetivo");          metricosid.push("met_obj");     metricostype.push("txt");metricosestado.push("disabled");
     metricos.push("Ingrese Comentario");        metricosid.push("met_com");     metricostype.push("txt");metricosestado.push("disabled");
-    metricos.push("Ingrese cuanto alcanzo");        metricosid.push("inf_alc");     metricostype.push("txt"); metricosestado.push("");
+    metricos.push("Ingrese cuanto alcanzo");    metricosid.push("inf_alc");     metricostype.push("txt"); metricosestado.push("");
 
 
     var desgloses=[], desglosesid=[], desglosestype=[], desglosescopy=[], desgloseestado = [];
-    desgloses.push("Seleccione Tipo Actividad");desglosesid.push("des_tac");    desglosestype.push("slct");     desglosescopy.push("slct_tipo_actividad_id"); desgloseestado.push("disabled");
-    desgloses.push("Ingrese Actividad");        desglosesid.push("des_act");    desglosestype.push("txt");desgloseestado.push("disabled");
-    desgloses.push("Ingrese Responsable");      desglosesid.push("des_res");    desglosestype.push("txt");desgloseestado.push("disabled");
-    desgloses.push("Ingrese Area");             desglosesid.push("des_are");    desglosestype.push("txt");desgloseestado.push("disabled");
+    desgloses.push("Seleccione Tipo Actividad");desglosesid.push("des_tac");    desglosestype.push("slct");     desglosescopy.push("slct_tipo_actividad_id");   desgloseestado.push("disabled");
+    desgloses.push("Ingrese Actividad");        desglosesid.push("des_act");    desglosestype.push("txt");      desglosescopy.push("");                         desgloseestado.push("disabled");
+    desgloses.push("Seleccione Responsable");   desglosesid.push("des_res");    desglosestype.push("slct");     desglosescopy.push("slct_persona_id");          desgloseestado.push("disabled");
     desgloses.push("Ingrese Recursos");         desglosesid.push("des_rec");    desglosestype.push("txt");desgloseestado.push("disabled");
     desgloses.push("Seleccione Fecha Inicio");  desglosesid.push("des_fin");    desglosestype.push("txt");desgloseestado.push("disabled");
     desgloses.push("Seleccione Fecha Fin");     desglosesid.push("des_ffi");    desglosestype.push("txt");desgloseestado.push("disabled");
     desgloses.push("Seleccione Hora Inicio");   desglosesid.push("des_hin");    desglosestype.push("txt");desgloseestado.push("disabled");
     desgloses.push("Seleccione Hora Fin");      desglosesid.push("des_hfi");    desglosestype.push("txt");desgloseestado.push("disabled");
-    desgloses.push("Seleccione responsable");      desglosesid.push("inf_res");    desglosestype.push("txt");desgloseestado.push("");
+    desgloses.push("Seleccione responsable");   desglosesid.push("inf_res");    desglosestype.push("txt");desgloseestado.push("");
     desgloses.push("Seleccione recuerso");      desglosesid.push("inf_rec");    desglosestype.push("txt");desgloseestado.push("");
 
     $(document).ready(function() {
@@ -49,6 +49,8 @@
         var data={estado:1};
         slctGlobal.listarSlct('tiporecurso','slct_tipo_recurso_id','simple',ids,data);
         slctGlobal.listarSlct('tipoactividad','slct_tipo_actividad_id','simple',ids,data);
+        data={estado_persona:1};
+        slctGlobal.listarSlct('persona','slct_persona_id','simple',ids,data);
     });
 
     HTMLCargarDetalleCartas=function(datos){
@@ -182,8 +184,9 @@
         for (var i = 0; i < ($("#t_"+idf+" thead tr th").length - 1); i++) {
 
             clase='';
+            val='';
             if ( value != 0 && value.split("|")[i] ){
-                val=value.split("|")[i].split("0000-00-00").join("").split("00:00:00").join("");
+                val=value.split("|")[i].split("0000-00-00").join("0").split("00:00:00").join("0");
             }
 
             if ( idf=="recursos" ){
@@ -216,7 +219,7 @@
                     ccopy = desglosescopy[i];
                 }
 
-                if( i==5 || i==6 ){ //para cargar la fecha
+                if( i==5 || i==4 ){ //para cargar la fecha
                     clase='fecha';
                 }
                 datastatus = desgloseestado[i];
@@ -225,15 +228,15 @@
 
             if( ctype=="slct" ){
                 add+="<td>";
-                add+="<select class='form-control col-sm-12' data-text='"+datatext+"' data-type='slct' id='slct_"+idf+"_"+PosCarta[pos]+"' name='slct_"+dataid+"[]' "+ datastatus +">";
+                add+="<select class='form-control col-sm-12' data-text='"+datatext+"' data-type='slct' id='slct_"+idf+"_"+PosCarta[pos]+"_"+dataid+"' name='slct_"+dataid+"[]' "+ datastatus +">";
                 add+="</select>";
                 add+="</td>";
-
-                vcopy.push("slct_"+idf+"_"+PosCarta[pos]+"|"+ccopy+"|"+val);
+                
+                vcopy.push("slct_"+idf+"_"+PosCarta[pos]+"_"+dataid+"|"+ccopy+"|"+val);
             }
             else{
                 add+="<td>";
-                add+="<input class='form-control col-sm-12 "+clase+"' type='text' data-text='"+datatext+"' data-type='txt' id='txt_"+idf+"_"+PosCarta[pos]+"' name='txt_"+dataid+"[]' value='"+val+"' "+ datastatus +">";
+                add+="<input class='form-control col-sm-12 "+clase+"' type='text' data-text='"+datatext+"' data-type='txt' id='txt_"+idf+"_"+PosCarta[pos]+"_"+dataid+"' name='txt_"+dataid+"[]' value='"+val+"' "+ datastatus +">";
                 add+="</td>";
             }
 
@@ -252,6 +255,8 @@
             $("#"+vcopy[i].split("|")[0]).val( vcopy[i].split("|")[2] );
 
             slctGlobalHtml(vcopy[i].split("|")[0],'simple');
+            $(".multiselect").css("font-size","11px").css("text-transform","lowercase");
+            $(".multiselect-container>li").css("font-size","12px").css("text-transform","lowercase");
         };
 
         $('.fecha').daterangepicker({
