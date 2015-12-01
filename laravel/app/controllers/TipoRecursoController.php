@@ -2,10 +2,6 @@
 
 class TipoRecursoController extends BaseController
 {
-
-    public function __construct(ErrorController $ErrorController){
-        $this->error = $ErrorController;
-    }
     /**
      * cargar areas, mantenimiento
      * POST /area/cargar
@@ -16,11 +12,7 @@ class TipoRecursoController extends BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            try{
-                $tipoRecurso = TipoRecurso::get(Input::all());
-            }catch (Exception $error){
-                $this->error->handlerError($error);
-            }
+            $tipoRecurso = TipoRecurso::get(Input::all());
             return Response::json(array('rst'=>1,'datos'=>$tipoRecurso));
         }
     }
@@ -34,8 +26,16 @@ class TipoRecursoController extends BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $tipoRecurso = TipoRecurso::get(Input::all());
-            return Response::json(array('rst'=>1,'datos'=>$tipoRecurso));
+            $a      = new TipoRecurso;
+            $listar = Array();
+            $listar = $a->getTipoRecurso();
+
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $listar
+                )
+            );
         }
     }
 
