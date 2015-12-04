@@ -118,6 +118,7 @@ AddTr=function(id,value){
     for (var i = 0; i < ($("#t_"+idf+" thead tr th").length-2); i++) {
 
         clase='';
+        val='';
         if ( value!='0' ){
             val=value.split("|")[i].split("0000-00-00").join("").split("00:00:00").join("");
         }

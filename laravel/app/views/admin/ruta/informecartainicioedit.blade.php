@@ -19,7 +19,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Editar Carta de Inicio
+        Informe Carta de Inicio
         <small> </small>
     </h1>
     <ol class="breadcrumb">
@@ -69,6 +69,7 @@
                     <div style="display:none">
                         <select id="slct_tipo_recurso_id"></select>
                         <select id="slct_tipo_actividad_id"></select>
+                        <select id="slct_persona_id"></select>
                     </div>
                     <div class="row form-group" id="cartainicio" style="display:none">
                         <input type="hidden" data-type="text" id="txt_informe" name="txt_informe" value="1"/>
@@ -144,8 +145,9 @@
                                         <tr>
                                             <th>N°</th>
                                             <th>Tipo Recurso</th>
+                                            <th>Descripción</th>
                                             <th>Cantidad</th>
-                                            <th>Cuanto Sobró</th>
+                                            <th>CUANTO SOBRÓ</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -171,7 +173,7 @@
                                             <th>Actual</th>
                                             <th>Objetivo</th>
                                             <th>Comentario</th>
-                                            <th>Cuanto se alcanzó </th>
+                                            <th>CUANTO SE ALCANZÓ </th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -195,14 +197,13 @@
                                             <th>N°</th>
                                             <th>Tipo Actividad</th>
                                             <th>Actividad</th>
-                                            <th>Responsable</th>
-                                            <th>Area</th>
+                                            <th style="width:300px !important;">Responsable - Area</th>
                                             <th>Recursos</th>
-                                            <th>Fecha Inicio</th>
-                                            <th>Fecha Fin</th>
-                                            <th>Hora Inicio</th>
-                                            <th>Hora Fin</th>
-                                            <th>RESPONSABLE </th>
+                                            <th style="width:106px !important;">Fecha Inicio</th>
+                                            <th style="width:106px !important;">Fecha Fin</th>
+                                            <th style="width:70px !important;">Hora Inicio</th>
+                                            <th style="width:70px !important;">Hora Fin</th>
+                                            <th>RESPONSABLE</th>
                                             <th>RECURSO </th>
                                         </tr>
                                         </thead>
