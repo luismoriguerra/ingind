@@ -158,6 +158,22 @@ RemoveTr=function(id){
 Nuevo=function(){
     $("#cartainicio").css("display","");
     $("#txt_nro_carta").focus();
+    var datos={area_id:$("#txt_area_id").val()};
+    Carta.CargarCorrelativo(HTMLCargarCorrelativo,datos);
+}
+
+HTMLCargarCorrelativo=function(obj){
+    $("#txt_nro_carta").val("");
+    var ano= obj.ano;
+    var correlativo=obj.correlativo;
+    var area = obj.area.split(" ");
+    var siglas='';
+    for( i=0; i<area.length; i++ ){
+        siglas+=area[i].substr(0,1);
+    }
+
+    var codigo= "CI-"+correlativo+"-"+ano+"-"+siglas;
+    $("#txt_nro_carta").val(codigo);
 }
 
 Close=function(){

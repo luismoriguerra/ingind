@@ -36,6 +36,7 @@
             <!-- Inicia contenido -->
             <div class="box">
                 <form name="form_carta" id="form_carta" method="POST" action="">
+                    <input type="hidden" id="txt_area_id" name="txt_area_id" value="<?php echo Auth::user()->area_id;?>">
                     <div class="row form-group" id="tabla_relacion">
                         <div class="col-sm-12">
                             <div class="box-body table-responsive">
@@ -80,7 +81,7 @@
                                 <div class="box box-solid bg-blue">Carta N° :</div>
                             </div>
                             <div class="col-sm-3">
-                                <input class="form-control" data-text="Ingrese Nro Carta" data-type="txt" id="txt_nro_carta" name="txt_nro_carta" type="text">
+                                <input class="form-control" data-text="Ingrese Nro Carta" data-type="txt" id="txt_nro_carta" name="txt_nro_carta" type="text" readonly>
                             </div>
                         </div>
                         <div class="col-sm-12">

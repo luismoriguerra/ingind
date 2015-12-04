@@ -7,6 +7,14 @@ class CartaController extends \BaseController
         $this->beforeFilter('auth');
     }
 
+    public function postCorrelativo()
+    {
+        if ( Request::ajax() ) {
+            $r = Carta::Correlativo();
+            return Response::json(array('rst'=>1,'datos'=>$r));
+        }
+    }
+
     public function postCargardetalle()
     {
         if ( Request::ajax() ) {

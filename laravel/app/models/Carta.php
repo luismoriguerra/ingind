@@ -4,6 +4,32 @@ class Carta extends Base
 {
     public $table = "cartas";
 
+    public static function Correlativo(){
+        $areaId= Input::get('area_id');
+        $año= date("Y");
+        $sql="  SELECT LPAD(c.correlativo+1,4,'0') correlativo,a.nombre area,'$año' ano
+                FROM cartas c 
+                INNER JOIN areas a ON a.id=c.area_id
+                WHERE year(c.created_at)='$año'
+                AND c.area_id='$areaId'
+                ORDER BY c.correlativo DESC
+                LIMIT 1";
+
+        $r= DB::select($sql);
+
+        if( count($r)>0 ){
+            return $r[0];
+        }
+        else{
+            $sql="  SELECT '0001' correlativo,nombre area, '$año' ano
+                    FROM areas 
+                    WHERE id='$areaId'";
+            $r= DB::select($sql);
+
+            return $r[0];
+        }
+    }
+
     public static function CargarDetalle (){
 
         if( Input::has('vista') ){
@@ -218,6 +244,10 @@ class Carta extends Base
             $carta['objetivo']=Input::get('objetivo');
             $carta['entregable']=Input::get('entregable');
             $carta['alcance']=Input::get('alcance');
+            $carta['area_id']=Input::get('area_id');
+
+            $correlativo=explode("-",Input::get('nro_carta'));
+            $carta['correlativo']= $correlativo[1]*1;
 
             $carta->save();
 
