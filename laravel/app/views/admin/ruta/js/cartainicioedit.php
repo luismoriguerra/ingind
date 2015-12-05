@@ -223,7 +223,10 @@ HTMLCargarCartas=function(datos){
             "<td >"+data.nro_carta+"</td>"+
             "<td >"+data.objetivo+"</td>"+
             "<td >"+data.entregable+"</td>"+
-            "<td> <a class='btn btn-primary btn-sm' onClick='CargarRegistro("+data.id+")'><i class='fa fa-edit fa-lg'></i></a></td>";
+            "<td> " +
+                "<a class='btn btn-primary btn-sm' onClick='CargarRegistro("+data.id+")'><i class='fa fa-edit fa-lg'></i></a>" +
+                "    <a class='btn btn-primary btn-sm' href='carta/cartainiciopdf?vista=1&carta_id="+data.id+"' >PDF</i></a>" +
+                "</td>";
         html+="</tr>";
     });
     $("#tb_carta").html(html); 
