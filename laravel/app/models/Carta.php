@@ -33,7 +33,7 @@ class Carta extends Base
     public static function CargarDetalle (){
 
         if( Input::has('vista') ){
-            $sql="  SELECT c.id,c.nro_carta,c.objetivo,c.entregable,c.alcance,
+            $sql="  SELECT c.id,c.nro_carta,c.objetivo,c.entregable,c.alcance, c.informe_objetivo, c.informe_alcance, c.informe_entregable,
                     GROUP_CONCAT( 
                         DISTINCT(
                             CONCAT(
@@ -43,7 +43,8 @@ class Carta extends Base
                                 WHERE tr.id=cr.tipo_recurso_id
                                 ),'|',
                                 cr.descripcion,'|',
-                                cr.cantidad
+                                cr.cantidad,'|',
+                                cr.informe_sobro
                             ) 
                         )
                         SEPARATOR '*' 
@@ -54,7 +55,8 @@ class Carta extends Base
                                 cm.metrico,'|',
                                 cm.actual,'|',
                                 cm.objetivo,'|',
-                                cm.comentario
+                                cm.comentario,'|',
+                                cm.informe_alcanzo
                             ) 
                         )
                         SEPARATOR '*' 
@@ -83,7 +85,9 @@ class Carta extends Base
                                 cd.fecha_inicio,'|',
                                 cd.fecha_fin,'|',
                                 cd.hora_inicio,'|',
-                                cd.hora_fin
+                                cd.hora_fin,'|',
+                                cd.informe_responsable,'|',
+                                cd.informe_recurso
                             ) 
                         )
                         SEPARATOR '*' 
