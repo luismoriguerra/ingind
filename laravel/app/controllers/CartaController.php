@@ -227,7 +227,7 @@ Th, td {
 padding: 5px;
 }
 </style>
-<h3>CARTA DE INICIO</h3>
+<h3>INFORME CARTA DE INICIO</h3>
 <table>
 	<tr>
 		<th>CARTA: </th>
@@ -303,7 +303,7 @@ padding: 5px;
 </html>";
 
 
-		return PDF::load($html, 'A4', 'portrait')->download('carta-inicio-'.$response->nro_carta);
+		return PDF::load($html, 'A4', 'portrait')->download('informe-carta-inicio-'.$response->nro_carta);
 	}
 
 }
