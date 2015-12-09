@@ -69,7 +69,13 @@
                         <select name="slct_condicion_modal" id="slct_condicion_modal" style="display:none" > 
                           <option value="0">No</option>
                           <option value="1">+1</option>
-                          <option value="2">+2</option>
+                          <option value="3">+3</option>
+                          <option value="4">+4</option>
+                          <option value="5">+5</option>
+                          <option value="6">+6</option>
+                          <option value="7">+7</option>
+                          <option value="8">+8</option>
+                          <option value="9">+9</option>
                         </select>
                         <select name="slct_rol_modal" id="slct_rol_modal" style="display:none" > 
                           <option value="">Seleccione</option>
