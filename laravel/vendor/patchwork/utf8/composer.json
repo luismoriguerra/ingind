@@ -16,19 +16,18 @@
         "lib-pcre": ">=7.3"
     },
     "suggest": {
+        "ext-wfio": "Use WFIO for UTF-8 filesystem access on Windows",
         "ext-intl": "Use Intl for best performance",
         "ext-iconv": "Use iconv for best performance",
         "ext-mbstring": "Use Mbstring for best performance"
     },
     "autoload": {
-        "psr-0": {
-            "Patchwork": "class/",
-            "Normalizer": "class/"
-        }
+        "psr-4": {"Patchwork\\": "src/Patchwork/"},
+        "classmap": ["src/Normalizer.php"]
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.1-dev"
+            "dev-master": "1.2-dev"
         }
     }
 }
