@@ -75,7 +75,7 @@
                           <option value="6">+6</option>
                           <option value="7">+7</option>
                           <option value="8">+8</option>
-                          <option value="9">+9</option>
+                          <option value="9">+9</option> 
                         </select>
                         <select name="slct_rol_modal" id="slct_rol_modal" style="display:none" > 
                           <option value="">Seleccione</option>
