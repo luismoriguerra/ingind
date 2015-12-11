@@ -56,7 +56,10 @@ class CartaController extends \BaseController
 				$row = explode("|", $recurso);
 
 				$tr_recursos .= "<tr><td>$count</td>" ;
+				$count = 0;
 				foreach($row as $value){
+					$count++;
+					if ($count < 4)
 					$tr_recursos .= "<td>$value</td>";
 				}
 				$tr_recursos .= "</tr>";
@@ -75,9 +78,11 @@ class CartaController extends \BaseController
 				//$tr_metricos .= "<tr><td>$count</td><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td><td>$row[3]</td></tr>";
 
 				$tr_metricos .= "<tr><td>$count</td>" ;
-
+				$count = 0;
 				foreach($row as $value){
-					$tr_metricos .= "<td>$value</td>";
+					$count++;
+					if ($count < 5)
+						$tr_metricos .= "<td>$value</td>";
 				}
 				//$tr_recursos .= "<td>$row[0]</td><td>$row[1]</td><td>$row[2]</td>";
 				$tr_metricos .= "</tr>";
@@ -96,8 +101,10 @@ class CartaController extends \BaseController
 				$row = explode("|", $r);
 				//$tr_desgloses .= "<tr><td>$count</td><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td><td>$row[3]</td><td>$row[4]</td><td>$row[5]</td><td>$row[6]</td><td>$row[7]</td></tr>";
 				$tr_desgloses .= "<tr><td>$count</td>" ;
-
+				$count=0;
 				foreach($row as $value){
+					$count++;
+					if ($count < 9)
 					$tr_desgloses .= "<td>$value</td>";
 				}
 				//$tr_recursos .= "<td>$row[0]</td><td>$row[1]</td><td>$row[2]</td>";
