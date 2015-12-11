@@ -4,6 +4,7 @@ use Illuminate\Support\MessageBag;
 use Illuminate\Support\ViewErrorBag;
 use Symfony\Component\HttpFoundation\Cookie;
 use Illuminate\Session\Store as SessionStore;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Illuminate\Support\Contracts\MessageProviderInterface;
 
 class RedirectResponse extends \Symfony\Component\HttpFoundation\RedirectResponse {
@@ -70,6 +71,22 @@ class RedirectResponse extends \Symfony\Component\HttpFoundation\RedirectRespons
 	}
 
 	/**
+	 * Add multiple cookies to the response.
+	 *
+	 * @param  array  $cookie
+	 * @return $this
+	 */
+	public function withCookies(array $cookies)
+	{
+		foreach ($cookies as $cookie)
+		{
+			$this->headers->setCookie($cookie);
+		}
+
+		return $this;
+	}
+
+	/**
 	 * Flash an array of input to the session.
 	 *
 	 * @param  array  $input
@@ -79,7 +96,10 @@ class RedirectResponse extends \Symfony\Component\HttpFoundation\RedirectRespons
 	{
 		$input = $input ?: $this->request->input();
 
-		$this->session->flashInput($input);
+		$this->session->flashInput(array_filter($input, function ($value)
+		{
+			return ! $value instanceof UploadedFile;
+		}));
 
 		return $this;
 	}

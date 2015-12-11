@@ -190,7 +190,7 @@ return array(
 		'URL'               => 'Illuminate\Support\Facades\URL',
 		'Validator'         => 'Illuminate\Support\Facades\Validator',
 		'View'              => 'Illuminate\Support\Facades\View',
-		'PDF'				=> 'Thujohn\Pdf\Pdffacade',
+		'PDF'				=> 'Thujohn\Pdf\PdfFacade',
 
 	),
 

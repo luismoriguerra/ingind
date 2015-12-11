@@ -64,7 +64,7 @@ class Request
     protected static $httpMethodParameterOverride = false;
 
     /**
-     * Custom parameters
+     * Custom parameters.
      *
      * @var \Symfony\Component\HttpFoundation\ParameterBag
      *
@@ -73,7 +73,7 @@ class Request
     public $attributes;
 
     /**
-     * Request body parameters ($_POST)
+     * Request body parameters ($_POST).
      *
      * @var \Symfony\Component\HttpFoundation\ParameterBag
      *
@@ -82,7 +82,7 @@ class Request
     public $request;
 
     /**
-     * Query string parameters ($_GET)
+     * Query string parameters ($_GET).
      *
      * @var \Symfony\Component\HttpFoundation\ParameterBag
      *
@@ -91,7 +91,7 @@ class Request
     public $query;
 
     /**
-     * Server and execution environment parameters ($_SERVER)
+     * Server and execution environment parameters ($_SERVER).
      *
      * @var \Symfony\Component\HttpFoundation\ServerBag
      *
@@ -100,7 +100,7 @@ class Request
     public $server;
 
     /**
-     * Uploaded files ($_FILES)
+     * Uploaded files ($_FILES).
      *
      * @var \Symfony\Component\HttpFoundation\FileBag
      *
@@ -109,7 +109,7 @@ class Request
     public $files;
 
     /**
-     * Cookies ($_COOKIE)
+     * Cookies ($_COOKIE).
      *
      * @var \Symfony\Component\HttpFoundation\ParameterBag
      *
@@ -118,7 +118,7 @@ class Request
     public $cookies;
 
     /**
-     * Headers (taken from the $_SERVER)
+     * Headers (taken from the $_SERVER).
      *
      * @var \Symfony\Component\HttpFoundation\HeaderBag
      *
@@ -268,7 +268,20 @@ class Request
      */
     public static function createFromGlobals()
     {
-        $request = self::createRequestFromFactory($_GET, $_POST, array(), $_COOKIE, $_FILES, $_SERVER);
+        // With the php's bug #66606, the php's built-in web server
+        // stores the Content-Type and Content-Length header values in
+        // HTTP_CONTENT_TYPE and HTTP_CONTENT_LENGTH fields.
+        $server = $_SERVER;
+        if ('cli-server' === php_sapi_name()) {
+            if (array_key_exists('HTTP_CONTENT_LENGTH', $_SERVER)) {
+                $server['CONTENT_LENGTH'] = $_SERVER['HTTP_CONTENT_LENGTH'];
+            }
+            if (array_key_exists('HTTP_CONTENT_TYPE', $_SERVER)) {
+                $server['CONTENT_TYPE'] = $_SERVER['HTTP_CONTENT_TYPE'];
+            }
+        }
+
+        $request = self::createRequestFromFactory($_GET, $_POST, array(), $_COOKIE, $_FILES, $server);
 
         if (0 === strpos($request->headers->get('CONTENT_TYPE'), 'application/x-www-form-urlencoded')
             && in_array(strtoupper($request->server->get('REQUEST_METHOD', 'GET')), array('PUT', 'DELETE', 'PATCH'))
@@ -456,7 +469,7 @@ class Request
         }
 
         if (!$dup->getRequestFormat(null)) {
-            $dup->setRequestFormat($format = $this->getRequestFormat(null));
+            $dup->setRequestFormat($this->getRequestFormat(null));
         }
 
         return $dup;
@@ -801,7 +814,7 @@ class Request
     {
         $ip = $this->server->get('REMOTE_ADDR');
 
-        if (!self::$trustedProxies) {
+        if (!$this->isFromTrustedProxy()) {
             return array($ip);
         }
 
@@ -816,6 +829,11 @@ class Request
 
         // Eliminate all IPs from the forwarded IP chain which are trusted proxies
         foreach ($clientIps as $key => $clientIp) {
+            // Remove port on IPv4 address (unfortunately, it does happen)
+            if (preg_match('{((?:\d+\.){3}\d+)\:\d+}', $clientIp, $match)) {
+                $clientIps[$key] = $clientIp = $match[1];
+            }
+
             if (IpUtils::checkIp($clientIp, self::$trustedProxies)) {
                 unset($clientIps[$key]);
             }
@@ -962,7 +980,7 @@ class Request
      */
     public function getPort()
     {
-        if (self::$trustedProxies) {
+        if ($this->isFromTrustedProxy()) {
             if (self::$trustedHeaders[self::HEADER_CLIENT_PORT] && $port = $this->headers->get(self::$trustedHeaders[self::HEADER_CLIENT_PORT])) {
                 return $port;
             }
@@ -1143,7 +1161,7 @@ class Request
      */
     public function isSecure()
     {
-        if (self::$trustedProxies && self::$trustedHeaders[self::HEADER_CLIENT_PROTO] && $proto = $this->headers->get(self::$trustedHeaders[self::HEADER_CLIENT_PROTO])) {
+        if ($this->isFromTrustedProxy() && self::$trustedHeaders[self::HEADER_CLIENT_PROTO] && $proto = $this->headers->get(self::$trustedHeaders[self::HEADER_CLIENT_PROTO])) {
             return in_array(strtolower(current(explode(',', $proto))), array('https', 'on', 'ssl', '1'));
         }
 
@@ -1171,7 +1189,7 @@ class Request
      */
     public function getHost()
     {
-        if (self::$trustedProxies && self::$trustedHeaders[self::HEADER_CLIENT_HOST] && $host = $this->headers->get(self::$trustedHeaders[self::HEADER_CLIENT_HOST])) {
+        if ($this->isFromTrustedProxy() && self::$trustedHeaders[self::HEADER_CLIENT_HOST] && $host = $this->headers->get(self::$trustedHeaders[self::HEADER_CLIENT_HOST])) {
             $elements = explode(',', $host);
 
             $host = $elements[count($elements) - 1];
@@ -1241,7 +1259,7 @@ class Request
      *
      * @api
      *
-     * @see getRealMethod
+     * @see getRealMethod()
      */
     public function getMethod()
     {
@@ -1265,7 +1283,7 @@ class Request
      *
      * @return string The request method
      *
-     * @see getMethod
+     * @see getMethod()
      */
     public function getRealMethod()
     {
@@ -1609,7 +1627,7 @@ class Request
     }
 
     /**
-     * Gets a list of content types acceptable by the client browser
+     * Gets a list of content types acceptable by the client browser.
      *
      * @return array List of content types in preferable order
      *
@@ -1629,6 +1647,7 @@ class Request
      *
      * It works if your JavaScript library sets an X-Requested-With HTTP header.
      * It is known to work with common JavaScript frameworks:
+     *
      * @link http://en.wikipedia.org/wiki/List_of_Ajax_frameworks#JavaScript
      *
      * @return bool true if the request is an XMLHttpRequest, false otherwise
@@ -1730,7 +1749,7 @@ class Request
             return $prefix;
         }
 
-        if ($baseUrl && false !== $prefix = $this->getUrlencodedPrefix($requestUri, dirname($baseUrl))) {
+        if ($baseUrl && false !== $prefix = $this->getUrlencodedPrefix($requestUri, dirname($baseUrl).'/')) {
             // directory portion of $baseUrl matches
             return rtrim($prefix, '/');
         }
@@ -1885,5 +1904,10 @@ class Request
         }
 
         return new static($query, $request, $attributes, $cookies, $files, $server, $content);
+    }
+
+    private function isFromTrustedProxy()
+    {
+        return self::$trustedProxies && IpUtils::checkIp($this->server->get('REMOTE_ADDR'), self::$trustedProxies);
     }
 }

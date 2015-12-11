@@ -649,9 +649,9 @@ abstract class Model implements ArrayAccess, ArrayableInterface, JsonableInterfa
 	 */
 	public static function find($id, $columns = array('*'))
 	{
-		if (is_array($id) && empty($id)) return new Collection;
-
 		$instance = new static;
+
+		if (is_array($id) && empty($id)) return $instance->newCollection();
 
 		return $instance->newQuery()->find($id, $columns);
 	}
@@ -1288,6 +1288,7 @@ abstract class Model implements ArrayAccess, ArrayableInterface, JsonableInterfa
 	/**
 	 * Set the observable event names.
 	 *
+	 * @param  array  $observables
 	 * @return void
 	 */
 	public function setObservableEvents(array $observables)
@@ -1409,7 +1410,7 @@ abstract class Model implements ArrayAccess, ArrayableInterface, JsonableInterfa
 
 		// To sync all of the relationships to the database, we will simply spin through
 		// the relationships and save each model via this "push" method, which allows
-		// us to recurs into all of these nested relations for this model instance.
+		// us to recurse into all of these nested relations for the model instance.
 		foreach ($this->relations as $models)
 		{
 			foreach (Collection::make($models) as $model)
@@ -1432,7 +1433,7 @@ abstract class Model implements ArrayAccess, ArrayableInterface, JsonableInterfa
 		$query = $this->newQueryWithoutScopes();
 
 		// If the "saving" event returns false we'll bail out of the save and return
-		// false, indicating that the save failed. This gives an opportunities to
+		// false, indicating that the save failed. This provides a chance for any
 		// listeners to cancel save operations if validations fail or whatever.
 		if ($this->fireModelEvent('saving') === false)
 		{
@@ -1760,14 +1761,7 @@ abstract class Model implements ArrayAccess, ArrayableInterface, JsonableInterfa
 	 */
 	public function newQuery()
 	{
-		$builder = $this->newEloquentBuilder(
-			$this->newBaseQueryBuilder()
-		);
-
-		// Once we have the query builders, we will set the model instances so the
-		// builder can easily access any information it may need from the model
-		// while it is constructing and executing various queries against it.
-		$builder->setModel($this)->with($this->with);
+		$builder = $this->newQueryWithoutScopes();
 
 		return $this->applyGlobalScopes($builder);
 	}
@@ -1792,7 +1786,14 @@ abstract class Model implements ArrayAccess, ArrayableInterface, JsonableInterfa
 	 */
 	public function newQueryWithoutScopes()
 	{
-		return $this->removeGlobalScopes($this->newQuery());
+		$builder = $this->newEloquentBuilder(
+			$this->newBaseQueryBuilder()
+		);
+
+		// Once we have the query builders, we will set the model instances so the
+		// builder can easily access any information it may need from the model
+		// while it is constructing and executing various queries against it.
+		return $builder->setModel($this)->with($this->with);
 	}
 
 	/**
@@ -1923,6 +1924,7 @@ abstract class Model implements ArrayAccess, ArrayableInterface, JsonableInterfa
 	/**
 	 * Set the primary key for the model.
 	 *
+	 * @param  string  $key
 	 * @return void
 	 */
 	public function setKeyName($key)
