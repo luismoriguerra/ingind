@@ -54,7 +54,13 @@ class CartaController extends \BaseController
 			$count++;
 			if (!empty($recurso)){
 				$row = explode("|", $recurso);
-				$tr_recursos .= "<tr><td>$count</td><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td></tr>";
+
+				$tr_recursos .= "<tr><td>$count</td>" ;
+				foreach($row as $value){
+					$tr_recursos .= "<td>$value</td>";
+				}
+				$tr_recursos .= "</tr>";
+
 			}
         }
 
@@ -66,7 +72,16 @@ class CartaController extends \BaseController
 			$count++;
 			if (!empty($r)){
 				$row = explode("|", $r);
-				$tr_metricos .= "<tr><td>$count</td><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td><td>$row[3]</td></tr>";
+				//$tr_metricos .= "<tr><td>$count</td><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td><td>$row[3]</td></tr>";
+
+				$tr_metricos .= "<tr><td>$count</td>" ;
+
+				foreach($row as $value){
+					$tr_metricos .= "<td>$value</td>";
+				}
+				//$tr_recursos .= "<td>$row[0]</td><td>$row[1]</td><td>$row[2]</td>";
+				$tr_metricos .= "</tr>";
+
 			}
 		}
 
@@ -79,7 +94,14 @@ class CartaController extends \BaseController
 			$count++;
 			if (!empty($r)) {
 				$row = explode("|", $r);
-				$tr_desgloses .= "<tr><td>$count</td><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td><td>$row[3]</td><td>$row[4]</td><td>$row[5]</td><td>$row[6]</td><td>$row[7]</td></tr>";
+				//$tr_desgloses .= "<tr><td>$count</td><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td><td>$row[3]</td><td>$row[4]</td><td>$row[5]</td><td>$row[6]</td><td>$row[7]</td></tr>";
+				$tr_desgloses .= "<tr><td>$count</td>" ;
+
+				foreach($row as $value){
+					$tr_desgloses .= "<td>$value</td>";
+				}
+				//$tr_recursos .= "<td>$row[0]</td><td>$row[1]</td><td>$row[2]</td>";
+				$tr_desgloses .= "</tr>";
 			}
 		}
 
@@ -165,7 +187,7 @@ padding: 5px;
 </html>";
 
 
-        return PDF::load($html, 'A4', 'portrait')->download('carta-inicio-'.$response->nro_carta);
+        return PDF::load($html, 'A4', 'landscape')->download('carta-inicio-'.$response->nro_carta);
     }
 
 
@@ -182,7 +204,12 @@ padding: 5px;
 			$count++;
 			if (!empty($recurso)) {
 				$row = explode("|", $recurso);
-				$tr_recursos .= "<tr><td>$count</td><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td><td>$row[3]</td></tr>";
+//				$tr_recursos .= "<tr><td>$count</td><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td><td>$row[3]</td></tr>";
+				$tr_recursos .= "<tr><td>$count</td>" ;
+				foreach($row as $value){
+					$tr_recursos .= "<td>$value</td>";
+				}
+				$tr_recursos .= "</tr>";
 			}
 		}
 
@@ -194,7 +221,14 @@ padding: 5px;
 			$count++;
 			if (!empty($r)) {
 				$row = explode("|", $r);
-				$tr_metricos .= "<tr><td>$count</td><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td><td>$row[3]</td><td>$row[4]</td></tr>";
+//				$tr_metricos .= "<tr><td>$count</td><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td><td>$row[3]</td><td>$row[4]</td></tr>";
+				$tr_metricos .= "<tr><td>$count</td>" ;
+
+				foreach($row as $value){
+					$tr_metricos .= "<td>$value</td>";
+				}
+				//$tr_recursos .= "<td>$row[0]</td><td>$row[1]</td><td>$row[2]</td>";
+				$tr_metricos .= "</tr>";
 			}
 		}
 
@@ -207,7 +241,14 @@ padding: 5px;
 			$count++;
 			if (!empty($r)){
 				$row = explode("|", $r);
-				$tr_desgloses .= "<tr><td>$count</td><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td><td>$row[3]</td><td>$row[4]</td><td>$row[5]</td><td>$row[6]</td><td>$row[7]</td><td>$row[8]</td><td>$row[9]</td></tr>";
+//				$tr_desgloses .= "<tr><td>$count</td><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td><td>$row[3]</td><td>$row[4]</td><td>$row[5]</td><td>$row[6]</td><td>$row[7]</td><td>$row[8]</td><td>$row[9]</td></tr>";
+				$tr_desgloses .= "<tr><td>$count</td>" ;
+
+				foreach($row as $value){
+					$tr_desgloses .= "<td>$value</td>";
+				}
+				//$tr_recursos .= "<td>$row[0]</td><td>$row[1]</td><td>$row[2]</td>";
+				$tr_desgloses .= "</tr>";
 			}
 		}
 
@@ -303,7 +344,7 @@ padding: 5px;
 </html>";
 
 
-		return PDF::load($html, 'A4', 'portrait')->download('informe-carta-inicio-'.$response->nro_carta);
+		return PDF::load($html, 'A4', 'landscape')->download('informe-carta-inicio-'.$response->nro_carta);
 	}
 
 }
