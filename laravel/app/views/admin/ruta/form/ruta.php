@@ -69,6 +69,7 @@
                         <select name="slct_condicion_modal" id="slct_condicion_modal" style="display:none" > 
                           <option value="0">No</option>
                           <option value="1">+1</option>
+                          <option value="2">+2</option>
                           <option value="3">+3</option>
                           <option value="4">+4</option>
                           <option value="5">+5</option>
