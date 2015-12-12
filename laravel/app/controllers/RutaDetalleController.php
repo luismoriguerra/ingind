@@ -249,7 +249,7 @@ class RutaDetalleController extends \BaseController
                         }
                         elseif($faltaparalelo==0 and $inciodato>0 and $terminodato==0 and $validaSiguiente[$i]->estado_ruta==2){ // cuando es paralelo iniciar tb
                             $rd3 = RutaDetalle::find($validaSiguiente[$i]->id);
-                            $rd3['fecha_inicio']= $r->ahora ;
+                            $rd3['fecha_inicio']= $validaSiguiente[$i]->ahora;
                             $rd3['usuario_updated_at']= Auth::user()->id;
                             $rd3->save();
                         }
