@@ -90,6 +90,28 @@
                                 </form>
 
                                 <form name="form_ruta_flujo" id="form_ruta_flujo" method="POST" action="">
+                                    <div class="row form-group" >
+                                        <div class="col-sm-12">
+                                            <div class="box-body table-responsive">
+                                                <table class="table table-bordered table-hover table-striped">
+                                                    <thead>
+                                                    <tr style="background-color:#4F6228; color:#FFFFFF;">
+                                                        <th style="text-align:center;" colspan="6">SIPOC</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="background-color:#DEFAFA; text-align:center;">PASO</th>
+                                                        <th style="background-color:#DEFAFA; text-align:center;">PROVEEDOR</th>
+                                                        <th style="background-color:#DEFAFA; text-align:center;">ENTRADA</th>
+                                                        <th style="background-color:#F5DF9D; text-align:center;">PROCESO</th>
+                                                        <th style="background-color:#DEFAFA; text-align:center;">SALIDA</th>
+                                                        <th style="background-color:#DEFAFA; text-align:center;">CLIENTE</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="tdetalle">
+                                                    </tbody>
+                                                </table>
+                                        </div>
+                                    </div>
                                     <div class="row form-group" style="display:none">
                                         <div class="col-sm-12">
                                             <h1 class="col-sm-3"><span id="txt_titulo">Nueva Ruta</span>

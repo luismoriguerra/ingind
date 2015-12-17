@@ -15,7 +15,7 @@ $(document).ready(function() {
     $("#btn_guardar_tiempo,#btn_guardar_verbo").remove();
     $("#btn_close").click(Close);
     $("#btn_imprimir").click(ImprimirProceso);
-    var data = {estado:1,tipo_flujo:1};
+    var data = {estado:1};
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     data = {estado:1};
@@ -479,6 +479,11 @@ tiempoG="";  tiempoG=[];
 verboG="";  verboG=[];
 posicionDetalleVerboG=0;
 validandoconteo=0;
+documentoGeneradoAcumulado="";
+$("#tdetalle").html("");
+htmlDetalle="";
+htmlDetalle2="";
+
     $.each(datos,function(index,data){
         validandoconteo++;
         if(validandoconteo==1){
@@ -489,8 +494,62 @@ validandoconteo=0;
             $("#txt_persona").val(data.persona);
         }
         adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta);
+
+        /* HTML TABLA */
+        verboDetalle=data.verbo.split("|"); // valores del registro
+        if( validandoconteo>1 ){
+            htmlDetalle+=       "<td rowspan='"+totalcabecera+"'>"+data.area2+"</td>"+
+                            "</tr>";
+            $("#tdetalle").append(htmlDetalle);
+            $("#tdetalle").append(htmlDetalle2);
+        }
+
+
+        totalcabecera=verboDetalle.length;
+        htmlDetalle=   "<tr>"+
+                            "<td rowspan='"+totalcabecera+"'>"+ validandoconteo +"</td>"+
+                            "<td rowspan='"+totalcabecera+"'>"+ data.area2 +"</td>"+
+                            "<td rowspan='"+totalcabecera+"'>"+ documentoGeneradoAcumulado +"</td>";
+        
+        documentoGenerado="";
+        documentoGeneradoAcumulado="";
+        htmlDetalle2="";
+            for( i=0; i<totalcabecera; i++){
+                verboValor=verboDetalle[i].split("^^");
+                documentoGenerado="";
+                if(verboValor[4]!=''){
+                    documentoGenerado=$("#slct_documento_modal option[value='"+verboValor[4]+"']").html();
+                    documentoGeneradoAcumulado+="<br>"+documentoGenerado;
+                }
+                if( i==0 ){
+        htmlDetalle+=       "<td><b>"+verboValor[5]+".-</b>"+$("#slct_rol_modal option[value='"+verboValor[2]+"']").html() +
+                            " tiene que "+$("#slct_verbo_modal option[value='"+verboValor[3]+"']").html()+
+                            " "+documentoGenerado+
+                            " (" +verboValor[0]+")"+
+                            "</td>";
+                }
+                else{
+        htmlDetalle2+=  "<tr>"+
+                            "<td><b>"+verboValor[5]+".-</b>"+$("#slct_rol_modal option[value='"+verboValor[2]+"']").html() +
+                            " tiene que "+$("#slct_verbo_modal option[value='"+verboValor[3]+"']").html()+
+                            " "+documentoGenerado+
+                            " (" +verboValor[0]+")"+
+                            "</td>"+
+                        "</tr>";
+                }
+            }
+        //htmlDetalle+=       "<td rowspan='"+totalcabecera+"'> procesos!!"+"</td>";
+        htmlDetalle+=       "<td rowspan='"+totalcabecera+"'>"+ documentoGeneradoAcumulado +"</td>";
+
     });
-    pintarAreasG(permiso);
+
+        htmlDetalle+=       "<td rowspan='"+totalcabecera+"'> &nbsp; </td>"+
+                            "</tr>";
+        $("#tdetalle").append(htmlDetalle);
+        $("#tdetalle").append(htmlDetalle2);
+
+        pintarAreasG(permiso);
+
 }
 
 AbreTv=function(val){
