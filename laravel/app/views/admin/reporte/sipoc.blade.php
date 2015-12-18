@@ -90,6 +90,11 @@
                                 </form>
 
                                 <form name="form_ruta_flujo" id="form_ruta_flujo" method="POST" action="">
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-3">
+                                            <a class='btn btn-primary btn-sm' href='reporte/sipoc' >PDF</i></a>
+                                        </div>
+                                    </div>
                                     <div class="row form-group" >
                                         <div class="col-sm-12">
                                             <div class="box-body table-responsive">
