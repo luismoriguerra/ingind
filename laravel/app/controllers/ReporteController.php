@@ -34,9 +34,15 @@ class ReporteController extends BaseController
         $responsable=" AND tr.persona_responsable_id IN ('".implode("','",Input::get('responsable'))."') ";
         }
 
+        $miembros="";$miembrosF="";
+        if(Input::has('miembros')){
+        $miembros=" AND cd2.persona_id IN ('".implode("','",Input::get('miembros'))."') ";
+        $miembrosF=" AND t.miembrosvalida=1 ";
+        }
+
         $estadoF="";
         if(Input::has('estado_id')){
-        $estadoF=" WHERE t.estado IN (".implode(",",Input::get('estado_id')).") ";
+        $estadoF=" AND t.estado IN ('".implode("','",Input::get('estado_id'))."') ";
         }
 
         $flujo_id="";
@@ -69,6 +75,13 @@ class ReporteController extends BaseController
               ) responsable,
               c.nro_carta,c.objetivo,
               GROUP_CONCAT( CONCAT(p2.paterno,' ',p2.materno,', ',p2.nombre) SEPARATOR ' | ' ) miembros,
+              IF(
+                ( SELECT count(cd2.id)
+                  FROM carta_desglose cd2
+                  WHERE cd2.carta_id=c.id
+                   ".$miembros." 
+                ) > 0, 1,0
+              ) miembrosvalida,
               DATE(r.fecha_inicio) fecha_inicio,MAX(cd.fecha_fin) fecha_fin,
               IF(
                 ( SELECT count(rd.id)
@@ -88,7 +101,7 @@ class ReporteController extends BaseController
               WHERE r.estado=1
                ".$wfecha.$autoriza.$responsable.$flujo_id.$carta.$objetivo." 
               GROUP BY r.id 
-              ) t ".$estadoF;
+              ) t WHERE 1=1 ".$estadoF.$miembrosF;
 
         $table=DB::select($sql);
 

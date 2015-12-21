@@ -43,7 +43,7 @@ HTMLreporte=function(datos){
             "<td>"+data.responsable.split("|")[1]+"</td>"+
             "<td>"+data.nro_carta+"</td>"+
             "<td>"+data.objetivo+"</td>"+
-            "<td><font size='1px;'>"+data.miembros.split("|").join("<br>")+"</font></td>"+
+            "<td><font size='1px;'>"+data.miembros.split("|").join("<br> -")+"</font></td>"+
             "<td>"+data.fecha_inicio+"</td>"+
             "<td>"+data.fecha_fin+"</td>"+
             "<td>"+data.estado+"</td>";

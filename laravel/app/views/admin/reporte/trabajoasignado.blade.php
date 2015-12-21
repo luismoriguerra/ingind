@@ -64,8 +64,8 @@
                             <div class="col-sm-4">
                                 <label class="control-label">Estado Proyecto:</label>
                                 <select class="form-control" name="slct_estado_id" id="slct_estado_id" multiple>
-                                <option value="1">Concluidos</option>
-                                <option value="0">Inconclusos</option>
+                                <option value="Concluido">Concluidos</option>
+                                <option value="Inconcluso">Inconclusos</option>
                                 </select>
                             </div>
                         </div>
