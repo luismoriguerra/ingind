@@ -2,6 +2,14 @@
 
 class ReporteController extends BaseController
 {
+
+    public function postSipoc()
+    {
+      //$html=View::make("admin.reporte.sipoc");
+      $html='Hola';
+      //return PDF::load($html, 'A4', 'landscape')->download('prueba');
+      echo $html;
+    }
   /**
    * bandeja de tramite, devuelve la consulta de tramites que se asignan 
    * a una determinada area que pertenece el usuario
@@ -507,6 +515,8 @@ class ReporteController extends BaseController
                                  AND rd.estado=1 
                                  ORDER BY norden LIMIT 1),'' 
                             ) AS ultima_area,
+                IF( IFNULL(tr.persona_autoriza_id,'')!='',(SELECT CONCAT(paterno,' ',materno,', ',nombre) FROM personas where id=tr.persona_autoriza_id),'' ) autoriza,
+                IF( IFNULL(tr.persona_responsable_id,'')!='',(SELECT CONCAT(paterno,' ',materno,', ',nombre) FROM personas where id=tr.persona_responsable_id),'' ) responsable,
                 IFNULL(tr.fecha_tramite,'') AS fecha_tramite, '' AS fecha_fin,
                 (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND estado=1 AND alerta=0) AS 'ok',
                 (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND estado=1 AND alerta=1) AS 'errorr',
@@ -537,6 +547,10 @@ class ReporteController extends BaseController
         list($fechaIni,$fechaFin) = explode(" - ", $fecha);
         $areaId=implode("','",Input::get('area_id'));
         $estadoF=implode(",",Input::get('estado_id'));
+        $tipoFlujo='';
+        if( Input::has('tipo_flujo') AND Input::get('tipo_flujo')!='' ){
+          $tipoFlujo=" AND f.tipo_flujo=2 ";
+        }
 
         $query="SELECT rf.flujo_id,f.nombre AS proceso, rf.id AS ruta_flujo_id, 
                 CONCAT(p.paterno,' ',p.materno,' ',p.nombre) AS duenio,
@@ -581,6 +595,7 @@ class ReporteController extends BaseController
                 JOIN areas a ON rf.area_id=a.id
                 LEFT JOIN rutas r ON r.ruta_flujo_id=rf.id
                 WHERE rf.area_id IN ('".$areaId."') 
+                 ".$tipoFlujo." 
                 AND f.estado=1 
                 AND a.estado=1
                 AND DATE(rf.updated_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."'
