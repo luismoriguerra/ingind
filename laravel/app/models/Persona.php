@@ -60,6 +60,18 @@ class Persona extends Base implements UserInterface, RemindableInterface
         return $personas;
     }
 
+    public static function getApellidoNombre()
+    {
+        $sql="  SELECT p.id id,
+                    CONCAT_WS(' ',p.paterno,p.materno,p.nombre) nombre,p.dni
+                FROM personas p
+                WHERE p.estado=1
+                ORDER BY p.paterno,p.materno,p.nombre";
+
+        $personas= DB::select($sql);
+        return $personas;
+    }
+
     public static function get(array $data =array()){
 
         //recorrer la consulta

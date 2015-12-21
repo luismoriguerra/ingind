@@ -40,6 +40,9 @@ class PersonaController extends BaseController
             if ( Input::has('estado_persona') ) {
                 $personas = Persona::getPersonas();
             }
+            elseif ( Input::has('apellido_nombre') ) {
+                $personas = Persona::getApellidoNombre();
+            }
             else{
                 $personas = Persona::getCargoArea();
             }

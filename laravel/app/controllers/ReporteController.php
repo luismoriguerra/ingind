@@ -14,6 +14,51 @@ class ReporteController extends BaseController
    * bandeja de tramite, devuelve la consulta de tramites que se asignan 
    * a una determinada area que pertenece el usuario
    */
+
+    public function postTrabajoasignado()
+    {
+        $sql="SELECT f.nombre proceso,
+              ( SELECT CONCAT(p.paterno,' ',p.materno,', ',p.nombre,'|',a.nombre) 
+                FROM personas p
+                INNER JOIN areas a ON a.id=p.area_id
+                WHERE p.id=tr.persona_autoriza_id
+              ) autoriza,
+              ( SELECT CONCAT(p.paterno,' ',p.materno,', ',p.nombre,'|',r.nombre) 
+                FROM personas p
+                INNER JOIN roles r ON r.id=p.rol_id
+                WHERE p.id=tr.persona_responsable_id
+              ) responsable,
+              c.nro_carta,c.objetivo,
+              GROUP_CONCAT( CONCAT(p2.paterno,' ',p2.materno,', ',p2.nombre) SEPARATOR ' | ' ) miembros,
+              MIN(IF(cd.fecha_inicio='0000-00-00',NULL,cd.fecha_inicio)) fecha_inicio,MAX(cd.fecha_fin) fecha_fin,
+              IF(
+                ( SELECT count(rd.id)
+                  FROM rutas_detalle rd
+                  WHERE rd.ruta_id=r.id
+                  AND rd.estado=1
+                  AND rd.condicion=0
+                  AND dtiempo_final IS NULL
+                ) > 0, 'Inconcluso' ,'Concluido'
+              ) estado
+                                                  
+              FROM cartas c
+              INNER JOIN carta_desglose cd ON cd.carta_id=c.id
+              INNER JOIN personas p2 ON p2.id=cd.persona_id
+              INNER JOIN tablas_relacion tr ON c.nro_carta=tr.id_union AND tr.estado=1
+              INNER JOIN rutas r ON r.tabla_relacion_id=tr.id AND r.estado=1
+              INNER JOIN flujos f ON f.id=r.flujo_id
+              GROUP BY r.id ";
+
+        $table=DB::select($sql);
+
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$table
+            )
+        );
+    }
+
    public function postBandejatramite()
    {
         $input=Input::all();
