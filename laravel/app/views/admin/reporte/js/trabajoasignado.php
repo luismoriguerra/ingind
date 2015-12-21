@@ -14,17 +14,17 @@ $(document).ready(function() {
 });
 
 GenerarReporte=function(){
-    var datos={
+    var data={
             autoriza:$("#slct_autoriza_id").val(),
             responsable:$("#slct_responsable_id").val(),
             flujo_id:$("#slct_flujo_id").val(),
             miembros:$("#slct_miembros_id").val(),
-            carta_inicio: $("#txt_carta_inicio").val(),
-            estado_id: $("#slct_estado_id").val(),
-            objetivo: $("#txt_objetivo").val(),
-            fecha: $("#fecha").val()
+            carta_inicio:$("#txt_carta_inicio").val(),
+            estado_id:$("#slct_estado_id").val(),
+            objetivo:$("#txt_objetivo").val(),
+            fecha:$("#fecha").val(),
             };
-    Accion.mostrar(datos);
+    Accion.mostrar(data);
 }
 
 HTMLreporte=function(datos){

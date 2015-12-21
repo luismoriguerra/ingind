@@ -76,7 +76,7 @@
                             </div>
                             <div class="col-sm-3">
                                 <label class="control-label">Fecha de Inicio:</label>
-                                <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha" onfocus="blur()"/>
+                                <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha"/>
                             </div>
                             <div class="col-sm-2">
                                 <label class="control-label"></label>

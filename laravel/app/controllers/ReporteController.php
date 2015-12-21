@@ -17,7 +17,46 @@ class ReporteController extends BaseController
 
     public function postTrabajoasignado()
     {
-        $sql="SELECT f.nombre proceso,
+        $wfecha="";
+        if(Input::has('fecha')){
+          $fecha = Input::get('fecha');
+          list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+          $wfecha= " AND DATE(r.fecha_inicio) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+        }
+
+        $autoriza="";
+        if(Input::has('autoriza')){
+        $autoriza=" AND tr.persona_autoriza_id IN ('".implode("','",Input::get('autoriza'))."') ";
+        }
+
+        $responsable="";
+        if(Input::has('responsable')){
+        $responsable=" AND tr.persona_responsable_id IN ('".implode("','",Input::get('responsable'))."') ";
+        }
+
+        $estadoF="";
+        if(Input::has('estado_id')){
+        $estadoF=" WHERE t.estado IN (".implode(",",Input::get('estado_id')).") ";
+        }
+
+        $flujo_id="";
+        if(Input::has('flujo_id')){
+        $flujo_id=" AND f.id IN ('".implode("','",Input::get('flujo_id'))."') ";
+        }
+        
+        $carta="";
+        if(Input::has('carta_inicio')){
+        $carta=" AND c.nro_carta LIKE '".Input::get('carta_inicio')."%' ";
+        }
+
+        $objetivo="";
+        if(Input::has('objetivo')){
+        $objetivo=" AND c.objetivo LIKE '".Input::get('objetivo')."%' ";
+        }
+
+        $sql="SELECT *
+              FROM (
+              SELECT f.nombre proceso,
               ( SELECT CONCAT(p.paterno,' ',p.materno,', ',p.nombre,'|',a.nombre) 
                 FROM personas p
                 INNER JOIN areas a ON a.id=p.area_id
@@ -30,7 +69,7 @@ class ReporteController extends BaseController
               ) responsable,
               c.nro_carta,c.objetivo,
               GROUP_CONCAT( CONCAT(p2.paterno,' ',p2.materno,', ',p2.nombre) SEPARATOR ' | ' ) miembros,
-              MIN(IF(cd.fecha_inicio='0000-00-00',NULL,cd.fecha_inicio)) fecha_inicio,MAX(cd.fecha_fin) fecha_fin,
+              DATE(r.fecha_inicio) fecha_inicio,MAX(cd.fecha_fin) fecha_fin,
               IF(
                 ( SELECT count(rd.id)
                   FROM rutas_detalle rd
@@ -39,15 +78,17 @@ class ReporteController extends BaseController
                   AND rd.condicion=0
                   AND dtiempo_final IS NULL
                 ) > 0, 'Inconcluso' ,'Concluido'
-              ) estado
-                                                  
+              ) estado 
               FROM cartas c
               INNER JOIN carta_desglose cd ON cd.carta_id=c.id
               INNER JOIN personas p2 ON p2.id=cd.persona_id
               INNER JOIN tablas_relacion tr ON c.nro_carta=tr.id_union AND tr.estado=1
-              INNER JOIN rutas r ON r.tabla_relacion_id=tr.id AND r.estado=1
-              INNER JOIN flujos f ON f.id=r.flujo_id
-              GROUP BY r.id ";
+              INNER JOIN rutas r ON r.tabla_relacion_id=tr.id 
+              INNER JOIN flujos f ON f.id=r.flujo_id 
+              WHERE r.estado=1
+               ".$wfecha.$autoriza.$responsable.$flujo_id.$carta.$objetivo." 
+              GROUP BY r.id 
+              ) t ".$estadoF;
 
         $table=DB::select($sql);
 
