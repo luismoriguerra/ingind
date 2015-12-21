@@ -239,6 +239,8 @@ class ReporteController extends BaseController
                        ) AS total_pasos,
                 IFNULL(tr.fecha_tramite,'') AS fecha_tramite, '' AS fecha_fin,
                 IFNULL(r.fecha_inicio,'') AS fecha_inicio,
+                IF( IFNULL(tr.persona_autoriza_id,'')!='',(SELECT CONCAT(paterno,' ',materno,', ',nombre) FROM personas where id=tr.persona_autoriza_id),'' ) autoriza,
+                IF( IFNULL(tr.persona_responsable_id,'')!='',(SELECT CONCAT(paterno,' ',materno,', ',nombre) FROM personas where id=tr.persona_responsable_id),'' ) responsable,
                 (SELECT COUNT(alerta) 
                   FROM rutas_detalle rd 
                   WHERE r.id=rd.ruta_id 
@@ -630,6 +632,11 @@ class ReporteController extends BaseController
           $tf="r.fecha_inicio";
         }
 
+        $tipoFlujo='';
+        if( Input::has('tipo_flujo') AND Input::get('tipo_flujo')!='' ){
+          $tipoFlujo=" AND f.tipo_flujo=2 ";
+        }
+
         $query="SELECT rf.flujo_id,f.nombre AS proceso, rf.id AS ruta_flujo_id, 
                 CONCAT(p.paterno,' ',p.materno,' ',p.nombre) AS duenio,
                 a.nombre  AS area_duenio,
@@ -691,6 +698,7 @@ class ReporteController extends BaseController
                 AND a.estado=1
                 AND DATE(".$tf.") BETWEEN '".$fechaIni."' AND '".$fechaFin."'
                 AND rf.estado IN (".$estadoF.")
+                 ".$tipoFlujo." 
                 GROUP BY rf.id
                 ORDER BY rf.estado,a.nombre";
 //echo $query;
