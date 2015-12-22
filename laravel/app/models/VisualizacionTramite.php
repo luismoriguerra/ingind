@@ -71,11 +71,11 @@ class VisualizacionTramite extends Eloquent
                 JOIN rutas r ON rd.ruta_id=r.id and r.estado=1
                 JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id 
                 JOIN flujos f ON r.flujo_id=f.id
-                LEFT JOIN tiempos t ON rd.tiempo_id=t.id
+                JOIN tiempos t ON rd.tiempo_id=t.id
+                JOIN tipo_solicitante ts ON tr.tipo_persona=ts.id
                 LEFT JOIN tipos_respuesta rsp ON rd.tipo_respuesta_id=rsp.id
                 LEFT JOIN tipos_respuesta_detalle rspd
                         ON rd.tipo_respuesta_detalle_id=rspd.id
-                LEFT JOIN tipo_solicitante ts ON tr.tipo_persona=ts.id
                 LEFT JOIN visualizacion_tramite vt ON rd.id=vt.ruta_detalle_id
                         AND vt.usuario_created_at='$personaId'
                 LEFT JOIN tipo_visualizacion tv
@@ -149,11 +149,11 @@ class VisualizacionTramite extends Eloquent
                 JOIN rutas r ON rd.ruta_id=r.id and r.estado=1
                 JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id 
                 JOIN flujos f ON r.flujo_id=f.id
-                LEFT JOIN tiempos t ON rd.tiempo_id=t.id
+                JOIN tiempos t ON rd.tiempo_id=t.id
+                JOIN tipo_solicitante ts ON tr.tipo_persona=ts.id
                 LEFT JOIN tipos_respuesta rsp ON rd.tipo_respuesta_id=rsp.id
                 LEFT JOIN tipos_respuesta_detalle rspd
                         ON rd.tipo_respuesta_detalle_id=rspd.id
-                LEFT JOIN tipo_solicitante ts ON tr.tipo_persona=ts.id
                 LEFT JOIN visualizacion_tramite vt ON rd.id=vt.ruta_detalle_id
                         AND vt.usuario_created_at='$personaId'
                 LEFT JOIN tipo_visualizacion tv
