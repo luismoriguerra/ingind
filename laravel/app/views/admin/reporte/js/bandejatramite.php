@@ -228,10 +228,10 @@ HTMLreporte=function(datos){
         var persona_visual=data.persona_visual;
         var estado;
         var id=data.id;
-        if(data.id==1){//est visto
+        if(data.id>0){//est visto
             //el boton debera cambiar  a no visto
             estado='onClick="desactivar('+id+','+ruta_detalle_id+',this)"';
-            tr='<tr  data-toggle="tooltip" data-placement="top" title="Visto por: '+persona_visual+'" '+estado+'>';
+            tr='<tr  data-toggle="tooltip" data-placement="top" '+estado+'>';
             img='<td onClick="mostrarModal('+id+','+ruta_detalle_id+')" class="small-col"><i  class="fa fa-eye"></i></td>';
 
         } else {
