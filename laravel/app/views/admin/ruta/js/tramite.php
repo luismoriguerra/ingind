@@ -158,7 +158,7 @@ mostrarTramiteHTML=function(datos){
         "<td>"+data.des_solicitante+"</td>"+
         "<td>"+data.sumilla+"</td>"+
         "<td>"+imagen+
-            '<a onclick="cargarRutaId('+data.ruta_flujo_id+',2)" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>'+
+            '<a onclick="cargarRutaId('+data.id+','+data.ruta_flujo_id+',2)" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>'+
         "</td>";
     html+="</tr>";
 
@@ -476,14 +476,14 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
     }
 }
 
-cargarRutaId=function(ruta_flujo_id,permiso){
+cargarRutaId=function(ruta_id,ruta_flujo_id,permiso){
     $("#txt_ruta_flujo_id_modal").remove();
     $("#form_ruta_flujo").append('<input type="hidden" id="txt_ruta_flujo_id_modal" value="'+ruta_flujo_id+'">');
     $("#txt_titulo").text("Vista");
     $("#texto_fecha_creacion").text("Fecha Vista:");
     $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
     $("#form_ruta_flujo .form-group").css("display","");
-    Ruta.CargarDetalleRuta(ruta_flujo_id,permiso,CargarDetalleRutaHTML);
+    Ruta.CargarDetalleRuta(ruta_flujo_id,permiso,CargarDetalleRutaHTML,ruta_id);
     //alert('Actualizando '+ruta_flujo_id+ "Con permiso =>"+permiso);
 }
 
