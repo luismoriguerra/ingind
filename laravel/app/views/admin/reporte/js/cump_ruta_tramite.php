@@ -222,21 +222,13 @@ detalletra=function(ruta_flujo_id, boton){
 }
 
 HTMLreporte=function(datos){
+    var btnruta='';
     var html="";
     $('#t_reporte').dataTable().fnDestroy();
     $("#reporte_detalle").hide();
+
     $.each(datos,function(index,data){
-        /*html+="<tr>"+
-            "<td>"+data.id_union+"</td>"+
-            "<td>"+data.fecha_inicio+"</td>"+
-            "<td>"+data.software+"</td>"+
-            "<td>"+data.persona+"</td>"+
-            "<td>"+data.area+"</td>"+
-            "<td>"+data.ok+"</td>"+
-            "<td>"+data.error+"</td>"+
-            "<td>"+data.corregido+"</td>"+
-            '<td><a onClick="detalle('+data.id+',this)" class="btn btn-primary btn-sm" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
-        html+="</tr>";*/
+        btnruta='<a onclick="cargarRutaId('+data.ruta_flujo_id+',2,'+data.id+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
         html+="<tr>"+
             "<td>"+data.tramite+"</td>"+
             "<td>"+data.tipo_persona+"</td>"+
@@ -250,7 +242,7 @@ HTMLreporte=function(datos){
             "<td>"+data.ok+"</td>"+
             "<td>"+data.errorr+"</td>"+
             "<td>"+data.corregido+"</td>"+
-            '<td><a onClick="detalle('+data.id+',this)" class="btn btn-primary btn-sm" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a></td>';
+            '<td><a onClick="detalle('+data.id+',this)" class="btn btn-primary btn-sm" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a> '+btnruta+'</td>';
         html+="</tr>";
     });
     $("#tb_reporte").html(html);
@@ -656,14 +648,14 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
     }
 }
 
-cargarRutaId=function(ruta_flujo_id,permiso){
+cargarRutaId=function(ruta_flujo_id,permiso,ruta_id){
     $("#txt_ruta_flujo_id_modal").remove();
     $("#form_ruta_flujo").append('<input type="hidden" id="txt_ruta_flujo_id_modal" value="'+ruta_flujo_id+'">');
     $("#txt_titulo").text("Vista");
     $("#texto_fecha_creacion").text("Fecha Vista:");
     $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
     $("#form_ruta_flujo .form-group").css("display","");
-    Ruta.CargarDetalleRuta(ruta_flujo_id,permiso,CargarDetalleRutaHTML);
+    Ruta.CargarDetalleRuta(ruta_flujo_id,permiso,CargarDetalleRutaHTML,ruta_id);
     //alert('Actualizando '+ruta_flujo_id+ "Con permiso =>"+permiso);
 }
 
