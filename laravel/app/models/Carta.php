@@ -151,7 +151,7 @@ class Carta extends Base
                     WHERE c.id = '".Input::get('carta_id')."'
                     GROUP BY c.id";
         }
-
+        $set=DB::select('SET group_concat_max_len := @@max_allowed_packet');
         $r=DB::select($sql);
 
         return $r;
