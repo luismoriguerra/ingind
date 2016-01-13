@@ -119,6 +119,7 @@ AddTr=function(id,value){
 
         clase='';
         val='';
+        console.log(value);
         if ( value!='0' ){
             val=value.split("|")[i].split("0000-00-00").join("").split("00:00:00").join("");
         }
