@@ -228,10 +228,10 @@ HTMLreporte=function(datos){
         var persona_visual=data.persona_visual;
         var estado;
         var id=data.id;
-        if(data.id>0){//est visto
+        if(data.id==1){//est visto
             //el boton debera cambiar  a no visto
             estado='onClick="desactivar('+id+','+ruta_detalle_id+',this)"';
-            tr='<tr  data-toggle="tooltip" data-placement="top" '+estado+'>';
+            tr='<tr  data-toggle="tooltip" data-placement="top" title="Visto por: '+persona_visual+'" '+estado+'>';
             img='<td onClick="mostrarModal('+id+','+ruta_detalle_id+')" class="small-col"><i  class="fa fa-eye"></i></td>';
 
         } else {
@@ -273,7 +273,7 @@ validacheck=function(val,idcheck){
     //$("#slct_tipo_respuesta,#slct_tipo_respuesta_detalle").multiselect("enable");
     //$("#txt_observacion").removeAttr("disabled");
 
-    $(".check1,.check2").removeAttr("disabled");
+    /*$(".check1,.check2").removeAttr("disabled");
     if( val==1 && $("#"+idcheck).is(':checked') ){
         $(".check2").removeAttr("checked");
         $(".check2").attr("disabled","true");
@@ -281,16 +281,26 @@ validacheck=function(val,idcheck){
     else if( val==2 && $("#"+idcheck).is(':checked') ){
         $(".check1").removeAttr("checked");
         $(".check1").attr("disabled","true");
+    }*/
+
+    if( val>0 ){
+        $("#t_detalle_verbo input[type='checkbox']").removeAttr('disabled');
     }
 
     $("#t_detalle_verbo input[type='checkbox']").each(
         function( index ) { 
+                alert($(this).attr("class"));
             if ( $(this).is(':checked') ) {
                 verboaux+= "|"+$(this).val();
+                if( val>0 && $(this).attr("class")!='check'+val ){
+                    $(this).removeAttr("checked");
+                    $(this).attr("disabled");
+                }
             }
             /*else if( !$(this).attr("disabled") ){
                 validacheck=1;
             }*/
+            
         }
     );
 
