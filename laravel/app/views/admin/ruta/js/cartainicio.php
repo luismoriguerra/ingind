@@ -37,7 +37,7 @@ $(document).ready(function() {
 Validacion=function(){
     var r=true;
 
-    if( $("#txt_area_id").val()=='' ){
+    if( $.trim($("#txt_area_id").val())=='' || $("#txt_area_id").val()*1<=0 ){
         alert('Ud no cuenta con una area definida actualice su navegador; Session probablemente cancelada');
         r=false;
     }
