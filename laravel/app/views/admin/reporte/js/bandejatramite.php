@@ -228,10 +228,10 @@ HTMLreporte=function(datos){
         var persona_visual=data.persona_visual;
         var estado;
         var id=data.id;
-        if(data.id==1){//est visto
+        if(data.id>0){//est visto
             //el boton debera cambiar  a no visto
             estado='onClick="desactivar('+id+','+ruta_detalle_id+',this)"';
-            tr='<tr  data-toggle="tooltip" data-placement="top" title="Visto por: '+persona_visual+'" '+estado+'>';
+            tr='<tr  data-toggle="tooltip" data-placement="top" '+estado+'>';
             img='<td onClick="mostrarModal('+id+','+ruta_detalle_id+')" class="small-col"><i  class="fa fa-eye"></i></td>';
 
         } else {
@@ -286,23 +286,29 @@ validacheck=function(val,idcheck){
     if( val>0 ){
         $("#t_detalle_verbo input[type='checkbox']").removeAttr('disabled');
     }
-
+    disabled=false;
     $("#t_detalle_verbo input[type='checkbox']").each(
         function( index ) { 
-                alert($(this).attr("class"));
-            if ( $(this).is(':checked') ) {
-                verboaux+= "|"+$(this).val();
-                if( val>0 && $(this).attr("class")!='check'+val ){
-                    $(this).removeAttr("checked");
-                    $(this).attr("disabled");
-                }
+                //alert($(this).attr("class"));
+            if ( val>0 && $(this).is(':checked') && $(this).attr("class")=='check'+val ) {
+                disabled=true;
             }
+                verboaux+= "|"+$(this).val();
+                if( val>0 && $(this).attr("class")!='check0' && $(this).attr("class")!='check'+val ){
+                    $(this).attr("disabled","true");
+                    $(this).removeAttr("checked");
+                }
+            //}
             /*else if( !$(this).attr("disabled") ){
                 validacheck=1;
             }*/
             
         }
     );
+
+    if(disabled==false && val>0){
+        $("#t_detalle_verbo input[type='checkbox']").removeAttr('disabled');
+    }
 
     /*if(validacheck==1){
         $("#slct_tipo_respuesta,#slct_tipo_respuesta_detalle").multiselect("disable");
