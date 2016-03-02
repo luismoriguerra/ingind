@@ -11,8 +11,16 @@ var tiempoGId=[]; // id posicion del modal en base a una area.
 var tiempoG=[];
 var verboG=[];
 var posicionDetalleVerboG=0;
+var AreaIdG="";
+var RolIdG="";
+
 $(document).ready(function() {
-    //$("[data-toggle='offcanvas']").click();
+    AreaIdG='';
+    AreaIdG='<?php echo Auth::user()->area_id; ?>';
+    RolIdG='';
+    RolIdG='<?php echo Auth::user()->rol_id; ?>';
+    
+if( AreaIdG!='' && AreaIdG*1>0 && RolIdG!='' && RolIdG*1>0 && (RolIdG==8 || RolIdG==9) ){
     $("#btn_guardar_tiempo,#btn_guardar_verbo").remove();
     $("#btn_close").click(Close);
     var data = {estado:1,tipo_flujo:2};
@@ -40,9 +48,11 @@ $(document).ready(function() {
     slctGlobal.listarSlct2('documento','slct_documento_modal',data);
 
     $("#txt_fecha_tramite").datetimepicker();
+    //$("[data-toggle='offcanvas']").click();
 
     Asignar.Relacion(RelacionHTML);
-    Asignar.ListarPersona(ListarPersonaHTML);
+    data={area_id:AreaIdG};
+    Asignar.ListarPersona(ListarPersonaHTML,data);
 
     $('#personaModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
@@ -131,8 +141,6 @@ $(document).ready(function() {
 
       pintarTiempoG(tid);
 
-
-
       $("#form_ruta_verbo #txt_nombre").val(text);
       $("#form_ruta_verbo").append('<input type="hidden" value="'+id+'" id="txt_area_id_modal">');
     });
@@ -146,6 +154,13 @@ $(document).ready(function() {
 
     $("#btn_guardar_todo").click(guardarTodo);
     hora();
+}
+else if(RolIdG!=8 && RolIdG!=9){
+    alert('.::Ud no cuenta con permisos para poder asignar una carta de oficio::.');
+}
+else{
+    alert('.::No cuenta con area asignada; Bloqueando acceso::.');
+}
     //$("#areasasignacion").DataTable();
 });
 

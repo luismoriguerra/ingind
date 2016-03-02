@@ -20,7 +20,7 @@ desgloses.push("Seleccione Hora Inicio");   desglosesid.push("des_hin");
 desgloses.push("Seleccione Hora Fin");      desglosesid.push("des_hfi");
 
 $(document).ready(function() {
-    var datos={union:1};
+    var datos={union:1,area_id:AreaIdG};
     Carta.CargarCartas(HTMLCargarCartas,datos);
     $("#btn_nuevo").click(Nuevo);
     $("#btn_close").click(CloseCartaInicio);

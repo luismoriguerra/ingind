@@ -1,12 +1,12 @@
 <script type="text/javascript">
 var Asignar={
-    ListarPersona:function(evento){
+    ListarPersona:function(evento,datos){
         $.ajax({
             url         : 'persona/cargarp',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
-            data        : {estado:1},
+            data        : datos,
             beforeSend : function() {                
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
@@ -131,7 +131,7 @@ var Asignar={
                     $("#txt_materno_autoriza").val("<?php echo Auth::user()->materno; ?>");
                     $("#txt_nombre_autoriza").val("<?php echo Auth::user()->nombre; ?>");
                     $('#form_asignar #slct_flujo2_id,#form_asignar #slct_area2_id,#form_asignar #slct_area_p2_id,#form_asignar #slct_rol2_id').multiselect('refresh');
-                    var datos={union:1};
+                    var datos={union:1,area_id:AreaIdG};
                     Carta.CargarCartas(HTMLCargarCartas,datos);
                     $("#msj").html('<div class="alert alert-dismissable alert-success">'+
                                         '<i class="fa fa-check"></i>'+
