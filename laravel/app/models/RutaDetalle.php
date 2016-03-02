@@ -58,9 +58,7 @@ class RutaDetalle extends Eloquent
                      "=>",
                     IF(rdv.finalizo=0,"Pendiente","Finalizó"),
                     "=>",
-                    IF(rdv.condicion=1,"+1",
-                        IF(rdv.condicion=2,"+2","NO")
-                    ),
+                    IF(rdv.condicion=0,"NO",CONCAT("+",rdv.condicion) ),
                     "=>",
                     IFNULL(rdv.documento,""),
                     "=>",

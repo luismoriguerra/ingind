@@ -19,20 +19,33 @@ desgloses.push("Seleccione Fecha Inicio");  desglosesid.push("des_fin");    desg
 desgloses.push("Seleccione Fecha Fin");     desglosesid.push("des_ffi");    desglosestype.push("txt");
 desgloses.push("Seleccione Hora Inicio");   desglosesid.push("des_hin");    desglosestype.push("txt");
 desgloses.push("Seleccione Hora Fin");      desglosesid.push("des_hfi");    desglosestype.push("txt");
+var AreaIdG='';
 
 $(document).ready(function() {
-    Carta.CargarCartas(HTMLCargarCartas);
-    $("#btn_nuevo").click(Nuevo);
-    $("#btn_close").click(Close);
-    $("#btn_guardar").click(Guardar);
-
-    var ids=[];
-    var data={estado:1};
-    slctGlobal.listarSlct('tiporecurso','slct_tipo_recurso_id','simple',ids,data);
-    slctGlobal.listarSlct('tipoactividad','slct_tipo_actividad_id','simple',ids,data);
-    data={estado_persona:1};
-    slctGlobal.listarSlct('persona','slct_persona_id','simple',ids,data);
+    AreaIdG='';
+    AreaIdG='<?php echo Auth::user()->area_id; ?>';
+    ValidaAreaRol();
 });
+
+ValidaAreaRol=function(){
+    if(AreaIdG!='' && AreaIdG*1>0){
+        var data={area_id:AreaIdG};
+        Carta.CargarCartas(HTMLCargarCartas,data);
+        $("#btn_nuevo").click(Nuevo);
+        $("#btn_close").click(Close);
+        $("#btn_guardar").click(Guardar);
+
+        var ids=[];
+        var data={estado:1};
+        slctGlobal.listarSlct('tiporecurso','slct_tipo_recurso_id','simple',ids,data);
+        slctGlobal.listarSlct('tipoactividad','slct_tipo_actividad_id','simple',ids,data);
+        data={estado_persona:1};
+        slctGlobal.listarSlct('persona','slct_persona_id','simple',ids,data);
+    }
+    else{
+        alert('.::No cuenta con area asignada; Bloqueando acceso botón Nuevo::.');
+    }
+}
 
 Validacion=function(){
     var r=true;
@@ -49,11 +62,14 @@ Validacion=function(){
 Limpiar=function(){
     $("#form_carta input[type='text'],#form_carta textarea,#form_carta select").val("");
     $("#t_recursos tbody,#t_metricos tbody,#t_desgloses tbody").html("");
-    Carta.CargarCartas(HTMLCargarCartas);
+    var data={area_id:AreaIdG};
+    Carta.CargarCartas(HTMLCargarCartas,data);
     Close();
 }
 
 Guardar=function(){
+    $("#txt_area_id").remove();
+    $("#form_carta").append("<input type='hidden' id='txt_area_id' name='txt_area_id' value='"+AreaIdG+"'>");
     var datos=$("#form_carta").serialize().split("txt_").join("").split("slct_").join("");
     if( Validacion() ){
         Carta.GuardarCartas(Limpiar,datos);
@@ -158,7 +174,7 @@ RemoveTr=function(id){
 Nuevo=function(){
     $("#cartainicio").css("display","");
     $("#txt_nro_carta").focus();
-    var datos={area_id:$("#txt_area_id").val()};
+    var datos={area_id:AreaIdG};
     Carta.CargarCorrelativo(HTMLCargarCorrelativo,datos);
 }
 

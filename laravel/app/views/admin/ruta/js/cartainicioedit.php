@@ -19,9 +19,15 @@ desgloses.push("Seleccione Fecha Inicio");  desglosesid.push("des_fin");    desg
 desgloses.push("Seleccione Fecha Fin");     desglosesid.push("des_ffi");    desglosestype.push("txt");
 desgloses.push("Seleccione Hora Inicio");   desglosesid.push("des_hin");    desglosestype.push("txt");
 desgloses.push("Seleccione Hora Fin");      desglosesid.push("des_hfi");    desglosestype.push("txt");
+var AreaIdG='';
 
 $(document).ready(function() {
-    var datos={union:1};
+    AreaIdG=<?php echo Auth::user()->area_id;?>;
+    ValidaAreaRol();
+});
+
+ValidaAreaRol=function(){
+    var datos={union:1,area_id:AreaIdG};
     Carta.CargarCartas(HTMLCargarCartas,datos);
     $("#btn_nuevo").click(Nuevo);
     $("#btn_close").click(Close);
@@ -33,7 +39,7 @@ $(document).ready(function() {
     slctGlobal.listarSlct('tipoactividad','slct_tipo_actividad_id','simple',ids,data);
     data={estado_persona:1};
     slctGlobal.listarSlct('persona','slct_persona_id','simple',ids,data);
-});
+}
 
 HTMLCargarDetalleCartas=function(datos){
     Nuevo();

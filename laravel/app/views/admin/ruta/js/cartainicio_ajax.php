@@ -52,7 +52,7 @@ var Carta={
             }
         });
     },
-    GuardarCartas:function(evento,datos,edit){
+    GuardarCartas:function(evento,datos){
         $.ajax({
             url         : 'carta/guardar',
             type        : 'POST',
@@ -65,13 +65,6 @@ var Carta={
             success : function(obj) {
                 if(obj.rst==1){
                     evento();
-                    if( edit!=null ){
-                        var datosf={union:1};
-                        Carta.CargarCartas(HTMLCargarCartas,datosf);
-                    }
-                    else{
-                        Carta.CargarCartas(HTMLCargarCartas);
-                    }
                 }  
                 $(".overlay,.loading-img").remove();
             },

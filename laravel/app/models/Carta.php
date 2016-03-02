@@ -341,7 +341,11 @@ class Carta extends Base
                 ->where( 
                     function($query){
                         if ( Input::get('union') ) {
-                            $query->where('union','=',0);
+                            $query->where('union','=',0)
+                                ->where( 'area_id','=',Input::get('area_id') );
+                        }
+                        if( Input::has('area_id') ){
+                            $query->where( 'area_id','=',Input::get('area_id') );
                         }
                     }
                 )
