@@ -49,6 +49,12 @@ ValidaAreaRol=function(){
 
 Validacion=function(){
     var r=true;
+
+    if( $.trim($("#txt_area_id").val())=='' || $("#txt_area_id").val()*1<=0 ){
+        alert('Ud no cuenta con una area definida actualice su navegador; Session probablemente cancelada');
+        r=false;
+    }
+
     $("#cartainicio .form-control.col-sm-12").each(function(){
         if( $(this).val()=='' && r==true ){
             alert( $(this).attr("data-text") );

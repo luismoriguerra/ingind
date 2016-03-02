@@ -114,14 +114,21 @@ var Ruta={
             }
         });
     },
-    CargarDetalleRuta:function(id,permiso,evento){
+    CargarDetalleRuta:function(id,permiso,evento,rid){
+        var datos={};
+        if( rid!=null ){
+            datos={ruta_flujo_id:id,ruta_id:rid};
+        }
+        else{
+            datos={ruta_flujo_id:id};
+        }
 
         $.ajax({
             url         : 'ruta_flujo/cdetalle',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
-            data        : {ruta_flujo_id:id},
+            data        : datos,
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },

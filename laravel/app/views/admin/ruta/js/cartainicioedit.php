@@ -57,6 +57,7 @@ HTMLCargarDetalleCartas=function(datos){
         if( data.recursos!=null && data.recursos.split("|").length>1 ){
             rec=data.recursos.split("*");
             for( i=0; i<rec.length; i++ ){
+                console.log('recursos');
                 AddTr("btn_recursos_0",rec[i]);
             }
         }
@@ -64,6 +65,7 @@ HTMLCargarDetalleCartas=function(datos){
         if( data.metricos!=null && data.metricos.split("|").length>1 ){
             met=data.metricos.split("*");
             for( i=0; i<met.length; i++ ){
+                console.log('metricos');
                 AddTr("btn_metricos_1",met[i]);
             }
         }
@@ -71,6 +73,7 @@ HTMLCargarDetalleCartas=function(datos){
         if( data.desgloses!=null && data.desgloses.split("|").length>1 ){
             des=data.desgloses.split("*");
             for( i=0; i<des.length; i++ ){
+                console.log('desgloses');
                 AddTr("btn_desgloses_2",des[i]);
             }
         }
@@ -125,6 +128,7 @@ AddTr=function(id,value){
 
         clase='';
         val='';
+        //console.log(i);
         if ( value!='0' ){
             val=value.split("|")[i].split("0000-00-00").join("").split("00:00:00").join("");
         }

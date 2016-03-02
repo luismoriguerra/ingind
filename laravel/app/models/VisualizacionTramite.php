@@ -22,12 +22,15 @@ class VisualizacionTramite extends Eloquent
     public static function BandejaTramites( $input)
     {
         if ($input) {
-            $where=" AND IFNULL(tv.id,'2') IN ('$input')";
+            $where=" WHERE IF(rf.id=0,2,1) IN ('$input')";
         } else {
             $where='';
         }
         $personaId=Auth::user()->id;
-        $query="SELECT
+        $query="SELECT *
+                FROM 
+                (
+                SELECT
                 IFNULL(tr.id_union,'') AS id_union,
                 IFNULL(rd.id,'') AS ruta_detalle_id,
                 IFNULL( CONCAT(t.apocope,': ',rd.dtiempo),'') AS tiempo,
@@ -48,14 +51,18 @@ class VisualizacionTramite extends Eloquent
                 IFNULL(rd.alerta,'') AS alerta,
                 IFNULL(rd.condicion,'') AS condicion,
                 IFNULL(rd.estado_ruta,'') AS estado_ruta,
-                IFNULL(tv.id,'2') AS id,
+                (   SELECT COUNT(id)
+                    FROM visualizacion_tramite vt
+                    WHERE vt.usuario_created_at='$personaId' AND rd.id=vt.ruta_detalle_id
+                ) id,
+                /*IFNULL(tv.id,'2') AS id,
                 IFNULL(tv.nombre,'') AS tipo_estado_visual,
                 IFNULL(tv.estado,'') AS estado_visual,
                 IFNULL(
                     CONCAT(p.paterno,' ',p.materno, ' ',p.nombre),
                     ''
                 ) AS persona_visual,
-                IFNULL(p.email,'') AS email,
+                IFNULL(p.email,'') AS email,*/
                 IFNULL(tr.ruc,'') AS ruc,
                 IFNULL(tr.sumilla,'') AS sumilla,
                 IF( rd.norden=1, tr.id_union,
@@ -76,7 +83,7 @@ class VisualizacionTramite extends Eloquent
                 LEFT JOIN tipos_respuesta rsp ON rd.tipo_respuesta_id=rsp.id
                 LEFT JOIN tipos_respuesta_detalle rspd
                         ON rd.tipo_respuesta_detalle_id=rspd.id
-                LEFT JOIN visualizacion_tramite vt ON rd.id=vt.ruta_detalle_id
+                /*LEFT JOIN visualizacion_tramite vt ON rd.id=vt.ruta_detalle_id
                         AND vt.usuario_created_at='$personaId'
                 LEFT JOIN tipo_visualizacion tv
                         ON vt.tipo_visualizacion_id=tv.id
@@ -87,7 +94,7 @@ class VisualizacionTramite extends Eloquent
                              AND vt2.estado=1
                              GROUP BY vt2.ruta_detalle_id
                 ) vt_s ON vt.id=vt_s.id
-                LEFT JOIN personas p ON vt.usuario_created_at=p.id
+                LEFT JOIN personas p ON vt.usuario_created_at=p.id*/
                 WHERE  rd.fecha_inicio IS NOT NULL AND rd.dtiempo_final IS NULL
                 AND rd.estado=1
                 AND rd.condicion=0
@@ -99,9 +106,12 @@ class VisualizacionTramite extends Eloquent
                             ON cp.id=acp.cargo_persona_id AND cp.estado=1
                     WHERE acp.estado=1
                     AND cp.persona_id= '$personaId'
-                )   $where
+                )   
                 GROUP BY rd.id
-                ORDER BY rd.fecha_inicio DESC, rd.norden DESC";
+                ) rf 
+                $where 
+                ORDER BY rf.fecha_inicio DESC, rf.norden DESC";
+                //echo $query;
         return DB::select($query);
     }
 

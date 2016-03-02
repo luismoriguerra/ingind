@@ -360,7 +360,77 @@ class RutaFlujo extends Eloquent
 
     public function getRutaFlujoDetalle(){
         $set=DB::select('SET group_concat_max_len := @@max_allowed_packet');
-        $rutaFlujoD =    DB::table('rutas_flujo AS rf')
+
+        if( Input::has('ruta_id') ){
+            $rutaFlujoD =    DB::table('rutas AS rf')
+                            ->join(
+                                'rutas_detalle AS rfd',
+                                'rf.id','=','rfd.ruta_id'
+                            )
+                            ->join(
+                                'flujos AS f',
+                                'f.id','=','rf.flujo_id'
+                            )
+                            ->join(
+                                'personas AS p',
+                                'p.id','=','rf.persona_id'
+                            )
+                            ->join(
+                                'areas AS a',
+                                'a.id','=','rf.area_id'
+                            )
+                            ->join(
+                                'areas AS a2',
+                                'a2.id','=','rfd.area_id'
+                            )
+                            ->leftJoin(
+                                'rutas_detalle_verbo AS rfdv', 
+                                function($join)
+                                {
+                                    $join->on(
+                                        'rfdv.ruta_detalle_id','=','rfd.id'
+                                    )
+                                    ->where('rfdv.estado', '=', '1');
+                                }
+                            )
+                            ->select('rf.area_id','a.nombre as area','rfd.id',
+                                    'a2.imagen','a2.imagenc','a2.imagenp',
+                                    'rf.persona_id','f.nombre as flujo','rfd.estado_ruta',
+                                    'rfd.area_id as area_id2','a2.nombre as area2',
+                                    'rfd.norden','rf.flujo_id',
+                                    DB::raw(
+                                        'IFNULL(rfd.tiempo_id,"") AS tiempo_id,
+                                        IFNULL(rfd.dtiempo,"") AS dtiempo,
+                                        CONCAT(
+                                            p.paterno," ",p.materno," ",p.nombre
+                                        ) AS persona,
+                                        IFNULL(
+                                            GROUP_CONCAT(
+                                                CONCAT( rfdv.nombre,"^^",rfdv.condicion,"^^",IFNULL(rfdv.rol_id,""),"^^",IFNULL(rfdv.verbo_id,""),"^^",IFNULL(rfdv.documento_id,""),"^^",IFNULL(rfdv.orden,"") 
+                                                ) 
+                                                ORDER BY rfdv.orden ASC
+                                                SEPARATOR "|"
+                                            ),
+                                            ""
+                                        ) as verbo, 
+                                        (   SELECT count(acp.id)
+                                            FROM area_cargo_persona acp
+                                            INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                                            INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                            WHERE acp.estado=1
+                                            AND acp.area_id=rfd.area_id
+                                            AND cp.persona_id='.Auth::user()->id.'
+                                        ) as modifica'
+                                    )
+                            )
+                            ->where( 'rf.id','=', Input::get('ruta_id') )
+                            ->where( 'rfd.estado', '=', '1')
+                            ->groupBy( 'rfd.id' )
+                            ->orderBy( 'rfd.norden', 'asc')
+                            ->get();
+        }
+        else{
+            $rutaFlujoD =    DB::table('rutas_flujo AS rf')
                             ->join(
                                 'rutas_flujo_detalle AS rfd',
                                 'rf.id','=','rfd.ruta_flujo_id'
@@ -426,6 +496,7 @@ class RutaFlujo extends Eloquent
                             ->groupBy( 'rfd.id' )
                             ->orderBy( 'rfd.norden', 'asc')
                             ->get();
+        }
         return $rutaFlujoD;
     }
 
