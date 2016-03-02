@@ -37,21 +37,33 @@
     desgloses.push("Seleccione Hora Fin");      desglosesid.push("des_hfi");    desglosestype.push("txt");desgloseestado.push("disabled");
     desgloses.push("Seleccione responsable");   desglosesid.push("inf_res");    desglosestype.push("txt");desgloseestado.push("");
     desgloses.push("Seleccione recuerso");      desglosesid.push("inf_rec");    desglosestype.push("txt");desgloseestado.push("");
-
+    var AreaIdG='';
     $(document).ready(function() {
+        AreaIdG='';
+        AreaIdG='<?php echo Auth::user()->area_id; ?>';
+        ValidaAreaRol();
         // OBJETO EN CARTAINICIO_AJAX
-        Carta.CargarCartas(HTMLCargarCartas);
-        $("#btn_nuevo").click(Nuevo);
-        $("#btn_close").click(Close);
-        $("#btn_guardar").click(Guardar);
-
-        var ids=[];
-        var data={estado:1};
-        slctGlobal.listarSlct('tiporecurso','slct_tipo_recurso_id','simple',ids,data);
-        slctGlobal.listarSlct('tipoactividad','slct_tipo_actividad_id','simple',ids,data);
-        data={estado_persona:1};
-        slctGlobal.listarSlct('persona','slct_persona_id','simple',ids,data);
     });
+
+    ValidaAreaRol=function(){
+        if(AreaIdG!='' && AreaIdG*1>0){
+            var data={area_id:AreaIdG};
+            Carta.CargarCartas(HTMLCargarCartas,data);
+            $("#btn_nuevo").click(Nuevo);
+            $("#btn_close").click(Close);
+            $("#btn_guardar").click(Guardar);
+
+            var ids=[];
+            var data={estado:1};
+            slctGlobal.listarSlct('tiporecurso','slct_tipo_recurso_id','simple',ids,data);
+            slctGlobal.listarSlct('tipoactividad','slct_tipo_actividad_id','simple',ids,data);
+            data={estado_persona:1};
+            slctGlobal.listarSlct('persona','slct_persona_id','simple',ids,data);
+        }
+        else{
+            alert('.::No cuenta con area asignada::.');
+        }
+    }
 
     HTMLCargarDetalleCartas=function(datos){
         Nuevo();

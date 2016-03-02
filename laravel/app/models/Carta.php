@@ -242,17 +242,15 @@ class Carta extends Base
             else{
                 $carta=new Carta;
                 $carta['usuario_created_at']=Auth::user()->id;
+                $carta['area_id']=Input::get('area_id');
+                $carta['nro_carta']=Input::get('nro_carta');
+                $correlativo=explode("-",Input::get('nro_carta'));
+                $carta['correlativo']= $correlativo[1]*1;
             }
 
-            $carta['nro_carta']=Input::get('nro_carta');
             $carta['objetivo']=Input::get('objetivo');
             $carta['entregable']=Input::get('entregable');
             $carta['alcance']=Input::get('alcance');
-            $carta['area_id']=Input::get('area_id');
-
-            $correlativo=explode("-",Input::get('nro_carta'));
-            $carta['correlativo']= $correlativo[1]*1;
-
             $carta->save();
 
             $recursos=array();
