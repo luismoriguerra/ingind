@@ -195,8 +195,7 @@ class AreaController extends \BaseController
 
             $areas = new Area;
             $areas->nombre = Input::get('nombre');
-            $areas->id_int = Input::get('id_int');
-            $areas->id_ext = Input::get('id_ext');
+            $areas->nemonico = Input::get('nemonico');
             $areas->estado = Input::get('estado');
             $areas->usuario_created_at = Auth::user()->id;
             $areas->save();
@@ -245,8 +244,7 @@ class AreaController extends \BaseController
             $areaId = Input::get('id');
             $areas = Area::find($areaId);
             $areas->nombre = Input::get('nombre');
-            $areas->id_int = Input::get('id_int');
-            $areas->id_ext = Input::get('id_ext');
+            $areas->nemonico = Input::get('nemonico');
             $areas->estado = Input::get('estado');
             $areas->usuario_updated_at = Auth::user()->id;
             $areas->save();

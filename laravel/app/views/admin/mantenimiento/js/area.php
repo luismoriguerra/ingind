@@ -40,8 +40,7 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
             $('#form_areas #txt_nombre').val( AreaObj[area_id].nombre );
-            $('#form_areas #txt_id_int').val( AreaObj[area_id].id_int );
-            $('#form_areas #txt_id_ext').val( AreaObj[area_id].id_ext );
+            $('#form_areas #txt_nemonico').val( AreaObj[area_id].nemonico );
             $('#form_areas #slct_estado').val( AreaObj[area_id].estado );
             $("#form_areas").append("<input type='hidden' value='"+id+"' name='id'>");
             $("#upload_id").val(AreaObj[area_id].id);
@@ -96,8 +95,7 @@ HTMLCargarArea=function(datos){
 
         html+="<tr>"+
             "<td>"+data.nombre+"</td>"+
-            "<td>"+data.id_int+"</td>"+
-            "<td>"+data.id_ext+"</td>"+
+            "<td>"+data.nemonico+"</td>"+
             "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
             '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#areaModal" data-id="'+index+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
 

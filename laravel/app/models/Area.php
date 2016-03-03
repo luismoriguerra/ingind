@@ -3,8 +3,8 @@
 class Area extends Base
 {
     public $table = "areas";
-    public static $where =['id', 'nombre', 'id_int', 'id_ext', 'imagen', 'imagenc','imagenp', 'estado'];
-    public static $selec =['id', 'nombre', 'id_int', 'id_ext', 'imagen', 'imagenc','imagenp', 'estado'];
+    public static $where =['id', 'nombre', 'nemonico', 'id_int', 'id_ext', 'imagen', 'imagenc','imagenp', 'estado'];
+    public static $selec =['id', 'nombre', 'nemonico', 'id_int', 'id_ext', 'imagen', 'imagenc','imagenp', 'estado'];
     /**
      * Cargos relationship
      */
@@ -22,7 +22,7 @@ class Area extends Base
 
     public function getArea(){
         $area=DB::table('areas')
-                ->select('id','nombre','estado','imagen as evento')
+                ->select('id','nombre','nemonico','estado','imagen as evento')
                 ->where( 
                     function($query){
                         if ( Input::get('estado') ) {
