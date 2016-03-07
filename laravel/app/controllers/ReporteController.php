@@ -1067,4 +1067,60 @@ class ReporteController extends BaseController
             )
         );
     }
+
+    public function postDocplataforma(){
+      $sql="SELECT f.nombre proceso_pla,tr.id_union plataforma,r.fecha_inicio,rd.dtiempo_final
+            ,f2.nombre proceso,tr2.id_union gestion,r2.fecha_inicio fecha_inicio_gestion, rd2f.norden ult_paso
+            ,IFNULL(rd3f.norden,rd2f.norden) act_paso, 
+            IFNULL(DATE_ADD(r2.fecha_inicio, INTERVAL t.totalminutos MINUTE),DATE_ADD(r2.fecha_inicio, INTERVAL t2.totalminutos MINUTE)) fecha_fin
+            , IFNULL(rd3f.dtiempo_final,rd2f.dtiempo_final) tiempo_realizado
+            FROM rutas r
+            INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1
+            INNER JOIN 
+            ( SELECT MAX(id) id,ruta_id
+              FROM rutas_detalle
+              WHERE estado=1
+              GROUP BY ruta_id
+            ) rdm ON rdm.id=rd.id 
+            INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1
+            INNER JOIN flujos f ON f.id=r.flujo_id
+            INNER JOIN areas_internas ai ON ai.flujo_id=f.id
+            LEFT JOIN tablas_relacion tr2 ON tr2.id_union=tr.id_union AND tr2.id!=tr.id AND tr2.estado=1
+            LEFT JOIN rutas r2 ON r2.tabla_relacion_id=tr2.id AND r2.estado=1
+            LEFT JOIN flujos f2 ON f2.id=r2.flujo_id
+            LEFT JOIN 
+            ( SELECT rd2.*
+              FROM rutas_detalle rd2 
+              INNER JOIN 
+              ( SELECT MAX(id) id,ruta_id
+                FROM rutas_detalle
+                WHERE estado=1
+                GROUP BY ruta_id
+              ) rdm2 ON rdm2.id=rd2.id 
+            ) rd2f ON rd2f.ruta_id=r2.id AND rd2f.estado=1
+            LEFT JOIN 
+            ( SELECT rd2.*
+              FROM rutas_detalle rd2 
+              INNER JOIN 
+              ( SELECT MIN(id) id,ruta_id
+                FROM rutas_detalle
+                WHERE estado=1
+                AND dtiempo_final IS NULL
+                GROUP BY ruta_id
+              ) rdm2 ON rdm2.id=rd2.id 
+            ) rd3f ON rd3f.ruta_id=r2.id AND rd3f.estado=1
+            LEFT JOIN tiempos t ON t.id=rd3f.tiempo_id
+            LEFT JOIN tiempos t2 ON t2.id=rd2f.tiempo_id
+            WHERE r.estado=1
+            order by proceso DESC,rd.dtiempo_final";
+
+      $r=DB::select($sql);
+
+      return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$r
+            )
+        );
+    }
 }
