@@ -1069,6 +1069,8 @@ class ReporteController extends BaseController
     }
 
     public function postDocplataforma(){
+      $fecha = Input::get('fecha');
+      list($fechaIni,$fechaFin) = explode(" - ", $fecha);
       $sql="SELECT f.nombre proceso_pla,tr.id_union plataforma,r.fecha_inicio,rd.dtiempo_final
             ,f2.nombre proceso,tr2.id_union gestion,r2.fecha_inicio fecha_inicio_gestion, rd2f.norden ult_paso
             ,IFNULL(rd3f.norden,rd2f.norden) act_paso, 
@@ -1082,7 +1084,8 @@ class ReporteController extends BaseController
               WHERE estado=1
               GROUP BY ruta_id
             ) rdm ON rdm.id=rd.id 
-            INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1
+            INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1 
+                      AND tr.fecha_tramite BETWEEN '$fechaIni' AND '$fechaFin'
             INNER JOIN flujos f ON f.id=r.flujo_id
             INNER JOIN areas_internas ai ON ai.flujo_id=f.id
             LEFT JOIN tablas_relacion tr2 ON tr2.id_union=tr.id_union AND tr2.id!=tr.id AND tr2.estado=1

@@ -35,11 +35,10 @@
                 <fieldset>
                     <div class="row form-group" >
                         <div class="col-sm-12">
-                            <!--div class="col-sm-4">
-                                <label class="control-label">Procesos:</label>
-                                <select class="form-control" name="slct_flujo_id" id="slct_flujo_id" multiple>
-                                </select>
-                            </div-->
+                            <div class="col-sm-5">
+                                <label class="control-label">Rango de Fechas:</label>
+                                <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha" onfocus="blur()"/>
+                            </div>
                             <div class="col-sm-2">
                                 <label class="control-label"></label>
                                 <input type="button" class="form-control btn btn-primary" id="generar" name="generar" value="Mostrar">

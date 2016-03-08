@@ -39,7 +39,7 @@ class Ruta extends Eloquent
         
         $tablaRelacion['fecha_tramite']=Input::get('fecha_tramite');
         $tablaRelacion['tipo_persona']=Input::get('tipo_persona');
-        if( Input::has('paterno_autoriza') AND Input::has('materno_autoriza') AND Input::has('nombre_autoriza') ){
+        /*if( Input::has('paterno_autoriza') AND Input::has('materno_autoriza') AND Input::has('nombre_autoriza') ){
             $tablaRelacion['paterno_autoriza']=Input::get('paterno_autoriza');
             $tablaRelacion['materno_autoriza']=Input::get('materno_autoriza');
             $tablaRelacion['nombre_autoriza']=Input::get('nombre_autoriza');
@@ -48,7 +48,7 @@ class Ruta extends Eloquent
             $tablaRelacion['paterno_responsable']=Input::get('paterno_responsable');
             $tablaRelacion['materno_responsable']=Input::get('materno_responsable');
             $tablaRelacion['nombre_responsable']=Input::get('nombre_responsable');
-        }
+        }*/
 
         if( Input::has('paterno') AND Input::has('materno') AND Input::has('nombre') ){
             $tablaRelacion['paterno']=Input::get('paterno');

@@ -8,18 +8,13 @@ $(document).ready(function() {
     var ids = [];
     //slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);
     $("#generar").click(function (){
-              Accion.mostrar(data);
-        /*var fecha=$("#fecha").val();
+        var fecha=$("#fecha").val();
         if ( fecha!=="") {
-            if ($.trim(area_id)!=='') {
-                data = {area_id:area_id,fecha:fecha};
-                Accion.mostrar(data);
-            } else {
-                alert("Seleccione Área");
-            }
+            data = {fecha:fecha};
+            Accion.mostrar(data);
         } else {
             alert("Seleccione Fecha");
-        }*/
+        }
     });
 });
 HTMLreporte=function(datos){
