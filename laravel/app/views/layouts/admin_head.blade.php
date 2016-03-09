@@ -2,7 +2,17 @@
         <header class="header">
             <a href="admin" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
-                M. Independencia
+                <?php 
+                $sql="  SELECT GROUP_CONCAT(DISTINCT(c.nombre) ORDER BY c.nombre) cargo,cp.persona_id,count(c.id) cant
+                        FROM cargo_persona cp
+                        INNER JOIN cargos c ON c.id=cp.cargo_id AND c.estado=1
+                        WHERE cp.estado=1
+                        AND cp.persona_id='1'
+                        GROUP BY cp.persona_id";
+                $r= DB::select($sql);
+                
+                echo $r[0]->cargo;
+                ?>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">
