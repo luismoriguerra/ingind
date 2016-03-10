@@ -3,11 +3,12 @@
             <a href="admin" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
                 <?php 
+                $user= Auth::user()->id;
                 $sql="  SELECT GROUP_CONCAT(DISTINCT(c.nombre) ORDER BY c.nombre) cargo,cp.persona_id,count(c.id) cant
                         FROM cargo_persona cp
                         INNER JOIN cargos c ON c.id=cp.cargo_id AND c.estado=1
                         WHERE cp.estado=1
-                        AND cp.persona_id='1'
+                        AND cp.persona_id='$user'
                         GROUP BY cp.persona_id";
                 $r= DB::select($sql);
                 
