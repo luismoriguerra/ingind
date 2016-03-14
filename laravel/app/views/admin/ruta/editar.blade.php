@@ -195,11 +195,11 @@
                                                 </select>
                                             </div>
                                             <div class="col-sm-2">
-                                                <label>Crear Ruta:</label>
+                                                <label>Desea ud que esta nueva ruta modificada permanesca para los tramites futuros?</label>
                                                 <select id="slct_crear_nuevo" name="slct_crear_nuevo">
                                                     <option value="">Seleccione</option>
-                                                    <option value="1">Crear</option>
-                                                    <option value="0">No Crear</option>
+                                                    <option value="1">Si Deseo</option>
+                                                    <option value="0">No Deseo</option>
                                                 </select>
                                             </div>
                                         </div>
