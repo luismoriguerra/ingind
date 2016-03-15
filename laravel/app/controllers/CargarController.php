@@ -45,9 +45,17 @@ class CargarController extends BaseController
 
                     //if($i>0){
                         $ainterna=AreaInterna::find($detfile[12]);
+                        $tdoc=explode("-",$detfile[0]);
 
                         if( count($ainterna)==0 ){
                             $arrayExist[]=$detfile[0]."; No cuenta con Ruta revise cod area de plataforma ingresado.";
+                        }
+                        elseif( strtoupper(substr($ainterna->nombre,0,3))=='SUB' AND 
+                                ( strtoupper($tdoc)=='DS' OR strtoupper($tdoc)=='EX' ) AND
+                                $ainterna->id!=23
+                        )
+                        {
+                            $arrayExist[]=$detfile[0]."; No se puede ingresar el tipo de tramite DS ni EX para sub gerencias a excepción de logistica";
                         }
                         else{
                         $exist=TablaRelacion::where('id_union','=',$detfile[0])
@@ -55,13 +63,13 @@ class CargarController extends BaseController
                                             ->get();
 
                             if( count($exist)>0 ){
-                                $arrayExist[]=$detfile[0];
+                                $arrayExist[]=$detfile[0]."; Tramite ya existe";
                             }
                             else{
 
                                 $tipoPersona=TipoSolicitante::where('nombre_relacion','=',$detfile[2])->first();
                                 if( count($tipoPersona)==0 ){
-                                    $arrayExist[]=$detfile[0]." TipoPersona";
+                                    $arrayExist[]=$detfile[0]."; TipoPersona no existe";
                                 }
                                 else{
                                     DB::beginTransaction();
