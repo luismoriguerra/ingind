@@ -51,7 +51,7 @@ class CargarController extends BaseController
                             $arrayExist[]=$detfile[0]."; No cuenta con Ruta revise cod area de plataforma ingresado.";
                         }
                         elseif( strtoupper(substr($ainterna->nombre,0,3))=='SUB' AND 
-                                ( strtoupper($tdoc)=='DS' OR strtoupper($tdoc)=='EX' ) AND
+                                ( strtoupper($tdoc[0])=='DS' OR strtoupper($tdoc[0])=='EX' ) AND
                                 $ainterna->id!=23
                         )
                         {
