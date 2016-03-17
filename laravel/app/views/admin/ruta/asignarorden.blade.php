@@ -71,15 +71,6 @@
                                                     <i class='fa fa-search fa-lg'>Buscar</i>
                                                 </a>
                                             </div>
-                                            <div class="col-sm-3">
-                                                <label class="control-label"> Fecha Orden Trabajo:</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </div>
-                                                    <input class="form-control" id="txt_fecha_tramite" name="txt_fecha_tramite" type="text">
-                                                </div>
-                                            </div>
                                             <div class="col-sm-2" style="display:none">
                                                 <label class="control-label"> Referente:</label>
                                                 <input class="form-control" id="txt_referente" name="txt_referente" type="text" placeholder="Ing. Orden Trabajo Ref.">

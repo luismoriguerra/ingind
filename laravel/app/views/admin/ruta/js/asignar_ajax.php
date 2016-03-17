@@ -1,5 +1,21 @@
 <script type="text/javascript">
 var Asignar={
+    FechaActual:function(evento){
+        $.ajax({
+            url         : 'ruta/fechaactual',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : {estado:1},
+            beforeSend : function() {
+            },
+            success : function(obj) {
+                $("#txt_fecha_inicio").val(obj.fecha);
+            },
+            error: function(){
+            }
+        });
+    },
     Relacion:function(evento){
         $.ajax({
             url         : 'tabla_relacion/relacionunico',

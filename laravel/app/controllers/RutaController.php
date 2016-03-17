@@ -18,4 +18,14 @@ class RutaController extends \BaseController
         }
     }
 
+    public function postFechaactual(){
+        $fh=date("Y-m-d H:i:s");
+        return Response::json(
+                array(
+                    'rst'   => 1,
+                    'fecha'   => $fh
+                )
+            );
+    }
+
 }

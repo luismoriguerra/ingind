@@ -37,18 +37,8 @@ class Ruta extends Eloquent
 
         $tablaRelacion['id_union']=Input::get('codigo');
         
-        $tablaRelacion['fecha_tramite']=Input::get('fecha_tramite');
+        $tablaRelacion['fecha_tramite']= Input::get('fecha_inicio'); //Input::get('fecha_tramite');
         $tablaRelacion['tipo_persona']=Input::get('tipo_persona');
-        /*if( Input::has('paterno_autoriza') AND Input::has('materno_autoriza') AND Input::has('nombre_autoriza') ){
-            $tablaRelacion['paterno_autoriza']=Input::get('paterno_autoriza');
-            $tablaRelacion['materno_autoriza']=Input::get('materno_autoriza');
-            $tablaRelacion['nombre_autoriza']=Input::get('nombre_autoriza');
-        }
-        if( Input::has('paterno_responsable') AND Input::has('materno_responsable') AND Input::has('nombre_responsable') ){
-            $tablaRelacion['paterno_responsable']=Input::get('paterno_responsable');
-            $tablaRelacion['materno_responsable']=Input::get('materno_responsable');
-            $tablaRelacion['nombre_responsable']=Input::get('nombre_responsable');
-        }*/
 
         if( Input::has('paterno') AND Input::has('materno') AND Input::has('nombre') ){
             $tablaRelacion['paterno']=Input::get('paterno');
@@ -101,6 +91,18 @@ class Ruta extends Eloquent
         $ruta['area_id']=$rutaFlujo->area_id;
         $ruta['usuario_created_at']= Auth::user()->id;
         $ruta->save();
+
+        /************Agregado de referidos*************/
+        $referido=new Referido;
+        $referido['ruta_id']=$ruta->id;
+        $referido['tabla_relacion_id']=$tablaRelacion->id;
+        $referido['tipo']=0;
+        $referido['referido']=$tablaRelacion->id_union;
+        $referido['fecha_hora_referido']=$tablaRelacion->created_at;
+        $referido['usuario_referido']=$tablaRelacion->usuario_created_at;
+        $referido['usuario_created_at']=Auth::user()->id;
+        $referido->save();
+        /**********************************************/
 
         $qrutaDetalle=DB::table('rutas_flujo_detalle')
             ->where('ruta_flujo_id', '=', $rutaFlujo->id)
@@ -162,7 +164,7 @@ class Ruta extends Eloquent
                     }
             }
 
-            if( Input::has('referente') ){
+            /*if( Input::has('referente') ){
                 $rutaid=$ruta->id;
                 $referente=trim( Input::get('referente') );
                 $sql="  SELECT r.id, IFNULL(tr.referente,'') referente
@@ -198,7 +200,7 @@ class Ruta extends Eloquent
                         $padre=''; $padre=array();
                     }
                 }
-            }
+            }*/
 
         DB::commit();
 

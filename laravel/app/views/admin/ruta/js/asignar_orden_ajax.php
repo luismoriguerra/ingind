@@ -1,5 +1,23 @@
 <script type="text/javascript">
 var Asignar={
+    FechaActual:function(){
+        $.ajax({
+            url         : 'ruta/fechaactual',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : {estado:1},
+            beforeSend : function() {
+            },
+            success : function(obj) {
+                if( $("#txt_fecha_inicio").val()=='' ){
+                    $("#txt_fecha_inicio").val(obj.fecha);
+                }
+            },
+            error: function(){
+            }
+        });
+    },
     ListarPersona:function(evento,datos){
         $.ajax({
             url         : 'persona/cargarp',

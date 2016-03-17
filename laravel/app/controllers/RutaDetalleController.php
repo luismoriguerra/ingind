@@ -115,6 +115,14 @@ class RutaDetalleController extends \BaseController
         if ( Request::ajax() ) {
             DB::beginTransaction();
 
+            $rdid=Input::get('ruta_detalle_id');
+            $rd = RutaDetalle::find($rdid);
+
+            $r=Ruta::find($rd->ruta_id);
+
+            $alerta= Input::get('alerta');
+            $alertaTipo= Input::get('alerta_tipo');
+
             if( Input::get('verbog') OR Input::get('codg') OR Input::get('obsg') ){
             $verbog= explode( "|",Input::get('verbog') );
             $codg= explode( "|",Input::get('codg') );
@@ -126,15 +134,70 @@ class RutaDetalleController extends \BaseController
                     $rdv['observacion'] = $obsg[$i];
                     $rdv['usuario_updated_at']= Auth::user()->id;
                     $rdv->save();
+
+                    if( $rdv->verbo_id==1 ){
+                        $refid=Referido::where(
+                                    'tipo','=','1'
+                                )
+                                ->where(
+                                    'ruta_id','=',$r->id
+                                )
+                                ->where(
+                                    'tabla_relacion_id','=',$r->tabla_relacion_id
+                                )
+                                ->where(
+                                    'ruta_detalle_id','=',$rd->id
+                                )
+                                ->first();
+                        $referidoid='';
+
+                        if( count($refid)==0 ){
+                            $referido=new Referido;
+                            $referido['ruta_id']=$r->id;
+                            $referido['tabla_relacion_id']=$r->tabla_relacion_id;
+                            $referido['ruta_detalle_id']=$rd->id;
+                            $referido['estado_ruta']=$rd->estado_ruta;
+                            $referido['tipo']=1;
+                            $referido['usuario_created_at']=Auth::user()->id;
+                            $referido->save();
+                            $referidoid= $referido->id;
+                        }
+                        else{
+                            $referidoid=$refid->id;
+                        }
+
+                        $sqlvalida= "SELECT count(id) cant
+                                     FROM rutas_detalle_verbo
+                                     WHERE verbo_id=1
+                                     AND ruta_detalle_id=".$rd->id."
+                                     AND id>".$rdv->id;
+                        $rv = DB::select($sqlvalida);
+
+                        if( $rv[0]->cant>0 ){
+                            $sustento=new Sustento;
+                            $sustento['referido_id']=$referidoid;
+                            $sustento['ruta_detalle_id']=$rd->id;
+                            $sustento['documento_id']=$rdv->documento_id;
+                            $sustento['sustento']=$rdv->documento;
+                            $sustento['fecha_hora_sustento']=$rdv->updated_at;
+                            $sustento['usuario_sustento']=$rdv->usuario_updated_at;
+                            $sustento['usuario_created_at']=Auth::user()->id;
+                            $sustento->save();
+                        }
+                        else{
+                            $referido=Referido::find($referidoid);
+                            $referido['documento_id']=$rdv->documento_id;
+                            $referido['id_tipo']=$rdv->id;
+                            $referido['referido']=$rdv->documento;
+                            $referido['fecha_hora_referido']=$rdv->updated_at;
+                            $referido['usuario_referido']=$rdv->usuario_updated_at;
+                            $referido['usuario_updated_at']=Auth::user()->id;
+                            $referido->save();
+                        }
+                    }
                 }
             }
 
-            $rdid=Input::get('ruta_detalle_id');
-            $rd = RutaDetalle::find($rdid);
-
-            $alerta= Input::get('alerta');
-            $alertaTipo= Input::get('alerta_tipo');
-            
             if ( Input::get('tipo_respuesta') ) {
                 $rd['dtiempo_final']= Input::get('respuesta');
                 $rd['tipo_respuesta_id']= Input::get('tipo_respuesta');
