@@ -127,6 +127,18 @@ class CargarController extends BaseController
                                     $ruta['usuario_created_at']= Auth::user()->id;
                                     $ruta->save();
 
+                                    /************Agregado de referidos*************/
+                                    $referido=new Referido;
+                                    $referido['ruta_id']=$ruta->id;
+                                    $referido['tabla_relacion_id']=$tr->id;
+                                    $referido['tipo']=0;
+                                    $referido['referido']=$tr->id_union;
+                                    $referido['fecha_hora_referido']=$tr->created_at;
+                                    $referido['usuario_referido']=$tr->usuario_created_at;
+                                    $referido['usuario_created_at']=Auth::user()->id;
+                                    $referido->save();
+                                    /**********************************************/
+
                                     $qrutaDetalle=DB::table('rutas_flujo_detalle')
                                         ->where('ruta_flujo_id', '=', $rutaFlujo->id)
                                         ->where('estado', '=', '1')
