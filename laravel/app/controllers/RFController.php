@@ -1,5 +1,5 @@
 <?php
-class FlujoController extends \BaseController
+class RFController extends \BaseController
 {
 
     public function postRegistrar()
