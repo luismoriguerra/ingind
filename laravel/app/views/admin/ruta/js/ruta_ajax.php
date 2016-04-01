@@ -229,7 +229,7 @@ var Ruta={
     },
     ValidaProceso:function(id,valor,evento){
         $.ajax({
-            url         : 'ruta_flujo/validar',
+            url         : 'ruta_flujo/registrar',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',

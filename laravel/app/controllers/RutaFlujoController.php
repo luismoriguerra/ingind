@@ -1,6 +1,21 @@
 <?php
 class RutaFlujoController extends \BaseController
 {
+
+    public function postRegistrar()
+    {
+        if ( Request::ajax() ) {
+            $r=RutaFlujo::getGuardar();
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'msj'   => $r['mensaje'],
+                    'ruta_flujo_id'=>$r['ruta_flujo_id']
+                )
+            );
+        }
+    }
+
     public function postCargar()
     {
         if ( Request::ajax() ) {
@@ -128,294 +143,9 @@ class RutaFlujoController extends \BaseController
     public function postCrearf()
     {
         if ( Request::ajax() ) {
-            DB::beginTransaction();
-            $rutaFlujo="";
-            $mensajefinal=".::Se registro correctamente::.";
-            $modificap=false;
-            if ( Input::get('ruta_flujo_id') ) {
-                $modificap=true;
-                $mensajefinal=".::Actualización finalizada::.";
-                $rutaFlujo = RutaFlujo::find( Input::get('ruta_flujo_id') );
-                $rutaFlujo['usuario_updated_at']= Auth::user()->id;
+            
 
-                $rutaFlujo['nactualizar']=$rutaFlujo->nactualizar*1+1;
-            }
-            else{
-                $rutaFlujo = new RutaFlujo;
-                $rutaFlujo['usuario_created_at']= Auth::user()->id;
-                $rutaFlujo['estado']= 2;
-                $rutaFlujo['flujo_id']= Input::get('flujo_id');
-                $rutaFlujo['persona_id']= Auth::user()->id;
-                $rutaFlujo['area_id']= Input::get('area_id');
-                $rutaFlujo['tipo_ruta']=Input::get('tipo_ruta');
-            }
-
-
-            $rutaFlujo->save();
-
-            /*Agregar Valores Auxiliares*/
-            $auxflujo   = Flujo::find( Input::get('flujo_id') );
-            $auxpersona = Persona::find( Auth::user()->id );
-            $auxarea    = Area::find( Input::get('area_id') );
-            /****************************/
-            $estadoG= explode( "*", Input::get('estadoG') );
-            $areasGid= explode( "*", Input::get('areasGId') );
-            $theadArea= explode( "*", Input::get('theadArea') );
-            $tbodyArea= explode( "*", Input::get('tbodyArea') );
-
-            $tiempoGid= explode( "*", Input::get('tiempoGId') );
-            $tiempoG= explode( "*", Input::get('tiempoG') );
-            $verboG= explode( "*", Input::get('verboG') );
-
-            $modificaG=Input::get('modificaG');
-
-            $finalizar= DB::table('rutas_flujo_detalle')
-                          ->where('ruta_flujo_id', '=', $rutaFlujo->id)
-                          ->where('norden', '>', count($areasGid))
-                          ->where('estado', '=', 1)
-                          ->update( array(
-                                        'estado'=> 0,
-                                        'usuario_updated_at'=> Auth::user()->id
-                                    )
-                            );
-
-            for($i=0; $i<count($areasGid); $i++ ){
-                $validapase=explode("*".$i."*",$modificaG);
-                $valor=1;
-                if ( Input::get('ruta_flujo_id') ) {
-                    $valor= DB::table('rutas_flujo_detalle')
-                                ->where('ruta_flujo_id', '=', $rutaFlujo->id)
-                                ->where('norden', '=', ($i+1))
-                                ->where('area_id', '=', $areasGid[$i] )
-                                ->where('estado', '=', 1)
-                                ->count();
-                }
-                
-                if( $modificap==false || $valor==0 || ($modificap==true && count($validapase)>1) ){ //Validacion solo q actualice o genre cuando sea nuevo o permitido
-                    $rutaFlujoDetalle="";
-                    if ( Input::get('ruta_flujo_id') ) {
-                        if($valor==0){
-                            $rfd=DB::table('rutas_flujo_detalle')
-                                ->where('ruta_flujo_id', '=', $rutaFlujo->id)
-                                ->where('norden', '=', ($i+1))
-                                ->where('estado', '=', 1)
-                                ->update(array(
-                                            'estado' => 0,
-                                            'usuario_updated_at'=> Auth::user()->id
-                                        )
-                                );
-
-                            $em= "  SELECT a.id,cp.persona_id,p.email,
-                                    p.paterno,p.materno,p.nombre,a.nombre area
-                                    FROM area_cargo_persona acp
-                                    INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
-                                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
-                                    INNER JOIN personas p ON p.id=cp.persona_id AND p.estado=1
-                                    WHERE acp.estado=1
-                                    AND cp.cargo_id=5
-                                    AND acp.area_id=".$areasGid[$i]."
-                                    ORDER BY cp.persona_id";
-                            $qem= DB::select($em);
-                            //echo $em;
-                            if( count($qem)>0 ){
-                                for($k=0;$k<count($qem);$k++){
-                                $parametros=array(
-                                    'paso'      => ($i+1),
-                                    'persona'   => $qem[$k]->paterno.' '.$qem[$k]->materno.','.$qem[$k]->nombre,
-                                    'area'      => $qem[$k]->area,
-                                    'procesoe'  => $auxflujo->nombre,
-                                    'personae'  => $auxpersona->paterno.' '.$auxpersona->materno.','.$auxpersona->nombre,
-                                    'areae'     => $auxarea->nombre
-                                );
-
-                                    try{
-                                        Mail::send('emails', $parametros , 
-                                            function($message) use ($qem,$k) {
-                                            $message
-                                                ->to($qem[$k]->email)
-                                                ->subject('.::Se ha involucrado en nuevo proceso::.');
-                                            }
-                                        );
-                                    }
-                                    catch(Exception $e){
-                                        //echo $qem[$k]->email."<br>";
-                                    }
-                                }
-                            }
-
-                            $rutaFlujoDetalle = new RutaFlujoDetalle;
-                            $rutaFlujoDetalle['usuario_created_at']= Auth::user()->id;
-                        }
-                        else{
-                            $rfd=DB::table('rutas_flujo_detalle')
-                                ->where('ruta_flujo_id', '=', $rutaFlujo->id)
-                                ->where('norden', '=', ($i+1))
-                                ->where('estado', '=', 1)
-                                ->first();
-                            $rutaFlujoDetalle = RutaFlujoDetalle::find( $rfd->id );
-                            $rutaFlujoDetalle['usuario_updated_at']= Auth::user()->id;
-                        }
-                        //$rutaFlujoDetalle
-                    }
-                    else{
-                        $em= "  SELECT a.id,cp.persona_id,p.email,p.paterno,p.materno,p.nombre,a.nombre area
-                                FROM area_cargo_persona acp
-                                INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
-                                INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
-                                INNER JOIN personas p ON p.id=cp.persona_id AND p.estado=1
-                                WHERE acp.estado=1
-                                AND cp.cargo_id=5
-                                AND acp.area_id=".$areasGid[$i]."
-                                ORDER BY cp.persona_id";
-                        $qem= DB::select($em);
-                        //echo "2".$em;
-                        if( count($qem)>0 ){
-                            for($k=0;$k<count($qem);$k++){
-                            $parametros=array(
-                                'paso'      => ($i+1),
-                                'persona'   => $qem[$k]->paterno.' '.$qem[$k]->materno.','.$qem[$k]->nombre,
-                                'area'      => $qem[$k]->area,
-                                'procesoe'  => $auxflujo->nombre,
-                                'personae'  => $auxpersona->paterno.' '.$auxpersona->materno.','.$auxpersona->nombre,
-                                'areae'     => $auxarea->nombre
-                            );
-
-                                try{
-                                    Mail::send('emails', $parametros , 
-                                        function($message) use( $qem,$k ) {
-                                        $message
-                                            ->to($qem[$k]->email)
-                                            ->subject('.::Se ha involucrado en nuevo proceso::.');
-                                        }
-                                    );
-                                }
-                                catch(Exception $e){
-                                    //echo $qem[$k]->email."<br>";
-                                }
-                            }
-                        }
-
-                        $rutaFlujoDetalle = new RutaFlujoDetalle;
-                        $rutaFlujoDetalle['usuario_created_at']= Auth::user()->id;
-                    }
-                    $rutaFlujoDetalle['ruta_flujo_id']= $rutaFlujo->id;
-                    $rutaFlujoDetalle['area_id']= $areasGid[$i];
-                    $rutaFlujoDetalle['estado_ruta']= $estadoG[$i];
-                    $rutaFlujoDetalle['norden']= ($i+1);
-
-                    $post = array_search($areasGid[$i], $tiempoGid);
-
-                    $posdetalleTiempoG= array("0","0");
-                    // Inicializa valores en caso no tenga datos...
-                    $rutaFlujoDetalle['tiempo_id']="1";
-                    $rutaFlujoDetalle['dtiempo']="0";
-
-                    if( trim($post)!='' and $post*1>=0 ){
-                        $detalleTiempoG=explode( ",", $tiempoG[$post] );
-                        
-                        if( $theadArea[$i]=="0" ){
-                            $posdetalleTiempoG= explode( "|", $tbodyArea[$i] );
-                        }
-
-                        $dtg="";
-
-                        if( isset($detalleTiempoG[ $posdetalleTiempoG[1] ]) and trim($detalleTiempoG[ $posdetalleTiempoG[1] ])!=''){
-                            $dtg=explode( "_", $detalleTiempoG[ $posdetalleTiempoG[1] ] );
-                            if( trim($dtg[1])!='' ){
-                                $rutaFlujoDetalle['tiempo_id']=$dtg[1];
-                                $rutaFlujoDetalle['dtiempo']=$dtg[2];
-                            }
-                        }
-
-                    }
-
-                    $rutaFlujoDetalle->save();
-
-                    $cantrfd= DB::table('rutas_flujo_detalle_verbo')
-                                ->where('ruta_flujo_detalle_id', '=', $rutaFlujoDetalle->id)
-                                ->count();
-                        $probando="";
-                        $rfdv="";
-                        if($cantrfd>0){
-                            $rfdv=DB::table('rutas_flujo_detalle_verbo')
-                                ->where('ruta_flujo_detalle_id', '=', $rutaFlujoDetalle->id)
-                                ->where('estado', '=', 1)
-                                ->update(array(
-                                            'estado' => 0,
-                                            'usuario_updated_at'=> Auth::user()->id
-                                        )
-                                );
-                           $probando="editar";
-                            
-                        }
-                        /*return Response::json(
-                            array(
-                                'rst'   => 1,
-                                'msj'   => "Probando Ando",
-                                'datos' => $probando,
-                                'cantrfd' => $cantrfd,
-                                'rfdv' => $rfdv,
-                                'ruta_flujo_id'=>$rutaFlujo->id
-                            )
-                        );*/
-
-                    // probando para los verbos
-                    $posdetalleTiempoG= array("0","0");
-
-                    if( trim($post)!='' and $post*1>=0 ){
-                        $detalleTiempoG=explode( ",", $verboG[$post] );
-                        
-                        if( $theadArea[$i]=="0" ){
-                            $posdetalleTiempoG= explode( "|", $tbodyArea[$i] );
-                        }
-
-                        $dtg="";
-
-                        if( isset($detalleTiempoG[ $posdetalleTiempoG[1] ]) and trim($detalleTiempoG[ $posdetalleTiempoG[1] ])!=''){
-                            $dtg=explode( "_", $detalleTiempoG[ $posdetalleTiempoG[1] ] );
-                            //if( trim($dtg[1])!='' ){
-                                $detdtg=explode("|",$dtg[1]);
-                                $detdtg2=explode("|",$dtg[2]);
-                                $detdtg3=explode("|",$dtg[3]);
-                                $detdtg4=explode("|",$dtg[4]);
-                                $detdtg5=explode("|",$dtg[5]);
-                                $detdtg6=explode("|",$dtg[6]);
-
-                                for($j=0;$j<count($detdtg);$j++){
-                                    $rutaFlujoDetalleVerbo="";
-                                    
-                                    $rutaFlujoDetalleVerbo= new RutaFlujoDetalleVerbo;
-                                    $rutaFlujoDetalleVerbo['usuario_created_at']= Auth::user()->id;
-                                    $rutaFlujoDetalleVerbo['ruta_flujo_detalle_id']= $rutaFlujoDetalle->id;
-                                    $rutaFlujoDetalleVerbo['nombre']=$detdtg[$j];
-                                    $rutaFlujoDetalleVerbo['condicion']=$detdtg2[$j];
-                                    if($detdtg3[$j]!=''){
-                                    $rutaFlujoDetalleVerbo['rol_id']=$detdtg3[$j];
-                                    }
-
-                                    if($detdtg4[$j]!=''){
-                                    $rutaFlujoDetalleVerbo['verbo_id']=$detdtg4[$j];
-                                    }
-
-                                    if($detdtg5[$j]!=''){
-                                    $rutaFlujoDetalleVerbo['documento_id']=$detdtg5[$j];
-                                    }
-
-                                    if($detdtg6[$j]!=''){
-                                    $rutaFlujoDetalleVerbo['orden']=$detdtg6[$j];
-                                    }
-
-                                    $rutaFlujoDetalleVerbo->save();
-                                }
-                            //}
-                        }
-
-                    }
-                }// Fin del if cuando se valida
-                //DB::rollback();
-            }
-
-            DB::commit();
+            
             return Response::json(
                 array(
                     'rst'   => 1,
