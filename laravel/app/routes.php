@@ -93,6 +93,7 @@ Route::controller('rol', 'RolController');
 Route::controller('ruta', 'RutaController');
 Route::controller('ruta_detalle', 'RutaDetalleController');
 Route::controller('ruta_flujo', 'RutaFlujoController');
+Route::controller('rf', 'RFController');
 Route::controller('software', 'SoftwareController');
 Route::controller('tabla_relacion', 'TablaRelacionController');
 Route::controller('tiempo', 'TiempoController');

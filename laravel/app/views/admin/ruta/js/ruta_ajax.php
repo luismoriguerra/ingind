@@ -1,18 +1,7 @@
 <script type="text/javascript">
 var Ruta={
     CrearRuta:function(evento,vista){
-        //var datos=$("#form_ruta").serialize().split("txt_").join("").split("slct_").join("");
-        /*var areasG=[]; // texto area
-        var areasGId=[]; // id area
-        var theadArea=[]; // cabecera area
-        var tbodyArea=[]; // cuerpo area
-        var tfootArea=[]; // pie area
-
-        var tiempoGId=[]; // id posicion del modal en base a una area.
-        var tiempoG=[];
-        var verboG=[];
-        var posicionDetalleVerboG=0;*/
-        var accion="ruta_flujo/registrar";
+        var accion="rf/registrar";
         datos=  {
                 estadoG:estadoG.join("*"),
                 areasG:areasG.join("*"), 
@@ -20,7 +9,6 @@ var Ruta={
                 theadArea:theadArea.join("*"),
                 tfootArea:tfootArea.join("*"),
                 tbodyArea:tbodyArea.join("*"),
-
                 tiempoGId:tiempoGId.join("*"),
                 tiempoG:tiempoG.join("*"),
                 verboG:verboG.join("*"),
