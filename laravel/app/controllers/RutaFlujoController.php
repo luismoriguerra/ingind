@@ -125,7 +125,7 @@ class RutaFlujoController extends \BaseController
     }
 
 
-    public function postCrear()
+    public function postCrearf()
     {
         if ( Request::ajax() ) {
             DB::beginTransaction();

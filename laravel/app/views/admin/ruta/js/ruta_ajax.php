@@ -12,7 +12,7 @@ var Ruta={
         var tiempoG=[];
         var verboG=[];
         var posicionDetalleVerboG=0;*/
-        var accion="ruta_flujo/crear";
+        var accion="ruta_flujo/crearf";
         datos=  {
                 estadoG:estadoG.join("*"),
                 areasG:areasG.join("*"), 
