@@ -124,6 +124,7 @@ class RutaFlujoController extends \BaseController
         }
     }
 
+
     public function postCrear()
     {
         if ( Request::ajax() ) {
