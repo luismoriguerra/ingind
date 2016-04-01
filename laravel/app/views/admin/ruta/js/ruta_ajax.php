@@ -12,7 +12,7 @@ var Ruta={
         var tiempoG=[];
         var verboG=[];
         var posicionDetalleVerboG=0;*/
-        var accion="ruta_flujo/crearf";
+        var accion="ruta_flujo/registrar";
         datos=  {
                 estadoG:estadoG.join("*"),
                 areasG:areasG.join("*"), 
@@ -229,7 +229,7 @@ var Ruta={
     },
     ValidaProceso:function(id,valor,evento){
         $.ajax({
-            url         : 'ruta_flujo/registrar',
+            url         : 'ruta_flujo/validar',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
