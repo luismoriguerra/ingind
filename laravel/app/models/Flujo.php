@@ -51,7 +51,7 @@ class Flujo extends Base
                                                 WHERE acp.estado=1
                                                 AND cp.persona_id='.Auth::user()->id.'
                                              )'
-                                            );;
+                                            );
                         }
                         elseif ( Input::get('estado') ) {
                             $query->where('f.estado','=','1');
@@ -62,6 +62,10 @@ class Flujo extends Base
                         }
                         elseif( Input::has('tipo_flujo') AND Input::get('tipo_flujo')==1 ){
                             $query->where('f.tipo_flujo','=',1);
+                        }
+
+                        if( Input::has('pasouno') ){
+                            $query->where('rfd.norden','=',1);
                         }
                     }
                 )

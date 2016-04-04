@@ -19,7 +19,7 @@ $(document).ready(function() {
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     data = {estado:1};
     slctGlobal.listarSlct('area','slct_area2_id,#slct_area_id,#slct_area_p_id','simple',ids,data);
-    data={soloruta:1,tipo_flujo:1};
+    data={soloruta:1,tipo_flujo:1,pasouno:1};
     slctGlobal.listarSlct('flujo','slct_flujo2_id','simple',ids,data);
     data = {estado:1};
     slctGlobal.listarSlct('software','slct_software_id_modal','simple',ids,data);
