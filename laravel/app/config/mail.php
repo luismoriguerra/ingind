@@ -15,7 +15,7 @@ return array(
 	|
 	*/
 
-	'driver' => 'mail',
+	'driver' => 'smtp',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -27,9 +27,10 @@ return array(
 	| the Mailgun mail service which will provide reliable deliveries.
 	| mindependencia1.grupodsp.net
 	| mail.castimor.com
+	| smtp.gmail.com
 	*/
 
-	'host' => 'mindependencia1.grupodsp.net',
+	'host' => 'smtp.gmail.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -42,7 +43,7 @@ return array(
 	|
 	*/
 
-	'port' => 2525,
+	'port' => 465,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -82,7 +83,7 @@ return array(
 	| administrador@castimor.com
 	*/
 
-	'username' => 'administrador@muniindependencia.gob.pe',
+	'username' => 'munidependencia@gmail.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -96,7 +97,7 @@ return array(
 	| jorge1988S
 	*/
 
-	'password' => '(_XV2!pPu~*a',
+	'password' => 'muni1234I',
 
 	/*
 	|--------------------------------------------------------------------------

@@ -14,7 +14,7 @@ Route::get(
     }
 );
 
-/*
+
 Route::get(
     'email/{email}', function($email){
         $i=4;
@@ -31,8 +31,7 @@ Route::get(
             Mail::send('emails', $parametros , 
                 function($message){
                 $message
-                ->to('calidadtelesup@gmail.com')
-                ->cc('jorgeshevchenk@gmail.com')
+                ->to('jorgeshevchenk@gmail.com')
                 ->subject('.::Se ha involucrado en nuevo proceso::.');
                 }
             );
@@ -45,7 +44,7 @@ Route::get(
         //}
 
     }
-);*/
+);
 
 Route::controller('check', 'LoginController');
 Route::controller('cargar', 'CargarController');
