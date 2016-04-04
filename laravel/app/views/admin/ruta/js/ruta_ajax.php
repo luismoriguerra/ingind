@@ -1,7 +1,7 @@
 <script type="text/javascript">
 var Ruta={
     CrearRuta:function(evento,vista){
-        var accion="rf/registrar";
+        var accion="ruta_flujo/registrar";
         datos=  {
                 estadoG:estadoG.join("*"),
                 areasG:areasG.join("*"), 
