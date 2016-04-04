@@ -14,7 +14,7 @@ Route::get(
     }
 );
 
-
+/*
 Route::get(
     'email/{email}', function($email){
         $i=4;
@@ -45,7 +45,7 @@ Route::get(
 
     }
 );
-
+*/
 Route::controller('check', 'LoginController');
 Route::controller('cargar', 'CargarController');
 
