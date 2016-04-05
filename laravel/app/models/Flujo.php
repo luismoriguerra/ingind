@@ -6,7 +6,7 @@ class Flujo extends Base
     public static $selec =['id', 'nombre', 'estado'];
 
     public function getFlujo(){
-        if( Input::has('pasouno') ){
+        /*if( Input::has('pasouno') ){
         $flujo=DB::table('flujos AS f')
                 ->join(
                     'areas AS a',
@@ -79,7 +79,7 @@ class Flujo extends Base
                 ->orderBy('f.nombre')
                 ->get();
         }
-        else{
+        else{*/
         $flujo=DB::table('flujos AS f')
                 ->join(
                     'areas AS a',
@@ -142,7 +142,7 @@ class Flujo extends Base
                 ->groupBy('f.id')
                 ->orderBy('f.nombre')
                 ->get();
-        }
+        //}
                 
         return $flujo;
     }
