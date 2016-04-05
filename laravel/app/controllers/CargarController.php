@@ -40,7 +40,11 @@ class CargarController extends BaseController
             
             $file=file('/var/www/html/ingind/public/txt/asignacion/'.$archivoNuevo);
                 for($i=0; $i < count($file); $i++) {
-                    $detfile=explode("\t",$file[$i]);
+                    $buscar=array(chr(13).chr(10), "\r\n", "\n", "\r");
+                    $reemplazar=array("", "", "", "");
+                    $cadena=str_ireplace($buscar,$reemplazar,$file[$i]);
+
+                    $detfile=explode("\t",$cadena);
                     for ($j=0; $j < count($detfile); $j++) { 
                         $array[$i][$j]=$detfile[$j];
                     }
