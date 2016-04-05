@@ -44,6 +44,7 @@ class CargarController extends BaseController
                     for ($j=0; $j < count($detfile); $j++) { 
                         $array[$i][$j]=$detfile[$j];
                     }
+                    $detfile[0]=trim($detfile[0]);
 
                     //if($i>0){
                         $ainterna=AreaInterna::find($detfile[12]);
