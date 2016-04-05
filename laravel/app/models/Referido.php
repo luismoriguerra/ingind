@@ -6,13 +6,12 @@ class Referido extends Base
 
     public function getReferido(){
         DB::beginTransaction();
-        
 
         DB::commit();
 
         return  array(
-                    'rst'=>1,
-                    'msj'=>'Registro realizado con éxito'
+            'rst'=>1,
+            'msj'=>'Registro realizado con éxito'
         );
     }
 }
