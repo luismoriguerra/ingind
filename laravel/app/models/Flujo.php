@@ -24,7 +24,6 @@ class Flujo extends Base
                 ->select('f.id','f.nombre','f.estado','a.nombre AS area','f.area_id','f.area_id AS evento',
                     DB::raw('IF(f.tipo_flujo=1,"Trámite","Proceso de oficio") as tipo_flujo,f.tipo_flujo as tipo_flujo_id')
                 )
-                
                 ->whereRaw('rfd.area_id IN ('.
                         'SELECT a.id
                         FROM area_cargo_persona acp
