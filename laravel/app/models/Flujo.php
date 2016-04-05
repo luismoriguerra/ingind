@@ -19,19 +19,20 @@ class Flujo extends Base
                 ->join('rutas_flujo_detalle AS rfd', function($join)
                 {
                     $join->on('rfd.ruta_flujo_id', '=', 'rf.id')
-                         ->where('rfd.norden', '=', 1)
-                         ->whereRaw('rfd.area_id IN ('.
-                                'SELECT a.id
-                                FROM area_cargo_persona acp
-                                INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
-                                INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
-                                WHERE acp.estado=1
-                                AND cp.persona_id='.Auth::user()->id.'
-                             )'
-                           );
+                    ->where('rfd.norden', '=', 1)
                 })
                 ->select('f.id','f.nombre','f.estado','a.nombre AS area','f.area_id','f.area_id AS evento',
                     DB::raw('IF(f.tipo_flujo=1,"Trámite","Proceso de oficio") as tipo_flujo,f.tipo_flujo as tipo_flujo_id')
+                )
+                
+                ->whereRaw('rfd.area_id IN ('.
+                        'SELECT a.id
+                        FROM area_cargo_persona acp
+                        INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                        INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                        WHERE acp.estado=1
+                        AND cp.persona_id='.Auth::user()->id.'
+                     )'
                 )
                 ->where( 
                     function($query){
