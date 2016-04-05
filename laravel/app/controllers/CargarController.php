@@ -45,7 +45,7 @@ class CargarController extends BaseController
                     for ($j=0; $j < count($detfile); $j++) { 
                         $buscar=array(chr(13).chr(10), "\r\n", "\n", "\r","\n\n","\xEF","\xBB","\xBF");
                         $reemplazar="";
-                        $detfile[$j]=str_replace($buscar,$reemplazar,$detfile[$j]);
+                        $detfile[$j]=trim(str_replace($buscar,$reemplazar,$detfile[$j]));
                         $array[$i][$j]=$detfile[$j];
                     }
 
