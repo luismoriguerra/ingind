@@ -43,7 +43,7 @@ class CargarController extends BaseController
                     $detfile=explode("\t",$file[$i]);
 
                     for ($j=0; $j < count($detfile); $j++) { 
-                        $buscar=array(chr(13).chr(10)," ", "\r\n", "\n", "\r","\n\n","\xEF","\xBB","\xBF");
+                        $buscar=array(chr(13).chr(10), "\r\n", "\n", "\r","\n\n","\xEF","\xBB","\xBF");
                         $reemplazar="";
                         $detfile[$j]=str_replace($buscar,$reemplazar,$detfile[$j]);
                         $array[$i][$j]=$detfile[$j];
@@ -107,9 +107,11 @@ class CargarController extends BaseController
                                         $tr['nombre']=$detfile[8];
                                     }
                                     
+                                    $fecha_inicio=date("Y-m-d H:i:s");
+
                                     $tr['software_id']= '1';
                                     $tr['id_union']= $detfile[0];
-                                    $tr['fecha_tramite']=$detfile[1];
+                                    $tr['fecha_tramite']=$fecha_inicio;
                                     $tr['sumilla']=$detfile[9];
                                     $tr['email']=$detfile[10];
                                     $tr['telefono']=$detfile[11];
@@ -121,7 +123,7 @@ class CargarController extends BaseController
                                                     ->first();
 
                                     $rutaFlujo=RutaFlujo::find($rf->id);
-                                    $fecha_inicio=date("Y-m-d H:i:s");
+                                    
 
                                     $ruta= new Ruta;
                                     $ruta['tabla_relacion_id']=$tr->id;
