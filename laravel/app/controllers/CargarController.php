@@ -4,6 +4,7 @@ class CargarController extends BaseController
 
     public function postAsignacion()
     {
+        ini_set('memory_limit','512M');
         if (isset($_FILES['carga']) and $_FILES['carga']['size'] > 0) {
 
             $uploadFolder = 'txt/asignacion';
