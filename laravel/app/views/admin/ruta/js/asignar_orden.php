@@ -28,7 +28,7 @@ if( AreaIdG!='' && AreaIdG*1>0 && RolIdG!='' && RolIdG*1>0 && (RolIdG==8 || RolI
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     data = {estado:1};
     slctGlobal.listarSlct('area','slct_area2_id,#slct_area_id','simple',ids,data);
-    data={soloruta:1,tipo_flujo:2};
+    data={soloruta:1,tipo_flujo:2,pasouno:1};
     slctGlobal.listarSlct('flujo','slct_flujo2_id','simple',ids,data);
     data = {estado:1};
     slctGlobal.listarSlct('software','slct_software_id_modal','simple',ids,data);
