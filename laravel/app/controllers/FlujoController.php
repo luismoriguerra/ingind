@@ -57,10 +57,10 @@ class FlujoController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $regex='regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
+            //$regex='regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
             $required='required';
             $reglas = array(
-                'nombre' => $required.'|'.$regex,
+                'nombre' => $required,
                 //'path' =>$regex.'|unique:modulos,path,',
             );
 
