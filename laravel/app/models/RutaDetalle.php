@@ -41,7 +41,7 @@ class RutaDetalle extends Eloquent
             CONCAT(t.nombre," : ",rd.dtiempo) tiempo,
             rd.observacion,r.ruta_flujo_id,
             a.nombre AS area,f.nombre AS flujo,
-            s.nombre AS software,tr.id_union AS id_doc,
+            s.nombre AS software,tr.id_union AS id_doc,tr.id id_tr,
             rd.norden, IFNULL(rd.fecha_inicio,"") AS fecha_inicio,
             if(tr.tipo_persona=1
                 ,CONCAT("P. Natural: ",tr.paterno," ",tr.materno,", ",tr.nombre)
@@ -126,6 +126,12 @@ class RutaDetalle extends Eloquent
 
     public function getTramite()
     {
+        if( Input::has('tramite') AND Input::get('tramite')!='' ){
+        $tramite=explode(" ",trim(Input::get('tramite')));
+            for($i=0; $i<count($tramite); $i++){
+              $array['tramite'].=" AND tr.id_union LIKE '%".$tramite[$i]."%' ";
+            }
+        }
         $sql="  SELECT r.ruta_flujo_id,r.id,tr.id as tramite_id,tr.id_union,tr.fecha_tramite,
                 IFNULL(ts.nombre,'') as solicitante,
                 IF(tr.tipo_persona=1 or tr.tipo_persona=6,
@@ -145,18 +151,10 @@ class RutaDetalle extends Eloquent
                 LEFT join tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
                 LEFT JOIN areas a ON a.id=tr.area_id
                 WHERE r.estado=1
-                AND tr.id_union like '".Input::get('tramite')."%'
-                AND r.area_id IN (
-                    SELECT a.id
-                    FROM area_cargo_persona acp
-                    INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
-                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
-                    WHERE acp.estado=1
-                    AND cp.persona_id=".Auth::user()->id."
-                )";
+                ".$array['tramite'];
         $rd = DB::select($sql);
         //echo $query;
-            return $rd;
+        return $rd;
     }
 
     public function getRutadetallev()
