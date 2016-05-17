@@ -105,3 +105,4 @@ Route::controller('verbo', 'VerboController');
 Route::controller('carta', 'CartaController');
 Route::controller('tiporecurso', 'TipoRecursoController');
 Route::controller('tipoactividad', 'TipoActividadController');
+Route::controller('reportef', 'ReporteFinalController');
