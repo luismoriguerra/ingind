@@ -126,6 +126,7 @@ class RutaDetalle extends Eloquent
 
     public function getTramite()
     {
+        $array['tramite']='';
         if( Input::has('tramite') AND Input::get('tramite')!='' ){
         $tramite=explode(" ",trim(Input::get('tramite')));
             for($i=0; $i<count($tramite); $i++){
@@ -153,7 +154,7 @@ class RutaDetalle extends Eloquent
                 WHERE r.estado=1
                 ".$array['tramite'];
         $rd = DB::select($sql);
-        //echo $query;
+        
         return $rd;
     }
 
