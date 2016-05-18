@@ -51,7 +51,7 @@
                 <li class="logo tab_3">
                     <a href="#tab_3" data-toggle="tab">
                         <button class="btn btn-primary btn-sm"><i class="fa fa-edit fa-lg"></i> </button>
-                        Trámites por Fechas, Area y/o Proceso
+                        Trámites por Fechas y (Area o Proceso)
                     </a>
                 </li>
             </ul>
