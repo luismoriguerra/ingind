@@ -10,6 +10,9 @@
 		"thujohn/pdf": "dev-master"
 	},
 	"autoload": {
+		"psr-4": {
+			"Cronograma\\": "app/Cronograma"
+		 },
 		"classmap": [
 			"app/commands",
 			"app/controllers",
