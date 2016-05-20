@@ -113,6 +113,11 @@ var Bandeja={
                         "targets": 5,
                         "data": "norden",
                         "name": "norden"
+                    },
+                    {
+                        "targets": 6,
+                        "data": "proceso",
+                        "name": "proceso"
                     }
                     ];
 

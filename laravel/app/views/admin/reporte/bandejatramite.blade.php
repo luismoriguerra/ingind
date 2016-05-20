@@ -105,6 +105,7 @@
                                             <th>Tiempo</th>
                                             <th>Fecha Inicio</th>
                                             <th>Paso</th>
+                                            <th>Proceso</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -117,6 +118,7 @@
                                             <th>Tiempo</th>
                                             <th>Fecha Inicio</th>
                                             <th>Paso</th>
+                                            <th>Proceso</th>
                                         </tr>
                                     </tfoot>
                                 </table>

@@ -195,11 +195,13 @@ class Reporte extends Eloquent
                     WHERE vt.usuario_created_at='1' 
                     AND vt.ruta_detalle_id=rd.id
                 ) id,
+                f.nombre proceso,
                 re.referido id_union_ant
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
                 INNER JOIN tiempos t ON t.id=rd.tiempo_id
+                INNER JOIN flujos f ON f.id=r.flujo_id
                 ".$array['referido']." JOIN referidos re ON re.ruta_id=r.id AND (re.norden-1)=rd.norden
                 WHERE r.estado=1
                 AND rd.area_id IN (
