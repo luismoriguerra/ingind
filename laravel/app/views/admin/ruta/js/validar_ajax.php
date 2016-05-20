@@ -18,11 +18,7 @@ var Validar={
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                        '<i class="fa fa-ban"></i>'+
-                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                        '<b><?php echo trans("greetings.mensaje_error"); ?></b>'+
-                                    '</div>');
+                msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);
             }
         });
     },
@@ -44,11 +40,7 @@ var Validar={
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                        '<i class="fa fa-ban"></i>'+
-                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                        '<b><?php echo trans("greetings.mensaje_error"); ?></b>'+
-                                    '</div>');
+                msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);
             }
         });
     },
@@ -70,11 +62,7 @@ var Validar={
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                        '<i class="fa fa-ban"></i>'+
-                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                        '<b><?php echo trans("greetings.mensaje_error"); ?></b>'+
-                                    '</div>');
+                msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);
             }
         });
     },
@@ -93,7 +81,7 @@ var Validar={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                    cerrar();
+                    Close();
                     if(id!=null){
                         evento(id);
                     }
@@ -101,24 +89,15 @@ var Validar={
                         evento();
                     }
                     else{
-                        cerrar();
-                        Close();
-                        Bandeja.Mostrar();
+                        Close(1);
+                        Bandeja.MostrarAjax();
                     }
-                    $("#msj").html('<div class="alert alert-dismissable alert-success">'+
-                                        '<i class="fa fa-check"></i>'+
-                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                        '<b>'+obj.msj+'</b>'+
-                                    '</div>');
+                    msjG.mensaje("success",obj.msj,5000);
                 }  
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                        '<i class="fa fa-ban"></i>'+
-                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                        '<b><?php echo trans("greetings.mensaje_error"); ?></b>'+
-                                    '</div>');
+                msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);
             }
         });
     },
@@ -134,11 +113,7 @@ var Validar={
             },
             success : function(obj) {
                 if(obj.rst==1){
-                    $("#msj").html('<div class="alert alert-dismissable alert-success">'+
-                                        '<i class="fa fa-check"></i>'+
-                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                        '<b>'+obj.msj+'</b>'+
-                                    '</div>');
+                    msjG.mensaje("success",obj.msj,3000);
                     buscar();
                     Close();
                 }  
@@ -146,11 +121,7 @@ var Validar={
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                        '<i class="fa fa-ban"></i>'+
-                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                        '<b><?php echo trans("greetings.mensaje_error"); ?></b>'+
-                                    '</div>');
+                msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);
             }
         });
     }

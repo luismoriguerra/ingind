@@ -89,4 +89,54 @@ class ReporteFinalController extends BaseController
       );
     }
 
+    public function postBandejatramite()
+    {
+      $array=array();
+      $array['usuario']=Auth::user()->id;
+      $array['limit']='';$array['order']='';
+      $array['id_union']='';$array['id_ant']='';
+      $array['referido']=' LEFT ';
+
+      $retorno=array(
+                  'rst'=>1
+               );
+
+        if (Input::has('draw')) {
+            if (Input::has('order')) {
+                $inorder=Input::get('order');
+                $incolumns=Input::get('columns');
+                $array['order']=  ' ORDER BY '.
+                                  $incolumns[ $inorder[0]['column'] ]['name'].' '.
+                                  $inorder[0]['dir'];
+            }
+
+            $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
+            $retorno["draw"]=Input::get('draw');
+        }
+
+        if( Input::has('id_union') AND Input::get('id_union')!='' ){
+          $id_union=explode(" ",trim(Input::get('id_union')));
+          for($i=0; $i<count($id_union); $i++){
+            $array['id_union'].=" AND tr.id_union LIKE '%".$id_union[$i]."%' ";
+          }
+        }
+
+        if( Input::has('id_ant') AND Input::get('id_ant')!='' ){
+          $id_ant=explode(" ",trim(Input::get('id_ant')));
+          for($i=0; $i<count($id_ant); $i++){
+            $array['id_ant'].=" AND re.referido LIKE '%".$id_ant[$i]."%' ";
+          }
+          $array['referido']=' INNER ';
+        }
+
+      $cant= Reporte::BandejaTramiteCount( $array );
+      $r = Reporte::BandejaTramite( $array );
+
+      $retorno["data"]=$r;
+      $retorno["recordsTotal"]=$cant;
+      $retorno["recordsFiltered"]=$cant;
+
+      return Response::json( $retorno );
+    }
+
 }

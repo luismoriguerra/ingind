@@ -87,51 +87,56 @@
 
             <div class="mailbox row">
                 <div class="col-md-12">
-                    <div class="row pad">
-                        <div class="col-sm-4">
-                            <label class="control-label">Tipo:</label>
-                            <select class="form-control" name="slct_tipo_visualizacion" id="slct_tipo_visualizacion" multiple>
-                            </select>
-                        </div>
-                    </div><!-- /.row -->
                     <div class="row form-group" id="reporte" >
                         <div class="col-sm-12">
                             <div class="box-body table-responsive">
                             <!-- THE MESSAGES -->
-                                <table class="table table-mailbox" id="t_reporte">
+                            <form name="form_filtros" id="form_filtros" method="POST" action="">
+                                <table id="t_reporte_ajax" class="table table-mailbox">
                                     <thead>
                                         <tr>
-                                            
-                                            <th></th>
-                                            <th>Doc. Generado por el paso anterior</th>
-                                            <th>Primer Doc. ingresado por Mesa de Partes</th>
+                                            <th>#</th>
+                                            <th style='width:250px !important;'>Doc. Generado por <br>el paso anterior<br>
+                                            <input style='width:250px' name="txt_id_ant" id="txt_id_ant" onBlur="MostrarAjax();" onkeypress="Limpiar('txt_id_union');" type="text" placeholder="" />
+                                            </th>
+                                            <th style='width:250px !important;'>Primer Doc. ingresado <br>por Mesa de Partes<br>
+                                            <input style='width:250px' name="txt_id_union" id="txt_id_union" onBlur="MostrarAjax();" onkeypress="Limpiar('txt_id_ant');" type="text" placeholder="" />
+                                            </th>
                                             <th>Tiempo</th>
                                             <th>Fecha Inicio</th>
                                             <th>Paso</th>
-                                            <th>Fecha tramite</th>
-                                            <th>Asunto</th>
-                                            <th>Tipo solicitante</th>
-                                            <th>Solicitante</th>
-                                            
                                         </tr>
                                     </thead>
-                                    <tbody id="tb_reporte">
-                                        
-                                        
+                                    <tbody>
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Doc. Generado por <br>el paso anterior</th>
+                                            <th>Primer Doc. ingresado <br>por Mesa de Partes</th>
+                                            <th>Tiempo</th>
+                                            <th>Fecha Inicio</th>
+                                            <th>Paso</th>
+                                        </tr>
+                                    </tfoot>
                                 </table>
+                            </form>
                             </div><!-- /.table-responsive -->
                         </div>
                     </div>
 
                     <form name="form_ruta_detalle" id="form_ruta_detalle" method="POST" action="">
-                                    <div class="row form-group" style="display:none">
+                                    <div id="bandeja_detalle" class="row form-group" style="display:none">
                                         <div class="col-sm-12">
                                             <h1><span id="txt_titulo2">Gestionar</span>
                                             <small>
                                                 <i class="fa fa-angle-double-right fa-lg"></i>
                                                 <span id="texto_fecha_creacion2">:</span>
                                             </small>
+                                            <a class="btn btn-sm btn-primary" data-toggle="modal" data-id='' data-target="#expedienteModal">
+                                                <i class="fa fa-search fa-lg"></i>
+                                                .::Expediente::.
+                                            </a>
                                             </h1>
                                         </div>
                                         <div class="col-sm-12">
@@ -142,10 +147,6 @@
                                             <div class="col-sm-4">
                                                 <label class="control-label">Solicitante:</label>
                                                 <input type="text" class="form-control" id="txt_solicitante" readonly>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <label class="control-label">Fecha Trámite:</label>
-                                                <input type="text" class="form-control" id="txt_fecha_tramite" readonly>
                                             </div>
                                             <div class="col-sm-4">
                                                 <label class="control-label">Sumilla:</label>
@@ -234,92 +235,8 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
-                                            <a class="btn btn-default btn-sm btn-sm" id="btn_close">
-                                                <i class="fa fa-remove fa-lg"></i>&nbsp;Close
-                                            </a>
                                             <a class="btn btn-primary btn-sm" id="btn_guardar_todo">
                                                 <i class="fa fa-save fa-lg"></i>&nbsp;Guardar
-                                            </a>
-                                        </div>
-                                    </div>
-                                </form>
-
-                                <form name="form_ruta_flujo" id="form_ruta_flujo" method="POST" action="">
-                                    <div class="row form-group" style="display:none">
-                                        <div class="col-sm-12">
-                                            <h1><span id="txt_titulo">Nueva Ruta</span>
-                                            <small>
-                                                <i class="fa fa-angle-double-right fa-lg"></i>
-                                                <span id="texto_fecha_creacion">Fecha Creación:</span>
-                                                <span id="fecha_creacion"></span>
-                                            </small>
-                                            </h1>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="col-sm-4">
-                                                <label class="control-label">Dueño del Proceso:</label>
-                                                <input class="form-control" type="text" id="txt_persona" name="txt_persona" readonly>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <label class="control-label">Proceso:</label>
-                                                <select class="form-control" name="slct_flujo_id" id="slct_flujo_id">
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <label class="control-label">Area del Dueño del Proceso:</label>
-                                                <select class="form-control" name="slct_area_id" id="slct_area_id">
-                                                </select>
-                                            </div>
-                                            <!--div class="col-sm-2">
-                                                <label class="control-label"># Ok:</label>
-                                                <input class="form-control" type="text" id="txt_ok" name="txt_ok" readonly>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <label class="control-label"># Error:</label>
-                                                <input class="form-control" type="text" id="txt_error" name="txt_error" readonly>
-                                            </div-->
-                                        </div>                                        
-                                    </div>
-                                    <div class="row form-group" style="display:none">
-                                        <div class="col-sm-12">
-                                            <div class="box-body table-responsive">
-                                                <table id="areasasignacion" class="table table-bordered" style="min-height:300px">
-                                                    <thead> 
-                                                        <tr class="head">
-                                                            <th style="width:150px !important;min-width: 200px !important;" >
-                                                            </th>
-                                                            <th class="eliminadetalleg" style="min-width:1000px important!;">[]</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr class="body">
-                                                            <td>
-                                                                <table class="table table-bordered">
-                                                                    <thead>
-                                                                        <tr><th colspan="2">
-                                                                        </th></tr>
-                                                                        <tr class="head">
-                                                                            <th>#</th>
-                                                                            <th>Area</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody id="tb_rutaflujodetalleAreas">
-                                                                    </tbody>
-                                                                </table>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <tfoot>
-                                                        <tr class="head">
-                                                            <th>#</th>
-                                                        </tr>
-                                                    </tfoot>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <a class="btn btn-default btn-sm btn-sm" id="btn_close2">
-                                                <i class="fa fa-remove fa-lg"></i>&nbsp;Close
                                             </a>
                                         </div>
                                     </div>
@@ -332,4 +249,5 @@
 @stop
 @section('formulario')
      @include( 'admin.reporte.form.bandejatramite' )
+     @include( 'admin.reporte.form.expediente' )
 @stop

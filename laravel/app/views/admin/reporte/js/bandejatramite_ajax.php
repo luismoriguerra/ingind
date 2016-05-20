@@ -1,5 +1,29 @@
 <script type="text/javascript">
 var Bandeja={
+    Expediente:function(data){
+        $.ajax({
+            //url         : 'reporte/bandejatramitedetalle',
+            url         : 'referido/expediente',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : data,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay,.loading-img").remove();
+                if(obj.rst==1){
+                    HTMLreporteDetalle(obj.datos);
+                    ConsultaDetalle=obj;
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);
+            }
+        });
+    },
     FechaActual:function(evento){
         $.ajax({
             url         : 'ruta/fechaactual',
@@ -40,6 +64,102 @@ var Bandeja={
             }
         });
     },
+    MostrarAjax:function(){
+        var datos="";var estado=[];
+        var fondo=[];var visto="";
+        var ruta_detalle_id=[];
+
+        var columnDefs=[{
+                        "targets": 0,
+                        "data": function ( row, type, val, meta ) {
+                            ruta_detalle_id.push('td_'+row.ruta_detalle_id);
+                            if(row.id>0){//est visto
+                                //el boton debera cambiar  a no visto
+                                estado.push('desactivar('+row.id+','+row.ruta_detalle_id+',this)');
+                                fondo.push('');
+                                visto='<i id="td_'+row.ruta_detalle_id+'" class="fa fa-eye"></i>';
+                            } else {
+                                //unread
+                                estado.push('activar('+row.id+','+row.ruta_detalle_id+',this)');
+                                fondo.push('unread');
+                                visto='<i id="td_'+row.ruta_detalle_id+'" class="fa fa-ban"></i>';
+                            }
+                            return visto;
+                        },
+                        "defaultContent": '',
+                        "name": "visto"
+                    },
+                    {
+                        "targets": 1,
+                        "data": "id_union_ant",
+                        "name": "id_union_ant"
+                    },
+                    {
+                        "targets": 2,
+                        "data": "id_union",
+                        "name": "id_union"
+                    },
+                    {
+                        "targets": 3,
+                        "data": "tiempo",
+                        "name": "tiempo"
+                    },
+                    {
+                        "targets": 4,
+                        "data": "fecha_inicio",
+                        "name": "fecha_inicio"
+                    },
+                    {
+                        "targets": 5,
+                        "data": "norden",
+                        "name": "norden"
+                    }
+                    ];
+
+        $('#t_reporte_ajax').dataTable().fnDestroy();
+        $('#t_reporte_ajax')
+            .on( 'page.dt',   function () { $("body").append('<div class="overlay"></div><div class="loading-img"></div>'); } )
+            .on( 'search.dt', function () { $("body").append('<div class="overlay"></div><div class="loading-img"></div>'); } )
+            .on( 'order.dt',  function () { $("body").append('<div class="overlay"></div><div class="loading-img"></div>'); } )
+            .DataTable( {
+            "processing": true,
+            "serverSide": true,
+            "stateSave": true,
+            "searching": false,
+            "ordering": false,
+            "stateLoadCallback": function (settings) {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            "stateSaveCallback": function (settings) { // Cuando finaliza el ajax
+              var trsimple;
+                for(i=0;i<ruta_detalle_id.length;i++){
+                    trsimple=$("#"+ruta_detalle_id[i]).closest('tr');
+                    trsimple.attr('class',fondo[i]);
+                    trsimple.attr('onClick',estado[i]);
+                }
+                $(".overlay,.loading-img").remove();
+            },
+            "ajax": {
+                "url": "reportef/bandejatramite",
+                "type": "POST",
+                "data": function(d){
+                        var contador=0;
+                        datos=$("#form_filtros").serialize().split("txt_").join("").split("slct_").join("").split("%5B%5D").join("[]").split("+").join(" ").split("%7C").join("|").split("&");
+
+                        for (var i = datos.length - 1; i >= 0; i--) {
+                            if( datos[i].split("[]").length>1 ){
+                                d[ datos[i].split("[]").join("["+contador+"]").split("=")[0] ] = datos[i].split("=")[1];
+                                contador++;
+                            }
+                            else{
+                                d[ datos[i].split("=")[0] ] = datos[i].split("=")[1];
+                            }
+                        };
+                    },
+            },
+            columnDefs
+        } );
+    },
     Mostrar:function( data ){
         $.ajax({
             url         : 'reporte/bandejatramite',
@@ -61,11 +181,7 @@ var Bandeja={
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                    '<i class="fa fa-ban"></i>'+
-                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
-                                '</div>');
+                msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);
             }
         });
     },
@@ -89,11 +205,7 @@ var Bandeja={
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                    '<i class="fa fa-ban"></i>'+
-                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
-                                '</div>');
+                msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);
             }
         });
     },
@@ -122,11 +234,7 @@ var Bandeja={
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                    '<i class="fa fa-ban"></i>'+
-                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
-                                '</div>');
+                msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);
             }
         });
 
@@ -145,12 +253,6 @@ var Bandeja={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                    //$('#t_reporte').dataTable().fnDestroy();
-                    //Bandeja.Mostrar(activarTabla);
-                    //mostrar el detalle
-                    //var data ={ruta_detalle_id:ruta_detalle_id};
-                    //Bandeja.MostrarDetalle(data);
-                    //pintar usuarios en modal
                     var html='';
                     $.each(obj.datos,function(index,data){
                         html+="<tr>";
@@ -167,11 +269,7 @@ var Bandeja={
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                    '<i class="fa fa-ban"></i>'+
-                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
-                                '</div>');
+                msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);
             }
         });
 

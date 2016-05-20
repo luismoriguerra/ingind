@@ -155,5 +155,71 @@ class Reporte extends Eloquent
         $r= DB::select($sql);
         return $r;
     }
+
+    public static function BandejaTramiteCount( $array ){
+        $sql="  SELECT count(rd.id) cant
+                FROM rutas r
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
+                INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
+                ".$array['referido']." JOIN referidos re ON re.ruta_id=r.id AND (re.norden-1)=rd.norden
+                WHERE r.estado=1
+                AND rd.area_id IN (
+                    SELECT a.id
+                    FROM area_cargo_persona acp
+                    INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                    WHERE acp.estado=1
+                    AND cp.persona_id= ".
+                    $array['usuario']."
+                )
+                AND rd.fecha_inicio!='' 
+                AND rd.dtiempo_final IS NULL".
+                $array['id_union'].
+                $array['id_ant'];
+
+        $r= DB::select($sql);
+        return $r[0]->cant;
+    }
+
+    public static function BandejaTramite( $array ){
+        $sql="  SELECT
+                tr.id_union,
+                rd.id ruta_detalle_id,
+                CONCAT(t.apocope,': ',rd.dtiempo) tiempo,
+                IFNULL(rd.fecha_inicio,'') fecha_inicio,
+                rd.norden,
+                r.fecha_inicio fecha_tramite,
+                rd.estado_ruta AS estado_ruta,
+                (   SELECT COUNT(id)
+                    FROM visualizacion_tramite vt
+                    WHERE vt.usuario_created_at='1' 
+                    AND vt.ruta_detalle_id=rd.id
+                ) id,
+                re.referido id_union_ant
+                FROM rutas r
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
+                INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
+                INNER JOIN tiempos t ON t.id=rd.tiempo_id
+                ".$array['referido']." JOIN referidos re ON re.ruta_id=r.id AND (re.norden-1)=rd.norden
+                WHERE r.estado=1
+                AND rd.area_id IN (
+                    SELECT a.id
+                    FROM area_cargo_persona acp
+                    INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                    WHERE acp.estado=1
+                    AND cp.persona_id= ".
+                $array['usuario']."
+                )
+                AND rd.fecha_inicio!='' 
+                AND rd.dtiempo_final IS NULL".
+                $array['id_union'].
+                $array['id_ant'].
+                $array['order'].
+                $array['limit'];
+
+        $r= DB::select($sql);
+        return $r;
+    }
 }
 ?>
