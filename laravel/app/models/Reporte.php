@@ -217,7 +217,7 @@ class Reporte extends Eloquent
                 AND rd.dtiempo_final IS NULL".
                 $array['id_union'].
                 $array['id_ant'].
-                $array['order'].
+                " ORDER BY rd.fecha_inicio DESC ".
                 $array['limit'];
 
         $r= DB::select($sql);
