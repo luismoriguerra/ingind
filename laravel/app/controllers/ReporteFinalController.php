@@ -96,6 +96,7 @@ class ReporteFinalController extends BaseController
       $array['limit']='';$array['order']='';
       $array['id_union']='';$array['id_ant']='';
       $array['referido']=' LEFT ';
+      $array['solicitante']='';
 
       $retorno=array(
                   'rst'=>1
@@ -128,6 +129,23 @@ class ReporteFinalController extends BaseController
           }
           $array['referido']=' INNER ';
         }
+
+        if( Input::has('solicitante') AND Input::get('solicitante')!='' ){
+          $solicitante=explode(" ",trim(Input::get('solicitante')));
+          $dsol=array();$dsol[0]=array();$dsol[1]=array();$dsol[2]=array();
+          $array['solicitante']=" AND ( ";
+          for($i=0; $i<count($solicitante); $i++){
+            array_push($dsol[0]," CONCAT(tr.paterno,' ',tr.materno,', ',tr.nombre) like '%".$solicitante[$i]."%' ");
+            array_push($dsol[1]," CONCAT(tr.razon_social,' | RUC:',tr.ruc) like '%".$solicitante[$i]."%' ");
+            array_push($dsol[2]," tr.area_id IN (SELECT nombre FROM areas WHERE nombre like '%".$solicitante[$i]."%') ");
+          }
+          $array['solicitante'].=" (".implode(" AND ",$dsol[0]).") ";
+          $array['solicitante'].=" OR (".implode(" AND ",$dsol[1]).") ";
+          $array['solicitante'].=" OR (".implode(" AND ",$dsol[2]).") ";
+          $array['solicitante'].=" )";
+        }
+
+        
 
       $cant= Reporte::BandejaTramiteCount( $array );
       $r = Reporte::BandejaTramite( $array );

@@ -118,6 +118,11 @@ var Bandeja={
                         "targets": 6,
                         "data": "proceso",
                         "name": "proceso"
+                    },
+                    {
+                        "targets": 7,
+                        "data": "persona",
+                        "name": "persona"
                     }
                     ];
 

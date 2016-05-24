@@ -175,7 +175,8 @@ class Reporte extends Eloquent
                 AND rd.fecha_inicio!='' 
                 AND rd.dtiempo_final IS NULL".
                 $array['id_union'].
-                $array['id_ant'];
+                $array['id_ant'].
+                $array['solicitante'];
 
         $r= DB::select($sql);
         return $r[0]->cant;
@@ -196,7 +197,19 @@ class Reporte extends Eloquent
                     AND vt.ruta_detalle_id=rd.id
                 ) id,
                 f.nombre proceso,
-                re.referido id_union_ant
+                re.referido id_union_ant,
+                IF(tr.tipo_persona=1 or tr.tipo_persona=6,
+                    CONCAT(tr.paterno,' ',tr.materno,', ',tr.nombre),
+                    IF(tr.tipo_persona=2,
+                        CONCAT(tr.razon_social,' | RUC:',tr.ruc),
+                        IF(tr.tipo_persona=3,
+                            (SELECT nombre FROM areas WHERE id=tr.area_id),
+                            IF(tr.tipo_persona=4 or tr.tipo_persona=5,
+                                tr.razon_social,''
+                            )
+                        )
+                    )
+                ) AS persona
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
@@ -217,9 +230,9 @@ class Reporte extends Eloquent
                 AND rd.dtiempo_final IS NULL".
                 $array['id_union'].
                 $array['id_ant'].
-                " ORDER BY rd.fecha_inicio DESC ".
+                $array['solicitante'].
+                " ORDER BY rd.fecha_inicio DESCs ".
                 $array['limit'];
-
         $r= DB::select($sql);
         return $r;
     }
