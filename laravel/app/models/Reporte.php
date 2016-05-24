@@ -231,7 +231,7 @@ class Reporte extends Eloquent
                 $array['id_union'].
                 $array['id_ant'].
                 $array['solicitante'].
-                " ORDER BY rd.fecha_inicio DESCs ".
+                " ORDER BY rd.fecha_inicio DESC ".
                 $array['limit'];
         $r= DB::select($sql);
         return $r;
