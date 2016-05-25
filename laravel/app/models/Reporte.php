@@ -193,8 +193,8 @@ class Reporte extends Eloquent
                 rd.estado_ruta AS estado_ruta,
                 (   SELECT COUNT(id)
                     FROM visualizacion_tramite vt
-                    WHERE vt.usuario_created_at='1' 
-                    AND vt.ruta_detalle_id=rd.id
+                    WHERE vt.ruta_detalle_id=rd.id
+                    AND vt.usuario_created_at=".$array['usuario']."
                 ) id,
                 f.nombre proceso,
                 re.referido id_union_ant,
@@ -223,11 +223,10 @@ class Reporte extends Eloquent
                     INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
                     INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
                     WHERE acp.estado=1
-                    AND cp.persona_id= ".
-                $array['usuario']."
+                    AND cp.persona_id= ".$array['usuario']."
                 )
                 AND rd.fecha_inicio!='' 
-                AND rd.dtiempo_final IS NULL".
+                AND rd.dtiempo_final IS NULL ".
                 $array['id_union'].
                 $array['id_ant'].
                 $array['solicitante'].
