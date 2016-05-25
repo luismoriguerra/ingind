@@ -113,7 +113,7 @@ $(document).ready(function(){
 });
 
 ActPest=function(nro){
-    $("#btn_close").click();
+    //$("#btn_close").click();
     Pest=nro;
 }
 
@@ -140,7 +140,7 @@ valida=function(nro){
             r=false;
         }
     }
-    $("#btn_close").click();
+    //$("#btn_close").click();
 
     return r;
 }
