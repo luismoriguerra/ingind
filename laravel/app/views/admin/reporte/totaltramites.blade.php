@@ -357,15 +357,13 @@
                         <label class="control-label">Dueño del Proceso:</label>
                         <input class="form-control" type="text" id="txt_persona" name="txt_persona" readonly>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <label class="control-label">Proceso:</label>
-                        <select class="form-control" name="slct_proceso_id" id="slct_proceso_id">
-                        </select>
+                        <input class="form-control" type="text" id="txt_proceso" name="txt_proceso" readonly>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <label class="control-label">Area del Dueño del Proceso:</label>
-                        <select class="form-control" name="slct_area_id" id="slct_area_id">
-                        </select>
+                        <input class="form-control" type="text" id="txt_area" name="txt_area" readonly>
                     </div>
                 </div>
             </div>

@@ -25,9 +25,9 @@ $(document).ready(function(){
     $("#btn_close").click(Close);
     var data = {estado:1};
     var ids = [];
-    slctGlobal.listarSlct('flujo','slct_proceso_id,#slct_proceso_3','multiple',ids,data);
+    slctGlobal.listarSlct('flujo','slct_proceso_3','multiple',ids,data);
     data = {estado:1};
-    slctGlobal.listarSlct('area','slct_area_id,#slct_area_3','multiple',ids,data);
+    slctGlobal.listarSlct('area','slct_area_3','multiple',ids,data);
 
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
@@ -113,12 +113,13 @@ $(document).ready(function(){
 });
 
 ActPest=function(nro){
+    $("#btn_close").click();
     Pest=nro;
 }
 
 valida=function(nro){
     var r=true;
-
+    $("#btn_close").click();
     if( nro==1 ){
         if( $.trim( $("#txt_tramite_1").val() )=='' ){
             alert('Ingrese Trámite a buscar');
@@ -215,6 +216,7 @@ detalletra=function(ruta_flujo_id, boton){
 }
 
 detalle=function(ruta_id, boton){
+    $("#btn_close").click();
     var tr = boton.parentNode.parentNode;
     var trs = tr.parentNode.children;
     for(var i =0;i<trs.length;i++)
@@ -616,11 +618,9 @@ CargarDetalleRutaHTML=function(permiso,datos){
     $.each(datos,function(index,data){
         validandoconteo++;
         if(validandoconteo==1){
-            $("#slct_proceso_id").val(data.flujo_id);
-            $("#slct_area_id").val(data.area_id);
-            $("#slct_proceso_id,#slct_area_id").multiselect('disable');
-            $("#slct_proceso_id,#slct_area_id").multiselect('refresh');
             $("#txt_persona").val(data.persona);
+            $("#txt_proceso").val(data.flujo);
+            $("#txt_area").val(data.area);
         }
         adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta);
     });
