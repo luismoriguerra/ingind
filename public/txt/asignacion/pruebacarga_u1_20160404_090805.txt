@@ -1,0 +1,3 @@
+cod_tramite	fecha_hora_tramite	tipo_persona	razon_social	ruc	dni	paterno	materno	nombre	asunto	email	telefono	area_interna_id
+DS-0019754-2015	17/11/2015 08:20	PERS NATURAL	 	 	444458868	JOB SEVILLANO RENGIFO  	 	 	SOLICITA LA CANCHA LAS AMERICAS PARA EL 23/11                                                                                                         	 	 	12
+DS-0019755-2015	17/11/2015 08:25	PERS NATURAL	 	 	9573936	FRANCISCO PALOMINO VASQUEZ	 	 	ASUNTO: SOLICITA PAGO DE SUPERVISION                                                                                                                  	 	6537232	51

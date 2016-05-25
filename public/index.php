@@ -47,3 +47,5 @@ $app = require_once __DIR__.'/../laravel/bootstrap/start.php';
 */
 
 $app->run();
+
+//echo "<a href='http://mindependencia1.grupodsp.net'>Ingresa a mindependencia1.grupodsp.net</a>";

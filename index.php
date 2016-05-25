@@ -18,7 +18,7 @@
 |
 */
 
-require __DIR__.'/../laravel/bootstrap/autoload.php';
+//require __DIR__.'/../laravel/bootstrap/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +32,7 @@ require __DIR__.'/../laravel/bootstrap/autoload.php';
 |
 */
 
-$app = require_once __DIR__.'/../laravel/bootstrap/start.php';
+//$app = require_once __DIR__.'/../laravel/bootstrap/start.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -46,4 +46,6 @@ $app = require_once __DIR__.'/../laravel/bootstrap/start.php';
 |
 */
 
-$app->run();
+//$app->run();
+
+echo "Ingrese a <a href='mindependencia1.grupodsp.net'>mindependencia1.grupodsp.net</a>";
