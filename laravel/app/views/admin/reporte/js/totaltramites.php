@@ -113,7 +113,7 @@ $(document).ready(function(){
 });
 
 ActPest=function(nro){
-    //$("#btn_close").click();
+    $("#btn_close").click();
     Pest=nro;
 }
 
