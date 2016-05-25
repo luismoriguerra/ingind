@@ -106,3 +106,4 @@ Route::controller('carta', 'CartaController');
 Route::controller('tiporecurso', 'TipoRecursoController');
 Route::controller('tipoactividad', 'TipoActividadController');
 Route::controller('reportef', 'ReporteFinalController');
+Route::controller('categoria', 'Cronograma\Categoria\CategoriaController');
