@@ -1,7 +1,0 @@
-cod_tramite	fecha_hora_tramite	tipo_persona	razon_social	ruc	dni	paterno	materno	nombre	asunto	email	telefono	area_interna_id
-DS-12333-2015	2015-09-15 08:10:03	ORG SOCIAL	mi razon	2012121212					asunto 1	email.1	telfono1	5
-EX-15533-2015	2015-09-15 08:10:04	PERS NATURAL			12345678	aa	bb	cc	asunto 2	email.2	telfono2	6
-AN-10033-2015	2015-09-15 08:10:05	JURIDICA	mi rzon2	2054323542					aunto 3	email.3	telfono3	7
-DS-12300-2015	2015-09-15 08:10:06	REGIDOR			23456700	re	gi	dor	asut 4	email.4	telfno4	8
-DS-10001-2015	2015-09-15 08:10:07	INST PUBLICA	rzon nuev						asunto 5	email.5	telfon5	9
-DS-10432-2015	2015-09-15 08:10:08	ORG SOCIAL	rzon nuev 3						asunto 6	email.6	telfon6	2
