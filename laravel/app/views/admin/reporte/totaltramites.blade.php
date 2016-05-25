@@ -341,8 +341,8 @@
             </div><!-- /.tab-content -->
         </div><!-- nav-tabs-custom -->
 
-        <form name="form_ruta_flujo" id="form_ruta_flujo" method="POST" action="">
-            <div class="row form-group" style="display:none">
+        <form name="form_ruta_flujo" id="form_ruta_flujo" style="display:none" method="POST" action="">
+            <div class="row form-group">
                 <div class="col-sm-12">
                     <h1><span id="txt_titulo">Nueva Ruta</span>
                     <small>
@@ -367,7 +367,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row form-group" style="display:none">
+            <div class="row form-group">
                 <div class="col-sm-12">
                     <div class="box-body table-responsive">
                         <table id="areasasignacion" class="table table-bordered" style="min-height:300px">

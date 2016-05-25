@@ -215,6 +215,7 @@ detalletra=function(ruta_flujo_id, boton){
 }
 
 detalle=function(ruta_id, boton){
+    $("#btn_close").click();
     var tr = boton.parentNode.parentNode;
     var trs = tr.parentNode.children;
     for(var i =0;i<trs.length;i++)
@@ -479,7 +480,7 @@ pintarAreasG=function(permiso){
 }
 
 Close=function(){
-    $("#form_ruta_flujo .form-group").css("display","none");
+    $("#form_ruta_flujo").css("display","none");
 }
 
 adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imagenc,imagenp,estruta){
@@ -596,7 +597,7 @@ cargarRutaId=function(ruta_flujo_id,permiso,ruta_id){
     $("#txt_titulo").text("Vista");
     $("#texto_fecha_creacion").text("Fecha Vista:");
     $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
-    $("#form_ruta_flujo .form-group").css("display","");
+    $("#form_ruta_flujo").css("display","");
     Ruta.CargarDetalleRuta(ruta_flujo_id,permiso,CargarDetalleRutaHTML,ruta_id);
 }
 
