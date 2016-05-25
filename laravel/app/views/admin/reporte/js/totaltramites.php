@@ -146,6 +146,7 @@ valida=function(nro){
 }
 
 reportet=function(tab){
+        $("#btn_close").click();
     if( valida(tab) ){
         var datos=$("#form_"+tab).serialize().split("txt_").join("").split("slct_").join("");
         Tramite.mostrart( datos,HTMLreportet );
@@ -154,6 +155,7 @@ reportet=function(tab){
 }
 
 reportep=function(){
+        $("#btn_close").click();
     if( valida(3) ){
         var datos=$("#form_3").serialize().split("txt_").join("").split("slct_").join("");
         Tramite.mostrarp( datos,HTMLreportep );
