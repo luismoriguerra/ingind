@@ -1,7 +1,0 @@
-cod_tramite	fecha_hora_tramite	tipo_persona	razon_social	ruc	dni	paterno	materno	nombre	asunto	email	telefono	area_interna_id																										
-DS-1111-2015	2015-09-15 08:10:03	ORG SOCIAL	ORG SOCIAL1	1111111111					asunto 1	email.1@gmail.com	telfono1	1																										
-EX-2222-2015	2015-09-15 08:10:04	PERS NATURAL			12345678	PERICO	PALOTES	CESAR	asunto 2	email.2@gmail.com	telfono2	2																										
-AN-3333-2015	2015-09-15 08:10:05	JURIDICA	JURIDICA1	3333333333					asunto 3	email.3@gmail.com	telfono3	3																										
-DS-4444-2015	2015-09-15 08:10:06	REGIDOR		4444444444	23456700	TOLOMEO	MENA	JOSE	asunto 4	email.4@gmail.com	telfono4	4																										
-DS-5555-2015	2015-09-15 08:10:07	INST PUBLICA	INST PUBLICA1	5555555555					asunto 5	email.5@gmail.com	telfono5	5																										
-DS-6666-2015	2015-09-15 08:10:08	ORG SOCIAL	ORG SOCIAL1	6666666666					asunto 6	email.6@gmail.com	telfono6	6																										
