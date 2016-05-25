@@ -1,6 +1,0 @@
-
-RewriteEngine on
-
-RewriteCond %{HTTP_HOST} ^.*$
-RewriteRule ^/?$ "http\:\/\/mindependencia1\.grupodsp\.net\/\~m1ndepen\/procesosmuni\/public\/" [R=301,L]
-
