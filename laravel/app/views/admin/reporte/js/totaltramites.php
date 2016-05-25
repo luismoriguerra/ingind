@@ -119,7 +119,6 @@ ActPest=function(nro){
 
 valida=function(nro){
     var r=true;
-    $("#btn_close").click();
     if( nro==1 ){
         if( $.trim( $("#txt_tramite_1").val() )=='' ){
             alert('Ingrese Trámite a buscar');
@@ -141,6 +140,7 @@ valida=function(nro){
             r=false;
         }
     }
+    $("#btn_close").click();
 
     return r;
 }
@@ -216,7 +216,6 @@ detalletra=function(ruta_flujo_id, boton){
 }
 
 detalle=function(ruta_id, boton){
-    $("#btn_close").click();
     var tr = boton.parentNode.parentNode;
     var trs = tr.parentNode.children;
     for(var i =0;i<trs.length;i++)
