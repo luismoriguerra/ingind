@@ -23,7 +23,7 @@ $(document).ready(function(){
     var ids = [];
 
     $("#btn_close").click(Close);
-    var data = {estado:1,tipo_flujo:1};
+    var data = {estado:1};
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_proceso_id,#slct_proceso_3','multiple',ids,data);
     data = {estado:1};
@@ -616,10 +616,10 @@ CargarDetalleRutaHTML=function(permiso,datos){
     $.each(datos,function(index,data){
         validandoconteo++;
         if(validandoconteo==1){
-            $("#slct_flujo_id").val(data.flujo_id);
+            $("#slct_proceso_id").val(data.flujo_id);
             $("#slct_area_id").val(data.area_id);
-            $("#slct_flujo_id,#slct_area_id").multiselect('disable');
-            $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
+            $("#slct_proceso_id,#slct_area_id").multiselect('disable');
+            $("#slct_proceso_id,#slct_area_id").multiselect('refresh');
             $("#txt_persona").val(data.persona);
         }
         adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta);
