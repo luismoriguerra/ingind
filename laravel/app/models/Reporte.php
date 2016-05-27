@@ -162,18 +162,10 @@ class Reporte extends Eloquent
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
                 ".$array['referido']." JOIN referidos re ON re.ruta_id=r.id AND re.norden=(rd.norden-1)
-                WHERE r.estado=1
-                AND rd.area_id IN (
-                    SELECT a.id
-                    FROM area_cargo_persona acp
-                    INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
-                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
-                    WHERE acp.estado=1
-                    AND cp.persona_id= ".
-                    $array['usuario']."
-                )
+                WHERE r.estado=1 
                 AND rd.fecha_inicio!='' 
                 AND rd.dtiempo_final IS NULL".
+                $array['areas'].
                 $array['id_union'].
                 $array['id_ant'].
                 $array['solicitante'];
@@ -216,17 +208,10 @@ class Reporte extends Eloquent
                 INNER JOIN tiempos t ON t.id=rd.tiempo_id
                 INNER JOIN flujos f ON f.id=r.flujo_id
                 ".$array['referido']." JOIN referidos re ON re.ruta_id=r.id AND re.norden=(rd.norden-1)
-                WHERE r.estado=1
-                AND rd.area_id IN (
-                    SELECT a.id
-                    FROM area_cargo_persona acp
-                    INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
-                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
-                    WHERE acp.estado=1
-                    AND cp.persona_id= ".$array['usuario']."
-                )
+                WHERE r.estado=1 
                 AND rd.fecha_inicio!='' 
                 AND rd.dtiempo_final IS NULL ".
+                $array['areas'].
                 $array['id_union'].
                 $array['id_ant'].
                 $array['solicitante'].

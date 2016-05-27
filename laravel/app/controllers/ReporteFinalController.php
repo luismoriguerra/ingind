@@ -96,7 +96,7 @@ class ReporteFinalController extends BaseController
       $array['limit']='';$array['order']='';
       $array['id_union']='';$array['id_ant']='';
       $array['referido']=' LEFT ';
-      $array['solicitante']='';
+      $array['solicitante']='';$array['areas']='';
 
       $retorno=array(
                   'rst'=>1
@@ -145,7 +145,20 @@ class ReporteFinalController extends BaseController
           $array['solicitante'].=" )";
         }
 
-        
+        if( Input::has('areas') ){ // Filtra por área
+          $reporte=Input::get('areas');
+          $array['areas']=" AND rd.area_id=".$reporte." ";
+        }
+        else{
+          $array['areas']=" AND rd.area_id IN (
+                                SELECT a.id
+                                FROM area_cargo_persona acp
+                                INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                                INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                WHERE acp.estado=1
+                                AND cp.persona_id= ".$array['usuario']."
+                            ) ";
+        }
 
       $cant= Reporte::BandejaTramiteCount( $array );
       $r = Reporte::BandejaTramite( $array );
