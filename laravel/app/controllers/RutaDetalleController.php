@@ -156,6 +156,7 @@ class RutaDetalleController extends \BaseController
                             $referido['ruta_id']=$r->id;
                             $referido['tabla_relacion_id']=$r->tabla_relacion_id;
                             $referido['ruta_detalle_id']=$rd->id;
+                            $referido['norden']=$rd->norden;
                             $referido['estado_ruta']=$rd->estado_ruta;
                             $referido['tipo']=1;
                             $referido['usuario_created_at']=Auth::user()->id;
