@@ -2,7 +2,8 @@
 $(document).ready(function() {
     $('#fecha').daterangepicker({
         format: 'YYYY-MM-DD',
-        singleDatePicker: false
+        singleDatePicker: false,
+        showDropdowns: true
     });
     var data = {estado:1};
     var ids = [];
@@ -31,7 +32,6 @@ HTMLreporte=function(datos){
             "<td>"+$.trim(data.fecha_inicio)+"</td>"+
             "<td>"+$.trim(data.dtiempo_final)+"</td>"+
             "<td>"+$.trim(data.proceso)+"</td>"+
-            "<td>"+$.trim(data.gestion)+"</td>"+
             "<td>"+$.trim(data.fecha_inicio_gestion)+"</td>"+
             "<td>"+$.trim(data.ult_paso)+"</td>"+
             "<td>"+$.trim(data.act_paso)+"</td>"+

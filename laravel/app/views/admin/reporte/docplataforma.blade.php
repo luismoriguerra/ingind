@@ -17,10 +17,10 @@
 @section('contenido')
             <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>
-            DOCUMENTOS GENERADOS EN LA ASIGNACION AUTOMATICA
+        <h3>
+            REPORTE DE SEGUIMIENTO DE LOS TRÁMITES INGRESADOS POR PLATAFORMA HACIA EL FLUJO DE PROCESOS
             <small> </small>
-        </h1>
+        </h3>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
             <li><a href="#">Reporte</a></li>
@@ -54,17 +54,20 @@
                             <table id="t_reporte" class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Proceso Pla</th>
-                                        <th>Plataforma</th>
-                                        <th>Fecha Inicio</th>
-                                        <th>Fecha Final</th>
-                                        <th>Proceso</th>
-                                        <th>Gestion</th>
-                                        <th>Fecha Inicio Gestion</th>
-                                        <th>Ult. Paso</th>
-                                        <th>Act. Paso</th>
-                                        <th>Fecha Final Paso</th>
-                                        <th>Fecha Final Gestion</th>
+                                        <th colspan="4" style="text-align:center;background-color: #DDEBF7 !important;">PROCESOS DE PLATAFORMA A LAS AREAS</th>
+                                        <th colspan="6" style="text-align:center;background-color: #FFF2CC !important;">PROCESOS HACIA DONDE FUERON ASIGNADOS LOS TRÁMITES</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="background-color: #DDEBF7 !important;">Proceso</th>
+                                        <th style="background-color: #DDEBF7 !important;">Trámite</th>
+                                        <th style="background-color: #DDEBF7 !important;">Fecha Inicio<br> Trámite</th>
+                                        <th style="background-color: #DDEBF7 !important;">Fecha Final<br> Trámite</th>
+                                        <th style="background-color: #FFF2CC !important;">Proceso</th>
+                                        <th style="background-color: #FFF2CC !important;">Fecha Inicio<br> en el Proceso</th>
+                                        <th style="background-color: #FFF2CC !important;">Total N°<br> de Pasos</th>
+                                        <th style="background-color: #FFF2CC !important;">Paso<br> Actual</th>
+                                        <th style="background-color: #FFF2CC !important;">Fecha límite en el paso</th>
+                                        <th style="background-color: #FFF2CC !important;">Fecha final del trámite en el proceso</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_reporte">
