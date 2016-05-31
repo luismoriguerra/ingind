@@ -1088,7 +1088,7 @@ class ReporteController extends BaseController
                       AND tr.fecha_tramite BETWEEN '$fechaIni' AND '$fechaFin'
             INNER JOIN flujos f ON f.id=r.flujo_id
             INNER JOIN areas_internas ai ON ai.flujo_id=f.id
-            LEFT JOIN tablas_relacion tr2 ON tr2.id_union=tr.id_union AND tr2.id!=tr.id AND tr2.estado=1
+            LEFT JOIN tablas_relacion tr2 ON tr2.id_union=tr.id_union AND tr2.id>tr.id AND tr2.estado=1
             LEFT JOIN rutas r2 ON r2.tabla_relacion_id=tr2.id AND r2.estado=1
             LEFT JOIN flujos f2 ON f2.id=r2.flujo_id
             LEFT JOIN 
