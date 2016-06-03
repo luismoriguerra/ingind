@@ -55,9 +55,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'm1ndepen_munind',
+			'database'  => 'procesos',
 			'username'  => 'root',
-			'password'  => '',
+			'password'  => 'ju4nLuna',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_general_ci',
 			'prefix'    => '',
