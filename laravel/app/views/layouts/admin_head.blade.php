@@ -1,6 +1,6 @@
 <!-- header logo: style can be found in header.less -->
         <header class="header">
-            <a href="admin" class="logo">
+            <a href="admin.inicio" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
                 <?php 
                 $user= Auth::user()->id;

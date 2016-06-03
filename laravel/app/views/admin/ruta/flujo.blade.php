@@ -36,6 +36,7 @@
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
+                                        <th>Categoria</th>
                                         <th>Area</th>
                                         <th>Tipo</th>
                                         <th>Estado</th>
@@ -47,6 +48,7 @@
                                 <tfoot>
                                     <tr>
                                         <th>Nombre</th>
+                                        <th>Categoria</th>
                                         <th>Area</th>
                                         <th>Tipo</th>
                                         <th>Estado</th>

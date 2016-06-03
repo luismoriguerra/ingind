@@ -2,8 +2,9 @@
 class Flujo extends Base
 {
     public $table = "flujos";
-    public static $where =['id', 'nombre', 'estado', 'usuario_created_at'];
-    public static $selec =['id', 'nombre', 'estado'];
+    public static $where =['id', 'nombre', 'estado', 'categoria_id',
+                            'usuario_created_at'];
+    public static $selec =['id', 'nombre', 'estado','categoria_id'];
 
     public function getFlujo(){
         if( Input::has('pasouno') ){
@@ -47,6 +48,10 @@ class Flujo extends Base
                     'a.id', '=', 'f.area_id'
                 )
                 ->leftJoin(
+                    'categorias AS c',
+                    'c.id', '=', 'f.categoria_id'
+                )
+                ->leftJoin(
                     'rutas_flujo AS rf',
                     'rf.flujo_id', '=', 'f.id'
                 )
@@ -56,6 +61,7 @@ class Flujo extends Base
                          ->where('rfd.norden', '=', 1);
                 })
                 ->select('f.id','f.nombre','f.estado','a.nombre AS area','f.area_id','f.area_id AS evento',
+                    DB::raw('IFNULL(c.nombre,"sin categoria") AS categoria'), DB::raw('IFNULL(f.categoria_id,"") AS categoria_id'),
                     DB::raw('IF(f.tipo_flujo=1,"Trámite","Proceso de oficio") as tipo_flujo,f.tipo_flujo as tipo_flujo_id')
                 )
                 ->where( 

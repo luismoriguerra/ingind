@@ -53,12 +53,14 @@ var Flujos={
             dataType    : 'json',
             data        : {usuario:2},
             beforeSend : function() {
-                
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
             success : function(obj) {
+                $(".overlay,.loading-img").remove();
                 evento(obj);
             },
             error: function(){
+                $(".overlay,.loading-img").remove();
             }
         });
     },
@@ -80,6 +82,29 @@ var Flujos={
                     });
                 }
                  $("#"+area).html(html); 
+            },
+            error: function(){
+            }
+        });
+    },
+    ListarCategorias:function(categoria){
+        $.ajax({
+            url         : 'categoria/cargar',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : {estado:1},
+            beforeSend : function() {
+                
+            },
+            success : function(obj) {
+                var html="<option value=''> Seleccione </option>";
+                if(obj.rst==1){
+                    $.each(obj.datos,function(index,data){
+                        html+='<option value="'+data.id+'">'+data.nombre+'</option>';
+                    });
+                }
+                 $("#"+categoria).html(html); 
             },
             error: function(){
             }

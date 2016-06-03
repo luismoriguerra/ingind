@@ -161,6 +161,7 @@ class Reporte extends Eloquent
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
+                INNER JOIN flujos f ON f.id=r.flujo_id
                 ".$array['referido']." JOIN referidos re ON re.ruta_id=r.id AND re.norden=(rd.norden-1)
                 WHERE r.estado=1 
                 AND rd.fecha_inicio!='' 
@@ -168,7 +169,8 @@ class Reporte extends Eloquent
                 $array['areas'].
                 $array['id_union'].
                 $array['id_ant'].
-                $array['solicitante'];
+                $array['solicitante'].
+                $array['proceso'];
 
         $r= DB::select($sql);
         return $r[0]->cant;
@@ -215,6 +217,7 @@ class Reporte extends Eloquent
                 $array['id_union'].
                 $array['id_ant'].
                 $array['solicitante'].
+                $array['proceso'].
                 " ORDER BY rd.fecha_inicio DESC ".
                 $array['limit'];
         $r= DB::select($sql);

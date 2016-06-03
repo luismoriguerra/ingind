@@ -97,6 +97,7 @@ class ReporteFinalController extends BaseController
       $array['id_union']='';$array['id_ant']='';
       $array['referido']=' LEFT ';
       $array['solicitante']='';$array['areas']='';
+      $array['proceso']='';
 
       $retorno=array(
                   'rst'=>1
@@ -158,6 +159,11 @@ class ReporteFinalController extends BaseController
                                 WHERE acp.estado=1
                                 AND cp.persona_id= ".$array['usuario']."
                             ) ";
+        }
+
+        if( Input::has('proceso') AND Input::get('proceso')!='' ){
+          $proceso=trim(Input::get('proceso'));
+          $array['proceso'].=" AND f.nombre LIKE '%".$proceso."%' ";
         }
 
       $cant= Reporte::BandejaTramiteCount( $array );

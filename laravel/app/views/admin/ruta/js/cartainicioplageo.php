@@ -254,4 +254,5 @@ HTMLCargarCartas=function(datos){
     $("#tb_carta").html(html); 
     $('#t_carta').dataTable();
 }
+
 </script>

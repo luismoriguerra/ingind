@@ -2,14 +2,18 @@
 
 Route::get(
     '/', function () {
-        return View::make('login');
+        if (Session::has('accesos')) {
+            return Redirect::to('/admin.inicio');
+        } else {
+          return View::make('login');
+        }
     }
 );
 
 Route::get(
     'salir', function () {
         Auth::logout();
-
+        Session::flush();
         return Redirect::to('/');
     }
 );
@@ -107,3 +111,6 @@ Route::controller('tiporecurso', 'TipoRecursoController');
 Route::controller('tipoactividad', 'TipoActividadController');
 Route::controller('reportef', 'ReporteFinalController');
 Route::controller('categoria', 'Cronograma\Categoria\CategoriaController');
+Route::controller('plantilla', 'Cronograma\PlantillasWord\PlantillaController');
+Route::controller('fechanolaborable', 'Cronograma\Fechanolaborable\FechanolaborableController');
+Route::controller('llamadaatencion', 'Cronograma\LlamadaAtencion\LlamadaatencionController');

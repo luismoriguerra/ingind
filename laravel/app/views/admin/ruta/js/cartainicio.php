@@ -19,13 +19,43 @@ desgloses.push("Seleccione Fecha Inicio");  desglosesid.push("des_fin");    desg
 desgloses.push("Seleccione Fecha Fin");     desglosesid.push("des_ffi");    desglosestype.push("txt");
 desgloses.push("Seleccione Hora Inicio");   desglosesid.push("des_hin");    desglosestype.push("txt");
 desgloses.push("Seleccione Hora Fin");      desglosesid.push("des_hfi");    desglosestype.push("txt");
+desgloses.push("Seleccione Fecha Alerta");  desglosesid.push("des_ale");    desglosestype.push("txt");
 var AreaIdG='';
+var tiemposG=[];
 
 $(document).ready(function() {
     AreaIdG='';
     AreaIdG='<?php echo Auth::user()->area_id; ?>';
+    $('#txt_fecha_inicio').daterangepicker({
+        format: 'YYYY-MM-DD',
+        singleDatePicker: true,
+        showDropdowns: true
+    });
     ValidaAreaRol();
 });
+eventoSlctGlobalSimple=function(){};
+
+CargarFechas=function(){
+    var fechaIni=$("#txt_fecha_inicio").val();
+    Carta.CargarFechas(CargarFechasHTML,tiemposG,fechaIni);
+}
+
+CargarFechasHTML=function(datos){
+    var p=0;
+    $( "#t_desgloses>tbody>tr" ).each(function(k,v) {
+        if( datos.length>p ){
+      $( this ).find("input[name='txt_des_fin[]']").val(datos[p][0]);
+      $( this ).find("input[name='txt_des_ffi[]']").val(datos[p][1]);
+      $( this ).find("input[name='txt_des_ale[]']").val(datos[p][1]);
+      p++;
+        }
+        else{
+      $( this ).find("input[name='txt_des_fin[]']").val(datos[(p-1)][1]);
+      $( this ).find("input[name='txt_des_ffi[]']").val(datos[(p-1)][1]);
+      $( this ).find("input[name='txt_des_ale[]']").val(datos[(p-1)][1]);
+        }
+    });
+}
 
 ValidaAreaRol=function(){
     if(AreaIdG!='' && AreaIdG*1>0){
@@ -82,13 +112,13 @@ Guardar=function(){
     }
 }
 
-AddTr=function(id){
+AddTr=function(id, data, automatico){
     var idf=id.split("_")[1];
     var pos=id.split("_")[2];
     PosCarta[pos]++;
     var datatext=""; var dataid="";
-    var clase="";
-    var ctype=""; var ccopy=""; var vcopy=[];
+    var clase=""; var readonly="";
+    var ctype=""; var ccopy=""; var vcopy=[]; var valarray=[];
 
     var add="<tr id='tr_"+idf+"_"+PosCarta[pos]+"'>";
         add+="<td>";
@@ -96,7 +126,7 @@ AddTr=function(id){
         add+="</td>";
     for (var i = 0; i < ($("#t_"+idf+" thead tr th").length-2); i++) {
         
-        clase='';
+        clase='';readonly='';
         if ( idf=="recursos" ){
             datatext=recursos[i];
             dataid=recursosid[i];
@@ -124,8 +154,11 @@ AddTr=function(id){
                 ccopy = desglosescopy[i];
             }
 
-            if( i==5 || i==4 ){ //para cargar la fecha
+            if( i==5 || i==4 || i==8 ){ //para cargar la fecha
+                if( typeof automatico =='undefined' || i==8 ){
                 clase='fecha';
+                }
+                readonly='readonly';
             }
         }
 
@@ -139,19 +172,23 @@ AddTr=function(id){
         }
         else{
             add+="<td>";
-            add+="<input class='form-control col-sm-12 "+clase+"' type='text' data-text='"+datatext+"' data-type='txt' id='txt_"+idf+"_"+PosCarta[pos]+"_"+dataid+"' name='txt_"+dataid+"[]' >";
+            add+="<input class='form-control col-sm-12 "+clase+"' type='text' data-text='"+datatext+"' data-type='txt' id='txt_"+idf+"_"+PosCarta[pos]+"_"+dataid+"' name='txt_"+dataid+"[]' "+readonly+">";
             add+="</td>";
         }
     };
-        add+="<td>";
-        add+="<a class='btn btn-sm btn-danger' id='btn_"+idf+"_"+PosCarta[pos]+"' onClick='RemoveTr(this.id);'><i class='fa fa-lg fa-minus'></i></a>";
-        add+="</td>";
+        if( typeof automatico =='undefined' ){
+            add+="<td>";
+            add+="<a class='btn btn-sm btn-danger' id='btn_"+idf+"_"+PosCarta[pos]+"' onClick='RemoveTr(this.id);'><i class='fa fa-lg fa-minus'></i></a>";
+            add+="</td>";
+        }
         add+="</tr>";
     $("#t_"+idf+" tbody").append(add);
 
     for (var i = 0; i < vcopy.length; i++) {
         $("#"+vcopy[i].split("|")[0]).html( $("#"+vcopy[i].split("|")[1]).html() );
-
+        if ( typeof data!='undefined' && data!=null && data.responsable_area!=null && vcopy[i].indexOf('slct_persona_id')>=0) {
+            $("#"+vcopy[i].split("|")[0]).val( data.responsable_area );
+        }
         slctGlobalHtml(vcopy[i].split("|")[0],'simple');
         $(".multiselect").css("font-size","11px").css("text-transform","lowercase");
         $(".multiselect-container>li").css("font-size","12px").css("text-transform","lowercase");
@@ -182,6 +219,15 @@ Nuevo=function(){
     $("#txt_nro_carta").focus();
     var datos={area_id:AreaIdG};
     Carta.CargarCorrelativo(HTMLCargarCorrelativo,datos);
+}
+HTMLCargarDetalleCartas=function(datos, flujo){
+    var des=[];
+    $('#txt_flujo').val( flujo.nombre);
+    $('#txt_flujo_id').val( flujo.flujo_id);
+    $.each(datos,function(index,data){
+        tiemposG.push(data.tiempo+'|'+data.responsable_area.split("-")[1]);
+        AddTr('btn_desgloses_2',data,1);
+    });
 }
 
 HTMLCargarCorrelativo=function(obj){

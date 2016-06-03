@@ -1,5 +1,22 @@
 <script type="text/javascript">
 var slctGlobal={
+    /**
+     * mostrar un mulselect
+     * @param:
+     * 1 controlador..nombre del controlador   modulo
+     * 2 slct         nombre del multiselect   slct_modulos
+     * 3 tipo         simple o multiple
+     * 4 valarray     valores que se seleccionen
+     * 5 data         valores a enviar por ajax
+     * 6 afectado     si es afectado o no (1,0)
+     * 7 afectados    a quien afecta (slct_submodulos)
+     * 8 slct_id      identificador que se esta afectando ('M')
+     * 9 slctant
+     * 10 slctant_id
+     * 11 funciones   evento a ejecutar al hacer hacer changed
+     *
+     * @return string
+     */
     listarSlct:function(controlador,slct,tipo,valarray,data,afectado,afectados,slct_id,slctant,slctant_id){
         $.ajax({
             url         : controlador+'/listar',

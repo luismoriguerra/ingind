@@ -82,6 +82,15 @@
                         </div>
                         <div class="col-sm-12">
                             <div class="col-sm-2">
+                                <div class="box box-solid bg-blue">Proceso :</div>
+                            </div>
+                            <div class="col-sm-3">
+                                <input class="form-control" id="txt_flujo" name="txt_flujo" type="text" readonly>
+                                <input type="hidden" id="txt_flujo_id" name="txt_flujo_id" value="">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="col-sm-2">
                                 <label class="box box-solid bg-blue">Objetivo del Proyecto:</label>
                             </div>
                             <div class="col-sm-10">

@@ -54,9 +54,10 @@ var Flujos={
             dataType    : 'json',
             data        : {usuario:2},
             beforeSend : function() {
-                
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
             success : function(obj) {
+                $(".overlay,.loading-img").remove();
                 var html="";
                 var estadohtml="";
                 if(obj.rst==1){
@@ -80,6 +81,7 @@ var Flujos={
                 evento();  
             },
             error: function(){
+                $(".overlay,.loading-img").remove();
             }
         });
     },

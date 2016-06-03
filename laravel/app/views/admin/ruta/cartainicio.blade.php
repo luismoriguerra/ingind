@@ -8,6 +8,7 @@
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
     {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
     {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
+    {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js') }}
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
 
@@ -61,11 +62,18 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-sm-12">
+                        <!--<div class="col-sm-12">
                             <a class="btn btn-primary btn-sm" id="btn_nuevo">
                                 <i class="fa fa-save fa-lg"></i>&nbsp;Nuevo
                             </a>
+                        </div>-->
+
+                        <div class="col-sm-12">
+                            <a class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#selecProcesoModal">
+                                <i class="fa fa-save fa-lg"></i>&nbsp;Nuevo
+                            </a>
                         </div>
+
                     </div>
                     <br>
                     <hr>
@@ -82,6 +90,15 @@
                             </div>
                             <div class="col-sm-3">
                                 <input class="form-control" data-text="Ingrese Nro Carta" data-type="txt" id="txt_nro_carta" name="txt_nro_carta" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="col-sm-2">
+                                <div class="box box-solid bg-blue">Proceso :</div>
+                            </div>
+                            <div class="col-sm-3">
+                                <input class="form-control" id="txt_flujo" name="txt_flujo" type="text" readonly>
+                                <input type="hidden" id="txt_flujo_id" name="txt_flujo_id" value="">
                             </div>
                         </div>
                         <div class="col-sm-12">
@@ -110,7 +127,7 @@
                         </div>
                         <div class="col-sm-12">
                                 <label class="box box-solid bg-blue">
-                                <a id="btn_recursos_0" onclick="AddTr(this.id);" class="btn btn-success btn-sm">
+                                <a id="btn_recursos_0" onclick="AddTr(this.id,null);" class="btn btn-success btn-sm">
                                     <i class="fa fa-plus fa-lg"></i>
                                 </a>
                                 Recursos (No humanos):
@@ -137,7 +154,7 @@
                         </div>
                         <div class="col-sm-12">
                                 <label class="box box-solid bg-blue">
-                                <a id="btn_metricos_1" onclick="AddTr(this.id);" class="btn btn-success btn-sm">
+                                <a id="btn_metricos_1" onclick="AddTr(this.id,null);" class="btn btn-success btn-sm">
                                     <i class="fa fa-plus fa-lg"></i>
                                 </a>
                                 Métricos:
@@ -165,11 +182,15 @@
                         </div>
                         <div class="col-sm-12">
                                 <label class="box box-solid bg-blue">
-                                <a id="btn_desgloses_2" onclick="AddTr(this.id);" class="btn btn-success btn-sm">
+                                <a id="btn_desgloses_2" onclick="AddTr(this.id,null);" class="btn btn-success btn-sm">
                                     <i class="fa fa-plus fa-lg"></i>
                                 </a>
                                 Desglose de Carta de Inicio N°:
                                 </label>
+                                <label>
+                                Fecha de Inicio:
+                                </label>
+                                <input type="text" name="txt_fecha_inicio" id="txt_fecha_inicio" onChange="CargarFechas();" readonly>
                         </div>
                         <div class="row form-group" id="tabla_desgloses">
                             <div class="col-sm-12">
@@ -186,6 +207,7 @@
                                                 <th style="width:106px !important;">Fecha Fin</th>
                                                 <th style="width:70px !important;">Hora Inicio</th>
                                                 <th style="width:70px !important;">Hora Fin</th>
+                                                <th style="width:106px !important;">Fecha Alerta</th>
                                                 <th> [ ] </th>
                                             </tr>
                                         </thead>
@@ -204,7 +226,14 @@
                 </form>
             </div><!-- /.box -->
             <!-- Finaliza contenido -->
+
+            <div class="container" id="el">
+                @{{ /* query*/ }}
+                <modal></modal>
+            </div>
+
         </div>
     </div>
 </section><!-- /.content -->
+@include( 'admin.ruta.form.selecProceso' ) 
 @stop

@@ -7,6 +7,27 @@ class CartaController extends \BaseController
         $this->beforeFilter('auth');
     }
 
+    public function postCalcularfechafin()
+    {
+    	if ( Request::ajax() ) {
+    		$r=array();
+            $array=array();
+            $datos= Input::get('tiempo');
+            $fi= Input::get('fecha_inicial');
+            $array['fecha']=$fi;
+
+            for ($i=0; $i < count($datos); $i++) { 
+            	$d=explode("|",$datos[$i]);
+            	$array['tiempo']=$d[0]-1;
+            	$array['area']=$d[1];
+            	$ff=Carta::CalcularFechaFin($array);
+            	array_push($r,array($array['fecha'],$ff));
+            	$array['fecha']=date("Y-m-d" , strtotime("+1 day",strtotime($ff)));
+            }
+            return Response::json(array('rst'=>1,'datos'=>$r));
+        }
+    }
+
     public function postCorrelativo()
     {
         if ( Request::ajax() ) {

@@ -14,7 +14,7 @@
     @include( 'admin.ruta.js.cartainicio_ajax' )
     @include( 'admin.ruta.js.cartainicioplageo' )
 @stop
-<!-- Right side column. Contains the navbar and content of the page -->
+
 @section('contenido')
             <!-- Content Header (Page header) -->
 <section class="content-header">

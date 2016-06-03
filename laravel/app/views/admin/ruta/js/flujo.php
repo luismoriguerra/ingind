@@ -3,6 +3,7 @@ $(document).ready(function() {
     Flujos.CargarFlujos(htmlCargarFlujos);
     Flujos.ListarAreas('slct_area_id');
 
+    Flujos.ListarCategorias('slct_categoria_id');
     $('#flujoModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
       var titulo = button.data('titulo'); // extrae del atributo data-
@@ -75,6 +76,7 @@ htmlCargarFlujos=function(obj){
 
             html+="<tr>"+
                 "<td id='nombre_"+data.id+"'>"+data.nombre+"</td>"+
+                "<td id='categoria_"+data.id+"' data-categoria='"+data.categoria_id+"'>"+data.categoria+"</td>"+
                 "<td id='area_"+data.id+"' data-area='"+data.area_id+"'>"+data.area+"</td>"+
                 "<td id='tipo_"+data.id+"' data-tipo='"+data.tipo_flujo_id+"'>"+data.tipo_flujo+"</td>"+
                 "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
@@ -94,6 +96,11 @@ validaFlujos=function(){
     a[1]=true;
     a[2]=true;
 
+    if($("#slct_categoria_id").val()==""){
+        a[2]=false;
+        $('#error_categoria').attr('data-original-title','Seleccione Categoria');
+        $('#error_categoria').css('display','');
+    }
     if($("#slct_area_id").val()==""){
         a[1]=false;
         $('#error_area').attr('data-original-title','Seleccione Area');

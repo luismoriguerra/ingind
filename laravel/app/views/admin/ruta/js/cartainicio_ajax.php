@@ -90,7 +90,7 @@ var Carta={
             },
             success : function(obj) {
                 if(obj.rst==1){
-                    evento(obj.datos);
+                    evento(obj.datos,datos);
                 }  
                 $(".overlay,.loading-img").remove();
             },
@@ -101,6 +101,27 @@ var Carta={
                                         '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
                                         '<b><?php echo trans("greetings.mensaje_error"); ?></b>'+
                                     '</div>');
+            }
+        });
+    },
+    CargarFechas:function(evento,datos,fi){
+        $.ajax({
+            url         : 'carta/calcularfechafin',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : {tiempo:datos, fecha_inicial:fi},
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                if(obj.rst==1){
+                    evento(obj.datos);
+                }  
+                $(".overlay,.loading-img").remove();
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
             }
         });
     },

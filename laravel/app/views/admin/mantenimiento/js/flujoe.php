@@ -3,6 +3,7 @@ $(document).ready(function() {
     Flujos.CargarFlujos(htmlCargarFlujos);
     Flujos.ListarAreas('slct_area_id');
 
+    Flujos.ListarCategorias('slct_categoria_id');
     $('#flujoModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
       var titulo = button.data('titulo'); // extrae del atributo data-
@@ -16,6 +17,7 @@ $(document).ready(function() {
         if(titulo=='Nuevo'){
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
+            $('#form_flujos #slct_categoria_id').val( '');
             $('#form_flujos #slct_estado').val(1); 
             $('#form_flujos #slct_tipo').val(''); 
             $('#form_flujos #slct_area_id').val(""); 
@@ -25,6 +27,7 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
             $('#form_flujos #txt_nombre').val( $('#t_flujos #nombre_'+button.data('id') ).text() );
+            $('#form_flujos #slct_categoria_id').val( $('#t_flujos #categoria_'+button.data('id') ).attr("data-categoria") );
             $('#form_flujos #slct_estado').val( $('#t_flujos #estado_'+button.data('id') ).attr("data-estado") );
             $('#form_flujos #slct_tipo').val( $('#t_flujos #tipo_'+button.data('id') ).attr("data-tipo") );
             $('#form_flujos #slct_area_id').val( $('#t_flujos #area_'+button.data('id') ).attr("data-area") );
@@ -53,6 +56,7 @@ htmlCargarFlujos=function(obj){
 
             html+="<tr>"+
                 "<td id='nombre_"+data.id+"'>"+data.nombre+"</td>"+
+                "<td id='categoria_"+data.id+"' data-categoria='"+data.categoria_id+"'>"+data.categoria+"</td>"+
                 "<td id='area_"+data.id+"' data-area='"+data.area_id+"'>"+data.area+"</td>"+
                 "<td id='tipo_"+data.id+"' data-tipo='"+data.tipo_flujo_id+"'>"+data.tipo_flujo+"</td>"+
                 "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
@@ -95,6 +99,11 @@ validaFlujos=function(){
     a[1]=true;
     a[2]=true;
 
+    if($("#slct_categoria_id").val()==""){
+        a[2]=false;
+        $('#error_categoria').attr('data-original-title','Seleccione Categoria');
+        $('#error_categoria').css('display','');
+    }
     if($("#slct_area_id").val()==""){
         a[1]=false;
         $('#error_area').attr('data-original-title','Seleccione Area');

@@ -99,6 +99,23 @@ class Carta extends Base
                     WHERE c.id = '".Input::get('carta_id')."'
                     GROUP BY c.id";
         }
+        elseif (Input::has('flujo_id')) {
+            //gerente o subgerente de las areas a cargo
+            $sql="  SELECT f.id, f.nombre, f.estado,
+                    f.area_id, f.area_id as evento, 
+                    IF(f.tipo_flujo=1,'Trámite','Proceso de oficio') as tipo_flujo,
+                    f.tipo_flujo as tipo_flujo_id,
+                    CONCAT(p.id,'-', a.id) as responsable_area,
+                    rfd.dtiempo*t.totalminutos tiempo
+                    FROM flujos AS f 
+                    INNER JOIN rutas_flujo AS rf ON rf.flujo_id = f.id AND rf.estado = 1
+                    INNER JOIN rutas_flujo_detalle AS rfd ON rfd.ruta_flujo_id = rf.id   AND rfd.estado=1
+                    INNER JOIN tiempos t ON t.id=rfd.tiempo_id 
+                    INNER JOIN areas AS a ON a.id = rfd.area_id 
+                    LEFT JOIN personas p ON p.area_id=a.id AND (p.rol_id='8' OR p.rol_id='9' )
+                    WHERE  f.estado = 1 AND f.id ='".Input::get('flujo_id')."'
+                    ORDER BY rfd.norden ";
+        }
         else {
             $sql="  SELECT c.id,c.nro_carta,c.objetivo,c.entregable,c.alcance, c.informe_objetivo, c.informe_alcance, c.informe_entregable,
                     GROUP_CONCAT( 
@@ -143,15 +160,17 @@ class Carta extends Base
                             ) 
                         )
                         SEPARATOR '*' 
-                    ) desgloses
+                    ) desgloses,
+                    IFNULL(f.id,'') as flujo_id, f.nombre as flujo
                     FROM cartas c
                     LEFT JOIN carta_recurso cr ON c.id=cr.carta_id AND cr.estado=1
                     LEFT JOIN carta_metrico cm ON c.id=cm.carta_id AND cm.estado=1
                     LEFT JOIN carta_desglose cd ON c.id=cd.carta_id AND cd.estado=1
+                    LEFT JOIN flujos f ON c.flujo_id=f.id
                     WHERE c.id = '".Input::get('carta_id')."'
                     GROUP BY c.id";
         }
-        $set=DB::select('SET group_concat_max_len := @@max_allowed_packet');
+        $set=DB::statement('SET group_concat_max_len := @@max_allowed_packet');
         $r=DB::select($sql);
 
         return $r;
@@ -243,6 +262,7 @@ class Carta extends Base
                 $carta=new Carta;
                 $carta['usuario_created_at']=Auth::user()->id;
                 $carta['area_id']=Input::get('area_id');
+                $carta['flujo_id']=Input::get('flujo_id');
                 $carta['nro_carta']=Input::get('nro_carta');
                 $correlativo=explode("-",Input::get('nro_carta'));
                 $carta['correlativo']= $correlativo[1]*1;
@@ -351,5 +371,11 @@ class Carta extends Base
                 ->get();
                 
         return $r;
+    }
+
+    public static function CalcularFechaFin($array){
+        $sql="SELECT CalcularFechaFin('".$array['fecha']."',".$array['tiempo'].",".$array['area'].") AS ff;";
+        $r= DB::select($sql);
+        return $r[0]->ff;
     }
 }

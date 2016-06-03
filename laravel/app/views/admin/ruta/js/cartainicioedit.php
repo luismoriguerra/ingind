@@ -85,6 +85,8 @@ HTMLCargarDetalleCartas=function(datos){
         }
 
     });
+    $("#form_carta #txt_flujo").val(datos[0].flujo);
+    $("#form_carta #txt_flujo_id").val(datos[0].flujo_id);
 }
 
 CargarRegistro=function(id){

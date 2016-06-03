@@ -19,6 +19,15 @@
             <input type="text" class="form-control" placeholder="Ingrese Nombre" name="txt_nombre" id="txt_nombre">
           </div>
           <div class="form-group">
+              <label class="control-label">Categoria:
+                <a id="error_categoria" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Seleccione Categoria">
+                    <i class="fa fa-exclamation"></i>
+                </a>
+              </label>
+              <select class="form-control" name="slct_categoria_id" id="slct_categoria_id">
+              </select>
+          </div>
+          <div class="form-group">
               <label class="control-label">Area del Proceso:
                 <a id="error_area" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Seleccione Area">
                     <i class="fa fa-exclamation"></i>

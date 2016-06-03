@@ -7,6 +7,7 @@
 	"require": {
 		"laravel/framework": "4.2.*",
 		"way/generators": "~2.0",
+		"itsgoingd/clockwork": "1.*",
 		"thujohn/pdf": "dev-master"
 	},
 	"autoload": {
@@ -19,6 +20,7 @@
 			"app/models",
 			"app/database/migrations",
 			"app/database/seeds",
+			"app/libraries",
 			"app/tests/TestCase.php"
 		]
 	},

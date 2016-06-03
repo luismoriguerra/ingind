@@ -1,4 +1,29 @@
 /**
+ * Muestra un mensaje al pie de la página
+ * 
+ * @param String tipo "success" para OK o "danger" para ERROR
+ * @param String texto El mensaje a mostrar
+ * @param Int tiempo Tiempo que tarda en desaparecer el mensaje
+ * @returns {undefined}
+ */
+function alertBootstrap(tipo, texto, tiempo) {
+    var fan= '<i class="fa fa-ban"></i>';
+    if (tipo==='success') {
+        fan='<i class="fa fa-check"></i>';
+    }
+    if (tipo == 'danger' && texto.length == 0) {
+        texto = 'Ocurrio una interrupción en el proceso, favor de intentar nuevamente.';
+    }
+    var html='<div class="alert alert-dismissable alert-' + tipo + '">' +fan+
+            '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>' +
+            '<b>' + texto + '</b>' +
+            '</div>';
+
+    $("#msj").html(html);
+    $("#msj").effect('shake');
+    $("#msj").fadeOut(tiempo*1000);
+}
+/**
  * 
  * Utilitarios Javascript
  * 
