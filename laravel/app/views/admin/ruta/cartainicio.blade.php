@@ -130,7 +130,7 @@
                                 <a id="btn_recursos_0" onclick="AddTr(this.id,null);" class="btn btn-success btn-sm">
                                     <i class="fa fa-plus fa-lg"></i>
                                 </a>
-                                Recursos (No humanos):
+                                Bienes y Servicios:
                                 </label>
                         </div>
                         <div class="row form-group" id="tabla_recursos">
@@ -140,7 +140,7 @@
                                         <thead>
                                             <tr>
                                                 <th>N°</th>
-                                                <th>Tipo Recurso</th>
+                                                <th>Tipo Bien y/o Servicio</th>
                                                 <th>Descripción</th>
                                                 <th>Cantidad</th>
                                                 <th> [ ] </th>
@@ -185,7 +185,7 @@
                                 <a id="btn_desgloses_2" onclick="AddTr(this.id,null);" class="btn btn-success btn-sm">
                                     <i class="fa fa-plus fa-lg"></i>
                                 </a>
-                                Desglose de Carta de Inicio N°:
+                                Cronograma de Actividdades:
                                 </label>
                                 <label>
                                 Fecha de Inicio:
