@@ -119,9 +119,40 @@ class CargarController extends BaseController
                                     $tr['usuario_created_at'] = Auth::user()->id;
                                     $tr->save();
 
-                                    $rf=RutaFlujo::where( 'flujo_id','=',$ainterna->flujo_id )
+                                    $flujo_interno=trim($detfile[13]);
+                                    $rf=array('');
+                                    if( $flujo_interno!='' ){
+                                        $fi=FlujoInterno::where( 'flujo_id_interno','=',$flujo_interno )
+                                                        ->where('estado','=','1')
+                                                        ->first();
+                                        if( count($fi)>0 ){
+                                            if( trim($fi->flujo_id)!='' ){
+                                                $rf=RutaFlujo::where( 'flujo_id','=',$fi->flujo_id )
+                                                            ->where('estado','=','1')
+                                                            ->first();
+                                            }
+                                            elseif( trim($fi->nombre)!='' ){
+                                                $sql="  SELECT 
+                                                        FROM rutas_flujo rf
+                                                        INNER JOIN flujos f ON rf.flujo_id=f.id
+                                                        WHERE f.nombre LIKE '".$fi->nombre."%'
+                                                        AND rf.area_id=".$ainterna->area_id;
+                                                $qsql=DB::select($sql);
+                                                $rf=$qsql[0];
+                                            }
+                                        }
+                                        else{
+                                            $rf=RutaFlujo::where( 'flujo_id','=',$ainterna->flujo_id )
+                                                        ->where('estado','=','1')
+                                                        ->first();
+                                        }
+
+                                    }
+                                    else{
+                                        $rf=RutaFlujo::where( 'flujo_id','=',$ainterna->flujo_id )
                                                     ->where('estado','=','1')
                                                     ->first();
+                                    }
 
                                     $rutaFlujo=RutaFlujo::find($rf->id);
                                     
