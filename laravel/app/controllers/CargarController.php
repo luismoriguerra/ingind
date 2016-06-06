@@ -36,10 +36,10 @@ class CargarController extends BaseController
             $array=array();
             $arrayExist=array();
 
-            //$file=file('C:\\wamp\\www\\ingind\\public\\txt\\asignacion\\'.$archivoNuevo);
+            $file=file('C:\\wamp\\www\\ingind\\public\\txt\\asignacion\\'.$archivoNuevo);
             //$file=file('/home/m1ndepen/public_html/procesosmuni/public/txt/asignacion/'.$archivoNuevo);
             
-            $file=file('/var/www/html/ingind/public/txt/asignacion/'.$archivoNuevo);
+            //$file=file('/var/www/html/ingind/public/txt/asignacion/'.$archivoNuevo);
                 for($i=0; $i < count($file); $i++) {
                     $detfile=explode("\t",$file[$i]);
 
@@ -132,7 +132,7 @@ class CargarController extends BaseController
                                                             ->first();
                                             }
                                             elseif( trim($fi->nombre)!='' ){
-                                                $sql="  SELECT 
+                                                $sql="  SELECT rf.*
                                                         FROM rutas_flujo rf
                                                         INNER JOIN flujos f ON rf.flujo_id=f.id
                                                         WHERE f.nombre LIKE '".$fi->nombre."%'
