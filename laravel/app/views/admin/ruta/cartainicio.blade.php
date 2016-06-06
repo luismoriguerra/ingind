@@ -130,7 +130,7 @@
                                 <a id="btn_recursos_0" onclick="AddTr(this.id,null);" class="btn btn-success btn-sm">
                                     <i class="fa fa-plus fa-lg"></i>
                                 </a>
-                                Bienes y Servicios:
+                                Bienes y/o Servicios:
                                 </label>
                         </div>
                         <div class="row form-group" id="tabla_recursos">
@@ -202,7 +202,7 @@
                                                 <th>Tipo Actividad</th>
                                                 <th>Actividad</th>
                                                 <th style="width:300px !important;">Responsable - Area</th>
-                                                <th>Recursos</th>
+                                                <th>Bienes y/o Servicios</th>
                                                 <th style="width:106px !important;">Fecha Inicio</th>
                                                 <th style="width:106px !important;">Fecha Fin</th>
                                                 <th style="width:70px !important;">Hora Inicio</th>
