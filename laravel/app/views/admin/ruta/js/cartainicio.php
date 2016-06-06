@@ -195,14 +195,16 @@ AddTr=function(id, data, automatico){
         $("#"+vcopy[i].split("|")[0]).html( $("#"+vcopy[i].split("|")[1]).html() );
         
         if ( typeof data!='undefined' && data!=null && data.responsable_area!=null && vcopy[i].indexOf('slct_persona_id')>=0) {
-            $("#"+vcopy[i].split("|")[0]+" option").css("display",'none');
-            $("#"+vcopy[i].split("|")[0]+" option[value$='-"+data.area_id_paso+"']").css("display",'');
+            $("#"+vcopy[i].split("|")[0]+" option").css("display",'none').addClass("eliminar");
+            $("#"+vcopy[i].split("|")[0]+" option[value$='-"+data.area_id_paso+"']").css("display",'').removeClass("eliminar");
+            $("#"+vcopy[i].split("|")[0]+" option.eliminar").remove();
             $("#"+vcopy[i].split("|")[0]).val( data.responsable_area );
         }
-        //slctGlobalHtml(vcopy[i].split("|")[0],'simple');
-        //$(".multiselect").css("font-size","11px").css("text-transform","lowercase");
-        //$(".multiselect-container>li").css("font-size","12px").css("text-transform","lowercase");
+        slctGlobalHtml(vcopy[i].split("|")[0],'simple');
     };
+
+    $(".multiselect").css("font-size","11px").css("text-transform","lowercase");
+    $(".multiselect-container>li").css("font-size","12px").css("text-transform","lowercase");
 
     $('.fecha').daterangepicker({
         format: 'YYYY-MM-DD',
