@@ -24,6 +24,7 @@ var AreaIdG='';
 var tiemposG=[];
 
 $(document).ready(function() {
+    $("[data-toggle='offcanvas']").click();
     AreaIdG='';
     AreaIdG='<?php echo Auth::user()->area_id; ?>';
     $('#txt_fecha_inicio').daterangepicker({
@@ -241,10 +242,7 @@ HTMLCargarCorrelativo=function(obj){
     var ano= obj.ano;
     var correlativo=obj.correlativo;
     var area = obj.area.split(" ");
-    var siglas='';
-    for( i=0; i<area.length; i++ ){
-        siglas+=area[i].substr(0,1);
-    }
+    var siglas=obj.siglas;
 
     var codigo= "CI-"+correlativo+"-"+ano+"-"+siglas;
     $("#txt_nro_carta").val(codigo);

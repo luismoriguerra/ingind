@@ -7,7 +7,7 @@ class Carta extends Base
     public static function Correlativo(){
         $areaId= Input::get('area_id');
         $año= date("Y");
-        $sql="  SELECT LPAD(c.correlativo+1,4,'0') correlativo,a.nombre area,'$año' ano
+        $sql="  SELECT LPAD(c.correlativo+1,4,'0') correlativo, a.nombre area,'$año' ano, a.nemonico siglas
                 FROM cartas c 
                 INNER JOIN areas a ON a.id=c.area_id
                 WHERE year(c.created_at)='$año'
@@ -21,7 +21,7 @@ class Carta extends Base
             return $r[0];
         }
         else{
-            $sql="  SELECT '0001' correlativo,nombre area, '$año' ano
+            $sql="  SELECT '0001' correlativo, nombre area, '$año' ano, a.nemonico siglas
                     FROM areas 
                     WHERE id='$areaId'";
             $r= DB::select($sql);
