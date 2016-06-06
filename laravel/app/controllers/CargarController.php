@@ -134,9 +134,9 @@ class CargarController extends BaseController
                                             elseif( trim($fi->nombre)!='' ){
                                                 $sql="  SELECT rf.*
                                                         FROM rutas_flujo rf
-                                                        INNER JOIN flujos f ON rf.flujo_id=f.id
+                                                        INNER JOIN flujos f ON rf.flujo_id=f.id AND f.estado=1
                                                         WHERE f.nombre LIKE '".$fi->nombre."%'
-                                                        AND rf.area_id=".$ainterna->area_id;
+                                                        AND FIND_IN_SET(SUBSTRING_INDEX(f.nombre,' ',-1),(SELECT nemonico FROM areas WHERE id=".$ainterna->area_id."))>0";
                                                 $qsql=DB::select($sql);
                                                 $rf=$qsql[0];
                                             }
