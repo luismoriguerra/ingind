@@ -102,7 +102,7 @@ class Carta extends Base
         elseif (Input::has('flujo_id')) {
             //gerente o subgerente de las areas a cargo
             $sql="  SELECT f.id, f.nombre, f.estado,
-                    f.area_id, f.area_id as evento, 
+                    f.area_id, f.area_id as evento, a.id area_id_paso,
                     IF(f.tipo_flujo=1,'Trámite','Proceso de oficio') as tipo_flujo,
                     f.tipo_flujo as tipo_flujo_id,
                     CONCAT(p.id,'-', a.id) as responsable_area,
