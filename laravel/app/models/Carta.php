@@ -323,6 +323,7 @@ class Carta extends Base
                 $desgloses[]=Input::get('des_ffi');
                 $desgloses[]=Input::get('des_hin');
                 $desgloses[]=Input::get('des_hfi');
+                $desgloses[]=Input::get('des_ale');
 
                 for( $i=0; $i<count($desgloses[0]); $i++ ){
                     $cartaDesglose=new CartaDesglose;
@@ -339,7 +340,7 @@ class Carta extends Base
                     $cartaDesglose['fecha_fin']=$desgloses[5][$i];
                     $cartaDesglose['hora_inicio']=$desgloses[6][$i];
                     $cartaDesglose['hora_fin']=$desgloses[7][$i];
-
+                    $cartaDesglose['fecha_alerta']=$desgloses[8][$i];
                     $cartaDesglose->save();
                 }
             }

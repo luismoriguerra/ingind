@@ -116,7 +116,7 @@ AddTr=function(id, data, automatico){
     var idf=id.split("_")[1];
     var pos=id.split("_")[2];
     PosCarta[pos]++;
-    var datatext=""; var dataid="";
+    var datatext=""; var dataid=""; var valor='';
     var clase=""; var readonly="";
     var ctype=""; var ccopy=""; var vcopy=[]; var valarray=[];
 
@@ -126,7 +126,7 @@ AddTr=function(id, data, automatico){
         add+="</td>";
     for (var i = 0; i < ($("#t_"+idf+" thead tr th").length-2); i++) {
         
-        clase='';readonly='';
+        clase='';readonly='';valor='';
         if ( idf=="recursos" ){
             datatext=recursos[i];
             dataid=recursosid[i];
@@ -160,6 +160,12 @@ AddTr=function(id, data, automatico){
                 }
                 readonly='readonly';
             }
+            else if( i==6 ){
+                valor='08:00';
+            }
+            else if( i==7 ){
+                valor='17:30';
+            }
         }
 
         if( ctype=="slct" ){
@@ -172,7 +178,7 @@ AddTr=function(id, data, automatico){
         }
         else{
             add+="<td>";
-            add+="<input class='form-control col-sm-12 "+clase+"' type='text' data-text='"+datatext+"' data-type='txt' id='txt_"+idf+"_"+PosCarta[pos]+"_"+dataid+"' name='txt_"+dataid+"[]' "+readonly+">";
+            add+="<input class='form-control col-sm-12 "+clase+"' type='text' data-text='"+datatext+"' data-type='txt' id='txt_"+idf+"_"+PosCarta[pos]+"_"+dataid+"' name='txt_"+dataid+"[]' value='"+valor+"' "+readonly+">";
             add+="</td>";
         }
     };
