@@ -36,10 +36,10 @@ class CargarController extends BaseController
             $array=array();
             $arrayExist=array();
 
-            $file=file('C:\\wamp\\www\\ingind\\public\\txt\\asignacion\\'.$archivoNuevo);
+            //$file=file('C:\\wamp\\www\\ingind\\public\\txt\\asignacion\\'.$archivoNuevo);
             //$file=file('/home/m1ndepen/public_html/procesosmuni/public/txt/asignacion/'.$archivoNuevo);
             
-            //$file=file('/var/www/html/ingind/public/txt/asignacion/'.$archivoNuevo);
+            $file=file('/var/www/html/ingind/public/txt/asignacion/'.$archivoNuevo);
                 for($i=0; $i < count($file); $i++) {
                     $detfile=explode("\t",$file[$i]);
 
