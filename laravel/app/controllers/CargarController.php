@@ -128,7 +128,7 @@ class CargarController extends BaseController
                                         if( count($fi)>0 ){
                                             if( trim($fi->flujo_id)!='' ){
                                                 $rf=RutaFlujo::where( 'flujo_id','=',$fi->flujo_id )
-                                                            ->where('estados','=','1')
+                                                            ->where('estado','=','1')
                                                             ->first();
                                             }
                                             elseif( trim($fi->nombre)!='' ){
