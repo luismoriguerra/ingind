@@ -122,8 +122,8 @@ class CargarController extends BaseController
                                     $flujo_interno=trim($detfile[13]);
                                     $rf=array('');
                                     if( $flujo_interno!='' ){
-                                        $fi=FlujoInterno::where( 'flujo_id_interno','=',$flujo_interno )
-                                                        ->where('estado','=','1')
+                                        $fi=FlujoInterno::where( 'flujo_id_interno','=',($flujo_interno*1) )
+                                                        ->where('estados','=','1')
                                                         ->first();
                                         if( count($fi)>0 ){
                                             if( trim($fi->flujo_id)!='' ){
