@@ -123,12 +123,12 @@ class CargarController extends BaseController
                                     $rf=array('');
                                     if( $flujo_interno!='' ){
                                         $fi=FlujoInterno::where( 'flujo_id_interno','=',($flujo_interno*1) )
-                                                        ->where('estados','=','1')
+                                                        ->where('estado','=','1')
                                                         ->first();
                                         if( count($fi)>0 ){
                                             if( trim($fi->flujo_id)!='' ){
                                                 $rf=RutaFlujo::where( 'flujo_id','=',$fi->flujo_id )
-                                                            ->where('estado','=','1')
+                                                            ->where('estados','=','1')
                                                             ->first();
                                             }
                                             elseif( trim($fi->nombre)!='' ){
