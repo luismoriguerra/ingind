@@ -114,3 +114,4 @@ Route::controller('categoria', 'Cronograma\Categoria\CategoriaController');
 Route::controller('plantilla', 'Cronograma\PlantillasWord\PlantillaController');
 Route::controller('fechanolaborable', 'Cronograma\Fechanolaborable\FechanolaborableController');
 Route::controller('llamadaatencion', 'Cronograma\LlamadaAtencion\LlamadaatencionController');
+Route::controller('reportec', 'Cronograma\Reporte\EstadoCronogramaTareaController');
