@@ -182,7 +182,7 @@ class ReporteFinalController extends BaseController
       $array['area']='';
       if( Input::has('area_4') AND Input::get('area_4')!='' ){
         $array['area']=implode("','",Input::get('area_4'));
-        $array['area']=" AND a.id IN ('".$array['area']."') ";
+        $array['area']=" AND rd.area_id IN ('".$array['area']."') ";
       }
 
       $r = Reporte::TramitePendiente( $array );
