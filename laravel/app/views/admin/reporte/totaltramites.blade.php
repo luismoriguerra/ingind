@@ -54,6 +54,12 @@
                         Trámites por Fechas y (Area o Proceso)
                     </a>
                 </li>
+                <li class="logo tab_4">
+                    <a href="#tab_4" data-toggle="tab">
+                        <button class="btn btn-primary btn-sm"><i class="fa fa-edit fa-lg"></i> </button>
+                        Trámites pendientes Area
+                    </a>
+                </li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1" onclick="ActPest(1);">
@@ -328,6 +334,42 @@
                                                 (N° Doc.
                                                 Descripcion)
                                                 </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane" id="tab_4" onclick="ActPest(4);">
+                    <form id="form_4" name="form_4" method="post">
+                        <div class="box">
+                            <fieldset>
+                                <div class="row form-group">
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-3">
+                                            <label class="control-label">Área:</label>
+                                            <select id="slct_area_4" name="slct_area_4[]" class="form-control" multiple></select>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label class="control-label"></label>
+                                            <input type="button" class="form-control btn btn-primary" id="generar_4" name="generar_4" value="Mostrar">
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="box-body table-responsive">
+                            <div class="row form-group" id="reportetp_tab_4" style="display:none;">
+                                <div class="col-sm-12">
+                                    <table id="t_reportetp_tab_4" class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Area</th>
+                                                <th>Total Pen vs Total Inc</th>
                                             </tr>
                                         </thead>
                                         <tbody>

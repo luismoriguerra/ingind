@@ -176,4 +176,22 @@ class ReporteFinalController extends BaseController
       return Response::json( $retorno );
     }
 
+    public function postTramitependiente()
+    {
+      $array=array();
+      $array['area']='';
+      if( Input::has('area_4') AND Input::get('area_4')!='' ){
+        $array['area']=implode("','",Input::get('area_4'));
+        $array['area']=" AND a.id IN ('".$array['area']."') ";
+      }
+
+      $r = Reporte::TramitePendiente( $array );
+      return Response::json(
+          array(
+              'rst'=>1,
+              'datos'=>$r
+          )
+      );
+    }
+
 }

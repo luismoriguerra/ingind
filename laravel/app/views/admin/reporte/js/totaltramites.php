@@ -27,7 +27,7 @@ $(document).ready(function(){
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_proceso_3','multiple',ids,data);
     data = {estado:1};
-    slctGlobal.listarSlct('area','slct_area_3','multiple',ids,data);
+    slctGlobal.listarSlct('area','slct_area_3,#slct_area_4','multiple',ids,data);
 
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
@@ -41,6 +41,9 @@ $(document).ready(function(){
     });
     $("#generar_3").click(function (){
         reportep();
+    });
+    $("#generar_4").click(function (){
+        reportea();
     });
 
     $('#rutaModal').on('show.bs.modal', function (event) {
@@ -139,6 +142,8 @@ valida=function(nro){
             r=false;
         }
     }
+    else if( nro==4 ){
+    }
     return r;
 }
 
@@ -146,7 +151,7 @@ reportet=function(tab){
         $("#btn_close").click();
     if( valida(tab) ){
         var datos=$("#form_"+tab).serialize().split("txt_").join("").split("slct_").join("");
-        Tramite.mostrart( datos,HTMLreportet );
+        Tramite.mostrar( datos,HTMLreportet,'t' );
         $("#reported_tab_"+Pest).hide();
     }
 }
@@ -155,7 +160,16 @@ reportep=function(){
         $("#btn_close").click();
     if( valida(3) ){
         var datos=$("#form_3").serialize().split("txt_").join("").split("slct_").join("");
-        Tramite.mostrarp( datos,HTMLreportep );
+        Tramite.mostrar( datos,HTMLreportep,'p' );
+        $("#reportet_tab_"+Pest+",#reported_tab_"+Pest).hide();
+    }
+}
+
+reportea=function(){
+        $("#btn_close").click();
+    if( valida(4) ){
+        var datos=$("#form_4").serialize().split("txt_").join("").split("slct_").join("");
+        Tramite.mostrar( datos,HTMLreportetp,'tp' );
         $("#reportet_tab_"+Pest+",#reported_tab_"+Pest).hide();
     }
 }
@@ -210,7 +224,7 @@ detalletra=function(ruta_flujo_id, boton){
     $("#form_"+Pest).append("<input type='hidden' id='txt_ruta_flujo_id' name='txt_ruta_flujo_id' value='"+ruta_flujo_id+"'>");
     var datos=$("#form_"+Pest).serialize().split("txt_").join("").split("slct_").join("");
     $("#form_"+Pest+" #txt_ruta_flujo_id").remove();
-    Tramite.mostrart( datos,HTMLreportet );
+    Tramite.mostrar( datos,HTMLreportet,'t' );
     $("#reported_tab_"+Pest).hide();
 }
 
@@ -225,7 +239,7 @@ detalle=function(ruta_id, boton){
     $("#form_"+Pest).append("<input type='hidden' id='txt_ruta_id' name='txt_ruta_id' value='"+ruta_id+"'>");
     var datos=$("#form_"+Pest).serialize().split("txt_").join("").split("slct_").join("");
     $("#form_"+Pest+" #txt_ruta_id").remove();
-    Tramite.mostrard( datos,HTMLreported );
+    Tramite.mostrar( datos,HTMLreported,'d' );
 };
 
 HTMLreportet=function(datos){
@@ -256,6 +270,42 @@ HTMLreportet=function(datos){
     $("#t_reportet_tab_"+Pest+" tbody").html(html);
     $("#t_reportet_tab_"+Pest).dataTable();
     $("#reportet_tab_"+Pest).show();
+};
+
+HTMLreportetp=function(datos){
+    var btnruta='';
+    var html="";
+
+    $("#t_reportetp_tab_"+Pest+" tbody").html('');
+    $("#t_reportetp_tab_"+Pest).dataTable().fnDestroy();
+    $("#t_reportetp_tab_"+Pest+" thead>tr.Eliminar").remove();
+    carga=1;color='';
+
+    $.each(datos[1],function(i,d){
+        color='black';
+            if( d['total_in']*1>0 ){
+                color='red';
+            }
+        html+="<tr>"+
+            "<td>"+d['area']+"</td>"+
+            "<td>"+d['total']+"/<font color="+color+">"+d['total_in']+"</font></td>";
+        $.each(datos[0],function(i2,d2){
+            if( carga==1 ){
+                $("#t_reportetp_tab_"+Pest+" thead>tr").append('<th class="Eliminar">'+d2.split("|")[1]+'</th>');
+            }
+                color='black';
+                if( d['area_id_'+d2.split("|")[0]+'_in']*1>0 ){
+                    color='red';
+                }
+            html+="<td>"+d['area_id_'+d2.split("|")[0]]+"/<font color="+color+">"+d['area_id_'+d2.split("|")[0]+'_in']+"</font></td>";
+        });
+        carga++;
+        html+="</tr>";
+    });
+
+    $("#t_reportetp_tab_"+Pest+" tbody").html(html);
+    $("#t_reportetp_tab_"+Pest).dataTable();
+    $("#reportetp_tab_"+Pest).show();
 };
 
 HTMLreported=function(datos){

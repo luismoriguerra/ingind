@@ -223,5 +223,60 @@ class Reporte extends Eloquent
         $r= DB::select($sql);
         return $r;
     }
+
+    public static function TramitePendiente( $array ){
+        $detalle="";$qsqlDet="";
+        $r=array();
+        $sqlCab="   SELECT IF(a.nemonico!='',a.nemonico,a.nombre) area,a.id
+                    FROM rutas r
+                    INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
+                    INNER JOIN areas a ON a.id=rd.area_id
+                    WHERE r.estado=1 
+                    AND rd.fecha_inicio!='' 
+                    AND rd.dtiempo_final IS NULL
+                    ".$array['area']."
+                    GROUP BY a.id
+                    ORDER BY a.nombre DESC";
+        $qsqlCab=DB::select($sqlCab);
+
+        for ($i=0; $i < count($qsqlCab); $i++) { 
+            $detalle.=" ,COUNT( IF(r.area_id=".$qsqlCab[$i]->id.",r.area_id,NULL) ) area_id_".$qsqlCab[$i]->id."
+                        ,COUNT( IF(r.area_id=".$qsqlCab[$i]->id." AND 
+                                    DATE_ADD(
+                                    rd.fecha_inicio, 
+                                    INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
+                                    )<=CURRENT_DATE(),
+                                    r.area_id,NULL
+                                    ) 
+                        ) area_id_".$qsqlCab[$i]->id."_in";
+            array_push($r,$qsqlCab[$i]->id."|".$qsqlCab[$i]->area);
+        }
+
+        $qsqlDet="  SELECT a.nombre area,COUNT(rd.area_id) total, COUNT(DISTINCT(r.area_id)) total_area,
+                    COUNT( 
+                        IF(
+                            DATE_ADD(
+                                rd.fecha_inicio, 
+                                INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
+                            )<=CURRENT_DATE(),r.area_id,NULL
+                        )
+                    ) total_in
+                    $detalle 
+                    FROM rutas r
+                    INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
+                    INNER JOIN flujos f ON f.id=r.flujo_id
+                    INNER JOIN tiempos t ON t.id=rd.tiempo_id
+                    INNER JOIN areas a ON a.id=rd.area_id
+                    WHERE r.estado=1 
+                    AND rd.fecha_inicio!='' 
+                    AND rd.dtiempo_final IS NULL
+                    ".$array['area']."
+                    GROUP BY rd.area_id";
+        $qsqlDet=DB::select($qsqlDet);
+
+        $rf[0]=$r;
+        $rf[1]=$qsqlDet;
+        return $rf;
+    }
 }
 ?>
