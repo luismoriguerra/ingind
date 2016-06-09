@@ -279,7 +279,7 @@ HTMLreportetp=function(datos){
     $("#t_reportetp_tab_"+Pest+" tbody").html('');
     $("#t_reportetp_tab_"+Pest).dataTable().fnDestroy();
     $("#t_reportetp_tab_"+Pest+" thead>tr .Eliminar").remove();
-    $("#t_reportetp_tab_"+Pest+" thead>tr:eq(0)").append('<th colspan="'+datos[0].length+'" class="Eliminar">Área(s) del(os) Dueño(s) de Proceso(s) </th>');
+    $("#t_reportetp_tab_"+Pest+" thead>tr:eq(0)").append('<th colspan="'+datos[0].length+'" style="text-align:center !important;" class="Eliminar">Área(s) del(os) Dueño(s) de Proceso(s) </th>');
     carga=1;color='';
 
     $.each(datos[1],function(i,d){
