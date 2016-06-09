@@ -279,6 +279,7 @@ HTMLreportetp=function(datos){
     $("#t_reportetp_tab_"+Pest+" tbody").html('');
     $("#t_reportetp_tab_"+Pest).dataTable().fnDestroy();
     $("#t_reportetp_tab_"+Pest+" thead>tr .Eliminar").remove();
+    $("#t_reportetp_tab_"+Pest+" thead>tr:eq(0)").append('<th colspan="'+datos[0].length+'" class="Eliminar">Área(s) del(os) Dueño(s) de Proceso(s) </th>');
     carga=1;color='';
 
     $.each(datos[1],function(i,d){
@@ -295,7 +296,7 @@ HTMLreportetp=function(datos){
             "<td>"+d['total']+"/<font color="+color+">"+d['total_in']+"</font></td>";
         $.each(datos[0],function(i2,d2){
             if( carga==1 ){
-                $("#t_reportetp_tab_"+Pest+" thead>tr").append('<th class="Eliminar">'+d2.split("|")[1]+'</th>');
+                $("#t_reportetp_tab_"+Pest+" thead>tr:eq(1)").append('<th class="Eliminar">'+d2.split("|")[1]+'</th>');
             }
                 color='black';
                 if( d['area_id_'+d2.split("|")[0]+'_in']*1>0 ){

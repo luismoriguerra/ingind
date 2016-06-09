@@ -351,7 +351,7 @@
                                 <div class="row form-group">
                                     <div class="col-sm-12">
                                         <div class="col-sm-3">
-                                            <label class="control-label">Área:</label>
+                                            <label class="control-label">Área(s) Involucrada(s) del Proceso:</label>
                                             <select id="slct_area_4" name="slct_area_4[]" class="form-control" multiple></select>
                                         </div>
                                         <div class="col-sm-2">
@@ -368,7 +368,10 @@
                                     <table id="t_reportetp_tab_4" class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Area</th>
+                                                <th colspan="2">
+                                            </tr>
+                                            <tr>
+                                                <th>Área(s)<br>Involucrada(s)<br>del Proceso</th>
                                                 <th>Total Pen vs Total Inc</th>
                                             </tr>
                                         </thead>
