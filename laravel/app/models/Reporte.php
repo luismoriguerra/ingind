@@ -230,7 +230,7 @@ class Reporte extends Eloquent
         $sqlCab="   SELECT IF(a.nemonico!='',a.nemonico,a.nombre) area,a.id
                     FROM rutas r
                     INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
-                    INNER JOIN areas a ON a.id=rd.area_id
+                    INNER JOIN areas a ON a.id=r.area_id
                     WHERE r.estado=1 
                     AND rd.fecha_inicio!='' 
                     AND rd.dtiempo_final IS NULL
