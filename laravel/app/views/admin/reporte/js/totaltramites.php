@@ -281,7 +281,7 @@ HTMLreportetp=function(datos){
     $("#t_reportetp_tab_"+Pest+" thead>tr.Eliminar").remove();
     carga=1;color='';
 
-    $.each(datos[1],function(i,d){
+    /*$.each(datos[1],function(i,d){
         color='black';
             if( d['total_in']*1>0 ){
                 color='red';
@@ -301,7 +301,7 @@ HTMLreportetp=function(datos){
         });
         carga++;
         html+="</tr>";
-    });
+    });*/
 
     $("#t_reportetp_tab_"+Pest+" tbody").html(html);
     $("#t_reportetp_tab_"+Pest).dataTable();
