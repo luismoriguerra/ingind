@@ -283,11 +283,15 @@ HTMLreportetp=function(datos){
 
     $.each(datos[1],function(i,d){
         color='black';
+        area=d['area'];
             if( d['total_in']*1>0 ){
                 color='red';
             }
+            if( datos[1].length-1==i ){
+                area="<b>Totales:</b>";
+            }
         html+="<tr>"+
-            "<td>"+d['area']+"</td>"+
+            "<td>"+area+"</td>"+
             "<td>"+d['total']+"/<font color="+color+">"+d['total_in']+"</font></td>";
         $.each(datos[0],function(i2,d2){
             if( carga==1 ){

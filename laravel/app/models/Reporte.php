@@ -271,7 +271,7 @@ class Reporte extends Eloquent
                     AND rd.fecha_inicio!='' 
                     AND rd.dtiempo_final IS NULL
                     ".$array['area']."
-                    GROUP BY rd.area_id";
+                    GROUP BY rd.area_id WITH ROLLUP";
         $qsqlDet=DB::select($qsqlDet);
 
         $rf[0]=$r;
