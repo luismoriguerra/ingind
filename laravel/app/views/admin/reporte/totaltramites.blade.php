@@ -350,7 +350,7 @@
                             <fieldset>
                                 <div class="row form-group">
                                     <div class="col-sm-12">
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-4">
                                             <label class="control-label">Área(s) Involucrada(s) del Proceso:</label>
                                             <select id="slct_area_4" name="slct_area_4[]" class="form-control" multiple></select>
                                         </div>
@@ -363,11 +363,12 @@
                             </fieldset>
                         </div>
                         <div class="box-body table-responsive">
-                            <div class="row form-group" id="reportetp_tab_4" style="display:none;">
+                            <div class="row form-group" id="reportetp_tab_4" style="display:;">
                                 <div class="col-sm-12">
                                     <table id="t_reportetp_tab_4" class="table table-bordered">
                                         <thead>
                                             <tr>
+                                                <th colspan="2">&nbsp;<th>
                                             </tr>
                                             <tr>
                                                 <th rowspan="2">Área(s)<br>Involucrada(s)<br>del Proceso</th>
