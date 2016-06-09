@@ -363,7 +363,7 @@
                             </fieldset>
                         </div>
                         <div class="box-body table-responsive">
-                            <div class="row form-group" id="reportetp_tab_4" style="display:;">
+                            <div class="row form-group" id="reportetp_tab_4" style="display:none;">
                                 <div class="col-sm-12">
                                     <table id="t_reportetp_tab_4" class="table table-bordered">
                                         <thead>
@@ -371,8 +371,8 @@
                                                 <th colspan="2">&nbsp;<th>
                                             </tr>
                                             <tr>
-                                                <th rowspan="2">Área(s)<br>Involucrada(s)<br>del Proceso</th>
-                                                <th rowspan="2">Total Pen vs Total Inc</th>
+                                                <th>Área(s)<br>Involucrada(s)<br>del Proceso</th>
+                                                <th>Total Pen vs Total Inc</th>
                                             </tr>
                                         </thead>
                                         <tbody>
