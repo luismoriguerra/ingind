@@ -370,8 +370,8 @@
                                             <tr>
                                             </tr>
                                             <tr>
-                                                <th>Área(s)<br>Involucrada(s)<br>del Proceso</th>
-                                                <th>Total Pen vs Total Inc</th>
+                                                <th rowspan="2">Área(s)<br>Involucrada(s)<br>del Proceso</th>
+                                                <th rowspan="2">Total Pen vs Total Inc</th>
                                             </tr>
                                         </thead>
                                         <tbody>
