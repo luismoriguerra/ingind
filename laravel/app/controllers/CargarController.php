@@ -59,7 +59,7 @@ class CargarController extends BaseController
                         }
                         elseif( strtoupper(substr($ainterna->nombre,0,3))=='SUB' AND 
                                 ( strtoupper($tdoc[0])=='DS' OR strtoupper($tdoc[0])=='EX' ) AND
-                                $ainterna->id!=23
+                                $ainterna->id!=23 AND $ainterna->!=36
                         )
                         {
                             $arrayExist[]=$detfile[0]."; No se puede ingresar el tipo de tramite DS ni EX para sub gerencias a excepción de logistica";
