@@ -252,7 +252,7 @@ class Reporte extends Eloquent
             array_push($r,$qsqlCab[$i]->id."|".$qsqlCab[$i]->area);
         }
 
-        $qsqlDet="  SELECT a.nombre area,COUNT(rd.area_id) total, COUNT(DISTINCT(r.area_id)) total_area,
+        $qsqlDet="  SELECT a.nombre area,f.nombre proceso,COUNT(rd.area_id) total, COUNT(DISTINCT(r.area_id)) total_area,
                     COUNT( 
                         IF(
                             DATE_ADD(
@@ -271,11 +271,12 @@ class Reporte extends Eloquent
                     AND rd.fecha_inicio!='' 
                     AND rd.dtiempo_final IS NULL
                     ".$array['area']."
-                    GROUP BY rd.area_id WITH ROLLUP";
+                    GROUP BY rd.area_id".$array['sino']." WITH ROLLUP";
         $qsqlDet=DB::select($qsqlDet);
 
         $rf[0]=$r;
         $rf[1]=$qsqlDet;
+        $rf[2]=$array['sino'];
         return $rf;
     }
 }

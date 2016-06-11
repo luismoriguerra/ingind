@@ -359,6 +359,15 @@
                                             <input type="button" class="form-control btn btn-primary" id="generar_4" name="generar_4" value="Mostrar">
                                         </div>
                                     </div>
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-4">
+                                            <label class="control-label">Mostrar los procesos del área?:</label>
+                                            <select id="slct_sino" name="slct_sino" class="form-control">
+                                                <option value="0" selected>No</option>
+                                                <option value="1">Si</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </fieldset>
                         </div>
@@ -368,11 +377,10 @@
                                     <table id="t_reportetp_tab_4" class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th colspan="2">&nbsp;<th>
+                                                <th>&nbsp;<th>
                                             </tr>
                                             <tr>
                                                 <th>Área(s)<br>Involucrada(s)<br>del Proceso</th>
-                                                <th>Total Pen vs Total Inc</th>
                                             </tr>
                                         </thead>
                                         <tbody>

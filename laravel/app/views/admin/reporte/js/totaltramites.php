@@ -275,25 +275,55 @@ HTMLreportet=function(datos){
 HTMLreportetp=function(datos){
     var btnruta='';
     var html="";
+    var colspan="";
 
     $("#t_reportetp_tab_"+Pest+" tbody").html('');
-    //$("#t_reportetp_tab_"+Pest).dataTable().fnDestroy();
     $("#t_reportetp_tab_"+Pest+" thead>tr .Eliminar").remove();
+
+    if( datos[2]!='' ){
+        $("#t_reportetp_tab_"+Pest+" thead>tr:eq(0)").append('<th class="Eliminar">&nbsp;</th>');
+        $("#t_reportetp_tab_"+Pest+" thead>tr:eq(1)").append('<th class="Eliminar">Proceso</th>');
+    }
+
+    $("#t_reportetp_tab_"+Pest+" thead>tr:eq(1)").append('<th class="Eliminar">Total Pen vs<br> Total Inc</th>');
     $("#t_reportetp_tab_"+Pest+" thead>tr:eq(0)").append('<th colspan="'+datos[0].length+'" style="text-align:center !important;" class="Eliminar">Área(s) del(os) Dueño(s) de Proceso(s) </th>');
-    carga=1;color='';
+    carga=1;color='';datounico='';ocultar='';
 
     $.each(datos[1],function(i,d){
         color='black';
         area=d['area'];
+            if( area+d['proceso']!=datounico ){
+                datounico=area+d['proceso'];
+                ocultar='';
+            }
+            else if( area+d['proceso']==datounico && datos[1].length-1==i ){
+                ocultar='';
+            }
+            else{
+                datounico=area+d['proceso'];
+                ocultar=' style="display:none"';
+            }
+
             if( d['total_in']*1>0 ){
                 color='red';
             }
+            
+        html+="<tr "+ocultar+">";
             if( datos[1].length-1==i ){
-                area="<b>Totales:</b>";
+                if( datos[2]!='' ){
+                html+="<td>&nbsp;</td>";
+                }
+                html+="<td><b>Totales:</b></td>";
             }
-        html+="<tr>"+
-            "<td>"+area+"</td>"+
-            "<td>"+d['total']+"/<font color="+color+">"+d['total_in']+"</font></td>";
+            else{
+                html+="<td>"+area+"</td>";
+                if( datos[2]!='' ){
+                    html+="<td>"+d['proceso']+"</td>";
+                }
+            }
+            
+        html+="<td>"+d['total']+"/<font color="+color+">"+d['total_in']+"</font></td>";
+        
         $.each(datos[0],function(i2,d2){
             if( carga==1 ){
                 $("#t_reportetp_tab_"+Pest+" thead>tr:eq(1)").append('<th class="Eliminar">'+d2.split("|")[1]+'</th>');
@@ -309,7 +339,6 @@ HTMLreportetp=function(datos){
     });
 
     $("#t_reportetp_tab_"+Pest+" tbody").html(html);
-    //$("#t_reportetp_tab_"+Pest).dataTable();
     $("#reportetp_tab_"+Pest).show();
 };
 
