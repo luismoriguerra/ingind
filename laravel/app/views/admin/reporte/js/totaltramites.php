@@ -285,7 +285,7 @@ HTMLreportetp=function(datos){
         $("#t_reportetp_tab_"+Pest+" thead>tr:eq(1)").append('<th class="Eliminar">Proceso</th>');
     }
 
-    $("#t_reportetp_tab_"+Pest+" thead>tr:eq(1)").append('<th class="Eliminar">Total Pen vs<br> Total Inc</th>');
+    $("#t_reportetp_tab_"+Pest+" thead>tr:eq(1)").append('<th class="Eliminar">Total Pend vs<br> Total Inconc</th>');
     $("#t_reportetp_tab_"+Pest+" thead>tr:eq(0)").append('<th colspan="'+datos[0].length+'" style="text-align:center !important;" class="Eliminar">Área(s) del(os) Dueño(s) de Proceso(s) </th>');
     carga=1;color='';datounico='';ocultar='';
 
