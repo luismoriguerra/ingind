@@ -351,7 +351,7 @@
                                 <div class="row form-group">
                                     <div class="col-sm-12">
                                         <div class="col-sm-5">
-                                            <label class="control-label">Área(s) Involucrada(s) del Proceso:</label>
+                                            <label class="control-label">Seleccione el(las) Área(s) Involucrada(s) en el(los) Proceso(s):</label>
                                             <select id="slct_area_4" name="slct_area_4[]" class="form-control" multiple></select>
                                         </div>
                                         <div class="col-sm-2">
@@ -361,7 +361,7 @@
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="col-sm-4">
-                                            <label class="control-label">Mostrar los procesos del área?:</label>
+                                            <label class="control-label">¿Desea mostrar los procesos de las áreas dueñas?</label>
                                             <select id="slct_sino" name="slct_sino" class="form-control">
                                                 <option value="0" selected>No</option>
                                                 <option value="1">Si</option>
