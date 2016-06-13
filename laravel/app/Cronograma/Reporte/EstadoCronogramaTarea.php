@@ -25,9 +25,9 @@ class EstadoCronogramaTarea
                 -- Tramite 
                 -- TRAMITE  PASO ACTUAL     DIAS    F INICIO    F FINAL     SEMAFORO
                 tr.id_union tramite, rd.norden, CONCAT(t.apocope,': ',rd.dtiempo) tiempo_paso, cd.fecha_inicio, cd.fecha_fin,
-                IF( cda.ff<CURDATE(),'1_#FE0000',
-                        IF( cd.fecha_fin<CURDATE(),'2_#F8BB00', 
-                                '3_#89C34B'
+                IF( cda.ff<CURDATE(),'1_FE0000',
+                        IF( cd.fecha_fin<CURDATE(),'2_F8BB00', 
+                                '3_89C34B'
                         )
                 ) semaforo,
                 -- TAREA Y RESPONSABLE
