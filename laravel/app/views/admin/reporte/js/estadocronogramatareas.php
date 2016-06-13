@@ -48,27 +48,27 @@ HTMLreportep=function(datos){
     $('#t_reporte').dataTable().fnDestroy();
     $.each(datos,function(index,data){
         //semaforo='#507C33';//'Resuelto';//
-        //semaforo='#FF0000';//'Incumplimiento';//
-        //semaforo='#FFC000';//'Existe retraso en el paso actual';//
-        //semaforo='#92D050';//'No existe retraso en el paso actual';//
+        //semaforo='#FE0000';//'Incumplimiento';//
+        //semaforo='#F8BB00';//'Existe retraso en el paso actual';//
+        //semaforo='#89C34B';//'No existe retraso en el paso actual';//
         
         html+="<tr>"+
             "<td>"+data.proceso+"</td>"+
-            "<td>"+data.cantidad_pasos_proceso+"</td>"+
-            "<td>"+data.dias_total+"</td>"+
+            "<td>"+data.pasos+"</td>"+
+            "<td>"+data.tiempo+"</td>"+
+            "<td>"+data.fi+"</td>"+
+            "<td>"+data.ff+"</td>"+
             "<td>"+data.tramite+"</td>"+
-            "<td>"+data.ultimo_paso+"</td>"+
-            "<td>"+data.dias_ultimo_paso+"</td>"+
+            "<td>"+data.norden+"</td>"+
+            "<td>"+data.tiempo_paso+"</td>"+
             "<td>"+data.fecha_inicio+"</td>"+
             "<td>"+data.fecha_fin+"</td>"+
-            "<td style='background-color:#"+data.semaforo+"'>"+"</td>"+
-            "<td>"+data.tarea+"</td>"+
-            "<td>"+data.descripcion_tarea+"</td>"+
-            "<td>"+data.area+"</td>"+
+            "<td style='background-color:#"+data.semaforo.split("_")[1]+"'>"+data.semaforo.split("_")[0]+"</td>"+
+            "<td>"+data.tipo_tarea+"</td>"+
+            "<td>"+data.descripcion+"</td>"+
+            "<td>"+data.nemonico+"</td>"+
             "<td>"+data.responsable+"</td>"+
-            "<td>"+data.recursos+"</td>"+
-            '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#areaModal" data-id="'+index+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
-
+            "<td>"+data.recursos+"</td>";
         html+="</tr>";
     });
     $("#tb_reporte").html(html);

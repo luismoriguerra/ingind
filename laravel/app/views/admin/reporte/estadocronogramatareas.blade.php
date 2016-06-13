@@ -46,10 +46,9 @@
                                     </label>
                                     <select class="form-control" name="slct_semaforo" id="slct_semaforo">
                                         <option value="">.::Seleccione::.</option>
-                                        <option value="507C33">RESUELTO</option>
-                                        <option value="FF0000">INCUMPLIMIENTO</option>
-                                        <option value="FFC000">SI EXISTE RETRASO</option>
-                                        <option value="92D050">NO EXISTE RETRASO</option>
+                                        <option value="FE0000">INCUMPLIMIENTO</option>
+                                        <option value="F8BB00">SI EXISTE RETRASO</option>
+                                        <option value="89C34B">NO EXISTE RETRASO</option>
                                     </select>
                                     
 
@@ -79,14 +78,16 @@
                             <table id="t_reporte" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
-                                        <th style='background-color:#FFF2CC; TEXT-ALIGN: center; ' colspan="3">PROCESO</th>
+                                        <th style='background-color:#FFF2CC; TEXT-ALIGN: center; ' colspan="5">PROCESO</th>
                                         <th style='background-color:#DEEBF7; TEXT-ALIGN: center; ' colspan="6">TRAMITE</th>
-                                        <th style='background-color:#C4DFB3; TEXT-ALIGN: center; ' colspan="6">TAREA Y RESPONSABLE</th>
+                                        <th style='background-color:#C4DFB3; TEXT-ALIGN: center; ' colspan="5">TAREA Y RESPONSABLE</th>
                                     </tr>
                                     <tr>
                                         <th style='background-color:#FFF2CC'>PROCESO</th>
                                         <th style='background-color:#FFF2CC'>N° DE PASOS</th>
                                         <th style='background-color:#FFF2CC'>DIAS TOTAL</th>
+                                        <th style='background-color:#FFF2CC'>F. INICIO<BR>CRONOGRAMA</th>
+                                        <th style='background-color:#FFF2CC'>F. FINA<BR>CRONOGRAMA</th>
                                         <th style='background-color:#DEEBF7'>TRAMITE</th>
                                         <th style='background-color:#DEEBF7'>PASO ACTUAL</th>
                                         <th style='background-color:#DEEBF7'>DIAS</th>
@@ -98,7 +99,6 @@
                                         <th style='background-color:#C4DFB3'>AREA</th>
                                         <th style='background-color:#C4DFB3'>RESPONSABLE</th>
                                         <th style='background-color:#C4DFB3'>RECURSO</th>
-                                        <th style='background-color:#C4DFB3'> [ ] </th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_reporte">

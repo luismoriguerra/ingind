@@ -20,6 +20,37 @@ class EstadoCronogramaTareaController extends \BaseController {
     public function postCargar()
     {
         $filtro = Input::all();
+
+        if (isset($filtro['semaforo'])) {
+            if( $filtro['semaforo']=="FE0000" ){
+                $filtro['semaforo']=" AND cda.ff<CURDATE() ";
+            }
+            elseif( $filtro['semaforo']=="F8BB00" ){
+                $filtro['semaforo']=" AND cda.ff>CURDATE() AND cd.fecha_fin<CURDATE() ";
+            }
+            elseif( $filtro['semaforo']=="89C34B" ){
+                $filtro['semaforo']=" AND cda.ff>CURDATE() AND cd.fecha_fin>CURDATE() ";
+            }
+        }
+        else{
+            $filtro['semaforo']='';
+        }
+
+        if (isset($filtro['tramite'])) {
+            $filtro['tramite']=" AND tr.id_union='".$filtro['tramite']."' ";
+        }
+        else{
+            $filtro['tramite']='';
+        }
+
+        if (isset($filtro['fecha'])) {
+            $fecha=explode(" - ",$filtro['fecha']);
+            $filtro['fecha']=" AND cda.fi between '".$fecha[0]."' AND '".$fecha[1]."' ";
+        }
+        else{
+            $filtro['fecha']='';
+        }
+
         $response = ['rst'=>1,
                     'data'=>EstadoCronogramaTarea::getTotal($filtro)
                     ];
