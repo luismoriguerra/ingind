@@ -117,6 +117,7 @@ $(document).ready(function(){
 
 ActPest=function(nro){
     Pest=nro;
+    $("#btn_close").click();
 }
 
 valida=function(nro){
