@@ -282,7 +282,7 @@ HTMLreportetp=function(datos){
 
     if( datos[2]!='' ){
         $("#t_reportetp_tab_"+Pest+" thead>tr:eq(0)").append('<th class="Eliminar">&nbsp;</th>');
-        $("#t_reportetp_tab_"+Pest+" thead>tr:eq(1)").append('<th class="Eliminar">Proceso</th>');
+        $("#t_reportetp_tab_"+Pest+" thead>tr:eq(1)").append('<th class="Eliminar">Procesos de las<br>Áreas dueñas</th>');
     }
 
     $("#t_reportetp_tab_"+Pest+" thead>tr:eq(1)").append('<th class="Eliminar">Total Pend vs<br> Total Inconc</th>');

@@ -380,7 +380,7 @@
                                                 <th>&nbsp;<th>
                                             </tr>
                                             <tr>
-                                                <th>Área(s)<br>Involucrada(s)<br>del Proceso</th>
+                                                <th>Área(s)<br>Involucrada(s)<br>en el(los) Proceso</th>
                                             </tr>
                                         </thead>
                                         <tbody>
