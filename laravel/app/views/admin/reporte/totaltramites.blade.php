@@ -57,7 +57,7 @@
                 <li class="logo tab_4">
                     <a href="#tab_4" data-toggle="tab">
                         <button class="btn btn-primary btn-sm"><i class="fa fa-edit fa-lg"></i> </button>
-                        Trámites pendientes Area
+                        Nro de Trámites pendientes por Área
                     </a>
                 </li>
             </ul>
@@ -242,7 +242,7 @@
                                             <label class="control-label">Área:</label>
                                             <select id="slct_area_3" name="slct_area_3[]" class="form-control" multiple></select>
                                         </div>
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-5">
                                             <label class="control-label">Proceso:</label>
                                             <select id="slct_proceso_3" name="slct_proceso_3[]" class="form-control" multiple></select>
                                         </div>
@@ -350,7 +350,7 @@
                             <fieldset>
                                 <div class="row form-group">
                                     <div class="col-sm-12">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-5">
                                             <label class="control-label">Área(s) Involucrada(s) del Proceso:</label>
                                             <select id="slct_area_4" name="slct_area_4[]" class="form-control" multiple></select>
                                         </div>
