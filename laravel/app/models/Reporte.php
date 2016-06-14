@@ -44,11 +44,8 @@ class Reporte extends Eloquent
                     ) deru
                     GROUP BY deru.ruta_flujo_id
                 ) detruta ON detruta.ruta_flujo_id=rf.id
-                WHERE ".
-                $array['where'].
-                $array['categoria'].
-                $array['proceso'].
-                $array['area']."
+                WHERE f.estado=1".
+                $array['where']."
                 GROUP BY rf.id
                 ORDER BY a.nombre";
 
