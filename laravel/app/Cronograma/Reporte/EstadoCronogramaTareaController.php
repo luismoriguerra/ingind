@@ -52,7 +52,7 @@ class EstadoCronogramaTareaController extends \BaseController {
         }
 
         if ( isset($filtro['categoria']) ){
-            $filtro['categoria']=" AND f.categoria_id='".$filtro['tramite']."' ";
+            $filtro['categoria']=" AND f.categoria_id='".$filtro['categoria']."' ";
         }
         else{
             $filtro['categoria']='';
