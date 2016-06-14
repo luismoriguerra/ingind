@@ -242,6 +242,10 @@
                                             <label class="control-label">Área:</label>
                                             <select id="slct_area_3" name="slct_area_3[]" class="form-control" multiple></select>
                                         </div>
+                                        <div class="col-sm-2">
+                                            <label class="control-label">Categoria:</label>
+                                            <select id="slct_categoria_3" name="slct_categoria_3[]" class="form-control" multiple></select>
+                                        </div>
                                         <div class="col-sm-5">
                                             <label class="control-label">Proceso:</label>
                                             <select id="slct_proceso_3" name="slct_proceso_3[]" class="form-control" multiple></select>

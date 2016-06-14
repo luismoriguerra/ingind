@@ -26,6 +26,7 @@ $(document).ready(function(){
     var data = {estado:1};
     var ids = [];
     slctGlobal.listarSlct('flujo','slct_proceso_3','multiple',ids,data);
+    slctGlobal.listarSlct('categoria','slct_categoria_3','multiple',ids,data);
     data = {estado:1};
     slctGlobal.listarSlct('area','slct_area_3,#slct_area_4','multiple',ids,data);
 
