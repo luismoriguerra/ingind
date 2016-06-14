@@ -68,7 +68,7 @@ HTMLreportep=function(datos){
             "<td>"+data.tiempo_paso+"</td>"+
             "<td>"+data.fecha_inicio+"</td>"+
             "<td>"+data.fecha_fin+"</td>"+
-            "<td style='background-color:#"+data.semaforo.split("_")[1]+"'>"+data.semaforo.split("_")[0]+"</td>"+
+            "<td style='background-color:#"+data.semaforo.split("_")[1]+"'><font color='#"+data.semaforo.split("_")[1]+"'>"+data.semaforo.split("_")[0]+"</font></td>"+
             "<td>"+data.tipo_tarea+"</td>"+
             "<td>"+data.descripcion+"</td>"+
             "<td>"+data.nemonico+"</td>"+
