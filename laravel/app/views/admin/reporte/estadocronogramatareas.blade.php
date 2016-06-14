@@ -46,9 +46,9 @@
                                     </label>
                                     <select class="form-control" name="slct_semaforo" id="slct_semaforo">
                                         <option value="">.::Seleccione::.</option>
-                                        <option value="FE0000">ROJO - INCUMPLIMIENTO DEL PROCESO</option>
-                                        <option value="F8BB00">AMBAR - SI EXISTE RETRASO EN EL PASO</option>
-                                        <option value="75FF75">VERDE - NO EXISTE RETRASO EN EL PASO</option>
+                                        <option style="bg-color:#FE0000" value="FE0000">ROJO - INCUMPLIMIENTO DEL PROCESO</option>
+                                        <option style="bg-color:#F8BB00" value="F8BB00">AMBAR - SI EXISTE RETRASO EN EL PASO</option>
+                                        <option style="bg-color:#75FF75" value="75FF75">VERDE - NO EXISTE RETRASO EN EL PASO</option>
                                     </select>
                                     
 
