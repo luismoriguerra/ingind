@@ -12,21 +12,24 @@ class ReporteFinalController extends BaseController
       }
       
       list($array['fechaini'],$array['fechafin']) = explode(" - ", $fecha);
-      $array['proceso']='';$array['categoria']='';$array['area']='';
+      $array['proceso']='';$array['categoria']='';$array['area']='';$array['where']='f.estado=1';
 
       if( Input::has('categoria_3') AND Input::get('categoria_3')!='' ){
         $array['categoria']=implode("','",Input::get('categoria_3'));
         $array['categoria']=" OR ( f.categoria_id IN ('".$array['categoria']."') AND f.estado=1 )";
+        $array['where']='1';
       }
 
       if( Input::has('proceso_3') AND Input::get('proceso_3')!='' ){
         $array['proceso']=implode("','",Input::get('proceso_3'));
         $array['proceso']=" OR ( f.id IN ('".$array['proceso']."') AND f.estado=1 )";
+        $array['where']='1';
       }
 
       if( Input::has('area_3') AND Input::get('area_3')!='' ){
         $array['area']=implode("','",Input::get('area_3'));
         $array['area']=" OR ( a.id IN ('".$array['area']."') AND f.estado=1 )";
+        $array['where']='1';
       }
 
       $r = Reporte::TramiteProceso( $array );
