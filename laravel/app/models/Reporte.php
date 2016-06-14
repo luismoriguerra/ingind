@@ -58,7 +58,7 @@ class Reporte extends Eloquent
         $sql =" SELECT tr.id_union AS tramite, r.id, r.ruta_flujo_id, 
                 ts.nombre AS tipo_persona,
                 IF(tr.tipo_persona=1 or tr.tipo_persona=6,
-                    CONCAT(tr.paterno,' ',tr.materno,', ',tr.nombre),
+                    CONCAT(IFNULL(tr.paterno,''),' ',IFNULL(tr.materno,''),', ',IFNULL(tr.nombre,'')),
                     IF(tr.tipo_persona=2,
                         CONCAT(tr.razon_social,' | RUC:',tr.ruc),
                         IF(tr.tipo_persona=3,
