@@ -28,7 +28,7 @@ class EstadoCronogramaTareaController extends \BaseController {
             elseif( $filtro['semaforo']=="F8BB00" ){
                 $filtro['semaforo']=" AND cda.ff>CURDATE() AND cd.fecha_fin<CURDATE() ";
             }
-            elseif( $filtro['semaforo']=="89C34B" ){
+            elseif( $filtro['semaforo']=="75FF75" ){
                 $filtro['semaforo']=" AND cda.ff>CURDATE() AND cd.fecha_fin>CURDATE() ";
             }
         }
@@ -49,6 +49,13 @@ class EstadoCronogramaTareaController extends \BaseController {
         }
         else{
             $filtro['fecha']='';
+        }
+
+        if ( isset($filtro['categoria']) ){
+            $filtro['categoria']=" AND f.categoria_id='".$filtro['tramite']."' ";
+        }
+        else{
+            $filtro['categoria']='';
         }
 
         $response = ['rst'=>1,

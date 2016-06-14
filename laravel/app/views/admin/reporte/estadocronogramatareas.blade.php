@@ -46,9 +46,9 @@
                                     </label>
                                     <select class="form-control" name="slct_semaforo" id="slct_semaforo">
                                         <option value="">.::Seleccione::.</option>
-                                        <option value="FE0000">INCUMPLIMIENTO</option>
-                                        <option value="F8BB00">SI EXISTE RETRASO</option>
-                                        <option value="89C34B">NO EXISTE RETRASO</option>
+                                        <option value="FE0000">ROJO - INCUMPLIMIENTO DEL PROCESO</option>
+                                        <option value="F8BB00">AMBAR - SI EXISTE RETRASO EN EL PASO</option>
+                                        <option value="75FF75">VERDE - NO EXISTE RETRASO EN EL PASO</option>
                                     </select>
                                     
 
@@ -65,6 +65,12 @@
                                     <label class="control-label">Fecha:
                                     </label>
                                     <input type="text" name="txt_fecha" id="txt_fecha" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" onfocus="blur()">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="col-sm-3">
+                                    <label class="control-label">Categoria:</label>
+                                    <select id="slct_categoria" name="slct_categoria" class="form-control"></select>
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="control-label">

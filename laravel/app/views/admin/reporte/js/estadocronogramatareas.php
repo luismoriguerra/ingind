@@ -15,12 +15,15 @@ $(document).ready(function(){
         if ($('#txt_tramite').val()!=='') 
             filtro.tramite = $('#txt_tramite').val();
         
-        
         if ($('#txt_fecha').val()!=='') 
             filtro.fecha = $('#txt_fecha').val();
+
+        if ($('#slct_categoria').val()!=='') 
+            filtro.categoria = $('#slct_categoria').val();
         
         CartaInicio.cargar(filtro, HTMLreportep);
     });
+    slctGlobal.listarSlct('categoria','slct_categoria','simple',ids,data);
 });
 activarTabla=function(){
     var table = $("#t_reporte").dataTable( {

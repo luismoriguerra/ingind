@@ -27,7 +27,7 @@ class EstadoCronogramaTarea
                 tr.id_union tramite, rd.norden, CONCAT(t.apocope,': ',rd.dtiempo) tiempo_paso, cd.fecha_inicio, cd.fecha_fin,
                 IF( cda.ff<CURDATE(),'1_FE0000',
                         IF( cd.fecha_fin<CURDATE(),'2_F8BB00', 
-                                '3_89C34B'
+                                '3_75FF75'
                         )
                 ) semaforo,
                 -- TAREA Y RESPONSABLE
@@ -67,7 +67,8 @@ class EstadoCronogramaTarea
                          OR 
                         (rd.dtiempo_final!='' AND rd.fecha_inicio!='' AND rd.alerta_tipo>1 AND rd.alerta=1)
                     )
-                ".$filtro['semaforo']
+                ".$filtro['categoria']
+                .$filtro['semaforo']
                 .$filtro['tramite']
                 .$filtro['fecha']."
                 ORDER BY semaforo";
