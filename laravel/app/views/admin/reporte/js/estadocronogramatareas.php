@@ -35,7 +35,8 @@ activarTabla=function(){
             "bInfo": false,
             "bAutoWidth": false,
             "visible": false,
-            "targets": -1
+            "targets": -1,
+            "order": [[11, "desc" ]]
         
     } ); // inicializo el datatable
     $('#t_reporte tbody').on( 'click', 'tr', function () {
