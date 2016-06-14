@@ -23,6 +23,8 @@ $(document).ready(function(){
         
         CartaInicio.cargar(filtro, HTMLreportep);
     });
+    var data = {estado:1};
+    var ids = [];
     slctGlobal.listarSlct('categoria','slct_categoria','simple',ids,data);
 });
 activarTabla=function(){
