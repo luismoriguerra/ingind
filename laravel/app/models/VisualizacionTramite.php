@@ -99,8 +99,9 @@ class VisualizacionTramite extends Eloquent
 
     public static function BandejaTramitesf( $input)
     {
-        if ($input) {
-            $where=" AND IFNULL(tv.id,'2') IN ('$input')";
+        if (isset($input['fecha'])) {
+            $fecha=explode(" - ",$input['fecha']);
+            $where=" AND DATE(rd.dtiempo_final) BETWEEN '".$fecha[0]."' AND '".$fecha[1]."' ";
         } else {
             $where='';
         }
@@ -169,7 +170,7 @@ class VisualizacionTramite extends Eloquent
                             ON cp.id=acp.cargo_persona_id AND cp.estado=1
                     WHERE acp.estado=1
                     AND cp.persona_id= '$personaId'
-                )   $where
+                )   $where 
                 GROUP BY rd.id
                 ORDER BY rd.fecha_inicio DESC, rd.norden DESC";
         return DB::select($query);

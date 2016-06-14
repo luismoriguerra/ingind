@@ -15,11 +15,17 @@ var posicionDetalleVerboG=0;
 var fechaAux="";
 $(document).ready(function() {
     //$("[data-toggle='offcanvas']").click();
+    $('#txt_fecha').daterangepicker({
+        format: 'YYYY-MM-DD',
+        singleDatePicker: false,
+        showDropdowns: true
+    });
     slctGlobal.listarSlct('lista/tipovizualizacion','slct_tipo_visualizacion','multiple',null,null);
     $('#slct_tipo_visualizacion').change(function() {
         FiltrarBandeja( $('#slct_tipo_visualizacion').val());
     });
-    Bandeja.Mostrar();
+
+    ActualizarBandeja();
 
     //$("#form_validar").attr("onkeyup","return enterGlobal(event,'btn_buscar')");
     $("#btn_close2").click(Close);
@@ -126,6 +132,11 @@ $(document).ready(function() {
     //$("#btn_guardar_todo").click(guardarTodo);
     //$("#areasasignacion").DataTable();
 });
+
+ActualizarBandeja=function(){
+var datos=$("#form_concluido").serialize().split("txt_").join("").split("slct_").join("");
+    Bandeja.Mostrar(datos);
+}
 
 hora=function(){
 var fecha = new Date()

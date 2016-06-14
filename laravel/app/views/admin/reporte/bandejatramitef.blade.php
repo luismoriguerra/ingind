@@ -87,11 +87,15 @@
 
             <div class="mailbox row">
                 <div class="col-md-12">
+                    <form name="form_concluido" id="form_concluido" method="POST" action="">
                     <div class="row pad">
                         <div class="col-sm-4">
-                            <label class="control-label">Tipo:</label>
-                            <select class="form-control" name="slct_tipo_visualizacion" id="slct_tipo_visualizacion" multiple>
-                            </select>
+                            <label class="control-label">Fecha final del paso:</label>
+                            <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="txt_fecha" name="txt_fecha" value="{{ date('Y-m-d - Y-m-d')}}" onfocus="blur()"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <label class="control-label"></label>
+                            <input type="button" class="form-control btn btn-primary" onclick="ActualizarBandeja();" value="Mostrar">
                         </div>
                     </div><!-- /.row -->
                     <div class="row form-group" id="reporte" >
@@ -124,6 +128,7 @@
                             </div><!-- /.table-responsive -->
                         </div>
                     </div>
+                    </form>
 
                     <form name="form_ruta_detalle" id="form_ruta_detalle" method="POST" action="">
                                     <div class="row form-group" style="display:none">

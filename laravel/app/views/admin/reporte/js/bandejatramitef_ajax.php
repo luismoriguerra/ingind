@@ -4,8 +4,6 @@ var Bandeja={
         $.ajax({
             url         : 'reporte/bandejatramitef',
             type        : 'POST',
-            contentType: false,
-            processData: false,
             cache       : false,
             dataType    : 'json',
             data        : data,
