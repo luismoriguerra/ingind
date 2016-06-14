@@ -39,7 +39,7 @@
                     <div class="box">
                         <div class="box-header">
                         
-                            <div class="form-group">
+                            <div class="col-sm-12">
                                 <div class="col-sm-3">
 
                                     <label class="control-label">Semaforo:
@@ -67,7 +67,7 @@
                                     <input type="text" name="txt_fecha" id="txt_fecha" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" onfocus="blur()">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="col-sm-12">
                                 <div class="col-sm-3">
                                     <label class="control-label">Categoria:</label>
                                     <select id="slct_categoria" name="slct_categoria" class="form-control"></select>
