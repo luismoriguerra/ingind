@@ -29,7 +29,7 @@ $(document).ready(function(){
 });
 activarTabla=function(){
     var table = $("#t_reporte").dataTable( {
-            "bPaginate": true,
+            "bPaginate": false,
             "bLengthChange": false,
             "bFilter": false,
             "bInfo": false,
