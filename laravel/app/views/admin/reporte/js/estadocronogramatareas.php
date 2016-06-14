@@ -26,6 +26,7 @@ $(document).ready(function(){
     var data = {estado:1};
     var ids = [];
     slctGlobal.listarSlct('categoria','slct_categoria','simple',ids,data);
+    slctGlobalHtml('slct_semaforo','simple');
 });
 activarTabla=function(){
     var table = $("#t_reporte").dataTable( {
