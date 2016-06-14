@@ -127,14 +127,7 @@ class VisualizacionTramite extends Eloquent
                 IFNULL(rd.alerta,'') AS alerta,
                 IFNULL(rd.condicion,'') AS condicion,
                 IFNULL(rd.estado_ruta,'') AS estado_ruta,
-                IFNULL(tv.id,'2') AS id,
-                IFNULL(tv.nombre,'') AS tipo_estado_visual,
-                IFNULL(tv.estado,'') AS estado_visual,
-                IFNULL(
-                    CONCAT(p.paterno,' ',p.materno, ' ',p.nombre),
-                    ''
-                ) AS persona_visual,
-                IFNULL(p.email,'') AS email,
+                '1' AS id,
                 IFNULL(tr.ruc,'') AS ruc,
                 IFNULL(tr.sumilla,'') AS sumilla
 
@@ -147,18 +140,6 @@ class VisualizacionTramite extends Eloquent
                 LEFT JOIN tipos_respuesta rsp ON rd.tipo_respuesta_id=rsp.id
                 LEFT JOIN tipos_respuesta_detalle rspd
                         ON rd.tipo_respuesta_detalle_id=rspd.id
-                LEFT JOIN visualizacion_tramite vt ON rd.id=vt.ruta_detalle_id
-                        AND vt.usuario_created_at='$personaId'
-                LEFT JOIN tipo_visualizacion tv
-                        ON vt.tipo_visualizacion_id=tv.id
-                LEFT JOIN ( SELECT MAX(vt2.id) AS id
-                             FROM visualizacion_tramite vt2
-                             JOIN tipo_visualizacion tv2
-                             ON vt2.tipo_visualizacion_id=tv2.id
-                             AND vt2.estado=1
-                             GROUP BY vt2.ruta_detalle_id
-                ) vt_s ON vt.id=vt_s.id
-                LEFT JOIN personas p ON vt.usuario_created_at=p.id
                 WHERE  rd.fecha_inicio IS NOT NULL AND rd.dtiempo_final IS NOT NULL
                 AND rd.estado=1
                 AND rd.condicion=0
