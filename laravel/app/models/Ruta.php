@@ -93,7 +93,7 @@ class Ruta extends Eloquent
                         array(
                             'union' => 1,
                             'usuario_updated_at' => Auth::user()->id,
-                            'usuario_at' => date("Y-m-d H:i:s"),
+                            'updated_at' => date("Y-m-d H:i:s"),
                             'ruta_id'=>$ruta->id,
                         )
                     );
