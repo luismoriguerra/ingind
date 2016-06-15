@@ -47,11 +47,6 @@
                                                 <label class="control-label">Fecha Inicio de la Gestión:</label>
                                                 <input type="text" class="form-control" name="txt_fecha_inicio" id="txt_fecha_inicio">
                                             </div>
-                                            <div class="col-sm-5">
-                                                <label class="control-label">Proceso:</label>
-                                                <select class="form-control" name="slct_flujo2_id" id="slct_flujo2_id">
-                                                </select>
-                                            </div>
                                             <div class="col-sm-3" style="display:none">
                                                 <label class="control-label">Area:</label>
                                                 <select class="form-control" disabled name="slct_area2_id" id="slct_area2_id">

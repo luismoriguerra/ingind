@@ -26,12 +26,22 @@ $(document).ready(function() {
     $("#btn_close").click(CloseCartaInicio);
 });
 
-SeleccionarCarta=function(nro,objetivo,id){
+SeleccionarCarta=function(id,flujo_id,area_id){
     $("#form_carta #txt_carta_id").remove();
     $("#form_carta").append("<input type='hidden' name='txt_carta_id' id='txt_carta_id' value='"+id+"'>");
-    $("#txt_codigo").val(nro);
-    $("#txt_sumilla").val(objetivo);
+    $("#txt_codigo").val( $("#trcarta_"+id+">td:eq(0)").html() );
+    $("#txt_sumilla").val( $("#trcarta_"+id+">td:eq(1)").html() );
     $("#btn_cerrar_asignar").click();
+    /* Agregado de flujo id automatico*/
+    $("#slct_area2_id").val(area_id);
+    $("#slct_area2_id").multiselect('refresh');
+
+    if( flujo_id!='' && area_id!='' ){
+        var datos={ flujo_id:flujo_id,area_id:area_id };
+        $("#tabla_ruta_flujo").css("display","");
+        Asignar.mostrarRutaFlujo(datos,mostrarRutaFlujoHTML);
+    }
+    /*************************************/
 }
 
 HTMLCargarDetalleCartas=function(datos){
@@ -168,7 +178,7 @@ HTMLCargarCartas=function(datos){
     $('#t_carta').dataTable().fnDestroy();
 
     $.each(datos,function(index,data){
-        html+="<tr>"+
+        html+="<tr id='trcarta_"+data.id+"'>"+
             "<td >"+data.nro_carta+"</td>"+
             "<td >"+data.objetivo+"</td>"+
             "<td >"+data.entregable+"</td>"+
@@ -176,7 +186,7 @@ HTMLCargarCartas=function(datos){
                 "<a class='btn btn-warning btn-sm' onClick='CargarRegistro("+data.id+")'>"+
                     "<i class='fa fa-search fa-lg'></i>"+
                 "</a>"+
-                "<a class='btn btn-primary btn-sm' onClick='SeleccionarCarta("+'"'+data.nro_carta+'","'+data.objetivo+'","'+data.id+'"'+")'>"+
+                "<a class='btn btn-primary btn-sm' onClick='SeleccionarCarta("+data.id+","+data.flujo_id+","+data.area_id+")'>"+
                     "<i class='fa fa-check fa-lg'></i>"+
                 "</a>"+
             "</td>";

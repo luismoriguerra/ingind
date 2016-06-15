@@ -355,8 +355,12 @@ class Carta extends Base
     }
 
     public static function Cargar (){
-        $r=DB::table('cartas')
-                ->select('id','nro_carta','objetivo','entregable')
+        $r=DB::table('cartas c')
+                ->join('flujos f'
+                    'f.id','=','c.flujo_id'
+                )
+                ->select('c.id','c.nro_carta','c.objetivo','c.entregable','c.flujo_id','f.area_id')
+                ->where('f.estado',1)
                 ->where( 
                     function($query){
                         if ( Input::get('union') ) {

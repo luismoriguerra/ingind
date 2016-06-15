@@ -28,8 +28,6 @@ if( AreaIdG!='' && AreaIdG*1>0 && RolIdG!='' && RolIdG*1>0 && (RolIdG==8 || RolI
     slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     data = {estado:1};
     slctGlobal.listarSlct('area','slct_area2_id,#slct_area_id','simple',ids,data);
-    data={soloruta:1,tipo_flujo:2,pasouno:1};
-    slctGlobal.listarSlct('flujo','slct_flujo2_id','simple',ids,data);
     data = {estado:1};
     slctGlobal.listarSlct('software','slct_software_id_modal','simple',ids,data);
     data = {id:3};
@@ -223,24 +221,6 @@ Asignar.FechaActual("orden");
 tiempo = setTimeout('hora()',5000);
 }
 
-eventoSlctGlobalSimple=function(slct,valores){
-    if( slct=="slct_flujo2_id" ){
-        var valor=valores.split('|').join("");
-        $("#slct_area2_id").val(valor);
-        $("#slct_area2_id").multiselect('refresh');
-
-        //$("#form_ruta_detalle>.form-group").css("display","none");
-        var flujo_id=$.trim($("#slct_flujo2_id").val());
-        var area_id=$.trim($("#slct_area2_id").val());
-
-        if( flujo_id!='' && area_id!='' ){
-            var datos={ flujo_id:flujo_id,area_id:area_id };
-            $("#tabla_ruta_flujo").css("display","");
-            Asignar.mostrarRutaFlujo(datos,mostrarRutaFlujoHTML);
-        }
-    }
-}
-
 mostrarRutaFlujoHTML=function(datos){
     var html="";
     var cont=0;
@@ -327,10 +307,7 @@ guardarRelacion=function(){
 }
 
 guardarTodo=function(){
-    if( $("#slct_flujo2_id").val()=='' ){
-        alert("Seleccione un Tipo Flujo");
-    }
-    else if( $.trim($("#txt_codigo").val())==''){
+    if( $.trim($("#txt_codigo").val())==''){
         alert("Ingrese Nro Trámite");
     }
     else if( $("#slct_tipo_persona").val()=='' ){
