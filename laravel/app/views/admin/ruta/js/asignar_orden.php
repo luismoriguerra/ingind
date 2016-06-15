@@ -149,7 +149,6 @@ if( AreaIdG!='' && AreaIdG*1>0 && RolIdG!='' && RolIdG*1>0 && (RolIdG==8 || RolI
     });
 
     $("#btn_guardar_todo").click(guardarTodo);
-    hora();
 }
 else if(RolIdG!=8 && RolIdG!=9){
     alert('.::Ud no cuenta con permisos para poder asignar una carta de oficio::.');
