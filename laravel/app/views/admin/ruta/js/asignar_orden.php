@@ -160,6 +160,10 @@ else{
     //$("#areasasignacion").DataTable();
 });
 
+eventoSlctGlobalSimple=function(){
+
+}
+
 ListarPersonaHTML=function(datos){
     $('#t_persona').dataTable().fnDestroy();
     var html='';
