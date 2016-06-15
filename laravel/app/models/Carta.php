@@ -364,15 +364,15 @@ class Carta extends Base
                 ->where( 
                     function($query){
                         if ( Input::get('union') ) {
-                            $query->where('union','=',0)
-                                ->where( 'area_id','=',Input::get('area_id') );
+                            $query->where('c.union','=',0)
+                                ->where( 'c.area_id','=',Input::get('area_id') );
                         }
                         else if( Input::has('area_id') ){
-                            $query->where( 'area_id','=',Input::get('area_id') );
+                            $query->where( 'c.area_id','=',Input::get('area_id') );
                         }
                     }
                 )
-                ->orderBy('nro_carta')
+                ->orderBy('c.nro_carta')
                 ->get();
                 
         return $r;
