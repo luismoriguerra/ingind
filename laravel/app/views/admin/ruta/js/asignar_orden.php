@@ -220,11 +220,6 @@ tpersona=function(valor){//1->natural,2->juridica,3->a.i. y 4->org social
     }
 }
 
-hora=function(){
-Asignar.FechaActual("orden");
-tiempo = setTimeout('hora()',5000);
-}
-
 mostrarRutaFlujoHTML=function(datos){
     var html="";
     var cont=0;

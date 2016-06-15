@@ -17,6 +17,7 @@
                           <thead>
                               <tr>
                                   <th>Carta</th>
+                                  <th>Fecha Inicio</th>
                                   <th>Objetivo</th>
                                   <th>Entregable</th>
                                   <th>[ ]</th>
@@ -28,6 +29,7 @@
                           <tfoot>
                               <tr>
                                   <th>Carta</th>
+                                  <th>Fecha Inicio</th>
                                   <th>Objetivo</th>
                                   <th>Entregable</th>
                                   <th>[ ]</th>

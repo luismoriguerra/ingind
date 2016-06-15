@@ -31,7 +31,8 @@ SeleccionarCarta=function(id,flujo_id,area_id){
     $("#form_carta").append("<input type='hidden' name='txt_carta_id' id='txt_carta_id' value='"+id+"'>");
     $("#form_asignar").append("<input type='hidden' name='txt_carta_id' id='txt_carta_id' value='"+id+"'>");
     $("#txt_codigo").val( $("#trcarta_"+id+">td:eq(0)").html() );
-    $("#txt_sumilla").val( $("#trcarta_"+id+">td:eq(1)").html() );
+    $("#txt_fecha_inicio").val( $("#trcarta_"+id+">td:eq(1)").html() );
+    $("#txt_sumilla").val( $("#trcarta_"+id+">td:eq(2)").html() );
     $("#btn_cerrar_asignar").click();
     /* Agregado de flujo id automatico*/
     $("#slct_area2_id").val(area_id);
@@ -181,6 +182,7 @@ HTMLCargarCartas=function(datos){
     $.each(datos,function(index,data){
         html+="<tr id='trcarta_"+data.id+"'>"+
             "<td >"+data.nro_carta+"</td>"+
+            "<td >"+data.fecha_inicio+"</td>"+
             "<td >"+data.objetivo+"</td>"+
             "<td >"+data.entregable+"</td>"+
             "<td>"+

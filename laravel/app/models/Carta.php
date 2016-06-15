@@ -359,7 +359,13 @@ class Carta extends Base
                 ->join('flujos as f',
                     'f.id','=','c.flujo_id'
                 )
-                ->select('c.id','c.nro_carta','c.objetivo','c.entregable','c.flujo_id','f.area_id')
+                ->select('c.id','c.nro_carta','c.objetivo','c.entregable',
+                'c.flujo_id','f.area_id', 
+                DB::raw('(  SELECT MIN(cd.fecha_inicio) 
+                            FROM carta_desglose cd 
+                            WHERE cd.carta_id=c.id 
+                            AND cd.estado=1 
+                         ) as fecha_inicio') )
                 ->where('f.estado','=','1')
                 ->where( 
                     function($query){

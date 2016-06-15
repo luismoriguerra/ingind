@@ -44,17 +44,6 @@
                                     <div class="row form-group" >
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">
-                                                <label class="control-label">Fecha Inicio de la Gestión:</label>
-                                                <input type="text" class="form-control" name="txt_fecha_inicio" id="txt_fecha_inicio">
-                                            </div>
-                                            <div class="col-sm-3" style="display:none">
-                                                <label class="control-label">Area:</label>
-                                                <select class="form-control" disabled name="slct_area2_id" id="slct_area2_id">
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="col-sm-3">
                                                 <label class="control-label">N° de Carta de Inicio:</label>
                                                 <div class="input-group">
                                                     <input class="form-control" id="txt_codigo" name="txt_codigo" type="text" placeholder="Ing. Orden Trabajo" readonly>
@@ -73,6 +62,17 @@
                                                 <label class="control-label">Tipo Solicitante:</label>
                                                 <select class="form-control" name="slct_tipo_persona" id="slct_tipo_persona">
                                                     <option value="3" selected>Area Interna</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-3">
+                                                <label class="control-label">Fecha Inicio de la Gestión:</label>
+                                                <input type="text" class="form-control" name="txt_fecha_inicio" id="txt_fecha_inicio" readonly>
+                                            </div>
+                                            <div class="col-sm-3" style="display:none">
+                                                <label class="control-label">Area:</label>
+                                                <select class="form-control" disabled name="slct_area2_id" id="slct_area2_id">
                                                 </select>
                                             </div>
                                         </div>
