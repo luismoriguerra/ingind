@@ -57,7 +57,6 @@
                                             <div class="col-sm-3">
                                                 <label class="control-label">N° de Carta de Inicio:</label>
                                                 <div class="input-group">
-                                                    <input type="hidden" value="CI-" name="txt_ci" id="txt_ci">
                                                     <input class="form-control" id="txt_codigo" name="txt_codigo" type="text" placeholder="Ing. Orden Trabajo" readonly>
                                                 </div>
                                             </div>

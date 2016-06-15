@@ -137,7 +137,7 @@ class Ruta extends Eloquent
                     $rutaDetalleVerbo['documento_id']= '57';//Carta de inicio
                     $rutaDetalleVerbo['orden']= '0';
                     $rutaDetalleVerbo['finalizo']='1';
-                    $rutaDetalleVerbo['documento']=Input::get('ci').Input::get('codigo');
+                    $rutaDetalleVerbo['documento']=Input::get('codigo');
                     $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
                     $rutaDetalleVerbo['usuario_updated_at']= Auth::user()->id;
                     $rutaDetalleVerbo->save();

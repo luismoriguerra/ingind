@@ -29,6 +29,7 @@ $(document).ready(function() {
 SeleccionarCarta=function(id,flujo_id,area_id){
     $("#form_carta #txt_carta_id").remove();
     $("#form_carta").append("<input type='hidden' name='txt_carta_id' id='txt_carta_id' value='"+id+"'>");
+    $("#form_asignar").append("<input type='hidden' name='txt_carta_id' id='txt_carta_id' value='"+id+"'>");
     $("#txt_codigo").val( $("#trcarta_"+id+">td:eq(0)").html() );
     $("#txt_sumilla").val( $("#trcarta_"+id+">td:eq(1)").html() );
     $("#btn_cerrar_asignar").click();

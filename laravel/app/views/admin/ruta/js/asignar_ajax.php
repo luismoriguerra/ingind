@@ -98,6 +98,7 @@ var Asignar={
         });
     },
     guardarAsignacion:function(){
+        $("#form_asignar").append('<input type="hidden" value="CI-" name="txt_ci" id="txt_ci">');
         var datos=$("#form_asignar").serialize().split("txt_").join("").split("slct_").join("").split("_modal").join("");
         $.ajax({
             url         : 'ruta/crear',
