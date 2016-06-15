@@ -71,14 +71,6 @@ class Ruta extends Eloquent
         $tablaRelacion['usuario_created_at']=Auth::user()->id;
         $tablaRelacion->save();
 
-        $cartas=DB::table('cartas')
-                    ->where('nro_carta','=',$codigounico)
-                    ->update(
-                        array(
-                            'union' => 1,
-                            'usuario_updated_at' => Auth::user()->id
-                        )
-                    );
 
         $rutaFlujo=RutaFlujo::find(Input::get('ruta_flujo_id'));
 
@@ -92,6 +84,19 @@ class Ruta extends Eloquent
         $ruta['usuario_created_at']= Auth::user()->id;
         $ruta->save();
 
+        if( Input::has('carta_id') ){
+
+        }
+        $cartas=DB::table('cartas')
+                    ->where('nro_carta','=',$codigounico)
+                    ->update(
+                        array(
+                            'union' => 1,
+                            'usuario_updated_at' => Auth::user()->id,
+                            'usuario_at' => date("Y-m-d H:i:s"),
+                            'ruta_id'=>$ruta->id,
+                        )
+                    );
         /************Agregado de referidos*************/
         $referido=new Referido;
         $referido['ruta_id']=$ruta->id;
@@ -127,7 +132,7 @@ class Ruta extends Eloquent
                 $rutaDetalle['usuario_created_at']= Auth::user()->id;
                 $rutaDetalle->save();
 
-                if( $rd->norden==1 AND Input::has('ci') ){
+                if( $rd->norden==1 AND Input::has('carta_id') ){
                     $rutaDetalleVerbo = new RutaDetalleVerbo;
                     $rutaDetalleVerbo['ruta_detalle_id']= $rutaDetalle->id;
                     $rutaDetalleVerbo['nombre']= '-';
