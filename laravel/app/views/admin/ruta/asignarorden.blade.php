@@ -72,7 +72,7 @@
                                             </div>
                                             <div class="col-sm-3" style="display:none">
                                                 <label class="control-label">Area:</label>
-                                                <select class="form-control" disabled name="slct_area2_id" id="slct_area2_id">
+                                                <select class="form-control" name="slct_area2_id" id="slct_area2_id">
                                                 </select>
                                             </div>
                                         </div>
