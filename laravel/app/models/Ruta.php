@@ -97,7 +97,7 @@ class Ruta extends Eloquent
             $carta['correlativo']=0;
             $carta['objetivo']="";
             $carta['entregable']="";
-            $carta['alcance']="";
+            $carta['alcance']="MDI";
             $carta['flujo_id']=$ruta->flujo_id;
 
             if( trim(Auth::user()->area_id)!='' ){
