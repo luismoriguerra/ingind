@@ -95,6 +95,7 @@ class Ruta extends Eloquent
             $carta= new Carta;
             $carta['flujo_id']=$ruta->flujo_id;
             $carta['correlativo']=0;
+            $carta['nro_carta']=Input::get('codigo');
             $carta['objetivo']="";
             $carta['entregable']="";
             $carta['alcance']="MDI";
