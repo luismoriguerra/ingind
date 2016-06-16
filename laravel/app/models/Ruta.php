@@ -162,7 +162,7 @@ class Ruta extends Eloquent
                             LIMIT $conteo,1";
                     $cd=DB::select($sql);
                     $conteo++;
-                    $cartaDesglose=CartaDesglose::find($cd->id);
+                    $cartaDesglose=CartaDesglose::find($cd[0]->id);
                 }
                 else{
                     $sql="  SELECT id
