@@ -194,7 +194,9 @@ class Ruta extends Eloquent
                     $cartaDesglose['carta_id']=$carta->id;
                     $cartaDesglose['tipo_actividad_id']=19;
                     $cartaDesglose['actividad']="Actividad";
-                    $cartaDesglose['persona_id']=$person[0]->id;
+                        if( isset($person[0]->id) ){
+                        $cartaDesglose['persona_id']=$person[0]->id;
+                        }
                     $cartaDesglose['area_id']=$rutaDetalle->area_id;
                     $cartaDesglose['recursos']="";
                     $cartaDesglose['fecha_inicio']=$fi;
