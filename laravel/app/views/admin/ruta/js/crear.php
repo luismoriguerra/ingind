@@ -42,10 +42,8 @@ $(document).ready(function() {
     $("#btn_guardar_todo").click(guardarTodo);
     $("#btn_adicionar_ruta_detalle_aux").click(adicionarProceso);
     Ruta.CargarRuta(HTMLCargarRuta);
-    var data = {estado:1,usuario:1,tipo_flujo:1};
-    var ids = [];
-    slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
-    data = {estado:1};
+    var ids=[];
+    var data = {estado:1};
     slctGlobal.listarSlct('ruta_detalle','slct_area_id','simple');
     slctGlobal.listarSlct('area','slct_area_id_2','simple',ids,data);
 
@@ -60,6 +58,7 @@ $(document).ready(function() {
 
     slctGlobal.listarSlct('area','slct_area_id_r','multiple',ids,data);
     slctGlobalHtml('slct_estado_id','multiple');
+    slctGlobalHtml('slct_flujo_id','simple');
 
     $("#generar").click(function (){
         area_id = $('#slct_area_id_r').val();
@@ -735,22 +734,10 @@ adicionaDetalleVerbo=function(det){
 eventoSlctGlobalSimple=function(slct,valor){
     valor=valor.split('|').join("");
     if( slct=="slct_flujo_id" ){
-        Ruta.ValidaProceso($("#slct_flujo_id").val(),valor,HTMLValidaProceso);
-    }
-// por ahora nad solo necesito q se actie nomas
-}
-
-HTMLValidaProceso=function(estado,valor){
-    if(estado==1){
         $("#slct_area_id").val(valor);
         $("#slct_area_id").multiselect('refresh');
     }
-    else{
-        $("#slct_flujo_id").val('');
-        $("#slct_area_id").val('');
-        $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
-        alert('Proceso seleccionado cuenta con ruta creada.');
-    }
+// por ahora nad solo necesito q se actie nomas
 }
 
 adicionarRutaDetalle=function(){
@@ -1203,14 +1190,18 @@ pintarAreasGAuxi=function(permiso){
 }
 
 Nuevo=function(){
+    $('#slct_flujo_id').multiselect('destroy');
+    $('#slct_flujo_id').removeAttr("disabled");
+    var data = {estado:1,usuario:1,tipo_flujo:1,faltantes:1};
+    var ids = [];
+    slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     $("#txt_ruta_flujo_id_modal").remove();
     $("#txt_titulo").text("Nueva Ruta");
     $("#texto_fecha_creacion").text("Fecha Creación:");
     $(".form-group").css("display","");
     $("#txt_titulo").val("Nueva Ruta");
-    $("#slct_flujo_id,#slct_area_id").val("");
-    $("#slct_flujo_id").multiselect('enable');
-    $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
+    $("#slct_area_id").val("");
+    $("#slct_area_id").multiselect('refresh');
     $("#txt_persona").val('<?php echo Auth::user()->paterno." ".Auth::user()->materno." ".Auth::user()->nombre;?>');
     $("#txt_ok,#txt_error").val("0");
     $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
@@ -1319,10 +1310,14 @@ validandoconteo=0;
     $.each(datos,function(index,data){
         validandoconteo++;
         if(validandoconteo==1){
-            $("#slct_flujo_id").val(data.flujo_id);
+            $('#slct_flujo_id').multiselect('destroy');
+            $('#slct_flujo_id').attr('disabled','true');
+            var datosFlujos = {estado:1,usuario:1,tipo_flujo:1,flujo_id:data.flujo_id};
+            var ids = [data.flujo_id];
+            slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,datosFlujos);
             $("#slct_area_id").val(data.area_id);
-            $("#slct_flujo_id,#slct_area_id").multiselect('disable');
-            $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
+            $("#slct_area_id").multiselect('disable');
+            $("#slct_area_id").multiselect('refresh');
             $("#txt_persona").val(data.persona);
             //$("#slct_tipo_ruta").val(data.tipo_ruta);
         }

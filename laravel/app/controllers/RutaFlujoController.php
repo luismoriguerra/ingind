@@ -31,6 +31,24 @@ class RutaFlujoController extends \BaseController
 
             $rutaFlujo->save();
 
+            if( !Input::has('ruta_flujo_id') ){
+                $flujoTipoRespuesta=new FlujoTipoRespuesta;
+                $flujoTipoRespuesta['flujo_id']=Input::get('flujo_id');
+                $flujoTipoRespuesta['tipo_respuesta_id']=3;
+                $flujoTipoRespuesta['tiempo_id']=2;
+                $flujoTipoRespuesta['dtiempo']=1;
+                $flujoTipoRespuesta['usuario_created_at']=Auth::user()->id;
+                $flujoTipoRespuesta->save();
+
+                $flujoTipoRespuestaD=new FlujoTipoRespuesta;
+                $flujoTipoRespuestaD['flujo_id']=Input::get('flujo_id');
+                $flujoTipoRespuestaD['tipo_respuesta_id']=2;
+                $flujoTipoRespuestaD['tiempo_id']=0;
+                $flujoTipoRespuestaD['dtiempo']=0;
+                $flujoTipoRespuesta['usuario_created_at']=Auth::user()->id;
+                $flujoTipoRespuestaD->save();
+            }
+
             /*Agregar Valores Auxiliares*/
             $auxflujo   = Flujo::find( Input::get('flujo_id') );
             $auxpersona = Persona::find( Auth::user()->id );

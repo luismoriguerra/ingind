@@ -105,6 +105,14 @@ class Flujo extends Base
                         elseif( Input::has('tipo_flujo') AND Input::get('tipo_flujo')==1 ){
                             $query->where('f.tipo_flujo','=',1);
                         }
+
+                        if( Input::has('faltantes') ){
+                            $query->whereNull('rf.id');
+                        }
+
+                        if( Input::has('flujo_id') ){
+                            $query->where('f.id','=',Input::get('flujo_id'));
+                        }
                     }
                 )
                 ->groupBy('f.id')
