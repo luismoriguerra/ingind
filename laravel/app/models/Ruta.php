@@ -213,7 +213,14 @@ class Ruta extends Eloquent
                     $rutaDetalleVerbo['ruta_detalle_id']= $rutaDetalle->id;
                     $rutaDetalleVerbo['nombre']= '-';
                     $rutaDetalleVerbo['condicion']= '0';
-                    $rutaDetalleVerbo['rol_id']= Input::get('rol_id');
+                    $rol_id=1;
+                        if( Input::has('rol_id') AND Input::get('rol_id')!='' ){
+                            $rol_id=Input::get('rol_id');
+                        }
+                        elseif( isset(Auth::user()->rol_id) ){
+                            $rol_id=Auth::user()->rol_id;
+                        }
+                    $rutaDetalleVerbo['rol_id']= $rol_id;
                     $rutaDetalleVerbo['verbo_id']= '1';
                     $rutaDetalleVerbo['documento_id']= '57';//Carta de inicio
                     $rutaDetalleVerbo['orden']= '0';
