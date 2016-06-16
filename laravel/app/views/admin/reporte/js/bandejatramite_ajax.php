@@ -45,13 +45,13 @@ var Bandeja={
                         $("#txt_alerta").val("1");
                         $("#txt_alerta_tipo").val("2");
                         $("#div_cumple").removeClass("progress-bar-success").removeClass("progress-bar-warning").addClass("progress-bar-danger");
-                        $("#div_cumple>span").html("NO CUMPLE TIEMPO ALERTA");
+                        $("#div_cumple>span").html("SE DETIENE FUERA DEL TIEMPO");
                     }
                     else if ( fechaAux!='' ) {
                         $("#txt_alerta").val("1");
                         $("#txt_alerta_tipo").val("3");
                         $("#div_cumple").removeClass("progress-bar-success").removeClass("progress-bar-danger").addClass("progress-bar-warning");
-                        $("#div_cumple>span").html("ALERTA ACTIVADA");
+                        $("#div_cumple>span").html("SE DETIENE DENTRO DEL TIEMPO");
                     }
                     else if ( $("#txt_fecha_max").val() < $("#txt_respuesta").val() ) {
                         $("#txt_alerta").val("1");
