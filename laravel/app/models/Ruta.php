@@ -52,9 +52,13 @@ class Ruta extends Eloquent
         elseif( Input::has('area_p_id') ){
             $tablaRelacion['area_id']=Input::get('area_p_id');
         }
+        elseif( Input::has('carta_id') ){ // Este caso solo es para asignar carta inicio
+            $tablaRelacion['area_id']=Auth::user()->area_id;
+        }
         elseif( Input::has('razon_social') ){
             $tablaRelacion['razon_social']=Input::get('razon_social');
         }
+
 
         if( Input::has('referente') AND trim(Input::get('referente'))!='' ){
             $tablaRelacion['referente']=Input::get('referente');
@@ -71,7 +75,6 @@ class Ruta extends Eloquent
         $tablaRelacion['usuario_created_at']=Auth::user()->id;
         $tablaRelacion->save();
 
-
         $rutaFlujo=RutaFlujo::find(Input::get('ruta_flujo_id'));
 
         $ruta= new Ruta;
@@ -83,20 +86,32 @@ class Ruta extends Eloquent
         $ruta['area_id']=$rutaFlujo->area_id;
         $ruta['usuario_created_at']= Auth::user()->id;
         $ruta->save();
-
+        /**************CARTA *************************************************/
+        $carta=array();
         if( Input::has('carta_id') ){
-
+            $carta= Carta::find(Input::get('carta_id'));
         }
-        $cartas=DB::table('cartas')
-                    ->where('nro_carta','=',$codigounico)
-                    ->update(
-                        array(
-                            'union' => 1,
-                            'usuario_updated_at' => Auth::user()->id,
-                            'updated_at' => date("Y-m-d H:i:s"),
-                            'ruta_id'=>$ruta->id,
-                        )
-                    );
+        else{
+            $carta= new Carta;
+            $carta['flujo_id']=$ruta->flujo_id;
+            $carta['correlativo']=0;
+            $carta['objetivo']="";
+            $carta['entregable']="";
+            $carta['alcance']="";
+            $carta['flujo_id']=$ruta->flujo_id;
+
+            if( trim(Auth::user()->area_id)!='' ){
+                $carta['area_id']=Auth::user()->area_id;
+            }
+            else{
+                $carta['area_id']=$ruta->area_id;
+            }
+        }
+            $carta['union']=1;
+            $carta['usuario_updated_at']=Auth::user()->id;
+            $carta['ruta_id']=$ruta->id;
+            $carta->save();
+        /*********************************************************************/
         /************Agregado de referidos*************/
         $referido=new Referido;
         $referido['ruta_id']=$ruta->id;
@@ -115,6 +130,9 @@ class Ruta extends Eloquent
             ->orderBy('norden','ASC')
             ->get();
             $validaactivar=0;
+        
+        $conteo=0;$array['fecha']=''; // inicializando valores para desglose
+
             foreach($qrutaDetalle as $rd){
                 $rutaDetalle = new RutaDetalle;
                 $rutaDetalle['ruta_id']=$ruta->id;
@@ -131,7 +149,62 @@ class Ruta extends Eloquent
                 }
                 $rutaDetalle['usuario_created_at']= Auth::user()->id;
                 $rutaDetalle->save();
+                /**************CARTA DESGLOSE*********************************/
+                $cartaDesglose=array();
+                if( Input::has('carta_id') ){
+                    $carta_id=Input::get('carta_id');
+                    $sql="  SELECT id
+                            FROM carta_desglose
+                            WHERE carta_id='$carta_id'
+                            AND estado=1
+                            ORDER BY id
+                            LIMIT $conteo,1";
+                    $cd=DB::select($sql);
+                    $conteo++;
+                    $cartaDesglose=CartaDesglose::find($cd->id);
+                }
+                else{
+                    $sql="  SELECT id
+                            FROM personas
+                            WHERE estado=1
+                            AND rol_id IN (8,9)
+                            AND area_id='".$rutaDetalle->area_id."'";
+                    $person=DB::select($sql);
+                        /***********MEDIR LOS TIEMPOS**************************/
+                        $cantmin=0;
+                        if( $rutaDetalle->tiempo_id==1 ){
+                            $cantmin=60;
+                        }
+                        elseif( $rutaDetalle->tiempo_id==2 ){
+                            $cantmin=1440;
+                        }
 
+                        if( $array['fecha']=='' ){
+                            $array['fecha']= date("Y-m-d",strtotime( Input::get('fecha_inicio') ));
+                        }
+                        $array['tiempo']=($rutaDetalle->dtiempo*$cantmin)-1;
+                        $array['area']=$rutaDetalle->area_id;
+                        $ff=Carta::CalcularFechaFin($array);
+                        $array['tiempo']=1439;
+                        $fi=Carta::CalcularFechaFin($array);
+                        $array['fecha']=date("Y-m-d" , strtotime("+1 day",strtotime($ff)));
+
+                    $cartaDesglose= new CartaDesglose;
+                    $cartaDesglose['carta_id']=$carta->id;
+                    $cartaDesglose['tipo_actividad_id']=19;
+                    $cartaDesglose['actividad']="Actividad";
+                    $cartaDesglose['persona_id']=$person[0]->id;
+                    $cartaDesglose['area_id']=$rutaDetalle->area_id;
+                    $cartaDesglose['recursos']="";
+                    $cartaDesglose['fecha_inicio']=$fi;
+                    $cartaDesglose['fecha_fin']=$ff;
+                    $cartaDesglose['hora_inicio']="08:00";
+                    $cartaDesglose['hora_fin']="17:30";
+                    $cartaDesglose['fecha_alerta']=$ff;
+                }
+                    $cartaDesglose['ruta_detalle_id']=$rutaDetalle->id;
+                    $cartaDesglose->save();
+                /*************************************************************/
                 if( $rd->norden==1 AND Input::has('carta_id') ){
                     $rutaDetalleVerbo = new RutaDetalleVerbo;
                     $rutaDetalleVerbo['ruta_detalle_id']= $rutaDetalle->id;
