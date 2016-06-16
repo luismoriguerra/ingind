@@ -168,7 +168,7 @@ class Ruta extends Eloquent
                     $sql="  SELECT id
                             FROM personas
                             WHERE estado=1
-                            AND rol_id IN (8,9)
+                            AND rol_id IN (8,9,70)
                             AND area_id='".$rutaDetalle->area_id."'";
                     $person=DB::select($sql);
                         /***********MEDIR LOS TIEMPOS**************************/
