@@ -283,6 +283,7 @@ HTMLreportet=function(datos){
             "scrollX": true,
             "bPaginate": false,
             "bLengthChange": false,
+            "bFilter": false,
             "bInfo": false,
             "visible": false,
     });
