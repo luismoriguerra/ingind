@@ -85,7 +85,6 @@
 
                         </div><!-- /.box-header -->
                         <div class="box-body">
-                        <div class="table-responsive">
                             <table id="t_reporte" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
@@ -116,7 +115,6 @@
                                 </tbody>
                             </table>
                         </div><!-- /.box-body -->
-                        </div>
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->
                 </div>
