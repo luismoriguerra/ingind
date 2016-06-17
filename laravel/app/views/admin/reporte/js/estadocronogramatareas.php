@@ -85,4 +85,7 @@ HTMLreportep=function(datos){
     $("#tb_reporte").html(html);
     activarTabla();
 };
+
+eventoSlctGlobalSimple=function(){
+}
 </script>
