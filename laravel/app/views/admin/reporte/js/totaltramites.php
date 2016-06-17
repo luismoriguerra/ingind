@@ -279,8 +279,10 @@ HTMLreportet=function(datos){
             "scrollY": "400px",
             "scrollCollapse": true,
             "scrollX": true,
-            "bFilter": false,
-            "bInfo": false
+            "bInfo": false,
+            "bPaginate": false,
+            "bLengthChange": false,
+            "visible": false,
     });
     $("#reportet_tab_"+Pest).show();
 };
