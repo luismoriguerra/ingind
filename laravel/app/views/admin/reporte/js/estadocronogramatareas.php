@@ -30,7 +30,6 @@ $(document).ready(function(){
 activarTabla=function(){
     var table = $("#t_reporte").dataTable( {
             "scrollY":        "400px",
-            "scrollCollapse": true,
             "bPaginate": false,
             "bLengthChange": false,
             "bFilter": false,
