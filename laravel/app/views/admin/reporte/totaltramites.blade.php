@@ -80,7 +80,7 @@
                                 </div>
                             </fieldset>
                         </div>
-                        <div class="box-body table-responsive">
+                        <div class="box-body">
                             <div class="row form-group" id="reportet_tab_1" style="display:none;">
                                 <div class="col-sm-12">
                                     <table id="t_reportet_tab_1" class="table table-bordered">
@@ -106,7 +106,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="box-body table-responsive" >
+                        <div class="box-body" >
                             <div class="row form-group" id="reported_tab_1" style="display:none;">
                                 <div class="col-sm-12">
                                     <table id="t_reported_tab_1" class="table table-bordered">
@@ -162,7 +162,7 @@
                                 </div>
                             </fieldset>
                         </div>
-                        <div class="box-body table-responsive">
+                        <div class="box-body">
                             <div class="row form-group" id="reportet_tab_2" style="display:none;">
                                 <div class="col-sm-12">
                                     <table id="t_reportet_tab_2" class="table table-bordered">
@@ -188,7 +188,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="box-body table-responsive" >
+                        <div class="box-body" >
                             <div class="row form-group" id="reported_tab_2" style="display:none;">
                                 <div class="col-sm-12">
                                     <table id="t_reported_tab_2" class="table table-bordered">
@@ -258,7 +258,7 @@
                                 </div>
                             </fieldset>
                         </div>
-                        <div class="box-body table-responsive">
+                        <div class="box-body">
                             <div class="row form-group" id="reportep_tab_3" style="display:none;">
                                 <div class="col-sm-12">
                                     <table id="t_reportep_tab_3" class="table table-bordered">
@@ -284,7 +284,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="box-body table-responsive">
+                        <div class="box-body">
                             <div class="row form-group" id="reportet_tab_3" style="display:none;">
                                 <div class="col-sm-12">
                                     <table id="t_reportet_tab_3" class="table table-bordered">
@@ -310,7 +310,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="box-body table-responsive" >
+                        <div class="box-body" >
                             <div class="row form-group" id="reported_tab_3" style="display:none;">
                                 <div class="col-sm-12">
                                     <table id="t_reported_tab_3" class="table table-bordered">
@@ -375,7 +375,7 @@
                                 </div>
                             </fieldset>
                         </div>
-                        <div class="box-body table-responsive">
+                        <div class="box-body">
                             <div class="row form-group" id="reportetp_tab_4" style="display:none;">
                                 <div class="col-sm-12">
                                     <table id="t_reportetp_tab_4" class="table table-bordered">
@@ -426,7 +426,7 @@
             </div>
             <div class="row form-group">
                 <div class="col-sm-12">
-                    <div class="box-body table-responsive">
+                    <div class="box-body">
                         <table id="areasasignacion" class="table table-bordered" style="min-height:300px">
                             <thead> 
                                 <tr class="head">

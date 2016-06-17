@@ -211,7 +211,13 @@ HTMLreportep=function(datos){
         html+="</tr>";
     });
     $("#t_reportep_tab_"+Pest+" tbody").html(html);
-    $("#t_reportep_tab_"+Pest).dataTable();
+    $("#t_reportep_tab_"+Pest).dataTable({
+            "scrollY": "400px",
+            "scrollCollapse": true,
+            "scrollX": true,
+            "bFilter": false,
+            "bInfo": false
+    });
     $("#reportep_tab_"+Pest).show();
 };
 
@@ -269,7 +275,13 @@ HTMLreportet=function(datos){
     });
 
     $("#t_reportet_tab_"+Pest+" tbody").html(html);
-    $("#t_reportet_tab_"+Pest).dataTable();
+    $("#t_reportet_tab_"+Pest).dataTable({
+            "scrollY": "400px",
+            "scrollCollapse": true,
+            "scrollX": true,
+            "bFilter": false,
+            "bInfo": false
+    });
     $("#reportet_tab_"+Pest).show();
 };
 
@@ -393,7 +405,13 @@ HTMLreported=function(datos){
     });
 
     $("#t_reported_tab_"+Pest+" tbody").html(html);
-    //$("#t_reported_tab_"+Pest).dataTable();
+    //$("#t_reported_tab_"+Pest).dataTable({
+            "scrollY": "400px",
+            "scrollCollapse": true,
+            "scrollX": true,
+            "bFilter": false,
+            "bInfo": false
+    });
     $("#reported_tab_"+Pest).show();
 }
 
