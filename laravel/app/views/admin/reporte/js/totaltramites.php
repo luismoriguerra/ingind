@@ -215,8 +215,10 @@ HTMLreportep=function(datos){
             "scrollY": "400px",
             "scrollCollapse": true,
             "scrollX": true,
-            "bFilter": false,
-            "bInfo": false
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bInfo": false,
+            "visible": false,
     });
     $("#reportep_tab_"+Pest).show();
 };
@@ -279,9 +281,9 @@ HTMLreportet=function(datos){
             "scrollY": "400px",
             "scrollCollapse": true,
             "scrollX": true,
-            "bInfo": false,
             "bPaginate": false,
             "bLengthChange": false,
+            "bInfo": false,
             "visible": false,
     });
     $("#reportet_tab_"+Pest).show();
@@ -411,8 +413,10 @@ HTMLreported=function(datos){
             "scrollY": "400px",
             "scrollCollapse": true,
             "scrollX": true,
-            "bFilter": false,
-            "bInfo": false
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bInfo": false,
+            "visible": false,
     });
     $("#reported_tab_"+Pest).show();
 }
