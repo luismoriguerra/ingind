@@ -64,7 +64,7 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1" onclick="ActPest(1);">
                     <form id="form_1" name="form_1" method="post">
-                        <div class="box">
+                        <div class="col-xl-12">
                             <fieldset>
                                 <div class="row form-group">
                                     <div class="col-sm-12">
@@ -80,15 +80,16 @@
                                 </div>
                             </fieldset>
                         </div>
-                        <div class="box-body">
-                            <div class="col-sm-12">
-                                <table id="t_reportet_tab_1" class="table table-bordered col-sm-12">
+                        <hr>
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <table id="t_reportet_tab_1" class="table table-bordered" width="100%">
                                     <thead>
                                         <tr>
                                             <th>Tramite</th>
                                             <th>Tipo Sol.</th>
                                             <th>Solicitante</th>
-                                            <th style="width:350px; !important">Sumilla</th>
+                                            <th>Sumilla</th>
                                             <th>Estado</th>
                                             <th>Paso a la fecha</th>
                                             <th>Total de pasos</th>
@@ -104,40 +105,40 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="box-body" >
-                            <div class="row form-group" id="reported_tab_1" style="display:none;">
-                                <div class="col-sm-12">
-                                    <table id="t_reported_tab_1" class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="6" style='background-color:#DEFAFA'>Datos del paso</th>
-                                                <th colspan="4" style='background-color:#F5DF9D'>Acciones a realizar</th>
-                                                <th colspan="3" style='background-color:#FCD790'>Acciones realizadas</th>
-                                            </tr>
-                                            <tr>
-                                                <th style='background-color:#DEFAFA'>Paso</th>
-                                                <th style='background-color:#DEFAFA'>Área</th>
-                                                <th style='background-color:#DEFAFA'>Tiempo</th>
-                                                <th style='background-color:#DEFAFA'>Inicio</th>
-                                                <th style='background-color:#DEFAFA'>Final</th>
-                                                <th style='background-color:#DEFAFA'>Estado final</th>
+                        <br>
+                        <hr>
+                        <div class="col-xl-12" >
+                            <div class="form-group">
+                                <table id="t_reported_tab_1" class="table table-bordered" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="6" style='background-color:#DEFAFA'>Datos del paso</th>
+                                            <th style='background-color:#F5DF9D'>Acciones a realizar</th>
+                                            <th style='background-color:#FCD790'>Acciones realizadas</th>
+                                        </tr>
+                                        <tr>
+                                            <th style='background-color:#DEFAFA'>Paso</th>
+                                            <th style='background-color:#DEFAFA'>Área</th>
+                                            <th style='background-color:#DEFAFA'>Tiempo</th>
+                                            <th style='background-color:#DEFAFA'>Inicio</th>
+                                            <th style='background-color:#DEFAFA'>Final</th>
+                                            <th style='background-color:#DEFAFA'>Estado final</th>
 
-                                                <th colspan="4" style='background-color:#F5DF9D'>Rol "tiene que"
-                                                Accion
-                                                Tipo Doc.
-                                                (Descripcion)
-                                                </th>
+                                            <th style='background-color:#F5DF9D'>Rol "tiene que"
+                                            Accion
+                                            Tipo Doc.
+                                            (Descripcion)
+                                            </th>
 
-                                                <th colspan="3" style='background-color:#FCD790'>Estado
-                                                (N° Doc.
-                                                Descripcion)
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                            <th style='background-color:#FCD790'>Estado
+                                            (N° Doc.
+                                            Descripcion)
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </form>
@@ -193,8 +194,8 @@
                                         <thead>
                                             <tr>
                                                 <th colspan="6" style='background-color:#DEFAFA'>Datos del paso</th>
-                                                <th colspan="4" style='background-color:#F5DF9D'>Acciones a realizar</th>
-                                                <th colspan="3" style='background-color:#FCD790'>Acciones realizadas</th>
+                                                <th style='background-color:#F5DF9D'>Acciones a realizar</th>
+                                                <th style='background-color:#FCD790'>Acciones realizadas</th>
                                             </tr>
                                             <tr>
                                                 <th style='background-color:#DEFAFA'>Paso</th>
@@ -204,13 +205,13 @@
                                                 <th style='background-color:#DEFAFA'>Final</th>
                                                 <th style='background-color:#DEFAFA'>Estado final</th>
 
-                                                <th colspan="4" style='background-color:#F5DF9D'>Rol "tiene que"
+                                                <th style='background-color:#F5DF9D'>Rol "tiene que"
                                                 Accion
                                                 Tipo Doc.
                                                 (Descripcion)
                                                 </th>
 
-                                                <th colspan="3" style='background-color:#FCD790'>Estado
+                                                <th style='background-color:#FCD790'>Estado
                                                 (N° Doc.
                                                 Descripcion)
                                                 </th>
