@@ -29,6 +29,8 @@ $(document).ready(function(){
 });
 activarTabla=function(){
     var table = $("#t_reporte").dataTable( {
+            "scrollY":        "400px",
+            "scrollCollapse": true,
             "bPaginate": false,
             "bLengthChange": false,
             "bFilter": false,
@@ -36,7 +38,7 @@ activarTabla=function(){
             "bAutoWidth": false,
             "visible": false,
             "targets": -1,
-            "order": [[11, "desc" ]]
+            "order": [[10, "desc" ]]
         
     } ); // inicializo el datatable
     $('#t_reporte tbody').on( 'click', 'tr', function () {
