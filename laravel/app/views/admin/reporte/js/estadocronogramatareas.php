@@ -33,15 +33,13 @@ $(document).ready(function(){
 });
 activarTabla=function(){
     var table = $("#t_reporte").dataTable( {
-            "scrollY":        "400px",
+            "scrollY": "400px",
             "bPaginate": false,
             "bLengthChange": false,
             "bFilter": false,
             "bInfo": false,
-            "bAutoWidth": false,
             "visible": false,
-            "targets": -1,
-            "order": [[10, "desc" ]]
+            "order": [[10, "asc" ]]
         
     } ); // inicializo el datatable
     $('#t_reporte tbody').on( 'click', 'tr', function () {
