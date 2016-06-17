@@ -58,6 +58,13 @@ class EstadoCronogramaTareaController extends \BaseController {
             $filtro['categoria']='';
         }
 
+        if ( isset($filtro['area']) ){
+            $filtro['area']=" AND rd.area_id='".$filtro['area']."' ";
+        }
+        else{
+            $filtro['area']='';
+        }
+
         $response = ['rst'=>1,
                     'data'=>EstadoCronogramaTarea::getTotal($filtro)
                     ];

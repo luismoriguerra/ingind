@@ -20,12 +20,16 @@ $(document).ready(function(){
 
         if ($('#slct_categoria').val()!=='') 
             filtro.categoria = $('#slct_categoria').val();
+
+        if ($('#slct_area').val()!=='') 
+            filtro.area = $('#slct_area').val();
         
         CartaInicio.cargar(filtro, HTMLreportep);
     });
     var data = {estado:1};
     var ids = [];
     slctGlobal.listarSlct('categoria','slct_categoria','simple',ids,data);
+    slctGlobal.listarSlct('area','slct_area','simple',ids,data);
 });
 activarTabla=function(){
     var table = $("#t_reporte").dataTable( {

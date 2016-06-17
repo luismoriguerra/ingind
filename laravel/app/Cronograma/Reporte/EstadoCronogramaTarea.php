@@ -68,6 +68,7 @@ class EstadoCronogramaTarea
                         (rd.dtiempo_final!='' AND rd.fecha_inicio!='' AND rd.alerta_tipo>1 AND rd.alerta=1)
                     )
                 ".$filtro['categoria']
+                .$filtro['area']
                 .$filtro['semaforo']
                 .$filtro['tramite']
                 .$filtro['fecha']."

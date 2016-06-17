@@ -73,6 +73,10 @@
                                     <select id="slct_categoria" name="slct_categoria" class="form-control"></select>
                                 </div>
                                 <div class="col-sm-3">
+                                    <label class="control-label">Área:</label>
+                                    <select id="slct_area" name="slct_area" class="form-control"></select>
+                                </div>
+                                <div class="col-sm-3">
                                     <label class="control-label">
                                     </label>
                                     <input type="button" class="form-control btn btn-primary" id="mostrar" name="mostrar" value="Mostrar">
