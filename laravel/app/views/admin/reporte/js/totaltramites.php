@@ -364,7 +364,7 @@ HTMLreported=function(datos){
     var estado_final='';
 
     $("#t_reported_tab_"+Pest+" tbody").html('');
-    //$("#t_reported_tab_"+Pest).dataTable().fnDestroy();
+    $("#t_reported_tab_"+Pest).dataTable().fnDestroy();
 
     $.each(datos,function(index,data){
         if (data.alerta=='0') alerta=alertOk;
@@ -405,7 +405,7 @@ HTMLreported=function(datos){
     });
 
     $("#t_reported_tab_"+Pest+" tbody").html(html);
-    //$("#t_reported_tab_"+Pest).dataTable({
+    $("#t_reported_tab_"+Pest).dataTable({
             "scrollY": "400px",
             "scrollCollapse": true,
             "scrollX": true,
