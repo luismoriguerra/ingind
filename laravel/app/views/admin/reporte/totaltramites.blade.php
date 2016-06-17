@@ -83,7 +83,7 @@
                         <div class="box-body">
                             <div class="row form-group" id="reportet_tab_1" style="display:none;">
                                 <div class="col-sm-12">
-                                    <table id="t_reportet_tab_1" class="table table-bordered">
+                                    <table id="t_reportet_tab_1" class="table table-bordered col-sm-12">
                                         <thead>
                                             <tr>
                                                 <th>Tramite</th>
