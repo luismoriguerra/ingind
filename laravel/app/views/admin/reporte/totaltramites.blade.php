@@ -81,29 +81,27 @@
                             </fieldset>
                         </div>
                         <div class="box-body">
-                            <div class="row form-group" id="reportet_tab_1" style="display:none;">
-                                <div class="col-sm-12">
-                                    <table id="t_reportet_tab_1" class="table table-bordered" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Tramite</th>
-                                                <th>Tipo Sol.</th>
-                                                <th>Solicitante</th>
-                                                <th>Sumilla</th>
-                                                <th>Estado</th>
-                                                <th>Paso a la fecha</th>
-                                                <th>Total de pasos</th>
-                                                <th>Fecha Inicio</th>
-                                                <th>Pasos Sin alertas</th>
-                                                <th>Pasos Con alertas</th>
-                                                <th>Pasos Alertas validadas</th>
-                                                <th> [ ] </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div class="col-sm-12">
+                                <table id="t_reportet_tab_1" class="table table-bordered col-sm-12">
+                                    <thead>
+                                        <tr>
+                                            <th>Tramite</th>
+                                            <th>Tipo Sol.</th>
+                                            <th>Solicitante</th>
+                                            <th style="width:350px; !important">Sumilla</th>
+                                            <th>Estado</th>
+                                            <th>Paso a la fecha</th>
+                                            <th>Total de pasos</th>
+                                            <th>Fecha Inicio</th>
+                                            <th>Pasos Sin alertas</th>
+                                            <th>Pasos Con alertas</th>
+                                            <th>Pasos Alertas validadas</th>
+                                            <th> [ ] </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <div class="box-body" >
