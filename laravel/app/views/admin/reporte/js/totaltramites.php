@@ -256,7 +256,7 @@ HTMLreportet=function(datos){
     var html="";
 
     $("#t_reportet_tab_"+Pest+" tbody").html('');
-    $("#t_reportet_tab_"+Pest).dataTable().fnDestroy();
+    //$("#t_reportet_tab_"+Pest).dataTable().fnDestroy();
 
     $.each(datos,function(index,data){
         btnruta='<a onclick="cargarRutaId('+data.ruta_flujo_id+',2,'+data.id+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
@@ -277,7 +277,7 @@ HTMLreportet=function(datos){
     });
 
     $("#t_reportet_tab_"+Pest+" tbody").html(html);
-    $("#t_reportet_tab_"+Pest).dataTable({
+    /*$("#t_reportet_tab_"+Pest).dataTable({
             "scrollY": "400px",
             "scrollCollapse": true,
             "scrollX": true,
@@ -285,7 +285,7 @@ HTMLreportet=function(datos){
             "bLengthChange": false,
             "bInfo": false,
             "visible": false,
-    });
+    });*/
     $("#reportet_tab_"+Pest).show();
 };
 
