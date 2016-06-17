@@ -34,12 +34,13 @@ $(document).ready(function(){
 activarTabla=function(){
     var table = $("#t_reporte").dataTable( {
             "scrollY": "400px",
+            "scrollCollapse": true,
             "bPaginate": false,
             "bLengthChange": false,
             "bFilter": false,
             "bInfo": false,
             "visible": false,
-            "order": [[10, "asc" ]]
+            "order": [[10, "asc" ],[9,"asc"]]
         
     } ); // inicializo el datatable
     $('#t_reporte tbody').on( 'click', 'tr', function () {
