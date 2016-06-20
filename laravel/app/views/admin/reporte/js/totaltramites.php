@@ -177,8 +177,14 @@ reportea=function(){
 
 HTMLreportep=function(datos){
     var html="";
+    $("#t_reportep_tab_"+Pest).dataTable().fnDestroy();
     $("#t_reportep_tab_"+Pest+" tbody").html('');
-    //$("#t_reportep_tab_"+Pest).dataTable().fnDestroy();
+    /*******************DETALLE****************************/
+    $("#t_reportet_tab_"+Pest).dataTable().fnDestroy();
+    $("#t_reported_tab_"+Pest).dataTable().fnDestroy();
+    $("#t_reportet_tab_"+Pest+" tbody").html('');
+    $("#t_reported_tab_"+Pest+" tbody").html('');
+    /******************************************************/
 
     $.each(datos,function(index,data){
 
@@ -211,7 +217,7 @@ HTMLreportep=function(datos){
         html+="</tr>";
     });
     $("#t_reportep_tab_"+Pest+" tbody").html(html);
-    /*$("#t_reportep_tab_"+Pest).dataTable({
+    $("#t_reportep_tab_"+Pest).dataTable({
             "scrollY": "400px",
             "scrollCollapse": true,
             "scrollX": true,
@@ -219,7 +225,7 @@ HTMLreportep=function(datos){
             "bLengthChange": false,
             "bInfo": false,
             "visible": false,
-    });*/
+    });
     $("#reportep_tab_"+Pest).show();
 };
 
@@ -255,8 +261,12 @@ HTMLreportet=function(datos){
     var btnruta='';
     var html="";
 
-    $("#t_reportet_tab_"+Pest+" tbody").html('');
     $("#t_reportet_tab_"+Pest).dataTable().fnDestroy();
+    $("#t_reportet_tab_"+Pest+" tbody").html('');
+    /*******************DETALLE****************************/
+    $("#t_reported_tab_"+Pest).dataTable().fnDestroy();
+    $("#t_reported_tab_"+Pest+" tbody").html('');
+    /******************************************************/
 
     $.each(datos,function(index,data){
         btnruta='<a onclick="cargarRutaId('+data.ruta_flujo_id+',2,'+data.id+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
@@ -294,6 +304,9 @@ HTMLreportetp=function(datos){
     var html="";
     var colspan="";
 
+    if( $("#t_reportetp_tab_"+Pest+" tbody>tr").length>0 ){
+        $("#t_reportetp_tab_"+Pest).dataTable().fnDestroy();
+    }
     $("#t_reportetp_tab_"+Pest+" tbody").html('');
     $("#t_reportetp_tab_"+Pest+" thead>tr .Eliminar").remove();
 
@@ -356,6 +369,15 @@ HTMLreportetp=function(datos){
     });
 
     $("#t_reportetp_tab_"+Pest+" tbody").html(html);
+    $("#t_reportetp_tab_"+Pest).dataTable({
+            "scrollY": "400px",
+            "scrollCollapse": true,
+            "scrollX": true,
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bInfo": false,
+            "visible": false,
+    });
     $("#reportetp_tab_"+Pest).show();
 };
 
