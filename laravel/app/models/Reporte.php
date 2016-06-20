@@ -160,6 +160,7 @@ class Reporte extends Eloquent
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
+                INNER JOIN tiempos t ON t.id=rd.tiempo_id 
                 INNER JOIN flujos f ON f.id=r.flujo_id
                 ".$array['referido']." JOIN referidos re ON re.ruta_id=r.id AND re.norden=(rd.norden-1)
                 WHERE r.estado=1 
@@ -202,7 +203,13 @@ class Reporte extends Eloquent
                             )
                         )
                     )
-                ) AS persona
+                ) AS persona,
+                IF( 
+                    DATE_ADD(
+                    rd.fecha_inicio, 
+                    INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
+                    )>=CURRENT_TIMESTAMP(),'Dentro del Tiempo','Fuera del Tiempo'
+                ) tiempo_final
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
@@ -244,7 +251,7 @@ class Reporte extends Eloquent
                                     DATE_ADD(
                                     rd.fecha_inicio, 
                                     INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
-                                    )<=CURRENT_DATE(),
+                                    )<CURRENT_TIMESTAMP(),
                                     r.area_id,NULL
                                     ) 
                         ) area_id_".$qsqlCab[$i]->id."_in";
@@ -257,7 +264,7 @@ class Reporte extends Eloquent
                             DATE_ADD(
                                 rd.fecha_inicio, 
                                 INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
-                            )<=CURRENT_DATE(),r.area_id,NULL
+                            )<CURRENT_TIMESTAMP(),r.area_id,NULL
                         )
                     ) total_in
                     $detalle 

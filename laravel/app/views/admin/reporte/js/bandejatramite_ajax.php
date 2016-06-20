@@ -111,16 +111,21 @@ var Bandeja={
                     },
                     {
                         "targets": 5,
+                        "data": "tiempo_final",
+                        "name": "tiempo_final"
+                    },
+                    {
+                        "targets": 6,
                         "data": "norden",
                         "name": "norden"
                     },
                     {
-                        "targets": 6,
+                        "targets": 7,
                         "data": "proceso",
                         "name": "proceso"
                     },
                     {
-                        "targets": 7,
+                        "targets": 8,
                         "data": "persona",
                         "name": "persona"
                     }

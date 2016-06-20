@@ -106,7 +106,7 @@ class ReporteFinalController extends BaseController
       $array['id_union']='';$array['id_ant']='';
       $array['referido']=' LEFT ';
       $array['solicitante']='';$array['areas']='';
-      $array['proceso']='';
+      $array['proceso']='';$array['tiempo_final']='';
 
       $retorno=array(
                   'rst'=>1
@@ -173,6 +173,17 @@ class ReporteFinalController extends BaseController
         if( Input::has('proceso') AND Input::get('proceso')!='' ){
           $proceso=trim(Input::get('proceso'));
           $array['proceso'].=" AND f.nombre LIKE '%".$proceso."%' ";
+        }
+
+        if( Input::has('tiempo_final') AND Input::get('tiempo_final')!='' ){
+          $estadofinal=">CURRENT_TIMESTAMP()";
+           if( Input::get('tiempo_final')=='0' ){
+            $estadofinal="<=CURRENT_TIMESTAMP()";
+           }
+          $array['tiempo_final']="  AND DATE_ADD(
+                                        rd.fecha_inicio, 
+                                        INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
+                                        )$estadofinal ";
         }
 
       $cant= Reporte::BandejaTramiteCount( $array );
