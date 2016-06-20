@@ -128,6 +128,7 @@
                                             <th>Primer Doc. ingresado <br>por Mesa de Partes</th>
                                             <th>Tiempo</th>
                                             <th>Fecha Inicio</th>
+                                            <th>Estado del Paso</th>
                                             <th>Paso</th>
                                             <th>Proceso</th>
                                             <th>Solicitante</th>
