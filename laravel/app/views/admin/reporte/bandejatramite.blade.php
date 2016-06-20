@@ -105,7 +105,7 @@
                                             <th>Tiempo</th>
                                             <th>Fecha Inicio</th>
                                             <th id="th_pd" style='width:250px !important;' class="unread">Estado del Paso<br>
-                                            <select name="slct_estado_final" id="slct_estado_final" onChange="MostrarAjax();" type="text" />
+                                            <select name="slct_tiempo_final" id="slct_tiempo_final" onChange="MostrarAjax();" />
                                             <option>.::Todo::.</option>
                                             <option value="1">Dentro del Tiempo</option>
                                             <option value="0">Fuera del Tiempo</option>
