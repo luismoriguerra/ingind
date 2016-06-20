@@ -109,6 +109,13 @@
                                             <input style='width:250px' name="txt_id_union" id="txt_id_union" onBlur="MostrarAjax();" onKeyPress="return enterGlobal(event,'th_pd',1)" onkeyup="Limpiar('txt_id_ant,#txt_solicitante');" type="text" placeholder="" />
                                             </th>
                                             <th>Tiempo</th>
+                                            <th id="th_pd" style='width:250px !important;' class="unread">Estado del Paso<br>
+                                            <select name="slct_tiempo_final" id="slct_tiempo_final" onChange="MostrarAjax();" />
+                                            <option>.::Todo::.</option>
+                                            <option value="1">Dentro del Tiempo</option>
+                                            <option value="0">Fuera del Tiempo</option>
+                                            </select>
+                                            </th>
                                             <th>Fecha Inicio</th>
                                             <th>Paso</th>
                                             <th>Proceso</th>
@@ -125,6 +132,7 @@
                                             <th>Primer Doc. ingresado <br>por Mesa de Partes</th>
                                             <th>Tiempo</th>
                                             <th>Fecha Inicio</th>
+                                            <th>Estado del Paso</th>
                                             <th>Paso</th>
                                             <th>Proceso</th>
                                             <th>Solicitante</th>
