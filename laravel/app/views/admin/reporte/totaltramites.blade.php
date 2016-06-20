@@ -107,7 +107,7 @@
                         </div>
                         <br>
                         <hr>
-                        <div class="col-xl-12" >
+                        <div class="col-xl-12">
                             <div class="form-group">
                                 <table id="t_reported_tab_1" class="table table-bordered" width="100%">
                                     <thead>
@@ -161,66 +161,65 @@
                                 </div>
                             </fieldset>
                         </div>
-                        <div class="box-body">
-                            <div class="row form-group" id="reportet_tab_2" style="display:none;">
-                                <div class="col-sm-12">
-                                    <table id="t_reportet_tab_2" class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Tramite</th>
-                                                <th>Tipo Sol.</th>
-                                                <th>Solicitante</th>
-                                                <th>Sumilla</th>
-                                                <th>Estado</th>
-                                                <th>Paso a la fecha</th>
-                                                <th>Total de pasos</th>
-                                                <th>Fecha Inicio</th>
-                                                <th>Pasos Sin alertas</th>
-                                                <th>Pasos Con alertas</th>
-                                                <th>Pasos Alertas validadas</th>
-                                                <th> [ ] </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
+                        <hr>
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <table id="t_reportet_tab_2" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Tramite</th>
+                                            <th>Tipo Sol.</th>
+                                            <th>Solicitante</th>
+                                            <th>Sumilla</th>
+                                            <th>Estado</th>
+                                            <th>Paso a la fecha</th>
+                                            <th>Total de pasos</th>
+                                            <th>Fecha Inicio</th>
+                                            <th>Pasos Sin alertas</th>
+                                            <th>Pasos Con alertas</th>
+                                            <th>Pasos Alertas validadas</th>
+                                            <th> [ ] </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <div class="box-body" >
-                            <div class="row form-group" id="reported_tab_2" style="display:none;">
-                                <div class="col-sm-12">
-                                    <table id="t_reported_tab_2" class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="6" style='background-color:#DEFAFA'>Datos del paso</th>
-                                                <th style='background-color:#F5DF9D'>Acciones a realizar</th>
-                                                <th style='background-color:#FCD790'>Acciones realizadas</th>
-                                            </tr>
-                                            <tr>
-                                                <th style='background-color:#DEFAFA'>Paso</th>
-                                                <th style='background-color:#DEFAFA'>Área</th>
-                                                <th style='background-color:#DEFAFA'>Tiempo</th>
-                                                <th style='background-color:#DEFAFA'>Inicio</th>
-                                                <th style='background-color:#DEFAFA'>Final</th>
-                                                <th style='background-color:#DEFAFA'>Estado final</th>
+                        <br>
+                        <hr>
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <table id="t_reported_tab_2" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="6" style='background-color:#DEFAFA'>Datos del paso</th>
+                                            <th style='background-color:#F5DF9D'>Acciones a realizar</th>
+                                            <th style='background-color:#FCD790'>Acciones realizadas</th>
+                                        </tr>
+                                        <tr>
+                                            <th style='background-color:#DEFAFA'>Paso</th>
+                                            <th style='background-color:#DEFAFA'>Área</th>
+                                            <th style='background-color:#DEFAFA'>Tiempo</th>
+                                            <th style='background-color:#DEFAFA'>Inicio</th>
+                                            <th style='background-color:#DEFAFA'>Final</th>
+                                            <th style='background-color:#DEFAFA'>Estado final</th>
 
-                                                <th style='background-color:#F5DF9D'>Rol "tiene que"
-                                                Accion
-                                                Tipo Doc.
-                                                (Descripcion)
-                                                </th>
+                                            <th style='background-color:#F5DF9D'>Rol "tiene que"
+                                            Accion
+                                            Tipo Doc.
+                                            (Descripcion)
+                                            </th>
 
-                                                <th style='background-color:#FCD790'>Estado
-                                                (N° Doc.
-                                                Descripcion)
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                            <th style='background-color:#FCD790'>Estado
+                                            (N° Doc.
+                                            Descripcion)
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </form>
@@ -257,92 +256,91 @@
                                 </div>
                             </fieldset>
                         </div>
-                        <div class="box-body">
-                            <div class="row form-group" id="reportep_tab_3" style="display:none;">
-                                <div class="col-sm-12">
-                                    <table id="t_reportep_tab_3" class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Nombre del proceso</th>
-                                                <th>Dueño del Proceso</th>
-                                                <th>Área del dueño</th>
-                                                <th>N° de Áreas de la ruta</th>
-                                                <th>N° de Pasos de la ruta</th>
-                                                <th>Tiempo total de la ruta</th>
-                                                <th>Fecha Creación</th>
-                                                <th>Fecha Producción</th>
-                                                <th>N° Trámites</th>
-                                                <th>Inconclusos</th>
-                                                <th>Conclusos</th>
-                                                <th> [ ] </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
+                        <hr>
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <table id="t_reportep_tab_3" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre del proceso</th>
+                                            <th>Dueño del Proceso</th>
+                                            <th>Área del dueño</th>
+                                            <th>N° de Áreas de la ruta</th>
+                                            <th>N° de Pasos de la ruta</th>
+                                            <th>Tiempo total de la ruta</th>
+                                            <th>Fecha Creación</th>
+                                            <th>Fecha Producción</th>
+                                            <th>N° Trámites</th>
+                                            <th>Inconclusos</th>
+                                            <th>Conclusos</th>
+                                            <th> [ ] </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <div class="box-body">
-                            <div class="row form-group" id="reportet_tab_3" style="display:none;">
-                                <div class="col-sm-12">
-                                    <table id="t_reportet_tab_3" class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Tramite</th>
-                                                <th>Tipo Sol.</th>
-                                                <th>Solicitante</th>
-                                                <th>Sumilla</th>
-                                                <th>Estado</th>
-                                                <th>Paso a la fecha</th>
-                                                <th>Total de pasos</th>
-                                                <th>Fecha Inicio</th>
-                                                <th>Pasos Sin alertas</th>
-                                                <th>Pasos Con alertas</th>
-                                                <th>Pasos Alertas validadas</th>
-                                                <th> [ ] </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
+                        <br>
+                        <hr>
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <table id="t_reportet_tab_3" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Tramite</th>
+                                            <th>Tipo Sol.</th>
+                                            <th>Solicitante</th>
+                                            <th>Sumilla</th>
+                                            <th>Estado</th>
+                                            <th>Paso a la fecha</th>
+                                            <th>Total de pasos</th>
+                                            <th>Fecha Inicio</th>
+                                            <th>Pasos Sin alertas</th>
+                                            <th>Pasos Con alertas</th>
+                                            <th>Pasos Alertas validadas</th>
+                                            <th> [ ] </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <div class="box-body" >
-                            <div class="row form-group" id="reported_tab_3" style="display:none;">
-                                <div class="col-sm-12">
-                                    <table id="t_reported_tab_3" class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="6" style='background-color:#DEFAFA'>Datos del paso</th>
-                                                <th colspan="4" style='background-color:#F5DF9D'>Acciones a realizar</th>
-                                                <th colspan="3" style='background-color:#FCD790'>Acciones realizadas</th>
-                                            </tr>
-                                            <tr>
-                                                <th style='background-color:#DEFAFA'>Paso</th>
-                                                <th style='background-color:#DEFAFA'>Área</th>
-                                                <th style='background-color:#DEFAFA'>Tiempo</th>
-                                                <th style='background-color:#DEFAFA'>Inicio</th>
-                                                <th style='background-color:#DEFAFA'>Final</th>
-                                                <th style='background-color:#DEFAFA'>Estado final</th>
+                        <br>
+                        <hr>
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <table id="t_reported_tab_3" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="6" style='background-color:#DEFAFA'>Datos del paso</th>
+                                            <th style='background-color:#F5DF9D'>Acciones a realizar</th>
+                                            <th style='background-color:#FCD790'>Acciones realizadas</th>
+                                        </tr>
+                                        <tr>
+                                            <th style='background-color:#DEFAFA'>Paso</th>
+                                            <th style='background-color:#DEFAFA'>Área</th>
+                                            <th style='background-color:#DEFAFA'>Tiempo</th>
+                                            <th style='background-color:#DEFAFA'>Inicio</th>
+                                            <th style='background-color:#DEFAFA'>Final</th>
+                                            <th style='background-color:#DEFAFA'>Estado final</th>
 
-                                                <th colspan="4" style='background-color:#F5DF9D'>Rol "tiene que"
-                                                Accion
-                                                Tipo Doc.
-                                                (Descripcion)
-                                                </th>
+                                            <th style='background-color:#F5DF9D'>Rol "tiene que"
+                                            Accion
+                                            Tipo Doc.
+                                            (Descripcion)
+                                            </th>
 
-                                                <th colspan="3" style='background-color:#FCD790'>Estado
-                                                (N° Doc.
-                                                Descripcion)
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                            <th style='background-color:#FCD790'>Estado
+                                            (N° Doc.
+                                            Descripcion)
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </form>
@@ -374,22 +372,21 @@
                                 </div>
                             </fieldset>
                         </div>
-                        <div class="box-body">
-                            <div class="row form-group" id="reportetp_tab_4" style="display:none;">
-                                <div class="col-sm-12">
-                                    <table id="t_reportetp_tab_4" class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>&nbsp;<th>
-                                            </tr>
-                                            <tr>
-                                                <th>Área(s)<br>Involucrada(s)<br>en el(los) Proceso</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
+                        <hr>
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <table id="t_reportetp_tab_4" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>&nbsp;<th>
+                                        </tr>
+                                        <tr>
+                                            <th>Área(s)<br>Involucrada(s)<br>en el(los) Proceso</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </form>
