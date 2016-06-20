@@ -199,7 +199,14 @@ class ReporteFinalController extends BaseController
     public function postTramitependiente()
     {
       $array=array();
-      $array['area']='';$array['sino']='';
+      $array['area']='';$array['sino']='';$array['fecha']='';
+
+
+      if( Input::has('fecha_4') ){
+        $fecha = explode(" - ",Input::get('fecha_4'));
+        $array['fecha']=" AND date(rd.fecha_inicio) BETWEEN '".$fecha[0]."' AND '".$fecha[1]."' ";
+      }
+
       if( Input::has('area_4') AND Input::get('area_4')!='' ){
         $array['area']=implode("','",Input::get('area_4'));
         $array['area']=" AND rd.area_id IN ('".$array['area']."') ";

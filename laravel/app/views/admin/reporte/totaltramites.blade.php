@@ -361,12 +361,16 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-2">
                                             <label class="control-label">¿Desea mostrar los procesos de las áreas dueñas?</label>
                                             <select id="slct_sino" name="slct_sino" class="form-control">
                                                 <option value="0" selected>No</option>
                                                 <option value="1">Si</option>
                                             </select>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label class="control-label">Fecha(s) de Inicio(s) del(os) Paso(s) del(os) Trámite(s):</label>
+                                            <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="txt_fecha_4" name="txt_fecha_4"/>
                                         </div>
                                     </div>
                                 </div>

@@ -242,7 +242,8 @@ class Reporte extends Eloquent
                     WHERE r.estado=1 
                     AND rd.fecha_inicio!='' 
                     AND rd.dtiempo_final IS NULL
-                    ".$array['area']."
+                    ".$array['area'].
+                    $array['fecha']."
                     GROUP BY a.id
                     ORDER BY a.nombre DESC";
         $qsqlCab=DB::select($sqlCab);
@@ -278,7 +279,8 @@ class Reporte extends Eloquent
                     WHERE r.estado=1 
                     AND rd.fecha_inicio!='' 
                     AND rd.dtiempo_final IS NULL
-                    ".$array['area']."
+                    ".$array['area'].
+                    $array['fecha']."
                     GROUP BY rd.area_id".$array['sino']." WITH ROLLUP";
         $qsqlDet=DB::select($qsqlDet);
 

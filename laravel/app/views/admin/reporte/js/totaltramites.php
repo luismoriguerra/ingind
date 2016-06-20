@@ -14,7 +14,7 @@ var Pest=1;
 
 $(document).ready(function(){
     $("[data-toggle='offcanvas']").click();
-    $('#txt_fecha_2,#txt_fecha_3').daterangepicker({
+    $('#txt_fecha_2,#txt_fecha_3,#txt_fecha_4').daterangepicker({
         format: 'YYYY-MM-DD',
         singleDatePicker: false,
         showDropdowns: true
