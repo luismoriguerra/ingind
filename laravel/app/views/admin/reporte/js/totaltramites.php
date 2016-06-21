@@ -352,7 +352,7 @@ HTMLreportetp=function(datos){
                 }
             }
             
-        html+="<td>'"+d['total']+"/<font color="+color+">'"+d['total_in']+"</font></td>";
+        html+="<td>'"+d['total']+"/<font color="+color+">"+d['total_in']+"</font></td>";
         
         $.each(datos[0],function(i2,d2){
             if( carga==1 ){
@@ -362,7 +362,7 @@ HTMLreportetp=function(datos){
                 if( d['area_id_'+d2.split("|")[0]+'_in']*1>0 ){
                     color='red';
                 }
-            html+="<td>'"+d['area_id_'+d2.split("|")[0]]+"/<font color="+color+">'"+d['area_id_'+d2.split("|")[0]+'_in']+"</font></td>";
+            html+="<td>'"+d['area_id_'+d2.split("|")[0]]+"/<font color="+color+">"+d['area_id_'+d2.split("|")[0]+'_in']+"</font></td>";
         });
         carga++;
         html+="</tr>";
