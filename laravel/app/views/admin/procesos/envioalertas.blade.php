@@ -60,7 +60,7 @@
                                 <th>Recursos</th>
                             </tr>
                         </thead>
-                        <tbody id="tb_reporte">
+                        <tbody>
                         </tbody>
                     </table>
                 </div>

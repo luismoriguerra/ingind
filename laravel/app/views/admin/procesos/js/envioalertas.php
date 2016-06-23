@@ -25,11 +25,7 @@ mostrarHTML=function(datos){
         html+="<td>"+data.recursos+"</td>";
         html+="</tr>";
     });
-    $("#t_reporte").dataTable(
-        {
-            "order": [[ 0, "asc" ],[1, "asc"]],
-        }
-    ); 
-    $("#reporte").show();
+    $("#t_reporte>tbody").html(html);
+    $("#t_reporte").dataTable();
 };
 </script>
