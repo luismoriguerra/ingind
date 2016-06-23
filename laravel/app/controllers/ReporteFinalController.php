@@ -257,7 +257,7 @@ class ReporteFinalController extends BaseController
 
       $r = Reporte::BandejaTramiteEnvioAlertas( $array );
       $html="";
-      $meses=array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
+      $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
 
 
       foreach ($r as $key => $value) {
