@@ -282,13 +282,14 @@ class ReporteFinalController extends BaseController
           'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
         );
         try{
-            /*Mail::send('notreirel', $parametros , 
+            Mail::send('notreirel', $parametros , 
                 function($message) use( $value ) {
                     $message
-                    ->to($value->email)
+                    ->to('jorgeshevchenk@gmail.com')
+                    ->cc('calidadtelesup@gmail.com')
                     ->subject('.::Notificación::.');
                 }
-            );*/
+            );
         }
         catch(Exception $e){
             //echo $qem[$k]->email."<br>";
