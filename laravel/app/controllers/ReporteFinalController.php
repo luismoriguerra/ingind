@@ -261,33 +261,33 @@ class ReporteFinalController extends BaseController
 
       foreach ($r as $key => $value) {
         $html.="<tr>";
-        $html.="<td>".$value['tipo_tarea']."</td>";
-        $html.="<td>".$value['descripcion']."</td>";
-        $html.="<td>".$value['nemonico']."</td>";
-        $html.="<td>".$value['responsable']."</td>";
-        $html.="<td>".$value['email']."</td>";
-        $html.="<td>".$value['recursos']."</td>";
-        $html.="<td>".$value['proceso']."</td>";
-        $html.="<td>".$value['id_union']."</td>";
-        $html.="<td>".$value['norden']."</td>";
-        $html.="<td>".$value['tiempo']."</td>";
-        $html.="<td>".$value['fecha_inicio']."</td>";
+        $html.="<td>".$value->tipo_tarea."</td>";
+        $html.="<td>".$value->descripcion."</td>";
+        $html.="<td>".$value->nemonico."</td>";
+        $html.="<td>".$value->responsable."</td>";
+        $html.="<td>".$value->email."</td>";
+        $html.="<td>".$value->recursos."</td>";
+        $html.="<td>".$value->proceso."</td>";
+        $html.="<td>".$value->id_union."</td>";
+        $html.="<td>".$value->norden."</td>";
+        $html.="<td>".$value->tiempo."</td>";
+        $html.="<td>".$value->fecha_inicio."</td>";
         $html.="</tr>";
 
         $plantilla=Plantilla::where('tipo','=','1')->firts();
         $buscar=array('persona:','dia:','mes:','año:','paso:','tramite:','area:');
-        $reemplazar=array($value['responsable'],date('d'),$meses[date('n')],date("Y"),$value['norden'],$value['id_union'],$value['nemonico']);
+        $reemplazar=array($value->responsable,date('d'),$meses[date('n')],date("Y"),$value->norden,$value->id_union,$value->nemonico);
         $parametros=array(
           'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
         );
         try{
-            Mail::send('notreirel', $parametros , 
+            /*Mail::send('notreirel', $parametros , 
                 function($message) use( $value ) {
-                $message
-                    ->to($value['email'])
+                    $message
+                    ->to($value->email)
                     ->subject('.::Notificación::.');
                 }
-            );
+            );*/
         }
         catch(Exception $e){
             //echo $qem[$k]->email."<br>";
