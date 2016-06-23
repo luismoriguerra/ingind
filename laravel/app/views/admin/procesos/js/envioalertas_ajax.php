@@ -13,7 +13,7 @@ var Accion={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                    evento(obj.datos);
+                    evento(obj.data);
                 }
             },
             error: function(){
