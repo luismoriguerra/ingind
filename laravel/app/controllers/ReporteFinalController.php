@@ -259,6 +259,7 @@ class ReporteFinalController extends BaseController
       $html="";
       $meses=array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
 
+
       foreach ($r as $key => $value) {
         $html.="<tr>";
         $html.="<td>".$value->tipo_tarea."</td>";
@@ -274,7 +275,7 @@ class ReporteFinalController extends BaseController
         $html.="<td>".$value->fecha_inicio."</td>";
         $html.="</tr>";
 
-        $plantilla=Plantilla::where('tipo','=','1')->firts();
+        $plantilla=Plantilla::where('tipo','=','1')->first();
         $buscar=array('persona:','dia:','mes:','año:','paso:','tramite:','area:');
         $reemplazar=array($value->responsable,date('d'),$meses[date('n')],date("Y"),$value->norden,$value->id_union,$value->nemonico);
         $parametros=array(
