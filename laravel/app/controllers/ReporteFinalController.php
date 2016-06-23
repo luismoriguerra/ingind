@@ -159,6 +159,7 @@ class ReporteFinalController extends BaseController
           $reporte=Input::get('areas');
           $array['areas']=" AND rd.area_id=".$reporte." ";
         }
+        elseif( Input::has('areast') ){ /*Todas las areas*/ }
         else{
           $array['areas']=" AND rd.area_id IN (
                                 SELECT a.id
@@ -176,9 +177,9 @@ class ReporteFinalController extends BaseController
         }
 
         if( Input::has('tiempo_final') AND Input::get('tiempo_final')!='' ){
-          $estadofinal=">CURRENT_TIMESTAMP()";
+          $estadofinal=">=CURRENT_TIMESTAMP()";
            if( Input::get('tiempo_final')=='0' ){
-            $estadofinal="<=CURRENT_TIMESTAMP()";
+            $estadofinal="<CURRENT_TIMESTAMP()";
            }
           $array['tiempo_final']="  AND DATE_ADD(
                                         rd.fecha_inicio, 
@@ -223,6 +224,41 @@ class ReporteFinalController extends BaseController
               'datos'=>$r
           )
       );
+    }
+
+    public function postBandejatramiteenvioalertas()
+    {
+      $array=array();
+      $array['usuario']=Auth::user()->id;
+      $array['limit']='';$array['order']='';
+      $array['id_union']='';$array['id_ant']='';
+      $array['referido']=' LEFT ';
+      $array['solicitante']='';$array['areas']='';
+      $array['proceso']='';$array['tiempo_final']='';
+
+      $retorno=array(
+                  'rst'=>1
+               );
+
+        if (Input::has('start')) {
+            $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
+        }
+
+        if( Input::has('tiempo_final') AND Input::get('tiempo_final')!='' ){
+          $estadofinal=">=CURRENT_TIMESTAMP()";
+           if( Input::get('tiempo_final')=='0' ){
+            $estadofinal="<CURRENT_TIMESTAMP()";
+           }
+          $array['tiempo_final']="  AND DATE_ADD(
+                                        rd.fecha_inicio, 
+                                        INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
+                                        )$estadofinal ";
+        }
+
+      $r = Reporte::BandejaTramiteEnvioAlertas( $array );
+      $retorno["data"]=$r;;
+
+      return Response::json( $retorno );
     }
 
 }

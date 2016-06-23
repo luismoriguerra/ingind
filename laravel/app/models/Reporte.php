@@ -289,5 +289,40 @@ class Reporte extends Eloquent
         $rf[2]=$array['sino'];
         return $rf;
     }
+
+    public static function BandejaTramiteEnvioAlertas( $array ){
+        $sql="  SELECT
+                tr.id_union,
+                rd.id ruta_detalle_id,
+                CONCAT(t.apocope,': ',rd.dtiempo) tiempo,
+                IFNULL(rd.fecha_inicio,'') fecha_inicio,
+                rd.norden,
+                rd.estado_ruta AS estado_ruta,
+                f.nombre proceso,
+                IF( 
+                    DATE_ADD(
+                    rd.fecha_inicio, 
+                    INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
+                    )>=CURRENT_TIMESTAMP(),'<div style=\"background: #00DF00;color: white;\">Dentro del Tiempo</div>','<div style=\"background: #FE0000;color: white;\">Fuera del Tiempo</div>'
+                ) tiempo_final,
+                ta.nombre tipo_tarea, cd.actividad descripcion, a.nemonico, CONCAT(p.paterno,' ',p.materno,', ',p.nombre) responsable, cd.recursos
+                FROM rutas r
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
+                INNER JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id
+                INNER JOIN areas a ON a.id=cd.area_id
+                INNER JOIN personas p ON p.id=cd.persona_id
+                INNER JOIN tipo_actividad ta ON ta.id=cd.tipo_actividad_id
+                INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
+                INNER JOIN tiempos t ON t.id=rd.tiempo_id
+                INNER JOIN flujos f ON f.id=r.flujo_id
+                WHERE r.estado=1 
+                AND rd.fecha_inicio!='' 
+                AND rd.dtiempo_final IS NULL ".
+                $array['tiempo_final'].
+                " ORDER BY rd.fecha_inicio DESC ".
+                $array['limit'];
+        $r= DB::select($sql);
+        return $r;
+    }
 }
 ?>
