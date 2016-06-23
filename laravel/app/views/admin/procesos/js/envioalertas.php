@@ -26,6 +26,14 @@ mostrarHTML=function(datos){
         html+="</tr>";
     });
     $("#t_reporte>tbody").html(html);
-    $("#t_reporte").dataTable();
+    $("#t_reporte").dataTable({
+            "scrollY": "400px",
+            "scrollCollapse": true,
+            "scrollX": true,
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bInfo": false,
+            "visible": false,
+    });
 };
 </script>
