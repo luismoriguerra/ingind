@@ -305,7 +305,9 @@ class Reporte extends Eloquent
                     INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
                     )>=CURRENT_TIMESTAMP(),'<div style=\"background: #00DF00;color: white;\">Dentro del Tiempo</div>','<div style=\"background: #FE0000;color: white;\">Fuera del Tiempo</div>'
                 ) tiempo_final,
-                ta.nombre tipo_tarea, cd.actividad descripcion, a.nemonico, CONCAT(p.paterno,' ',p.materno,', ',p.nombre) responsable, cd.recursos
+                ta.nombre tipo_tarea, cd.actividad descripcion, a.nemonico, 
+                CONCAT(p.paterno,' ',p.materno,', ',p.nombre) responsable, cd.recursos,
+                p.email
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
                 INNER JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id
