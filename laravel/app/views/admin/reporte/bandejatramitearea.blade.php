@@ -225,7 +225,7 @@
                                                 <tbody id="t_detalle_verbo"></tbody>
                                             </table>
                                         </div>
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-12" style="display:none">
                                             <div class="col-sm-3">
                                                 <label class="control-label">Tipo de respuesta del Paso:</label>
                                                 <select id="slct_tipo_respuesta" name="slct_tipo_respuesta">
@@ -252,11 +252,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <a class="btn btn-primary btn-sm" id="btn_guardar_todo">
-                                                <i class="fa fa-save fa-lg"></i>&nbsp;Guardar
-                                            </a>
                                         </div>
                                     </div>
                                 </form>
