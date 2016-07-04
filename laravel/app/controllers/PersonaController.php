@@ -13,7 +13,7 @@ class PersonaController extends BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $personas = Persona::get(Input::all());
+            $personas = Persona::getCargar(Input::all());
             return Response::json(array('rst'=>1,'datos'=>$personas));
         }
     }

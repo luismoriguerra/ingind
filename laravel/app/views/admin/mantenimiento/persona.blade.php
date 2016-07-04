@@ -47,6 +47,8 @@
                                                 <th>Nombres</th>
                                                 <th>Email</th>
                                                 <th>DNI</th>
+                                                <th>Area</th>
+                                                <th>Rol</th>
                                                 <th>Estado</th>
                                                 <th> [ ] </th>
                                             </tr>
@@ -61,6 +63,8 @@
                                                 <th>Nombres</th>
                                                 <th>Email</th>
                                                 <th>DNI</th>
+                                                <th>Area</th>
+                                                <th>Rol</th>
                                                 <th>Estado</th>
                                                 <th> [ ] </th>
                                             </tr>

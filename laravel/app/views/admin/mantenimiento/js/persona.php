@@ -176,6 +176,8 @@ HTMLCargarPersona=function(datos){
             "<td >"+data.nombre+"</td>"+
             "<td >"+data.email+"</td>"+
             "<td >"+data.dni+"</td>"+
+            "<td >"+$.trim(data.area)+"</td>"+
+            "<td >"+$.trim(data.rol)+"</td>"+
             "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
             '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#personaModal" data-id="'+index+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
 
