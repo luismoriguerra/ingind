@@ -96,9 +96,10 @@ class RutaDetalle extends Eloquent
             ORDER BY rdv.orden ASC
             SEPARATOR "|"),"") AS verbo2,IFNULL(rd.fecha_inicio,"9999") fi,
             IFNULL(
-                DATE_ADD(
+                CalcularFechaFinal(
                 rd.fecha_inicio, 
-                INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
+                (rd.dtiempo*t.totalminutos),
+                rd.area_id
                 )
             ,"<font color=#E50D1C>Tranquilo! el paso anterior aún no ha acabado</font>") AS fecha_max, now() AS hoy
             ,IFNULL( max( IF(rdv.finalizo=1,rdv.condicion,NULL) ) ,"0") maximo
@@ -222,9 +223,10 @@ class RutaDetalle extends Eloquent
                 )
             SEPARATOR "|"),"") AS verbo2,IFNULL(rd.dtiempo_final,"9999") fi,
             IFNULL(
-                DATE_ADD(
+                CalcularFechaFinal(
                 rd.fecha_inicio, 
-                INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
+                (rd.dtiempo*t.totalminutos),
+                rd.area_id
                 )
             ,"<font color=#E50D1C>Tranquilo! el paso anterior aún no ha acabado</font>" )AS fecha_max, now() AS hoy,
             IF(rd.alerta_tipo=1,"NO CUMPLE TIEMPO",

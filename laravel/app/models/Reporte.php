@@ -206,9 +206,10 @@ class Reporte extends Eloquent
                     )
                 ) AS persona,
                 IF( 
-                    DATE_ADD(
+                    CalcularFechaFinal(
                     rd.fecha_inicio, 
-                    INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
+                    (rd.dtiempo*t.totalminutos),
+                    rd.area_id
                     )>=CURRENT_TIMESTAMP(),'<div style=\"background: #00DF00;color: white;\">Dentro del Tiempo</div>','<div style=\"background: #FE0000;color: white;\">Fuera del Tiempo</div>'
                 ) tiempo_final
                 FROM rutas r
@@ -251,9 +252,10 @@ class Reporte extends Eloquent
         for ($i=0; $i < count($qsqlCab); $i++) { 
             $detalle.=" ,COUNT( IF(r.area_id=".$qsqlCab[$i]->id.",r.area_id,NULL) ) area_id_".$qsqlCab[$i]->id."
                         ,COUNT( IF(r.area_id=".$qsqlCab[$i]->id." AND 
-                                    DATE_ADD(
+                                    CalcularFechaFinal(
                                     rd.fecha_inicio, 
-                                    INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
+                                    (rd.dtiempo*t.totalminutos),
+                                    rd.area_id
                                     )<CURRENT_TIMESTAMP(),
                                     r.area_id,NULL
                                     ) 
@@ -264,9 +266,10 @@ class Reporte extends Eloquent
         $qsqlDet="  SELECT a.nombre area,f.nombre proceso,COUNT(rd.area_id) total, COUNT(DISTINCT(r.area_id)) total_area,
                     COUNT( 
                         IF(
-                            DATE_ADD(
-                                rd.fecha_inicio, 
-                                INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
+                            CalcularFechaFinal(
+                            rd.fecha_inicio, 
+                            (rd.dtiempo*t.totalminutos),
+                            rd.area_id
                             )<CURRENT_TIMESTAMP(),r.area_id,NULL
                         )
                     ) total_in
@@ -300,9 +303,10 @@ class Reporte extends Eloquent
                 rd.estado_ruta AS estado_ruta,
                 f.nombre proceso,
                 IF( 
-                    DATE_ADD(
+                    CalcularFechaFinal(
                     rd.fecha_inicio, 
-                    INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
+                    (rd.dtiempo*t.totalminutos),
+                    rd.area_id
                     )>=CURRENT_TIMESTAMP(),'<div style=\"background: #00DF00;color: white;\">Dentro del Tiempo</div>','<div style=\"background: #FE0000;color: white;\">Fuera del Tiempo</div>'
                 ) tiempo_final,
                 ta.nombre tipo_tarea, cd.actividad descripcion, a.nemonico, 
