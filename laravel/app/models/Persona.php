@@ -34,7 +34,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
 
     public static function getCargar()
     {
-        $sql="  SELECT p.id ,a.id area_id,r.id rol_id,p.dni,p.email,
+        $sql="  SELECT p.id ,a.id area_id,r.id rol_id,p.dni,p.email,p.estado,
                     p.paterno,p.materno,p.nombre,a.nombre area,r.nombre rol
                 FROM personas p
                 INNER JOIN areas a ON a.id=p.area_id 
