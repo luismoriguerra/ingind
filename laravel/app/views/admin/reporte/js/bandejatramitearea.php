@@ -16,7 +16,7 @@ var fechaAux="";
 $(document).ready(function() {
 
     data = {estado:1};
-    slctGlobal.listarSlct('area','slct_areas','simple',ids,data);
+    slctGlobal.listarSlct('area','slct_areas','simple',null,data);
     slctGlobalHtml('slct_tipo_respuesta,#slct_tipo_respuesta_detalle','simple');
 
     $("#btn_guardar_todo").click(guardarTodo);
