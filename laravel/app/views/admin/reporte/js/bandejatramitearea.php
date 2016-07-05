@@ -15,7 +15,8 @@ var posicionDetalleVerboG=0;
 var fechaAux="";
 $(document).ready(function() {
 
-    slctGlobal.listarSlct('ruta_detalle','slct_area2_id,#slct_areas','simple');
+    data = {estado:1};
+    slctGlobal.listarSlct('area','slct_areas','simple',ids,data);
     slctGlobalHtml('slct_tipo_respuesta,#slct_tipo_respuesta_detalle','simple');
 
     $("#btn_guardar_todo").click(guardarTodo);
