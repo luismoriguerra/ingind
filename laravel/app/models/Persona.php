@@ -37,8 +37,8 @@ class Persona extends Base implements UserInterface, RemindableInterface
         $sql="  SELECT p.id ,a.id area_id,r.id rol_id,p.dni,p.email,p.estado,
                     p.paterno,p.materno,p.nombre,a.nombre area,r.nombre rol
                 FROM personas p
-                INNER JOIN areas a ON a.id=p.area_id 
-                INNER JOIN roles r ON r.id=p.rol_id ";
+                LEFT JOIN areas a ON a.id=p.area_id 
+                LEFT JOIN roles r ON r.id=p.rol_id ";
         $personas = DB::select($sql);
 
         return $personas;
