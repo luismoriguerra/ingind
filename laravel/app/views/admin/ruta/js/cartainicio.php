@@ -28,8 +28,9 @@ $(document).ready(function() {
     AreaIdG='';
     AreaIdG='<?php echo Auth::user()->area_id; ?>';
     $('#txt_fecha_inicio').daterangepicker({
-        format: 'YYYY-MM-DD',
+        format: 'YYYY-MM-DD HH:mm',
         singleDatePicker: true,
+        timePicker: true,
         showDropdowns: true
     });
     ValidaAreaRol();
@@ -47,13 +48,13 @@ CargarFechasHTML=function(datos){
         if( datos.length>p ){
       $( this ).find("input[name='txt_des_fin[]']").val(datos[p][0]);
       $( this ).find("input[name='txt_des_ffi[]']").val(datos[p][1]);
-      $( this ).find("input[name='txt_des_ale[]']").val(datos[p][1]);
+      $( this ).find("input[name='txt_des_ale[]']").val(datos[p][2]);
       p++;
         }
         else{
       $( this ).find("input[name='txt_des_fin[]']").val(datos[(p-1)][1]);
       $( this ).find("input[name='txt_des_ffi[]']").val(datos[(p-1)][1]);
-      $( this ).find("input[name='txt_des_ale[]']").val(datos[(p-1)][1]);
+      $( this ).find("input[name='txt_des_ale[]']").val(datos[(p-1)][2]);
         }
     });
 }

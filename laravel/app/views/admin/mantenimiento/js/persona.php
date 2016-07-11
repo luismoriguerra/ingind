@@ -6,7 +6,8 @@ $(document).ready(function() {
         
         $('#txt_fecha_nac').daterangepicker({
             format: 'YYYY-MM-DD',
-            singleDatePicker: true
+            singleDatePicker: true,
+            showDropdowns: true
         });
 
         var button = $(event.relatedTarget); // captura al boton

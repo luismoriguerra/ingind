@@ -385,7 +385,8 @@ class Carta extends Base
     }
 
     public static function CalcularFechaFin($array){
-        $sql="SELECT CalcularFechaFin('".$array['fecha']."',".$array['tiempo'].",".$array['area'].") AS ff;";
+        $sql="SELECT CalcularFechaFinal
+        ('".$array['fecha']."',".$array['tiempo'].",".$array['area'].") AS ff;";
         $r= DB::select($sql);
         return $r[0]->ff;
     }

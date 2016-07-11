@@ -18,13 +18,12 @@ class CartaController extends \BaseController
 
             for ($i=0; $i < count($datos); $i++) { 
             	$d=explode("|",$datos[$i]);
-            	$array['tiempo']=$d[0]-1;
+            	$array['tiempo']=$d[0];
             	$array['area']=$d[1];
                 $ff=Carta::CalcularFechaFin($array);
-                $array['tiempo']=1439;
-                $fi=Carta::CalcularFechaFin($array);
-            	array_push($r,array($fi,$ff));
-            	$array['fecha']=date("Y-m-d" , strtotime("+1 day",strtotime($ff)));
+                $fi=$array['fecha'];
+                $array['fecha']=$ff;
+            	array_push($r,array($fi,$ff,date("Y-m-d",strtotime($ff)) ));
             }
             return Response::json(array('rst'=>1,'datos'=>$r));
         }
