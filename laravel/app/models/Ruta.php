@@ -183,12 +183,11 @@ class Ruta extends Eloquent
                         if( $array['fecha']=='' ){
                             $array['fecha']= date("Y-m-d",strtotime( Input::get('fecha_inicio') ));
                         }
-                        $array['tiempo']=($rutaDetalle->dtiempo*$cantmin)-1;
+                        $array['tiempo']=($rutaDetalle->dtiempo*$cantmin);
                         $array['area']=$rutaDetalle->area_id;
                         $ff=Carta::CalcularFechaFin($array);
-                        $array['tiempo']=1439;
-                        $fi=Carta::CalcularFechaFin($array);
-                        $array['fecha']=date("Y-m-d" , strtotime("+1 day",strtotime($ff)));
+                        $fi=$array['fecha'];
+                        $array['fecha']=$ff;
 
                     $cartaDesglose= new CartaDesglose;
                     $cartaDesglose['carta_id']=$carta->id;
