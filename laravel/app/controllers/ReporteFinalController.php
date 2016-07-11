@@ -181,9 +181,10 @@ class ReporteFinalController extends BaseController
            if( Input::get('tiempo_final')=='0' ){
             $estadofinal="<CURRENT_TIMESTAMP()";
            }
-          $array['tiempo_final']="  AND DATE_ADD(
+          $array['tiempo_final']="  AND CalcularFechaFinal(
                                         rd.fecha_inicio, 
-                                        INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
+                                        (rd.dtiempo*t.totalminutos),
+                                        rd.area_id 
                                         )$estadofinal ";
         }
 
