@@ -181,7 +181,7 @@ class Ruta extends Eloquent
                         }
 
                         if( $array['fecha']=='' ){
-                            $array['fecha']= date("Y-m-d",strtotime( Input::get('fecha_inicio') ));
+                            $array['fecha']= Input::get('fecha_inicio');
                         }
                         $array['tiempo']=($rutaDetalle->dtiempo*$cantmin);
                         $array['area']=$rutaDetalle->area_id;
