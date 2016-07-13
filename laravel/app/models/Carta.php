@@ -367,7 +367,7 @@ class Carta extends Base
                             AND cd.estado=1 
                          ) as fecha_inicio') )
                 ->where('f.estado','=','1')
-                ->where('f.correlativo','>','0')
+                ->where('c.correlativo','>','0')
                 ->where( 
                     function($query){
                         if ( Input::get('union') ) {
