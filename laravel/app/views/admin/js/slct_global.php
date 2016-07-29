@@ -3,7 +3,7 @@ $(document).ready(function() {
     
 });
 
-htmlListarSlct=function(obj,slct,tipo,valarray,afectado,afectados,slct_id,slctant,slctant_id){
+htmlListarSlct=function(obj,slct,tipo,valarray,afectado,afectados,slct_id,slctant,slctant_id, funciones){
     var html="";var disabled='';
     if(tipo!="multiple"){
         html+= "<option value=''>.::Seleccione::.</option>";
@@ -12,7 +12,7 @@ htmlListarSlct=function(obj,slct,tipo,valarray,afectado,afectados,slct_id,slctan
     if(obj.rst==1){                    
         $.each(obj.datos,function(index,data){
         disabled=''; 
-        rel=''; rel2='';
+        rel=''; rel2='';rel3='';x='';y='';direccion='';
             if(data.block=='disabled'){ // validacion pra visualizacion
                 disabled='disabled';
             }
@@ -24,25 +24,37 @@ htmlListarSlct=function(obj,slct,tipo,valarray,afectado,afectados,slct_id,slctan
             if( data.evento!='' && data.evento!=null ){
                 rel2=' data-evento="|'+data.evento+'|"';
             }
+            else  if ( $("#"+slct).attr('data-evento')=='1' ) { 
+                rel2=' data-evento="|1|"';
+            }
 
-            //si se recibe estado
-            if (data.select==1)// aqui enviar el selct = estado para pre seleccionar
-                html += "<option selected"+rel+rel2+" value=\"" + data.id + "\" "+disabled+">" + data.nombre + "</option>";
+            if( data.select!='' && data.select!=null ){
+                rel3=' data-select="|'+data.select+'|"';
+            }
+            if (data.coord_x!='' && data.coord_x!=null) {
+                x=' data-coord_x="'+data.coord_x+'" ';
+            }
+            if (data.coord_y!='' && data.coord_y!=null) {
+                y=' data-coord_y="'+data.coord_y+'" ';
+            }
+            if (data.direccion!='' && data.direccion!=null) {
+                direccion=' data-direccion="'+data.direccion+'" ';
+            }
+                        //si se recibe estado
+            if (data.estado==1 && tipo=='multiple')
+                html += "<option selected"+rel+rel2+x+y+direccion+" value=\"" + data.id + "\" "+disabled+">" + data.nombre + "</option>";
             else
-                html += "<option "+rel+rel2+" value=\"" + data.id + "\" "+disabled+">" + data.nombre + "</option>";
+                html += "<option "+rel+rel2+rel3+x+y+direccion+" value=\"" + data.id + "\" "+disabled+">" + data.nombre + "</option>";
+            
         }); 
-        
-        if(slct=='slct_estado'){
-            html += "<option value=\"-1\">Temporal</option>";
-        }
     }      
     $("#"+slct).html(html);
     
-    slctGlobalHtml(slct,tipo,valarray,afectado,afectados,slct_id,slctant,slctant_id);
+    slctGlobalHtml(slct,tipo,valarray,afectado,afectados,slct_id,slctant,slctant_id, funciones);
     
-}
+};
 
-slctGlobalHtml=function(slct,tipo,valarray,afectado,afectados,slct_id,slctant,slctant_id){
+slctGlobalHtml=function(slct,tipo,valarray,afectado,afectados,slct_id,slctant,slctant_id, funciones){
     $("#"+slct).multiselect({
         maxHeight: 200,             // max altura...
         enableCaseInsensitiveFiltering: true, // Insensitive
@@ -61,8 +73,9 @@ slctGlobalHtml=function(slct,tipo,valarray,afectado,afectados,slct_id,slctant,sl
             }
         },
         onDropdownHidden:function(){
+            var select=$("#"+slct+">option[value='"+$("#"+slct).val()+"']").attr('data-select');
             if(slct_id!='' && slct_id!=null && afectados!='' && afectados!=null){
-                filtroSlct(slct,tipo,slct_id,afectados,slctant,slctant_id);
+                filtroSlct(slct,tipo,slct_id,afectados,slctant,slctant_id,select);
             }
 
             if( tipo!="multiple" && $("#"+slct+">option[value='"+$("#"+slct).val()+"']").attr('data-evento') ){
@@ -93,21 +106,33 @@ slctGlobalHtml=function(slct,tipo,valarray,afectado,afectados,slct_id,slctant,sl
             else{
                 return $(options).html();
             }
+        },
+        onChange: function(option, checked, select) {
+            if (funciones!=='' && funciones!==undefined) {
+                if (funciones.change!=='' && funciones.change!==undefined) {
+                    funciones.change($(option).val(), checked);
+                }
+            }
         }
     });
     if(valarray!=null && valarray.length>=1){
-        $('#'+slct).multiselect('select', valarray);
-        //$('#'+slct).multiselect('deselectAll', false);
-        $('#'+slct).multiselect('refresh');
+
+        if(afectado==1 && afectados!=null && afectados!='' && tipo!='multiple'){  // pre seleccion para simple y limpiar valores
+            filtroSlct(afectados.split("|")[0],tipo,afectados.split("|")[2],afectados.split("|")[1],slctant,slctant_id,'',valarray);
+        }
+        else{
+            $('#'+slct).multiselect('select', valarray);
+            $('#'+slct).multiselect('refresh');
+        }
             if( tipo!="multiple" && $("#"+slct+">option[value='"+$("#"+slct).val()+"']").attr('data-evento') ){
                 eventoSlctGlobalSimple(slct,$("#"+slct+">option[value='"+$("#"+slct).val()+"']").attr('data-evento'));
             }
     }
     
     $("li.multiselect-all").removeAttr("data-select");
-}
+};
 
-filtroSlct=function(slct,tipo,slct_id,afectados,slctant,slctant_id){
+filtroSlct=function(slct,tipo,slct_id,afectados,slctant,slctant_id,select,valarray){
     detafectados=afectados.split(",");
     $(afectados).multiselect('deselectAll', false);
     $(afectados).multiselect('updateButtonText');
@@ -127,7 +152,8 @@ filtroSlct=function(slct,tipo,slct_id,afectados,slctant,slctant_id){
             valores='|'+slct_id+$("#"+slct).val()+'|';
         }
         
-
+        var primerId=0;
+        var primerSelect=""; var primerValor="";
         for(i=0;i<detafectados.length;i++){
             $('option', $(detafectados[i])).each(function(element) {
                 $(this).removeAttr('disabled');
@@ -156,8 +182,26 @@ filtroSlct=function(slct,tipo,slct_id,afectados,slctant,slctant_id){
                     if(valida==0){
                         $(this).attr('disabled','true');
                     }
+                    else{
+                        if(primerId==0 && tipo!="multiple" && $.trim(select)!='' && detafectados.length==1){
+                            primerSelect=detafectados[i];
+                            primerValor=$(this).val();
+                        }
+                        primerId++;
+                    }
                 }
             });
+        }
+
+        if(primerId==1 && primerSelect!='' && tipo!="multiple" && $.trim(select)!='' && detafectados.length==1){ // valida solo cuando tiene una sola opcion
+            $(primerSelect+">option[value='"+primerValor+"']").attr("selected","true");
+            if( tipo!="multiple" && $(primerSelect+">option[value='"+primerValor+"']").attr('data-evento') ){
+                eventoSlctGlobalSimple(primerSelect.substr(1),$(primerSelect+">option[value='"+primerValor+"']").attr('data-evento'));
+            }
+        }
+
+        if(valarray!=null && valarray.length>=1){
+            $(afectados).multiselect('select', valarray);
         }
 
     }
@@ -166,11 +210,12 @@ filtroSlct=function(slct,tipo,slct_id,afectados,slctant,slctant_id){
     }
 
     $(afectados).multiselect('refresh');
-}
+};
 
 enterGlobal=function(e,etiqueta,selecciona){
     tecla = (document.all) ? e.keyCode : e.which; // 2
     if (tecla==13){
+        e.preventDefault();
         $("#"+etiqueta).click(); 
         if( typeof(selecciona)!='undefined' ){
             $("#"+etiqueta).focus(); 

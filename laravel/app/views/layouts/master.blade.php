@@ -27,7 +27,7 @@
 			{{ HTML::script('lib/jquery-ui-1.11.2/jquery-ui.min.js') }}
 			{{ HTML::script('lib/bootstrap-3.3.1/js/bootstrap.min.js') }}
 
-            {{ HTML::style('//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css') }}
+            <?php echo HTML::style('lib/bootstrap-3.3.1/css/ionicons.min.css'); ?>
             {{ HTML::style('lib/datatables-1.10.4/media/css/dataTables.bootstrap.css') }}
             {{ HTML::style('css/admin/admin.css') }}
 		    {{ HTML::script('lib/datatables-1.10.4/media/js/jquery.dataTables.js') }}
