@@ -10,18 +10,73 @@ class FlujoController extends \BaseController
      */
     public function postCargar()
     {
-        //si la peticion es ajax
         if ( Request::ajax() ) {
-            $f      = new Flujo();
-            $listar = Array();
-            $listar = $f->getFlujo();
+            /*********************FIJO*****************************/
+            $array=array();
+            $array['where']='';$array['usuario']=Auth::user()->id;
+            $array['limit']='';$array['order']='';
+            
+            if (Input::has('draw')) {
+                if (Input::has('order')) {
+                    $inorder=Input::get('order');
+                    $incolumns=Input::get('columns');
+                    $array['order']=  ' ORDER BY '.
+                                      $incolumns[ $inorder[0]['column'] ]['name'].' '.
+                                      $inorder[0]['dir'];
+                }
 
-            return Response::json(
-                array(
-                    'rst'   => 1,
-                    'datos' => $listar
-                )
-            );
+                $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
+                $aParametro["draw"]=Input::get('draw');
+            }
+            /************************************************************/
+
+            if( Input::has("nombre") ){
+                $nombre=Input::get("nombre");
+                if( trim( $nombre )!='' ){
+                    $array['where'].=" AND f.nombre LIKE '%".$nombre."%' ";
+                }
+            }
+
+            if( Input::has("area") ){
+                $area=Input::get("area");
+                if( trim( $area )!='' ){
+                    $array['where'].=" AND a.nombre LIKE '%".$area."%' ";
+                }
+            }
+
+            if( Input::has("categoria") ){
+                $categoria=Input::get("categoria");
+                if( trim( $categoria )!='' ){
+                    $array['where'].=" AND c.nombre LIKE '%".$categoria."%' ";
+                }
+            }
+
+            if( Input::has("tipo_flujo") ){
+                $tipo_flujo=Input::get("tipo_flujo");
+                if( trim( $tipo_flujo )!='' ){
+                    $array['where'].=" AND f.tipo_flujo='".$tipo_flujo."' ";
+                }
+            }
+
+            if( Input::has("estado") ){
+                $estado=Input::get("estado");
+                if( trim( $estado )!='' ){
+                    $array['where'].=" AND f.estado='".$estado."' ";
+                }
+            }
+
+            $array['order']=" ORDER BY f.nombre ";
+
+            $cant  = Flujo::getCargarCount( $array );
+            $aData = Flujo::getCargar( $array );
+
+            $aParametro['rst'] = 1;
+            $aParametro["recordsTotal"]=$cant;
+            $aParametro["recordsFiltered"]=$cant;
+            $aParametro['data'] = $aData;
+            $aParametro['msj'] = "No hay registros aún";
+            return Response::json($aParametro);
+
         }
     }
 
@@ -84,7 +139,7 @@ class FlujoController extends \BaseController
             $flujos['nombre'] = Input::get('nombre');
             $flujos['estado'] = Input::get('estado');
             $flujos['area_id'] = Input::get('area_id');
-            $flujos['tipo_flujo'] = Input::get('tipo');
+            $flujos['tipo_flujo'] = Input::get('tipo_flujo');
             $flujos['categoria_id'] = Input::get('categoria_id');
             $flujos['usuario_created_at'] = Auth::user()->id;
             $flujos->save();
@@ -132,7 +187,7 @@ class FlujoController extends \BaseController
             $flujo = Flujo::find($flujoId);
             $flujo['nombre'] = Input::get('nombre');
             $flujo['area_id'] = Input::get('area_id');
-            $flujo['tipo_flujo'] = Input::get('tipo');
+            $flujo['tipo_flujo'] = Input::get('tipo_flujo');
             $flujo['categoria_id'] = Input::get('categoria_id');
             $flujo['estado'] = Input::get('estado');
             $flujo['usuario_updated_at'] = Auth::user()->id;

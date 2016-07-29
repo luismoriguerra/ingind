@@ -35,4 +35,20 @@ class Area extends Base
                 
         return $area;
     }
+
+    public function getListar(){
+        $area=DB::table('areas')
+                ->select('id','nombre','nemonico','estado')
+                ->where( 
+                    function($query){
+                        if ( Input::get('estado') ) {
+                            $query->where('estado','=','1');
+                        }
+                    }
+                )
+                ->orderBy('nombre')
+                ->get();
+                
+        return $area;
+    }
 }

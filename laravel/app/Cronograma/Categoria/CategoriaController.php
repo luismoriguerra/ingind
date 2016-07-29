@@ -10,16 +10,54 @@ use Illuminate\Support\Facades\Validator;
 use Categoria;
 
 class CategoriaController extends \BaseController {
-
-    /**
-     * cargar categorias
-     * POST /categoria/cargar
-     */
     public function postCargar()
     {
         if ( Request::ajax() ) {
-            $categoria = Categoria::get(Input::all());
-            return Response::json(array('rst'=>1,'datos'=>$categoria));
+            /*********************FIJO*****************************/
+            $array=array();
+            $array['where']='';$array['usuario']=Auth::user()->id;
+            $array['limit']='';$array['order']='';
+            
+            if (Input::has('draw')) {
+                if (Input::has('order')) {
+                    $inorder=Input::get('order');
+                    $incolumns=Input::get('columns');
+                    $array['order']=  ' ORDER BY '.
+                                      $incolumns[ $inorder[0]['column'] ]['name'].' '.
+                                      $inorder[0]['dir'];
+                }
+
+                $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
+                $aParametro["draw"]=Input::get('draw');
+            }
+            /************************************************************/
+
+            if( Input::has("nombre") ){
+                $nombre=Input::get("nombre");
+                if( trim( $nombre )!='' ){
+                    $array['where'].=" AND c.nombre LIKE '%".$nombre."%' ";
+                }
+            }
+
+            if( Input::has("estado") ){
+                $estado=Input::get("estado");
+                if( trim( $estado )!='' ){
+                    $array['where'].=" AND c.estado='".$estado."' ";
+                }
+            }
+
+            $array['order']=" ORDER BY c.nombre ";
+
+            $cant  = Categoria::getCargarCount( $array );
+            $aData = Categoria::getCargar( $array );
+
+            $aParametro['rst'] = 1;
+            $aParametro["recordsTotal"]=$cant;
+            $aParametro["recordsFiltered"]=$cant;
+            $aParametro['data'] = $aData;
+            $aParametro['msj'] = "No hay registros aún";
+            return Response::json($aParametro);
+
         }
     }
 

@@ -122,4 +122,36 @@ class Flujo extends Base
                 
         return $flujo;
     }
+
+    public static function getCargarCount( $array )
+    {
+        $sSql=" SELECT COUNT(f.id) cant
+                FROM flujos f
+                INNER JOIN categorias c ON c.id=f.categoria_id
+                INNER JOIN areas a ON a.id=f.area_id
+                WHERE 1=1 ";
+        $sSql.= $array['where'];
+        $oData = DB::select($sSql);
+        return $oData[0]->cant;
+    }
+
+    public static function getCargar( $array )
+    {
+        $sSql=" SELECT f.id,f.area_id,f.categoria_id,f.nombre,f.estado,
+                c.nombre categoria,a.nombre area, f.tipo_flujo tipo_flujo_id,
+                CASE f.tipo_flujo
+                WHEN 1 THEN 'Trámite'
+                WHEN 2 THEN 'Orden de Trabajo'
+                END tipo_flujo
+                FROM flujos f
+                INNER JOIN categorias c ON c.id=f.categoria_id
+                INNER JOIN areas a ON a.id=f.area_id
+                WHERE 1=1 ";
+        $sSql.= $array['where'].
+                $array['order'].
+                $array['limit'];
+        $oData = DB::select($sSql);
+        return $oData;
+    }
+
 }
