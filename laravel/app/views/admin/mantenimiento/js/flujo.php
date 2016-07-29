@@ -43,7 +43,7 @@ htmlCargarFlujos=function(obj){
 
     $('#t_flujos').dataTable().fnDestroy();
     if(obj.rst==1){
-        $.each(obj.datos,function(index,data){
+        $.each(obj.data,function(index,data){
             estadohtml='Inactivo';
             if(data.estado==1){
                 estadohtml='Activo';

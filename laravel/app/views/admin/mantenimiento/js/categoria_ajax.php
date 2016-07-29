@@ -1,7 +1,5 @@
 <script type="text/javascript">
-
 var CategoriaObj;
-
 var Categorias = {
     AgregarEditarCategoria:function(AE){
 

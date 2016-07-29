@@ -9,7 +9,7 @@
         <h4 class="modal-title">New message</h4>
       </div>
       <div class="modal-body">
-        <form id="form_categorias" name="form_categorias" action="" method="post" >
+        <form id="form_categorias_modal" name="form_categorias_modal" action="" method="post" >
           <div class="form-group">
             <label class="control-label">Nombre
                 <a id="error_nombre" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Nombre">
