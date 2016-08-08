@@ -1,5 +1,5 @@
 <!-- /.modal -->
-<div class="modal fade" id="verboModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="flujointernoModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header logo">
@@ -9,9 +9,13 @@
         <h4 class="modal-title">New message</h4>
       </div>
       <div class="modal-body">
-        <form id="form_verbos_modal" name="form_verbos_modal" action="" method="post">
+        <form id="form_flujointernos" name="form_flujointernos" action="" method="post">
 
-          
+          <div class="form-group">
+            <label class="control-label">Nombre Interno:</label>
+            <input type="text" class="form-control" placeholder="Ingrese Nombre Interno" name="txt_nombre_interno" id="txt_nombre_interno">
+          </div>
+
 
           <div class="form-group">
             <label class="control-label">Nombre:</label>
@@ -19,6 +23,12 @@
           </div>
 
          
+          <div class="form-group">
+              <label class="control-label">Flujo:</label>
+              <select class="form-control" name="slct_flujo_id" id="slct_flujo_id">
+              <option value="">.::Seleccione::.</option>
+              </select>
+          </div>
 
 
           <div class="form-group">

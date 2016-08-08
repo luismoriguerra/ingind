@@ -1,5 +1,5 @@
 <!-- /.modal -->
-<div class="modal fade" id="verboModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="tiposolicitanteModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header logo">
@@ -9,7 +9,7 @@
         <h4 class="modal-title">New message</h4>
       </div>
       <div class="modal-body">
-        <form id="form_verbos_modal" name="form_verbos_modal" action="" method="post">
+        <form id="form_tiposolicitantes_modal" name="form_tiposolicitantes_modal" action="" method="post">
 
           
 
