@@ -56,6 +56,7 @@ return array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
 			'database'  => 'procesos',
+			//'database'  => 'm1ndepen_munind', 
 			'username'  => 'root',
 			'password'  => '',
 			'charset'   => 'utf8',
