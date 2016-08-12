@@ -57,7 +57,7 @@ return array(
 			'host'      => 'localhost',
 			'database'  => 'm1ndepen_munind',
 			'username'  => 'root',
-			'password'  => '',
+			'password'  => '1234',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_general_ci',
 			'prefix'    => '',

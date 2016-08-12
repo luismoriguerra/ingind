@@ -1,1 +1,6 @@
+/laravel/vendor/*.
+/laravel/app/storage/*.
 laravel/vendor/
+laravel/app/storage/
+laravel/vendor/*.
+laravel/app/storage/*.

@@ -3,7 +3,7 @@ var plantilla_id, PlantillaObj;
 var Plantillas={
     AgregarEditar:function(AE){
         $("#form_plantilla input[name='word']").remove();
-        $("#form_plantilla").append("<input type='hidden' value='"+tinyMCE.get('word').getContent()+"' name='word'>");
+        $("#form_plantilla").append("<input type='hidden' value='"+CKEDITOR.instances.plantillaWord.getData()+"' name='word'>");
         var datos=$("#form_plantilla").serialize().split("txt_").join("").split("slct_").join("");
         var accion="plantilla/crear";
         if(AE==1){
@@ -123,6 +123,8 @@ var Plantillas={
                 alertBootstrap('danger', 'Ocurrio una interrupción en el proceso,Favor de intentar nuevamente', 6);
             }
         });
-    }
+    },
+    Previsualizar:function(){
+    },
 };
 </script>

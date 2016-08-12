@@ -1,5 +1,5 @@
 <!-- /.modal -->
-<div class="modal fade" id="plantillaModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="plantillaModal" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header logo">
@@ -10,26 +10,85 @@
       </div>
       <div class="modal-body">
         <form id="form_plantilla" name="form_plantilla" action="plantilla/editar" method="post">
-        <div class="form-group">
+          <div class="row">
             <div class="col-xs-6">
-                <label class="control-label">Nombre
-                    <a id="error_nombre" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Nombre">
-                        <i class="fa fa-exclamation"></i>
-                    </a>
-                </label>
-                <input type="text" class="form-control" placeholder="Ingrese Nombre" name="txt_nombre" id="txt_nombre">
+              <div class="form-group">
+                  <label class="control-label">Nombre
+                      <a id="error_nombre" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Nombre">
+                          <i class="fa fa-exclamation"></i>
+                      </a>
+                  </label>
+                  <input type="text" class="form-control" placeholder="Ingrese Nombre" name="txt_nombre" id="txt_nombre">
+              </div>
             </div>
-            <div class="col-xs-6">
-                <label class="control-label">Estado:
-                </label>
-                <select class="form-control" name="slct_estado" id="slct_estado">
-                    <option value='0'>Inactivo</option>
-                    <option value='1' selected>Activo</option>
-                </select>
+            <div class="col-xs-3">
+              <div class="form-group">
+                  <label class="control-label">Estado:
+                  </label>
+                  <select class="form-control" name="slct_estado" id="slct_estado">
+                      <option value='0' >Inactivo</option>
+                      <option value='1' selected>Activo</option>
+                  </select>
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <div class="form-group">
+                  <label class="control-label">Incluir Cabecera:
+                  </label>
+                  <select class="form-control" name="slct_cabecera" id="slct_cabecera">
+                      <option value='0' selected>NO</option>
+                      <option value='1' >SI</option>
+                  </select>
+              </div>
             </div>
           </div>
-          <div class="form-group">
-              <textarea id="word" name="word"></textarea>
+          <div class="row" id="partesCabecera">
+            <div class="col-xs-12">
+              <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                  <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                      <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Partes de la Cabecera
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body">
+                      <table class="tabla-cabecera">
+                          <tr>
+                              <td width='25%' class='text-negrita'>A</td>
+                              <td width='5px' class='text-negrita'>:</td>
+                              <td width='75%'>Nombre de Encargado <br>Nombre de Gerencia y/o Subgerencia</td>
+                          </tr>
+                          <tr>
+                              <td width='25%' class='text-negrita'>DE</td>
+                              <td width='5px' class='text-negrita'>:</td>
+                              <td width='75%'>Nombre a quien va dirigido <br>Nombre de Gerencia y/o Subgerencia</td>
+                          </tr>
+                          <tr>
+                              <td width='25%' class='text-negrita'>ASUNTO</td>
+                              <td width='5px' class='text-negrita'>:</td>
+                              <td width='75%'>Titulo, <i>Ejemplo:</i>  Invitación a la Inaguración del Palacio Municipal</td>
+                          </tr>
+                          <tr>
+                              <td width='25%' class='text-negrita'>FECHA</td>
+                              <td width='5px' class='text-negrita'>:</td>
+                              <td width='75%'>Fecha, <i>Ejemplo:</i> Lima, 01 de diciembre del 2016</td>
+                          </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="form-group">
+                  <textarea id="plantillaWord" name="word" class="form-control" rows="6"></textarea>
+              </div>
+            </div>
           </div>
         </form>
       </div>
