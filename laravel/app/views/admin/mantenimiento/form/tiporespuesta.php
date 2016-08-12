@@ -9,25 +9,26 @@
         <h4 class="modal-title">New message</h4>
       </div>
       <div class="modal-body">
-        <form id="form_tiporespuestas_modal" name="form_tiporespuestas_modal" action="" method="post">
-
-          
-
+        <form id="form_flujo_tr" name="form_flujo_tr" action="" method="post">
           <div class="form-group">
-            <label class="control-label">Nombre:</label>
+            <label class="control-label">Nombre
+                <a id="error_nombre" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Nombre">
+                    <i class="fa fa-exclamation"></i>
+                </a>
+            </label>
             <input type="text" class="form-control" placeholder="Ingrese Nombre" name="txt_nombre" id="txt_nombre">
           </div>
-
-         
           <div class="form-group">
-              <label class="control-label">Tiempo:</label>
-              <select class="form-control" name="slct_tiempo" id="slct_tiempo">
-                <option value="">.::Seleccione::.</option>
-                <option value='0'>No</option>c
+            <label class="control-label">Considera tiempo:
+                <a id="error_tiempo" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Tiempo">
+                    <i class="fa fa-exclamation"></i>
+                </a>
+            </label>
+            <select class="form-control" name="slct_tiempo" id="slct_tiempo">
+                <option value='0'>No</option>
                 <option value='1'>Si</option>
-              </select>
+            </select>
           </div>
-
           <div class="form-group">
             <label class="control-label">Estado:
             </label>
@@ -36,8 +37,6 @@
                 <option value='1' selected>Activo</option>
             </select>
           </div>
-
-
         </form>
       </div>
       <div class="modal-footer">

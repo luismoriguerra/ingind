@@ -1,23 +1,10 @@
 <!DOCTYPE html>
-@extends('layouts.master')
+@extends('layouts.master')  
 
 @section('includes')
     @parent
-
-    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
-
-    {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
-
-    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
-    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
-
-    
-    {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
-    @include( 'admin.js.slct_global_ajax' )
-    @include( 'admin.js.slct_global' )
-
-    @include( 'admin.mantenimiento.js.softwares_ajax' )
-    @include( 'admin.mantenimiento.js.softwares' )
+    @include( 'admin.mantenimiento.js.software_ajax' )
+    @include( 'admin.mantenimiento.js.software' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -43,24 +30,32 @@
                         <div class="box-header">
                             <h3 class="box-title">Filtros</h3>
                         </div><!-- /.box-header -->
-                        <form id="form_softwares" name="form_softwares" method="POST" action="">
                         <div class="box-body table-responsive">
-                            <table id="t_softwares" class="table table-bordered table-hover">
+                            <table id="t_softwares" class="table table-bordered table-striped">
                                 <thead>
-                                <tr><th colspan="4" style="text-align:center;background-color:#A7C0DC;"><h2>Software</h2></th></tr>
-                                <tr></tr>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Tabla</th>
+                                        <th>Campo</th>
+                                        <th>Estado</th>
+                                        <th> [ ] </th>
+                                    </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="tb_softwares">
                                 </tbody>
                                 <tfoot>
-                                <tr></tr>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Tabla</th>
+                                        <th>Campo</th>
+                                        <th>Estado</th>
+                                        <th> [ ] </th>
+                                    </tr>
                                 </tfoot>
                             </table>
-                            <a class="btn btn-primary"
+                            <a class='btn btn-primary btn-sm' class="btn btn-primary" 
                             data-toggle="modal" data-target="#softwareModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
-                            <a style="display:none" id="BtnEditar" data-toggle="modal" data-target="#softwareModal" data-titulo="Editar"></a>
                         </div><!-- /.box-body -->
-                        </form>
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->
                 </div>

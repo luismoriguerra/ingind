@@ -1,5 +1,5 @@
 <!-- /.modal -->
-<div class="modal fade" id="tiporecursoModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="tipoRecursoModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header logo">
@@ -9,18 +9,15 @@
         <h4 class="modal-title">New message</h4>
       </div>
       <div class="modal-body">
-        <form id="form_tiporecursos_modal" name="form_tiporecursos_modal" action="" method="post">
-
-          
-
+        <form id="form_tipo_recurso" name="form_tipo_recurso" action="" method="post">
           <div class="form-group">
-            <label class="control-label">Nombre:</label>
+            <label class="control-label">Nombre
+                <a id="error_nombre" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Nombre">
+                    <i class="fa fa-exclamation"></i>
+                </a>
+            </label>
             <input type="text" class="form-control" placeholder="Ingrese Nombre" name="txt_nombre" id="txt_nombre">
           </div>
-
-         
-
-
           <div class="form-group">
             <label class="control-label">Estado:
             </label>
@@ -29,8 +26,6 @@
                 <option value='1' selected>Activo</option>
             </select>
           </div>
-
-
         </form>
       </div>
       <div class="modal-footer">

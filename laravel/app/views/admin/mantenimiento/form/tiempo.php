@@ -9,30 +9,31 @@
         <h4 class="modal-title">New message</h4>
       </div>
       <div class="modal-body">
-        <form id="form_tiempos_modal" name="form_tiempos_modal" action="" method="post">
-
-          
-
+        <form id="form_tiempos" name="form_tiempos" action="" method="post">
           <div class="form-group">
-            <label class="control-label">Nombre:</label>
+            <label class="control-label">Nombre
+                <a id="error_nombre" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Nombre">
+                    <i class="fa fa-exclamation"></i>
+                </a>
+            </label>
             <input type="text" class="form-control" placeholder="Ingrese Nombre" name="txt_nombre" id="txt_nombre">
           </div>
-
           <div class="form-group">
-            <label class="control-label">APOCOPE:</label>
-            <input type="text" class="form-control" placeholder="Ingrese APOCOPE" name="txt_apocope" id="txt_apocope">
+            <label class="control-label">Apocope
+                <a id="error_apocope" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Apocope">
+                    <i class="fa fa-exclamation"></i>
+                </a>
+            </label>
+            <input type="text" class="form-control" placeholder="Ingrese Apocope" name="txt_apocope" id="txt_apocope">
           </div>
-
-
           <div class="form-group">
-            <label class="control-label">Minutos:</label>
-            <input type="text" class="form-control" placeholder="Ingrese Minutos" name="txt_totalminutos" id="txt_totalminutos">
+            <label class="control-label">Minutos
+                <a id="error_minutos" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Minutos">
+                    <i class="fa fa-exclamation"></i>
+                </a>
+            </label>
+            <input type="text" class="form-control" placeholder="Ingrese Monitos" name="txt_minutos" id="txt_minutos">
           </div>
-
-
-         
-
-
           <div class="form-group">
             <label class="control-label">Estado:
             </label>
@@ -41,8 +42,6 @@
                 <option value='1' selected>Activo</option>
             </select>
           </div>
-
-
         </form>
       </div>
       <div class="modal-footer">

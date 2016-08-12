@@ -85,7 +85,6 @@ Route::controller('area', 'AreaController');
 Route::controller('cargo', 'CargoController');
 Route::controller('documento', 'DocumentoController');
 Route::controller('flujo', 'FlujoController');
-Route::controller('flujointerno', 'FlujoInternoController');
 Route::controller('flujotiporespuesta', 'FlujoTipoRespuestaController');
 Route::controller('language', 'LanguageController');
 Route::controller('lista', 'ListaController');

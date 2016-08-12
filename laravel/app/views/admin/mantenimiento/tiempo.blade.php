@@ -1,36 +1,23 @@
 <!DOCTYPE html>
-@extends('layouts.master')
+@extends('layouts.master')  
 
 @section('includes')
     @parent
-
-    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
-
-    {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
-
-    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
-    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
-
-    
-    {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
-    @include( 'admin.js.slct_global_ajax' )
-    @include( 'admin.js.slct_global' )
-
-    @include( 'admin.mantenimiento.js.tiempos_ajax' )
-    @include( 'admin.mantenimiento.js.tiempos' )
+    @include( 'admin.mantenimiento.js.tiempo_ajax' )
+    @include( 'admin.mantenimiento.js.tiempo' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
     <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Mantenimiento de Tiempo
+                Mantenimiento de Tiempos
                 <small> </small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
                 <li><a href="#">Mantenimientos</a></li>
-                <li class="active">Mantenimiento de Tiempo</li>
+                <li class="active">Mantenimiento de Tiempos</li>
             </ol>
         </section>
 
@@ -43,24 +30,32 @@
                         <div class="box-header">
                             <h3 class="box-title">Filtros</h3>
                         </div><!-- /.box-header -->
-                        <form id="form_tiempos" name="form_tiempos" method="POST" action="">
                         <div class="box-body table-responsive">
-                            <table id="t_tiempos" class="table table-bordered table-hover">
+                            <table id="t_tiempos" class="table table-bordered table-striped">
                                 <thead>
-                                <tr><th colspan="4" style="text-align:center;background-color:#A7C0DC;"><h2>Tiempo</h2></th></tr>
-                                <tr></tr>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Apocope</th>
+                                        <th>Minutos</th>
+                                        <th>Estado</th>
+                                        <th> [ ] </th>
+                                    </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="tb_tiempos">
                                 </tbody>
                                 <tfoot>
-                                <tr></tr>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Apocope</th>
+                                        <th>Minutos</th>
+                                        <th>Estado</th>
+                                        <th> [ ] </th>
+                                    </tr>
                                 </tfoot>
                             </table>
-                            <a class="btn btn-primary"
+                            <a class='btn btn-primary btn-sm' class="btn btn-primary" 
                             data-toggle="modal" data-target="#tiempoModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
-                            <a style="display:none" id="BtnEditar" data-toggle="modal" data-target="#tiempoModal" data-titulo="Editar"></a>
                         </div><!-- /.box-body -->
-                        </form>
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->
                 </div>
