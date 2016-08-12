@@ -1,11 +1,8 @@
 <script type="text/javascript">
 var Verbos={
     AgregarEditarVerbo:function(AE){
-        var datos=$("#form_verbos").serialize().split("txt_").join("").split("slct_").join("");
-        var accion="verbo/crear";
-        if(AE==1){
-            accion="verbo/editar";
-        }
+        var datos = $("#form_verbos_modal").serialize().split("txt_").join("").split("slct_").join("");
+        var accion = (AE==1) ? "verbo/editar" : "verbo/crear";
 
         $.ajax({
             url         : accion,
@@ -17,34 +14,30 @@ var Verbos={
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
             success : function(obj) {
-                $(".overlay,.loading-img").remove();
+                $(".overlay, .loading-img").remove();
                 if(obj.rst==1){
-                    $('#t_verbos').dataTable().fnDestroy();
-
-                    Verbos.CargarVerbos(activarTabla);
-                    $("#msj").html('<div class="alert alert-dismissable alert-success">'+
-                                        '<i class="fa fa-check"></i>'+
-                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                        '<b>'+obj.msj+'</b>'+
-                                    '</div>');
+                    MostrarAjax('verbos');
+                    msjG.mensaje('success',obj.msj,4000);
                     $('#verboModal .modal-footer [data-dismiss="modal"]').click();
-                }
-                else{ 
-                    $.each(obj.msj,function(index,datos){
-                        $("#error_"+index).attr("data-original-title",datos);
-                        $('#error_'+index).css('display','');
-                    });     
+
+                } else {
+                    var cont = 0;
+
+                    $.each(obj.msj, function(index, datos){
+                        cont++;
+                         if(cont==1){
+                            alert(datos[0]);
+                       }
+
+                    });
                 }
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                    '<i class="fa fa-ban"></i>'+
-                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
-                                '</div>');
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
             }
         });
+
     },
     CargarVerbos:function(evento){
         $.ajax({
@@ -80,10 +73,10 @@ var Verbos={
             }
         });
     },
-    CambiarEstadoVerbos:function(id,AD){
-        $("#form_verbos").append("<input type='hidden' value='"+id+"' name='id'>");
-        $("#form_verbos").append("<input type='hidden' value='"+AD+"' name='estado'>");
-        var datos=$("#form_verbos").serialize().split("txt_").join("").split("slct_").join("");
+      CambiarEstadoVerbos: function(id, AD){
+        $("#form_verbos_modal").append("<input type='hidden' value='"+id+"' name='id'>");
+        $("#form_verbos_modal").append("<input type='hidden' value='"+AD+"' name='estado'>");
+        var datos = $("#form_verbos_modal").serialize().split("txt_").join("").split("slct_").join("");
         $.ajax({
             url         : 'verbo/cambiarestado',
             type        : 'POST',
@@ -94,19 +87,14 @@ var Verbos={
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
             success : function(obj) {
-                $(".overlay,.loading-img").remove();
-                if(obj.rst==1){
-                    $('#t_verbos').dataTable().fnDestroy();
-                    Verbos.CargarVerbos(activarTabla);
-                    $("#msj").html('<div class="alert alert-dismissable alert-info">'+
-                                        '<i class="fa fa-info"></i>'+
-                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                        '<b>'+obj.msj+'</b>'+
-                                    '</div>');
+                $(".overlay, .loading-img").remove();
+
+                if (obj.rst==1) {
+                    MostrarAjax('verbos');
+                    msjG.mensaje('success',obj.msj,4000);
                     $('#verboModal .modal-footer [data-dismiss="modal"]').click();
-                }
-                else{ 
-                    $.each(obj.msj,function(index,datos){
+                } else {
+                    $.each(obj.msj, function(index, datos) {
                         $("#error_"+index).attr("data-original-title",datos);
                         $('#error_'+index).css('display','');
                     });
@@ -114,11 +102,7 @@ var Verbos={
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                    '<i class="fa fa-ban"></i>'+
-                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
-                                '</div>');
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
             }
         });
     }

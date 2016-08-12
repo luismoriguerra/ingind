@@ -1,23 +1,36 @@
 <!DOCTYPE html>
-@extends('layouts.master')  
+@extends('layouts.master')
 
 @section('includes')
     @parent
-    @include( 'admin.mantenimiento.js.verbo_ajax' )
-    @include( 'admin.mantenimiento.js.verbo' )
+
+    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
+
+    {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
+
+    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
+    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
+
+    
+    {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
+    @include( 'admin.js.slct_global_ajax' )
+    @include( 'admin.js.slct_global' )
+
+    @include( 'admin.mantenimiento.js.verbos_ajax' )
+    @include( 'admin.mantenimiento.js.verbos' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
     <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Mantenimiento de Verbo
+                Mantenimiento de Verbos
                 <small> </small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
                 <li><a href="#">Mantenimientos</a></li>
-                <li class="active">Mantenimiento de Verbo</li>
+                <li class="active">Mantenimiento de Verbos</li>
             </ol>
         </section>
 
@@ -30,28 +43,24 @@
                         <div class="box-header">
                             <h3 class="box-title">Filtros</h3>
                         </div><!-- /.box-header -->
+                        <form id="form_verbos" name="form_verbos" method="POST" action="">
                         <div class="box-body table-responsive">
-                            <table id="t_verbos" class="table table-bordered table-striped">
+                            <table id="t_verbos" class="table table-bordered table-hover">
                                 <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Estado</th>
-                                        <th> [ ] </th>
-                                    </tr>
+                                <tr><th colspan="2" style="text-align:center;background-color:#A7C0DC;"><h2>Verbos</h2></th></tr>
+                                <tr></tr>
                                 </thead>
-                                <tbody id="tb_verbos">
+                                <tbody>
                                 </tbody>
                                 <tfoot>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Estado</th>
-                                        <th> [ ] </th>
-                                    </tr>
+                                <tr></tr>
                                 </tfoot>
                             </table>
-                            <a class='btn btn-primary btn-sm' class="btn btn-primary" 
+                            <a class="btn btn-primary"
                             data-toggle="modal" data-target="#verboModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                            <a style="display:none" id="BtnEditar" data-toggle="modal" data-target="#verboModal" data-titulo="Editar"></a>
                         </div><!-- /.box-body -->
+                        </form>
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->
                 </div>
