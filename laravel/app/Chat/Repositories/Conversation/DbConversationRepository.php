@@ -15,8 +15,7 @@ class DbConversationRepository extends DbRepository implements ConversationRepos
     }
 
     public function getByName($name)
-    { //dd($this->model->where('name', $name)->first());
-
+    {
         return $this->model->where('name', $name)->firstOrFail();
     }
 }
