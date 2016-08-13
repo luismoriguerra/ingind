@@ -81,7 +81,8 @@ class LoginController extends BaseController
             }
 
             $nombreArchivo = $_FILES['imagen']['name'];
-            $extArchivo = end((explode(".", $nombreArchivo)));
+            $tmp = explode(".", $nombreArchivo);
+            $extArchivo = end($tmp);
             $tmpArchivo = $_FILES['imagen']['tmp_name'];
             $archivoNuevo = "u".Auth::user()->id . "." . $extArchivo;
             $file = $uploadFolder . '/' . $archivoNuevo;
