@@ -11,4 +11,5 @@ return array(
     'Patchwork\\' => array($vendorDir . '/patchwork/utf8/src/Patchwork'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Cronograma\\' => array($baseDir . '/app/Cronograma'),
+    'Chat\\' => array($baseDir . '/app/Chat'),
 );

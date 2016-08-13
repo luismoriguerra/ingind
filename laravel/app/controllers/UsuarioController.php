@@ -11,6 +11,30 @@ class UsuarioController extends BaseController
         $this->beforeFilter('auth'); // bloqueo de acceso
     }
     /**
+     * usuario/consession
+     */
+    public function postConsession()
+    {
+        $keys = Redis::keys("laravel:*");
+        $user='';
+        for ($i=0; $i < count($keys); $i++) {
+            $temporal=Redis::get($keys[$i]) ;
+            $temporal = unserialize($temporal);
+            $temporal = unserialize($temporal);
+            foreach ($temporal as $key => $value) {
+                if (substr($key,0,6)=='login_') {
+                    $user.=Usuario::find($value)->id.',';
+                }
+            }
+        }
+        if ($user!='') {
+            $user = substr($user, 0, -1);
+        }
+        //return '1,2,3,4,5';
+        return $user;
+
+    }
+    /**
      * Mostrar los datos del contacto actual
      * POST /usuario/misdatos
      *

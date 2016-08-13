@@ -1,8 +1,23 @@
 <?php
+use Chat\Repositories\User\UserRepository;
 
 class AreaController extends \BaseController
 {
-
+    /**
+     * @var Chat\Repositories\UserRepository
+     */
+    private $userRepository; 
+    public function __construct( UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+    /**
+     * areas/{area_id}/users
+     */
+    public function index($area_id){
+        $usuarios = $this->userRepository->getAllExceptFromArea(Auth::user()->id,$area_id);
+        return $usuarios->lists('full_name', 'id');
+    }
     /**
      * cargar areas, mantenimiento
      * POST /area/cargar
