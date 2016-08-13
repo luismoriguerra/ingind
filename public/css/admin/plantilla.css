@@ -1,0 +1,39 @@
+.text-negrita {
+    font-weight: bold;
+}
+
+.logo {
+    text-align: center;
+}
+.logo img {
+    height: 100px;
+}
+.nombre-municipio {
+    text-align: center;
+    font-size: 15px;
+    padding: 0px;
+    margin: 10px;
+}
+.nombre-anio {
+    text-align: center;
+    font-style: italic;
+    font-size: 15px;
+    padding: 0px;
+    margin: 10px;
+}
+.nombre-documento {
+    text-align: center;
+    font-size: 17px;
+    text-decoration: underline;
+}
+.cuerpo-documento {
+    font-size: 15px;
+}
+.tabla-cabecera {
+    border: none;
+}
+.tabla-cabecera td {
+    vertical-align: top;
+    border: none;
+    padding: 5px;
+}

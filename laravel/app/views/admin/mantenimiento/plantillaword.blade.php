@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-@extends('layouts.master')  
+@extends('layouts.master')
 
 @section('includes')
     @parent
-    {{ HTML::script('lib/tinymce/jscripts/tiny_mce/tiny_mce.js') }}
+    {{ HTML::script('lib/ckeditor/ckeditor.js') }}
+    {{ HTML::style('css/admin/plantilla.css') }}
     @include( 'admin.mantenimiento.js.plantillaword_ajax' )
     @include( 'admin.mantenimiento.js.plantillaword' )
 @stop
@@ -51,7 +52,7 @@
                                 </tfoot>
                             </table>
 
-                            <a class='btn btn-primary btn-sm' class="btn btn-primary" 
+                            <a class='btn btn-primary btn-sm' class="btn btn-primary"
                             data-toggle="modal" data-target="#plantillaModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
