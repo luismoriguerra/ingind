@@ -35,12 +35,12 @@ class ConversationController extends \BaseController {
         foreach($users as $key => $user) {
             $viewData['recipients'][$user->id] = $user->username;
         }
-        //dd($this->conversationRepository);
-        //try {
+        //validacion cuando se envia mensaje por primera ves
+        try {
             $viewData['current_conversation'] = $this->conversationRepository->getByName(Input::get('conversation'));
-        /*} catch (Exception $e) {
+        } catch (Exception $e) {
             $viewData['current_conversation']= Conversation::where('name', Input::get('conversation'))->first();
-        }*/
+        }
         $viewData['conversations'] = Auth::user()->conversations()->get();
 
         return View::make('templates/conversations', $viewData);
