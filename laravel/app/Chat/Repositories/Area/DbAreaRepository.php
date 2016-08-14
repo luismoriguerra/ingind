@@ -18,4 +18,10 @@ class DbAreaRepository extends DbRepository implements AreaRepository {
     {
         return $this->model->where('id', '<>', $id)->get();
     }
+    public function getAllActives()
+    {
+        return $this->model
+        ->where('estado', 1)
+        ->get();
+    }
 }

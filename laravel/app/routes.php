@@ -2,6 +2,7 @@
 
 App::bind('Chat\Repositories\Conversation\ConversationRepository', 'Chat\Repositories\Conversation\DbConversationRepository');
 App::bind('Chat\Repositories\User\UserRepository', 'Chat\Repositories\User\DbUserRepository');
+App::bind('Chat\Repositories\Area\AreaRepository', 'Chat\Repositories\Area\DbAreaRepository');
 
 /*
 Route::get('/', function() {
@@ -23,7 +24,8 @@ Route::get('/logout', array(
     'uses' => 'AuthController@logout'
 ));
 
-Route::get('/chat/', array(
+//Route::get('/chat/', array(
+Route::get('/admin.mantenimiento.chat/', array(
     'before' => 'authChat',
     'as'     => 'chat.index',
     'uses'   => 'ChatController@index'

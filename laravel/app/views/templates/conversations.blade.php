@@ -4,6 +4,7 @@
             <div class="pull-left user-picture">
                 @foreach($conversation->users as $key => $user) 
                     <img class="media-object img-circle" width="30" height="30" src="img/user/{{ md5('u'.$user->id).'/'.$user->imagen }}">
+                    {{ $user->full_name .' ( '.$user->areas->nombre .')' }}
                 @endforeach
             </div>
 

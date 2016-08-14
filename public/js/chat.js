@@ -8,7 +8,7 @@ $(function() {
 
     var
         socket = io('http://ingind.kbaylonh.com:3000'),
-
+        //socket = io('http://ingind:3000'),
         jqxhr  = $.ajax({
             url: '/users/' + user_id + '/conversations',
             type: 'GET',
@@ -151,6 +151,7 @@ $(function() {
      */
     $('#messageBox').keypress(function (event) {
         if (event.keyCode == 13 && event.shiftKey) {
+        } else if (event.keyCode == 13){
             event.preventDefault();
             
             $('#btnSendMessage').trigger('click');

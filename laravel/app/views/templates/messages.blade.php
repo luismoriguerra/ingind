@@ -6,7 +6,7 @@
                 <img class="media-object img-circle" width="30" height="30" src="img/user/{{ md5('u'.$message->user->id).'/'.$message->user->imagen }}">
             </a>
             <div class="media-body">
-                <h5 class="media-heading">{{ $message->user->username }}</h5>
+                <h5 class="media-heading">{{ $message->user->nombre .' ( '.$message->user->areas->nemonico.' )' }}</h5>
                 <small>{{ $message->body }}</small>
             </div>
         </div>

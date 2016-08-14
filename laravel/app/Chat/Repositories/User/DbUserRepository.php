@@ -18,8 +18,15 @@ class DbUserRepository extends DbRepository implements UserRepository {
     {
         return $this->model->where('id', '<>', $id)->get();
     }
+    /**
+     * cargar todos los musuarios excepto el $id y del area : $area_id y estado 1
+     */
     public function getAllExceptFromArea($id, $area_id)
     {
-        return $this->model->where('id', '<>', $id)->where('area_id', $area_id)->get();
+        return $this->model
+        ->where('id', '<>', $id)
+        ->where('estado', 1)
+        ->where('area_id', $area_id)
+        ->get();
     }
 }

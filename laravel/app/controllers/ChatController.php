@@ -1,6 +1,7 @@
 <?php
 
 use Chat\Repositories\Conversation\ConversationRepository;
+use Chat\Repositories\Area\AreaRepository;
 //use Chat\Repositories\User\UserRepository;
     
 class ChatController extends \BaseController {
@@ -15,10 +16,18 @@ class ChatController extends \BaseController {
      */
     //private $userRepository; 
 
-    public function __construct(ConversationRepository $conversationRepository/*, UserRepository $userRepository*/)
+    /**
+     * @var Chat\Repositories\AreaRepository
+     */
+    private $areaRepository; 
+
+    public function __construct(ConversationRepository $conversationRepository,
+        AreaRepository $areaRepository
+        /*, UserRepository $userRepository*/)
     {
         $this->conversationRepository = $conversationRepository;
         //$this->userRepository = $userRepository;
+        $this->areaRepository = $areaRepository;
     }
 
     /**
@@ -43,16 +52,17 @@ class ChatController extends \BaseController {
                 $notification->save();
             }
         }
-        /*
-        $users = $this->userRepository->getAllExcept(Auth::user()->id);
-        foreach($users as $key => $user) {
-            $viewData['recipients'][$user->id] = $user->paterno.' '.$user->materno;
-        }*/
-
-        $areas = Area::all();
+        
+        $areas = $this->areaRepository->getAllActives();
         foreach($areas as $key => $area) {
             $viewData['areas'][$area->id] = $area->nombre;
         }
+
+        //$areas = Area::all();
+        /*$areas = Area::all();
+        foreach($areas as $key => $area) {
+            $viewData['areas'][$area->id] = $area->nombre;
+        }*/
         
         $viewData['conversations'] = Auth::user()->conversations()->get();
         

@@ -11,7 +11,7 @@ class MessageController extends \BaseController {
 
         $conversation = Conversation::where('name', Input::get('conversation'))->first();
         $messages       = Message::where('conversation_id', $conversation->id)->orderBy('created_at')->get();
-
+//aca se estan eliminando las etiquetas html para el salto de linea revisar pork no llega con salto de linea
         return View::make('templates/messages')->with('messages', $messages)->render();
     }
 
@@ -36,7 +36,7 @@ class MessageController extends \BaseController {
 
         $params = array(
             'conversation_id' => $conversation->id,
-            'body'               => Input::get('body'),
+            'body'               => nl2br(Input::get('body')),
             'user_id'           => Input::get('user_id'),
             'created_at'      => new DateTime
         );

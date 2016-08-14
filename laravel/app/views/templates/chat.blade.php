@@ -18,7 +18,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             <img class="img-circle" width="30" height="30" src="img/user/<?= md5('u'.Auth::user()->id).'/'.Auth::user()->imagen; ?>"  alt="User Image" />
 
-                            {{ Auth::user()->nombre.' '.Auth::user()->paterno  }} 
+                            {{ Auth::user()->full_name }}
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
