@@ -1,19 +1,55 @@
 <?php
 
-class TipoRecursoController extends BaseController
+class TipoRecursoController extends \BaseController 
 {
-    /**
-     * cargar areas, mantenimiento
-     * POST /area/cargar
-     *
-     * @return Response
-     */
     public function postCargar()
     {
-        //si la peticion es ajax
         if ( Request::ajax() ) {
-            $tipoRecurso = TipoRecurso::get(Input::all());
-            return Response::json(array('rst'=>1,'datos'=>$tipoRecurso));
+            /*********************FIJO*****************************/
+            $array=array();
+            $array['where']='';$array['usuario']=Auth::user()->id;
+            $array['limit']='';$array['order']='';
+            
+            if (Input::has('draw')) {
+                if (Input::has('order')) {
+                    $inorder=Input::get('order');
+                    $incolumns=Input::get('columns');
+                    $array['order']=  ' ORDER BY '.
+                                      $incolumns[ $inorder[0]['column'] ]['name'].' '.
+                                      $inorder[0]['dir'];
+                }
+
+                $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
+                $aParametro["draw"]=Input::get('draw');
+            }
+            /************************************************************/
+
+            if( Input::has("nombre") ){
+                $nombre=Input::get("nombre");
+                if( trim( $nombre )!='' ){
+                    $array['where'].=" AND tr.nombre LIKE '%".$nombre."%' ";
+                }
+            }
+
+            if( Input::has("estado") ){
+                $estado=Input::get("estado");
+                if( trim( $estado )!='' ){
+                    $array['where'].=" AND tr.estado='".$estado."' ";
+                }
+            }
+
+            $array['order']=" ORDER BY tr.nombre ";
+
+            $cant  = TipoRecurso::getCargarCount( $array );
+            $aData = TipoRecurso::getCargar( $array );
+
+            $aParametro['rst'] = 1;
+            $aParametro["recordsTotal"]=$cant;
+            $aParametro["recordsFiltered"]=$cant;
+            $aParametro['data'] = $aData;
+            $aParametro['msj'] = "No hay registros aún";
+            return Response::json($aParametro);
+
         }
     }
     /**
@@ -45,43 +81,34 @@ class TipoRecursoController extends BaseController
      *
      * @return Response
      */
+
     public function postCrear()
     {
-        //si la peticion es ajax
         if ( Request::ajax() ) {
-            $regex='regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
-            $required='required';
+            $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
+            $required = 'required';
             $reglas = array(
                 'nombre' => $required.'|'.$regex,
             );
 
             $mensaje= array(
-                'required'    => ':attribute Es requerido',
-                'regex'        => ':attribute Solo debe ser Texto',
+                'required' => ':attribute Es requerido',
+                'regex'    => ':attribute Solo debe ser Texto',
             );
 
             $validator = Validator::make(Input::all(), $reglas, $mensaje);
 
             if ( $validator->fails() ) {
-                return Response::json(
-                    array(
-                    'rst'=>2,
-                    'msj'=>$validator->messages(),
-                    )
-                );
+                return Response::json( array('rst'=>2, 'msj'=>$validator->messages()) );
             }
 
-            $tipoRecurso = new TipoRecurso;
-            $tipoRecurso->nombre = Input::get('nombre');
-            $tipoRecurso->estado = Input::get('estado');
-            $tipoRecurso->save();
+            $tiporecurso = new TipoRecurso;
+            $tiporecurso->nombre = Input::get('nombre');
+            $tiporecurso->estado = Input::get('estado');
+            $tiporecurso->usuario_created_at = Auth::user()->id;
+            $tiporecurso->save();
 
-            return Response::json(
-                array(
-                'rst'=>1,
-                'msj'=>'Registro realizado correctamente',
-                )
-            );
+            return Response::json(array('rst'=>1, 'msj'=>'Registro realizado correctamente', 'tiporecurso_id'=>$tiporecurso->id));
         }
     }
 
@@ -91,43 +118,34 @@ class TipoRecursoController extends BaseController
      *
      * @return Response
      */
-    public function postEditar()
+   public function postEditar()
     {
         if ( Request::ajax() ) {
-            $tipoRecursoId = Input::get('id');
-            $regex='regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
-            $required='required';
+            $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
+            $required = 'required';
             $reglas = array(
-                'nombre' => $required.'|'.$regex.'|unique:areas,nombre,'.$tipoRecursoId,
+                'nombre' => $required.'|'.$regex,
             );
 
             $mensaje= array(
-                'required'    => ':attribute Es requerido',
-                'regex'        => ':attribute Solo debe ser Texto',
+                'required' => ':attribute Es requerido',
+                'regex'    => ':attribute Solo debe ser Texto',
             );
 
             $validator = Validator::make(Input::all(), $reglas, $mensaje);
 
             if ( $validator->fails() ) {
-                return Response::json(
-                    array(
-                    'rst'=>2,
-                    'msj'=>$validator->messages(),
-                    )
-                );
+                return Response::json( array('rst'=>2, 'msj'=>$validator->messages()) );
             }
-            
-            $tipoRecurso = TipoRecurso::find($tipoRecursoId);
-            $tipoRecurso->nombre = Input::get('nombre');
-            $tipoRecurso->estado = Input::get('estado');
-            $tipoRecurso->save();
 
-            return Response::json(
-                array(
-                'rst'=>1,
-                'msj'=>'Registro actualizado correctamente',
-                )
-            );
+            $tiporecursoId = Input::get('id');
+            $tiporecurso = TipoRecurso::find($tiporecursoId);
+            $tiporecurso->nombre = Input::get('nombre');
+            $tiporecurso->estado = Input::get('estado');
+            $tiporecurso->usuario_updated_at = Auth::user()->id;
+            $tiporecurso->save();
+
+            return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
         }
     }
 
@@ -137,14 +155,17 @@ class TipoRecursoController extends BaseController
      *
      * @return Response
      */
+
     public function postCambiarestado()
     {
 
         if ( Request::ajax() ) {
 
-            $tipoRecurso = TipoRecurso::find(Input::get('id'));
-            $tipoRecurso->estado = Input::get('estado');
-            $tipoRecurso->save();
+            $tiporecurso = TipoRecurso::find(Input::get('id'));
+            $tiporecurso->usuario_created_at = Auth::user()->id;
+            $tiporecurso->estado = Input::get('estado');
+            $tiporecurso->save();
+           
             return Response::json(
                 array(
                 'rst'=>1,
