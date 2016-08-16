@@ -291,10 +291,9 @@ class RutaDetalleController extends \BaseController
                             }
                             elseif($siguiente>1){ // condicional +n
                                 for($j=0; $j<$siguientefinal; $j++){
-                                    if( ($j+1)==$siguientefinal ){
+                                    if( $siguiente==($j+1) ){
                                         $idSiguiente= $validaSiguiente[($i+$j)]->id;
                                         $fechaInicio= $validaSiguiente[($i+$j)]->ahora;
-                                        $i=$i+$j;
                                     }
                                     else{
                                         $idinvalido= $validaSiguiente[($i+$j)]->id;
@@ -302,6 +301,10 @@ class RutaDetalleController extends \BaseController
                                         $rdinv['condicion']=1;
                                         $rdinv['usuario_updated_at']= Auth::user()->id;
                                         $rdinv->save();
+                                    }
+
+                                    if( ($j+1)==$siguientefinal ){
+                                        $i=$i+$j;
                                     }
                                 }
                             }
