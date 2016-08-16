@@ -108,31 +108,12 @@ Agregar = function(){
     }
 };
 
-validaVerbos=function(){
-    $('#form_verbos [data-toggle="tooltip"]').css("display","none");
-    var a=[];
-    a[0]=valida("txt","nombre","");
-    var rpta=true;
-
-    for(i=0;i<a.length;i++){
-        if(a[i]===false){
-            rpta=false;
-            break;
-        }
+validaVerbos = function(){
+    var r=true;
+    if( $("#form_verbos_modal #txt_nombre").val()=='' ){
+        alert("Ingrese Nombre de Verbo");
+        r=false;
     }
-    return rpta;
-};
-
-valida=function(inicial,id,v_default){
-    var texto="Seleccione";
-    if(inicial=="txt"){
-        texto="Ingrese";
-    }
-
-    if( $.trim($("#"+inicial+"_"+id).val())==v_default ){
-        $('#error_'+id).attr('data-original-title',texto+' '+id);
-        $('#error_'+id).css('display','');
-        return false;
-    }   
+    return r;
 };
 </script>

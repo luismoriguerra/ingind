@@ -26,7 +26,7 @@
 
           <div class="form-group">
             <label class="control-label">Minutos:</label>
-            <input type="text" class="form-control" placeholder="Ingrese Minutos" name="txt_totalminutos" id="txt_totalminutos">
+            <input type="text" class="form-control" placeholder="Ingrese Minutos" name="txt_totalminutos" id="txt_totalminutos" onKeyPress="return msjG.validaNumeros(event);">
           </div>
 
 
