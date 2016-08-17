@@ -55,9 +55,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'castimor_munind',
-			'username'  => 'castimor_munind',
-			'password'  => 'EcFK!tp(bOhYZhG~',
+			'database'  => 'procesos',
+			'username'  => 'root',
+			'password'  => 'juanLuna',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_general_ci',
 			'prefix'    => '',
