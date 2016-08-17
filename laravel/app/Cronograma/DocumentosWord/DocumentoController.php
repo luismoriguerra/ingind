@@ -1,6 +1,6 @@
 <?php
 
-namespace Cronograma\PlantillasWord;
+namespace Cronograma\DocumentosWord;
 
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
@@ -9,69 +9,78 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Plantilla;
+use DocumentoWord;
 use Helpers;
 
-class PlantillaController extends \BaseController {
+class DocumentoController extends \BaseController {
 
     /**
-     * cargar plantillas
-     * GET /plantilla/cargar
+     * cargar documentos
+     * GET /documentoword/cargar
      */
     public function postCargar()
     {
         if ( Request::ajax() ) {
-            $plantillas = Plantilla::get(Input::all());
-            return Response::json(array('rst'=>1,'datos'=>$plantillas));
+            $documentos = DocumentoWord::get(Input::all());
+            return Response::json(array('rst'=>1,'datos'=>$documentos));
         }
     }
+
     /**
-     * Actualizar plantilla
-     * POST /plantilla/editar
+     * Actualizar documento
+     * POST /documentoword/editar
      */
     public function postEditar()
     {
         if ( Request::ajax() ) {
             $html = Input::get('word', '');
 
-            $plantilla = Plantilla::find(Input::get('id'));
-            $plantilla->nombre = Input::get('nombre');
-            $plantilla->path = '';
-            $plantilla->cuerpo = $html;
-            $plantilla->estado = Input::get('estado');
-            $plantilla->titulo = Input::get('titulo');
-            $plantilla->cabecera = Input::get('cabecera');
-            $plantilla->usuario_updated_at = Auth::user()->id;
-            $plantilla->save();
+            $documento = DocumentoWord::find(Input::get('id'));
+            $documento->nombre = Input::get('nombre');
+            $documento->path = '';
+            $documento->cuerpo = $html;
+            $documento->estado = Input::get('estado');
+            $documento->cabecera = Input::get('cabecera');
+            $documento->usuario_updated_at = Auth::user()->id;
+            $documento->save();
             return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
 
         }
     }
 
     /**
-     * Actualizar plantilla
-     * POST /plantilla/editar
+     * Actualizar documento
+     * POST /documentoword/editar
      */
     public function postCrear()
     {
         if ( Request::ajax() ) {
             $html = Input::get('word', '');
 
-            $plantilla = new Plantilla;
-            $plantilla->nombre = Input::get('nombre');
-            $plantilla->path = '';
-            $plantilla->cuerpo = $html;
-            $plantilla->estado = Input::get('estado');
-            $plantilla->titulo = Input::get('titulo');
-            $plantilla->cabecera = Input::get('cabecera');
-            $plantilla->usuario_created_at = Auth::user()->id;
-            $plantilla->save();
+            $documento = new DocumentoWord;
+            $documento->titulo = Input::get('titulo');
+            $documento->cabecera = Input::get('cabecera');
+            $documento->remitente = '';
+            $documento->destinatario = '';
+            $documento->asunto = '';
+            $documento->fecha = '';
+            $documento->cuerpo = '';
+            $documento->correlativo = '';
+            $documento->plantillaId = '';
+            $documento->areaIdRemitente = '';
+            $documento->areaIdDestinatario = '';
+            $documento->personaIdRemitente = '';
+            $documento->personaIdDestinatario = '';
+            $documento->usuario_created_at = Auth::user()->id;
+            $documento->save();
             return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
 
         }
     }
+
     /**
      * Changed the specified resource from storage.
-     * POST /plantilla/cambiarestado
+     * POST /documentoword/cambiarestado
      *
      * @return Response
      */
@@ -105,8 +114,7 @@ class PlantillaController extends \BaseController {
             $params = [
                 'nombre' => $plantilla->nombre,
                 'conCabecera' => $plantilla->cabecera,
-                'contenido' => $plantilla->cuerpo,
-                'titulo' => $plantilla->titulo . " N&ordm; 001-" . date('Y') . "-XX/XX"
+                'contenido' => $plantilla->cuerpo
             ];
             $params = $params + $this->dataEjemploPlantilla();
 
@@ -120,7 +128,7 @@ class PlantillaController extends \BaseController {
 
     function dataEjemploPlantilla() {
         return [
-            'titulo' => '(EJEMPLO) MEMORANDUM CIRCULAR N 016-2016-SG/MDC',
+            'nombreDocumento' => '(EJEMPLO) MEMORANDUM CIRCULAR N 016-2016-SG/MDC',
             'remitente' => 'Nombre de Encargado <br>Nombre de Gerencia y/o Subgerencia',
             'destinatario' => 'Nombre a quien va dirigido <br>Nombre de Gerencia y/o Subgerencia',
             'asunto' => 'Titulo, <i>Ejemplo:</i> Invitación a la Inaguración del Palacio Municipal',

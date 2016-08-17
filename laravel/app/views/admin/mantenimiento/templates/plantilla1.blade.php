@@ -82,7 +82,7 @@ hr {
             <h4 class="nombre-anio">“Año de la consolidación del Mar de Grau”</h4>
         </div>
 
-        <h3 class="nombre-documento">{{ $nombreDocumento }}</h3>
+        <h3 class="nombre-documento">{{ $titulo }}</h3>
 
         @if ($conCabecera)
         <table class="tabla-cabecera">

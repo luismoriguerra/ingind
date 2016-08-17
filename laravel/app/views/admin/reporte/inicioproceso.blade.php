@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-@extends('layouts.master')  
+@extends('layouts.master')
 
 @section('includes')
     @parent
@@ -7,7 +7,7 @@
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
     {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
-    
+
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
     @include( 'admin.ruta.js.ruta_ajax' )
@@ -195,13 +195,13 @@
                         <label class="control-label"># Error:</label>
                         <input class="form-control" type="text" id="txt_error" name="txt_error" readonly>
                     </div-->
-                </div>                                        
+                </div>
             </div>
             <div class="row form-group" style="display:none">
                 <div class="col-sm-12">
                     <div class="box-body table-responsive">
                         <table id="areasasignacion" class="table table-bordered" style="min-height:300px">
-                            <thead> 
+                            <thead>
                                 <tr class="head">
                                     <th style="width:250px !important;min-width: 200px !important;" >
                                     </th>
