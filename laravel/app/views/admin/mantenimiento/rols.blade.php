@@ -1,23 +1,36 @@
 <!DOCTYPE html>
-@extends('layouts.master')  
+@extends('layouts.master')
 
 @section('includes')
     @parent
-    @include( 'admin.mantenimiento.js.rol_ajax' )
-    @include( 'admin.mantenimiento.js.rol' )
+
+    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
+
+    {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
+
+    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
+    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
+
+    
+    {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
+    @include( 'admin.js.slct_global_ajax' )
+    @include( 'admin.js.slct_global' )
+
+    @include( 'admin.mantenimiento.js.rols_ajax' )
+    @include( 'admin.mantenimiento.js.rols' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
     <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Mantenimiento de Roles
+                Mantenimiento de Rol
                 <small> </small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
                 <li><a href="#">Mantenimientos</a></li>
-                <li class="active">Mantenimiento de Roles</li>
+                <li class="active">Mantenimiento de Rol</li>
             </ol>
         </section>
 
@@ -30,28 +43,24 @@
                         <div class="box-header">
                             <h3 class="box-title">Filtros</h3>
                         </div><!-- /.box-header -->
+                        <form id="form_rols" name="form_rols" method="POST" action="">
                         <div class="box-body table-responsive">
-                            <table id="t_roles" class="table table-bordered table-striped">
+                            <table id="t_rols" class="table table-bordered table-hover">
                                 <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Estado</th>
-                                        <th> [ ] </th>
-                                    </tr>
+                                <tr><th colspan="2" style="text-align:center;background-color:#A7C0DC;"><h2>Rol</h2></th></tr>
+                                <tr></tr>
                                 </thead>
-                                <tbody id="tb_roles">
+                                <tbody>
                                 </tbody>
                                 <tfoot>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Estado</th>
-                                        <th> [ ] </th>
-                                    </tr>
+                                <tr></tr>
                                 </tfoot>
                             </table>
-                            <a class='btn btn-primary btn-sm' class="btn btn-primary" 
+                            <a class="btn btn-primary"
                             data-toggle="modal" data-target="#rolModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                            <a style="display:none" id="BtnEditar" data-toggle="modal" data-target="#rolModal" data-titulo="Editar"></a>
                         </div><!-- /.box-body -->
+                        </form>
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->
                 </div>

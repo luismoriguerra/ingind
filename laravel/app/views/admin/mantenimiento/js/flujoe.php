@@ -48,7 +48,7 @@ htmlCargarFlujos=function(obj){
 
     $('#t_flujos').dataTable().fnDestroy();
     if(obj.rst==1){
-        $.each(obj.datos,function(index,data){
+        $.each(obj.data,function(index,data){
             estadohtml='<span id="'+data.id+'" onClick="activar('+data.id+')" class="btn btn-danger">Inactivo</span>';
             if(data.estado==1){
                 estadohtml='<span id="'+data.id+'" onClick="desactivar('+data.id+')" class="btn btn-success">Activo</span>';

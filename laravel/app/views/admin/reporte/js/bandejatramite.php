@@ -184,11 +184,8 @@ mostrarDetalleHTML=function(datos){
                     if(detalle[i].split("=>")[3]=="NO"){
                         valorenviado=0;
                     }
-                    else if(detalle[i].split("=>")[3]=="+1"){
-                        valorenviado=1;
-                    }
-                    else if(detalle[i].split("=>")[3]=="+2"){
-                        valorenviado=2;
+                    else{
+                        valorenviado=detalle[i].split("=>")[3]*1;
                     }
 
                     if( datos.maximo!=0 && valorenviado!=0 && valorenviado!=datos.maximo ){

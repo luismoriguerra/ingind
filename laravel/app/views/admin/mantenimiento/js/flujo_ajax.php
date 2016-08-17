@@ -89,7 +89,7 @@ var Flujos={
     },
     ListarCategorias:function(categoria){
         $.ajax({
-            url         : 'categoria/cargar',
+            url         : 'categoria/listar',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
