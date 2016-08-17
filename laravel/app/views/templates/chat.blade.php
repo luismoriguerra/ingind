@@ -16,7 +16,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            <img class="img-circle" width="30" height="30" src="img/user/<?= md5('u'.Auth::user()->id).'/'.Auth::user()->imagen; ?>"  alt="User Image" />
+                            <img class="img-circle" width="30" height="30" src="img/user/{{ md5('u'.Auth::user()->id).'/'.Auth::user()->imagen }}"  alt="User Image" />
 
                             {{ Auth::user()->full_name }}
                             <span class="caret"></span>
@@ -32,7 +32,7 @@
             </div>
         </div>
     </nav>
-    <div class="container">
+    <div class="container" id="chat">
         <div class="row">
             <div class="col-lg-3 new-message text-right">
                 <a id="btnNewMessage" class="btn btn-sm btn-default" role="button"><i class="fa fa-plus"></i> Nuevo mensaje</a>
@@ -66,6 +66,48 @@
         var 
             current_conversation = "{{ Session::get('current_conversation') }}",
             user_id   = "{{ Auth::user()->id }}";
+        var vm = new Vue({
+            http: {
+                root: '/root'
+            },
+            el: '#chat',
+            data: {
+                usuarioSession:[]
+            },
+            ready: function () {
+                //this.doSomething('dHnqtGQosAcKVhL6e0lVsUGzrjRKZf');
+                $('#areas').change(function(){
+                    vm.getUsuarioSession($(this).val());
+                });
+                this.conversations = {{ json_encode($conversations) }};
+            },
+            methods: {
+                /*doSomething: function (conversationName) {
+                    this.$http.get('/chat?conversation='+conversationName, function (data) {
+                        this.$set('messages', data);
+                        this.messages=data;
+                    });
+                },*/
+                getArea: function (area_id){
+                    this.$http.get("/areas/"+area_id+"/users",function(data) {
+                        $('#users').empty();
+                        $.each(data, function(key, element) {
+                            if (vm.usuarioSession.indexOf( key )>=0) {
+                                $('#users').append("<option class='boldoption' value='" + key + "'>" + element + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (&bull;)</option>");
+                            } else {
+                                $('#users').append("<option value='" + key + "'>" + element + "</option>");
+                            }
+                        });
+                    });
+                },
+                getUsuarioSession: function(area_id){
+                    this.$http.post("/usuario/consession",function(data) {
+                        vm.usuarioSession=data.split(",")
+                        this.getArea(area_id);
+                    });
+                }
+            }
+        });
     </script>
     <script src="{{ asset('/js/chat.js')}}"></script>
 @stop

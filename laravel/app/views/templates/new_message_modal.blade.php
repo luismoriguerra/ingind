@@ -1,4 +1,3 @@
-{{ HTML::script('lib/jquery-2.1.3.min.js') }}
 <div id="newMessageModal" class="modal fade">
     <div class="modal-dialog">
         {{ Form::open( array('action' => 'ConversationController@store')) }}
@@ -34,27 +33,3 @@
 <style type="text/css">
     .boldoption { font-weight: bold; }
 </style>
-<script>
-    $(document).ready(function(){
-        var usuarioSession = [];
-        $('#areas').change(function(){
-            var area_id=$(this).val();
-            $.post("usuario/consession",function(data) {
-                //usuarioSession=data;
-                usuarioSession=data.split(",")
-                //usuarios segun areas
-                $.get("areas/"+area_id+"/users",function(data) {
-                    $('#users').empty();
-                    $.each(data, function(key, element) {
-                        //validar con session
-                        if (usuarioSession.indexOf( key )>=0) {
-                            $('#users').append("<option class='boldoption' value='" + key + "'>" + element + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (&bull;)</option>");
-                        } else {
-                            $('#users').append("<option value='" + key + "'>" + element + "</option>");
-                        }
-                    });
-                });
-            });
-        });
-    });
-</script>
