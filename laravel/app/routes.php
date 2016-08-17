@@ -98,7 +98,7 @@ Route::get(
         );
 
         //try{
-            Mail::send('emails', $parametros , 
+            Mail::send('emails', $parametros ,
                 function($message){
                 $message
                 ->to('jorgeshevchenk@gmail.com')
@@ -126,7 +126,7 @@ Route::get(
             $menus = Session::get('menus');
 
             $val = explode("_", $ruta);
-            $valores = array( 
+            $valores = array(
                 'valida_ruta_url' => $ruta,
                 'menus' => $menus
             );
@@ -136,7 +136,7 @@ Route::get(
             }
             $rutaBD = substr($ruta, 6);
             //si tiene accesoo si accede al inicio o a misdatos
-            if (in_array($rutaBD, $accesos) or 
+            if (in_array($rutaBD, $accesos) or
                 $rutaBD == 'inicio' or $rutaBD=='mantenimiento.misdatos') {
                 return View::make($ruta)->with($valores);
             } else
@@ -178,6 +178,7 @@ Route::controller('tipoactividad', 'TipoActividadController');
 Route::controller('reportef', 'ReporteFinalController');
 Route::controller('categoria', 'Cronograma\Categoria\CategoriaController');
 Route::controller('plantilla', 'Cronograma\PlantillasWord\PlantillaController');
+Route::controller('documentoword', 'Cronograma\DocumentosWord\DocumentoController');
 Route::controller('fechanolaborable', 'Cronograma\Fechanolaborable\FechanolaborableController');
 Route::controller('llamadaatencion', 'Cronograma\LlamadaAtencion\LlamadaatencionController');
 Route::controller('reportec', 'Cronograma\Reporte\EstadoCronogramaTareaController');

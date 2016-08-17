@@ -12,45 +12,25 @@
         <form id="form_plantilla" name="form_plantilla" action="plantilla/editar" method="post">
           <div class="row">
             <div class="col-xs-6">
-              <div class="form-group">
-                  <label class="control-label">Nombre
-                      <a id="error_nombre" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Nombre">
-                          <i class="fa fa-exclamation"></i>
-                      </a>
-                  </label>
-                  <input type="text" class="form-control" placeholder="Ingrese Nombre" name="txt_nombre" id="txt_nombre">
-              </div>
-            </div>
-            <div class="col-xs-3">
-              <div class="form-group">
-                  <label class="control-label">Estado:
-                  </label>
-                  <select class="form-control" name="slct_estado" id="slct_estado">
-                      <option value='0' >Inactivo</option>
-                      <option value='1' selected>Activo</option>
-                  </select>
-              </div>
-            </div>
-            <div class="col-xs-3">
-              <div class="form-group">
-                  <label class="control-label">Incluir Cabecera:
-                  </label>
-                  <select class="form-control" name="slct_cabecera" id="slct_cabecera">
-                      <option value='0' selected>NO</option>
-                      <option value='1' >SI</option>
-                  </select>
-              </div>
+                <div class="form-group">
+                    <label class="control-label">Plantilla:</label>
+                    <select class="form-control" name="slct_plantilla" id="slct_plantilla" >
+                        <option value="">Seleccione plantilla</option>
+                        <option value="1">Producción del proceso</option>
+                        <option value="2">Ingreso del tramite al proceso</option>
+                    </select>
+                </div>
             </div>
           </div>
           <div class="row">
             <div class="col-xs-6">
               <div class="form-group">
-                  <label class="control-label">Título
-                      <a id="error_titulo" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Titulo">
+                  <label class="control-label">titulo
+                      <a id="error_nombre" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Nombre">
                           <i class="fa fa-exclamation"></i>
                       </a>
                   </label>
-                  <input type="text" class="form-control" placeholder="Ingrese Titulo" name="txt_titulo" id="txt_titulo">
+                  <input type="text" class="form-control" placeholder="Ingrese Titulo" name="txt_nombre" id="txt_nombre">
               </div>
             </div>
           </div>
