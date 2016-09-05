@@ -1,7 +1,12 @@
 <script>
+
 $(document).ready(function() {
+
     Plantillas.Cargar(activarTabla);
     HTML_Ckeditor();
+
+    slctGlobalHtml('slct_plantilla','simple');
+
     $('#plantillaModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var titulo = button.data('titulo');
@@ -22,7 +27,6 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
             $('#form_plantilla #txt_nombre').val( Plantilla.nombre );
             $('#form_plantilla #slct_estado').val( Plantilla.estado );
-            $('#form_plantilla #txt_titulo').val( Plantilla.titulo );
             $('#form_plantilla #slct_cabecera').val( Plantilla.cabecera );
             Plantilla.cuerpo = ( Plantilla.cuerpo == null ) ? '' : Plantilla.cuerpo;
             CKEDITOR.instances.plantillaWord.setData( Plantilla.cuerpo );
@@ -101,13 +105,11 @@ HTMLCargar=function(datos){
     var html="";
     $('#t_plantilla').dataTable().fnDestroy();
     $.each(datos,function(index,data){
-        estadohtml='<span id="'+data.id+'" onClick="activar('+data.id+')" class="btn btn-danger">Inactivo</span>';
-        if(data.estado==1){
-            estadohtml='<span id="'+data.id+'" onClick="desactivar('+data.id+')" class="btn btn-success">Activo</span>';
-        }
+
         html+="<tr>"+
+            "<td>"+data.titulo+"</td>"+
             "<td>"+data.nombre+"</td>"+
-            "<td>"+estadohtml+"</td>"+
+            "<td>"+data.fecha+"</td>"+
             "<td>"+
                 "<div class='btn-group' role='group'>"+
                     "<a class='btn btn-primary btn-sm' data-toggle='modal' data-target='#plantillaModal' data-id='"+index+"' data-titulo='Editar'><i class='fa fa-edit fa-lg'></i> </a>"+

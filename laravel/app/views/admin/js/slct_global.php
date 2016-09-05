@@ -41,11 +41,11 @@ htmlListarSlct=function(obj,slct,tipo,valarray,afectado,afectados,slct_id,slctan
                 direccion=' data-direccion="'+data.direccion+'" ';
             }
                         //si se recibe estado
-            if (data.estado==1 && tipo=='multiple')
+            /*if (data.estado==1 && tipo=='multiple')
                 html += "<option selected"+rel+rel2+x+y+direccion+" value=\"" + data.id + "\" "+disabled+">" + data.nombre + "</option>";
-            else
-                html += "<option "+rel+rel2+rel3+x+y+direccion+" value=\"" + data.id + "\" "+disabled+">" + data.nombre + "</option>";
+            else*/
             
+                html += "<option "+rel+rel2+rel3+x+y+direccion+" value=\"" + data.id + "\" "+disabled+">" + data.nombre + "</option>";
         }); 
     }      
     $("#"+slct).html(html);
@@ -128,7 +128,6 @@ slctGlobalHtml=function(slct,tipo,valarray,afectado,afectados,slct_id,slctant,sl
                 eventoSlctGlobalSimple(slct,$("#"+slct+">option[value='"+$("#"+slct).val()+"']").attr('data-evento'));
             }
     }
-    
     $("li.multiselect-all").removeAttr("data-select");
 };
 

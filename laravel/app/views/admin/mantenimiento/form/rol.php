@@ -9,15 +9,18 @@
         <h4 class="modal-title">New message</h4>
       </div>
       <div class="modal-body">
-        <form id="form_roles" name="form_roles" action="" method="post">
+        <form id="form_rols_modal" name="form_rols_modal" action="" method="post">
+
+          
+
           <div class="form-group">
-            <label class="control-label">Nombre
-                <a id="error_nombre" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Nombre">
-                    <i class="fa fa-exclamation"></i>
-                </a>
-            </label>
+            <label class="control-label">Nombre:</label>
             <input type="text" class="form-control" placeholder="Ingrese Nombre" name="txt_nombre" id="txt_nombre">
           </div>
+
+         
+
+
           <div class="form-group">
             <label class="control-label">Estado:
             </label>
@@ -26,6 +29,8 @@
                 <option value='1' selected>Activo</option>
             </select>
           </div>
+
+
         </form>
       </div>
       <div class="modal-footer">

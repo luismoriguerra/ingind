@@ -1,6 +1,6 @@
 <div class="list-group col-lg-3">
     @foreach($conversations as $conversation)
-        <a id="{{ $conversation->name }}" class="list-group-item {{ Session::get('current_conversation') == $conversation->name  ? 'active' : '' }}" href="/chat/?conversation={{$conversation->name}}">
+        <a id="{{ $conversation->name }}" class="list-group-item {{ Session::get('current_conversation') == $conversation->name  ? 'active' : '' }}" href="admin.mantenimiento.chat/?conversation={{$conversation->name}}">
             <div class="pull-left user-picture">
                 @foreach($conversation->users as $key => $user) 
                     <img class="media-object img-circle" width="30" height="30" src="img/user/{{ md5('u'.$user->id).'/'.$user->imagen }}">
