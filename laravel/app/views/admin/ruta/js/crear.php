@@ -744,9 +744,9 @@ adicionarRutaDetalle=function(){
     if( $.trim($("#slct_area_id_2").val())=='' ){
         alert('Seleccione un Area para adicionar');
     }
-    else if( areasGId.length>0 && $("#slct_area_id_2").val()==areasGId[(areasGId.length-1)] ){
+    /*else if( areasGId.length>0 && $("#slct_area_id_2").val()==areasGId[(areasGId.length-1)] ){
         alert('No se puede asignar 2 veces continuas la misma Area');
-    }
+    }*/
     else if( $.trim($("#slct_area_id_2").val())!='' ){
         valorText=$("#slct_area_id_2 option[value='"+$("#slct_area_id_2").val()+"']").text();
         imagen=$("#slct_area_id_2 option[value='"+$("#slct_area_id_2").val()+"']").attr("data-evento").split("|").join("");
