@@ -187,7 +187,7 @@ class FlujoController extends \BaseController
             $flujo = Flujo::find($flujoId);
             $flujo['nombre'] = Input::get('nombre');
             $flujo['area_id'] = Input::get('area_id');
-            $flujo['tipo_flujo'] = Input::get('tipo_flujo');
+            $flujo['tipo_flujo'] = Input::get('tipo');
             $flujo['categoria_id'] = Input::get('categoria_id');
             $flujo['estado'] = Input::get('estado');
             $flujo['usuario_updated_at'] = Auth::user()->id;
