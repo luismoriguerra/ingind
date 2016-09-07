@@ -104,7 +104,7 @@
                                             </th>
                                             <th>Tiempo</th>
                                             <th id="th_fi" style='width:250px !important;' class="unread">Fecha Inicio<br>
-                                            <input style='width:250px' name="txt_fecha_inicio_b" id="txt_fecha_inicio_b" type="text" />
+                                            <input style='width:250px' name="txt_fecha_inicio_b" id="txt_fecha_inicio_b" onChange="MostrarAjax();" type="text" />
                                             </th>
                                             <th id="th_ep" style='width:250px !important;' class="unread">Estado del Paso<br>
                                             <select name="slct_tiempo_final" id="slct_tiempo_final" onChange="MostrarAjax();" />
