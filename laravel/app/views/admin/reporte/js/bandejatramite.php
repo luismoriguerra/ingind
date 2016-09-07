@@ -41,6 +41,14 @@ $(document).ready(function() {
       modal.find('.modal-body input').val(''); // busca un input para copiarle texto
     });
 
+    $('#txt_fecha_inicio_b').daterangepicker({
+        format: 'YYYY-MM-DD',
+        singleDatePicker: false,
+        showDropdowns: true
+    }, function(start, end, label) {
+      MostrarAjax();
+    });
+
 });
 
 Close=function(todo){

@@ -166,13 +166,13 @@ class Reporte extends Eloquent
                 WHERE r.estado=1 
                 AND rd.fecha_inicio!='' 
                 AND rd.dtiempo_final IS NULL".
+                $array['w'].
                 $array['areas'].
                 $array['id_union'].
                 $array['id_ant'].
                 $array['solicitante'].
                 $array['proceso'].
                 $array['tiempo_final'];
-
         $r= DB::select($sql);
         return $r[0]->cant;
     }
@@ -221,6 +221,7 @@ class Reporte extends Eloquent
                 WHERE r.estado=1 
                 AND rd.fecha_inicio!='' 
                 AND rd.dtiempo_final IS NULL ".
+                $array['w'].
                 $array['areas'].
                 $array['id_union'].
                 $array['id_ant'].
@@ -229,7 +230,7 @@ class Reporte extends Eloquent
                 $array['tiempo_final'].
                 " ORDER BY rd.fecha_inicio DESC ".
                 $array['limit'];
-        $r= DB::select($sql);
+       $r= DB::select($sql);
         return $r;
     }
 

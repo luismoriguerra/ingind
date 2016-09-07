@@ -103,8 +103,10 @@
                                             <input style='width:250px' name="txt_id_union" id="txt_id_union" onBlur="MostrarAjax();" onKeyPress="return enterGlobal(event,'th_pd',1)" onkeyup="Limpiar('txt_id_ant,#txt_solicitante,#txt_proceso');" type="text" placeholder="" />
                                             </th>
                                             <th>Tiempo</th>
-                                            <th>Fecha Inicio</th>
-                                            <th id="th_pd" style='width:250px !important;' class="unread">Estado del Paso<br>
+                                            <th id="th_fi" style='width:250px !important;' class="unread">Fecha Inicio<br>
+                                            <input style='width:250px' name="txt_fecha_inicio_b" id="txt_fecha_inicio_b" type="text" />
+                                            </th>
+                                            <th id="th_ep" style='width:250px !important;' class="unread">Estado del Paso<br>
                                             <select name="slct_tiempo_final" id="slct_tiempo_final" onChange="MostrarAjax();" />
                                             <option value="">.::Todo::.</option>
                                             <option value="1">Dentro del Tiempo</option>
@@ -117,6 +119,7 @@
                                             </th>
                                             <th id="th_so" style='width:250px !important;' class="unread">Solicitante<br>
                                             <input style='width:250px' name="txt_solicitante" id="txt_solicitante" onBlur="MostrarAjax();" onKeyPress="return enterGlobal(event,'th_so',1)" onkeyup="Limpiar('txt_id_ant,#txt_id_union,#txt_proceso');" type="text" placeholder="" />
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
