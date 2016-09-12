@@ -293,7 +293,7 @@ class ReporteFinalController extends BaseController
                 function($message) use( $value ) {
                     $message
                     ->to('jorgeshevchenk@gmail.com')
-                    ->cc('calidadtelesup@gmail.com')
+                    ->cc('jorgeshevchenk1988@gmail.com')
                     ->subject('.::Notificación::.');
                 }
             );
