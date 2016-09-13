@@ -102,7 +102,10 @@
                 },
                 getUsuarioSession: function(area_id){
                     this.$http.post("/usuario/consession",function(data) {
-                        vm.usuarioSession=data.split(",")
+                        if(typeof data == 'number')
+                            vm.usuarioSession = [data];
+                        else
+                            vm.usuarioSession=data.split(",")
                         this.getArea(area_id);
                     });
                 }

@@ -40,7 +40,7 @@ redisClient.on('message', function(channel, message) {
     Socket.io Connection Event
 ***/
 io.on('connection', function(socket) {
-    socket.emit('welcome',  { message: 'Welcome! Realtime Chat Server running at http://ingind:3000/'} );
+    socket.emit('welcome',  { message: 'Welcome! Realtime Chat Server running at http://procesos.munindependencia.pe:3000/'} );
 
     /***
         Socket.io Events
