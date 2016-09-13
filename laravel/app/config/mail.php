@@ -30,7 +30,7 @@ return array(
 	| smtp.gmail.com
 	*/
 
-	'host' => 'smtp.gmail.com',
+	'host' => 'smtp.munindependencia.pe',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -56,7 +56,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'administrador@muniindependencia.gob.pe', 'name' => 'Administrador'),
+	'from' => array('address' => 'administracion@munindenpendencia.pe', 'name' => 'Administrador'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -83,7 +83,7 @@ return array(
 	| administrador@castimor.com
 	*/
 
-	'username' => 'munidependencia@gmail.com',
+	'username' => 'administracion@munindenpendencia.pe',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -97,7 +97,7 @@ return array(
 	| jorge1988S
 	*/
 
-	'password' => 'muni123I',
+	'password' => '009x1e8mvon5',
 
 	/*
 	|--------------------------------------------------------------------------
