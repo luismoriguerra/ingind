@@ -25,8 +25,6 @@ return array(
 	| Here you may provide the host address of the SMTP server used by your
 	| applications. A default option is provided that is compatible with
 	| the Mailgun mail service which will provide reliable deliveries.
-	| mindependencia1.grupodsp.net
-	| mail.castimor.com
 	| smtp.gmail.com
 	*/
 
@@ -56,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'administracion@munindenpendencia.pe', 'name' => 'Administrador'),
+	'from' => array('address' => 'administracion@munindependencia.pe', 'name' => 'Administrador'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -79,11 +77,9 @@ return array(
 	| If your SMTP server requires a username for authentication, you should
 	| set it here. This will get used to authenticate with your server on
 	| connection. You may also set the "password" value below this one.
-	| administrador@muniindependencia.gob.pe
-	| administrador@castimor.com
 	*/
 
-	'username' => 'administracion@munindenpendencia.pe',
+	'username' => 'administracion@munindependencia.pe',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,8 +89,6 @@ return array(
 	| Here you may set the password required by your SMTP server to send out
 	| messages from your application. This will be given to the server on
 	| connection so that the application will be able to send messages.
-	| (_XV2!pPu~*a
-	| jorge1988S
 	*/
 
 	'password' => '009x1e8mvon5',
