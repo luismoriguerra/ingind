@@ -13,9 +13,9 @@ Route::get(
 
         try{
             Mail::send('emails', $parametros ,
-                function($message){
+                function($message) use($email){
                 $message
-                ->to('jorgeshevchenk@gmail.com')
+                ->to($email)
                 ->subject('.::Se ha involucrado en nuevo proceso::.');
                 }
             );
