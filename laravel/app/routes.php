@@ -11,7 +11,7 @@ Route::get(
             'areae'     => 'Gerente de la Calidad'
         );
 
-        try{
+        //try{
             Mail::send('emails', $parametros ,
                 function($message) use($email){
                 $message
@@ -21,11 +21,11 @@ Route::get(
             );
 
             echo 'Se realizó con éxito su registro, <strong>valide su email.</strong>';
-        }
+        /*}
         catch(Exception $e){
             var_dump($e);
             echo 'No se pudo realizar el envio de Email; Favor de verificar su email e intente nuevamente.';
-        }
+        }*/
 
     }
 );
