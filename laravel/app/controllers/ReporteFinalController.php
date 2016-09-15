@@ -262,7 +262,6 @@ class ReporteFinalController extends BaseController
                                         )$estadofinal ";
         }
 
-      $array['limit']=' LIMIT 0,5';// Agregado
       $r = Reporte::BandejaTramiteEnvioAlertas( $array );
       $html="";
       $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
