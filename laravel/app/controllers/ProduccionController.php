@@ -2,7 +2,7 @@
 
 class ProduccionController extends \BaseController
 {
-    public function postProduccion()
+    public function postCargar()
     {
         $fecha_ini=Input::get('fecha_inicio');
         $fecha_fin=Input::get('fecha_final');
