@@ -23,7 +23,8 @@ class TablaRelacion extends Eloquent
                     AND cp.persona_id= ".$usuario.")
                     )>0
                 GROUP BY tr.id_union
-                HAVING cant=0";
+                HAVING cant=0
+                ORDER BY rd2.fecha_inicio DESC ";
 
         $r=DB::select($sql);
 
