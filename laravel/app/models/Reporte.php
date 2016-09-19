@@ -306,13 +306,14 @@ class Reporte extends Eloquent
                 ta.nombre tipo_tarea, cd.actividad descripcion, a.nemonico, 
                 CONCAT(p.paterno,' ',p.materno,', ',p.nombre) responsable, cd.recursos,
                 p.email,
-                (   SELECT IFNULL(CONCAT(a.fecha,'|',a.tipo),'|')
+                IFNULL(
+                (   SELECT CONCAT(a.fecha,'|',a.tipo)
                     FROM alertas a
                     WHERE a.ruta_detalle_id=rd.id
                     AND a.persona_id=p.id
                     ORDER BY a.id DESC
                     LIMIT 0,1
-                ) alerta, p.id persona_id,
+                ),'|' ) alerta, p.id persona_id,
                 CONCAT(p2.paterno,' ',p2.materno,', ',p2.nombre) jefe,
                 p2.email email_jefe
                 FROM rutas r
@@ -331,7 +332,6 @@ class Reporte extends Eloquent
                 $array['tiempo_final'].
                 " ORDER BY rd.fecha_inicio DESC ".
                 $array['limit'];
-                echo $sql;
         $r= DB::select($sql);
         return $r;
     }
