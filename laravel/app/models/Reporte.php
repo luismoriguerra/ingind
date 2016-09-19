@@ -296,28 +296,31 @@ class Reporte extends Eloquent
 
     public static function BandejaTramiteEnvioAlertas( $array ){
         $sql="  SELECT
-                tr.id_union,
+                tr.id_union,r.id ruta_id,
                 rd.id ruta_detalle_id,
                 CONCAT(t.apocope,': ',rd.dtiempo) tiempo,
                 IFNULL(rd.fecha_inicio,'') fecha_inicio,
                 rd.norden,
                 rd.estado_ruta AS estado_ruta,
                 f.nombre proceso,
-                IF( 
-                    CalcularFechaFinal(
-                    rd.fecha_inicio, 
-                    (rd.dtiempo*t.totalminutos),
-                    rd.area_id
-                    )>=CURRENT_TIMESTAMP(),'<div style=\"background: #00DF00;color: white;\">Dentro del Tiempo</div>','<div style=\"background: #FE0000;color: white;\">Fuera del Tiempo</div>'
-                ) tiempo_final,
                 ta.nombre tipo_tarea, cd.actividad descripcion, a.nemonico, 
                 CONCAT(p.paterno,' ',p.materno,', ',p.nombre) responsable, cd.recursos,
-                p.email
+                p.email,
+                (   SELECT IFNULL(CONCAT(a.fecha,'|',a.tipo),'|')
+                    FROM alertas a
+                    WHERE a.ruta_detalle_id=rd.id
+                    AND a.persona_id=p.id
+                    ORDER BY a.id DESC
+                    LIMIT 0,1
+                ) alerta, p.id persona_id,
+                CONCAT(p2.paterno,' ',p2.materno,', ',p2.nombre) jefe,
+                p2.email email_jefe
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
                 INNER JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id
                 INNER JOIN areas a ON a.id=cd.area_id
                 INNER JOIN personas p ON p.id=cd.persona_id
+                INNER JOIN personas p2 ON p2.area_id=a.id AND FIND_IN_SET(p2.rol_id,'8,9') AND p2.estado=1
                 INNER JOIN tipo_actividad ta ON ta.id=cd.tipo_actividad_id
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
                 INNER JOIN tiempos t ON t.id=rd.tiempo_id

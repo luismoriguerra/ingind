@@ -256,10 +256,11 @@ class ReporteFinalController extends BaseController
            if( Input::get('tiempo_final')=='0' ){
             $estadofinal="<CURRENT_TIMESTAMP()";
            }
-          $array['tiempo_final']="  AND DATE_ADD(
-                                        rd.fecha_inicio, 
-                                        INTERVAL (rd.dtiempo*t.totalminutos) MINUTE
-                                        )$estadofinal ";
+          $array['tiempo_final']="  AND CalcularFechaFinal(
+                                    rd.fecha_inicio, 
+                                    (rd.dtiempo*t.totalminutos),
+                                    rd.area_id 
+                                    )$estadofinal ";
         }
 
       $r = Reporte::BandejaTramiteEnvioAlertas( $array );
@@ -281,21 +282,59 @@ class ReporteFinalController extends BaseController
         $html.="<td>".$value->fecha_inicio."</td>";
         $html.="</tr>";
 
-        $plantilla=Plantilla::where('tipo','=','1')->first();
-        $buscar=array('persona:','dia:','mes:','año:','paso:','tramite:','area:');
-        $reemplazar=array($value->responsable,date('d'),$meses[date('n')],date("Y"),$value->norden,$value->id_union,$value->nemonico);
+        $alerta=explode("|",$value->alerta);
+        $texto="";
+        $tipo=0;
+        if($alerta[1]==''){
+          $tipo=1;
+          $texto=".::Notificación::.";
+        }
+        elseif($alerta[1]!='' AND $alerta[1]==1){
+          $tipo=$alerta[1]+1;
+          $texto=".::Reiterativo::.";
+        }
+        elseif($alerta[1]!='' AND $alerta[1]==2){
+          $tipo=$alerta[1]+1;
+          $texto=".::Relevo::.";
+        }
+        elseif($alerta[1]!='' AND $alerta[1]==3){
+          $tipo=1;
+          $texto=".::Notificación::.";
+        }
+
+        $plantilla=Plantilla::where('tipo','=',$tipo)->first();
+        $buscar=array('persona:','dia:','mes:','año:','paso:','tramite:','area:','personajefe:');
+        $reemplazar=array($value->responsable,date('d'),$meses[date('n')],date("Y"),$value->norden,$value->id_union,$value->nemonico,$value->jefe);
         $parametros=array(
           'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
         );
         try{
-            Mail::send('notreirel', $parametros , 
-                function($message) use( $value ) {
-                    $message
-                    ->to('jorgeshevchenk@gmail.com')
-                    ->cc('jorgeshevchenk1988@gmail.com')
-                    ->subject('.::Notificación::.');
-                }
-            );
+            if( $value->email==$value->email_jefe ){
+              Mail::send('notreirel', $parametros , 
+                  function($message) use( $value,$texto ) {
+                      $message
+                      ->to('jorgeshevchenk@gmail.com')
+                      ->subject($texto);
+                  }
+              );
+            }
+            else{
+              Mail::send('notreirel', $parametros , 
+                  function($message) use( $value,$texto ) {
+                      $message
+                      ->to('jorgeshevchenk@gmail.com')
+                      ->cc('jorgeshevchenk1988@gmail.com')
+                      ->subject($texto);
+                  }
+              );
+            }
+            $alerta=new Alerta;
+            $alerta['ruta_id']=$value->ruta_id;
+            $alerta['ruta_detalle_id']=$value->ruta_detalle_id;
+            $alerta['persona_id']=$value->persona_id;
+            $alerta['tipo']=$tipo;
+            $alerta['fecha']=DATE("Y-m-d");
+            $alerta->save();
         }
         catch(Exception $e){
             //echo $qem[$k]->email."<br>";
