@@ -302,42 +302,44 @@ class ReporteFinalController extends BaseController
           $texto=".::Notificación::.";
         }
 
-        $plantilla=Plantilla::where('tipo','=',$tipo)->first();
-        $buscar=array('persona:','dia:','mes:','año:','paso:','tramite:','area:','personajefe:');
-        $reemplazar=array($value->responsable,date('d'),$meses[date('n')],date("Y"),$value->norden,$value->id_union,$value->nemonico,$value->jefe);
-        $parametros=array(
-          'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
-        );
-        try{
-            if( $value->email==$value->email_jefe ){
-              Mail::send('notreirel', $parametros , 
-                  function($message) use( $value,$texto ) {
-                      $message
-                      ->to('jorgeshevchenk@gmail.com')
-                      ->subject($texto);
-                  }
-              );
+        if( $alerta[0]!='' AND $alerta[0]!=DATE("Y-m-d") ){
+            $plantilla=Plantilla::where('tipo','=',$tipo)->first();
+            $buscar=array('persona:','dia:','mes:','año:','paso:','tramite:','area:','personajefe:');
+            $reemplazar=array($value->responsable,date('d'),$meses[date('n')],date("Y"),$value->norden,$value->id_union,$value->nemonico,$value->jefe);
+            $parametros=array(
+              'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
+            );
+            try{
+                if( $value->email==$value->email_jefe ){
+                  Mail::send('notreirel', $parametros , 
+                      function($message) use( $value,$texto ) {
+                          $message
+                          ->to('jorgeshevchenk@gmail.com')
+                          ->subject($texto);
+                      }
+                  );
+                }
+                else{
+                  Mail::send('notreirel', $parametros , 
+                      function($message) use( $value,$texto ) {
+                          $message
+                          ->to('jorgeshevchenk@gmail.com')
+                          ->cc('jorgeshevchenk1988@gmail.com')
+                          ->subject($texto);
+                      }
+                  );
+                }
+                $alerta=new Alerta;
+                $alerta['ruta_id']=$value->ruta_id;
+                $alerta['ruta_detalle_id']=$value->ruta_detalle_id;
+                $alerta['persona_id']=$value->persona_id;
+                $alerta['tipo']=$tipo;
+                $alerta['fecha']=DATE("Y-m-d");
+                $alerta->save();
             }
-            else{
-              Mail::send('notreirel', $parametros , 
-                  function($message) use( $value,$texto ) {
-                      $message
-                      ->to('jorgeshevchenk@gmail.com')
-                      ->cc('jorgeshevchenk1988@gmail.com')
-                      ->subject($texto);
-                  }
-              );
+            catch(Exception $e){
+                //echo $qem[$k]->email."<br>";
             }
-            $alerta=new Alerta;
-            $alerta['ruta_id']=$value->ruta_id;
-            $alerta['ruta_detalle_id']=$value->ruta_detalle_id;
-            $alerta['persona_id']=$value->persona_id;
-            $alerta['tipo']=$tipo;
-            $alerta['fecha']=DATE("Y-m-d");
-            $alerta->save();
-        }
-        catch(Exception $e){
-            //echo $qem[$k]->email."<br>";
         }
       }
       $retorno["data"]=$html;
