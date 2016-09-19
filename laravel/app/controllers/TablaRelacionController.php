@@ -3,12 +3,21 @@
 class TablaRelacionController extends \BaseController
 {
 
-    /**
-     * cargar areas, mantenimiento
-     * POST /area/cargar
-     *
-     * @return Response
-     */
+    public function postPlataforma()
+    {
+        //si la peticion es ajax
+        if ( Request::ajax() ) {
+            $cargar         = TablaRelacion::getPlataforma();
+
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $cargar
+                )
+            );
+        }
+    }
+
     public function postRelacion()
     {
         //si la peticion es ajax

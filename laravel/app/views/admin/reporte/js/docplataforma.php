@@ -11,12 +11,14 @@ $(document).ready(function() {
     $("#generar").click(function (){
         var fecha=$("#fecha").val();
         if ( fecha!=="") {
-            data = {fecha:fecha};
+            data = {fecha:fecha,area_id:$("#slct_area_id").val()};
             Accion.mostrar(data);
         } else {
             alert("Seleccione Fecha");
         }
     });
+    data = {estado:1};
+    slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);
 });
 HTMLreporte=function(datos){
     var html="";

@@ -14,6 +14,7 @@
     @include( 'admin.ruta.js.ruta_ajax' )
     @include( 'admin.ruta.js.asignar_ajax' )
     @include( 'admin.ruta.js.asignar' )
+    @include( 'admin.ruta.js.plataforma' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -67,6 +68,13 @@
                                                 <label class="control-label">Tipo Solicitante:</label>
                                                 <select class="form-control" name="slct_tipo_persona" id="slct_tipo_persona" onchange="tpersona(this.value);">
                                                 </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-3">
+                                                <a class="btn btn-warning btn-sm" data-toggle="modal" data-target="#plataformaModal" id="btn_verificar">
+                                                    <i class="fa fa-search fa-lg"></i>&nbsp;Verificar Trámites Pendientes de Plataforma
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
@@ -274,4 +282,5 @@
 @section('formulario')
      @include( 'admin.ruta.form.asignar' )
      @include( 'admin.ruta.form.ruta' )
+     @include( 'admin.ruta.form.plataforma' )
 @stop

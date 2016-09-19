@@ -1068,25 +1068,23 @@ class ReporteController extends BaseController
 
     public function postDocplataforma(){
       $fecha = Input::get('fecha');
+      $area_filtro="";
+      if( Input::get('area_id')!='' ){
+        $areaId = implode(",",Input::get('area_id'));
+        $area_filtro= " AND FIND_IN_SET(rd2.area_id,'".$areaId."')>0 ";
+      }
       list($fechaIni,$fechaFin) = explode(" - ", $fecha);
-      $sql="SELECT f.nombre proceso_pla,tr.id_union plataforma,r.fecha_inicio,rd.dtiempo_final
+      $sql="SELECT f.nombre proceso_pla,tr.id_union plataforma,r.fecha_inicio,rd2.dtiempo_final
             ,f2.nombre proceso,tr2.id_union gestion,r2.fecha_inicio fecha_inicio_gestion, rd2f.norden ult_paso
             ,IFNULL(rd3f.norden,rd2f.norden) act_paso, 
             IFNULL(DATE_ADD(r2.fecha_inicio, INTERVAL t.totalminutos MINUTE),DATE_ADD(r2.fecha_inicio, INTERVAL t2.totalminutos MINUTE)) fecha_fin
             , IFNULL(rd3f.dtiempo_final,rd2f.dtiempo_final) tiempo_realizado
             FROM rutas r
-            INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1
-            INNER JOIN 
-            ( SELECT MAX(id) id,ruta_id
-              FROM rutas_detalle
-              WHERE estado=1
-              GROUP BY ruta_id
-            ) rdm ON rdm.id=rd.id 
+            INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.norden=1 AND rd.area_id=52
+            INNER JOIN rutas_detalle rd2 ON rd2.ruta_id=r.id AND rd2.estado=1 AND rd2.norden=2
             INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1 
-                      AND tr.fecha_tramite BETWEEN '$fechaIni' AND '$fechaFin'
             INNER JOIN flujos f ON f.id=r.flujo_id
-            INNER JOIN areas_internas ai ON ai.flujo_id=f.id
-            LEFT JOIN tablas_relacion tr2 ON tr2.id_union=tr.id_union AND tr2.id>tr.id AND tr2.estado=1
+            LEFT JOIN tablas_relacion tr2 ON tr2.id_union=tr.id_union AND tr2.estado=1 AND tr2.id>tr.id
             LEFT JOIN rutas r2 ON r2.tabla_relacion_id=tr2.id AND r2.estado=1
             LEFT JOIN flujos f2 ON f2.id=r2.flujo_id
             LEFT JOIN 
@@ -1113,6 +1111,8 @@ class ReporteController extends BaseController
             LEFT JOIN tiempos t ON t.id=rd3f.tiempo_id
             LEFT JOIN tiempos t2 ON t2.id=rd2f.tiempo_id
             WHERE r.estado=1
+            AND r.fecha_inicio BETWEEN '$fechaIni' AND '$fechaFin'
+            $area_filtro
             order by proceso DESC,rd.dtiempo_final";
 
       $r=DB::select($sql);
