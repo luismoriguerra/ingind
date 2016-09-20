@@ -1,4 +1,5 @@
 <?php
+Route::resource('produccion', 'ProduccionController');
 Route::get(
     'email/{email}', function($email){
         $i=4;
@@ -180,4 +181,3 @@ Route::controller('documentoword', 'Cronograma\DocumentosWord\DocumentoControlle
 Route::controller('fechanolaborable', 'Cronograma\Fechanolaborable\FechanolaborableController');
 Route::controller('llamadaatencion', 'Cronograma\LlamadaAtencion\LlamadaatencionController');
 Route::controller('reportec', 'Cronograma\Reporte\EstadoCronogramaTareaController');
-Route::controller('produccion', 'ProduccionController');

@@ -2,13 +2,17 @@
 
 class ProduccionController extends \BaseController
 {
-    public function postCargar()
+    public function index()
+    {
+
+    }
+
+    public function show($id)
     {
         $fecha_ini=Input::get('fecha_inicio');
         $fecha_fin=Input::get('fecha_final');
         $produccion=array();
         $produccion['msj']='Revise fecha de inicio o fecha final';
-
         if( Input::has('fecha_inicio') && Input::has('fecha_final') ){
         $sql="  SELECT p.dni,COUNT(r.id) cant
                 FROM rutas r
