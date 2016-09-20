@@ -207,25 +207,15 @@
                                                 <label class="control-label">Dueño del Proceso:</label>
                                                 <input class="form-control" type="text" id="txt_persona" name="txt_persona" readonly>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <label class="control-label">Proceso:</label>
-                                                <select class="form-control" name="slct_flujo_id" id="slct_flujo_id">
-                                                </select>
+                                                <input class="form-control" type="text" id="txt_proceso" name="txt_proceso" readonly>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <label class="control-label">Area del Dueño del Proceso:</label>
-                                                <select class="form-control" name="slct_area_id" id="slct_area_id">
-                                                </select>
+                                                <input class="form-control" type="text" id="txt_area" name="txt_area" readonly>
                                             </div>
-                                            <!--div class="col-sm-2">
-                                                <label class="control-label"># Ok:</label>
-                                                <input class="form-control" type="text" id="txt_ok" name="txt_ok" readonly>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <label class="control-label"># Error:</label>
-                                                <input class="form-control" type="text" id="txt_error" name="txt_error" readonly>
-                                            </div-->
-                                        </div>                                        
+                                        </div>
                                     </div>
                                     <div class="row form-group" style="display:none">
                                         <div class="col-sm-12">

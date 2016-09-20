@@ -16,9 +16,9 @@ $(document).ready(function() {
     $("#btn_close").click(Close);
     var data = {estado:1,tipo_flujo:1};
     var ids = [];
-    slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
+    //slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     data = {estado:1};
-    slctGlobal.listarSlct('area','slct_area2_id,#slct_area_id,#slct_area_p_id','simple',ids,data);
+    slctGlobal.listarSlct('area','slct_area2_id,#slct_area_p_id','simple',ids,data);
     data={soloruta:1,tipo_flujo:1,pasouno:1};
     slctGlobal.listarSlct('flujo','slct_flujo2_id','simple',ids,data);
     data = {estado:1};
@@ -601,15 +601,14 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
     }
 }
 
-cargarRutaId=function(ruta_flujo_id,permiso){
+cargarRutaId=function(ruta_flujo_id,permiso,ruta_id){
     $("#txt_ruta_flujo_id_modal").remove();
     $("#form_ruta_flujo").append('<input type="hidden" id="txt_ruta_flujo_id_modal" value="'+ruta_flujo_id+'">');
     $("#txt_titulo").text("Vista");
     $("#texto_fecha_creacion").text("Fecha Vista:");
     $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
     $("#form_ruta_flujo .form-group").css("display","");
-    Ruta.CargarDetalleRuta(ruta_flujo_id,permiso,CargarDetalleRutaHTML);
-    //alert('Actualizando '+ruta_flujo_id+ "Con permiso =>"+permiso);
+    Ruta.CargarDetalleRuta(ruta_flujo_id,permiso,CargarDetalleRutaHTML,ruta_id);
 }
 
 CargarDetalleRutaHTML=function(permiso,datos){
@@ -628,11 +627,9 @@ validandoconteo=0;
     $.each(datos,function(index,data){
         validandoconteo++;
         if(validandoconteo==1){
-            $("#slct_flujo_id").val(data.flujo_id);
-            $("#slct_area_id").val(data.area_id);
-            $("#slct_flujo_id,#slct_area_id").multiselect('disable');
-            $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
             $("#txt_persona").val(data.persona);
+            $("#txt_proceso").val(data.flujo);
+            $("#txt_area").val(data.area);
         }
         adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta);
     });
