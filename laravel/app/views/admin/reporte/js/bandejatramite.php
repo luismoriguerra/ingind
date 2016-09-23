@@ -13,10 +13,13 @@ var verboG=[];
 var posicionDetalleVerboG=0;
 
 var RolIdG='';
+var UsuarioId='';
 var fechaAux="";
 $(document).ready(function() {
     //$("[data-toggle='offcanvas']").click();
     RolIdG='<?php echo Auth::user()->rol_id; ?>';
+    UsuarioId='<?php echo Auth::user()->id; ?>';
+
     slctGlobal.listarSlct('lista/tipovizualizacion','slct_tipo_visualizacion','multiple',null,null);
     if( RolIdG==8 || RolIdG==9 ){
         var data={estado_persona:1,solo_area:1};
@@ -124,26 +127,32 @@ desactivar=function(id,ruta_detalle_id,td){//establecer como no visto
 validacheck=function(val,idcheck){
     var verboaux="";
     var validacheck=0;
-
-    if( val>0 ){
-        $("#t_detalle_verbo input[type='checkbox']").removeAttr('disabled');
-    }
-    disabled=false;
-    $("#t_detalle_verbo input[type='checkbox']").each(
-        function( index ) { 
-            if ( val>0 && $(this).is(':checked') && $(this).attr("class")=='check'+val ) {
-                disabled=true;
-            }
-                verboaux+= "|"+$(this).val();
-                if( val>0 && $(this).attr("class")!='check0' && $(this).attr("class")!='check'+val ){
-                    $(this).attr("disabled","true");
-                    $(this).removeAttr("checked");
-                }
+    var usuario=idcheck.split("_")[3];
+    if( usuario=='' || ( usuario!='' && usuario==UsuarioId ) || ( RolIdG==8 || RolIdG==9 ) ){
+        if( val>0 ){
+            $("#t_detalle_verbo input[type='checkbox']").removeAttr('disabled');
         }
-    );
+        disabled=false;
+        $("#t_detalle_verbo input[type='checkbox']").each(
+            function( index ) { 
+                if ( val>0 && $(this).is(':checked') && $(this).attr("class")=='check'+val ) {
+                    disabled=true;
+                }
+                    verboaux+= "|"+$(this).val();
+                    if( val>0 && $(this).attr("class")!='check0' && $(this).attr("class")!='check'+val ){
+                        $(this).attr("disabled","true");
+                        $(this).removeAttr("checked");
+                    }
+            }
+        );
 
-    if(disabled==false && val>0){
-        $("#t_detalle_verbo input[type='checkbox']").removeAttr('disabled');
+        if(disabled==false && val>0){
+            $("#t_detalle_verbo input[type='checkbox']").removeAttr('disabled');
+        }
+    }
+    else{
+        $("#"+idcheck).removeAttr("checked");
+        alert(".::Ud no cuenta con permisos para realizar esta tarea::.");
     }
 }
 
@@ -249,7 +258,7 @@ mostrarDetalleHTML=function(datos){
                     else{
 
                         obs = "<textarea class='area"+valorenviado+"' name='area_"+detalle[i].split("=>")[0]+"' id='area_"+detalle[i].split("=>")[0]+"'></textarea>";
-                        imagen="<input type='checkbox' class='check"+valorenviado+"' onChange='validacheck("+valorenviado+",this.id);' value='"+detalle[i].split("=>")[0]+"' name='chk_verbo_"+detalle[i].split("=>")[0]+"' id='chk_verbo_"+detalle[i].split("=>")[0]+"'>";
+                        imagen="<input type='checkbox' class='check"+valorenviado+"' onChange='validacheck("+valorenviado+",this.id);' value='"+detalle[i].split("=>")[0]+"' name='chk_verbo_"+detalle[i].split("=>")[0]+"' id='chk_verbo_"+detalle[i].split("=>")[0]+"_"+$.trim(detalle[i].split("=>")[12])+"'>";
                         imagenadd= '<input disabled type="text" class="txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'"/>';
                         if(verbo=="Generar"){
                             imagenadd= '<input data-pos="'+(i*1+1)+'" type="text" class="txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'" id="documento_'+detalle[i].split("=>")[0]+'" name="documento_'+detalle[i].split("=>")[0]+'"/>';
