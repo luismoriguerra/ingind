@@ -14,15 +14,15 @@ class RutaDetalle extends Eloquent
             $tramite=Input::get('tramite');
 
             $adicional=
-            'WHERE tr.id_union like "'.$tramite.'%"
-            AND rd.area_id IN (
+            ' WHERE tr.id_union like "'.$tramite.'%"
+            AND FIND_IN_SET( rd.area_id, (
                     SELECT a.id
                     FROM area_cargo_persona acp
                     INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
                     INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
                     WHERE acp.estado=1
                     AND cp.persona_id='.Auth::user()->id.'
-                    )
+                    ) )>0
             AND rd.condicion=0
             AND rd.estado=1
             GROUP BY rd.id
@@ -32,24 +32,33 @@ class RutaDetalle extends Eloquent
 
         if ( Input::get('ruta_detalle_id') ) {
             $ruta_detalle_id= Input::get('ruta_detalle_id');
-            $adicional='WHERE rd.id="'.$ruta_detalle_id.'"';
+            $adicional=' WHERE rd.id="'.$ruta_detalle_id.'"';
         }
 
         $set=DB::select('SET group_concat_max_len := @@max_allowed_packet');
         $query =
             'SELECT rd.id, rd.dtiempo_final, r.flujo_id,
-            CONCAT(t.nombre," : ",rd.dtiempo) tiempo,
-            rd.observacion,r.ruta_flujo_id,
+            CONCAT(t.nombre," : ",rd.dtiempo) tiempo, cd.id carta_deglose_id,
+            rd.observacion,r.ruta_flujo_id, IFNULL(cd.persona_id,"") persona_id,
+            IFNULL(CONCAT(p2.paterno," ",p2.materno,", ",p2.nombre),"") persona_responsable,
             a.nombre AS area,f.nombre AS flujo,
             s.nombre AS software,tr.id_union AS id_doc,tr.id id_tr,
             rd.norden, IFNULL(rd.fecha_inicio,"") AS fecha_inicio,
-            if(tr.tipo_persona=1
-                ,CONCAT("P. Natural: ",tr.paterno," ",tr.materno,", ",tr.nombre)
-                ,if(tr.tipo_persona=2
-                    ,CONCAT("P. Juridica: ",tr.razon_social," => RUC:",tr.ruc) 
-                    ,a.nombre
-                )
-            ) solicitante,tr.fecha_tramite,tr.sumilla,
+            CONCAT( ts.nombre,": ",
+                IF(tr.tipo_persona=1 or tr.tipo_persona=6,
+                    CONCAT(IFNULL(tr.paterno,"")," ",IFNULL(tr.materno,""),", ",IFNULL(tr.nombre,"")),
+                    IF(tr.tipo_persona=2,
+                        CONCAT(tr.razon_social," | RUC:",tr.ruc),
+                        IF(tr.tipo_persona=3,
+                            a.nombre,
+                            IF(tr.tipo_persona=4 or tr.tipo_persona=5,
+                                tr.razon_social,""
+                            )
+                        )
+                    )
+                ) 
+            ) AS solicitante
+            ,tr.fecha_tramite,tr.sumilla,
             IFNULL(GROUP_CONCAT(
                 CONCAT(
                     rdv.id,
@@ -74,7 +83,9 @@ class RutaDetalle extends Eloquent
                     "=>",
                     IFNULL(concat(p.paterno," ",p.materno,", ",p.nombre),""),
                     "=>",
-                    IFNULL(rdv.updated_at,"")
+                    IFNULL(rdv.updated_at,""),
+                    "=>",
+                    IFNULL(rdv.usuario_updated_at,"")
                 )
             SEPARATOR "|"),"") AS verbo,
             IFNULL(GROUP_CONCAT(
@@ -105,16 +116,20 @@ class RutaDetalle extends Eloquent
             ,IFNULL( max( IF(rdv.finalizo=1,rdv.condicion,NULL) ) ,"0") maximo
             FROM rutas_detalle rd
             INNER JOIN rutas r ON (r.id=rd.ruta_id AND r.estado=1)
-            LEFT JOIN rutas_detalle_verbo rdv ON (rd.id=rdv.ruta_detalle_id AND rdv.estado=1)
-            LEFT JOIN personas p ON p.id=rdv.usuario_updated_at
-            LEFT JOIN roles ro ON ro.id=rdv.rol_id
-            LEFT JOIN verbos ve ON ve.id=rdv.verbo_id
-            LEFT JOIN documentos do ON do.id=rdv.documento_id
+            INNER JOIN rutas_detalle_verbo rdv ON (rd.id=rdv.ruta_detalle_id AND rdv.estado=1)
             INNER JOIN areas a ON a.id=rd.area_id
             INNER JOIN flujos f ON f.id=r.flujo_id
             INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id
+            INNER JOIN tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
+            INNER JOIN tiempos t ON t.id=rd.tiempo_id 
             INNER JOIN softwares s ON s.id=tr.software_id
-            INNER JOIN tiempos t ON t.id=rd.tiempo_id '.$adicional;
+            LEFT JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id
+            LEFT JOIN personas p ON p.id=rdv.usuario_updated_at
+            LEFT JOIN personas p2 ON p2.id=cd.persona_id
+            LEFT JOIN roles ro ON ro.id=rdv.rol_id
+            LEFT JOIN verbos ve ON ve.id=rdv.verbo_id
+            LEFT JOIN documentos do ON do.id=rdv.documento_id'.
+            $adicional;
         $rd = DB::select($query);
         //echo $query;
         if ( Input::get('ruta_detalle_id') ) {

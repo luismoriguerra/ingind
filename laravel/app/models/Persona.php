@@ -60,12 +60,20 @@ class Persona extends Base implements UserInterface, RemindableInterface
 
     public static function getPersonas()
     {
-        $sql="  SELECT CONCAT(p.id,'-',a.id) id,
+        $where="";
+        $select=" CONCAT(p.id,'-',a.id) id,
                     p.paterno,p.materno,p.nombre nombres,p.dni,a.nombre area,
-                    CONCAT(p.paterno,' ',substr(p.materno,1,4),'. ',substr(p.nombre,1,7),'. |',a.nombre) nombre
+                    CONCAT(p.paterno,' ',substr(p.materno,1,4),'. ',substr(p.nombre,1,7),'. |',a.nombre) nombre ";
+        if( Input::has('solo_area') ){
+            $area=Auth::user()->area_id;
+            $where=" AND FIND_IN_SET(p.area_id, $area )>0 ";
+            $select=" p.id,CONCAT(p.paterno,' ',substr(p.materno,1,4),'. ',substr(p.nombre,1,7)) nombre ";
+        }
+        $sql="  SELECT $select
                 FROM personas p
                 INNER JOIN areas a ON a.id=p.area_id 
                 WHERE p.estado=1
+                $where
                 GROUP BY p.id,a.id
                 ORDER BY p.paterno,p.materno,p.nombre";
 

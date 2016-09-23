@@ -172,11 +172,11 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
-                                            <div class="col-sm-2">
+                                            <div class="col-sm-4">
                                                 <label class="control-label">Proceso:</label>
                                                 <input type="text" class="form-control" id="txt_flujo" readonly>
                                             </div>
-                                            <div class="col-sm-2">
+                                            <div class="col-sm-4">
                                                 <label class="control-label">Area:</label>
                                                 <input type="text" class="form-control" id="txt_area" readonly>
                                             </div>
@@ -198,8 +198,25 @@
                                                 <label class="control-label">Tiempo Final:</label>
                                                 <input type="text" class="form-control" id="txt_respuesta" name="txt_respuesta" readonly>
                                             </div>
+                                            <div class="col-sm-4">
+                                                <label class="control-label">Responsable del Paso:</label>
+                                                <?php
+                                                    if( Auth::user()->rol_id==8 OR Auth::user()->rol_id==9 ){
+                                                ?>
+                                                        <select id="slct_persona" data-id="0" onChange="ActualizarResponsable(this.value)"></select>
+                                                <?php
+                                                    }
+                                                    else{
+                                                ?>
+                                                        <div id="slct_persona"></div>
+                                                <?php
+                                                    }
+                                                ?>
+                                                
+                                            </div>
                                         </div>
                                         <div class="col-sm-12">
+                                            <div class="table-responsive">
                                             <table class="table table-bordered table-striped">
                                                 <thead>
                                                     <tr>
@@ -223,6 +240,7 @@
                                                 </thead>
                                                 <tbody id="t_detalle_verbo"></tbody>
                                             </table>
+                                            </div>
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">

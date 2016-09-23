@@ -12,10 +12,16 @@ var tiempoG=[];
 var verboG=[];
 var posicionDetalleVerboG=0;
 
+var RolIdG='';
 var fechaAux="";
 $(document).ready(function() {
     //$("[data-toggle='offcanvas']").click();
+    RolIdG='<?php echo Auth::user()->rol_id; ?>';
     slctGlobal.listarSlct('lista/tipovizualizacion','slct_tipo_visualizacion','multiple',null,null);
+    if( RolIdG==8 || RolIdG==9 ){
+        var data={estado_persona:1,solo_area:1};
+        slctGlobal.listarSlct('persona','slct_persona','simple',null,data);
+    }
 
     Bandeja.MostrarAjax();
 
@@ -50,6 +56,25 @@ $(document).ready(function() {
     });
 
 });
+
+ActualizarResponsable=function(val){
+    if( $.trim( $("#slct_persona").attr("data-id") )!='' ){
+        var data={persona_id:val,carta_deglose_id:$("#slct_persona").attr("data-id")};
+        var ruta='asignacion/responsable';
+        Bandeja.AsignacionPersonas(data,ruta);
+    }
+    else{
+        alert('.::No cuenta con cronograma::.');
+        $("#slct_persona").val('');
+        $('#slct_persona').multiselect('rebuild');
+    }
+}
+
+ActualizarPersona=function(t){
+    var data={persona_id:$(t).val(),ruta_detalle_verbo_id:$(t).attr("data-id")};
+    var ruta='asignacion/persona';
+    Bandeja.AsignacionPersonas(data,ruta);
+}
 
 Close=function(todo){
     $("#bandeja_detalle").hide();
@@ -136,6 +161,16 @@ mostrarDetalleHTML=function(datos){
     var data={ flujo_id:datos.flujo_id, estado:1,fecha_inicio:datos.fecha_inicio }
     var ids = [];
     $('#slct_tipo_respuesta,#slct_tipo_respuesta_detalle').multiselect('destroy');
+    if( RolIdG==8 || RolIdG==9 ){
+        $("#slct_persona").attr("data-id",datos.carta_deglose_id);
+        $("#slct_persona").val('');
+        $('#slct_persona').multiselect('rebuild');
+        $("#slct_persona").val(datos.persona_id);
+        $('#slct_persona').multiselect('rebuild');
+    }
+    else{
+        $("#slct_persona").html(datos.persona_responsable);
+    }
     //$('#slct_tipo_respuesta,#slct_tipo_respuesta_detalle').attr('disabled',"true");
     slctGlobal.listarSlct('tiporespuesta','slct_tipo_respuesta','simple',ids,data,0,'#slct_tipo_respuesta_detalle','TR');
     slctGlobal.listarSlct('tiporespuestadetalle','slct_tipo_respuesta_detalle','simple',ids,data,1);
@@ -184,8 +219,11 @@ mostrarDetalleHTML=function(datos){
 
                 persona=detalle[i].split("=>")[10];
                 fecha ='';
-                if(persona!=''){
+                if( detalle[i].split("=>")[2]!="Pendiente" ){
                     fecha=detalle[i].split("=>")[11];
+                }
+                else if( RolIdG==8 || RolIdG==9 ){
+                    persona="<select data-id='"+detalle[i].split("=>")[0]+"' onChange='ActualizarPersona(this);'>"+$("#slct_persona").html()+"</select>";
                 }
 
                 if(detalle[i].split("=>")[2]=="Pendiente"){
@@ -220,7 +258,7 @@ mostrarDetalleHTML=function(datos){
                     }
                 }
 
-                html+=  "<tr>"+
+                html=  "<tr>"+
                             "<td>"+orden+"</td>"+
                             "<td>"+detalle[i].split("=>")[3]+"</td>"+
                             "<td>"+rol+"</td>"+
@@ -234,9 +272,11 @@ mostrarDetalleHTML=function(datos){
                             "<td>"+fecha+"</td>"+
                             "<td>"+imagen+"</td>"+
                         "</tr>";
+                $("#t_detalle_verbo").append(html);
+                if( $.trim( detalle[i].split("=>")[12] )!='' && (RolIdG==8 || RolIdG==9) ){
+                    $("#t_detalle_verbo select[data-id='"+detalle[i].split("=>")[0]+"'] option[value='"+detalle[i].split("=>")[12]+"']").attr("selected",true);
+                }
             }
-            $("#t_detalle_verbo").html(html);
-            
         }
 
 }
