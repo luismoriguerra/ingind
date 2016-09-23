@@ -805,13 +805,13 @@ adicionarRutaDetalle=function(){
 }
 
 CambiarDetalle=function(t){
-    if( areasGId[t]==areasGId[(t-2)] ){
+    /*if( areasGId[t]==areasGId[(t-2)] ){
         alert('No se puede asignar 2 veces continuas la misma Area: '+areasG[t]);
     }
     else if( areasGId[(t-1)]==areasGId[(t+1)] ){
         alert('No se puede asignar 2 veces continuas la misma Area: '+areasG[(t-1)]);
     }
-    else{
+    else{*/
         var auxestado=estadoG[t];
         var auxText=areasG[t];
         var aux=areasGId[t];
@@ -883,7 +883,7 @@ CambiarDetalle=function(t){
 
             pintarAreasG(1);
         }
-    }
+    //}
 }
 
 CambiarDetalleDinamico=function(t){
@@ -963,10 +963,10 @@ EliminarDetalle=function(t){
     if( confirm("Esta apunto de elimar "+eliminando+" de la posición "+(t+1)+"; Todo su detalle será eliminado; Confirme para continuar de lo contrario cancelar") ){
 
 
-        if( areasGId[(t-1)]==areasGId[(t+1)] && areasG.length>(t+1) ){
+        /*if( areasGId[(t-1)]==areasGId[(t+1)] && areasG.length>(t+1) ){
             alert('No se puede asignar 2 veces continuas la misma Area: '+areasG[(t+1)]);
         }
-        else{
+        else{*/
             $("#tr-detalle-"+t).remove();
             var posiciont= tiempoGId.indexOf( areasGId[t] );
             var theadAreaaux= theadArea[t];
@@ -1014,7 +1014,7 @@ EliminarDetalle=function(t){
             }
             pintarAreasG(1);
             //alertatodo();
-        }
+        //}
     }
 }
 
