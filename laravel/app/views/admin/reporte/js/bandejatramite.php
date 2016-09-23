@@ -128,7 +128,7 @@ validacheck=function(val,idcheck){
     var verboaux="";
     var validacheck=0;
     var usuario=idcheck.split("_")[3];
-    if( usuario=='' || ( usuario!='' && usuario==UsuarioId ) || ( RolIdG==8 || RolIdG==9 ) ){
+    if( usuario=='' || usuario=='0' || ( usuario!='' && usuario==UsuarioId ) || ( RolIdG==8 || RolIdG==9 ) ){
         if( val>0 ){
             $("#t_detalle_verbo input[type='checkbox']").removeAttr('disabled');
         }
