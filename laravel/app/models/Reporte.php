@@ -156,7 +156,7 @@ class Reporte extends Eloquent
     }
 
     public static function BandejaTramiteCount( $array ){
-        $sql="  SELECT count(rd.id) cant
+        $sql="  SELECT count(DISTINCT(rd.id)) cant
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
@@ -228,7 +228,8 @@ class Reporte extends Eloquent
                 $array['solicitante'].
                 $array['proceso'].
                 $array['tiempo_final'].
-                " ORDER BY rd.fecha_inicio DESC ".
+                " GROUP BY rd.id
+                ORDER BY rd.fecha_inicio DESC ".
                 $array['limit'];
        $r= DB::select($sql);
         return $r;
