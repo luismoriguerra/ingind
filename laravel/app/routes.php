@@ -181,3 +181,4 @@ Route::controller('fechanolaborable', 'Cronograma\Fechanolaborable\Fechanolabora
 Route::controller('llamadaatencion', 'Cronograma\LlamadaAtencion\LlamadaatencionController');
 Route::controller('reportec', 'Cronograma\Reporte\EstadoCronogramaTareaController');
 Route::controller('produccion', 'ProduccionController');
+Route::controller('asignacion', 'AsignacionController');
