@@ -306,7 +306,7 @@ class Reporte extends Eloquent
                 f.nombre proceso,
                 ta.nombre tipo_tarea, cd.actividad descripcion, a.nemonico, 
                 CONCAT(p.paterno,' ',p.materno,', ',p.nombre) responsable, cd.recursos,
-                p.email,
+                p.email_mdi,p.email,
                 IFNULL(
                 (   SELECT CONCAT(a.fecha,'|',a.tipo)
                     FROM alertas a
@@ -316,7 +316,7 @@ class Reporte extends Eloquent
                     LIMIT 0,1
                 ),'|' ) alerta, p.id persona_id,
                 CONCAT(p2.paterno,' ',p2.materno,', ',p2.nombre) jefe,
-                p2.email email_jefe
+                p2.email_mdi email_jefe
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
                 INNER JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id

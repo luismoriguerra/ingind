@@ -309,12 +309,13 @@ class ReporteFinalController extends BaseController
             $parametros=array(
               'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
             );
+            DB::beginTransaction();
             try{
-                if( $value->email==$value->email_jefe ){
+                if( $value->email_mdi==$value->email_jefe ){
                   Mail::send('notreirel', $parametros , 
                       function($message) use( $value,$texto ) {
                           $message
-                          ->to('jorgeshevchenk@gmail.com')
+                          ->to($value->email_mdi)
                           ->subject($texto);
                       }
                   );
@@ -323,8 +324,8 @@ class ReporteFinalController extends BaseController
                   Mail::send('notreirel', $parametros , 
                       function($message) use( $value,$texto ) {
                           $message
-                          ->to('jorgeshevchenk@gmail.com')
-                          ->cc('jorgeshevchenk1988@gmail.com')
+                          ->to($value->email_mdi)
+                          ->cc($value->email_jefe)
                           ->subject($texto);
                       }
                   );
@@ -338,8 +339,10 @@ class ReporteFinalController extends BaseController
                 $alerta->save();
             }
             catch(Exception $e){
+              DB::rollback();
                 //echo $qem[$k]->email."<br>";
             }
+            DB::commit();
         }
       }
       $retorno["data"]=$html;
