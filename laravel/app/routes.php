@@ -4,11 +4,11 @@ Route::get(
         $i=4;
         $parametros=array(
             'paso'      => ($i+1),
-            'persona'   => 'Salcedo Franco Jorge Luis',
-            'area'      => 'Area TIC',
+            'persona'   => 'Prueba',
+            'area'      => 'Area Prueba',
             'procesoe'  => 'Proceso Nuevo',
-            'personae'  => 'Juan Luna Galvez',
-            'areae'     => 'Gerente de la Calidad'
+            'personae'  => 'Jorge Salcedo',
+            'areae'     => 'Gerente de Modernización'
         );
 
         //try{
