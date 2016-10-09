@@ -275,7 +275,7 @@ class RutaDetalleController extends \BaseController
                                 $idSiguiente= $validaSiguiente[$i]->id;
                                 $fechaInicio= $validaSiguiente[$i]->ahora;
                             }
-                            elseif($siguiente==1){ // condiciona +1
+                            /*elseif($siguiente==1){ // condiciona +1
                                 $idinvalido= $validaSiguiente[($siguientefinal-1)]->id;
                                 $rdinv= RutaDetalle::find($idinvalido);
                                 $rdinv['condicion']=1;
@@ -288,8 +288,8 @@ class RutaDetalleController extends \BaseController
 
                                 $idSiguiente= $validaSiguiente[0]->id;
                                 $fechaInicio= $validaSiguiente[0]->ahora;
-                            }
-                            elseif($siguiente>1){ // condicional +n
+                            }*/
+                            elseif($siguiente>=1){ // condicional +n
                                 for($j=0; $j<$siguientefinal; $j++){
                                     if( $siguiente==($j+1) ){
                                         $idSiguiente= $validaSiguiente[($i+$j)]->id;
