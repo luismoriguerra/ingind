@@ -922,7 +922,7 @@ cargarRutaId=function(ruta_flujo_id,permiso,rdid,rid,norden,codalerta,ncond){
     $("#texto_fecha_creacion").text("Fecha Actualización:");
     $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
     $(".form-group").css("display","");
-    Ruta.CargarDetalleRuta(ruta_flujo_id,permiso,CargarDetalleRutaHTML);
+    Ruta.CargarDetalleRuta(ruta_flujo_id,permiso,CargarDetalleRutaHTML,rid);
     //alert('Actualizando '+ruta_flujo_id+ "Con permiso =>"+permiso);
 }
 
