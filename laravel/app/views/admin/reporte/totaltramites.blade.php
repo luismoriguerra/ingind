@@ -112,12 +112,12 @@
                                 <table id="t_reported_tab_1" class="table table-bordered" width="100%">
                                     <thead>
                                         <tr>
-                                            <th colspan="6" style='background-color:#DEFAFA'>Datos del paso</th>
-                                            <th style='background-color:#F5DF9D'>Acciones a realizar</th>
-                                            <th style='background-color:#FCD790'>Acciones realizadas</th>
+                                            <th colspan="6" style='background-color:#DEFAFA; width: 30% !important;'>Datos del paso</th>
+                                            <th style='background-color:#F5DF9D; width: 35% !important;'>Acciones a realizar</th>
+                                            <th style='background-color:#FCD790; width: 35% !important;'>Acciones realizadas</th>
                                         </tr>
                                         <tr>
-                                            <th style='background-color:#DEFAFA'>Paso</th>
+                                            <th style='background-color:#DEFAFA'>N°</th>
                                             <th style='background-color:#DEFAFA'>Área</th>
                                             <th style='background-color:#DEFAFA'>Tiempo</th>
                                             <th style='background-color:#DEFAFA'>Inicio</th>
