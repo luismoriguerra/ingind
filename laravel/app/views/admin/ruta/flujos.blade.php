@@ -3,14 +3,23 @@
 
 @section('includes')
     @parent
+    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
+    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
+    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
+    
+    {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
+    {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
+    
+    @include( 'admin.js.slct_global_ajax' )
+    @include( 'admin.js.slct_global' )
 
-    @include( 'admin.mantenimiento.js.flujo_ajax' )
-    @include( 'admin.ruta.js.flujo' )
+    @include( 'admin.mantenimiento.js.flujoss_ajax' )
+    @include( 'admin.ruta.js.flujos' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
     <!-- Content Header (Page header) -->
-        <section class="content-header">
+                <section class="content-header">
             <h1>
                 Crear Procesos
                 <small> </small>
@@ -31,34 +40,25 @@
                         <div class="box-header">
                             <h3 class="box-title">Filtros</h3>
                         </div><!-- /.box-header -->
+                        <form id="form_flujos" name="form_flujos" method="POST" action="">
                         <div class="box-body table-responsive">
-                            <table id="t_flujos" class="table table-bordered table-striped">
+                            <table id="t_flujos" class="table table-bordered table-hover">
                                 <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Categoria</th>
-                                        <th>Area</th>
-                                        <th>Tipo</th>
-                                        <th>Estado</th>
-                                        <th> [ ] </th>
-                                    </tr>
+                                <tr><th colspan="6" style="text-align:center;background-color:#A7C0DC;"><h2>Crear Procesos </h2></th></tr>
+                                <tr></tr>
                                 </thead>
-                                <tbody id="tb_flujos">
+                                <tbody>
                                 </tbody>
                                 <tfoot>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Categoria</th>
-                                        <th>Area</th>
-                                        <th>Tipo</th>
-                                        <th>Estado</th>
-                                        <th> [ ] </th>
-                                    </tr>
+                                <tr></tr>
                                 </tfoot>
                             </table>
-                            <a class='btn btn-primary btn-sm' class="btn btn-primary" 
+
+                            <a class="btn btn-primary"
                             data-toggle="modal" data-target="#flujoModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                            
                         </div><!-- /.box-body -->
+                        </form>
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->
                 </div>
@@ -68,5 +68,5 @@
 @stop
 
 @section('formulario')
-     @include( 'admin.ruta.form.flujo' )
+     @include( 'admin.ruta.form.flujos' )
 @stop

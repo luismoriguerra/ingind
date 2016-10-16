@@ -28,4 +28,20 @@ class Categoria extends Base
         return $oData;
     }
 
+     public function getListar(){
+        $categoria=DB::table('categorias')
+                ->select('id','nombre','estado')
+                ->where( 
+                    function($query){
+                        if ( Input::get('estado') ) {
+                            $query->where('estado','=','1');
+                        }
+                    }
+                )
+                ->orderBy('nombre')
+                ->get();
+                
+        return $categoria;
+    }
+
 }

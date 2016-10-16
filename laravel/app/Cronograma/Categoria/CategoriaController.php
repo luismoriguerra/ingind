@@ -73,6 +73,14 @@ class CategoriaController extends \BaseController {
         }
     }
 
+        public function postListarc()
+    {
+        if ( Request::ajax() ) {
+            $categoria = Categoria::get(Input::all());
+            return Response::json(array('rst'=>1,'datos'=>$categoria));
+        }
+    }
+
     /**
      * Crear categoria
      * POST /categoria/crear
