@@ -273,7 +273,7 @@ class ReporteFinalController extends BaseController
         $html.="<td>".$value->descripcion."</td>";
         $html.="<td>".$value->nemonico."</td>";
         $html.="<td>".$value->responsable."</td>";
-        $html.="<td>".$value->email."</td>";
+        $html.="<td>".$value->email_mdi."<br>".$value->email."</td>";
         $html.="<td>".$value->recursos."</td>";
         $html.="<td>".$value->proceso."</td>";
         $html.="<td>".$value->id_union."</td>";
