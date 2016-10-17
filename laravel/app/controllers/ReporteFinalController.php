@@ -312,7 +312,7 @@ class ReporteFinalController extends BaseController
             DB::beginTransaction();
             $email=array($value->email_mdi,$value->email);
             try{
-                if( $value->email_mdi==$value->email_jefe AND $alerta[1]!=2 ){
+                if( $value->email_mdi==$value->email_jefe ){
                   Mail::send('notreirel', $parametros , 
                       function($message) use( $email,$texto ) {
                           $message
