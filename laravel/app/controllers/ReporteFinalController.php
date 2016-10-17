@@ -302,7 +302,7 @@ class ReporteFinalController extends BaseController
           $texto=".::Notificación::.";
         }
 
-        if( $alerta[0]!='' AND $alerta[0]!=DATE("Y-m-d") ){
+        //if( $alerta[0]!='' AND $alerta[0]!=DATE("Y-m-d") ){
             $plantilla=Plantilla::where('tipo','=',$tipo)->first();
             $buscar=array('persona:','dia:','mes:','año:','paso:','tramite:','area:','personajefe:');
             $reemplazar=array($value->responsable,date('d'),$meses[date('n')],date("Y"),$value->norden,$value->id_union,$value->nemonico,$value->jefe);
@@ -344,7 +344,7 @@ class ReporteFinalController extends BaseController
                 //echo $qem[$k]->email."<br>";
             }
             DB::commit();
-        }
+        //}
       }
       $retorno["data"]=$html;
 
