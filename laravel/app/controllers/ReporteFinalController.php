@@ -323,7 +323,7 @@ class ReporteFinalController extends BaseController
                 }
                 else{
                   Mail::send('notreirel', $parametros , 
-                      function($message) use( $value,$texto ) {
+                      function($message) use( $email,$value,$texto ) {
                           $message
                           ->to($email)
                           ->cc($value->email_jefe)
