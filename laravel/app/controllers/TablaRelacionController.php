@@ -7,14 +7,65 @@ class TablaRelacionController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $cargar         = TablaRelacion::getPlataforma();
+            //$cargar         = TablaRelacion::getPlataforma();
 
-            return Response::json(
+                $array=array();
+                $array['where']='';$array['usuario']=Auth::user()->id;
+                $array['limit']='';$array['order']='';
+                
+                if (Input::has('draw')) {
+                    if (Input::has('order')) {
+                        $inorder=Input::get('order');
+                        $incolumns=Input::get('columns');
+                        $array['order']=  ' ORDER BY '.
+                                          $incolumns[ $inorder[0]['column'] ]['name'].' '.
+                                          $inorder[0]['dir'];
+                    }
+
+                    $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
+                    $aParametro["draw"]=Input::get('draw');
+                }
+                /************************************************************/
+
+                if( Input::has("tramite") ){
+                    $tramite=Input::get("tramite");
+                    if( trim( $tramite )!='' ){
+                        $array['where'].=" AND tr.id_union LIKE '%".$tramite."%' ";
+                    }
+                }
+
+                if( Input::has("proceso") ){
+                    $proceso=Input::get("proceso");
+                    if( trim( $proceso )!='' ){
+                        $array['where'].=" AND f.nombre LIKE '%".$proceso."%' ";
+                    }
+                }
+
+                if( Input::has("fecha_inicio") ){
+                    $fecha_inicio=Input::get("fecha_inicio");
+                    if( trim( $fecha_inicio )!='' ){
+                        $array['where'].=" AND DATE(rd2.fecha_inicio)='".$fecha_inicio."' ";
+                    }
+                }
+
+                $array['order']=" ORDER BY rd2.fecha_inicio DESC ";
+
+                $cant  = TablaRelacion::getPlataformaCount( $array );
+                $aData = TablaRelacion::getPlataforma( $array );
+
+                $aParametro['rst'] = 1;
+                $aParametro["recordsTotal"]=$cant;
+                $aParametro["recordsFiltered"]=$cant;
+                $aParametro['data'] = $aData;
+                $aParametro['msj'] = "No hay registros aún";
+                return Response::json($aParametro);
+
+            /*return Response::json(
                 array(
                     'rst'   => 1,
                     'datos' => $cargar
                 )
-            );
+            );*/
         }
     }
 

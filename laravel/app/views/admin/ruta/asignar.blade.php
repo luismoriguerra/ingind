@@ -6,8 +6,12 @@
     {{ HTML::style('lib/datetime/css/bootstrap-datetimepicker.min.css') }}
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
-    
     {{ HTML::script('lib/datetime/js/bootstrap-datetimepicker.min.js') }}
+
+    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
+    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
+    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
+    
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
 
