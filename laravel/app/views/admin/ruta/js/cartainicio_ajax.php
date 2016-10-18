@@ -78,7 +78,7 @@ var Carta={
             }
         });
     },
-    CargarDetalleCartas:function(evento,datos){
+    CargarDetalleCartas:function(evento,datos,tipo = 0){
         $.ajax({
             url         : 'carta/cargardetalle',
             type        : 'POST',
@@ -90,7 +90,7 @@ var Carta={
             },
             success : function(obj) {
                 if(obj.rst==1){
-                    evento(obj.datos,datos);
+                    evento(obj.datos,tipo);
                 }  
                 $(".overlay,.loading-img").remove();
             },

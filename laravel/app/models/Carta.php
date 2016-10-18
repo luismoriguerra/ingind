@@ -21,7 +21,7 @@ class Carta extends Base
             return $r[0];
         }
         else{
-            $sql="  SELECT '0001' correlativo, nombre area, '$año' ano, a.nemonico siglas
+            $sql="  SELECT '0001' correlativo, nombre area, '$año' ano, nemonico siglas
                     FROM areas 
                     WHERE id='$areaId'";
             $r= DB::select($sql);
@@ -161,12 +161,21 @@ class Carta extends Base
                         )
                         SEPARATOR '*' 
                     ) desgloses,
-                    IFNULL(f.id,'') as flujo_id, f.nombre as flujo
+                    IFNULL(f.id,'') as flujo_id, f.nombre as flujo,rfd.dtiempo*t.totalminutos tiempo,CONCAT(p.id,'-', a.id) as responsable_area 
                     FROM cartas c
                     LEFT JOIN carta_recurso cr ON c.id=cr.carta_id AND cr.estado=1
                     LEFT JOIN carta_metrico cm ON c.id=cm.carta_id AND cm.estado=1
                     LEFT JOIN carta_desglose cd ON c.id=cd.carta_id AND cd.estado=1
                     LEFT JOIN flujos f ON c.flujo_id=f.id
+                    
+                    /*obtener responsable and tiempo to recalculate fechasc*/
+                    INNER JOIN rutas_flujo AS rf ON rf.flujo_id = f.id AND rf.estado = 1
+                    INNER JOIN rutas_flujo_detalle AS rfd ON rfd.ruta_flujo_id = rf.id  AND rfd.estado=1
+                    INNER JOIN tiempos t ON t.id=rfd.tiempo_id 
+                    INNER JOIN areas AS a ON a.id = rfd.area_id 
+                    LEFT JOIN personas p ON p.area_id=a.id AND (p.rol_id='8' OR p.rol_id='9')
+                    /*end obtener responsable and tiempo to recalculate fechasc*/
+
                     WHERE c.id = '".Input::get('carta_id')."'
                     GROUP BY c.id";
         }

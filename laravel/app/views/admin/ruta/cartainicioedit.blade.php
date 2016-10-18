@@ -71,6 +71,8 @@
                     <select id="slct_tipo_actividad_id"></select>
                     <select id="slct_persona_id"></select>
                     </div>
+
+                    <!--data show in edit -->
                     <div class="row form-group" id="cartainicio" style="display:none">
                         <div class="col-sm-12">
                             <div class="col-sm-2">
@@ -175,6 +177,10 @@
                                 </a>
                                 Desglose de Carta de Inicio N°:
                                 </label>
+                                <label>
+                                Fecha de Inicio:
+                                </label>
+                                <input type="text" name="txt_fecha_inicio" id="txt_fecha_inicio" onChange="CargarFechas();" readonly>
                         </div>
                         <div class="row form-group" id="tabla_desgloses">
                             <div class="col-sm-12">
@@ -206,6 +212,12 @@
                             </a>
                         </div>
                     </div>
+                    <!-- end data show in edit -->
+
+                    <!-- structure to show in copy -->
+
+                    <!-- end structure to show in copy -->
+
                 </form>
             </div><!-- /.box -->
             <!-- Finaliza contenido -->

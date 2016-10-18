@@ -20,11 +20,21 @@ desgloses.push("Seleccione Fecha Fin");     desglosesid.push("des_ffi");    desg
 desgloses.push("Seleccione Hora Inicio");   desglosesid.push("des_hin");    desglosestype.push("txt");
 desgloses.push("Seleccione Hora Fin");      desglosesid.push("des_hfi");    desglosestype.push("txt");
 var AreaIdG='';
+var tiemposG=[];
 
 $(document).ready(function() {
     AreaIdG='';
     AreaIdG='<?php echo Auth::user()->area_id; ?>';
     ValidaAreaRol();
+
+    /*init daterangepicker*/
+    $('#txt_fecha_inicio').daterangepicker({
+        format: 'YYYY-MM-DD HH:mm',
+        singleDatePicker: true,
+        timePicker: true,
+        showDropdowns: true
+    });
+    /*end daterangepicker*/
 });
 
 ValidaAreaRol=function(){
@@ -47,15 +57,38 @@ ValidaAreaRol=function(){
     }
 }
 
-HTMLCargarDetalleCartas=function(datos){
+HTMLCargarCorrelativo=function(obj){
+    $("#txt_nro_carta").val("");
+    var ano= obj.ano;
+    var correlativo=obj.correlativo;
+    var area = obj.area.split(" ");
+    var siglas=obj.siglas;
+
+    var codigo= "CI-"+correlativo+"-"+ano+"-"+siglas;
+    $("#txt_nro_carta").val(codigo);
+}
+
+HTMLCargarDetalleCartas=function(datos,tipo = 0){
     Nuevo();
     var html="";
     var rec=[];var met=[]; var des=[];
 
+    /*determinate if its copy or edit*/
+    if(tipo == 1){
+        var area={area_id:AreaIdG};
+        Carta.CargarCorrelativo(HTMLCargarCorrelativo,area);
+    }
+    /*end determinate if its copy or edit*/
+
     $("#form_carta #txt_carta_id").remove();
     $.each(datos,function(index,data){
-        $("#form_carta").append("<input type='hidden' name='txt_carta_id' id='txt_carta_id' value='"+data.id+"'>");
-        $("#txt_nro_carta").val(data.nro_carta);
+
+        /*poblate to determinate new dates*/
+         tiemposG.push(data.tiempo+'|'+data.responsable_area.split("-")[1]);
+        /*end poblate to determinate new dates*/
+        
+        if(tipo != 1){$("#form_carta").append("<input type='hidden' name='txt_carta_id' id='txt_carta_id' value='"+data.id+"'>")};
+        if(tipo != 1){$("#txt_nro_carta").val(data.nro_carta)};
         $("#txt_objetivo").val(data.objetivo);
         $("#txt_entregable").val(data.entregable);
         $("#txt_alcance").val(data.alcance);
@@ -63,7 +96,6 @@ HTMLCargarDetalleCartas=function(datos){
         if( data.recursos!=null && data.recursos.split("|").length>1 ){
             rec=data.recursos.split("*");
             for( i=0; i<rec.length; i++ ){
-                console.log('recursos');
                 AddTr("btn_recursos_0",rec[i]);
             }
         }
@@ -71,7 +103,6 @@ HTMLCargarDetalleCartas=function(datos){
         if( data.metricos!=null && data.metricos.split("|").length>1 ){
             met=data.metricos.split("*");
             for( i=0; i<met.length; i++ ){
-                console.log('metricos');
                 AddTr("btn_metricos_1",met[i]);
             }
         }
@@ -79,7 +110,6 @@ HTMLCargarDetalleCartas=function(datos){
         if( data.desgloses!=null && data.desgloses.split("|").length>1 ){
             des=data.desgloses.split("*");
             for( i=0; i<des.length; i++ ){
-                console.log('desgloses');
                 AddTr("btn_desgloses_2",des[i]);
             }
         }
@@ -93,6 +123,12 @@ CargarRegistro=function(id){
     Limpiar();
     var datos={carta_id:id};
     Carta.CargarDetalleCartas(HTMLCargarDetalleCartas,datos);
+}
+
+CopyCarta = function (id){
+    Limpiar();
+    var datos={carta_id:id};
+    Carta.CargarDetalleCartas(HTMLCargarDetalleCartas,datos,1);   
 }
 
 Validacion=function(){
@@ -129,7 +165,7 @@ AddTr=function(id,value){
     var pos=id.split("_")[2];
     PosCarta[pos]++;
     var datatext=""; var dataid=""; var val="";
-    var clase="";
+    var clase="";var readonly="";
     var ctype=""; var ccopy=""; var vcopy=[];
 
     var add="<tr id='tr_"+idf+"_"+PosCarta[pos]+"'>";
@@ -172,8 +208,20 @@ AddTr=function(id,value){
                 ccopy = desglosescopy[i];
             }
 
-            if( i==5 || i==4 ){ //para cargar la fecha
+           /* if( i==5 || i==4 ){ //para cargar la fecha
                 clase='fecha';
+            }*/
+            if( i==5 || i==4 || i==8 ){ //para cargar la fecha
+                if( typeof automatico =='undefined' || i==8 ){
+                clase='fecha';
+                }
+                readonly='readonly';
+            }
+            else if( i==6 ){
+                val='08:00';
+            }
+            else if( i==7 ){
+                val='17:30';
             }
         }
 
@@ -187,7 +235,7 @@ AddTr=function(id,value){
         }
         else{
             add+="<td>";
-            add+="<input class='form-control col-sm-12 "+clase+"' type='text' data-text='"+datatext+"' data-type='txt' id='txt_"+idf+"_"+PosCarta[pos]+"_"+dataid+"' name='txt_"+dataid+"[]' value='"+val+"'>";
+            add+="<input class='form-control col-sm-12 "+clase+"' type='text' data-text='"+datatext+"' data-type='txt' id='txt_"+idf+"_"+PosCarta[pos]+"_"+dataid+"' name='txt_"+dataid+"[]' value='"+val+"' "+readonly+">";
             add+="</td>";
         }
 
@@ -248,10 +296,36 @@ HTMLCargarCartas=function(datos){
             "<td> " +
                 "<a class='btn btn-primary btn-sm' onClick='CargarRegistro("+data.id+")'><i class='fa fa-edit fa-lg'></i></a>" +
                 "    <a class='btn btn-primary btn-sm' href='carta/cartainiciopdf?vista=1&carta_id="+data.id+"' >PDF</i></a>" +
+                "<a class='btn btn-primary btn-sm' onClick='CopyCarta("+data.id+")'><i class='fa fa-copy fa-lg'></i></a>" +
                 "</td>";
         html+="</tr>";
     });
     $("#tb_carta").html(html); 
     $('#t_carta').dataTable();
 }
+
+
+/*load acoording to start date*/
+CargarFechas=function(){
+    var fechaIni=$("#txt_fecha_inicio").val();
+    Carta.CargarFechas(CargarFechasHTML,tiemposG,fechaIni);
+}
+
+CargarFechasHTML=function(datos){
+    var p=0;
+    $( "#t_desgloses>tbody>tr" ).each(function(k,v) {
+        if( datos.length>p ){
+          $( this ).find("input[name='txt_des_fin[]']").val(datos[p][0]);
+          $( this ).find("input[name='txt_des_ffi[]']").val(datos[p][1]);
+          $( this ).find("input[name='txt_des_ale[]']").val(datos[p][2]);
+          p++;
+        }else{
+          $( this ).find("input[name='txt_des_fin[]']").val(datos[(p-1)][1]);
+          $( this ).find("input[name='txt_des_ffi[]']").val(datos[(p-1)][1]);
+          $( this ).find("input[name='txt_des_ale[]']").val(datos[(p-1)][2]);
+        }
+    });
+}
+/*end load acoording to start date*/
+
 </script>
