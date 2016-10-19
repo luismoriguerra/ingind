@@ -27,17 +27,24 @@ class TablaRelacionController extends \BaseController
                 }
                 /************************************************************/
 
-                if( Input::has("nombre") ){
-                    $nombre=Input::get("nombre");
-                    if( trim( $nombre )!='' ){
-                        $array['where'].=" AND r.nombre LIKE '%".$nombre."%' ";
+                if( Input::has("tramite") ){
+                    $tramite=Input::get("tramite");
+                    if( trim( $tramite )!='' ){
+                        $array['where'].=" AND tr.id_union LIKE '%".$tramite."%' ";
                     }
                 }
 
-                if( Input::has("estado") ){
-                    $estado=Input::get("estado");
-                    if( trim( $estado )!='' ){
-                        $array['where'].=" AND r.estado='".$estado."' ";
+                if( Input::has("proceso") ){
+                    $proceso=Input::get("proceso");
+                    if( trim( $proceso )!='' ){
+                        $array['where'].=" AND f.nombre LIKE '%".$proceso."%' ";
+                    }
+                }
+
+                if( Input::has("fecha_inicio") ){
+                    $fecha_inicio=Input::get("fecha_inicio");
+                    if( trim( $fecha_inicio )!='' ){
+                        $array['where'].=" AND rd2.fecha_inicio='".$fecha_inicio."' ";
                     }
                 }
 

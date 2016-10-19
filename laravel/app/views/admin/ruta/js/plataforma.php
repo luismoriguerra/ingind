@@ -19,7 +19,7 @@ $(document).ready(function() {
         var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,1,'plataforma','t_plataforma');
         columnDefsG=resG[0]; // registra las columnas del datatable
         targetsG=resG[1]; // registra los contadores
-        var resG=dataTableG.CargarBtn(columnDefsG,targetsG,1,'BtnEditar','t_plataforma','fa-edit');
+        var resG=dataTableG.CargarBtn(columnDefsG,targetsG,1,'CargarTramitePlataforma','t_plataforma','fa-edit');
         columnDefsG=resG[0]; // registra la colunmna adiciona con boton
         targetsG=resG[1]; // registra el contador actualizado
         MostrarAjax('plataforma');
@@ -27,6 +27,10 @@ $(document).ready(function() {
 
     $('#plataformaModal').on('hide.bs.modal', function (event) {
       var modal = $(this); //captura el modal
+      $("#t_plataforma>thead>tr:eq(1),#t_plataforma>tfoot>tr:eq(0)").html('');
+        cabeceraG=[]; // Cabecera del Datatable
+        columnDefsG=[]; // Columnas de la BD del datatable
+        targetsG=-1; // Posiciones de las columnas del datatable
     });
     $("#t_tramites_plataforma").dataTable();
 });
@@ -65,7 +69,7 @@ MostrarAjax=function(t){
 }*/
 
 CargarTramitePlataforma=function(id){
-    $("#txt_codigo").val(id);
+    $("#txt_codigo").val(id.split("|")[1]);
     $("#plataformaModal .modal-footer>button").click();
     alert('Si modifica el trámite de plataforma seleccionado será considerado como un trámite nuevo');
 }

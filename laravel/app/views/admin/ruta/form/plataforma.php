@@ -11,7 +11,7 @@
       <div class="modal-body">
           <div class="row form-group">
               <div class="col-sm-12">
-              <form id="form_rols" name="form_rols" method="POST" action="">
+              <form id="form_plataforma" name="form_plataforma" method="POST" action="">
                   <div class="box-body table-responsive">
                       <table id="t_plataforma" class="table table-bordered table-striped">
                           <thead>

@@ -37,7 +37,7 @@ class TablaRelacion extends Eloquent
     public static function getPlataforma( $array )
     {
         $usuario=Auth::user()->id;
-        $sSql=" SELECT r.id,f.nombre proceso, tr.id_union tramite, rd.fecha_inicio f1,rd2.fecha_inicio, COUNT(tr2.id) cant
+        $sSql=" SELECT CONCAT(r.id,'|',tr.id_union) id,f.nombre proceso, tr.id_union tramite, rd.fecha_inicio f1,rd2.fecha_inicio, COUNT(tr2.id) cant
                 FROM rutas r
                 INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1
                 INNER JOIN flujos f ON f.id=r.flujo_id AND f.estado=1
