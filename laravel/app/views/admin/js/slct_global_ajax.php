@@ -216,7 +216,7 @@ var dataTableG={
             if(cab[i].evento*1==1){
                 $("#"+table+">tfoot>tr,#"+table+">thead>tr:eq("+trpos+")").append('<th style="background-color:'+cab[i].color+';" class="unread">'+cab[i].nombre+'</th>');
             }
-            else if( cab[i].evento*1==2 ){
+            else if( cab[i].evento*1==2 || cab[i].evento=='estado' ){
                 $("#"+table+">thead>tr:eq("+trpos+")").append(
                     '<th style="background-color:'+cab[i].color+';" class="unread" id="'+cab[i].idide+'">'+cab[i].nombre+'<br>'+
                     '<select name="slct_'+cab[i].id+'" id="slct_'+cab[i].id+'" onChange="MostrarAjax(\''+ajax+'\');" class="form-control">'+
