@@ -173,9 +173,13 @@ var dataTableG={
         $.each(cab, 
             function(id, val) {
                 var rand=Math.floor((Math.random() * 100) + 1);
-                var clase='';
+                var clase='';var option='';
                 if(typeof(val.split("|")[3])!=undefined){
                     clase=val.split("|")[3];
+                }
+
+                if(typeof(val.split("|")[4])!=undefined){
+                    option=val.split("|")[4];
                 }
                 r.push({
                     'id'    : id,
@@ -184,6 +188,7 @@ var dataTableG={
                     'evento': val.split("|")[0],
                     'color' : val.split("|")[2],
                     'clase' : clase,
+                    'option' : option,
                 });
             }
         );
@@ -225,6 +230,15 @@ var dataTableG={
                         '<option value="0">.::Inactivo::.</option>'+
                     '</select>'+
                     '</th>');
+                $("#"+table+">tfoot>tr").append('<th style="background-color:'+cab[i].color+';" class="unread">'+cab[i].nombre+'</th>');
+            }
+            else if( cab[i].evento*1==4 || cab[i].evento=='select' ){
+                $("#"+table+">thead>tr:eq("+trpos+")").append(
+                    '<th style="background-color:'+cab[i].color+';" class="unread" id="'+cab[i].idide+'">'+cab[i].nombre+'<br>'+
+                    '<select name="slct_'+cab[i].id+'" id="slct_'+cab[i].id+'" onChange="MostrarAjax(\''+ajax+'\');" class="form-control">'+
+                    '</select>'+
+                    '</th>');
+                $("#slct_"+cab[i].id).append($("#slct_"+cab[i].option).html());
                 $("#"+table+">tfoot>tr").append('<th style="background-color:'+cab[i].color+';" class="unread">'+cab[i].nombre+'</th>');
             }
             else{
