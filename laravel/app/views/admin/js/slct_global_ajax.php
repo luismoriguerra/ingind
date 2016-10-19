@@ -173,12 +173,17 @@ var dataTableG={
         $.each(cab, 
             function(id, val) {
                 var rand=Math.floor((Math.random() * 100) + 1);
+                var clase='';
+                if(typeof(val.split("|")[3])!=undefined){
+                    clase=val.split("|")[3];
+                }
                 r.push({
                     'id'    : id,
                     'idide' :'th_'+id.substr(0,2)+id.substr(-2)+'_'+rand,
                     'nombre': val.split("|")[1],
                     'evento': val.split("|")[0],
                     'color' : val.split("|")[2],
+                    'clase' : clase,
                 });
             }
         );
@@ -227,7 +232,7 @@ var dataTableG={
                     cab[i].evento='onBlur'
                 }
                 $("#"+table+">thead>tr:eq("+trpos+")").append('<th style="background-color:'+cab[i].color+';" class="unread" id="'+cab[i].idide+'">'+cab[i].nombre+'<br>'+
-                                                '<input name="txt_'+cab[i].id+'" id="txt_'+cab[i].id+'" '+cab[i].evento+'="MostrarAjax(\''+ajax+'\');" onKeyPress="return enterGlobal(event,\''+cab[i].idide+'\',1)" type="text" class="form-control" placeholder="'+cab[i].nombre+'" />'+
+                                                '<input name="txt_'+cab[i].id+'" id="txt_'+cab[i].id+'" '+cab[i].evento+'="MostrarAjax(\''+ajax+'\');" onKeyPress="return enterGlobal(event,\''+cab[i].idide+'\',1)" type="text" class="form-control '+cab[i].clase+'" placeholder="'+cab[i].nombre+'" />'+
                                                 '</th>');
                 $("#"+table+">tfoot>tr").append('<th style="background-color:'+cab[i].color+';" class="unread">'+cab[i].nombre+'</th>');
             }

@@ -44,7 +44,7 @@ class TablaRelacionController extends \BaseController
                 if( Input::has("fecha_inicio") ){
                     $fecha_inicio=Input::get("fecha_inicio");
                     if( trim( $fecha_inicio )!='' ){
-                        $array['where'].=" AND rd2.fecha_inicio='".$fecha_inicio."' ";
+                        $array['where'].=" AND DATE(rd2.fecha_inicio)='".$fecha_inicio."' ";
                     }
                 }
 

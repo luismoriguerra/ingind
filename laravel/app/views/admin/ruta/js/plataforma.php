@@ -10,7 +10,7 @@ $(document).ready(function() {
       //Asignar.Plataforma(PlataformaHTML);
       //$('#t_tramites_plataforma').dataTable().fnDestroy();
         var idG={   tramite        :'onBlur|Tramite|#DCE6F1', //#DCE6F1
-                    fecha_inicio   :'onBlur|Fecha Inicio|#DCE6F1', //#DCE6F1
+                    fecha_inicio   :'onChange|Fecha Inicio|#DCE6F1|fechaG', //#DCE6F1
                     proceso        :'onBlur|Proceso|#DCE6F1', //#DCE6F1
                  };
 
@@ -22,6 +22,12 @@ $(document).ready(function() {
         var resG=dataTableG.CargarBtn(columnDefsG,targetsG,1,'CargarTramitePlataforma','t_plataforma','fa-edit');
         columnDefsG=resG[0]; // registra la colunmna adiciona con boton
         targetsG=resG[1]; // registra el contador actualizado
+
+        $('.fechaG').daterangepicker({
+            format: 'YYYY-MM-DD',
+            singleDatePicker: true,
+            showDropdowns: true
+        });
         MostrarAjax('plataforma');
     });
 
@@ -68,8 +74,9 @@ MostrarAjax=function(t){
     $("#t_tramites_plataforma").dataTable();
 }*/
 
-CargarTramitePlataforma=function(id){
-    $("#txt_codigo").val(id.split("|")[1]);
+CargarTramitePlataforma=function(t,id){
+    var codigo= id.split("|")[1];
+    $("#txt_codigo").val( codigo );
     $("#plataformaModal .modal-footer>button").click();
     alert('Si modifica el trámite de plataforma seleccionado será considerado como un trámite nuevo');
 }
