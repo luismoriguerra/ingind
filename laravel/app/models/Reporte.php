@@ -231,6 +231,8 @@ class Reporte extends Eloquent
                 " GROUP BY rd.id
                 ORDER BY rd.fecha_inicio DESC ".
                 $array['limit'];
+                var_dump($sql);
+                exit();
        $r= DB::select($sql);
         return $r;
     }

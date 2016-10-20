@@ -111,6 +111,24 @@ class RutaDetalleController extends \BaseController
         }
     }
 
+    public function postEditnomb()
+    {
+        if ( Request::ajax() ) {
+            $array_editables = Input::get('editables');
+            foreach(json_decode($array_editables) as $value){
+                $rdv= RutaDetalleVerbo::find($value->rtverbo);
+                $rdv['documento'] = $value->edit;
+                $rdv['usuario_updated_at']= Auth::user()->id;
+                $rdv->save();                
+            }
+            return Response::json(array(
+                    'rst'=>'1',
+                    'msj'=>'Se realizó con éxito'
+                )
+            );
+        }
+    }
+
     public function postActualizar(){
         if ( Request::ajax() ) {
             DB::beginTransaction();
