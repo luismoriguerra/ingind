@@ -312,6 +312,30 @@ var Bandeja={
                 msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);
             }
         });
+    },
+
+    editTiempoTramite:function(data){
+        parametros = {'datos':data};
+        $.ajax({
+            url         : 'ruta_detalle/editiempotra',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : parametros,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay,.loading-img").remove();
+                if(obj.rst==1){
+                    $("#edit_fecha_tramite").modal('hide');
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);
+            }
+        });
     }
 };
 </script>
