@@ -78,7 +78,7 @@
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
             <li><a href="#">Reporte</a></li>
-            <li class="active">Bandeja de Inconclusos y Gestión</li>
+            <li class="active">Editar Documentos generados</li>
         </ol>
     </section>
 
