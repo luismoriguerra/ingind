@@ -37,7 +37,10 @@ var Ruta={
                     $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
                     //$("#slct_tipo_ruta").attr("disabled","true");
 
-                    if(vista!=null){
+                    if(evento==null && vista==null){
+                        MostrarAjax('crear');
+                    }
+                    else if(vista!=null){
                         Ruta.CargarRuta(evento,vista);
                     }
                     else{
@@ -154,8 +157,17 @@ var Ruta={
                                         '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
                                         '<b>'+obj.msj+'</b>'+
                                     '</div>');
+
                     Close();
-                    Ruta.CargarRuta(evento);
+                   if(typeof(evento)=='undefined')
+                    {
+                        MostrarAjax("crear");
+                    }
+                    else
+                    {                        
+                         Ruta.CargarRuta(evento);
+                    }
+                   
                 } 
                 else if(obj.rst==2){
                     $("#msj").html('<div class="alert alert-dismissable alert-info">'+

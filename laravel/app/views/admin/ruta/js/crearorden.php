@@ -1,6 +1,9 @@
 <script type="text/javascript">
+var cabeceraG=[]; // Cabecera del Datatable
+var columnDefsG=[]; // Columnas de la BD del datatable
+var targetsG=-1; // Posiciones de las columnas del datatable
 temporalBandeja=0;
-BandejaTramite=2;
+BandejaTramite=1;
 var areasG=[]; // texto area
 var areasGId=[]; // id area
 var estadoG=[]; // normal/paralelo
@@ -41,25 +44,45 @@ $(document).ready(function() {
     $("#btn_guardar_verbo").click(guardarVerbo);
     $("#btn_guardar_todo").click(guardarTodo);
     $("#btn_adicionar_ruta_detalle_aux").click(adicionarProceso);
-    Ruta.CargarRuta(HTMLCargarRuta);
-    var data = {estado:1,usuario:1,tipo_flujo:2};
-    var ids = [];
-    slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
-    data = {estado:1};
+   // Ruta.CargarRuta(HTMLCargarRuta);
+
+   var idG={   flujo        :'onBlur|Proceso|#DCE6F1', //#DCE6F1
+                area        :'onBlur|Area|#DCE6F1',
+                fruta        :'onChange|Fecha Creacion|#DCE6F1|fechaG',
+                estado        :'4|Estado|#DCE6F1||estados', //#DCE6F1
+                id: '1|[]|#DCE6F1',
+             };
+    var resG=dataTableG.CargarCab(idG);
+    cabeceraG=resG; // registra la cabecera
+    var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,1,'crearorden','t_crearorden');
+    columnDefsG=resG[0]; // registra las columnas del datatable
+    targetsG=resG[1]; // registra los contadores
+    //var resG=dataTableG.CargarBtn(columnDefsG,targetsG,1,'BtnEditar','t_rutaflujo','fa-edit');
+    //columnDefsG=resG[0]; // registra la colunmna adiciona con boton
+   // targetsG=resG[1]; // registra el contador actualizado
+    MostrarAjax('crearorden');
+    var ids=[];
+    var data = {estado:2};
     slctGlobal.listarSlct('ruta_detalle','slct_area_id','simple');
     slctGlobal.listarSlct('area','slct_area_id_2','simple',ids,data);
+
 
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
     slctGlobal.listarSlct2('documento','slct_documento_modal',data);
 
-    $('#fecha').daterangepicker({
+    $('#fecha,.fechaG').daterangepicker({
         format: 'YYYY-MM-DD',
-        singleDatePicker: false
+        singleDatePicker: true,
+        showDropdowns: true
+
     });
+
+   
 
     slctGlobal.listarSlct('area','slct_area_id_r','multiple',ids,data);
     slctGlobalHtml('slct_estado_id','multiple');
+    slctGlobalHtml('slct_flujo_id','simple');
 
     $("#generar").click(function (){
         area_id = $('#slct_area_id_r').val();
@@ -218,6 +241,38 @@ $(document).ready(function() {
     });
     //$("#areasasignacion").DataTable();
 });
+MostrarAjax=function(t){
+    if( t=="crearorden" ){
+        if( columnDefsG.length>0 ){
+           // alert("as");
+            dataTableG.CargarDatos(t,'ruta_flujo','cargar',columnDefsG);
+        }
+        else{
+            alert('Faltas datos');
+        }
+    }
+}
+
+
+GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
+    if(typeof(fn)!='undefined' && fn.col==3){
+        var estadohtml='';
+        estadohtml="<a onclick='ProduccionRutaFlujo("+row.id+")' class='btn btn-success'>"+row.estado+"</a>";       
+        if(row.cestado==1){             
+            estadohtml=row.estado;            
+        }
+        return estadohtml;
+    }
+    else if(typeof(fn)!='undefined' && fn.col==4){
+        var estadohtml='';
+        estadohtml='<a onclick="cargarRutaId('+row.id+',1)" class="btn btn-primary btn-sm"><i class="fa fa-edit fa-lg"></i> </a>';       
+        if(row.cestado==1){             
+            estadohtml='<a onclick="cargarRutaId('+row.id+',2)" class="btn btn-primary btn-sm"><i class="fa fa-edit fa-lg"></i> </a>';   
+        }
+        return estadohtml;
+    }
+}
+
 
 adicionarProceso=function(){
     if(areasGIdAuxi.length==0){
@@ -292,7 +347,7 @@ guardarTodo=function(){
         $("#slct_tipo_ruta").focuss();
     }*/
     else{
-        Ruta.CrearRuta(HTMLCargarRuta);
+        Ruta.CrearRuta(); //HTMLCargarRuta
     }
 
 }
@@ -735,37 +790,23 @@ adicionaDetalleVerbo=function(det){
 eventoSlctGlobalSimple=function(slct,valor){
     valor=valor.split('|').join("");
     if( slct=="slct_flujo_id" ){
-        Ruta.ValidaProceso($("#slct_flujo_id").val(),valor,HTMLValidaProceso);
-    }
-// por ahora nad solo necesito q se actie nomas
-}
-
-HTMLValidaProceso=function(estado,valor){
-    if(estado==1){
         $("#slct_area_id").val(valor);
         $("#slct_area_id").multiselect('refresh');
     }
-    else{
-        $("#slct_flujo_id").val('');
-        $("#slct_area_id").val('');
-        $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
-        alert('Proceso seleccionado cuenta con ruta creada.');
-    }
+// por ahora nad solo necesito q se actie nomas
 }
 
 adicionarRutaDetalle=function(){
     if( $.trim($("#slct_area_id_2").val())=='' ){
         alert('Seleccione un Area para adicionar');
     }
-    else if( areasGId.length>0 && $("#slct_area_id_2").val()==areasGId[(areasGId.length-1)] ){
+    /*else if( areasGId.length>0 && $("#slct_area_id_2").val()==areasGId[(areasGId.length-1)] ){
         alert('No se puede asignar 2 veces continuas la misma Area');
-    }
+    }*/
     else if( $.trim($("#slct_area_id_2").val())!='' ){
         valorText=$("#slct_area_id_2 option[value='"+$("#slct_area_id_2").val()+"']").text();
         imagen=$("#slct_area_id_2 option[value='"+$("#slct_area_id_2").val()+"']").attr("data-evento").split("|").join("");
         valor=$("#slct_area_id_2").val();
-
-
 
         var adjunta=false; var position=areasGId.indexOf(valor);
         if( position>=0 ){
@@ -818,13 +859,13 @@ adicionarRutaDetalle=function(){
 }
 
 CambiarDetalle=function(t){
-    if( areasGId[t]==areasGId[(t-2)] ){
+    /*if( areasGId[t]==areasGId[(t-2)] ){
         alert('No se puede asignar 2 veces continuas la misma Area: '+areasG[t]);
     }
     else if( areasGId[(t-1)]==areasGId[(t+1)] ){
         alert('No se puede asignar 2 veces continuas la misma Area: '+areasG[(t-1)]);
     }
-    else{
+    else{*/
         var auxestado=estadoG[t];
         var auxText=areasG[t];
         var aux=areasGId[t];
@@ -896,7 +937,7 @@ CambiarDetalle=function(t){
 
             pintarAreasG(1);
         }
-    }
+    //}
 }
 
 CambiarDetalleDinamico=function(t){
@@ -976,10 +1017,10 @@ EliminarDetalle=function(t){
     if( confirm("Esta apunto de elimar "+eliminando+" de la posición "+(t+1)+"; Todo su detalle será eliminado; Confirme para continuar de lo contrario cancelar") ){
 
 
-        if( areasGId[(t-1)]==areasGId[(t+1)] && areasG.length>(t+1) ){
+        /*if( areasGId[(t-1)]==areasGId[(t+1)] && areasG.length>(t+1) ){
             alert('No se puede asignar 2 veces continuas la misma Area: '+areasG[(t+1)]);
         }
-        else{
+        else{*/
             $("#tr-detalle-"+t).remove();
             var posiciont= tiempoGId.indexOf( areasGId[t] );
             var theadAreaaux= theadArea[t];
@@ -1027,7 +1068,7 @@ EliminarDetalle=function(t){
             }
             pintarAreasG(1);
             //alertatodo();
-        }
+        //}
     }
 }
 
@@ -1203,14 +1244,19 @@ pintarAreasGAuxi=function(permiso){
 }
 
 Nuevo=function(){
+    $('#slct_flujo_id').multiselect('destroy');
+    $('#slct_flujo_id').removeAttr("disabled");
+    var tipo_flujo = $("#tipo_flujo").val();
+    var data = {estado:1,usuario:1,tipo_flujo:tipo_flujo,faltantes:1};
+    var ids = [];
+    slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
     $("#txt_ruta_flujo_id_modal").remove();
     $("#txt_titulo").text("Nueva Ruta");
     $("#texto_fecha_creacion").text("Fecha Creación:");
     $(".form-group").css("display","");
     $("#txt_titulo").val("Nueva Ruta");
-    $("#slct_flujo_id,#slct_area_id").val("");
-    $("#slct_flujo_id").multiselect('enable');
-    $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
+    $("#slct_area_id").val("");
+    $("#slct_area_id").multiselect('refresh');
     $("#txt_persona").val('<?php echo Auth::user()->paterno." ".Auth::user()->materno." ".Auth::user()->nombre;?>');
     $("#txt_ok,#txt_error").val("0");
     $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
@@ -1319,10 +1365,15 @@ validandoconteo=0;
     $.each(datos,function(index,data){
         validandoconteo++;
         if(validandoconteo==1){
-            $("#slct_flujo_id").val(data.flujo_id);
+            $('#slct_flujo_id').multiselect('destroy');
+            $('#slct_flujo_id').attr('disabled','true');
+            var tipo_flujo = $('#tipo_flujo').val();
+            var datosFlujos = {estado:1,usuario:1,tipo_flujo:tipo_flujo,flujo_id:data.flujo_id};
+            var ids = [data.flujo_id];
+            slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,datosFlujos);
             $("#slct_area_id").val(data.area_id);
-            $("#slct_flujo_id,#slct_area_id").multiselect('disable');
-            $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
+            $("#slct_area_id").multiselect('disable');
+            $("#slct_area_id").multiselect('refresh');
             $("#txt_persona").val(data.persona);
             //$("#slct_tipo_ruta").val(data.tipo_ruta);
         }
@@ -1601,7 +1652,7 @@ adicionarRutaDetalleAutomaticoAuxi=function(valorText,valor,tiempo,verbo,imagen,
 
 ProduccionRutaFlujo=function(id){
     if( confirm("Esta apunto de pasar a produccion; Si acepta no podra regresar al estado anterior.") ){
-        Ruta.ActivarRutaFlujo(id,HTMLCargarRuta);
+        Ruta.ActivarRutaFlujo(id);//HTMLCargarRuta
     }
 }
 

@@ -3,16 +3,24 @@
 
 @section('includes')
     @parent
-    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
     {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
-    {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
     
     {{ HTML::script('lib/input-mask/js/jquery.inputmask.js') }}
     {{ HTML::script('lib/input-mask/js/jquery.inputmask.date.extensions.js') }}
+   
+
+    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
+
+    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
+    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
+
+    
+    {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
+
+
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-
     @include( 'admin.reporte.js.cump_area_ajax' )
     @include( 'admin.ruta.js.ruta_ajax' )
     @include( 'admin.ruta.js.crearorden' )
@@ -22,7 +30,7 @@
 <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Crear Ruta del Proceso - Proceso de oficio
+            Crear Ruta del Proceso - Oficio
             <small> </small>
         </h1>
         <ol class="breadcrumb">
@@ -37,37 +45,40 @@
         <div class="row">
             <div class="col-xs-12">
                 <!-- Inicia contenido -->
-                <div class="box">                                
+                <div class="box">      
+                <form id="form_crearorden" name="form_crearorden" method="POST" action="">
+                    
+                    <select style="display:none" class="form-control" name="slct_estados" id="slct_estados">
+                        <option value>.::TODOS::.</option>
+                        <option value="1">Producción</option>
+                        <option value="2">Pendiente</option>
+                    </select>
+                    <input type="hidden" id="tipo_flujo" name="tipo_flujo" value="2">
                     <div class="box-body table-responsive">
-                        <table id="t_rutaflujo" class="table table-bordered table-striped">
-                            <thead>
+                        <table id="t_crearorden" class="table table-bordered table-hover">
+
+
+                           <thead>
+
                                 <tr>
-                                    <th>N°</th>
-                                    <th style="width:250px !important;">Proceso</th>
-                                    <th style="width:250px !important;">Area</th>
-                                    <th style="width:200px !important;">Fecha Creación</th>
-                                    <th>Estado</th>
-                                    <th> [ ] </th>
+
+                                <th colspan="5" style="text-align:center;background-color:#A7C0DC;"><h2>Crear Ruta del Proceso - Oficio</h2></th>
+
                                 </tr>
-                            </thead>
-                            <tbody id="tb_rutaflujo">
-                                
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>N°</th>
-                                    <th>Proceso</th>
-                                    <th>Area</th>
-                                    <th>Fecha Creación</th>
-                                    <th>Estado</th>
-                                    <th> [ ] </th>
-                                </tr>
-                            </tfoot>
-                        </table>
+                                <tr></tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                <tfoot>
+                                <tr></tr>
+                                </tfoot>
+                            </table>
+
                         <a class='btn btn-primary btn-sm' id="btn_nuevo">
                             <i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo
                         </a>
                     </div><!-- /.box-body -->
+                    </form>
                     <form name="form_ruta_flujo" id="form_ruta_flujo" method="POST" action="">
                         <div class="row form-group" style="display:none">
                             <div class="col-sm-12">
@@ -252,11 +263,11 @@
                                     </div><!-- /.tab content -->
                                 </div><!-- /.nav -->
                             </div><!-- /.col sm  12-->
-                            <div class="col-sm-12">
+                            <div class="col-sm-12" style="display:none">
                                 <div class="col-sm-3">
                                     <label class="control-label">Tipo de Ruta:</label>
                                     <select id="slct_tipo_ruta" name="slct_tipo_ruta">
-                                        <option value="2">Proceso de oficio</option>
+                                        <option value="1">Trámite</option>
                                     </select>
                                 </div>
                             </div>
