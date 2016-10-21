@@ -1055,6 +1055,117 @@ class ReporteController extends BaseController
         );
     }
 
+    public function postNotificacionincumplimiento(){
+      $query = '';
+
+       $query.="SELECT t.id_union as documento,rd.id as paso,rd.fecha_inicio as fechaAsignada,
+          rd.dtiempo_final as fechaFinal,CONCAT(pe.nombre,pe.paterno,' ') as persona,f.nombre as proceso,a.nombre as area,
+          CASE al.tipo 
+              WHEN al.tipo ='1' THEN 'Notificación'
+              WHEN al.tipo ='2' THEN 'Reiterativo'
+              WHEN al.tipo ='3' THEN 'Relevo'
+          END as tipo_aviso  
+          FROM rutas r INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 
+          INNER JOIN rutas_detalle_verbo rdv ON rdv.ruta_detalle_id=rd.id AND rdv.estado=1 INNER JOIN documentos d ON rdv.documento_id=d.id 
+          INNER JOIN alertas al on r.id=al.ruta_id 
+          INNER JOIN areas a ON rd.area_id=a.id 
+          INNER JOIN flujos f ON r.flujo_id=f.id 
+          INNER JOIN tablas_relacion t ON r.tabla_relacion_id=t.id 
+          INNER JOIN tipo_solicitante ts ON t.tipo_persona=ts.id 
+          LEFT JOIN areas a2 ON t.area_id=a2.id 
+          LEFT JOIN personas pe on r.persona_id=pe.id 
+          WHERE rdv.documento IS NOT NULL AND 
+          rdv.verbo_id=1 
+          AND rdv.finalizo=1 
+          AND r.estado=1";
+
+          if(Input::get('fecha')){
+            $fecha = Input::get('fecha');
+            list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+            $query.=' AND date(rdv.updated_at) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'"';
+          }
+          if(Input::get('area_id')){
+            $areaId=implode('","',Input::get('area_id'));
+            $query.=' AND rd.area_id IN ("'.$areaId.'")';
+          }
+
+          $query.=" GROUP BY a.nombre,f.nombre,d.nombre ORDER BY a.nombre,f.nombre";
+        $result= DB::Select($query);
+        //echo $query;
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$result
+            )
+        );
+    }
+
+    public function postExportnotincumplimiento(){
+
+      header('Content-type: application/json; charset=utf-8');
+
+      if($_GET){
+          /*export*/
+            /* instanciar phpExcel!*/
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="reporteni.xls"');
+            $objPHPExcel = new PHPExcel();
+
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('C')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('D')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('E')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('G')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('H')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('I')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('J')->setAutoSize(true);
+
+            /*head*/
+            $objPHPExcel->setActiveSheetIndex(0)
+                  ->setCellValue('A3', 'N°')
+                        ->setCellValue('B3', 'DOCUMENTO')
+                        ->setCellValue('C3', 'PASO')
+                        ->setCellValue('D3', 'FECHA DE ASIGNACIÓN')
+                        ->setCellValue('E3', 'FECHA FINAL')
+                        ->setCellValue('F3', 'NOMBRES Y APELLIDOS')
+                        ->setCellValue('63', 'MODALIDAD DE CONTRATO')
+                        ->setCellValue('H3', 'TIPO DE AVISO')
+                        ->setCellValue('I3', 'PROCESO')
+                        ->setCellValue('J3', 'AREA')
+
+                  ->mergeCells('A1:J1')
+                  ->setCellValue('A1', 'NOTIFICACIONES POR INCUMPLIMIENTO')
+                /*  ->getStyle('A1:I1')->getFont()->setBold(true)*/
+                  ->getStyle('A1:J1')->getFont()->setSize(24);
+            /*end head*/
+            /*body*/
+            if($info){
+              foreach ($info as $key => $value) {
+                $objPHPExcel->setActiveSheetIndex(0)
+                              ->setCellValueExplicit('A' . ($key + 4), '', PHPExcel_Cell_DataType::TYPE_STRING)
+                              ->setCellValueExplicit('B' . ($key + 4), '', PHPExcel_Cell_DataType::TYPE_STRING)
+                              ->setCellValueExplicit('C' . ($key + 4), '', PHPExcel_Cell_DataType::TYPE_STRING)
+                              ->setCellValue('D' . ($key + 4), '')
+                              ->setCellValue('E' . ($key + 4), '')
+                              ->setCellValue('F' . ($key + 4), '')
+                              ->setCellValue('G' . ($key + 4), '')
+                              ->setCellValue('H' . ($key + 4), '')
+                              ->setCellValueExplicit('I' . ($key + 4), '',PHPExcel_Cell_DataType::TYPE_STRING)
+                              ->setCellValueExplicit('J' . ($key + 4), '',PHPExcel_Cell_DataType::TYPE_STRING)
+                              ;                   
+              }         
+            }
+            /*end body*/
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+            $objWriter->save('php://output');
+          /* end export*/
+      }else{
+        echo 'no hay data';
+      }
+    }
+
     public function postUsuarios(){
       $r=Usuario::ListarUsuarios();
 
