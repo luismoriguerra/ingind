@@ -27,6 +27,10 @@
                   </button>
                 </li>
             </ul>
+
+
+        
+
             <div class="tab-content">
                 <div class="tab-pane" id="tab_tiempo">
                     <form id="form_ruta_tiempo" name="form_areas" action="" method="post" style="overflow: auto;height:500px;">

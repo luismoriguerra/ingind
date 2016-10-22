@@ -1,7 +1,83 @@
 <?php
+use Illuminate\Auth\UserTrait;
+use Illuminate\Auth\UserInterface;
+use Illuminate\Auth\Reminders\RemindableTrait;
+use Illuminate\Auth\Reminders\RemindableInterface;
 class RutaFlujo extends Eloquent
 {
     public $table="rutas_flujo";
+
+     public static function getCargarCount( $array )
+    {
+       $usuarioid = Auth::user()->id;
+       $sSql=" SELECT  count(rf.id) cant
+                    FROM rutas_flujo AS rf
+                    INNER JOIN flujos AS f ON f.id = rf.flujo_id
+                    INNER JOIN personas AS p ON p.id = rf.persona_id
+                    INNER JOIN areas AS a ON a.id = rf.area_id
+                    WHERE
+                        (
+                            rf.area_id IN (
+                                SELECT a.id
+                                FROM area_cargo_persona acp
+                                INNER JOIN areas a ON a.id = acp.area_id AND a.estado = 1
+                                INNER JOIN cargo_persona cp ON cp.id = acp.cargo_persona_id AND cp.estado = 1
+                                WHERE acp.estado = 1 AND cp.persona_id = $usuarioid
+                            )
+                            
+                            AND f.estado = 1
+                            
+                        )
+                    ";
+        $sSql.= $array['where'];
+        $oData = DB::select($sSql);
+        return $oData[0]->cant;
+    }
+
+        public static function getCargar( $array )
+    {
+
+        $usuarioid = Auth::user()->id;
+        $sSql=" SELECT  rf.estado AS cestado,rf.id,f.nombre AS flujo,
+                        CONCAT(p.paterno,' ',p.materno,' ',p.nombre) AS persona,
+                        a.nombre AS area,
+                        rf.n_flujo_ok AS ok,
+                        rf.n_flujo_error AS error,
+                        IFNULL(rf.ruta_id_dep, '') AS dep,
+                        DATE(rf.created_at) AS fruta,
+
+                    IF (    rf.estado = 1,  'Produccion',
+                            IF (
+                                    rf.estado = 2,
+                                    'Pendiente',
+                                    'Inactivo'
+                                )
+                    ) AS estado
+                    FROM rutas_flujo AS rf
+                    INNER JOIN flujos AS f ON f.id = rf.flujo_id
+                    INNER JOIN personas AS p ON p.id = rf.persona_id
+                    INNER JOIN areas AS a ON a.id = rf.area_id
+                    WHERE
+                        (
+                            rf.area_id IN (
+                                SELECT a.id
+                                FROM area_cargo_persona acp
+                                INNER JOIN areas a ON a.id = acp.area_id AND a.estado = 1
+                                INNER JOIN cargo_persona cp ON cp.id = acp.cargo_persona_id AND cp.estado = 1
+                                WHERE acp.estado = 1 AND cp.persona_id = $usuarioid
+                            )
+                            
+                            AND f.estado = 1
+                            
+                        )
+                    ";
+        $sSql.= $array['where'].             
+                $array['order'].
+                $array['limit'];
+        $oData = DB::select($sSql);
+        return $oData;
+    }
+
 
     /**
      * Areas relationship
