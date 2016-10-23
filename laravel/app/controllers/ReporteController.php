@@ -1055,8 +1055,8 @@ class ReporteController extends BaseController
         );
     }
 
-    public function postNotificacionincumplimiento(){
-      $query = '';
+    public function notificacionIncum($fecha='',$area=''){
+        $query = '';
 
        $query.="SELECT t.id_union as documento,rd.id as paso,rd.fecha_inicio as fechaAsignada,
           rd.dtiempo_final as fechaFinal,CONCAT(pe.nombre,pe.paterno,' ') as persona,f.nombre as proceso,a.nombre as area,
@@ -1079,19 +1079,30 @@ class ReporteController extends BaseController
           AND rdv.finalizo=1 
           AND r.estado=1";
 
-          if(Input::get('fecha')){
-            $fecha = Input::get('fecha');
+          if($fecha != ''){
             list($fechaIni,$fechaFin) = explode(" - ", $fecha);
             $query.=' AND date(rdv.updated_at) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'"';
           }
-          if(Input::get('area_id')){
-            $areaId=implode('","',Input::get('area_id'));
-            $query.=' AND rd.area_id IN ("'.$areaId.'")';
+          if($area != ''){
+            $query.=' AND rd.area_id IN ("'.$area.'")';
           }
 
           $query.=" GROUP BY a.nombre,f.nombre,d.nombre ORDER BY a.nombre,f.nombre";
-        $result= DB::Select($query);
-        //echo $query;
+          $result= DB::Select($query);
+          return $result;
+    }
+
+    public function postNotificacionincumplimiento(){
+        $fecha = '';
+        $area = '';
+          if(Input::get('fecha')){
+            $fecha = Input::get('fecha');
+          }
+          if(Input::get('area_id')){
+            $area=implode('","',Input::get('area_id'));
+          }
+
+        $result = $this->notificacionIncum($fecha,$area);
         return Response::json(
             array(
                 'rst'=>1,
@@ -1100,70 +1111,84 @@ class ReporteController extends BaseController
         );
     }
 
-    public function postExportnotincumplimiento(){
+    public function getExportnotincumplimiento(){
+   /*   if( Request::ajax() ){*/
+        $fecha = Input::get('fecha');
+        $area=Input::get('area_id');
+        $result = $this->notificacionIncum($fecha,$area);
 
-      header('Content-type: application/json; charset=utf-8');
-
-      if($_GET){
           /*export*/
             /* instanciar phpExcel!*/
-            header('Content-Type: application/vnd.ms-excel');
-            header('Content-Disposition: attachment;filename="reporteni.xls"');
+            include(app_path().'\libraries\PHPExcel.php');
             $objPHPExcel = new PHPExcel();
 
-            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
-            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
-            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('C')->setAutoSize(true);
-            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('D')->setAutoSize(true);
-            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('E')->setAutoSize(true);
-            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
-            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('G')->setAutoSize(true);
-            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('H')->setAutoSize(true);
-            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('I')->setAutoSize(true);
-            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('J')->setAutoSize(true);
+            /*configure*/
+            $objPHPExcel->getProperties()->setCreator("Gerencia Modernizacion")
+               ->setSubject("Notificacion Incumplimiento");
+            /*end configure*/
 
             /*head*/
+
+/*
+            $objPHPExcel->getActiveSheet()->setCellValue('A8',"Hello\nWorld");
+            $objPHPExcel->getActiveSheet()->getRowDimension(8)->setRowHeight(-1);
+            $objPHPExcel->getActiveSheet()->getStyle('A8')->getAlignment()->setWrapText(true);*/
             $objPHPExcel->setActiveSheetIndex(0)
-                  ->setCellValue('A3', 'N°')
+                        ->setCellValue('A3', 'N')
                         ->setCellValue('B3', 'DOCUMENTO')
                         ->setCellValue('C3', 'PASO')
-                        ->setCellValue('D3', 'FECHA DE ASIGNACIÓN')
+                        ->setCellValue('D3', 'FECHA DE ASIGNACION')
                         ->setCellValue('E3', 'FECHA FINAL')
                         ->setCellValue('F3', 'NOMBRES Y APELLIDOS')
-                        ->setCellValue('63', 'MODALIDAD DE CONTRATO')
+/*                        ->setCellValue('63', 'MODALIDAD DE CONTRATO')
                         ->setCellValue('H3', 'TIPO DE AVISO')
                         ->setCellValue('I3', 'PROCESO')
-                        ->setCellValue('J3', 'AREA')
+                        ->setCellValue('J3', 'AREA');*/
 
-                  ->mergeCells('A1:J1')
+                  ->mergeCells('A1:F1')
                   ->setCellValue('A1', 'NOTIFICACIONES POR INCUMPLIMIENTO')
-                /*  ->getStyle('A1:I1')->getFont()->setBold(true)*/
-                  ->getStyle('A1:J1')->getFont()->setSize(24);
+                  ->getStyle('A1:F1')->getFont()->setSize(20);
             /*end head*/
             /*body*/
-            if($info){
-              foreach ($info as $key => $value) {
+            if($result){
+              foreach ($result as $key => $value) {
                 $objPHPExcel->setActiveSheetIndex(0)
-                              ->setCellValueExplicit('A' . ($key + 4), '', PHPExcel_Cell_DataType::TYPE_STRING)
-                              ->setCellValueExplicit('B' . ($key + 4), '', PHPExcel_Cell_DataType::TYPE_STRING)
-                              ->setCellValueExplicit('C' . ($key + 4), '', PHPExcel_Cell_DataType::TYPE_STRING)
-                              ->setCellValue('D' . ($key + 4), '')
-                              ->setCellValue('E' . ($key + 4), '')
-                              ->setCellValue('F' . ($key + 4), '')
-                              ->setCellValue('G' . ($key + 4), '')
-                              ->setCellValue('H' . ($key + 4), '')
-                              ->setCellValueExplicit('I' . ($key + 4), '',PHPExcel_Cell_DataType::TYPE_STRING)
-                              ->setCellValueExplicit('J' . ($key + 4), '',PHPExcel_Cell_DataType::TYPE_STRING)
+                              ->setCellValueExplicit('A' . ($key + 4), $key + 1)
+                              ->setCellValueExplicit('B' . ($key + 4), $value->documento)
+                              ->setCellValueExplicit('C' . ($key + 4), $value->paso)
+                              ->setCellValue('D' . ($key + 4), $value->fechaAsignada)
+                              ->setCellValue('E' . ($key + 4), $value->fechaFinal)
+                              ->setCellValue('F' . ($key + 4), $value->persona)
+                            /*  ->setCellValue('G' . ($key + 4), '')
+                              ->setCellValue('H' . ($key + 4), $value->tipo_aviso,PHPExcel_Cell_DataType::TYPE_STRING)
+                              ->setCellValueExplicit('I' . ($key + 4), $value->proceso,PHPExcel_Cell_DataType::TYPE_STRING)
+                              ->setCellValueExplicit('J' . ($key + 4), $value->area,PHPExcel_Cell_DataType::TYPE_STRING)*/
                               ;                   
               }         
             }
             /*end body*/
+            // Rename worksheet
+            $objPHPExcel->getActiveSheet()->setTitle('Reporte');
+            // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+            $objPHPExcel->setActiveSheetIndex(0);
+            // Redirect output to a client’s web browser (Excel5)
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="reporteni.xls"'); // file name of excel
+            header('Cache-Control: max-age=0');
+            // If you're serving to IE 9, then the following may be needed
+            header('Cache-Control: max-age=1');
+            // If you're serving to IE over SSL, then the following may be needed
+            header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+            header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+            header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+            header ('Pragma: public'); // HTTP/1.0
             $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
             $objWriter->save('php://output');
+            exit;
           /* end export*/
-      }else{
+     /* }else{
         echo 'no hay data';
-      }
+      }*/
     }
 
     public function postUsuarios(){

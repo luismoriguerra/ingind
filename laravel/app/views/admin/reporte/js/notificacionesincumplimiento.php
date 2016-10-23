@@ -15,7 +15,6 @@ $(document).ready(function() {
         if ( fecha!=="") {
             if ($.trim(area_id)!=='') {
                 data.push({area_id:area_id,fecha:fecha});
- /*               Accion.mostrar(data);*/
             } else {
                 alert("Seleccione Área");
             }
@@ -27,26 +26,20 @@ $(document).ready(function() {
 
     slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);
     $("#generar").click(function (){
-        /*area_id = $('#slct_area_id').val();
-        var fecha=$("#fecha").val();
-        if ( fecha!=="") {
-            if ($.trim(area_id)!=='') {
-                data = {area_id:area_id,fecha:fecha};
-                Accion.mostrar(data);
-            } else {
-                alert("Seleccione Área");
-            }
-        } else {
-            alert("Seleccione Fecha");
-        }*/
-        var data = DataToFilter();
-        Accion.mostrar(data[0])
+        var data = DataToFilter();            
+        if(data.length > 0){
+            Accion.mostrar(data[0]);            
+        }
     });
 
     $(document).on('click', '#btnexport', function(event) {
-        event.preventDefault();
         var data = DataToFilter();
-        window.open('reporte/exportnotincumplimiento?data='+JSON.stringify(data[0]));
+        if(data.length > 0){
+            var area = data[0]['area_id'].join('","');
+            $(this).attr('href','reporte/exportnotincumplimiento'+'?fecha='+data[0]['fecha']+'&area_id='+area);            
+        }else{
+            event.preventDefault();
+        }
     });
 });
 
