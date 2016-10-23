@@ -96,12 +96,15 @@
                                  <div class="row form-group" >
                                     <div class="col-sm-4">
                                         <label class="control-label">Seleccionar Area:</label>
-                                        <select name="slct_areas" id="slct_areas" onChange="Bandeja.MostrarAjax();">
+                                        <select name="slct_areas" id="slct_areas">
                                         </select>                                       
                                     </div>
                                     <div class="col-sm-4">
                                         <label class="control-label">Rango de Fechas:</label>
                                         <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fechaRange" name="fechaRange"/>
+                                    </div>
+                                     <div class="col-sm-3">
+                                        <span class="btn btn-primary btn-md" style="margin-top:24px" onClick="Bandeja.MostrarAjax();"><i class="glyphicon glyphicon-search"></i> Buscar</span>
                                     </div>
                                 </div>
                                 
