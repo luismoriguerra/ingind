@@ -1129,25 +1129,32 @@ class ReporteController extends BaseController
 
             /*head*/
 
-/*
-            $objPHPExcel->getActiveSheet()->setCellValue('A8',"Hello\nWorld");
-            $objPHPExcel->getActiveSheet()->getRowDimension(8)->setRowHeight(-1);
-            $objPHPExcel->getActiveSheet()->getStyle('A8')->getAlignment()->setWrapText(true);*/
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('C')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('D')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('E')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('G')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('H')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('I')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('J')->setAutoSize(true);
+
             $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('A3', 'N')
+                        ->setCellValue('A3', 'N°')
                         ->setCellValue('B3', 'DOCUMENTO')
                         ->setCellValue('C3', 'PASO')
-                        ->setCellValue('D3', 'FECHA DE ASIGNACION')
+                        ->setCellValue('D3', 'FECHA DE ASIGNACIÓN')
                         ->setCellValue('E3', 'FECHA FINAL')
                         ->setCellValue('F3', 'NOMBRES Y APELLIDOS')
-/*                        ->setCellValue('63', 'MODALIDAD DE CONTRATO')
+                        ->setCellValue('G3', 'MODALIDAD DE CONTRATO')
                         ->setCellValue('H3', 'TIPO DE AVISO')
                         ->setCellValue('I3', 'PROCESO')
-                        ->setCellValue('J3', 'AREA');*/
+                        ->setCellValue('J3', 'AREA')
 
-                  ->mergeCells('A1:F1')
+                  ->mergeCells('A1:J1')
                   ->setCellValue('A1', 'NOTIFICACIONES POR INCUMPLIMIENTO')
-                  ->getStyle('A1:F1')->getFont()->setSize(20);
+                  ->getStyle('A1:J1')->getFont()->setSize(20);
             /*end head*/
             /*body*/
             if($result){
@@ -1156,13 +1163,13 @@ class ReporteController extends BaseController
                               ->setCellValueExplicit('A' . ($key + 4), $key + 1)
                               ->setCellValueExplicit('B' . ($key + 4), $value->documento)
                               ->setCellValueExplicit('C' . ($key + 4), $value->paso)
-                              ->setCellValue('D' . ($key + 4), $value->fechaAsignada)
-                              ->setCellValue('E' . ($key + 4), $value->fechaFinal)
+                              ->setCellValueExplicit('D' . ($key + 4), $value->fechaAsignada)
+                              ->setCellValueExplicit('E' . ($key + 4), $value->fechaFinal)
                               ->setCellValue('F' . ($key + 4), $value->persona)
-                            /*  ->setCellValue('G' . ($key + 4), '')
-                              ->setCellValue('H' . ($key + 4), $value->tipo_aviso,PHPExcel_Cell_DataType::TYPE_STRING)
-                              ->setCellValueExplicit('I' . ($key + 4), $value->proceso,PHPExcel_Cell_DataType::TYPE_STRING)
-                              ->setCellValueExplicit('J' . ($key + 4), $value->area,PHPExcel_Cell_DataType::TYPE_STRING)*/
+                              ->setCellValue('G' . ($key + 4), '')
+                              ->setCellValue('H' . ($key + 4), $value->tipo_aviso)
+                              ->setCellValue('I' . ($key + 4), $value->proceso)
+                              ->setCellValue('J' . ($key + 4), $value->area)
                               ;                   
               }         
             }
