@@ -1,3 +1,16 @@
+--2016-10-20
+ALTER TABLE `referidos`
+CHANGE COLUMN `id_tipo` `ruta_detalle_verbo_id`  int(11) NULL DEFAULT NULL AFTER `tipo`;
+
+
+ALTER TABLE `sustentos`
+ADD COLUMN `ruta_detalle_verbo_id`  int(11) NULL AFTER `ruta_detalle_id`;
+
+ALTER TABLE `rutas_detalle`
+ADD COLUMN `motivo_edit`  varchar(255) NULL AFTER `observacion`;
+
+
+
 --2016-09-23
 ALTER TABLE `asignaciones`
 MODIFY COLUMN `persona_id_i`  int(11) NULL DEFAULT 0 AFTER `idtipo`,

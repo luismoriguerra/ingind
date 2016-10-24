@@ -72,7 +72,7 @@
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Bandeja de Inconclusos y Gestión
+            Editar Documentos generados
             <small> </small>
         </h1>
         <ol class="breadcrumb">
@@ -206,8 +206,15 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">
-                                                <label class="control-label">Tiempo asignado al paso:</label>
-                                                <input type="text" class="form-control" id="txt_tiempo" readonly>
+                                                <div class="row">
+                                                    <div class="col-md-9">
+                                                        <label class="control-label">Tiempo asignado al paso:</label>
+                                                        <input type="text" class="form-control" id="txt_tiempo" readonly>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <span class="btn btn-primary btn-md" data-toggle="modal" data-target="#edit_fecha_tramite" style="margin-top: 24px;margin-left: -29px"><i class="glyphicon glyphicon-edit"></i> Edit</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Tiempo Final:</label>
@@ -279,4 +286,5 @@
 @section('formulario')
      @include( 'admin.reporte.form.bandejatramite' )
      @include( 'admin.reporte.form.expediente' )
+     @include( 'admin.procesos.form.editfechatramite' )
 @stop

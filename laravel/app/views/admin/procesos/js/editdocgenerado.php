@@ -38,8 +38,7 @@ $(document).ready(function() {
       var id= $.trim( button.data('id') );
       // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
       // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-      var modal = $(this); //captura el modal
-      
+      var modal = $(this); //captura el modal      
     });
 
     $('#expedienteModal').on('hide.bs.modal', function (event) {
@@ -47,6 +46,18 @@ $(document).ready(function() {
       $("#form_expediente input[type='hidden']").remove();
       modal.find('.modal-body input').val(''); // busca un input para copiarle texto
     });
+
+
+    /*open modal and poblate*/
+    $('#edit_fecha_tramite').on('show.bs.modal', function (event) {
+        $('#txtnrotramite').val($("#txt_id_doc").val());
+        $('#txtsolicitante').val($("#txt_solicitante").val());
+        $('#txtsumilla').val($("#txt_sumilla").val());
+        $('#txtproceso').val($("#txt_flujo").val());
+        $('#txtarea').val($("#txt_area").val());
+        $('#txttiempoa').val($("#txt_tiempo").val().split(':')[1]);
+    });
+    /*end open modal and poblate*/
 
     $('#txt_fecha_inicio_b').daterangepicker({
         format: 'YYYY-MM-DD',
@@ -142,6 +153,7 @@ mostrarDetalleHTML=function(datos){
     fechaAux="";
     var data={ flujo_id:datos.flujo_id, estado:1,fecha_inicio:datos.fecha_inicio }
     var ids = [];
+    $('#btneditTiempo').attr('id-detalle-ruta',datos.id);
     $('#slct_tipo_respuesta,#slct_tipo_respuesta_detalle').multiselect('destroy');
     //$('#slct_tipo_respuesta,#slct_tipo_respuesta_detalle').attr('disabled',"true");
     slctGlobal.listarSlct('tiporespuesta','slct_tipo_respuesta','simple',ids,data,0,'#slct_tipo_respuesta_detalle','TR');
@@ -223,7 +235,7 @@ mostrarDetalleHTML=function(datos){
                         obs = "<textarea disabled class='area"+valorenviado+"' name='area_"+detalle[i].split("=>")[0]+"' id='area_"+detalle[i].split("=>")[0]+"'></textarea>";
                         imagen="<input disabled type='checkbox' class='check"+valorenviado+"' onChange='validacheck("+valorenviado+",this.id);' value='"+detalle[i].split("=>")[0]+"' name='chk_verbo_"+detalle[i].split("=>")[0]+"' id='chk_verbo_"+detalle[i].split("=>")[0]+"'>";
                         imagenadd= '<input name="" id="" disabled type="text" value="'+detalle[i].split("=>")[4]+'" class="txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'"/>';
-                        if(verbo=="Generar"){
+                        if(verbo=="Generar" && persona!='' && fecha!=''){
                             imagenadd= '<input name="txtdocumento[]" id="txtdocumento" rtverbo="'+detalle[i].split("=>")[0]+'" type="text" value="'+detalle[i].split("=>")[4]+'" class="txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'"/>';
                             //imagenadd= '<input data-pos="'+(i*1+1)+'" type="text" class="txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'" id="documento_'+detalle[i].split("=>")[0]+'" name="documento_'+detalle[i].split("=>")[0]+'"/>';
                             archivo='<input class="form-control" id="archivo_'+detalle[i].split("=>")[0]+'" name="archivo_'+detalle[i].split("=>")[0]+'" type="file">';
@@ -355,4 +367,14 @@ updateDoc = function(){
     Bandeja.editNombDocumento(JSON.stringify(objCambios));   
 }
 /*end update documento */
+
+/*update tiempo*/
+ updateTiempo = function(obj){
+    var id =obj.getAttribute('id-detalle-ruta');
+    var motivo = $("#txtmotivo").val();
+    var newtiempo = $("#txttiempoa").val();
+    var datos = {'id' : id,'motivo':motivo,'tiempo':newtiempo};
+    Bandeja.editTiempoTramite(JSON.stringify(datos));
+ }
+/*end update tiempo*/
 </script>
