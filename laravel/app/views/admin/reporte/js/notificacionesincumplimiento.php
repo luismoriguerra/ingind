@@ -49,17 +49,7 @@ HTMLreporte=function(datos){
     var alerta_tipo= '';
     $('#t_reporte').dataTable().fnDestroy();
     cont = 0;
-    var tipo_alerta='';
     $.each(datos,function(index,data){
-
-        if(data.tipo_aviso == 1){
-            tipo_alerta = 'Notificación';
-        }else if(data.tipo_aviso == 2){
-            tipo_alerta = 'Reiterativo';
-        }else{
-            tipo_alerta = 'Relevo';
-        }
-
         cont=cont+1;
         html+="<tr>"+
             "<td>"+ cont +"</td>"+
@@ -69,7 +59,7 @@ HTMLreporte=function(datos){
             "<td>"+data.fechaFinal+"</td>"+
             "<td>"+data.persona+"</td>"+
             "<td></td>"+
-            "<td>"+tipo_alerta+"</td>"+
+            "<td>"+data.tipo_aviso+"</td>"+
             "<td>"+ data.proceso +"</td>"+
             "<td>"+ data.area +"</td>";
         html+="</tr>";
