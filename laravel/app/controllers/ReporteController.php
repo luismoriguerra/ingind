@@ -1240,6 +1240,126 @@ class ReporteController extends BaseController
       }*/
     }
 
+    public function postProcesosyactividades(){
+        $rst=Reporte::ProcesosyActividades();
+          return Response::json(
+              array(
+                  'rst'=>1,
+                  'datos'=>$rst
+              )
+          );
+    }
+
+    public function getExportprocesosactividades(){
+        $rst=Reporte::ProcesosyActividades();
+        /*style*/
+        $styleThinBlackBorderAllborders = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('argb' => 'FF000000'),
+                ),
+            ),
+            'font'    => array(
+                'bold'      => true
+            ),
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            )
+        );
+        $styleAlignment= array(
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            ),
+        );
+        /*end style*/
+
+          /*export*/
+            /* instanciar phpExcel!*/            
+            $objPHPExcel = new PHPExcel();
+
+            /*configure*/
+            $objPHPExcel->getProperties()->setCreator("Gerencia Modernizacion")
+               ->setSubject("Procesos y sus Actividades");
+
+            $objPHPExcel->getDefaultStyle()->getFont()->setName('Bookman Old Style');
+            $objPHPExcel->getDefaultStyle()->getFont()->setSize(8);
+            /*end configure*/
+
+            /*head*/
+
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('C')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('D')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('E')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('G')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('H')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('I')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('J')->setAutoSize(true);
+
+            $objPHPExcel->setActiveSheetIndex(0)
+                        ->setCellValue('A3', 'N°')
+                        ->setCellValue('B3', 'PROCESO')
+                        ->setCellValue('C3', 'DUEÑO PROCESO')
+                        ->setCellValue('D3', 'AREA CREACIÓN')
+                        ->setCellValue('E3', 'ESTADO PROCESO')
+                        ->setCellValue('F3', 'FECHA CREACIÓN')
+                        ->setCellValue('G3', 'PASO')
+                        ->setCellValue('H3', 'AREA DE ACTIVIDAD')
+                        ->setCellValue('I3', 'TIEMPO')
+                        ->setCellValue('J3', 'USUARIO MODIFICACIÓN')
+                        ->setCellValue('K3', 'HORA MODIFICACIÓN')
+
+                  ->mergeCells('A1:I1')
+                  ->setCellValue('A1', 'PROCESOS Y SUS ACTIVIDADES')
+                  ->getStyle('A1:I1')->getFont()->setSize(18);
+            /*end head*/
+            /*body*/
+            if($rst){
+              foreach ($rst as $key => $value) {                
+                $objPHPExcel->setActiveSheetIndex(0)
+                              ->setCellValueExplicit('A' . ($key + 4), $key + 1)
+                              ->setCellValueExplicit('B' . ($key + 4), $value->proceso)
+                              ->setCellValueExplicit('C' . ($key + 4), $value->nombdueño)
+                              ->setCellValueExplicit('D' . ($key + 4), $value->areanom)
+                              ->setCellValueExplicit('E' . ($key + 4), $value->estado)
+                              ->setCellValue('F' . ($key + 4), $value->fechacreacion)
+                              ->setCellValue('G' . ($key + 4), $value->paso)
+                              ->setCellValue('H' . ($key + 4), $value->nombareapaso)
+                              ->setCellValue('I' . ($key + 4), $value->tiempo)
+                              ->setCellValue('J' . ($key + 4), $value->usuarioupdate)
+                              ->setCellValue('K' . ($key + 4), $value->fechaupdate)
+                              ;                   
+              }         
+            }
+            /*end body*/
+            $objPHPExcel->getActiveSheet()->getStyle('A3:k3')->applyFromArray($styleThinBlackBorderAllborders);
+            $objPHPExcel->getActiveSheet()->getStyle('A1:I1')->applyFromArray($styleAlignment);
+            // Rename worksheet
+            $objPHPExcel->getActiveSheet()->setTitle('Reporte');
+            // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+            $objPHPExcel->setActiveSheetIndex(0);
+            // Redirect output to a client’s web browser (Excel5)
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="reporteni.xls"'); // file name of excel
+            header('Cache-Control: max-age=0');
+            // If you're serving to IE 9, then the following may be needed
+            header('Cache-Control: max-age=1');
+            // If you're serving to IE over SSL, then the following may be needed
+            header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+            header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+            header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+            header ('Pragma: public'); // HTTP/1.0
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+            $objWriter->save('php://output');
+            exit;
+          /* end export*/
+    }
+
     public function postUsuarios(){
       $r=Usuario::ListarUsuarios();
 

@@ -344,5 +344,35 @@ class Reporte extends Eloquent
         $r= DB::select($sql);
         return $r;
     }
+
+    public static function ProcesosyActividades(){
+        $sql = "SELECT f.nombre proceso,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) nombdueño,a.nombre areanom, 
+            CASE rf.estado
+                WHEN 1 THEN 'Produccion'
+                WHEN 2 THEN 'Pendiente'
+            END AS estado,rf.created_at as fechacreacion,
+            rfd.norden paso,a2.nombre nombareapaso,CONCAT(rfd.dtiempo,LOWER(t.apocope)) tiempo,rfd.usuario_updated_at,CONCAT_WS(' ',p2.nombre,p2.paterno,p2.materno) usuarioupdate,rfd.updated_at fechaupdate
+             from flujos f 
+            INNER JOIN rutas_flujo rf on rf.flujo_id=f.id AND rf.estado in (1,2) 
+            INNER JOIN rutas_flujo_detalle rfd on rfd.ruta_flujo_id=rf.id and rfd.estado=1 
+            INNER JOIN areas a on a.id=rf.area_id
+            INNER JOIN areas a2 on a2.id=rfd.area_id  
+            INNER JOIN personas p on p.id=rf.persona_id
+            INNER JOIN personas p2 on p2.id=rfd.usuario_updated_at 
+            INNER JOIN tiempos t on t.id=rfd.tiempo_id";
+
+        if(Input::get('area_id')){
+            $sql.=' AND rfd.area_id IN ("'.Input::get('area_id').'") ';
+        }
+
+        if(Input::get('estado')){
+            $sql.=' AND rf.estado IN ("'.Input::get('estado').'") ';
+        }
+
+        $sql.=' ORDER BY proceso asc, paso asc';
+
+        $r= DB::select($sql);
+        return $r;
+    }
 }
 ?>
