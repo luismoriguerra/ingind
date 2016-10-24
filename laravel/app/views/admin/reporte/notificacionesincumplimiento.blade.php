@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 @extends('layouts.master')  
 
 @section('includes')
