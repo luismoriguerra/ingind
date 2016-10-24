@@ -1066,28 +1066,24 @@ class ReporteController extends BaseController
               WHEN al.tipo ='3' THEN 'Relevo'
           END as tipo_aviso  
           FROM rutas r INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 
-          INNER JOIN rutas_detalle_verbo rdv ON rdv.ruta_detalle_id=rd.id AND rdv.estado=1 INNER JOIN documentos d ON rdv.documento_id=d.id 
-          INNER JOIN alertas al on r.id=al.ruta_id 
+          INNER JOIN alertas al on rd.id=al.ruta_detalle_id 
           INNER JOIN areas a ON rd.area_id=a.id 
           INNER JOIN flujos f ON r.flujo_id=f.id 
           INNER JOIN tablas_relacion t ON r.tabla_relacion_id=t.id 
           INNER JOIN tipo_solicitante ts ON t.tipo_persona=ts.id 
           LEFT JOIN areas a2 ON t.area_id=a2.id 
           LEFT JOIN personas pe on r.persona_id=pe.id 
-          WHERE rdv.documento IS NOT NULL AND 
-          rdv.verbo_id=1 
-          AND rdv.finalizo=1 
-          AND r.estado=1";
+          WHERE r.estado=1";
 
           if($fecha != ''){
             list($fechaIni,$fechaFin) = explode(" - ", $fecha);
-            $query.=' AND date(rdv.updated_at) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'"';
+            $query.=' AND date(al.fecha) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
           }
           if($area != ''){
-            $query.=' AND rd.area_id IN ("'.$area.'")';
+            $query.=' AND rd.area_id IN ("'.$area.'") ';
           }
 
-          $query.=" GROUP BY a.nombre,f.nombre,d.nombre ORDER BY a.nombre,f.nombre";
+          $query.=" ORDER BY a.nombre,f.nombre ";
           $result= DB::Select($query);
           return $result;
     }
