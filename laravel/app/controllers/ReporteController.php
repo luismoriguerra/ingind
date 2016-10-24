@@ -1064,7 +1064,11 @@ class ReporteController extends BaseController
                   (rd.dtiempo*ti.totalminutos),
                   rd.area_id 
                 ) as fechaFinal,CONCAT(pe.paterno,' ',pe.materno,', ',pe.nombre) as persona,
-                f.nombre as proceso,a.nombre as area,al.tipo as tipo_aviso,CONCAT(ti.apocope,': ',rd.dtiempo) tiempo
+                f.nombre as proceso,a.nombre as area,CASE al.tipo 
+                WHEN 1 THEN 'Notificación'
+                WHEN 2 THEN 'Reiterativo'
+                WHEN 3 THEN 'Relevo'
+                END as tipo_aviso ,CONCAT(ti.apocope,': ',rd.dtiempo) tiempo
                 FROM rutas r 
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 
                 INNER JOIN tiempos ti ON ti.id=rd.tiempo_id 
@@ -1193,17 +1197,7 @@ class ReporteController extends BaseController
             /*end head*/
             /*body*/
             if($result){
-              $tipo_alerta = '';
-              foreach ($result as $key => $value) {
-
-                if($value->tipo_aviso == 1){
-                    $tipo_alerta = 'Notificación';
-                }elseif($value->tipo_aviso == 2){
-                    $tipo_alerta = 'Reiterativo';
-                }else{
-                    $tipo_alerta = 'Relevo';
-                }
-                
+              foreach ($result as $key => $value) {                
                 $objPHPExcel->setActiveSheetIndex(0)
                               ->setCellValueExplicit('A' . ($key + 4), $key + 1)
                               ->setCellValueExplicit('B' . ($key + 4), $value->documento)
@@ -1213,7 +1207,7 @@ class ReporteController extends BaseController
                               ->setCellValue('F' . ($key + 4), $value->tiempo)
                               ->setCellValue('G' . ($key + 4), $value->persona)
                               ->setCellValue('H' . ($key + 4), '')
-                              ->setCellValue('I' . ($key + 4), $value->$tipo_alerta)
+                              ->setCellValue('I' . ($key + 4), $value->tipo_aviso)
                               ->setCellValue('J' . ($key + 4), $value->proceso)
                               ->setCellValue('K' . ($key + 4), $value->area)
                               ;                   
