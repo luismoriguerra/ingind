@@ -1064,7 +1064,7 @@ class ReporteController extends BaseController
                   (rd.dtiempo*ti.totalminutos),
                   rd.area_id 
                 ) as fechaFinal,CONCAT(pe.paterno,' ',pe.materno,', ',pe.nombre) as persona,
-                f.nombre as proceso,a.nombre as area,al.tipo as tipo_aviso
+                f.nombre as proceso,a.nombre as area,al.tipo as tipo_aviso,CONCAT(t.apocope,': ',rd.dtiempo) tiempo
                 FROM rutas r 
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 
                 INNER JOIN tiempos ti ON ti.id=rd.tiempo_id 
@@ -1180,15 +1180,16 @@ class ReporteController extends BaseController
                         ->setCellValue('C3', 'PASO')
                         ->setCellValue('D3', 'FECHA DE ASIGNACIÓN')
                         ->setCellValue('E3', 'FECHA FINAL')
-                        ->setCellValue('F3', 'NOMBRES Y APELLIDOS')
-                        ->setCellValue('G3', 'MODALIDAD DE CONTRATO')
-                        ->setCellValue('H3', 'TIPO DE AVISO')
-                        ->setCellValue('I3', 'PROCESO')
-                        ->setCellValue('J3', 'AREA')
+                        ->setCellValue('F3', 'TIEMPO')
+                        ->setCellValue('G3', 'NOMBRES Y APELLIDOS')
+                        ->setCellValue('H3', 'MODALIDAD DE CONTRATO')
+                        ->setCellValue('I3', 'TIPO DE AVISO')
+                        ->setCellValue('J3', 'PROCESO')
+                        ->setCellValue('K3', 'AREA')
 
-                  ->mergeCells('A1:J1')
+                  ->mergeCells('A1:K1')
                   ->setCellValue('A1', 'NOTIFICACIONES POR INCUMPLIMIENTO')
-                  ->getStyle('A1:J1')->getFont()->setSize(18);
+                  ->getStyle('A1:K1')->getFont()->setSize(18);
             /*end head*/
             /*body*/
             if($result){
@@ -1209,16 +1210,17 @@ class ReporteController extends BaseController
                               ->setCellValueExplicit('C' . ($key + 4), $value->paso)
                               ->setCellValueExplicit('D' . ($key + 4), $value->fechaAsignada)
                               ->setCellValueExplicit('E' . ($key + 4), $value->fechaFinal)
-                              ->setCellValue('F' . ($key + 4), $value->persona)
-                              ->setCellValue('G' . ($key + 4), '')
-                              ->setCellValue('H' . ($key + 4), $tipo_alerta)
-                              ->setCellValue('I' . ($key + 4), $value->proceso)
+                              ->setCellValue('F' . ($key + 4), $value->tiempo)
+                              ->setCellValue('G' . ($key + 4), $value->persona)
+                              ->setCellValue('H' . ($key + 4), '')
+                              ->setCellValue('I' . ($key + 4), $value->$tipo_alerta)
+                              ->setCellValue('J' . ($key + 4), $value->proceso)
                               ->setCellValue('J' . ($key + 4), $value->area)
                               ;                   
               }         
             }
             /*end body*/
-            $objPHPExcel->getActiveSheet()->getStyle('A3:J3')->applyFromArray($styleThinBlackBorderAllborders);
+            $objPHPExcel->getActiveSheet()->getStyle('A3:k3')->applyFromArray($styleThinBlackBorderAllborders);
             $objPHPExcel->getActiveSheet()->getStyle('A1:I1')->applyFromArray($styleAlignment);
             // Rename worksheet
             $objPHPExcel->getActiveSheet()->setTitle('Reporte');
