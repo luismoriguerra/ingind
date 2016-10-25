@@ -1115,6 +1115,39 @@ class ReporteController extends BaseController
         $area=Input::get('area_id');
         $result = $this->notificacionIncum($fecha,$area);
 
+        /*style*/
+        $styleThinBlackBorderAllborders = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('argb' => 'FF000000'),
+                ),
+            ),
+            'font'    => array(
+                'bold'      => true
+            ),
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            )
+        );
+        $styleAlignmentBold= array(
+            'font'    => array(
+                'bold'      => true
+            ),
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            ),
+        );
+        $styleAlignment= array(
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            ),
+        );
+        /*end style*/
+
           /*export*/
             /* instanciar phpExcel!*/
             
@@ -1123,6 +1156,9 @@ class ReporteController extends BaseController
             /*configure*/
             $objPHPExcel->getProperties()->setCreator("Gerencia Modernizacion")
                ->setSubject("Notificacion Incumplimiento");
+
+            $objPHPExcel->getDefaultStyle()->getFont()->setName('Bookman Old Style');
+            $objPHPExcel->getDefaultStyle()->getFont()->setSize(8);
             /*end configure*/
 
             /*head*/
@@ -1152,7 +1188,7 @@ class ReporteController extends BaseController
 
                   ->mergeCells('A1:J1')
                   ->setCellValue('A1', 'NOTIFICACIONES POR INCUMPLIMIENTO')
-                  ->getStyle('A1:J1')->getFont()->setSize(20);
+                  ->getStyle('A1:J1')->getFont()->setSize(18);
             /*end head*/
             /*body*/
             if($result){
@@ -1182,6 +1218,8 @@ class ReporteController extends BaseController
               }         
             }
             /*end body*/
+            $objPHPExcel->getActiveSheet()->getStyle('A3:J3')->applyFromArray($styleThinBlackBorderAllborders);
+            $objPHPExcel->getActiveSheet()->getStyle('A1:I1')->applyFromArray($styleAlignment);
             // Rename worksheet
             $objPHPExcel->getActiveSheet()->setTitle('Reporte');
             // Set active sheet index to the first sheet, so Excel opens this as the first sheet
