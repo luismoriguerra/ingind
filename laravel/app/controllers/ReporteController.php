@@ -1215,7 +1215,7 @@ class ReporteController extends BaseController
                               ->setCellValue('H' . ($key + 4), '')
                               ->setCellValue('I' . ($key + 4), $value->$tipo_alerta)
                               ->setCellValue('J' . ($key + 4), $value->proceso)
-                              ->setCellValue('J' . ($key + 4), $value->area)
+                              ->setCellValue('K' . ($key + 4), $value->area)
                               ;                   
               }         
             }
