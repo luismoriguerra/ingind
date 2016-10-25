@@ -1116,7 +1116,7 @@ class ReporteController extends BaseController
 
           /*export*/
             /* instanciar phpExcel!*/
-            include(app_path().'\libraries\PHPExcel.php');
+            
             $objPHPExcel = new PHPExcel();
 
             /*configure*/
