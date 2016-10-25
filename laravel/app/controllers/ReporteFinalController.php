@@ -256,11 +256,14 @@ class ReporteFinalController extends BaseController
            if( Input::get('tiempo_final')=='0' ){
             $estadofinal="<CURRENT_TIMESTAMP()";
            }
+           $datehoy=date("Y-m-d");
+           $datesp=date("Y-m-d",strtotime("-10 days"));
           $array['tiempo_final']="  AND CalcularFechaFinal(
                                     rd.fecha_inicio, 
                                     (rd.dtiempo*t.totalminutos),
                                     rd.area_id 
-                                    )$estadofinal ";
+                                    )$estadofinal 
+                                    AND DATE(rd.fecha_inicio) BETWEEN '$datesp' AND '$datehoy' ";
         }
 
       $r = Reporte::BandejaTramiteEnvioAlertas( $array );
