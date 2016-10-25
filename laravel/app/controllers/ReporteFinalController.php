@@ -357,7 +357,7 @@ class ReporteFinalController extends BaseController
             }
             catch(Exception $e){
               DB::rollback();
-              $retorno['id_union']=$value->id_union;
+              $retorno['id_union'][]=$value->id_union;
                 //echo $qem[$k]->email."<br>";
             }
             DB::commit();
