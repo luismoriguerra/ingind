@@ -1058,27 +1058,26 @@ class ReporteController extends BaseController
     public function notificacionIncum($fecha='',$area=''){
         $query = '';
 
-       $query.="SELECT t.id_union as documento,rd.id as paso,rd.fecha_inicio as fechaAsignada,
-          rd.dtiempo_final as fechaFinal,CONCAT(pe.nombre,pe.paterno,' ') as persona,f.nombre as proceso,a.nombre as area,
-          al.tipo as tipo_aviso
-          /*CASE al.tipo 
-              WHEN al.tipo ='1' THEN 'Notificación'
-              WHEN al.tipo ='2' THEN 'Reiterativo'
-              WHEN al.tipo ='3' THEN 'Relevo'
-          END as tipo_aviso  */
-          FROM rutas r INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 
-          INNER JOIN alertas al on rd.id=al.ruta_detalle_id 
-          INNER JOIN areas a ON rd.area_id=a.id 
-          INNER JOIN flujos f ON r.flujo_id=f.id 
-          INNER JOIN tablas_relacion t ON r.tabla_relacion_id=t.id 
-          INNER JOIN tipo_solicitante ts ON t.tipo_persona=ts.id 
-          LEFT JOIN areas a2 ON t.area_id=a2.id 
-          LEFT JOIN personas pe on r.persona_id=pe.id 
-          WHERE r.estado=1";
+       $query.="SELECT t.id_union as documento,rd.norden as paso,rd.fecha_inicio as fechaAsignada,
+                CalcularFechaFinal(
+                  rd.fecha_inicio, 
+                  (rd.dtiempo*t.totalminutos),
+                  rd.area_id 
+                ) as fechaFinal,CONCAT(pe.paterno,' ',pe.materno,', ',pe.nombre) as persona,
+                f.nombre as proceso,a.nombre as area,al.tipo as tipo_aviso
+                FROM rutas r 
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 
+                INNER JOIN alertas al on rd.id=al.ruta_detalle_id 
+                INNER JOIN areas a ON rd.area_id=a.id 
+                INNER JOIN flujos f ON r.flujo_id=f.id 
+                INNER JOIN tablas_relacion t ON r.tabla_relacion_id=t.id 
+                INNER JOIN tipo_solicitante ts ON t.tipo_persona=ts.id 
+                LEFT JOIN personas pe on pe.id=al.persona_id
+                WHERE r.estado=1";
 
           if($fecha != ''){
             list($fechaIni,$fechaFin) = explode(" - ", $fecha);
-            $query.=' AND date(al.fecha) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
+            $query.=' AND date(rd.fecha_inicio) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
           }
           if($area != ''){
             $query.=' AND rd.area_id IN ("'.$area.'") ';
@@ -1086,6 +1085,7 @@ class ReporteController extends BaseController
 
           $query.=" ORDER BY a.nombre,f.nombre ";
           $result= DB::Select($query);
+          
           return $result;
     }
 
