@@ -57,14 +57,14 @@ class DocumentoController extends \BaseController
      * listar verbos para select
      * POST /verbo/listar
      */
-  /*  public function postListar()
+    public function postListar()
     {
         if ( Request::ajax() ) {
             $verbo = Verbo::get(Input::all());
             return Response::json(array('rst'=>1,'datos'=>$verbo));
         }
     }
-*/
+
 
     public function postCrear()
     {
