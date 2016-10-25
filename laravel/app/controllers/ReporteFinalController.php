@@ -301,8 +301,9 @@ class ReporteFinalController extends BaseController
           $tipo=1;
           $texto=".::Notificación::.";
         }
-
-        //if( $alerta[0]!='' AND $alerta[0]!=DATE("Y-m-d") ){
+        
+        if( trim($alerta[0])=='' OR $alerta[0]!=DATE("Y-m-d") ){
+          $retorno['retorno']=$alerta[0];
             $plantilla=Plantilla::where('tipo','=',$tipo)->first();
             $buscar=array('persona:','dia:','mes:','año:','paso:','tramite:','area:','personajefe:');
             $reemplazar=array($value->responsable,date('d'),$meses[date('n')],date("Y"),$value->norden,$value->id_union,$value->nemonico,$value->jefe);
@@ -310,41 +311,57 @@ class ReporteFinalController extends BaseController
               'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
             );
             DB::beginTransaction();
-            $email=array($value->email_mdi,$value->email);
+            /*$value->email_mdi='jorgeshevchenk1988@gmail.com';
+            $value->email='';
+            $value->email_jefe='jorge_shevchenk@hotmail.com';
+            if($key%2==0){
+              $value->email_jefe='jorgeshevchenk1988@gmail.com';
+            }
+            $value->email_seguimiento='jorgeshevchenk@gmail.com,jorgesalced0@gmail.com';*/
+
+            $email=array();
+            if(trim($value->email_mdi)!=''){
+              array_push($email, $value->email_mdi);
+            }
+            if(trim($value->email)!=''){
+              array_push($email, $value->email);
+            }
+            $emailseguimiento=explode(",",$value->email_seguimiento);
             try{
-                if( $value->email_mdi==$value->email_jefe ){
-                  Mail::send('notreirel', $parametros , 
-                      function($message) use( $email,$texto ) {
-                          $message
-                          ->to($email)
-                          ->subject($texto);
-                      }
-                  );
+                if(count($email)>0){
+                  if( $value->email_mdi!=$value->email_jefe ){
+                    array_push($emailseguimiento, $value->email_jefe);
+                  }
+                    Mail::send('notreirel', $parametros , 
+                        function($message) use( $email,$emailseguimiento,$texto ) {
+                            $message
+                            ->to($email)
+                            ->cc($emailseguimiento)
+                            ->subject($texto);
+                        }
+                    );
+                  $alerta=new Alerta;
+                  $alerta['ruta_id']=$value->ruta_id;
+                  $alerta['ruta_detalle_id']=$value->ruta_detalle_id;
+                  $alerta['persona_id']=$value->persona_id;
+                  $alerta['tipo']=$tipo;
+                  $alerta['fecha']=DATE("Y-m-d");
+                  $alerta->save();
                 }
                 else{
-                  Mail::send('notreirel', $parametros , 
-                      function($message) use( $email,$value,$texto ) {
-                          $message
-                          ->to($email)
-                          ->cc($value->email_jefe)
-                          ->subject($texto);
-                      }
-                  );
+                  /*$FaltaEmail=new FaltaEmail;
+                  $FaltaEmail['persona_id']=$value->persona_id;
+                  $FaltaEmail['ruta_detalle_id']=$value->ruta_detalle_id;
+                  $FaltaEmail->save();*/
                 }
-                $alerta=new Alerta;
-                $alerta['ruta_id']=$value->ruta_id;
-                $alerta['ruta_detalle_id']=$value->ruta_detalle_id;
-                $alerta['persona_id']=$value->persona_id;
-                $alerta['tipo']=$tipo;
-                $alerta['fecha']=DATE("Y-m-d");
-                $alerta->save();
             }
             catch(Exception $e){
               DB::rollback();
+              $retorno['id_union']=$value->id_union;
                 //echo $qem[$k]->email."<br>";
             }
             DB::commit();
-        //}
+        }
       }
       $retorno["data"]=$html;
 

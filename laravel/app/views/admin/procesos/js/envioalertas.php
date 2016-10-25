@@ -1,7 +1,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
     $("#enviar").click(function (){
-        var data={draw:1,start:0,length:15,tiempo_final:0}
+        var data={draw:1,start:0,length:500,tiempo_final:0}
         Accion.mostrar(mostrarHTML,data);
     });
 });

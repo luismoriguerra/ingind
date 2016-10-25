@@ -117,7 +117,7 @@ class Ruta extends Eloquent
         $referido=new Referido;
         $referido['ruta_id']=$ruta->id;
         $referido['tabla_relacion_id']=$tablaRelacion->id;
-        $referido['tipo']=0;
+        $referido['ruta_detalle_verbo_id']=0;
         $referido['referido']=$tablaRelacion->id_union;
         $referido['fecha_hora_referido']=$tablaRelacion->created_at;
         $referido['usuario_referido']=$tablaRelacion->usuario_created_at;
