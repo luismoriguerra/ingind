@@ -1067,6 +1067,7 @@ class ReporteController extends BaseController
                 f.nombre as proceso,a.nombre as area,al.tipo as tipo_aviso
                 FROM rutas r 
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 
+                INNER JOIN tiempos t ON t.id=rd.tiempo_id 
                 INNER JOIN alertas al on rd.id=al.ruta_detalle_id 
                 INNER JOIN areas a ON rd.area_id=a.id 
                 INNER JOIN flujos f ON r.flujo_id=f.id 
