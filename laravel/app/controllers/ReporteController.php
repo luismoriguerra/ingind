@@ -1064,7 +1064,7 @@ class ReporteController extends BaseController
                   (rd.dtiempo*ti.totalminutos),
                   rd.area_id 
                 ) as fechaFinal,CONCAT(pe.paterno,' ',pe.materno,', ',pe.nombre) as persona,
-                f.nombre as proceso,a.nombre as area,al.tipo as tipo_aviso,CONCAT(t.apocope,': ',rd.dtiempo) tiempo
+                f.nombre as proceso,a.nombre as area,al.tipo as tipo_aviso,CONCAT(ti.apocope,': ',rd.dtiempo) tiempo
                 FROM rutas r 
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 
                 INNER JOIN tiempos ti ON ti.id=rd.tiempo_id 
