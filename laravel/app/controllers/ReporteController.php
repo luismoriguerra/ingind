@@ -1055,6 +1055,156 @@ class ReporteController extends BaseController
         );
     }
 
+    public function notificacionIncum($fecha='',$area=''){
+        $query = '';
+
+       $query.="SELECT t.id_union as documento,rd.id as paso,rd.fecha_inicio as fechaAsignada,
+          rd.dtiempo_final as fechaFinal,CONCAT(pe.nombre,pe.paterno,' ') as persona,f.nombre as proceso,a.nombre as area,
+          al.tipo as tipo_aviso
+          /*CASE al.tipo 
+              WHEN al.tipo ='1' THEN 'Notificación'
+              WHEN al.tipo ='2' THEN 'Reiterativo'
+              WHEN al.tipo ='3' THEN 'Relevo'
+          END as tipo_aviso  */
+          FROM rutas r INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 
+          INNER JOIN alertas al on rd.id=al.ruta_detalle_id 
+          INNER JOIN areas a ON rd.area_id=a.id 
+          INNER JOIN flujos f ON r.flujo_id=f.id 
+          INNER JOIN tablas_relacion t ON r.tabla_relacion_id=t.id 
+          INNER JOIN tipo_solicitante ts ON t.tipo_persona=ts.id 
+          LEFT JOIN areas a2 ON t.area_id=a2.id 
+          LEFT JOIN personas pe on r.persona_id=pe.id 
+          WHERE r.estado=1";
+
+          if($fecha != ''){
+            list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+            $query.=' AND date(al.fecha) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
+          }
+          if($area != ''){
+            $query.=' AND rd.area_id IN ("'.$area.'") ';
+          }
+
+          $query.=" ORDER BY a.nombre,f.nombre ";
+          $result= DB::Select($query);
+          return $result;
+    }
+
+    public function postNotificacionincumplimiento(){
+        $fecha = '';
+        $area = '';
+          if(Input::get('fecha')){
+            $fecha = Input::get('fecha');
+          }
+          if(Input::get('area_id')){
+            $area=implode('","',Input::get('area_id'));
+          }
+
+        $result = $this->notificacionIncum($fecha,$area);
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$result
+            )
+        );
+    }
+
+    public function getExportnotincumplimiento(){
+   /*   if( Request::ajax() ){*/
+        $fecha = Input::get('fecha');
+        $area=Input::get('area_id');
+        $result = $this->notificacionIncum($fecha,$area);
+
+          /*export*/
+            /* instanciar phpExcel!*/
+            include(app_path().'\libraries\PHPExcel.php');
+            $objPHPExcel = new PHPExcel();
+
+            /*configure*/
+            $objPHPExcel->getProperties()->setCreator("Gerencia Modernizacion")
+               ->setSubject("Notificacion Incumplimiento");
+            /*end configure*/
+
+            /*head*/
+
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('C')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('D')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('E')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('G')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('H')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('I')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('J')->setAutoSize(true);
+
+            $objPHPExcel->setActiveSheetIndex(0)
+                        ->setCellValue('A3', 'N°')
+                        ->setCellValue('B3', 'DOCUMENTO')
+                        ->setCellValue('C3', 'PASO')
+                        ->setCellValue('D3', 'FECHA DE ASIGNACIÓN')
+                        ->setCellValue('E3', 'FECHA FINAL')
+                        ->setCellValue('F3', 'NOMBRES Y APELLIDOS')
+                        ->setCellValue('G3', 'MODALIDAD DE CONTRATO')
+                        ->setCellValue('H3', 'TIPO DE AVISO')
+                        ->setCellValue('I3', 'PROCESO')
+                        ->setCellValue('J3', 'AREA')
+
+                  ->mergeCells('A1:J1')
+                  ->setCellValue('A1', 'NOTIFICACIONES POR INCUMPLIMIENTO')
+                  ->getStyle('A1:J1')->getFont()->setSize(20);
+            /*end head*/
+            /*body*/
+            if($result){
+              $tipo_alerta = '';
+              foreach ($result as $key => $value) {
+
+                if($value->tipo_aviso == 1){
+                    $tipo_alerta = 'Notificación';
+                }elseif($value->tipo_aviso == 2){
+                    $tipo_alerta = 'Reiterativo';
+                }else{
+                    $tipo_alerta = 'Relevo';
+                }
+                
+                $objPHPExcel->setActiveSheetIndex(0)
+                              ->setCellValueExplicit('A' . ($key + 4), $key + 1)
+                              ->setCellValueExplicit('B' . ($key + 4), $value->documento)
+                              ->setCellValueExplicit('C' . ($key + 4), $value->paso)
+                              ->setCellValueExplicit('D' . ($key + 4), $value->fechaAsignada)
+                              ->setCellValueExplicit('E' . ($key + 4), $value->fechaFinal)
+                              ->setCellValue('F' . ($key + 4), $value->persona)
+                              ->setCellValue('G' . ($key + 4), '')
+                              ->setCellValue('H' . ($key + 4), $tipo_alerta)
+                              ->setCellValue('I' . ($key + 4), $value->proceso)
+                              ->setCellValue('J' . ($key + 4), $value->area)
+                              ;                   
+              }         
+            }
+            /*end body*/
+            // Rename worksheet
+            $objPHPExcel->getActiveSheet()->setTitle('Reporte');
+            // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+            $objPHPExcel->setActiveSheetIndex(0);
+            // Redirect output to a client’s web browser (Excel5)
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="reporteni.xls"'); // file name of excel
+            header('Cache-Control: max-age=0');
+            // If you're serving to IE 9, then the following may be needed
+            header('Cache-Control: max-age=1');
+            // If you're serving to IE over SSL, then the following may be needed
+            header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+            header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+            header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+            header ('Pragma: public'); // HTTP/1.0
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+            $objWriter->save('php://output');
+            exit;
+          /* end export*/
+     /* }else{
+        echo 'no hay data';
+      }*/
+    }
+
     public function postUsuarios(){
       $r=Usuario::ListarUsuarios();
 

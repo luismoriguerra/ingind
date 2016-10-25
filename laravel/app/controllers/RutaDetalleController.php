@@ -111,6 +111,57 @@ class RutaDetalleController extends \BaseController
         }
     }
 
+    public function postEditnomb()
+    {
+        if ( Request::ajax() ) {
+            $array_editables = Input::get('editables');
+            foreach(json_decode($array_editables) as $value){
+                /*update in rutas_detalle_verbo*/
+                $rdv= RutaDetalleVerbo::find($value->rtverbo);
+                $rdv['documento'] = $value->edit;
+                $rdv['usuario_updated_at']= Auth::user()->id;
+                $rdv->save(); 
+                /*end update in rutas_detalle_verbo */
+                /*update in history(sustentos,referidos)*/
+                $referido = Referido::where('ruta_detalle_verbo_id', '=', $value->rtverbo)->get();
+                if($referido){
+                    $referido[0]['referido'] = $value->edit;
+                    $referido[0]['usuario_updated_at']= Auth::user()->id;
+                    $referido[0]->save();
+                }else{
+                    $sustento= Sustento::where('ruta_detalle_verbo_id', '=', $value->rtverbo)->get();
+                    $sustento[0]['sustento'] = $value->edit;
+                    $sustento[0]['usuario_updated_at']= Auth::user()->id;
+                    $sustento[0]->save(); 
+                }
+                /*end update in history(sustentos,referidos)*/               
+            }
+            return Response::json(array(
+                    'rst'=>'1',
+                    'msj'=>'Se realizó con éxito'
+                )
+            );
+        }
+    }
+
+    public function postEditiempotra()
+    {
+        if ( Request::ajax() ) {
+            $datos = json_decode(Input::get('datos'));
+            $rd = RutaDetalle::find($datos->id);
+            $rd['dtiempo']= $datos->tiempo;
+            $rd['motivo_edit']= $datos->motivo;
+            $rd['usuario_updated_at']= Auth::user()->id;
+            $rd->save();
+
+            return Response::json(array(
+                    'rst'=>'1',
+                    'msj'=>'Se realizó con éxito'
+                )
+            );
+        }
+    }
+
     public function postActualizar(){
         if ( Request::ajax() ) {
             DB::beginTransaction();
@@ -178,6 +229,7 @@ class RutaDetalleController extends \BaseController
                             $sustento=new Sustento;
                             $sustento['referido_id']=$referidoid;
                             $sustento['ruta_detalle_id']=$rd->id;
+                            $sustento['ruta_detalle_verbo_id']=$rdv->id;
                             $sustento['documento_id']=$rdv->documento_id;
                             $sustento['sustento']=$rdv->documento;
                             $sustento['fecha_hora_sustento']=$rdv->updated_at;
@@ -188,7 +240,7 @@ class RutaDetalleController extends \BaseController
                         else{
                             $referido=Referido::find($referidoid);
                             $referido['documento_id']=$rdv->documento_id;
-                            $referido['id_tipo']=$rdv->id;
+                            $referido['ruta_detalle_verbo_id']=$rdv->id; /*$referido['id_tipo']=$rdv->id;*/
                             $referido['referido']=$rdv->documento;
                             $referido['fecha_hora_referido']=$rdv->updated_at;
                             $referido['usuario_referido']=$rdv->usuario_updated_at;
