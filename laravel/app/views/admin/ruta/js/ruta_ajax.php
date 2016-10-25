@@ -91,7 +91,7 @@ var Ruta={
             },
             success : function(obj) {
                 if(obj.rst==1){                    
-                    evento(obj.datos);
+                    evento(obj.data);
                 }  
                 $(".overlay,.loading-img").remove();
             },
