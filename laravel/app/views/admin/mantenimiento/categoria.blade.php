@@ -3,9 +3,11 @@
 
 @section('includes')
     @parent
-    {{ HTML::script('http://malsup.github.com/jquery.form.js') }}
-    @include( 'admin.mantenimiento.js.categoria_ajax' )
-    @include( 'admin.mantenimiento.js.categoria' )
+    @include( 'admin.js.slct_global_ajax' )
+    @include( 'admin.js.slct_global' )
+
+    @include( 'admin.mantenimiento.js.categorias_ajax' )
+    @include( 'admin.mantenimiento.js.categorias' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -31,28 +33,24 @@
                         <div class="box-header">
                             <h3 class="box-title">Filtros</h3>
                         </div><!-- /.box-header -->
+                        <form id="form_categorias" name="form_categorias" method="POST" action="">
                         <div class="box-body table-responsive">
-                            <table id="t_categorias" class="table table-bordered table-striped">
+                            <table id="t_categorias" class="table table-bordered table-hover">
                                 <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Estado</th>
-                                        <th> [ ] </th>
-                                    </tr>
+                                <tr><th colspan="2" style="text-align:center;background-color:#A7C0DC;"><h2>Categorias</h2></th></tr>
+                                <tr></tr>
                                 </thead>
-                                <tbody id="tb_categorias">
+                                <tbody>
                                 </tbody>
                                 <tfoot>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Estado</th>
-                                        <th> [ ] </th>
-                                    </tr>
+                                <tr></tr>
                                 </tfoot>
                             </table>
-                            <a class='btn btn-primary btn-sm' class="btn btn-primary"
+                            <a class="btn btn-primary"
                             data-toggle="modal" data-target="#categoriaModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                            <a style="display:none" id="BtnEditar" data-toggle="modal" data-target="#categoriaModal" data-titulo="Editar"></a>
                         </div><!-- /.box-body -->
+                        </form>
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->
                 </div>

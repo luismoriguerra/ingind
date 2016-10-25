@@ -1,8 +1,21 @@
 <!DOCTYPE html>
-@extends('layouts.master')  
+@extends('layouts.master')
 
 @section('includes')
     @parent
+
+    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
+
+    {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
+
+    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
+    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
+
+    
+    {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
+    @include( 'admin.js.slct_global_ajax' )
+    @include( 'admin.js.slct_global' )
+
     @include( 'admin.mantenimiento.js.documento_ajax' )
     @include( 'admin.mantenimiento.js.documento' )
 @stop
@@ -11,7 +24,7 @@
     <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Mantenimiento de Documentos
+                Mantenimiento de Documento
                 <small> </small>
             </h1>
             <ol class="breadcrumb">
@@ -30,28 +43,24 @@
                         <div class="box-header">
                             <h3 class="box-title">Filtros</h3>
                         </div><!-- /.box-header -->
+                        <form id="form_documentos" name="form_documentos" method="POST" action="">
                         <div class="box-body table-responsive">
-                            <table id="t_documentos" class="table table-bordered table-striped">
+                            <table id="t_documentos" class="table table-bordered table-hover">
                                 <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Estado</th>
-                                        <th> [ ] </th>
-                                    </tr>
+                                <tr><th colspan="2" style="text-align:center;background-color:#A7C0DC;"><h2>Documentos</h2></th></tr>
+                                <tr></tr>
                                 </thead>
-                                <tbody id="tb_documentos">
+                                <tbody>
                                 </tbody>
                                 <tfoot>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Estado</th>
-                                        <th> [ ] </th>
-                                    </tr>
+                                <tr></tr>
                                 </tfoot>
                             </table>
-                            <a class='btn btn-primary btn-sm' class="btn btn-primary" 
+                            <a class="btn btn-primary"
                             data-toggle="modal" data-target="#documentoModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                            <a style="display:none" id="BtnEditar" data-toggle="modal" data-target="#documentoModal" data-titulo="Editar"></a>
                         </div><!-- /.box-body -->
+                        </form>
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->
                 </div>
