@@ -1061,13 +1061,13 @@ class ReporteController extends BaseController
        $query.="SELECT t.id_union as documento,rd.norden as paso,rd.fecha_inicio as fechaAsignada,
                 CalcularFechaFinal(
                   rd.fecha_inicio, 
-                  (rd.dtiempo*t.totalminutos),
+                  (rd.dtiempo*ti.totalminutos),
                   rd.area_id 
                 ) as fechaFinal,CONCAT(pe.paterno,' ',pe.materno,', ',pe.nombre) as persona,
                 f.nombre as proceso,a.nombre as area,al.tipo as tipo_aviso
                 FROM rutas r 
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 
-                INNER JOIN tiempos t ON t.id=rd.tiempo_id 
+                INNER JOIN tiempos ti ON ti.id=rd.tiempo_id 
                 INNER JOIN alertas al on rd.id=al.ruta_detalle_id 
                 INNER JOIN areas a ON rd.area_id=a.id 
                 INNER JOIN flujos f ON r.flujo_id=f.id 
