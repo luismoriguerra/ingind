@@ -58,6 +58,12 @@ public function postCargar()
                                         ) ";
             }
 
+            if( Input::has('totalruta') AND Input::get("totalruta")==1 ){
+                $array['groupby']='';
+                $array['inner']='';
+                $array['where']='';
+            }
+
             if( Input::has("flujo") ){
                 $flujo=Input::get("flujo");
                 if( trim( $flujo )!='' ){

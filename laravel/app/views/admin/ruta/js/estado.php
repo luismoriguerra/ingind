@@ -21,7 +21,7 @@ $(document).ready(function() {
     Ruta.CargarRuta(HTMLCargarRuta,3);
     var data = {estado:1,usuario:1};
     var ids = [];
-    slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
+    
     data = {estado:1};
     slctGlobal.listarSlct('ruta_detalle','slct_area_id','simple');
     slctGlobal.listarSlct('area','slct_area_id_2','simple',ids,data);
@@ -489,10 +489,14 @@ validandoconteo=0;
     $.each(datos,function(index,data){
         validandoconteo++;
         if(validandoconteo==1){
-            $("#slct_flujo_id").val(data.flujo_id);
+            $('#slct_flujo_id').multiselect('destroy');
+            $('#slct_flujo_id').attr('disabled','true');
+            var datosFlujos = {estado:1,flujo_id:data.flujo_id};
+            var ids = [data.flujo_id];
+            slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,datosFlujos);
             $("#slct_area_id").val(data.area_id);
-            $("#slct_flujo_id,#slct_area_id").multiselect('disable');
-            $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
+            $("#slct_area_id").multiselect('disable');
+            $("#slct_area_id").multiselect('refresh');
             $("#txt_persona").val(data.persona);
         }
         adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta);
