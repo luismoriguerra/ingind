@@ -290,7 +290,7 @@ var Bandeja={
 
     },
 
-    editNombDocumento:function(data){
+    editNombDocumento:function(data,evento){
         parametros = {'editables':data};
         $.ajax({
             url         : 'ruta_detalle/editnomb',
@@ -304,7 +304,7 @@ var Bandeja={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-
+                    evento(obj.id_updated);
                 }
             },
             error: function(){
@@ -314,7 +314,7 @@ var Bandeja={
         });
     },
 
-    editTiempoTramite:function(data){
+    editTiempoTramite:function(data,evento){
         parametros = {'datos':data};
         $.ajax({
             url         : 'ruta_detalle/editiempotra',
@@ -329,6 +329,7 @@ var Bandeja={
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
                     $("#edit_fecha_tramite").modal('hide');
+                    evento(obj.id_updated);
                 }
             },
             error: function(){

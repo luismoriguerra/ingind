@@ -189,8 +189,13 @@ class ReporteFinalController extends BaseController
                             )$estadofinal ";
         }
 
-        if( Input::has('fecha_inicio_b') AND Input::get('fecha_inicio_b')!='' ){
+        if(Input::has('fecha_inicio_b') AND Input::get('fecha_inicio_b')!=''){
           $fecha_inicio=explode(" - ",Input::get('fecha_inicio_b'));
+          $array['w'].=" AND DATE(rd.fecha_inicio) BETWEEN '".$fecha_inicio[0]."' AND '".$fecha_inicio[1]."' ";
+        }
+
+        if(Input::has('fechaRange') AND Input::get('fechaRange')!=''){
+          $fecha_inicio=explode(" - ",Input::get('fechaRange'));
           $array['w'].=" AND DATE(rd.fecha_inicio) BETWEEN '".$fecha_inicio[0]."' AND '".$fecha_inicio[1]."' ";
         }
 

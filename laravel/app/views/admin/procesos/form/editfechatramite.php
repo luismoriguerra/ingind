@@ -35,7 +35,16 @@
                 </div>
                 <div class="col-md-4">
                     <label class="control-label">Tiempo asignado al paso: (edit)</label>
-                    <input type="text" name="txttiempoa" id="txttiempoa" value="" class="form-control">
+                    <div class="row">
+                      <div class="col-md-5">
+                          <select class="form-control" id="sltiempo" name="sltiempo">
+                            
+                          </select>
+                      </div>
+                      <div class="col-md-7">
+                          <input type="text" name="txttiempoa" id="txttiempoa" value="" class="form-control">
+                      </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-12">

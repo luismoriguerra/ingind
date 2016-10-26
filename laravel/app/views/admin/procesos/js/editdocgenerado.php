@@ -15,14 +15,15 @@ var posicionDetalleVerboG=0;
 var fechaAux="";
 $(document).ready(function() {
 
-    /*load combo area*/
+    /*load combos*/
     data = {estado:1};
     slctGlobal.listarSlct('area','slct_areas','simple',null,data);
     slctGlobalHtml('slct_tipo_respuesta,#slct_tipo_respuesta_detalle','simple');
-    /*end load combo area*/
+    slctGlobal.listarSlct('tiempo','sltiempo','simple',null,data);
+    /*end load combos*/
 
     /*load datepickerrange*/
-    $('#fechaRange').daterangepicker({
+    $('#txt_fechaRange').daterangepicker({
         format: 'YYYY-MM-DD',
         singleDatePicker: false,
         showDropdowns: true
@@ -154,6 +155,10 @@ mostrarDetalleHTML=function(datos){
     var data={ flujo_id:datos.flujo_id, estado:1,fecha_inicio:datos.fecha_inicio }
     var ids = [];
     $('#btneditTiempo').attr('id-detalle-ruta',datos.id);
+    $('#btnUpdateDoc').attr('id-detalle-ruta',datos.id);
+    $('#sltiempo>option[value='+datos.idtiempo+']').prop('selected',true);
+    $('#txtmotivo').text(datos.motivo);
+
     $('#slct_tipo_respuesta,#slct_tipo_respuesta_detalle').multiselect('destroy');
     //$('#slct_tipo_respuesta,#slct_tipo_respuesta_detalle').attr('disabled',"true");
     slctGlobal.listarSlct('tiporespuesta','slct_tipo_respuesta','simple',ids,data,0,'#slct_tipo_respuesta_detalle','TR');
@@ -358,13 +363,14 @@ eventoSlctGlobalSimple=function(slct,valores){
 }
 
 /*update documento*/
-updateDoc = function(){
+updateDoc = function(obj){
+    var id =obj.getAttribute('id-detalle-ruta');
     var repeat = $("input[id='txtdocumento']").map(function(){return $(this);}).get();
     var objCambios = [];
     $.each(repeat,function(index, el) {
-        objCambios.push({'rtverbo':el[0].getAttribute('rtverbo'),'edit':el[0].value});
+        objCambios.push({'rutadetalleid':id,'rtverbo':el[0].getAttribute('rtverbo'),'edit':el[0].value});
     });
-    Bandeja.editNombDocumento(JSON.stringify(objCambios));   
+    Bandeja.editNombDocumento(JSON.stringify(objCambios),mostrarDetallle);   
 }
 /*end update documento */
 
@@ -372,9 +378,10 @@ updateDoc = function(){
  updateTiempo = function(obj){
     var id =obj.getAttribute('id-detalle-ruta');
     var motivo = $("#txtmotivo").val();
+    var tiempoid= $("#sltiempo").val();
     var newtiempo = $("#txttiempoa").val();
-    var datos = {'id' : id,'motivo':motivo,'tiempo':newtiempo};
-    Bandeja.editTiempoTramite(JSON.stringify(datos));
+    var datos = {'id' : id,'motivo':motivo,'tiempoid':tiempoid,'tiempo':newtiempo};
+    Bandeja.editTiempoTramite(JSON.stringify(datos),mostrarDetallle);
  }
 /*end update tiempo*/
 </script>
