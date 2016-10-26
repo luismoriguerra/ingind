@@ -41,7 +41,29 @@ class ConversationController extends \BaseController {
         } catch (Exception $e) {
             $viewData['current_conversation']= Conversation::where('name', Input::get('conversation'))->first();
         }
+        
         $viewData['conversations'] = Auth::user()->conversations()->get();
+        ///armando json
+        foreach($viewData['conversations'] as $conversation) {
+            $conversationObj['name']= $conversation->name;
+            $conversationObj['messages_notifications_count']= $conversation->messages_notifications->count();
+            $conversationObj['body']= Str::words($conversation->messages->last()->body, 5);
+
+            foreach($conversation->users as $key => $user) {
+                $userObj['img'] = $user->img;
+                $userObj['full_name'] = $user->full_name;
+                $userObj['area'] = $user->areas->nombre;
+                $userObj['count'] = $conversation->users->count();
+                $conversationObj['users'][$key]=$userObj;
+            }
+            $conversations[] = $conversationObj;
+        }
+        
+        $response = [
+            'conversations'=>$conversations,
+            'current_conversation'=>$viewData['current_conversation']
+        ];
+        return Response::json($response);
 
         return View::make('templates/conversations', $viewData);
     }
@@ -106,7 +128,7 @@ class ConversationController extends \BaseController {
         }
 
         $message->messages_notifications()->saveMany($messages_notifications);
-
+        return [];
         return Redirect::route('chat.index', array('conversation', $conversation->name));
     }
 }
