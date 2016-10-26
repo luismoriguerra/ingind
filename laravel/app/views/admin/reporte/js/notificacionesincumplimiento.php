@@ -57,9 +57,10 @@ HTMLreporte=function(datos){
             "<td>"+data.paso+"</td>"+
             "<td>"+data.fechaAsignada+"</td>"+
             "<td>"+data.fechaFinal+"</td>"+
+            "<td>"+data.fechaGestion+"</td>"+
             "<td>"+data.tiempo+"</td>"+
             "<td>"+data.persona+"</td>"+
-            "<td></td>"+
+            "<td>"+data.fecha_aviso+"</td>"+
             "<td>"+data.tipo_aviso+"</td>"+
             "<td>"+ data.proceso +"</td>"+
             "<td>"+ data.area +"</td>";

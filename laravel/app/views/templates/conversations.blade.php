@@ -1,23 +1,29 @@
 <div class="list-group col-lg-3">
-    @foreach($conversations as $conversation)
-        <a id="{{ $conversation->name }}" class="list-group-item {{ Session::get('current_conversation') == $conversation->name  ? 'active' : '' }}" href="admin.mantenimiento.chat/?conversation={{$conversation->name}}">
-            <div class="pull-left user-picture">
-                @foreach($conversation->users as $key => $user) 
-                    <img class="media-object img-circle" width="30" height="30" src="img/user/{{ md5('u'.$user->id).'/'.$user->imagen }}">
-                    {{ $user->full_name .' ( '.$user->areas->nombre .')' }}
-                @endforeach
+    <template v-for="conversation in conversations">
+        <a id="@{{conversation.name}}" v-if="current_conversation==conversation.name" @click.prevent="chat(conversation.name)" class="list-group-item active">
+        <div class="pull-left user-picture">
+                <template v-for="(item, index) in conversation.users">
+                    <img class="media-object img-circle" width="30" height="30" :src="index.img">@{{ index.full_name +' ( '+index.area +')' }}
+                    <template v-if="index.count!=item + 1">,</template>
+                </template>
             </div>
-
-            @if($conversation->messages_notifications->count()) 
-                <span class="badge">{{ $conversation->messages_notifications->count() }}</span>
-            @endif
-
-            <h4 class="list-group-item-heading">
-                @foreach($conversation->users as $key => $user) 
-                    {{ $user->username }}{{ $conversation->users->count() != ($key + 1) ? ',' : ''}}
-                @endforeach
-            </h4>
-            <p class="list-group-item-text"><small>{{ Str::words($conversation->messages->last()->body, 5) }}</small></p>
+            <template v-if="conversation.messages_notifications_count">
+                <span class="badge">@{{ conversation.messages_notifications_count }}</span>
+            </template>
+            <p class="list-group-item-text"><small> @{{ conversation.body }} </small></p>
         </a>
-    @endforeach
+
+        <a id="@{{conversation.name}}" v-if="current_conversation!=conversation.name" @click.prevent="chat(conversation.name)" class="list-group-item ">
+            <div class="pull-left user-picture">
+                <template v-for="(item, index) in conversation.users">
+                    <img class="media-object img-circle" width="30" height="30" :src="index.img">@{{ index.full_name +' ( '+index.area +')' }}
+                    <template v-if="index.count!=item + 1">,</template>
+                </template>
+            </div>
+            <template v-if="conversation.messages_notifications_count">
+                <span class="badge">@{{ conversation.messages_notifications_count }}</span>
+            </template>
+            <p class="list-group-item-text"><small> @{{ conversation.body }} </small></p>
+        </a>
+    </template>
 </div>

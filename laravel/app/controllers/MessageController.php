@@ -12,6 +12,21 @@ class MessageController extends \BaseController {
         $conversation = Conversation::where('name', Input::get('conversation'))->first();
         $messages       = Message::where('conversation_id', $conversation->id)->orderBy('created_at')->get();
 //aca se estan eliminando las etiquetas html para el salto de linea revisar pork no llega con salto de linea
+
+        foreach($messages as $message){
+            $messageObj['created_at']=$message->created_at;
+            $messageObj['img']=$message->user->img;
+            $messageObj['area_nemonico']=$message->user->areas->nemonico;
+            $messageObj['user_nombre']=$message->user->nombre;
+            $messageObj['body']=$message->body;
+            $messagesObj[]=$messageObj;
+        }
+
+        
+        $response=[
+            'messages'=>$messagesObj,
+        ];
+        return Response::json($response);
         return View::make('templates/messages')->with('messages', $messages)->render();
     }
 

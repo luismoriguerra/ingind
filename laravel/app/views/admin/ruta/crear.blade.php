@@ -3,21 +3,11 @@
 
 @section('includes')
     @parent
-    {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
-    {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
-    
-    {{ HTML::script('lib/input-mask/js/jquery.inputmask.js') }}
-    {{ HTML::script('lib/input-mask/js/jquery.inputmask.date.extensions.js') }}
-   
 
     {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
-
-    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
-    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
-
-    
+    {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
+    {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
-
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )

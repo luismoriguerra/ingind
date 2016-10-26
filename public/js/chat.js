@@ -7,7 +7,7 @@ $(function() {
     scrollToBottom();
 
     var
-        socket = io('http://ingind.kbaylonh.com:3000'),
+        socket = io('http://procesos.munindependencia.pe:3000'),
         //socket = io('http://ingind:3000'),
         jqxhr  = $.ajax({
             url: '/users/' + user_id + '/conversations',

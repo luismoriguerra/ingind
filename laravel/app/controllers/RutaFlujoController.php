@@ -23,7 +23,8 @@ public function postCargar()
             /*********************FIJO*****************************/
             $array=array();
             $array['where']='';$array['usuario']=Auth::user()->id;
-            $array['limit']='';$array['order']='';
+            $array['limit']='';$array['order']='';$array['groupby']='';
+            $array['inner']='';
             
             if (Input::has('draw')) {
                 if (Input::has('order')) {
@@ -38,6 +39,30 @@ public function postCargar()
                 $aParametro["draw"]=Input::get('draw');
             }
             /************************************************************/
+            $array['where']="  AND rf.area_id IN (
+                                        SELECT a.id
+                                        FROM area_cargo_persona acp
+                                        INNER JOIN areas a ON a.id = acp.area_id AND a.estado = 1
+                                        INNER JOIN cargo_persona cp ON cp.id = acp.cargo_persona_id AND cp.estado = 1
+                                        WHERE acp.estado = 1 AND cp.persona_id = ".$array['usuario']."
+                                    ) ";
+            if( Input::has('vista') AND Input::get("vista")==1 ){
+                $array['groupby']=" GROUP BY rf.id ";
+                $array['inner']=" INNER JOIN rutas_flujo_detalle rfd ON rfd.ruta_flujo_id=rf.id ";
+                $array['where']="  AND rfd.area_id IN (
+                                            SELECT a.id
+                                            FROM area_cargo_persona acp
+                                            INNER JOIN areas a ON a.id = acp.area_id AND a.estado = 1
+                                            INNER JOIN cargo_persona cp ON cp.id = acp.cargo_persona_id AND cp.estado = 1
+                                            WHERE acp.estado = 1 AND cp.persona_id = ".$array['usuario']."
+                                        ) ";
+            }
+
+            if( Input::has('totalruta') AND Input::get("totalruta")==1 ){
+                $array['groupby']='';
+                $array['inner']='';
+                $array['where']='';
+            }
 
             if( Input::has("flujo") ){
                 $flujo=Input::get("flujo");
@@ -55,9 +80,9 @@ public function postCargar()
             }
 
             if( Input::has("fruta") ){
-                $fruta=Input::get("fruta");
-                if( trim( $fruta )!='' ){
-                    $array['where'].=" AND DATE(rf.created_at) = '".$fruta."' ";
+                $fruta=explode(" - ",Input::get("fruta"));
+                if( count( $fruta )>1 ){
+                    $array['where'].=" AND DATE(rf.created_at) BETWEEN '".$fruta[0]."' AND '".$fruta[1]."' ";
                 }
             }
 
@@ -66,6 +91,9 @@ public function postCargar()
                 if( trim( $estado )!='' ){
                     $array['where'].=" AND rf.estado='".$estado."' ";
                 }
+            }
+            else{
+                $array['where'].=" AND rf.estado IN (1,2) ";
             }
 
             if( Input::has("tipo_flujo") ){
@@ -753,7 +781,7 @@ public function postCargar()
                     }
 
                     for( $j=0; $j< count($qrinicialverboaux); $j++ ){
-                        if( count($qrinicialverbo)>$i ){
+                        if( count($qrinicialverbo)>$j ){
                             $veriunov=true;
                             if($qrinicialverbo[$j]->nombre!=$qrinicialverboaux[$j]->nombre){
                                 $verificando=false;

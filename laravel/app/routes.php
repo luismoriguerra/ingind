@@ -54,7 +54,11 @@ Route::get('/logout', array(
     'uses' => 'AuthController@logout'
 ));
 
-//Route::get('/chat/', array(
+Route::post('/chat/', array(
+    'before' => 'authChat',
+    'as'     => 'chat.index',
+    'uses'   => 'ChatController@conversation'
+));
 Route::get('/admin.mantenimiento.chat/', array(
     'before' => 'authChat',
     'as'     => 'chat.index',
@@ -113,8 +117,8 @@ Route::get(
         return Redirect::to('/');
     }
 );
-
-Route::controller('check', 'LoginController');
+Route::controller('password', 'RemindersController');
+Route::controller('login', 'LoginController');
 Route::controller('cargar', 'CargarController');
 
 Route::get(

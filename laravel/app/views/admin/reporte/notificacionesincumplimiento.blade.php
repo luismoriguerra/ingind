@@ -69,9 +69,10 @@
                                         <th>Paso</th>
                                         <th>Fecha de Asignación</th>
                                         <th>Fecha Final</th>
+                                        <th>Fecha de Gestión</th>
                                         <th>Tiempo</th>
                                         <th>Nombres y Apellidos</th>
-                                        <th>Modalidad de contrato</th>
+                                        <th>Fecha de Aviso</th>
                                         <th>Tipo de aviso</th>
                                         <th>Proceso</th>
                                         <th>Area</th>

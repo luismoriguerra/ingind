@@ -10,24 +10,13 @@ class RutaFlujo extends Eloquent
      public static function getCargarCount( $array )
     {
        $usuarioid = Auth::user()->id;
-       $sSql=" SELECT  count(rf.id) cant
+       $sSql=" SELECT  COUNT(DISTINCT(rf.id)) cant
                     FROM rutas_flujo AS rf
+                    ".$array['inner']."
                     INNER JOIN flujos AS f ON f.id = rf.flujo_id
                     INNER JOIN personas AS p ON p.id = rf.persona_id
                     INNER JOIN areas AS a ON a.id = rf.area_id
-                    WHERE
-                        (
-                            rf.area_id IN (
-                                SELECT a.id
-                                FROM area_cargo_persona acp
-                                INNER JOIN areas a ON a.id = acp.area_id AND a.estado = 1
-                                INNER JOIN cargo_persona cp ON cp.id = acp.cargo_persona_id AND cp.estado = 1
-                                WHERE acp.estado = 1 AND cp.persona_id = $usuarioid
-                            )
-                            
-                            AND f.estado = 1
-                            
-                        )
+                    WHERE f.estado = 1
                     ";
         $sSql.= $array['where'];
         $oData = DB::select($sSql);
@@ -54,24 +43,14 @@ class RutaFlujo extends Eloquent
                                 )
                     ) AS estado
                     FROM rutas_flujo AS rf
+                    ".$array['inner']."
                     INNER JOIN flujos AS f ON f.id = rf.flujo_id
                     INNER JOIN personas AS p ON p.id = rf.persona_id
                     INNER JOIN areas AS a ON a.id = rf.area_id
-                    WHERE
-                        (
-                            rf.area_id IN (
-                                SELECT a.id
-                                FROM area_cargo_persona acp
-                                INNER JOIN areas a ON a.id = acp.area_id AND a.estado = 1
-                                INNER JOIN cargo_persona cp ON cp.id = acp.cargo_persona_id AND cp.estado = 1
-                                WHERE acp.estado = 1 AND cp.persona_id = $usuarioid
-                            )
-                            
-                            AND f.estado = 1
-                            
-                        )
+                    WHERE f.estado = 1
                     ";
-        $sSql.= $array['where'].             
+        $sSql.= $array['where'].
+                $array['groupby'].
                 $array['order'].
                 $array['limit'];
         $oData = DB::select($sSql);

@@ -28,4 +28,20 @@ class Documento extends Base
         return $oData;
     }
 
+    public static function getDocumento(){
+        $r=DB::table('documentos')
+                ->select('id','nombre','estado')
+                ->where( 
+                    function($query){
+                        if ( Input::get('estado') ) {
+                            $query->where('estado','=','1');
+                        }
+                    }
+                )
+                ->orderBy('nombre')
+                ->get();
+                
+        return $r;
+    }
+
 }

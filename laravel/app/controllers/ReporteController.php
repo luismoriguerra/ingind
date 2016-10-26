@@ -1068,7 +1068,8 @@ class ReporteController extends BaseController
                 WHEN 1 THEN 'Notificación'
                 WHEN 2 THEN 'Reiterativo'
                 WHEN 3 THEN 'Relevo'
-                END as tipo_aviso ,CONCAT(ti.apocope,': ',rd.dtiempo) tiempo
+                END as tipo_aviso ,CONCAT(ti.apocope,': ',rd.dtiempo) tiempo,
+                al.fecha fecha_aviso, IFNULL(rd.dtiempo_final,'') fechaGestion
                 FROM rutas r 
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 
                 INNER JOIN tiempos ti ON ti.id=rd.tiempo_id 
@@ -1082,7 +1083,7 @@ class ReporteController extends BaseController
 
           if($fecha != ''){
             list($fechaIni,$fechaFin) = explode(" - ", $fecha);
-            $query.=' AND date(rd.fecha_inicio) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
+            $query.=' AND date(al.fecha) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
           }
           if($area != ''){
             $query.=' AND rd.area_id IN ("'.$area.'") ';
@@ -1166,6 +1167,22 @@ class ReporteController extends BaseController
             /*end configure*/
 
             /*head*/
+            $objPHPExcel->setActiveSheetIndex(0)
+                        ->setCellValue('A3', 'N°')
+                        ->setCellValue('B3', 'DOCUMENTO')
+                        ->setCellValue('C3', 'PASO')
+                        ->setCellValue('D3', 'FECHA DE ASIGNACIÓN')
+                        ->setCellValue('E3', 'FECHA FINAL')
+                        ->setCellValue('F3', 'FECHA DE GESTIÓN')
+                        ->setCellValue('G3', 'TIEMPO')
+                        ->setCellValue('H3', 'NOMBRES Y APELLIDOS')
+                        ->setCellValue('I3', 'FECHA DE AVISO')
+                        ->setCellValue('J3', 'TIPO DE AVISO')
+                        ->setCellValue('K3', 'PROCESO')
+                        ->setCellValue('L3', 'AREA')
+                  ->mergeCells('A1:L1')
+                  ->setCellValue('A1', 'NOTIFICACIONES POR INCUMPLIMIENTO')
+                  ->getStyle('A1:L1')->getFont()->setSize(18);
 
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
@@ -1177,45 +1194,31 @@ class ReporteController extends BaseController
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('H')->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('I')->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('J')->setAutoSize(true);
-
-            $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('A3', 'N°')
-                        ->setCellValue('B3', 'DOCUMENTO')
-                        ->setCellValue('C3', 'PASO')
-                        ->setCellValue('D3', 'FECHA DE ASIGNACIÓN')
-                        ->setCellValue('E3', 'FECHA FINAL')
-                        ->setCellValue('F3', 'TIEMPO')
-                        ->setCellValue('G3', 'NOMBRES Y APELLIDOS')
-                        ->setCellValue('H3', 'MODALIDAD DE CONTRATO')
-                        ->setCellValue('I3', 'TIPO DE AVISO')
-                        ->setCellValue('J3', 'PROCESO')
-                        ->setCellValue('K3', 'AREA')
-
-                  ->mergeCells('A1:K1')
-                  ->setCellValue('A1', 'NOTIFICACIONES POR INCUMPLIMIENTO')
-                  ->getStyle('A1:K1')->getFont()->setSize(18);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('k')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('l')->setAutoSize(true);
             /*end head*/
             /*body*/
             if($result){
-              foreach ($result as $key => $value) {                
+              foreach ($result as $key => $value) {
                 $objPHPExcel->setActiveSheetIndex(0)
                               ->setCellValueExplicit('A' . ($key + 4), $key + 1)
                               ->setCellValueExplicit('B' . ($key + 4), $value->documento)
                               ->setCellValueExplicit('C' . ($key + 4), $value->paso)
                               ->setCellValueExplicit('D' . ($key + 4), $value->fechaAsignada)
                               ->setCellValueExplicit('E' . ($key + 4), $value->fechaFinal)
-                              ->setCellValue('F' . ($key + 4), $value->tiempo)
-                              ->setCellValue('G' . ($key + 4), $value->persona)
-                              ->setCellValue('H' . ($key + 4), '')
-                              ->setCellValue('I' . ($key + 4), $value->tipo_aviso)
-                              ->setCellValue('J' . ($key + 4), $value->proceso)
-                              ->setCellValue('K' . ($key + 4), $value->area)
-                              ;                   
-              }         
+                              ->setCellValueExplicit('F' . ($key + 4), $value->fechaGestion)
+                              ->setCellValue('G' . ($key + 4), $value->tiempo)
+                              ->setCellValue('H' . ($key + 4), $value->persona)
+                              ->setCellValue('I' . ($key + 4), $value->fecha_aviso)
+                              ->setCellValue('J' . ($key + 4), $value->tipo_aviso)
+                              ->setCellValue('K' . ($key + 4), $value->proceso)
+                              ->setCellValue('L' . ($key + 4), $value->area)
+                              ;
+              }
             }
             /*end body*/
-            $objPHPExcel->getActiveSheet()->getStyle('A3:k3')->applyFromArray($styleThinBlackBorderAllborders);
-            $objPHPExcel->getActiveSheet()->getStyle('A1:I1')->applyFromArray($styleAlignment);
+            $objPHPExcel->getActiveSheet()->getStyle('A3:L3')->applyFromArray($styleThinBlackBorderAllborders);
+            $objPHPExcel->getActiveSheet()->getStyle('A1:L1')->applyFromArray($styleAlignment);
             // Rename worksheet
             $objPHPExcel->getActiveSheet()->setTitle('Notificaciones por Incumplimiento');
             // Set active sheet index to the first sheet, so Excel opens this as the first sheet

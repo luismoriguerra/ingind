@@ -16,14 +16,32 @@ class Usuario extends Eloquent implements UserInterface, RemindableInterface
      * @var string
      */
     public $table = 'personas';
-
+    public static $rules = array(
+        'paterno'=>'required|regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i',
+        'materno'=>'required|regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i',
+        'nombre' =>'required|regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i',
+        'usuario'  =>'required|min:8|unique:personas,dni',//dni
+        'email'  =>'required|email|unique:personas',
+        'password'=>'required|alpha_num|between:6,12|confirmed',
+        'password_confirmation'=>'required|alpha_num|between:6,12'
+    );
+    public function getReminderEmail()
+    {
+        return $this->email;
+    }
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
     public $hidden = array('password', 'remember_token');
-    
+    /**
+     * Cargos relationship
+     */
+    public function cargos()
+    {
+        return $this->belongsToMany('Cargo');
+    }
     public function conversations() {
         return $this->belongsToMany('Conversation', 'conversations_users', 'user_id', 'conversation_id');
     }
@@ -32,6 +50,12 @@ class Usuario extends Eloquent implements UserInterface, RemindableInterface
     }
     public function getFullNameAttribute(){
         return "$this->paterno $this->materno, $this->nombre";
+    }
+    public function getImgAttribute(){
+        if (isset($this->imagen) ){
+            return  'img/user/'.md5('u'.$this->id).'/'.$this->imagen;
+        }
+        return 'img/admin/M.jpg';
     }
     public static function ListarUsuarios()
     {

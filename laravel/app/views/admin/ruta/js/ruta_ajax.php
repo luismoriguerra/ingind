@@ -74,7 +74,7 @@ var Ruta={
             datos={vista:1,tipo_flujo:BandejaTramite};
         }
         else if(vista==3){
-            datos={estado:1,tipo_flujo:BandejaTramite};
+            datos={estado:1,totalruta:1,tipo_flujo:BandejaTramite};
         }
         else{
             datos={tipo_flujo:BandejaTramite};

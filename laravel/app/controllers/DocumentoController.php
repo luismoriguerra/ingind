@@ -60,11 +60,15 @@ class DocumentoController extends \BaseController
     public function postListar()
     {
         if ( Request::ajax() ) {
-            $verbo = Verbo::get(Input::all());
-            return Response::json(array('rst'=>1,'datos'=>$verbo));
+             $listar = Documento::getDocumento();
+             return Response::json(
+                 array(
+                     'rst'   => 1,
+                     'datos' => $listar
+                 )
+             );
         }
     }
-
 
     public function postCrear()
     {
