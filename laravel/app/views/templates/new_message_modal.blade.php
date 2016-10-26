@@ -1,6 +1,6 @@
 <div id="newMessageModal" class="modal fade">
     <div class="modal-dialog">
-        {{ Form::open( array('action' => 'ConversationController@store')) }}
+        <form v-on:submit.prevent='sendConversation(this)'>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -13,13 +13,14 @@
 
                     {{ Form::label('users', 'Usuario') }}
                     {{-- {{ Form::select('users[]', $recipients, null, array("id"=>"users","multiple" => "multiple", "class" => "form-control")) }}
-                     --}}<select id="users" name="users[]" multiple class="form-control">
+                     --}}
+                    <select v-model="users" id="users" name="users[]" multiple class="form-control">
                         <option>Debe escoger una area primero</option>
                     </select>
                 </div>
                 <div class="form-group">
                     {{ Form::label('body', 'Mensaje') }}
-                    {{ Form::textarea('body', null, array("rows" => "6", "class" => "form-control")) }}
+                    <textarea v-model="body" rows="6" class="form-control" name="body" cols="50" id="body"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
@@ -27,7 +28,7 @@
                 {{ Form::submit('Enviar', array('class' => 'btn btn-danger')) }}
             </div>
         </div>
-        {{ Form::close() }}
+        </form>
     </div>
 </div>
 <style type="text/css">
