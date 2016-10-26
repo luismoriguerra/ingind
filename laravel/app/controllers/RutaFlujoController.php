@@ -753,7 +753,7 @@ public function postCargar()
                     }
 
                     for( $j=0; $j< count($qrinicialverboaux); $j++ ){
-                        if( count($qrinicialverbo)>$i ){
+                        if( count($qrinicialverbo)>$j ){
                             $veriunov=true;
                             if($qrinicialverbo[$j]->nombre!=$qrinicialverboaux[$j]->nombre){
                                 $verificando=false;
