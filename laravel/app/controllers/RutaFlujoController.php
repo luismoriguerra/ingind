@@ -74,9 +74,9 @@ public function postCargar()
             }
 
             if( Input::has("fruta") ){
-                $fruta=Input::get("fruta");
-                if( trim( $fruta )!='' ){
-                    $array['where'].=" AND DATE(rf.created_at) = '".$fruta."' ";
+                $fruta=explode(" - ",Input::get("fruta"));
+                if( count( $fruta )>1 ){
+                    $array['where'].=" AND DATE(rf.created_at) BETWEEN '".$fruta[0]."' AND '".$fruta[1]."' ";
                 }
             }
 

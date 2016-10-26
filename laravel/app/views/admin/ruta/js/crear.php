@@ -71,14 +71,19 @@ $(document).ready(function() {
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
     slctGlobal.listarSlct2('documento','slct_documento_modal',data);
 
-    $('#fecha,.fechaG').daterangepicker({
+    $('#fecha').daterangepicker({
         format: 'YYYY-MM-DD',
-        singleDatePicker: true,
+        singleDatePicker: false,
         showDropdowns: true
-
     });
 
-   
+    $('.fechaG').daterangepicker({
+        format: 'YYYY-MM-DD',
+        singleDatePicker: false,
+        showDropdowns: true
+    }, function(start, end, label) {
+      MostrarAjax('crear');
+    });
 
     slctGlobal.listarSlct('area','slct_area_id_r','multiple',ids,data);
     slctGlobalHtml('slct_estado_id','multiple');

@@ -459,7 +459,6 @@ adicionaDetalleVerbo=function(det){
 eventoSlctGlobalSimple=function(slct,valor){
     valor=valor.split('|').join("");
     if( slct=="slct_flujo_id" ){
-        Ruta.ValidaProceso($("#slct_flujo_id").val(),valor,HTMLValidaProceso);
     }
 // por ahora nad solo necesito q se actie nomas
 }
@@ -951,10 +950,14 @@ validandoconteo=0;
     $.each(datos,function(index,data){
         validandoconteo++;
         if(validandoconteo==1){
-            $("#slct_flujo_id").val(data.flujo_id);
+            $('#slct_flujo_id').multiselect('destroy');
+            $('#slct_flujo_id').attr('disabled','true');
+            var datosFlujos = {estado:1,flujo_id:data.flujo_id};
+            var ids = [data.flujo_id];
+            slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,datosFlujos);
             $("#slct_area_id").val(data.area_id);
-            $("#slct_flujo_id,#slct_area_id").multiselect('disable');
-            $("#slct_flujo_id,#slct_area_id").multiselect('refresh');
+            $("#slct_area_id").multiselect('disable');
+            $("#slct_area_id").multiselect('refresh');
             $("#txt_persona").val(data.persona);
         }
         permisoG.push(data.modifica);
