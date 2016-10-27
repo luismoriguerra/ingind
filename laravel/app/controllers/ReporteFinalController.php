@@ -340,7 +340,7 @@ class ReporteFinalController extends BaseController
                   if( $value->email_mdi!=$value->email_jefe ){
                     array_push($emailseguimiento, $value->email_jefe);
                   }
-                    Mail::send('notreirel', $parametros , 
+                    Mail::queue('notreirel', $parametros , 
                         function($message) use( $email,$emailseguimiento,$texto ) {
                             $message
                             ->to($email)
