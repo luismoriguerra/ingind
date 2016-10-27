@@ -166,6 +166,7 @@ class RutaDetalleController extends \BaseController
     }
 
     public function postSaverdverbo(){
+        //prueba
         if ( Request::ajax() ) {
             $datos = json_decode(Input::get('datos'));
             $rdv = new RutaDetalleVerbo;
