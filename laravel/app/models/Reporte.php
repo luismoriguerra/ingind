@@ -164,8 +164,7 @@ class Reporte extends Eloquent
                 INNER JOIN flujos f ON f.id=r.flujo_id
                 ".$array['referido']." JOIN referidos re ON re.ruta_id=r.id AND re.norden=(rd.norden-1)
                 WHERE r.estado=1 
-                AND rd.fecha_inicio!='' 
-                AND rd.dtiempo_final IS NULL".
+                AND rd.fecha_inicio!='' ".
                 $array['w'].
                 $array['areas'].
                 $array['id_union'].
@@ -219,8 +218,7 @@ class Reporte extends Eloquent
                 INNER JOIN flujos f ON f.id=r.flujo_id
                 ".$array['referido']." JOIN referidos re ON re.ruta_id=r.id AND re.norden=(rd.norden-1)
                 WHERE r.estado=1 
-                AND rd.fecha_inicio!='' 
-                AND rd.dtiempo_final IS NULL ".
+                AND rd.fecha_inicio!='' ".
                 $array['w'].
                 $array['areas'].
                 $array['id_union'].
