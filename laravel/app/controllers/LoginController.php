@@ -6,9 +6,15 @@ class LoginController extends BaseController
         $this->beforeFilter('csrf', array('on'=>'post'));
         $this->beforeFilter('auth', array('only'=>array('getDashboard')));
     }
+    /**
+     * view register
+     */
     public function getRegister() {
         return View::make('register');
     }
+    /**
+     * create user
+     */
     public function postCreate() {
         $validator = Validator::make(Input::all(), Usuario::$rules);
 
@@ -20,24 +26,22 @@ class LoginController extends BaseController
                 )
             );
         }
-
-        $persona = new Persona;
-        $persona->paterno = Input::get('paterno');
-        $persona->materno = Input::get('materno');
-        $persona->nombre = Input::get('nombre');
-        $persona->email = Input::get('email');
-        $persona->dni = Input::get('usuario');
-        $persona->password = Hash::make(Input::get('password'));
-        $persona->save();
+        $user = Persona::create(Input::all());
+        //enviar email
+        Mail::queue('emails.auth.confirm', compact('user') , function($m) use( $user ) {
+            $m->to($user->getReminderEmail())
+              //->cc($emailseguimiento)
+              ->subject('Bienvenido!');
+        });
 
         $cargoId = 1; //vecino
-        $areaId=1;
+        $areaId=1;//area
 
         $cargo = Cargo::find($cargoId);
-        $cargoPersona=$persona->cargos()->save($cargo, 
+        $cargoPersona=$user->cargos()->save($cargo, 
             [
                 'estado' => 1,
-                'usuario_created_at' => $persona->id
+                'usuario_created_at' => $user->id
                 ]
             );
 
@@ -46,22 +50,55 @@ class LoginController extends BaseController
                 'area_id' => $areaId,
                 'cargo_persona_id' => $cargoPersona->id,
                 'estado' => 1,
-                'usuario_created_at' => $persona->id
+                'usuario_created_at' => $user->id
             ]
         );
+        return  ['rst'=>1,'msj'=>'Se envio un mensaje de confirmacion a su cuenta de email'];
         return  LoginController::postSignin();
 
     }
+    /**
+     * Confirm a user's email address.
+     *
+     * @param  string $token
+     * @return mixed
+     */
+    public function confirmEmail($token)
+    {
+        Persona::whereToken($token)->firstOrFail()->confirmEmail();
+        return Redirect::to('/');
+    }
+    /**
+     * Attempt to sign in the user.
+     *
+     * @param  Request $request
+     * @return boolean
+     */
+    protected function signIn($request)
+    {
+        return Auth::attempt($this->getCredentials($request), $request['remember'] );
+    }
+    /**
+     * Get the login credentials and requirements.
+     *
+     * @param  Request $request
+     * @return array
+     */
+    protected function getCredentials( $request )
+    {
+        return [
+            'dni'    => $request['usuario'],
+            'password' => $request['password'],
+            'verified' => true
+        ];
+    }
+    /**
+     * login
+     */
     public function postSignin()
     {
         if (Request::ajax()) {
-
-        $userdata= array(
-            'dni' => Input::get('usuario'),
-            'password' => Input::get('password'),
-        );
-
-            if ( Auth::attempt($userdata, Input::get('remember', 0)) ) {
+            if ($this->signIn(Input::all())) {
                 //buscar los permisos de este usuario y guardarlos en sesion
                 $query = "SELECT m.nombre as menu, o.nombre as opcion,
                         IF(LOCATE('.', o.ruta)>0,

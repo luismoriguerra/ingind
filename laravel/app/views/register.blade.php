@@ -30,7 +30,9 @@
                 <h3 id="mensaje_msj"  class="label-success">
                 <?= Session::get('msj'); ?>
                 </h3>
-                
+                <h3 v-if="mensaje_ok" class="label-success">
+                    @{{ mensaje_ok }}
+                </h3>
                 <h3 id="mensaje_error" class="label-danger">
                     <ul>
                       <li v-for="error in errores">
@@ -45,8 +47,11 @@
                     <input class="form-control input-lg" v-model='user.paterno' required placeholder="Paterno" type="text">
                     <input class="form-control input-lg" v-model='user.materno' required placeholder="Materno" type="text">
                     <input class="form-control input-lg" v-model='user.nombre' required placeholder="Nombre" type="text">
-                    <input class="form-control input-lg" v-model='user.usuario' required placeholder="Dni" type="text">
+                    <input class="form-control input-lg" v-model='user.dni' required placeholder="Dni" type="text">
                     <input class="form-control input-lg" v-model='user.email' required placeholder="email"  type="email">
+                    <input class="form-control input-lg" v-model='user.direccion' required placeholder="direccion"  type="direccion">
+                    <input class="form-control input-lg" v-model='user.telefono' required placeholder="telefono"  type="telefono">
+                    <input class="form-control input-lg" v-model='user.celular' required placeholder="celular"  type="celular">
                     <input class="form-control input-lg" v-model='user.password' required placeholder="Password" type="password" autocomplete="off" >
                     <input class="form-control input-lg" v-model='user.password_confirmation' required placeholder="Confirm Password" type="password" autocomplete="off" >
 
@@ -74,7 +79,11 @@
                 materno:'',
                 nombre:'',
                 usuario:'',
+                dni:'',
                 email:'',
+                direccion:'',
+                telefono:'',
+                celular:'',
                 password:'',
                 password_confirmation:'',
             },
@@ -91,11 +100,25 @@
                 }
             },
             RegisterUser: function() {
+                this.user.usuario=this.user.dni;
                 this.$http.post("create",this.user,function(data) {
                     $(".load").hide();
                     
-                    if(data.rst==1 && data.estado==1){
-                        window.location='/';
+                    if(data.rst==1){
+                        this.mensaje_ok=data.msj;
+                        this.user= {
+                            paterno:'',
+                            materno:'',
+                            nombre:'',
+                            usuario:'',
+                            dni:'',
+                            email:'',
+                            direccion:'',
+                            telefono:'',
+                            celular:'',
+                            password:'',
+                            password_confirmation:'',
+                        };
                     }
                     else if(data.rst==1){
                         this.errores=data.msj;

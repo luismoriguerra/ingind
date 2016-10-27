@@ -15,7 +15,58 @@ class Persona extends Base implements UserInterface, RemindableInterface
      * @var string
      */
     public $table = "personas";
-    
+    protected $fillable = [
+        'paterno',
+        'materno',
+        'nombre',
+        'dni',
+        'email',
+        'direccion',
+        'telefono',
+        'celular',
+        'password',
+        'rol_id',
+        'area_id',
+        'estado',
+        'fecha_nacimiento',
+        'sexo'
+    ];
+    protected $hidden = ['password', 'remember_token'];
+    /**
+     * Boot the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->token = str_random(30);
+        });
+    }
+
+    /**
+     * Set the password attribute.
+     *
+     * @param string $password
+     */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = Hash::make($password);
+    }
+
+    /**
+     * Confirm the user.
+     *
+     * @return void
+     */
+    public function confirmEmail()
+    {
+        $this->verified = true;
+        $this->token = null;
+        $this->save();
+    }
     public static $where =[
                         'id', 'paterno','materno','nombre','email','dni','rol_id','area_id',
                         'password','fecha_nacimiento','sexo', 'estado'
