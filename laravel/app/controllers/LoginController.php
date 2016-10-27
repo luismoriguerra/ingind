@@ -8,7 +8,7 @@ class LoginController extends BaseController
     }
 
     public function postCreate() {
-        /*$validator = Validator::make(Input::all(), Usuario::$rules);
+        $validator = Validator::make(Input::all(), Usuario::$rules);
 
         if ( $validator->fails() ) {
             return Response::json(
@@ -17,7 +17,7 @@ class LoginController extends BaseController
                 'msj'=>$validator->messages(),
                 )
             );
-        }*/
+        }
 
         $persona = new Persona;
         $persona->paterno = Input::get('paterno');
