@@ -20,8 +20,7 @@ $(document).ready(function() {
     RolIdG='<?php echo Auth::user()->rol_id; ?>';
     UsuarioId='<?php echo Auth::user()->id; ?>';
 
-    slctGlobal.listarSlct('lista/tipovizualizacion','slct_tipo_visualizacion','multiple',null,null);
-    slctGlobal.listarSlct('rol','cboRoles','simple',null,null);
+    slctGlobal.listarSlct('lista/tipovizualizacion','slct_tipo_visualizacion','multiple',null,null);    
 
     if( RolIdG==8 || RolIdG==9 ){
         var data={estado_persona:1,solo_area:1};
@@ -173,6 +172,13 @@ mostrarDetalleHTML=function(datos){
     var data={ flujo_id:datos.flujo_id, estado:1,fecha_inicio:datos.fecha_inicio }
     var ids = [];
     $('#slct_tipo_respuesta,#slct_tipo_respuesta_detalle').multiselect('destroy');
+
+    /*add new ruta detalle verbo*/
+    var filtro={estado:1};
+    Bandeja.poblarCombo('documento','cbotipoDoc',filtro,HTMLCombo);
+    Bandeja.poblarCombo('rol','cboRoles',filtro,HTMLCombo);
+    /*add new ruta detalle verbo*/
+
     if( RolIdG==8 || RolIdG==9 ){
         $("#slct_persona").attr("data-id",datos.carta_deglose_id);
         $("#slct_persona").val('');
@@ -225,7 +231,13 @@ mostrarDetalleHTML=function(datos){
                 rol = detalle[i].split("=>")[6];
                 verbo = detalle[i].split("=>")[7];
                 documento = detalle[i].split("=>")[8];
-                orden = detalle[i].split("=>")[9];
+
+                if(verbo == 'Generar'){
+                    orden = '<span id="btnDelete" name="btnDelete" class="btn btn-danger  btn-xs btnDelete" onclick="eliminardv('+detalle[i].split("=>")[0]+')"><i class="glyphicon glyphicon-remove"></i></span>';
+                }else{
+                    orden = detalle[i].split("=>")[9];
+                }
+                
                 archivo="";
                 denegar=false;
 
@@ -271,18 +283,18 @@ mostrarDetalleHTML=function(datos){
                 }
 
                 html=  "<tr>"+
-                            "<td>"+orden+"</td>"+
-                            "<td>"+detalle[i].split("=>")[3]+"</td>"+
-                            "<td>"+rol+"</td>"+
-                            "<td>"+verbo+"</td>"+
-                            "<td>"+documento+"</td>"+
-                            "<td>"+detalle[i].split("=>")[1]+"</td>"+
-                            "<td id='td_"+detalle[i].split("=>")[0]+"'>"+imagenadd+"</td>"+
-                            "<td>"+obs+"</td>"+
+                            "<td style='vertical-align : middle;'>"+orden+"</td>"+
+                            "<td style='vertical-align : middle;'>"+detalle[i].split("=>")[3]+"</td>"+
+                            "<td style='vertical-align : middle;'>"+rol+"</td>"+
+                            "<td style='vertical-align : middle;'>"+verbo+"</td>"+
+                            "<td style='vertical-align : middle;'>"+documento+"</td>"+
+                            "<td style='vertical-align : middle;'>"+detalle[i].split("=>")[1]+"</td>"+
+                            "<td style='vertical-align : middle;' id='td_"+detalle[i].split("=>")[0]+"'>"+imagenadd+"</td>"+
+                            "<td style='vertical-align : middle;'>"+obs+"</td>"+
                             //"<td>"+archivo+"</td>"+
-                            "<td>"+persona+"</td>"+
-                            "<td>"+fecha+"</td>"+
-                            "<td>"+imagen+"</td>"+
+                            "<td style='vertical-align : middle;'>"+persona+"</td>"+
+                            "<td style='vertical-align : middle;'>"+fecha+"</td>"+
+                            "<td style='vertical-align : middle;'>"+imagen+"</td>"+
                         "</tr>";
                 $("#t_detalle_verbo").append(html);
                 if( $.trim( detalle[i].split("=>")[12] )!='' && (RolIdG==8 || RolIdG==9) ){
@@ -387,13 +399,62 @@ eventoSlctGlobalSimple=function(slct,valores){
 }
 
 /*add new verb to generate*/
-/*Addtr = function(e){
+Addtr = function(e){
     e.preventDefault();
     var template = $("#tbldetalleverbo").find('.trNuevo').clone().removeClass('trNuevo').removeClass('hidden');
-    console.log(template);
-    $("#tbldetalleverbo tbody").append(template);*/
-    /*                initDatePicker();
-                    initClockPicker();*/
-/*}*/
+    $("#tbldetalleverbo tbody").append(template);
+}
 /*end add new verb to generate*/
+
+/*delete tr*/
+Deletetr = function(object){
+    object.parentNode.parentNode.parentNode.remove();
+}
+/*end delete tr*/
+
+/*poblate combo*/
+HTMLCombo = function(obj,data){
+    if(data){
+         html='';
+        $.each(data,function(index, el) {
+            html+='<option value='+el.id+'>'+el.nombre+'</option>';
+        });
+        $('#'+obj).html(html);
+    } 
+}
+/*end poblate combo */
+
+/*save new ruta_detalle_verbo*/
+saveVerbo = function(){
+    var id_rutadverbo = document.querySelector("#ruta_detalle_id");
+    var condional = 0;
+    var rol = $("select[id='cboRoles']").map(function(){return $(this).val();}).get();;
+    var verbo = 1;
+    var doc = $("select[id='cbotipoDoc']").map(function(){return $(this).val();}).get();;
+    var nomb = $("input[id='txtdescripcion']").map(function(){return $(this).val();}).get();;
+
+    var data = {
+        'ruta_detalle_id':id_rutadverbo.value,
+        'nombre':nomb[1],
+        'documento':doc[1],
+        'condicion':0,
+        'rol_id':rol[1],
+        'verbo_id':1,
+        'adicional' : 1,
+        'orden':0,
+    };
+    Bandeja.Guardarrdv(JSON.stringify(data),mostrarDetallle);
+
+}
+/*end save new ruta_detalle_verbo */
+
+/*delete rdv*/
+eliminardv = function(id){
+    if(id){
+        var id_rutadverbo = document.querySelector("#ruta_detalle_id");
+        var data = {'ruta_detalle_id':id_rutadverbo,'ruta_detalle_verbo_id':id,};
+        Bandeja.Deleterdv(JSON.stringify(data),mostrarDetallle);
+    }
+}
+/*end delete rdv*/
 </script>
