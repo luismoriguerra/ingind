@@ -5,6 +5,7 @@ $(document).ready(function() {
 	});
 
 	$("#btnIniciar").click(IniciarSession);
+	$("#btnRegister").click(Register);
 	$("#mensaje_msj").fadeOut(3500);
 });
 
@@ -13,7 +14,7 @@ validaEnter=function(e,id){
     if (tecla==13){
     	$("#"+id).click();	
     }	    
-}
+};
 
 IniciarSession=function(){
 	if($.trim($("#usuario").val())==''){
@@ -25,7 +26,21 @@ IniciarSession=function(){
 	else{
 		Login.IniciarLogin();	
 	}
-}
+};
+Register=function(){
+	if($.trim($("#usuario_register").val())==''){
+		MostrarMensaje("Ingrese su <strong>Usuario</strong>");
+	}
+	else if($.trim($("#password_register").val())==''){
+		MostrarMensaje("Ingrese su <strong>Password</strong>");
+	}
+	else if($.trim($("#password_confirmation_register").val())==''){
+		MostrarMensaje("Ingrese su <strong>Password</strong>");
+	}
+	else{
+		Login.Register();	
+	}
+};
 
 MostrarMensaje=function(msj){
 
@@ -42,4 +57,4 @@ MostrarMensaje=function(msj){
 	    	});	    	
     	});
 	}); 
-}
+};

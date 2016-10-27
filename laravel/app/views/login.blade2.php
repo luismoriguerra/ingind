@@ -38,7 +38,7 @@
             <h3 id="mensaje_inicio">Por Favor <strong>Logeate</strong></h3>            
         
 
-		<form action="check/login" id="logForm" method="post" class="form-horizontal">
+		<form action="login/signin" id="logForm" method="post" class="form-horizontal">
 			<div class="row">
 			<div class="col-md-12">
 				<div class="form-group">

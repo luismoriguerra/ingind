@@ -118,7 +118,7 @@ Route::get(
     }
 );
 
-Route::controller('check', 'LoginController');
+Route::controller('login', 'LoginController');
 Route::controller('cargar', 'CargarController');
 
 Route::get(

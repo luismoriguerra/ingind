@@ -2,7 +2,55 @@
 
 class LoginController extends BaseController
 {
-    public function postLogin()
+    public function __construct() {
+        $this->beforeFilter('csrf', array('on'=>'post'));
+        $this->beforeFilter('auth', array('only'=>array('getDashboard')));
+    }
+
+    public function postCreate() {
+        /*$validator = Validator::make(Input::all(), Usuario::$rules);
+
+        if ( $validator->fails() ) {
+            return Response::json(
+                array(
+                'rst'=>2,
+                'msj'=>$validator->messages(),
+                )
+            );
+        }*/
+
+        $persona = new Persona;
+        $persona->paterno = Input::get('paterno');
+        $persona->materno = Input::get('materno');
+        $persona->nombre = Input::get('nombre');
+        $persona->email = Input::get('email');
+        $persona->dni = Input::get('usuario');
+        $persona->password = Hash::make(Input::get('password'));
+        $persona->save();
+
+        $cargoId = 12; //vecino
+        $areaId=105;
+
+        $cargo = Cargo::find($cargoId);
+        $cargoPersona=$persona->cargos()->save($cargo, 
+            [
+                'estado' => 1,
+                'usuario_created_at' => $persona->id
+                ]
+            );
+
+        DB::table('area_cargo_persona')->insert(
+            [
+                'area_id' => $areaId,
+                'cargo_persona_id' => $cargoPersona->id,
+                'estado' => 1,
+                'usuario_created_at' => $persona->id
+            ]
+        );
+        return  LoginController::postSignin();
+
+    }
+    public function postSignin()
     {
         if (Request::ajax()) {
 
