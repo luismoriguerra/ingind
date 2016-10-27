@@ -117,7 +117,7 @@ Route::get(
         return Redirect::to('/');
     }
 );
-
+Route::controller('password', 'RemindersController');
 Route::controller('login', 'LoginController');
 Route::controller('cargar', 'CargarController');
 
