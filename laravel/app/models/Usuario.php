@@ -34,7 +34,10 @@ class Usuario extends Eloquent implements UserInterface, RemindableInterface
         return "$this->paterno $this->materno, $this->nombre";
     }
     public function getImgAttribute(){
-        return  'img/user/'.md5('u'.$this->id).'/'.$this->imagen;
+        if (isset($this->imagen) ){
+            return  'img/user/'.md5('u'.$this->id).'/'.$this->imagen;
+        }
+        return 'img/admin/M.jpg';
     }
     public static function ListarUsuarios()
     {
