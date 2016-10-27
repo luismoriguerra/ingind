@@ -346,12 +346,12 @@ class Reporte extends Eloquent
     }
 
     public static function ProcesosyActividades(){
-        $sql = "SELECT f.nombre proceso,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) nombdueño,a.nombre areanom, 
+        $sql = "SELECT rfd.usuario_updated_at norden,f.nombre proceso,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) nombdueño,a.nombre areanom, 
             CASE rf.estado
                 WHEN 1 THEN 'Produccion'
                 WHEN 2 THEN 'Pendiente'
             END AS estado,rf.created_at as fechacreacion,
-            rfd.norden paso,a2.nombre nombareapaso,CONCAT(rfd.dtiempo,LOWER(t.apocope)) tiempo,rfd.usuario_updated_at,CONCAT_WS(' ',p2.nombre,p2.paterno,p2.materno) usuarioupdate,rfd.updated_at fechaupdate
+            rfd.norden paso,a2.nombre nombareapaso,CONCAT(rfd.dtiempo,LOWER(t.apocope)) tiempo,CONCAT_WS(' ',p2.nombre,p2.paterno,p2.materno) usuarioupdate,rfd.updated_at fechaupdate
              from flujos f 
             INNER JOIN rutas_flujo rf on rf.flujo_id=f.id AND rf.estado in (1,2) 
             INNER JOIN rutas_flujo_detalle rfd on rfd.ruta_flujo_id=rf.id and rfd.estado=1 

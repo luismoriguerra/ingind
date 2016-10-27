@@ -21,8 +21,11 @@ $(document).ready(function() {
     UsuarioId='<?php echo Auth::user()->id; ?>';
 
     slctGlobal.listarSlct('lista/tipovizualizacion','slct_tipo_visualizacion','multiple',null,null);
+    slctGlobal.listarSlct('rol','cboRoles','simple',null,null);
+
     if( RolIdG==8 || RolIdG==9 ){
         var data={estado_persona:1,solo_area:1};
+        slctGlobal.listarSlct('persona','cboPersona','simple',null,data);
         slctGlobal.listarSlct('persona','slct_persona','simple',null,data);
     }
 
@@ -199,7 +202,7 @@ mostrarDetalleHTML=function(datos){
     $("#form_ruta_detalle>#txt_fecha_max").remove();
     $("#form_ruta_detalle").append("<input type='hidden' id='txt_fecha_max' name='txt_fecha_max' value='"+datos.fecha_max+"'>");
 
-    $("#t_detalle_verbo").html("");
+  /*  $("#t_detalle_verbo").html("");*/
     var detalle="";
     var html="";
     var imagen="";
@@ -382,4 +385,15 @@ eventoSlctGlobalSimple=function(slct,valores){
         }
     }
 }
+
+/*add new verb to generate*/
+/*Addtr = function(e){
+    e.preventDefault();
+    var template = $("#tbldetalleverbo").find('.trNuevo').clone().removeClass('trNuevo').removeClass('hidden');
+    console.log(template);
+    $("#tbldetalleverbo tbody").append(template);*/
+    /*                initDatePicker();
+                    initClockPicker();*/
+/*}*/
+/*end add new verb to generate*/
 </script>

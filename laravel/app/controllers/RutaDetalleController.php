@@ -138,6 +138,7 @@ class RutaDetalleController extends \BaseController
             }
             return Response::json(array(
                     'rst'=>'1',
+                    'id_updated'=>json_decode($array_editables)[0]->rutadetalleid,
                     'msj'=>'Se realizó con éxito'
                 )
             );
@@ -150,12 +151,14 @@ class RutaDetalleController extends \BaseController
             $datos = json_decode(Input::get('datos'));
             $rd = RutaDetalle::find($datos->id);
             $rd['dtiempo']= $datos->tiempo;
+            $rd['tiempo_id']= $datos->tiempoid;
             $rd['motivo_edit']= $datos->motivo;
             $rd['usuario_updated_at']= Auth::user()->id;
             $rd->save();
 
             return Response::json(array(
                     'rst'=>'1',
+                    'id_updated' =>$datos->id,
                     'msj'=>'Se realizó con éxito'
                 )
             );

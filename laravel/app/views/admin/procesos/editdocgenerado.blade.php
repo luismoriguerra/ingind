@@ -101,7 +101,7 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <label class="control-label">Rango de Fechas:</label>
-                                        <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fechaRange" name="fechaRange"/>
+                                        <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="txt_fechaRange" name="txt_fechaRange"/>
                                     </div>
                                      <div class="col-sm-3">
                                         <span class="btn btn-primary btn-md" style="margin-top:24px" onClick="Bandeja.MostrarAjax();"><i class="glyphicon glyphicon-search"></i> Buscar</span>
@@ -248,7 +248,7 @@
                                                 </thead>
                                                 <tbody id="t_detalle_verbo"></tbody>
                                             </table>
-                                            <span class="btn btn-primary btn-md" onclick="updateDoc()" style="cursor:pointer">Actualizar</span>
+                                            <span class="btn btn-primary btn-md" id="btnUpdateDoc" name="btnUpdateDoc" onclick="updateDoc(this)" style="cursor:pointer">Actualizar</span>
                                         </div>
                                         <div class="col-sm-12" style="display:none">
                                             <div class="col-sm-3">
