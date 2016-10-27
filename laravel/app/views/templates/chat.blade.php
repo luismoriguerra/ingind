@@ -85,7 +85,15 @@
             },
             ready: function () {
                 //socket = io('http://ingind:3000');
-                socket = io('http://procesos.munindependencia.pe:3000'),
+                var socket = io('http://procesos.munindependencia.pe:3000');
+                socket.on('welcome', function (data) {
+                    console.log(data.message);
+                    socket.emit('join', { room:  user_id });
+                });
+
+                socket.on('joined', function(data) {
+                    console.log(data.message);
+                });
                 this.$http.get("/users/" + user_id + '/conversations',function(response) {
                     if(response.success && response.result.length > 0) {
                         $.each(response.result, function(index, conversation) {
