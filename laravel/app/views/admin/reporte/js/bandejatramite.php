@@ -26,6 +26,8 @@ $(document).ready(function() {
         var data={estado_persona:1,solo_area:1};
         slctGlobal.listarSlct('persona','cboPersona','simple',null,data);
         slctGlobal.listarSlct('persona','slct_persona','simple',null,data);
+    }else{
+        $("#btnAdd").addClass('hidden');
     }
 
     Bandeja.MostrarAjax();
