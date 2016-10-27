@@ -11,35 +11,80 @@
         <title>
                 M. Independencia
         </title>
-                {{ HTML::style('lib/font-awesome-4.2.0/css/font-awesome.min.css') }}
-            {{ HTML::style('lib/bootstrap-3.3.1/css/bootstrap.min.css') }}
-            {{ HTML::script('lib/jquery-2.1.3.min.js') }}
-            {{ HTML::script('lib/jquery-ui-1.11.2/jquery-ui.min.js') }}
-            {{ HTML::script('lib/bootstrap-3.3.1/js/bootstrap.min.js') }}
-            {{ HTML::style('css/login/login.css') }}
-            {{ HTML::script('js/login/login_ajax.js') }}
-            {{ HTML::script('js/login/login.js') }}
+        {{ HTML::style('lib/font-awesome-4.2.0/css/font-awesome.min.css') }}
+        {{ HTML::style('lib/bootstrap-3.3.1/css/bootstrap.min.css') }}
+        {{ HTML::script('lib/jquery-2.1.3.min.js') }}
+        {{ HTML::script('lib/jquery-ui-1.11.2/jquery-ui.min.js') }}
+        {{ HTML::script('lib/bootstrap-3.3.1/js/bootstrap.min.js') }}
+        {{ HTML::style('css/login/login.css') }}
+        {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js') }}
+        {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.2/vue-resource.min.js') }}
     </head>
 
-    <body  bgcolor="#FFF" onkeyup="return validaEnter(event,'btnSend');">
+    <body id="resetPassword" bgcolor="#FFF">
         <div id="mainWrap">
             <div id="loggit">
                 <h1><i class="fa fa-lock"></i> MUN.INDEP. </h1>
                 
-                <h3 id="mensaje_ok" style="display:none" class="label-success">
+                <h3 v-if="mensaje_ok" id="mensaje_ok" class="label-success">
+                    @{{ mensaje_ok }}
                 </h3>
-                <h3 id="mensaje_error" style="display:none" class="label-danger">
+                <h3 v-if="mensaje_error" id="mensaje_error" class="label-danger">
+                    @{{ mensaje_error }}
                 </h3>
 
                 <h3 id="mensaje_inicio">Por Favor <strong>Ingresa su nueva contraseña</strong></h3>
 
-                <form action="reset" id="sendReset" method="POST">
-                    <input class="form-control input-lg" required type="hidden" name="token" value="{{ $token }}">
-                    <input class="form-control input-lg" required type="hidden" name="email" value="{{ $email }}">
-                    <input class="form-control input-lg" required type="password" id="password" name="password">
-                    <input class="form-control input-lg" required type="password" id="password_confirmation" name="password_confirmation">
-                    <button type="button" id="btnReset" class="btn btn-primary btn-lg">Reset Password</button>
+                <form v-on:submit.prevent='ResetPass(this)' autocomplete="off" id="sendReset">
+                    <input class="form-control input-lg" @keyup.prevent="handleKeypress" required type="password" v-model='password' id="password" name="password">
+                    <input class="form-control input-lg" @keyup.prevent="handleKeypress" required type="password" v-model='password_confirmation' id="password_confirmation" name="password_confirmation">
+                    {{ Form::submit('Reset Password', array('class' => 'btn btn-primary btn-lg')) }}
                 </form>
         </div>
     </div>
 </body>
+<script>
+    var vm = new Vue({
+        http: {
+            root: '/password'
+        },
+        el: '#resetPassword',
+        data: {
+            mensaje_ok:false,
+            mensaje_error:false,
+        },
+        ready: function () {
+            this.email="{{ $email }}";
+            this.token="{{ $token }}";
+        },
+        methods: {
+            handleKeypress: function(event) {
+                if (event.keyCode == 13 && event.shiftKey) {
+                } else if (event.keyCode == 13){
+                    return;
+                }
+            },
+            ResetPass: function() {
+                data={
+                    email:this.email, 
+                    password:this.password ,
+                    password_confirmation:this.password_confirmation,
+                    token:this.token
+                };
+                this.$http.post("reset",data,function(data) {
+                    $(".load").hide();
+                    if (data.rst==1) {
+                        window.location='/';
+                    }
+                    if (data.error) {
+                        this.mensaje_error = data.error
+                    }
+                    this.handle = setInterval( ( ) => {
+                        this.mensaje_ok=false;
+                        this.mensaje_error=false;
+                    },5000);
+                });
+            },
+        }
+    });
+</script>

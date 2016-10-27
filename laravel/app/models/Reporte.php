@@ -312,6 +312,7 @@ class Reporte extends Eloquent
                     FROM alertas a
                     WHERE a.ruta_detalle_id=rd.id
                     AND a.persona_id=p.id
+                    AND a.estado=1 
                     ORDER BY a.id DESC
                     LIMIT 0,1
                 ),'|' ) alerta, p.id persona_id,
@@ -327,7 +328,7 @@ class Reporte extends Eloquent
                 ) email_seguimiento
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
-                INNER JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id
+                INNER JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id AND cd.estado=1
                 INNER JOIN areas a ON a.id=cd.area_id
                 INNER JOIN personas p ON p.id=cd.persona_id
                 INNER JOIN personas p2 ON p2.area_id=a.id AND FIND_IN_SET(p2.rol_id,'8,9') AND p2.estado=1

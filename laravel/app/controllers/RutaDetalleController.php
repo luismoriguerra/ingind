@@ -448,7 +448,7 @@ class RutaDetalleController extends \BaseController
                     $rf->save();
                 }
                 /*try{
-                    Mail::send('emails', $parametros , 
+                    Mail::queue('emails', $parametros , 
                         function($message){
                         $message->to(Input::get('jorgeshevchenk@gmail.com'),'')
                                 ->subject('.::Inicio Trámite Activado::.');

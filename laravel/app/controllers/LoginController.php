@@ -6,7 +6,9 @@ class LoginController extends BaseController
         $this->beforeFilter('csrf', array('on'=>'post'));
         $this->beforeFilter('auth', array('only'=>array('getDashboard')));
     }
-
+    public function getRegister() {
+        return View::make('register');
+    }
     public function postCreate() {
         $validator = Validator::make(Input::all(), Usuario::$rules);
 
@@ -28,8 +30,8 @@ class LoginController extends BaseController
         $persona->password = Hash::make(Input::get('password'));
         $persona->save();
 
-        $cargoId = 12; //vecino
-        $areaId=105;
+        $cargoId = 1; //vecino
+        $areaId=1;
 
         $cargo = Cargo::find($cargoId);
         $cargoPersona=$persona->cargos()->save($cargo, 

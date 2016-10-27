@@ -40,7 +40,6 @@
                         <input type="text" class="form-control" placeholder="Area" id="txt_nombre" readonly>
                         <select name="slct_tipo_tiempo_modal" id="slct_tipo_tiempo_modal" style="display:none" > 
                           <option value="">.::Seleccione::.</option>
-                          <option value="1">Hora</option>
                           <option value="2">Dias</option>
                         </select>
                       </div>

@@ -241,7 +241,7 @@ public function postCargar()
                                 );
 
                                     try{
-                                        Mail::send('emails', $parametros , 
+                                        Mail::queue('emails', $parametros , 
                                             function($message) use ($qem,$k) {
                                             $message
                                                 ->to($qem[$k]->email)
@@ -293,7 +293,7 @@ public function postCargar()
                             );
 
                                 try{
-                                    Mail::send('emails', $parametros , 
+                                    Mail::queue('emails', $parametros , 
                                         function($message) use( $qem,$k ) {
                                         $message
                                             ->to($qem[$k]->email)

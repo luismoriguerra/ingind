@@ -670,7 +670,7 @@ class RutaFlujo extends Eloquent
                             );
 
                                 try{
-                                    Mail::send('emails', $parametros , 
+                                    Mail::queue('emails', $parametros , 
                                         function($message) use ($qem,$k) {
                                         $message
                                             ->to($qem[$k]->email)
@@ -722,7 +722,7 @@ class RutaFlujo extends Eloquent
                         );
 
                             try{
-                                Mail::send('emails', $parametros , 
+                                Mail::queue('emails', $parametros , 
                                     function($message) use( $qem,$k ) {
                                     $message
                                         ->to($qem[$k]->email)
