@@ -5,9 +5,18 @@ $(document).ready(function() {
 	});
 
 	$("#btnIniciar").click(IniciarSession);
-	$("#btnRegister").click(Register);
-	$("#btnSend").click(EnviarEmail);
-	$("#btnReset").click(ResetPass);
+	$("#btnRegister").click(function(event) {
+  	    event.preventDefault();
+  	    Register()
+  	});
+	$("#btnSend").click(function(event) {
+  	    event.preventDefault();
+  	    EnviarEmail()
+  	});
+	$("#btnReset").click(function(event){
+  	    event.preventDefault();
+  	    ResetPass()
+  	});
 	$("#mensaje_msj").fadeOut(3500);
 });
 

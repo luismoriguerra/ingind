@@ -21,7 +21,7 @@
             {{ HTML::script('js/login/login.js') }}
     </head>
 
-    <body  bgcolor="#FFF" onkeyup="return validaEnter(event,'btnSend');">
+    <body  bgcolor="#FFF" onkeyup="return validaEnter(event,'sendReset');">
         <div id="mainWrap">
             <div id="loggit">
                 <h1><i class="fa fa-lock"></i> MUN.INDEP. </h1>
@@ -33,7 +33,7 @@
 
                 <h3 id="mensaje_inicio">Por Favor <strong>Ingresa su nueva contraseña</strong></h3>
 
-                <form action="reset" id="sendReset" method="POST">
+                <form autocomplete="off" id="sendReset">
                     <input class="form-control input-lg" required type="hidden" name="token" value="{{ $token }}">
                     <input class="form-control input-lg" required type="hidden" name="email" value="{{ $email }}">
                     <input class="form-control input-lg" required type="password" id="password" name="password">

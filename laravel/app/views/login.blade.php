@@ -70,7 +70,7 @@
 				</div>
 				</div>	
 			</form>
-			<form action="login/create" id='registerForm' method="post" class="form-horizontal" style="display:none">
+			<form autocomplete="off" id='registerForm' class="form-horizontal" style="display:none">
 	            <h2 class="form-signup-heading">Please Register</h2>
 
 	            <ul>

@@ -8,8 +8,8 @@ var Login={
             cache       : false,
             dataType    : 'json',
             data        : datos,
-            beforeSend : function() {                
-                $(".load").show();   
+            beforeSend : function() {
+                $(".load").show();
             },
             success : function(obj) {
                 $(".load").hide();
@@ -30,10 +30,9 @@ var Login={
         });
     },
     Register:function(){
-        var datos=$("#registerForm").serialize();//.split("_register").join("");
-        var url=$("#registerForm").attr("action");
+        var datos=$("#registerForm").serialize();
         $.ajax({
-            url         : url,
+            url         : 'login/create',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -60,10 +59,9 @@ var Login={
         });
     },
     EnviarEmail:function(){
-        var datos=$("#sendEmail").serialize();//.split("_register").join("");
-        var url=$("#sendEmail").attr("action");
+        var datos=$("#sendEmail").serialize();
         $.ajax({
-            url         : url,
+            url         : 'remind',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -86,10 +84,9 @@ var Login={
         });
     },
     ResetPass:function(){
-        var datos=$("#sendReset").serialize();//.split("_register").join("");
-        var url=$("#sendReset").attr("action");
+        var datos=$("#sendReset").serialize();
         $.ajax({
-            url         : url,
+            url         : 'reset',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
