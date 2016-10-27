@@ -15,7 +15,7 @@ class MessageController extends \BaseController {
 
         foreach($messages as $message){
             $messageObj['created_at']=$message->created_at;
-            $messageObj['imagen']=md5('u'.$message->user->id).'/'.$message->user->imagen;
+            $messageObj['imagen']=$message->user->image_path;
             $messageObj['area_nemonico']=$message->user->areas->nemonico;
             $messageObj['user_nombre']=$message->user->nombre;
             $messageObj['body']=$message->body;

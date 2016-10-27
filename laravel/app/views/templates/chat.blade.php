@@ -16,8 +16,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            <img class="img-circle" width="30" height="30" src="img/user/{{ md5('u'.Auth::user()->id).'/'.Auth::user()->imagen }}"  alt="User Image" />
-
+                            <img class="img-circle" width="30" height="30" src="{{ Auth::user()->image_path }}"  alt="User Image" />
                             {{ Auth::user()->full_name }}
                             <span class="caret"></span>
                         </a>
