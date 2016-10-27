@@ -200,7 +200,7 @@ class RutaDetalleController extends \BaseController
             return Response::json(
                 array(
                 'rst'=>1,
-                'msj'=>'Registro actualizado correctamente',
+                'msj'=>'Registro eliminado correctamente',
                 'ruta_detalle_id' => $datos->ruta_detalle_id,
                 )
             );

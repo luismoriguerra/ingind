@@ -248,7 +248,10 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="t_detalle_verbo">
-                                                    <tr class="trNuevo hidden">
+                                                   
+                                                </tbody>
+                                                <tfoot>
+                                                     <tr class="trNuevo hidden">
                                                         <td id="tdNro" style="vertical-align : middle;">0</td>
                                                         <td id="tdCondicional" style="vertical-align : middle;">NO</td>
                                                         <td id="tdRol" style="vertical-align : middle;">
@@ -287,7 +290,7 @@
                                                             {{-- <input type="checkbox" name="chkValida" id="chkValida" value=""> --}}
                                                         </td>
                                                     </tr>
-                                                </tbody>
+                                                </tfoot>
                                             </table>
                                             </div>
                                             <button id="btnAdd" class="btn btn-yellow" style="width: 100%;margin-top:-20px" type="button" onclick="Addtr(event)"><span class="glyphicon glyphicon-plus"></span> AGREGAR </button>

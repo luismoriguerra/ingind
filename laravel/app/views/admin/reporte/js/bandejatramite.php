@@ -234,7 +234,7 @@ mostrarDetalleHTML=function(datos){
                 verbo = detalle[i].split("=>")[7];
                 documento = detalle[i].split("=>")[8];
 
-                if(verbo == 'Generar'){
+                if(detalle[i].split("=>")[13] == 1 && detalle[i].split("=>")[2]=="Pendiente"){
                     orden = '<span id="btnDelete" name="btnDelete" class="btn btn-danger  btn-xs btnDelete" onclick="eliminardv('+detalle[i].split("=>")[0]+')"><i class="glyphicon glyphicon-remove"></i></span>';
                 }else{
                     orden = detalle[i].split("=>")[9];
@@ -453,9 +453,12 @@ saveVerbo = function(){
 /*delete rdv*/
 eliminardv = function(id){
     if(id){
-        var id_rutadverbo = document.querySelector("#ruta_detalle_id");
-        var data = {'ruta_detalle_id':id_rutadverbo,'ruta_detalle_verbo_id':id,};
-        Bandeja.Deleterdv(JSON.stringify(data),mostrarDetallle);
+        var r = confirm("¿Estas seguro de eliminar?");
+        if(r == true){
+            var id_rutadverbo = document.querySelector("#ruta_detalle_id");
+            var data = {'ruta_detalle_id':id_rutadverbo.value,'ruta_detalle_verbo_id':id,};
+            Bandeja.Deleterdv(JSON.stringify(data),mostrarDetallle);            
+        }
     }
 }
 /*end delete rdv*/

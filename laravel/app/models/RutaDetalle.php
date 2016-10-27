@@ -85,8 +85,11 @@ class RutaDetalle extends Eloquent
                     "=>",
                     IFNULL(rdv.updated_at,""),
                     "=>",
-                    IFNULL(rdv.usuario_updated_at,"")
+                    IFNULL(rdv.usuario_updated_at,""),
+                     "=>",
+                    IFNULL(rdv.adicional,"")
                 )
+                ORDER BY rdv.orden ASC
             SEPARATOR "|"),"") AS verbo,
             IFNULL(GROUP_CONCAT(
                 CONCAT(
