@@ -27,7 +27,7 @@ $(document).ready(function() {
         slctGlobal.listarSlct('persona','cboPersona','simple',null,data);
         slctGlobal.listarSlct('persona','slct_persona','simple',null,data);
     }else{
-        $("#btnAdd,.btnDelete").addClass('hidden');
+        $("#btnAdd").addClass('hidden');
     }
 
     Bandeja.MostrarAjax();
@@ -236,8 +236,8 @@ mostrarDetalleHTML=function(datos){
                 verbo = detalle[i].split("=>")[7];
                 documento = detalle[i].split("=>")[8];
 
-                if(detalle[i].split("=>")[13] == 1 && detalle[i].split("=>")[2]=="Pendiente"){
-                    orden = '<span class="btnDelete" id="btnDelete" name="btnDelete" class="btn btn-danger  btn-xs btnDelete" onclick="eliminardv('+detalle[i].split("=>")[0]+')"><i class="glyphicon glyphicon-remove"></i></span>';
+                if(detalle[i].split("=>")[13] == 1 && detalle[i].split("=>")[2]=="Pendiente" && (RolIdG==8 || RolIdG==9)){
+                    orden = '<span id="btnDelete" name="btnDelete" class="btn btn-danger  btn-xs btnDelete" onclick="eliminardv('+detalle[i].split("=>")[0]+')"><i class="glyphicon glyphicon-trash"></i></span>';
                 }else{
                     orden = detalle[i].split("=>")[9];
                 }
