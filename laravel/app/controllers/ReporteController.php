@@ -1220,7 +1220,7 @@ class ReporteController extends BaseController
             $objPHPExcel->getActiveSheet()->getStyle('A3:L3')->applyFromArray($styleThinBlackBorderAllborders);
             $objPHPExcel->getActiveSheet()->getStyle('A1:L1')->applyFromArray($styleAlignment);
             // Rename worksheet
-            $objPHPExcel->getActiveSheet()->setTitle('Notificaciones por Incumplimiento');
+            $objPHPExcel->getActiveSheet()->setTitle('Notificaciones');
             // Set active sheet index to the first sheet, so Excel opens this as the first sheet
             $objPHPExcel->setActiveSheetIndex(0);
             // Redirect output to a client’s web browser (Excel5)
