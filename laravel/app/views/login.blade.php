@@ -70,8 +70,8 @@
 				</div>
 				</div>	
 			</form>
-		    <a href="{{ url('password/remind') }}">Olvidé mi contraseña</a><br>
-		    <a href="{{ url('login/register') }}" class="text-center">Registrar un Nuevo usuario</a>
+		    <!--a href="{{ url('password/remind') }}">Olvidé mi contraseña</a><br>
+		    <a href="{{ url('login/register') }}" class="text-center">Registrar un Nuevo usuario</a-->
 		</div>
 	</div>
 </body>

@@ -1,3 +1,9 @@
+--27-10-2016
+ALTER TABLE `rutas_detalle_verbo`
+ADD COLUMN `adicional`  int NULL DEFAULT 0 AFTER `estado`;
+
+
+
 --2016-10-20
 ALTER TABLE `referidos`
 CHANGE COLUMN `id_tipo` `ruta_detalle_verbo_id`  int(11) NULL DEFAULT NULL AFTER `tipo`;

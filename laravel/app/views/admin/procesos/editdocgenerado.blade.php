@@ -93,6 +93,7 @@
                             <div class="box-body table-responsive">
                             <!-- THE MESSAGES -->
                             <form name="form_filtros" id="form_filtros" method="POST" action="">
+                                <input type="hidden" name="totaldatos" value="1">
                                  <div class="row form-group" >
                                     <div class="col-sm-4">
                                         <label class="control-label">Seleccionar Area:</label>

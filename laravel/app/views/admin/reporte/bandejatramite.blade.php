@@ -55,6 +55,14 @@
 .mailbox .table-mailbox tr > td > a {
   color: #444;
 }
+
+.btn-yellow{
+    color: #0070ba;
+    background-color: ghostwhite;
+    border-color: #ccc;
+    font-weight: bold;
+}
+
 @media screen and (max-width: 767px) {
   .mailbox .nav-stacked > li:not(.header) {
     float: left;
@@ -215,9 +223,10 @@
                                                 
                                             </div>
                                         </div>
-                                        <div class="col-sm-12">
+                                        <br>
+                                        <div class="col-sm-12" style="margin-top:20px;margin-bottom: 20px">
                                             <div class="table-responsive">
-                                            <table class="table table-bordered table-striped">
+                                            <table class="table table-bordered table-striped" id="tbldetalleverbo">
                                                 <thead>
                                                     <tr>
                                                         <th style="text-align:center" rowspan="2">Nro</th>
@@ -238,9 +247,53 @@
                                                         <!--th style="text-align:center">Adjuntar Doc. Generado</th-->
                                                     </tr>
                                                 </thead>
-                                                <tbody id="t_detalle_verbo"></tbody>
+                                                <tbody id="t_detalle_verbo">
+                                                   
+                                                </tbody>
+                                                <tfoot>
+                                                     <tr class="trNuevo hidden">
+                                                        <td id="tdNro" style="vertical-align : middle;">0</td>
+                                                        <td id="tdCondicional" style="vertical-align : middle;">NO</td>
+                                                        <td id="tdRol" style="vertical-align : middle;">
+                                                            <select class="form-control cboRoles" id="cboRoles" name="cboRoles"></select>
+                                                        </td>
+                                                        <td id="tdVerbo" style="vertical-align : middle;">
+                                                            Generar
+                                                            {{-- <input type="text" name="txtverbo" id="txtverbo" class="form-control" placeholder=""> --}}
+                                                        </td>
+                                                        <td id="tdTipoDoc" style="vertical-align : middle;">
+                                                            {{-- <input type="text" name="txttipoDoc" id="txttipoDoc" class="form-control" placeholder=""> --}}
+                                                            <select class="form-control cbotipoDoc" id="cbotipoDoc" name="cbotipoDoc"></select>
+                                                        </td>
+                                                        <td id="tdDescripcion" style="vertical-align : middle;">
+                                                            <input type="text" name="txtdescripcion" id="txtdescripcion" class="form-control txtdescripcion" placeholder="">
+                                                        </td>
+                                                        <td id="tdDocumento" style="vertical-align : middle;">
+                                                            <input type="text" name="txtdocumento" id="txtdocumento" class="form-control txtdocumento" placeholder="" disabled>
+                                                        </td>
+                                                        <td id="tdObservaciones" style="vertical-align : middle;">
+                                                            <textarea class="form-control" id="txtobservacion" name="txtobservacion" disabled></textarea>
+                                                            {{-- <input type="text" name="txtobservacion" id="txtobservacion" class="form-control" placeholder=""> --}}
+                                                        </td>
+                                                        <td id="tdPersona" style="vertical-align : middle;" disabled>
+                                                            <select class="form-control" id="cboPersona" name="cboPersona" readonly="readonly"></select>
+                                                        </td>
+                                                        <td id="tdFecha" style="vertical-align : middle;" disabled>
+                                                          {{--   <input type="text" name="txtfecha" id="txtfecha" class="form-control" placeholder=""> --}}
+                                                        </td>
+                                                        <td id="tdCheck" style="vertical-align : middle;">
+                                                            <div style="display:flex;">
+                                                                <span id="btnSave" name="btnSave" class="btn btn-success btn-sm" style="margin-right: 5px;" onclick="saveVerbo()"><i class="glyphicon glyphicon-ok"></i></span>  
+                                                                <span id="btnDelete" name="btnDelete" class="btn btn-danger  btn-sm btnDelete" onclick="Deletetr(this)"><i class="glyphicon glyphicon-remove"></i></span>
+                                                            </div>
+                                                  
+                                                            {{-- <input type="checkbox" name="chkValida" id="chkValida" value=""> --}}
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
                                             </table>
                                             </div>
+                                            <button id="btnAdd" class="btn btn-yellow" style="width: 100%;margin-top:-20px" type="button" onclick="Addtr(event)"><span class="glyphicon glyphicon-plus"></span> AGREGAR </button>
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">

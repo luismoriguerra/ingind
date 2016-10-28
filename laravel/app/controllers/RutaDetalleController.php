@@ -165,6 +165,48 @@ class RutaDetalleController extends \BaseController
         }
     }
 
+    public function postSaverdverbo(){
+        //prueba
+        if ( Request::ajax() ) {
+            $datos = json_decode(Input::get('datos'));
+            $rdv = new RutaDetalleVerbo;
+            $rdv['ruta_detalle_id'] = $datos->ruta_detalle_id;
+            $rdv['nombre'] = $datos->nombre;
+            $rdv['documento'] = $datos->documento;
+            $rdv['condicion'] = $datos->condicion;
+            $rdv['rol_id'] = $datos->rol_id;
+            $rdv['verbo_id'] = $datos->verbo_id;
+            $rdv['adicional'] = $datos->adicional;
+            $rdv['orden'] = $datos->orden;
+            $rdv->save();
+
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro actualizado correctamente',
+                'ruta_detalle_id' => $datos->ruta_detalle_id,
+                )
+            );
+        }
+    }
+
+    public function postDeleterdv(){
+        if ( Request::ajax() ) {
+            $datos = json_decode(Input::get('datos'));
+            $rdv = RutaDetalleVerbo::find($datos->ruta_detalle_verbo_id);
+            $rdv['estado']= 0;
+            $rdv['usuario_updated_at']=Auth::user()->id;
+            $rdv->save();
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro eliminado correctamente',
+                'ruta_detalle_id' => $datos->ruta_detalle_id,
+                )
+            );
+        }
+    }
+
     public function postActualizar(){
         if ( Request::ajax() ) {
             DB::beginTransaction();

@@ -126,6 +126,10 @@ class ReporteFinalController extends BaseController
             $retorno["draw"]=Input::get('draw');
         }
 
+        if( !Input::has('totaldatos') ){
+          $array['w']=" AND rd.dtiempo_final IS NULL ";
+        }
+
         if( Input::has('id_union') AND Input::get('id_union')!='' ){
           $id_union=explode(" ",trim(Input::get('id_union')));
           for($i=0; $i<count($id_union); $i++){
