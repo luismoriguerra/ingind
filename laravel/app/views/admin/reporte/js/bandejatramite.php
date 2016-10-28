@@ -213,6 +213,8 @@ mostrarDetalleHTML=function(datos){
     var documento="";
     var orden="";
     var archivo="";
+
+    $("#t_detalle_verbo").html("");
         if ( datos.verbo!='' ) {
             detalle=datos.verbo.split("|");
             html="";
