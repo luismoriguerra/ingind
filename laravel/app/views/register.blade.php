@@ -45,8 +45,11 @@
                     <input class="form-control input-lg" v-model='user.paterno' required placeholder="Paterno" type="text">
                     <input class="form-control input-lg" v-model='user.materno' required placeholder="Materno" type="text">
                     <input class="form-control input-lg" v-model='user.nombre' required placeholder="Nombre" type="text">
-                    <input class="form-control input-lg" v-model='user.usuario' required placeholder="Dni" type="text">
+                    <input class="form-control input-lg" v-model='user.dni' required placeholder="Dni" type="text">
                     <input class="form-control input-lg" v-model='user.email' required placeholder="email"  type="email">
+                    <input class="form-control input-lg" v-model='user.direccion' required placeholder="direccion"  type="direccion">
+                    <input class="form-control input-lg" v-model='user.telefono' required placeholder="telefono"  type="telefono">
+                    <input class="form-control input-lg" v-model='user.celular' required placeholder="celular"  type="celular">
                     <input class="form-control input-lg" v-model='user.password' required placeholder="Password" type="password" autocomplete="off" >
                     <input class="form-control input-lg" v-model='user.password_confirmation' required placeholder="Confirm Password" type="password" autocomplete="off" >
 
@@ -70,13 +73,17 @@
             mensaje_ok:false,
             mensaje_error:false,
             user:{
-                paterno:'',
-                materno:'',
-                nombre:'',
+                paterno:'rojas',
+                materno:'toralva',
+                nombre:'juancarlos',
                 usuario:'',
-                email:'',
-                password:'',
-                password_confirmation:'',
+                dni:'45531656',
+                email:'carlos34343434@gmail.com',
+                direccion:'av salamanca',
+                telefono:'964142677',
+                celular:'964142677',
+                password:'111111',
+                password_confirmation:'111111',
             },
             errores:[],
         },
@@ -91,6 +98,7 @@
                 }
             },
             RegisterUser: function() {
+                this.user.usuario=this.user.dni;
                 this.$http.post("create",this.user,function(data) {
                     $(".load").hide();
                     
