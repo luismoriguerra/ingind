@@ -5,6 +5,34 @@ require_once app_path().'/libraries/example_files/styles.inc';
 
 class Helpers
 {
+    /**
+     * Metodo para crear request entre controladores
+     *
+     * @param type $url Metodo destino
+     * @param type $method Metodo de envio (GET o POST)
+     * @param type $data Arreglo de datos
+     * @param type $json Si el retorno es json o array
+     * @return type JSON o ARRAY
+     */
+    public static function ruta($url, $method, $data, $json=true)
+    {
+        //Datos enviados, vector
+        Input::replace($data);
+        //Crea Request via GET o POST
+        $request = Request::create($url, $method);
+        //Obtener response
+        $response = Route::dispatch($request);
+        //Solo contenido, en formato json
+        $content = $response->getContent();
+
+        if ($json) {
+            //Retorna formato JSON
+            return $content;
+        } else {
+            //Retorna un arreglo
+            return json_decode($content);
+        }
+    }
   public static function generarWord($plantilla='Template.docx',
                                      $nombreFile='Solarsystem.docx'
                                      )
