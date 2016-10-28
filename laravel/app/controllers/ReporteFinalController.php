@@ -260,7 +260,8 @@ class ReporteFinalController extends BaseController
                                 (rd.dtiempo*t.totalminutos),
                                 rd.area_id 
                                 )$estadofinal 
-                                AND DATE(rd.fecha_inicio) BETWEEN '$datesp' AND '$datehoy' ";
+                                AND DATE(rd.fecha_inicio) BETWEEN '$datesp' AND '$datehoy' 
+                                AND ValidaDiaLaborable('$datehoy',rd.area_id)=0 ";
 
       $r = Reporte::BandejaTramiteEnvioAlertas( $array );
       $html="";
