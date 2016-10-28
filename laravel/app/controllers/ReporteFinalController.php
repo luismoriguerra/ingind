@@ -252,24 +252,15 @@ class ReporteFinalController extends BaseController
                   'rst'=>1
                );
 
-        if (Input::has('start')) {
-            $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
-        }
-
-        if( Input::has('tiempo_final') AND Input::get('tiempo_final')!='' ){
-          $estadofinal=">=CURRENT_TIMESTAMP()";
-           if( Input::get('tiempo_final')=='0' ){
-            $estadofinal="<CURRENT_TIMESTAMP()";
-           }
-           $datehoy=date("Y-m-d");
-           $datesp=date("Y-m-d",strtotime("-10 days"));
-          $array['tiempo_final']="  AND CalcularFechaFinal(
-                                    rd.fecha_inicio, 
-                                    (rd.dtiempo*t.totalminutos),
-                                    rd.area_id 
-                                    )$estadofinal 
-                                    AND DATE(rd.fecha_inicio) BETWEEN '$datesp' AND '$datehoy' ";
-        }
+      $estadofinal="<CURRENT_TIMESTAMP()";
+      $datehoy=date("Y-m-d");
+      $datesp=date("Y-m-d",strtotime("-10 days"));
+      $array['tiempo_final']="  AND CalcularFechaFinal(
+                                rd.fecha_inicio, 
+                                (rd.dtiempo*t.totalminutos),
+                                rd.area_id 
+                                )$estadofinal 
+                                AND DATE(rd.fecha_inicio) BETWEEN '$datesp' AND '$datehoy' ";
 
       $r = Reporte::BandejaTramiteEnvioAlertas( $array );
       $html="";
