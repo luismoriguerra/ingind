@@ -119,6 +119,7 @@ Route::get(
 );
 Route::controller('password', 'RemindersController');
 Route::controller('login', 'LoginController');
+Route::get('register/confirm/{token}', 'LoginController@confirmEmail');
 Route::controller('cargar', 'CargarController');
 
 Route::get(

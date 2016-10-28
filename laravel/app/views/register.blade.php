@@ -30,7 +30,9 @@
                 <h3 id="mensaje_msj"  class="label-success">
                 <?= Session::get('msj'); ?>
                 </h3>
-                
+                <h3 v-if="mensaje_ok" class="label-success">
+                    @{{ mensaje_ok }}
+                </h3>
                 <h3 id="mensaje_error" class="label-danger">
                     <ul>
                       <li v-for="error in errores">
@@ -73,17 +75,17 @@
             mensaje_ok:false,
             mensaje_error:false,
             user:{
-                paterno:'rojas',
-                materno:'toralva',
-                nombre:'juancarlos',
+                paterno:'',
+                materno:'',
+                nombre:'',
                 usuario:'',
-                dni:'45531656',
-                email:'carlos34343434@gmail.com',
-                direccion:'av salamanca',
-                telefono:'964142677',
-                celular:'964142677',
-                password:'111111',
-                password_confirmation:'111111',
+                dni:'',
+                email:'',
+                direccion:'',
+                telefono:'',
+                celular:'',
+                password:'',
+                password_confirmation:'',
             },
             errores:[],
         },
@@ -102,8 +104,21 @@
                 this.$http.post("create",this.user,function(data) {
                     $(".load").hide();
                     
-                    if(data.rst==1 && data.estado==1){
-                        window.location='/';
+                    if(data.rst==1){
+                        this.mensaje_ok=data.msj;
+                        this.user= {
+                            paterno:'',
+                            materno:'',
+                            nombre:'',
+                            usuario:'',
+                            dni:'',
+                            email:'',
+                            direccion:'',
+                            telefono:'',
+                            celular:'',
+                            password:'',
+                            password_confirmation:'',
+                        };
                     }
                     else if(data.rst==1){
                         this.errores=data.msj;

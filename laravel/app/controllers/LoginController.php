@@ -53,7 +53,7 @@ class LoginController extends BaseController
                 'usuario_created_at' => $user->id
             ]
         );
-        return  [];
+        return  ['rst'=>1,'msj'=>'Se envio un mensaje de confirmacion a su cuenta de email'];
         return  LoginController::postSignin();
 
     }
