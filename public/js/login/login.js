@@ -38,45 +38,8 @@ IniciarSession=function(){
 		Login.IniciarLogin();	
 	}
 };
-Register=function(){
-	if($.trim($("#usuario_register").val())==''){
-		MostrarMensaje("Ingrese su <strong>Usuario</strong>");
-	}
-	else if($.trim($("#password_register").val())==''){
-		MostrarMensaje("Ingrese su <strong>Password</strong>");
-	}
-	else if($.trim($("#password_confirmation_register").val())==''){
-		MostrarMensaje("Ingrese su <strong>Password</strong>");
-	}
-	else{
-		Login.Register();	
-	}
-};
-EnviarEmail=function(){
-	if($.trim($("#email").val())==''){
-		MostrarMensaje("Ingrese su <strong>Email</strong>");
-	}
-	else{
-		Login.EnviarEmail();	
-	}
-};
-ResetPass=function(){
-	if($.trim($("#password").val())==''){
-		MostrarMensaje("Ingrese su <strong>Password</strong>");
-	}
-	else if($.trim($("#password_confirmation").val())==''){
-		MostrarMensaje("Ingrese su <strong>Password confirmation</strong>");
-	}
-	else{
-		Login.ResetPass();	
-	}
-};
-MostrarMensaje=function(msj, status){
-	if (status=='ok') {
-		$mensaje =$("#mensaje_ok");
-	} else {
-		$mensaje =$("#mensaje_error");
-	}
+MostrarMensaje=function(msj){
+	$mensaje =$("#mensaje_error");
 	$mensaje.html(msj);
 
     $("#mensaje_inicio").fadeOut(1000, function()

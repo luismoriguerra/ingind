@@ -39,6 +39,7 @@
                     <input v-model="email" @keyup.prevent="handleKeypress" class="form-control input-lg"  required placeholder="email" name="email" id="email" type="email">
                     {{ Form::submit('Enviar', array('class' => 'btn btn-primary btn-lg')) }}
                 </form>
+                <a href="{{ url('/') }}" class="text-center">Ya tengo un usuario</a>
         </div>
     </div>
 </body>

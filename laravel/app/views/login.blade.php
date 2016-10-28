@@ -11,14 +11,15 @@
 		<title>			
 				M. Independencia
 		</title>
-            {{ HTML::style('lib/font-awesome-4.2.0/css/font-awesome.min.css') }}
-            {{ HTML::style('lib/bootstrap-3.3.1/css/bootstrap.min.css') }}
-            {{ HTML::script('lib/jquery-2.1.3.min.js') }}
-            {{ HTML::script('lib/jquery-ui-1.11.2/jquery-ui.min.js') }}
-            {{ HTML::script('lib/bootstrap-3.3.1/js/bootstrap.min.js') }}
-            {{ HTML::style('css/login/login.css') }}
-            {{ HTML::script('js/login/login_ajax.js') }}
-            {{ HTML::script('js/login/login.js') }}
+		<meta name="token" id="token" value="{{ csrf_token() }}">
+        {{ HTML::style('lib/font-awesome-4.2.0/css/font-awesome.min.css') }}
+        {{ HTML::style('lib/bootstrap-3.3.1/css/bootstrap.min.css') }}
+        {{ HTML::script('lib/jquery-2.1.3.min.js') }}
+        {{ HTML::script('lib/jquery-ui-1.11.2/jquery-ui.min.js') }}
+        {{ HTML::script('lib/bootstrap-3.3.1/js/bootstrap.min.js') }}
+        {{ HTML::style('css/login/login.css') }}
+        {{ HTML::script('js/login/login_ajax.js') }}
+        {{ HTML::script('js/login/login.js') }}
 	</head>
 
 	<body  bgcolor="#FFF" onkeyup="return validaEnter(event,'btnIniciar');">
@@ -35,7 +36,6 @@
 	            <h3 id="mensaje_inicio">Por Favor <strong>Logeate</strong></h3>            
 	        
 			<form action="login/signin" id="logForm" method="post" class="form-horizontal">
-			<input type="hidden" name="_token" value="{{ csrf_token() }}">
 				<div class="row">
 				<div class="col-md-12">
 					<div class="form-group">
@@ -70,26 +70,8 @@
 				</div>
 				</div>	
 			</form>
-			<form autocomplete="off" id='registerForm' class="form-horizontal" style="display:none">
-	            <h2 class="form-signup-heading">Please Register</h2>
-
-	            <ul>
-	                @foreach($errors->all() as $error)
-	                    <li>{{ $error }}</li>
-	                @endforeach
-	            </ul>
-				<input type="hidden" name="_token" value="{{ csrf_token() }}">
-	            <input class="form-control input-lg" value='paterno' required placeholder="Paterno" name="paterno" id="paterno_register" type="text">
-	            <input class="form-control input-lg" value='materno' required placeholder="Materno" name="materno" id="materno_register" type="text">
-	            <input class="form-control input-lg" value='nombre' required placeholder="Nombre" name="nombre" id="nombre_register" type="text">
-	            <input class="form-control input-lg" value='32165487' required placeholder="Dni" name="usuario" id="usuario_register" type="text">
-	            <input class="form-control input-lg" value='carlos@gmail.com' required placeholder="email" name="email" id="email_register" type="email">
-
-	            <input type="password" name="password" id="password_register" class="form-control input-lg" placeholder="Password" autocomplete="off" required>
-	            <input type="password" name="password_confirmation" id="password_confirmation_register" class="form-control input-lg" placeholder="Confirm Password" autocomplete="off" required>
-
-				<button type="button" id="btnRegister" class="btn btn-primary btn-lg">Register</button>
-	        </form>
+		    <a href="{{ url('password/remind') }}">Olvidé mi contraseña</a><br>
+		    <a href="{{ url('login/register') }}" class="text-center">Registrar un Nuevo usuario</a>
 		</div>
 	</div>
 </body>
