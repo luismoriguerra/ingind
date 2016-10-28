@@ -36,12 +36,10 @@ class MailEnvioAlertasCommand extends Command {
      * @return mixed
      */
     public function fire()
-    {        $Input = [
-            'tiempo_final' => '0'
-        ];
+    {
         $url='reportef/bandejatramiteenvioalertas';
         Auth::loginUsingId(697);
-        echo Helpers::ruta($url, 'POST', $Input );
+        echo Helpers::ruta($url, 'POST', [] );
         Auth::logout();
     }
 
