@@ -21,6 +21,7 @@
         {{ HTML::style('css/login/login.css') }}
         {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js') }}
         {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.2/vue-resource.min.js') }}
+        <script src='https://www.google.com/recaptcha/api.js'></script>
     </head>
 
     <body id="registerUser" bgcolor="#FFF">
@@ -54,7 +55,7 @@
                     <input class="form-control input-lg" v-model='user.celular' required placeholder="celular"  type="celular">
                     <input class="form-control input-lg" v-model='user.password' required placeholder="Password" type="password" autocomplete="off" >
                     <input class="form-control input-lg" v-model='user.password_confirmation' required placeholder="Confirm Password" type="password" autocomplete="off" >
-
+                    <div class="g-recaptcha" data-sitekey="6LclhwoUAAAAAI8qZF0GBDqXZ1o17neoDx8012y8"></div>
                     {{ Form::submit('Register', array('class' => 'btn btn-primary btn-lg')) }}
                 </form>
                 <a href="{{ url('/') }}" class="text-center">Ya tengo un usuario</a>
