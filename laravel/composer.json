@@ -8,7 +8,8 @@
 		"laravel/framework": "4.2.*",
 		"way/generators": "~2.0",
 		"itsgoingd/clockwork": "1.*",
-		"thujohn/pdf": "dev-master"
+		"thujohn/pdf": "dev-master",
+		"greggilbert/recaptcha": "dev-master"
 	},
 	"autoload": {
 		"psr-4": {

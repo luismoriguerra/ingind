@@ -34,8 +34,8 @@ class LoginController extends BaseController
               ->subject('Bienvenido!');
         });
 
-        $cargoId = 1; //vecino
-        $areaId=1;//area
+        $cargoId = 13; //vecino
+        $areaId=107;//area
 
         $cargo = Cargo::find($cargoId);
         $cargoPersona=$user->cargos()->save($cargo, 
