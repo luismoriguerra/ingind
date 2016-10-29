@@ -117,7 +117,9 @@ class ChatController extends \BaseController {
             foreach($viewData['current_conversation']->messages as $message){
                 $messageObj['created_at']=$message->created_at;
                 $messageObj['img']=$message->user->img;
-                $messageObj['area_nemonico']=$message->user->areas->nemonico;
+                $messageObj['area_nemonico']='sin area';
+                if (isset($message->user->areas->nemonico))
+                    $messageObj['area_nemonico']=$message->user->areas->nemonico;
                 $messageObj['user_nombre']=$message->user->nombre;
                 $messageObj['body']=$message->body;
                 $messagesObj[]=$messageObj;

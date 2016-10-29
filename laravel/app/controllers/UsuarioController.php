@@ -23,7 +23,7 @@ class UsuarioController extends BaseController
             $temporal = unserialize($temporal);
             foreach ($temporal as $key => $value) {
                 if (substr($key,0,6)=='login_') {
-                    $user.=Usuario::find($value)->id.',';
+                    $user.=Persona::find($value)->id.',';
                 }
             }
         }

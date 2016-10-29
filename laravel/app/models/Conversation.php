@@ -8,7 +8,7 @@ class Conversation extends Eloquent {
     public $timestamps = false;
 
     public function users() {
-        return $this->belongsToMany('Usuario', 'conversations_users', 'conversation_id', 'user_id')->where('user_id', '<>', Auth::user()->id);
+        return $this->belongsToMany('Persona', 'conversations_users', 'conversation_id', 'user_id')->where('user_id', '<>', Auth::user()->id);
     }
 
     public function messages() {

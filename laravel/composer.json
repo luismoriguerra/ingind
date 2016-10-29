@@ -9,7 +9,7 @@
 		"way/generators": "~2.0",
 		"itsgoingd/clockwork": "1.*",
 		"thujohn/pdf": "dev-master",
-		"greggilbert/recaptcha": "dev-master"
+		"google/recaptcha": "~1.1"
 	},
 	"autoload": {
 		"psr-4": {

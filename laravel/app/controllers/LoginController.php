@@ -1,5 +1,6 @@
 <?php
 
+use ReCaptcha\ReCaptcha;
 class LoginController extends BaseController
 {
     public function __construct() {
@@ -12,11 +13,50 @@ class LoginController extends BaseController
     public function getRegister() {
         return View::make('register');
     }
+    public function captchaCheck()
+    {
+
+        //$response = Input::get('g-recaptcha-response');
+        $response = Input::get('recaptcha');
+        $remoteip = $_SERVER['REMOTE_ADDR'];
+        //$secret   = env('RE_CAP_SECRET');
+        //$secret   = '6Lc8mQoUAAAAAB_sxMrDKohheYyyE5FEp2zWk_gK'; // local
+        $secret   = '6LclhwoUAAAAAOJasEKpU0fdtWq60YrvBIn0Q8mp';
+
+        $recaptcha = new ReCaptcha($secret);
+        $resp = $recaptcha->verify($response, $remoteip);
+
+        if ($resp->isSuccess()) { 
+            return 1;
+        } else {
+            return 0;
+        }
+
+    }
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+
+        $data['captcha'] = $this->captchaCheck();
+        //dd($data['captcha']);
+        $validator = Validator::make($data,Persona::$rules, Persona::$messajes);
+
+
+        return $validator;
+
+    }
     /**
      * create user
      */
     public function postCreate() {
-        $validator = Validator::make(Input::all(), Usuario::$rules);
+        $data['captcha'] = $this->captchaCheck();
+        //$validator = Validator::make(Input::all(), Persona::$rules);
+        $validator = $this->validator(Input::all());
 
         if ( $validator->fails() ) {
             return Response::json(

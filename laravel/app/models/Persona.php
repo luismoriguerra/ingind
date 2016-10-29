@@ -16,22 +16,54 @@ class Persona extends Base implements UserInterface, RemindableInterface
      */
     public $table = "personas";
     protected $fillable = [
-        'paterno',
-        'materno',
-        'nombre',
-        'dni',
-        'email',
-        'direccion',
-        'telefono',
-        'celular',
-        'password',
-        'rol_id',
-        'area_id',
-        'estado',
-        'fecha_nacimiento',
-        'sexo'
+            'paterno',
+            'materno',
+            'nombre',
+            'dni',
+            'email',
+            'direccion',
+            'telefono',
+            'celular',
+            'password',
+            'rol_id',
+            'area_id',
+            'estado',
+            'fecha_nacimiento',
+            'sexo'
     ];
-    protected $hidden = ['password', 'remember_token'];
+    public $hidden = ['password', 'remember_token'];
+    public static $rules = [
+                'paterno'=>'required|regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i',
+                'materno'=>'required|regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i',
+                'nombre' =>'required|regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i',
+                'usuario'  =>'required|min:8|unique:personas,dni',//dni
+                'email'  =>'required|email|unique:personas',
+                'password'=>'required|alpha_num|between:6,12|confirmed',
+                'password_confirmation'=>'required|alpha_num|between:6,12',
+                'recaptcha'  => 'required',
+                'captcha'               => 'required|min:1'
+    ];
+    public static $messajes = [
+                'paterno.required'   => 'First Name is required',
+                'materno.required'    => 'Last Name is required',
+                'nombre.required'    => ' Name is required',
+                'usuario.required'    => ' dni is required',
+                'email.required'        => 'Email is required',
+                'email.email'           => 'Email is invalid',
+                'password.required'     => 'Password is required',
+                'password.min'          => 'Password needs to have at least 6 characters',
+                //'password.max'          => 'Password maximum length is 20 characters',
+                'recaptcha.required'             => 'Captcha is required',
+                'captcha.min'           => 'Wrong captcha, please try again.'
+    ];
+
+    /**
+     * 
+     */
+    public function getReminderEmail()
+    {
+        return $this->email;
+    }
     /**
      * Boot the model.
      *
@@ -67,6 +99,25 @@ class Persona extends Base implements UserInterface, RemindableInterface
         $this->token = null;
         $this->save();
     }
+    public function cargos()
+    {
+        return $this->belongsToMany('Cargo');
+    }
+    public function conversations() {
+        return $this->belongsToMany('Conversation', 'conversations_users', 'user_id', 'conversation_id');
+    }
+    public function areas() {
+        return $this->belongsTo('Area', 'area_id');
+    }
+    public function getFullNameAttribute(){
+        return "$this->paterno $this->materno, $this->nombre";
+    }
+    public function getImgAttribute(){
+        if (isset($this->imagen) ){
+            return  'img/user/'.md5('u'.$this->id).'/'.$this->imagen;
+        }
+        return 'img/admin/M.jpg';
+    }
     public static $where =[
                         'id', 'paterno','materno','nombre','email','dni','rol_id','area_id',
                         'password','fecha_nacimiento','sexo', 'estado'
@@ -78,10 +129,10 @@ class Persona extends Base implements UserInterface, RemindableInterface
     /**
      * Cargos relationship
      */
-    public function cargos()
+    /*public function cargos()
     {
         return $this->belongsToMany('Cargo');
-    }
+    }*/
 
     public static function getCargar()
     {

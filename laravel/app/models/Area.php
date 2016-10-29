@@ -13,7 +13,7 @@ class Area extends Base
         return $this->belongsToMany('Cargo');
     }*/
     public function usuarios() {
-        return $this->hasMany('Usuario');
+        return $this->hasMany('Persona');
     }
     /**
      * Rutas relationship
