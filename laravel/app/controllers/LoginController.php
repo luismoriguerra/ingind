@@ -2,7 +2,7 @@
 
 class LoginController extends BaseController
 {
-    use CaptchaTrait;
+  /*  use CaptchaTrait;*/
     public function __construct() {
         $this->beforeFilter('csrf', array('on'=>'post'));
         $this->beforeFilter('auth', array('only'=>array('getDashboard')));
