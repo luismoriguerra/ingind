@@ -55,9 +55,7 @@
                     <input class="form-control input-lg" v-model='user.celular' required placeholder="celular"  type="celular">
                     <input class="form-control input-lg" v-model='user.password' required placeholder="Password" type="password" autocomplete="off" >
                     <input class="form-control input-lg" v-model='user.password_confirmation' required placeholder="Confirm Password" type="password" autocomplete="off" >
-                    <!--<div class="g-recaptcha" data-sitekey="6Lc8mQoUAAAAAAjAPkTXE7t5wLB_Kp2dDvdA97S6"></div> local-->
-
-                    <div class="g-recaptcha" data-sitekey="6LclhwoUAAAAAI8qZF0GBDqXZ1o17neoDx8012y8"></div>
+                    <div class="g-recaptcha" data-sitekey="{{Config::get('recaptcha.site')}}"></div>
                     {{ Form::submit('Register', array('class' => 'btn btn-primary btn-lg')) }}
                 </form>
                 <a href="{{ url('/') }}" class="text-center">Ya tengo un usuario</a>
