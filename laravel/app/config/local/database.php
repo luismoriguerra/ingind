@@ -24,10 +24,10 @@ return array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
 			'database'  => 'procesos',
-			'username'  => 'desarrollo',
-			'password'  => '123456',
+			'username'  => 'root',
+			'password'  => 'carlos3434',
 			'charset'   => 'utf8',
-			'collation' => 'utf8_unicode_ci',
+			'collation' => 'utf8_general_ci',
 			'prefix'    => '',
 		),
 
