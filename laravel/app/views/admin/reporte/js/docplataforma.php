@@ -8,7 +8,35 @@ $(document).ready(function() {
     var data = {estado:1};
     var ids = [];
     //slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);
+
+
+    function DataToFilter(){
+        var fecha=$("#fecha").val();
+        area_id = $('#slct_area_id').val();
+        var data = [];
+        if (fecha!=="") { 
+            if ($.trim(area_id)!=='') {
+                data.push(
+                    {
+                        fecha:fecha,
+                        area_id:area_id
+                    }
+                );          
+            }else{
+                alert('seleccione area');
+            }          
+        } else {
+            alert("Seleccione Fecha");
+        }
+        return data;
+    }
+
+
     $("#generar").click(function (){
+       /* var data = DataToFilter();            
+        if(data.length > 0){
+            Accion.mostrar(data[0]);            
+        }*/
         var fecha=$("#fecha").val();
         if ( fecha!=="") {
             data = {fecha:fecha,area_id:$("#slct_area_id").val()};
@@ -17,8 +45,29 @@ $(document).ready(function() {
             alert("Seleccione Fecha");
         }
     });
+
     data = {estado:1};
     slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);
+
+
+    $(document).on('click', '#btnexport', function(event) {
+        var fecha=$("#fecha").val();
+        if ( fecha!=="") {
+            data = {fecha:fecha,area_id:$("#slct_area_id").val().join(',')};
+            $(this).attr('href','reporte/exportdocplataforma'+'?fecha='+data.fecha+'&areaexport='+data.area_id);
+        } else {
+            alert("Seleccione Fecha");
+        }
+
+
+    /*    var data = DataToFilter();
+        if(data.length > 0){
+            $(this).attr('href','reporte/exportdocplataforma'+'?fecha='+data[0]['fecha']+'&area_id='+data[0]['area_id']);            
+        }else{
+            event.preventDefault();
+        }*/
+    });
+
 });
 HTMLreporte=function(datos){
     var html="";

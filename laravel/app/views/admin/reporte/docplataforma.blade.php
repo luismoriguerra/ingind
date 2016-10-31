@@ -34,22 +34,25 @@
             <div class="box">
                 <fieldset>
                     <div class="row form-group" >
-                        <div class="col-sm-12">
-                            <div class="col-sm-5">
+                        <div class="col-sm-4">
+                           {{--  <div class="col-sm-5"> --}}
                                 <label class="control-label">Rango de Fechas:</label>
                                 <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha" onfocus="blur()"/>
-                            </div>
+                           {{--  </div> --}}
                         </div>
-                        <div class="col-sm-12">
-                            <div class="col-sm-5">
+                        <div class="col-sm-4">
+                        {{--     <div class="col-sm-5"> --}}
                                 <label class="control-label">Área:</label>
                                 <select class="form-control" name="slct_area_id" id="slct_area_id" multiple>
                                 </select>
-                            </div>
-                            <div class="col-sm-2">
-                                <label class="control-label"></label>
-                                <input type="button" class="form-control btn btn-primary" id="generar" name="generar" value="Mostrar">
-                            </div>
+                           {{--  </div> --}}
+                        </div>
+                        <div class="col-sm-2">
+                            <label class="control-label"></label>
+                            <input type="button" class="form-control btn btn-primary" id="generar" name="generar" value="Mostrar">
+                        </div>
+                        <div class="col-md-1 col-sm-2" style="padding:24px">
+                            <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Export</i></a>
                         </div>
                     </div>
                 </fieldset>
