@@ -2,13 +2,16 @@ html, body {
 	height: 100%;
 }
 body {
-    color: #fff;
+    
     font-family: "Open Sans",sans-serif;
 	background: url(../../img/login/fondof.jpg) no-repeat center center fixed; 
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
+}
+label , h3, h1, h2{
+	color: #fff;
 }
 /**********************************************************************/
 /************************** COMMON ELEMENTS **************************/
@@ -91,9 +94,9 @@ a {
 
 #register {
 	background: url(../../img/login/flogin.png);
-	width: 50%;
 	margin: 5% auto 0;
 	padding: 20px 40px;
+	float: none;
 }
 .my-error-class {
     color:#FF0000;  /* red */

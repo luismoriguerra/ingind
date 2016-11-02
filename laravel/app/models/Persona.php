@@ -44,17 +44,23 @@ class Persona extends Base implements UserInterface, RemindableInterface
                 'captcha'               => 'required|min:1'
     ];
     public static $messajes = [
-                'paterno.required'   => 'First Name is required',
-                'materno.required'    => 'Last Name is required',
-                'nombre.required'    => ' Name is required',
-                'usuario.required'    => ' dni is required',
-                'email.required'        => 'Email is required',
-                'email.email'           => 'Email is invalid',
-                'password.required'     => 'Password is required',
-                'password.min'          => 'Password needs to have at least 6 characters',
+                'paterno.required'   => 'apellido paterno es requerido.',
+                'materno.required'    => 'Apellido materno es requerido.',
+                'nombre.required'    => 'Nombre es requerido.',
+                'usuario.required'    => 'DNI es requerido.',
+                'usuario.unique'    => ' DNI ya ha sido registrado.',
+                'usuario.min'    => ' DNI necesita tener al menos 6 caracteres',
+                'email.required'        => 'Email es requerido.',
+                'email.email'           => 'Email no es valido',
+                'email.unique'          => 'El email ya ha sido registrado.',
+                'password.required'     => 'Password  es requerido.',
+                'password.min'          => 'Password necesita tener al menos 6 caracteres',
+                'password.alpha_num'    => 'Password solo puede contener letras y numeros',
+                'password.confirmed'    => 'la confirmacion de Password no coincide.',
+                'password_confirmation.alpha_num'    => 'la confirmacion de Password solo puede contener letras y numeros',
                 //'password.max'          => 'Password maximum length is 20 characters',
-                'recaptcha.required'             => 'Captcha is required',
-                'captcha.min'           => 'Wrong captcha, please try again.'
+                'recaptcha.required'             => 'Captcha es requerido',
+                'captcha.min'           => 'mal captcha, por favor intente nuevamente.'
     ];
 
     /**
