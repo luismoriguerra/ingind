@@ -9,7 +9,7 @@ class DbUserRepository extends DbRepository implements UserRepository {
      */
     private $model;
 
-    public function __construct(\Usuario $model)
+    public function __construct(\Persona $model)
     {
         $this->model = $model;
     }
