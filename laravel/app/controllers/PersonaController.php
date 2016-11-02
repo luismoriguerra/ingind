@@ -269,7 +269,7 @@ class PersonaController extends BaseController
                 return Response::json(
                     array(
                     'rst'=>1,
-                    'msj'=>'Registro actualizado correctamente',
+                    'msj'=>'Registro actualizado correctamente.',
                     )
                 );
             }
