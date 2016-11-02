@@ -12,7 +12,7 @@ class Area extends Base
     {
         return $this->belongsToMany('Cargo');
     }*/
-    public function usuarios() {
+    public function personas() {
         return $this->hasMany('Persona');
     }
     /**
