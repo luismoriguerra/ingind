@@ -30,8 +30,8 @@
 
     <body id="registerUser" bgcolor="#FFF">
         <div id="mainWrap">
-            <div id="register">
-                <h1><i class="fa fa-lock"></i> MUN.INDEP. </h1>
+            <div id="register" class="col-md-8 col-md-offset-2">
+                <h1 style="text-align: center;"><i class="fa fa-lock"></i> MUN.INDEP. </h1>
                 <h3 id="mensaje_msj"  class="label-success">
                 <?= Session::get('msj'); ?>
                 </h3>
@@ -46,7 +46,7 @@
                     </ul>
                 </h3>
 
-                <h3 id="mensaje_inicio">Por Favor <strong>registrese</strong></h3>
+                <h3 style="text-align: center;" id="mensaje_inicio">Por Favor <strong>registrese</strong></h3>
 
 
                 <form v-on:submit.prevent='RegisterUser(this)' autocomplete="off" id="registerForm">
@@ -56,16 +56,16 @@
                             <div class="col-xs-6">
                                 <div class="control-group">
                                     <label class="control-label">NOMBRE:</label>
-                                    <input type="text" name='nombre' v-model='user.nombre' class="form-control pull-right" placeholder="Nombre:" autocomplete="off">
+                                    <input type="text" name='nombre' v-model='user.nombre' maxlength="80" class="form-control pull-right" placeholder="Nombre:" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-xs-6">
                                 <div class="control-group">
                                     <label class="control-label">SEXO:</label>
-                                    <select name='sexo' class="form-control  pull-right" placeholder="Seleccione" autocomplete="off">
+                                    <select v-model='user.sexo' name='sexo' class="form-control  pull-right" placeholder="Seleccione" autocomplete="off">
                                         <option value="">.:: Seleccione genero ::.</option>
-                                        <option value="0">MASCULINO</option>
-                                        <option value="1">FEMENINO</option>
+                                        <option value="M">MASCULINO</option>
+                                        <option value="F">FEMENINO</option>
                                     </select>
                                 </div>
                             </div>
@@ -74,7 +74,7 @@
                             <div class="col-xs-6">
                                 <div class="control-group">
                                     <label class="control-label">APELLIDO PATERNO:</label>
-                                    <input type="text" name='paterno' v-model='user.paterno' class="form-control  pull-right" placeholder="APELLIDO PATERNO" autocomplete="off">
+                                    <input type="text" name='paterno' v-model='user.paterno' maxlength="50" class="form-control  pull-right" placeholder="APELLIDO PATERNO" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-xs-6">
@@ -88,7 +88,7 @@
                             <div class="col-xs-6">
                                 <div class="control-group">
                                     <label class="control-label">APELLIDO MATERNO:</label>
-                                    <input type="text" name='materno' v-model='user.materno' class="form-control  pull-right" placeholder="APELLIDO MATERNO" autocomplete="off">
+                                    <input type="text" name='materno' v-model='user.materno' maxlength="50" class="form-control  pull-right" placeholder="APELLIDO MATERNO" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -96,7 +96,7 @@
                             <div class="col-xs-6">
                                 <div class="control-group">
                                     <label class="control-label">DNI:</label>
-                                    <input type="text" name='dni' v-model='user.dni' class="form-control  pull-right" placeholder="DNI" autocomplete="off">
+                                    <input type="text" name='dni' v-model='user.dni' maxlength="8" class="form-control  pull-right" placeholder="DNI" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -105,7 +105,7 @@
                             <div class="col-xs-6">
                                 <div class="control-group">
                                     <label class="control-label">EMAIL:</label>
-                                    <input type="email" name='email' v-model='user.email' class="form-control  pull-right" placeholder="EMAIL" autocomplete="off">
+                                    <input type="email" name='email' v-model='user.email' maxlength="150" class="form-control  pull-right" placeholder="EMAIL" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -113,7 +113,7 @@
                             <div class="col-xs-6">
                                 <div class="control-group">
                                     <label class="control-label">PASSWORD:</label>
-                                    <input type="password" name='password' v-model='user.password' class="form-control  pull-right" placeholder="PASSWORD" autocomplete="off">
+                                    <input type="password" name='password' v-model='user.password' minlength="6" class="form-control  pull-right" placeholder="PASSWORD" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -122,7 +122,7 @@
                             <div class="col-xs-6">
                                 <div class="control-group">
                                     <label class="control-label">CONFIRMAR PASSWORD:</label>
-                                    <input type="password" name='password_confirmation' v-model='user.password_confirmation' class="form-control  pull-right" placeholder="CONFIRMAR PASSWORD" autocomplete="off">
+                                    <input type="password" name='password_confirmation' v-model='user.password_confirmation' minlength="6" class="form-control  pull-right" placeholder="CONFIRMAR PASSWORD" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -130,7 +130,7 @@
                             <div class="col-xs-6">
                                 <div class="control-group">
                                     <label class="control-label">DIRECCION:</label>
-                                    <input type="direccion" name='direccion' v-model='user.direccion' class="form-control  pull-right" placeholder="DIRECCION" autocomplete="off">
+                                    <input type="text" name='direccion' v-model='user.direccion' maxlength="150" class="form-control  pull-right" placeholder="DIRECCION" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -138,13 +138,13 @@
                             <div class="col-xs-6">
                                 <div class="control-group">
                                     <label class="control-label">TELEFONO:</label>
-                                    <input type="telefono" name='telefono' v-model='user.telefono' class="form-control  pull-right" placeholder="TELEFONO" autocomplete="off">
+                                    <input type="text" name='telefono' v-model='user.telefono' maxlength="12" class="form-control  pull-right" placeholder="TELEFONO" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-xs-6">
                                 <div class="control-group">
                                     <label class="control-label">CELULAR:</label>
-                                    <input type="celular" name='celular' v-model='user.celular' class="form-control  pull-right" placeholder="CELULAR" autocomplete="off">
+                                    <input type="text" name='celular' v-model='user.celular' maxlength="12" class="form-control  pull-right" placeholder="CELULAR" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -161,11 +161,11 @@
                             <div class="col-sm-7">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name='terminos' autocomplete="off"> Acepto los terminos &amp; condiciones
+                                        <input type="checkbox" v-model='terminos' name='terminos' autocomplete="off"> Acepto los terminos &amp; condiciones
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-sm-5 submitWrap">
+                            <div class="col-sm-5 submitWrap" v-if="terminos">
                                 {{ Form::submit('Registrar', array('class' => 'btn btn-primary btn-lg')) }}
                             </div>
                         </div>
@@ -189,20 +189,7 @@
         data: {
             mensaje_ok:false,
             mensaje_error:false,
-            user:{
-                paterno:'',
-                materno:'',
-                nombre:'',
-                usuario:'',
-                dni:'',
-                email:'',
-                direccion:'',
-                telefono:'',
-                celular:'',
-                password:'',
-                password_confirmation:'',
-                recaptcha:'',
-            },
+
             newUser:{
                 paterno:'',
                 materno:'',
@@ -216,6 +203,8 @@
                 password:'',
                 password_confirmation:'',
                 recaptcha:'',
+                sexo:'',
+                fecha_nacimiento:'',
             },
 
             errores:[],
@@ -226,6 +215,25 @@
                 singleDatePicker: true,
                 showDropdowns: true
             });
+            jQuery.extend(jQuery.validator.messages, {
+                required: "Este campo es requerido.",
+                remote: "Por favor corrige este campo.",
+                email: "Por favor, introduce una dirección de correo electrónico válida.",
+                url: "Por favor introduzca una URL válido.",
+                date: "Por favor introduzca una fecha valida.",
+                dateISO: "Ingrese una fecha válida (ISO).",
+                number: "Por favor ingrese un número valido.",
+                digits: "Por favor ingrese solo dígitos.",
+                creditcard: "Please enter a valid credit card number.",
+                equalTo: "Por favor, introduzca un número de tarjeta de crédito válida",
+                accept: "Introduzca un valor con una extensión válida.",
+                maxlength: jQuery.validator.format("Por favor, introduzca no más de {0} caracteres."),
+                minlength: jQuery.validator.format("¡Se requieren al menos {0} caracteres!"),
+                rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
+                range: jQuery.validator.format("Please enter a value between {0} and {1}."),
+                max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
+                min: jQuery.validator.format("Please enter a value greater than or equal to {0}.")
+            });
             jQuery.validator.addMethod("soloLetra", function(value, element) {
                 return this.optional(element) || /^[a-záéóóúàèìòùäëïöüñ\s]+$/i.test(value);
             }, "Solo letras");
@@ -233,7 +241,6 @@
             $('#registerForm').validate( {
                 rules: {
                     nombre: {
-                        minlength: 2,
                         maxlength: 80,
                         required: true,
                         soloLetra: true,
@@ -242,60 +249,55 @@
                         required: true 
                     },
                     paterno: {
-                        minlength: 2,
-                        maxlength: 80,
+                        maxlength: 50,
                         required: true,
                         soloLetra: true,
                     },
                     fecha_nacimiento: {
-                        minlength: 2,
                         required: true
                     },
                     materno: {
-                        minlength: 2,
-                        required: true
+                        maxlength: 50,
+                        required: true,
+                        soloLetra: true,
                     },
                     dni: {
-                        minlength: 2,
-                        required: true
+                        maxlength: 8,
+                        required: true,
+                        digits: true
                     },
                     email: {
+                        maxlength: 150,
                         required: true,
                         email: true
                     },
                     password: {
-                        minlength: 2,
+                        minlength: 6,
                         required: true
                     },
                     password_confirmation: {
-                        minlength: 2,
+                        minlength: 6,
                         required: true
                     },
                     direccion: {
-                        minlength: 2,
+                        maxlength: 150,
                         required: true
                     },
                     telefono: {
-                        minlength: 2,
-                        required: true
+                        maxlength: 12,
+                        required: true,
+                        digits: true
                     },
                     celular: {
-                        minlength: 2,
-                        required: true
+                        maxlength: 12,
+                        required: true,
+                        digits: true
                     },
                     recaptcha: {
-                        minlength: 2,
                         required: true
                     },
                     terminos: {
-                        minlength: 2,
                         required: true
-                    }
-                },
-                messages: {
-                    nombre: {
-                        required: "nombre es requerido",
-                        minlength: jQuery.validator.format("¡Se requieren al menos {0} caracteres!")
                     }
                 },
                 highlight: function(element) {
@@ -318,21 +320,24 @@
                 var isValid = $("#registerForm").valid();
                 if(isValid){
                     this.user.usuario=this.user.dni;
+                    this.user.area_id=107; //vecino
                     this.user.recaptcha=grecaptcha.getResponse();
                     //var jnk=grecaptcha.getResponse();
                     this.$http.post("create",this.user,function(data) {
                         $(".load").hide();
                         
                         if(data.rst==1){
+                            this.errores='';
                             this.mensaje_ok=data.msj;
                             this.user= this.newUser;
                         }
                         else if(data.rst==1){
+                            this.mensaje_ok='';
                             this.errores=data.msj;
                             this.mensaje_error = data.error
                         }
                         else if(data.rst==2){
-
+                            this.mensaje_ok='';
                             this.errores=data.msj;
                             this.mensaje_error = data.error
                         }
