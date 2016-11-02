@@ -172,7 +172,7 @@ class RutaDetalleController extends \BaseController
             $rdv = new RutaDetalleVerbo;
             $rdv['ruta_detalle_id'] = $datos->ruta_detalle_id;
             $rdv['nombre'] = $datos->nombre;
-            $rdv['documento'] = $datos->documento;
+            $rdv['documento_id'] = $datos->documento;
             $rdv['condicion'] = $datos->condicion;
             $rdv['rol_id'] = $datos->rol_id;
             $rdv['verbo_id'] = $datos->verbo_id;
