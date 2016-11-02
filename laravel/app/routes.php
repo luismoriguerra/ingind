@@ -129,10 +129,12 @@ Route::get(
             $menus = Session::get('menus');
 
             $val = explode("_", $ruta);
-            $valores = array(
-                'valida_ruta_url' => $ruta,
-                'menus' => $menus
-            );
+            $url='/chat/';
+            $chat = Helpers::ruta($url, 'POST', [] );
+            $valores =(array) json_decode($chat);
+            $valores['valida_ruta_url'] = $ruta;
+            $valores['menus'] = $menus;
+                
             if (count($val) == 2) {
                 $dv = explode("=", $val[1]);
                 $valores[$dv[0]] = $dv[1];
@@ -143,7 +145,7 @@ Route::get(
                 $rutaBD == 'inicio' or $rutaBD=='mantenimiento.misdatos') {
                 return View::make($ruta)->with($valores);
             } else
-                return Redirect::to('/admin.inicio');
+                return Redirect::to('/');
         } else
             return Redirect::to('/');
         }
