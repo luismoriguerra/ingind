@@ -1,9 +1,4 @@
 <?php
-Route::get('ur',function(){
-    echo gethostname();
-}
-);
-
 Route::get(
     'email/{email}', function($email){
         $i=4;
