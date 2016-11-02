@@ -177,8 +177,10 @@ mostrarDetalleHTML=function(datos){
 
     /*add new ruta detalle verbo*/
     var filtro={estado:1};
-    Bandeja.poblarCombo('documento','cbotipoDoc',filtro,HTMLCombo);
-    Bandeja.poblarCombo('rol','cboRoles',filtro,HTMLCombo);
+    slctGlobal.listarSlct2('documento','cbotipoDoc',filtro);
+    slctGlobal.listarSlct2('rol','cboRoles',filtro);
+    /*Bandeja.poblarCombo('documento','cbotipoDoc',filtro,HTMLCombo);
+    Bandeja.poblarCombo('rol','cboRoles',filtro,HTMLCombo);*/
     /*add new ruta detalle verbo*/
 
     if( RolIdG==8 || RolIdG==9 ){
