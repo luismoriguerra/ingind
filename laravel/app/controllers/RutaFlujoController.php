@@ -817,8 +817,9 @@ public function postCargar()
                                                ->where('rd.ruta_id', '=', $ruta_id)
                                                ->where('rdv.orden', '=', $qrinicialverboaux[$j]->orden)
                                                ->where('rdv.estado', '=', '1')
-                                               ->where('rd.estado', '=', '1')
+                                               ->where('rd.estados', '=', '1')
                                                ->get();
+
 
                                 $rd= RutaDetalleVerbo::find($qdetalleeditv[0]->id);
                                 $rd['ruta_detalle_id']= $qdetalleeditv[0]->ruta_detalle_id;
