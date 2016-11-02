@@ -36,9 +36,17 @@
                 <h3 id="mensaje_inicio">Por Favor <strong>Ingresa su nueva contraseña</strong></h3>
 
                 <form v-on:submit.prevent='ResetPass(this)' autocomplete="off" id="sendReset">
-                    <input class="form-control input-lg" @keyup.prevent="handleKeypress" required type="password" v-model='password' id="password" name="password">
-                    <input class="form-control input-lg" @keyup.prevent="handleKeypress" required type="password" v-model='password_confirmation' id="password_confirmation" name="password_confirmation">
-                    {{ Form::submit('Reset Password', array('class' => 'btn btn-primary btn-lg')) }}
+                    <div class="row form-group">
+                        <label class="control-label">PASSWORD:</label>
+                        <input class="form-control input-lg" @keyup.prevent="handleKeypress" required type="password" v-model='password' id="password" name="password">
+                    </div>
+                    <div class="row form-group">
+                        <label class="control-label">CONFIRMAR PASSWORD:</label>
+                        <input class="form-control input-lg" @keyup.prevent="handleKeypress" required type="password" v-model='password_confirmation' id="password_confirmation" name="password_confirmation">
+                    </div>
+                    <div class="row form-group">
+                        {{ Form::submit('Restablecer', array('class' => 'btn btn-primary btn-lg')) }}
+                    </div>
                 </form>
         </div>
     </div>
@@ -74,6 +82,7 @@
                 this.$http.post("reset",data,function(data) {
                     $(".load").hide();
                     if (data.rst==1) {
+                        alert("Se restauro su password con exito");
                         window.location='/';
                     }
                     if (data.error) {
