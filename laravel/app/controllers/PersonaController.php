@@ -107,7 +107,7 @@ class PersonaController extends BaseController
             $persona['email'] = Input::get('email');
             $persona['dni'] = Input::get('dni');
             $persona['sexo'] = Input::get('sexo');
-            $persona['password'] = Hash::make(Input::get('password'));
+            $persona['password'] = Input::get('password');
             if (Input::get('fecha_nac')<>'') 
             $persona['fecha_nacimiento'] = Input::get('fecha_nac');
             $persona['area_id'] = Input::get('area');
