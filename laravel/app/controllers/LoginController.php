@@ -202,7 +202,7 @@ class LoginController extends BaseController
                 );
             }
 
-            $usuario = Usuario::find(Auth::user()->id);
+            $usuario = Persona::find(Auth::user()->id);
             $usuario->imagen = $archivoNuevo;
             $usuario->save();
 

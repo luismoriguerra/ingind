@@ -1399,7 +1399,7 @@ class ReporteController extends BaseController
     }
 
     public function postUsuarios(){
-      $r=Usuario::ListarUsuarios();
+      $r=Persona::ListarUsuarios();
 
       return Response::json(
             array(
