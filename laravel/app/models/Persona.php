@@ -87,7 +87,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
     {
         $this->attributes['password'] = Hash::make($password);
     }
-
+   
     /**
      * Confirm the user.
      *
@@ -126,13 +126,6 @@ class Persona extends Base implements UserInterface, RemindableInterface
                         'id', 'paterno','materno','nombre','email','dni','rol_id','area_id',
                         'password','fecha_nacimiento','sexo', 'estado'
                         ];
-    /**
-     * Cargos relationship
-     */
-    /*public function cargos()
-    {
-        return $this->belongsToMany('Cargo');
-    }*/
 
     public static function getCargar()
     {

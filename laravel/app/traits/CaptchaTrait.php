@@ -1,6 +1,5 @@
 <?php
 
-use Input;
 use ReCaptcha\ReCaptcha;
 
 trait CaptchaTrait {
