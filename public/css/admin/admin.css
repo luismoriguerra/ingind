@@ -3779,9 +3779,9 @@ fieldset[disabled] .btn-vk.active {
     position: fixed;
     bottom: 2px;
     /*left: 20px;*/
-    right: 1px;
-    width: 20%;
-    height: 92%;
+    right: 0%;
+    width: 18%;
+    height: 93%;
     z-index: 999;
     box-shadow: 0px 0px 7px black;
 }
@@ -3830,12 +3830,6 @@ fieldset[disabled] .btn-vk.active {
     margin-bottom:5px;
 }
 
-@media screen and (max-width: 600px) {
-    .live-chat{
-        left: 5%;
-        width: 90%;
-    }
-}
 
 
 
@@ -3912,7 +3906,7 @@ fieldset[disabled] .btn-vk.active {
 
 }
 
-.minimize-chat-button,.close-chat-button{
+/*.minimize-chat-button,.close-chat-button{
     bottom: 10px;
     left: 10px;
     background-color: #b70030;
@@ -3938,7 +3932,7 @@ fieldset[disabled] .btn-vk.active {
     float: right;
     margin-left: 10px;
 
-}
+}*/
 
 /* ---------------------------botones de control---------------------------------*/
 
@@ -3973,12 +3967,7 @@ fieldset[disabled] .btn-vk.active {
 
 
 
-@media screen and (max-width: 600px) {
-    .live-chat{
-        left: 5%;
-        width: 90%;
-    }
-}
+
 
 @media screen and (max-width: 600px) {
     .open-chat-button{
@@ -4334,43 +4323,12 @@ fieldset[disabled] .btn-vk.active {
 
 
 
-.sky-form fieldset.no-padding {
-
-  padding: 0;
-
-}
 
 
 
 .sky-form fieldset {
 
   background: #fff;
-
-}
-
-
-
-.sky-form footer {
-
-  background: #fff;
-
-  padding: 15px 30px;
-
-}
-
-
-
-.sky-form a {
-
-  color: inherit;
-
-}
-
-
-
-.sky-form a.btn-u {
-
-  color: #fff;
 
 }
 
@@ -4976,18 +4934,21 @@ fieldset[disabled] .btn-vk.active {
 }
 .sky-form header {
   display: block;
-  padding: 20px 30px; 
+  padding: 10px 30px; 
   border-bottom: 1px solid rgba(0,0,0,.1);
   background: rgba(248,248,248,.9);
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 300;
   color: #232323;
 }
 .sky-form fieldset {
   display: block; 
-  padding: 25px 30px 5px;
+  padding: 10px 30px 5px;
   border: none;
   background: rgba(255,255,255,.9);
+  overflow: hidden;
+  max-height: 630px;
+  position: relative;
 }
 .sky-form fieldset + fieldset {
   border-top: 1px solid rgba(0,0,0,.1);
@@ -6014,15 +5975,15 @@ fieldset[disabled] .btn-vk.active {
 
 /*ebd style*/
 .imagenPerfil {
-  width: 8%;
+  width: 15%;
   display: inline-block;
-  margin-top: 5px;
+  margin-top: 8px;
   vertical-align: top;
 }
 
 .datosPerfil {
     padding-bottom: 10px;
-    width: 83%;
+    width: 75%;
     padding-top: 5px;
     display: inline-block;
     margin-top: 5px;
@@ -6047,12 +6008,175 @@ fieldset[disabled] .btn-vk.active {
     text-overflow: ellipsis;
     overflow: hidden;
     color: #000;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .img-circle{
   border-radius: 50%
 }
 
+.conversacion:hover{
+  background-color: gainsboro;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 500px) {
+    .live-chat{
+        width: 60%;
+        height: 85%;
+        right: 1%;
+    }
+
+    .datosPerfil {
+      width: 73%;
+    }
+}
+
+@media only screen and (min-width: 501px) and (max-width: 740px){
+    .live-chat{
+        width: 45%;
+        height: 93%;
+        right: 1%;
+    }
+}
+
+@media only screen and (min-width: 741px) and (max-width: 953px){
+    .live-chat{
+        width: 32%;
+        height: 93%;
+        right: 1%;
+    }
+}
+
+@media only screen and (min-width: 954px) and (max-width: 1200px){
+    .live-chat{
+        width: 24%;
+        height: 93%;
+        right: 1%;
+    }
+}
+
+.chatonline{
+    display: none;
+    position: fixed;
+    bottom: 2px;
+    /*left: 20px;*/
+    right: 18%;
+    width: 19%;
+    height: 52%;
+    z-index: 999;
+    box-shadow: 0px 0px 7px black;
+}
+
+
+.chatonline header{
+    display: block;
+    padding: 5px 10px;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    /*background: rgba(248,248,248,.9);*/
+    font-size: 15px;
+    font-weight: 300;
+    color: #232323;
+    background-color:#4080FF;
+}
+
+.chatonline fieldset{
+    display: block;
+    padding: 10px 20px;
+    border: none;
+    background: rgba(255,255,255,.9);
+    width: 100%;
+}
+
+.chatonline .conversation{
+    overflow: hidden;
+    height: 292px;
+    position: relative;
+}
+
+.chatonline .datosPerfil p{
+  margin: 0px;
+  font-size: 12px;
+  color: #898787;
+  line-height: 14px;
+  white-space: initial;
+  overflow: hidden;
+  -o-text-overflow: initial;
+  text-overflow: initial;
+}
+
+.replicate {
+    display: inline-block;
+    font-size: 11px;
+    width: 100%;
+    max-width: 270px;
+    margin-top: 5px;
+    padding-left: 10px;
+    position: relative;
+}
+
+.replicate img {
+    position: absolute;
+    width: 7%;
+    top: 9px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.contComments .replicate textarea {
+    overflow-y: visible;
+    resize: none;
+    border: 1px solid;
+    border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    width: 100%;
+    height: 32px;
+    border-color: #dcdee3;
+    min-height: 32px;
+    padding-bottom: 7px;
+    padding-left: 7px;
+    padding-right: 7px;
+    word-wrap: break-word;
+    padding-top: 7px;
+}
+
+.bodyBottom .contComments {
+    background-color: #f6f7f8;
+    margin-left: 5px;
+    position: relative;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.nuevomensaje{
+    display: none;
+    position: fixed;
+    bottom: 2px;
+    right: 18%;
+    width: 19%;
+    height: 52%;
+    z-index: 999;
+    box-shadow: 0px 0px 7px black;
+}
+
+.nuevomensaje header{
+    display: block;
+    padding: 5px 10px;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    /*background: rgba(248,248,248,.9);*/
+    font-size: 15px;
+    font-weight: 300;
+    color: #232323;
+    background-color:#4080FF;
+}
+
+.nuevomensaje fieldset{
+    display: block;
+    padding: 10px 20px;
+    border: none;
+    background: rgba(255,255,255,.9);
+    width: 100%;
+}
 
 }
