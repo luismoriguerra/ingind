@@ -24,7 +24,7 @@ $(document).ready(function() {
 
     if( RolIdG==8 || RolIdG==9 ){
         var data={estado_persona:1,solo_area:1};
-        slctGlobal.listarSlct('persona','cboPersona','simple',null,data);
+        //slctGlobal.listarSlct('persona','cboPersona','simple',null,data);
         slctGlobal.listarSlct('persona','slct_persona','simple',null,data);
     }else{
         $("#btnAdd").addClass('hidden');
@@ -434,17 +434,17 @@ HTMLCombo = function(obj,data){
 saveVerbo = function(){
     var id_rutadverbo = document.querySelector("#ruta_detalle_id");
     var condional = 0;
-    var rol = $("select[id='cboRoles']").map(function(){return $(this).val();}).get();;
+    var rol = $("#t_detalle_verbo #cboRoles").val();
     var verbo = 1;
-    var doc = $("select[id='cbotipoDoc']").map(function(){return $(this).val();}).get();;
-    var nomb = $("input[id='txtdescripcion']").map(function(){return $(this).val();}).get();;
+    var doc = $("#t_detalle_verbo #cbotipoDoc").val();
+    var nomb = $("#t_detalle_verbo #txtdescripcion").val();
 
     var data = {
         'ruta_detalle_id':id_rutadverbo.value,
-        'nombre':nomb[1],
-        'documento':doc[1],
+        'nombre':nomb,
+        'documento':doc,
         'condicion':0,
-        'rol_id':rol[1],
+        'rol_id':rol,
         'verbo_id':1,
         'adicional' : 1,
         'orden':0,

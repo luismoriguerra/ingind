@@ -276,7 +276,7 @@
                                                             {{-- <input type="text" name="txtobservacion" id="txtobservacion" class="form-control" placeholder=""> --}}
                                                         </td>
                                                         <td id="tdPersona" style="vertical-align : middle;" disabled>
-                                                            <select class="form-control" id="cboPersona" name="cboPersona" readonly="readonly"></select>
+                                                            <select class="form-control" id="cboPersona" name="cboPersona" disabled></select>
                                                         </td>
                                                         <td id="tdFecha" style="vertical-align : middle;" disabled>
                                                           {{--   <input type="text" name="txtfecha" id="txtfecha" class="form-control" placeholder=""> --}}
