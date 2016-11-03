@@ -21,7 +21,7 @@
     </div>
 
     <div class="row conversacion" id="@{{conversation.name}}" v-if="current_conversation!=conversation.name" @click.prevent="chat(conversation.name)" class="list-group-item ">
-        <div class="col-md-12 col-sm-12 col-xs-12 left">
+      {{--   <div class="col-md-12 col-sm-12 col-xs-12 left"> --}}
             <div class="imagenPerfil">
                 <template v-for="(item, index) in conversation.users">
                     <img class="img-circle" style="height: auto;width: 100%" :src="index.img">
@@ -38,6 +38,6 @@
                 </template>
                 <p>@{{ conversation.body }}</p>
             </div>
-        </div>
+       {{--  </div> --}}
     </div>
 </template>
