@@ -2531,7 +2531,7 @@ Component: timeline
   background: #fff;
   border: 1px solid #f4f4f4;
 }
-.invoice-title {
+.  {
   margin-top: 0;
 }
 /* Enhancement for printing */
@@ -5987,9 +5987,9 @@ fieldset[disabled] .btn-vk.active {
     width: 75%;
     padding-top: 5px;
     display: inline-block;
-    margin-top: 5px;
+    margin-top: 8px;
     margin-bottom: 0px;
-    margin-left: 14px;
+    margin-left: 10px;
 }
 
 .datosPerfil p{

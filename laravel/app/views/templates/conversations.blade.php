@@ -3,7 +3,7 @@
         {{-- <div class="col-md-12 col-sm-12 col-xs-12 left"> --}}
             <div class="imagenPerfil">
                 <template v-for="(item, index) in conversation.users">
-                    <img class="img-circle" style="height:40px;width:40px" :src="index.img">
+                    <img class="img-circle" style="height: auto;width: 100%" :src="index.img">
                     <template v-if="index.count!=item + 1">,</template>
                 </template>
             </div>
@@ -20,11 +20,11 @@
        {{--  </div> --}}
     </div>
 
-    {{-- <div class="row conversacion" id="@{{conversation.name}}" v-if="current_conversation!=conversation.name" @click.prevent="chat(conversation.name)" class="list-group-item ">
+    <div class="row conversacion" id="@{{conversation.name}}" v-if="current_conversation!=conversation.name" @click.prevent="chat(conversation.name)" class="list-group-item ">
         <div class="col-md-12 col-sm-12 col-xs-12 left">
             <div class="imagenPerfil">
                 <template v-for="(item, index) in conversation.users">
-                    <img class="img-circle" style="height:40px;width:40px" :src="index.img">
+                    <img class="img-circle" style="height: auto;width: 100%" :src="index.img">
                     <template v-if="index.count!=item + 1">,</template>
                 </template>
             </div>
@@ -39,5 +39,5 @@
                 <p>@{{ conversation.body }}</p>
             </div>
         </div>
-    </div> --}}
+    </div>
 </template>
