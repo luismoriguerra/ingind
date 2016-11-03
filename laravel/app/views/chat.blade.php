@@ -2,7 +2,7 @@
     <a class="open-chat-button tooltips hidden" onClick="show()" href="javascript:void(0)" data-toggle="tooltip" data-placement="right" title="" data-original-title="Info Chat"><i class="fa fa-wechat"></i></a>
                     
     <a class="open-chat-button-active tooltips hidden" href="javascript:void(0)" data-toggle="tooltip" data-placement="right" title="" data-original-title="Info Chat"><i class="fa fa-wechat"></i></a>
-    <div class="live-chat" id="chat">
+    <div class="live-chat" id="chat" style="display:none">
         <form action="#" id="form-chat" class="sky-form">
             <header>
                 <span>Chat</span>
@@ -16,7 +16,7 @@
             </fieldset>
         </form>
     </div>
-    <div class="chatonline">
+    <div class="chatonline" style="display:none">
         @if($current_conversation)
             <header>
                 <span id="spanNombre">Fabio Franco Venero Carra</span>
@@ -39,7 +39,7 @@
             </fieldset> 
         @endif
     </div>
-    <div class="nuevomensaje">
+    <div class="nuevomensaje" style="display:none">
         <header>
             <span id="spanNombre">Nuevo Mensaje</span>
             <span type="button" class="btn-sm" aria-hidden="true" onclick="ocultar(this,'nuevomensaje')" style="float:right;"><i class="fa fa-minus"></i></span>
