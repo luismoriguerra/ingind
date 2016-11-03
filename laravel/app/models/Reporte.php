@@ -387,11 +387,11 @@ class Reporte extends Eloquent
       }
 
       list($fechaIni,$fechaFin) = explode(" - ", $fecha);
-      $sql="SELECT tr2.id_union norden,f.nombre proceso_pla,tr.id_union plataforma,r.fecha_inicio,rd2.dtiempo_final
+      $sql="SELECT tr2.id_union norden,f.nombre proceso_pla, a.nombre area,tr.id_union plataforma,r.fecha_inicio,rd2.dtiempo_final
             ,f2.nombre proceso,r2.fecha_inicio fecha_inicio_gestion, rd2f.norden ult_paso
             ,IFNULL(rd3f.norden,rd2f.norden) act_paso, 
             IFNULL(DATE_ADD(r2.fecha_inicio, INTERVAL t.totalminutos MINUTE),DATE_ADD(r2.fecha_inicio, INTERVAL t2.totalminutos MINUTE)) fecha_fin
-            , IFNULL(rd3f.dtiempo_final,rd2f.dtiempo_final) tiempo_realizado, a.nombre area
+            , IFNULL(rd3f.dtiempo_final,rd2f.dtiempo_final) tiempo_realizado
             FROM rutas r
             INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.norden=1 AND rd.area_id=52
             INNER JOIN rutas_detalle rd2 ON rd2.ruta_id=r.id AND rd2.estado=1 AND rd2.norden=2
