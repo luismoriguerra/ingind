@@ -39,7 +39,7 @@ class Area extends Base
                                                     INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
                                                     WHERE acp.estado=1
                                                     AND cp.persona_id='.Auth::user()->id.'
-                                                    )       )>0 ')
+                                                    )       )>0 ');
                         }
                     }
                 )
@@ -56,6 +56,16 @@ class Area extends Base
                     function($query){
                         if ( Input::get('estado') ) {
                             $query->where('estado','=','1');
+                        }
+                        if ( Input::has('areapersona') ){
+                            $query->whereRaw('  FIND_IN_SET( id, 
+                                                    (
+                                                    SELECT acp.area_id
+                                                    FROM area_cargo_persona acp
+                                                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                                    WHERE acp.estado=1
+                                                    AND cp.persona_id='.Auth::user()->id.'
+                                                    )       )>0 ');
                         }
                     }
                 )
