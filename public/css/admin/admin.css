@@ -3777,7 +3777,7 @@ fieldset[disabled] .btn-vk.active {
 .live-chat{
     display: none;
     position: fixed;
-   /* bottom: 2px;*/
+    bottom: 2px;
     /*left: 20px;*/
     right: 0%;
     width: 18%;
@@ -6056,7 +6056,7 @@ fieldset[disabled] .btn-vk.active {
 .chatonline{
     display: none;
     position: fixed;
-    /*bottom: 2px;*/
+    bottom: 2px;
     /*left: 20px;*/
     right: 18%;
     width: 18%;
