@@ -3783,7 +3783,7 @@ fieldset[disabled] .btn-vk.active {
     width: 18%;
     height: 91%;
     z-index: 999;
-  /*  box-shadow: 0px 0px 7px black;*/
+    box-shadow: 0px 0px 2px black;
 }
 .live-chat .panel{
     margin-bottom: 0;
@@ -6079,7 +6079,7 @@ fieldset[disabled] .btn-vk.active {
 
 .chatonline fieldset{
     display: block;
-    padding: 5px 5px;
+    padding: 5px 10px;
     border: none;
     background: rgba(255,255,255,.9);
     width: 100%;
@@ -6087,8 +6087,8 @@ fieldset[disabled] .btn-vk.active {
 
 .chatonline .conversation{
     overflow: hidden;
-    max-height: 247px;
-    /*height: 247px;*/
+    max-height: 230px;
+    height: 220px;
     position: relative;
 }
 
