@@ -6079,7 +6079,7 @@ fieldset[disabled] .btn-vk.active {
 
 .chatonline fieldset{
     display: block;
-    padding: 10px 20px;
+    padding: 5px 5px;
     border: none;
     background: rgba(255,255,255,.9);
     width: 100%;
