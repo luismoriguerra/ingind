@@ -1,29 +1,43 @@
-<div class="list-group col-lg-3">
-    <template v-for="conversation in conversations">
-        <a id="@{{conversation.name}}" v-if="current_conversation==conversation.name" @click.prevent="chat(conversation.name)" class="list-group-item active">
-        <div class="pull-left user-picture">
+<template v-for="conversation in conversations">
+    <div class="row conversacion" id="@{{conversation.name}}" v-if="current_conversation==conversation.name" @click.prevent="chat(conversation.name)" class="list-group-item active">
+        <div class="col-md-12 col-sm-12 col-xs-12 left">
+            <div class="imagenPerfil">
                 <template v-for="(item, index) in conversation.users">
-                    <img class="media-object img-circle" width="30" height="30" :src="index.img">@{{ index.full_name +' ( '+index.area +')' }}
+                    <img class="img-circle" style="height:40px;width:40px" :src="index.img">
                     <template v-if="index.count!=item + 1">,</template>
                 </template>
             </div>
-            <template v-if="conversation.messages_notifications_count">
-                <span class="badge">@{{ conversation.messages_notifications_count }}</span>
-            </template>
-            <p class="list-group-item-text"><small> @{{ conversation.body }} </small></p>
-        </a>
+            <div class="datosPerfil">
+                <template v-for="(item, index) in conversation.users">
+                    <h3 class="nombre">@{{ index.full_name }}</h3>
+                    <p>@{{ index.area }}</p>
+                </template>
+                <template v-if="conversation.messages_notifications_count">
+                    <span class="badge">@{{ conversation.messages_notifications_count }}</span>
+                </template>
+                <p>@{{ conversation.body }}</p>
+            </div>
+        </div>
+    </div>
 
-        <a id="@{{conversation.name}}" v-if="current_conversation!=conversation.name" @click.prevent="chat(conversation.name)" class="list-group-item ">
-            <div class="pull-left user-picture">
+    <div class="row conversacion" id="@{{conversation.name}}" v-if="current_conversation!=conversation.name" @click.prevent="chat(conversation.name)" class="list-group-item ">
+        <div class="col-md-12 col-sm-12 col-xs-12 left">
+            <div class="imagenPerfil">
                 <template v-for="(item, index) in conversation.users">
-                    <img class="media-object img-circle" width="30" height="30" :src="index.img">@{{ index.full_name +' ( '+index.area +')' }}
+                    <img class="img-circle" style="height:40px;width:40px" :src="index.img">
                     <template v-if="index.count!=item + 1">,</template>
                 </template>
             </div>
-            <template v-if="conversation.messages_notifications_count">
-                <span class="badge">@{{ conversation.messages_notifications_count }}</span>
-            </template>
-            <p class="list-group-item-text"><small> @{{ conversation.body }} </small></p>
-        </a>
-    </template>
-</div>
+            <div class="datosPerfil">
+                <template v-for="(item, index) in conversation.users">
+                    <h3 class="nombre">@{{ index.full_name }}</h3>
+                    <p>@{{ index.area }}</p>
+                </template>
+                <template v-if="conversation.messages_notifications_count">
+                    <span class="badge">@{{ conversation.messages_notifications_count }}</span>
+                </template>
+                <p>@{{ conversation.body }}</p>
+            </div>
+        </div>
+    </div>
+</template>
