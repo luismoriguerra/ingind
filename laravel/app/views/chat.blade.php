@@ -1,7 +1,7 @@
 <div id="chat">
-    <a class="open-chat-button tooltips" onClick="show()" href="javascript:void(0)" data-toggle="tooltip" data-placement="right" title="" data-original-title="Info Chat"><i class="fa fa-wechat"></i></a>
+    <a class="open-chat-button tooltips hidden" onClick="show()" href="javascript:void(0)" data-toggle="tooltip" data-placement="right" title="" data-original-title="Info Chat"><i class="fa fa-wechat"></i></a>
                     
-    <a class="open-chat-button-active tooltips" href="javascript:void(0)" data-toggle="tooltip" data-placement="right" title="" data-original-title="Info Chat"><i class="fa fa-wechat"></i></a>
+    <a class="open-chat-button-active tooltips hidden" href="javascript:void(0)" data-toggle="tooltip" data-placement="right" title="" data-original-title="Info Chat"><i class="fa fa-wechat"></i></a>
     <div class="live-chat" id="chat">
         <form action="#" id="form-chat" class="sky-form">
             <header>

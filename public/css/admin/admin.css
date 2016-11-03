@@ -4948,6 +4948,7 @@ fieldset[disabled] .btn-vk.active {
   background: rgba(255,255,255,.9);
   overflow: hidden;
   max-height: 630px;
+  height: 630px;
   position: relative;
 }
 .sky-form fieldset + fieldset {
