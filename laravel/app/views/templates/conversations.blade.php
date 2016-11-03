@@ -3,7 +3,7 @@
         {{-- <div class="col-md-12 col-sm-12 col-xs-12 left"> --}}
             <div class="imagenPerfil">
                 <template v-for="(item, index) in conversation.users">
-                    <img class="img-circle" style="height: auto;width: 100%" :src="index.img">
+                    <img class="img-circle" style="height: 35px;width: 40px" :src="index.img">
                     <template v-if="index.count!=item + 1">,</template>
                 </template>
             </div>
@@ -24,7 +24,7 @@
       {{--   <div class="col-md-12 col-sm-12 col-xs-12 left"> --}}
             <div class="imagenPerfil">
                 <template v-for="(item, index) in conversation.users">
-                    <img class="img-circle" style="height: auto;width: 100%" :src="index.img">
+                    <img class="img-circle" style="height: 35px;width: 40px" :src="index.img">
                     <template v-if="index.count!=item + 1">,</template>
                 </template>
             </div>
