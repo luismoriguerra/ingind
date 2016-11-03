@@ -6,7 +6,7 @@
                 <img class="media-object img-circle" width="30" height="30" :src=" message.img ">
             </a>
             <div class="media-body">
-                <span class="media-heading">@{{ message.user_nombre+' ( '+message.area_nemonico+' )' }}</span>
+                <span class="media-heading" style="font-size: 12px;font-weight: bold;">@{{ message.user_nombre+' ( '+message.area_nemonico+' )' }}</span>
                 <small>@{{ message.body }}</small>
             </div>
         </div>

@@ -6068,10 +6068,10 @@ fieldset[disabled] .btn-vk.active {
 
 .chatonline header{
     display: block;
-    padding: 5px 10px;
+    padding: 3px 8px;
     border-bottom: 1px solid rgba(0,0,0,.1);
     /*background: rgba(248,248,248,.9);*/
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 300;
     color: #232323;
     background-color:#4080FF;
@@ -6087,7 +6087,8 @@ fieldset[disabled] .btn-vk.active {
 
 .chatonline .conversation{
     overflow: hidden;
-    height: 247px;
+    max-height: 247px;
+    /*height: 247px;*/
     position: relative;
 }
 
