@@ -1384,7 +1384,8 @@ class ReporteController extends BaseController
 
         $cabecera = array(
           'N°',
-          'PROCESO',         
+          'PROCESO',
+          'AREA',
           'TRAMITE',
           'FECHA INICIO TRAMITE',
           'FECHA FINAL TRAMITE',
