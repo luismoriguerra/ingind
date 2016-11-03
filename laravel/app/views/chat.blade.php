@@ -10,43 +10,13 @@
         <span class="nuevo-chat btn-sm" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Nuevo Mensaje" onclick="nuevoMensaje()"><i class="glyphicon glyphicon-edit"></i></span>
 
         <span type="button" class="btn-sm" aria-hidden="true" onclick="ocultar(this,'live-chat')"><i class="fa fa-minus"></i></span>
-        </header>                            
+        </header>
         <fieldset class="myscroll"> 
 
             <div id="conversationList">
                 @include('templates/conversations', array('conversations' => $conversations))
             </div>
-
-            <div class="row conversacion" id="ujWGJiMevmALBqeUKg4BT5LSjDvH8I" onclick="abrirChat(this)">
-                <div class="col-md-12 col-sm-12 col-xs-12 left">
-                    <div class="imagenPerfil">
-                        <img src="{{asset('img/user/u5.jpg')}}" class="img-circle" style="height:40px;width:40px">
-                    </div>                               
-                    <div class="datosPerfil">
-                        <h3 class="nombre">
-                           Fabio Franco Venero Carra
-                        </h3>
-                        <p>Analista Programador</p>
-                        <p>mensaje mensaje mensaje mensaje mensaje</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row conversacion">
-                <div class="col-md-12 col-sm-12 col-xs-12 left">
-                    <div class="imagenPerfil">
-                        <img src="{{asset('img/user/u5.jpg')}}" class="img-circle" style="height:40px;width:40px">
-                    </div>                                      
-                    <div class="datosPerfil">
-                        <h3 class="nombre">
-                           Fabio Franco Venero Carra
-                        </h3>
-                        <p>Analista Programador</p>
-                        <p>mensaje mensaje mensaje mensaje mensaje</p>
-                    </div>
-                </div>
-            </div>
-        </fieldset>                          
+        </fieldset>
     </form>
 
 
@@ -277,6 +247,9 @@
                         this.areas= response.areas;
                         this.scrollToBottom();
                     });
+                    if (conversation) {
+                        $('.chatonline').css('display', 'block');
+                    }
                 },
                 sendMessage: function() {
                     var $messageBox  = $("#messageBox");
