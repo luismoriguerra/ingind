@@ -26,6 +26,7 @@ $(document).ready(function() {
 
     var data={estado:1}; 
      slctGlobal.listarSlctFuncion('categoria','listarc','slct_categoria_id','simple',null,data);
+     data={estado:1,areapersona:1}; 
     slctGlobal.listarSlctFuncion('area','listara','slct_area_id','simple',null,data);
    
    
