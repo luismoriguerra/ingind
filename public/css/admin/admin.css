@@ -6153,7 +6153,7 @@ fieldset[disabled] .btn-vk.active {
     bottom: 2px;
     right: 18%;
     width: 19%;
-    height: 54%;
+    height: 60%;
  /*   z-index: 999;*/
     box-shadow: 0px 0px 7px black;
 }
@@ -6171,7 +6171,7 @@ fieldset[disabled] .btn-vk.active {
 
 .nuevomensaje fieldset{
     display: block;
-    padding: 10px 20px;
+    padding: 3px 10px;
     border: none;
     background: rgba(255,255,255,.9);
     width: 100%;
