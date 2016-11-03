@@ -6,7 +6,7 @@
         <form action="#" id="form-chat" class="sky-form">
             <header>
                 <span>Chat</span>
-                <span class="nuevo-chat btn-sm" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Nuevo Mensaje" @click.prevent="showModal""><i class="glyphicon glyphicon-edit"></i></span>
+                <span class="nuevo-chat btn-sm" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Nuevo Mensaje"  onclick="nuevoMensaje()"><i class="glyphicon glyphicon-edit"></i></span>
                 <span type="button" class="btn-sm" aria-hidden="true" onclick="ocultar(this,'live-chat')"><i class="fa fa-minus"></i></span>
             </header>
             <fieldset class="myscroll"> 
@@ -38,6 +38,41 @@
                 </footer>
             </fieldset> 
         @endif
+    </div>
+    <div class="nuevomensaje">
+        <header>
+            <span id="spanNombre">Nuevo Mensaje</span>
+            <span type="button" class="btn-sm" aria-hidden="true" onclick="ocultar(this,'nuevomensaje')" style="float:right;"><i class="fa fa-minus"></i></span>
+        </header>
+        <fieldset>
+            <form v-on:submit.prevent='sendConversation(this)'>
+                <div class="row area">
+                    <div class="col-md-12 col-sm-12 col-xs-12 left">
+                    <span>Seleccione area:</span>
+                       {{ Form::select('areas[]', $areas, null, array("id"=>"areas","style"=>"border-radius: 5px !important","class" => "form-control")) }}
+                     </div>
+                </div>
+                <div class="row usuario">
+                    <div class="col-md-12 col-sm-12 col-xs-12 left">
+                    <span>Seleccione usuario:</span>
+                        <select v-model="users" id="users" name="users[]" multiple class="form-control" style="border-radius: 5px !important">
+                            <option>Debe escoger una area primero</option>
+                        </select>
+                     </div>
+                </div>
+                <div class="row mensaje">
+                    <div class="col-md-12 col-sm-12 col-xs-12 left">
+                        <span>Mensaje:</span>
+                        <textarea v-model="body" rows="8" class="form-control" name="body"  id="body" style="border-radius: 5px !important"></textarea>
+                    </div>
+                </div>
+                <div class="row enviar" style="margin-top:5px">
+                    <div class="col-md-12 col-sm-12 col-xs-12 left">
+                        {{ Form::submit('Enviar', array('class' => 'btn btn-primary btn-sm','style'=>'float:right')) }}
+                    </div>
+                </div>
+            </form>
+        </fieldset> 
     </div>
     @include('templates/new_message_modal', array('areas' => $areas))
 </div>
