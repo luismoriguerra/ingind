@@ -63,7 +63,7 @@
                 <div class="row mensaje">
                     <div class="col-md-12 col-sm-12 col-xs-12 left">
                         <span>Mensaje:</span>
-                        <textarea v-model="body" rows="8" class="form-control" name="body"  id="body" style="border-radius: 5px !important"></textarea>
+                        <textarea v-model="body" rows="6" class="form-control" name="body"  id="body" style="border-radius: 5px !important"></textarea>
                     </div>
                 </div>
                 <div class="row enviar" style="margin-top:5px">

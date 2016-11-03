@@ -6156,8 +6156,8 @@ fieldset[disabled] .btn-vk.active {
     bottom: 2px;
     right: 18%;
     width: 19%;
-    height: 52%;
-    z-index: 999;
+    height: 53%;
+ /*   z-index: 999;*/
     box-shadow: 0px 0px 7px black;
 }
 
