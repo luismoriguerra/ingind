@@ -36,6 +36,7 @@
 		    {{ HTML::script('js/utils.js') }}
             {{ HTML::script('lib/perfect-scrollbar/perfect-scrollbar.js') }}
             @include( 'admin.js.app' )
+            @include( 'css/admin/chat' )
 		@show
 	</head>	
 

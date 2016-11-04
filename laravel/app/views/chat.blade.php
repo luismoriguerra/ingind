@@ -1,5 +1,3 @@
- {{ HTML::style('css/admin/admin.css') }}
-
 <div id="chat">
     <a class="open-chat-button tooltips hidden" onClick="show()" href="javascript:void(0)" data-toggle="tooltip" data-placement="right" title="" data-original-title="Info Chat"><i class="fa fa-wechat"></i></a>
                     
