@@ -2531,7 +2531,7 @@ Component: timeline
   background: #fff;
   border: 1px solid #f4f4f4;
 }
-.invoice-title {
+.  {
   margin-top: 0;
 }
 /* Enhancement for printing */
@@ -3781,9 +3781,9 @@ fieldset[disabled] .btn-vk.active {
     /*left: 20px;*/
     right: 0%;
     width: 18%;
-    height: 93%;
+    height: 91%;
     z-index: 999;
-    box-shadow: 0px 0px 7px black;
+    box-shadow: 0px 0px 2px black;
 }
 .live-chat .panel{
     margin-bottom: 0;
@@ -4928,16 +4928,15 @@ fieldset[disabled] .btn-vk.active {
 .sky-form {
   margin: 0;
   outline: none;
-  box-shadow: 0 0 20px rgba(0,0,0,.3);
   font: 13px/1.55 'Open Sans', Helvetica, Arial, sans-serif;
   color: #666;
 }
 .sky-form header {
   display: block;
-  padding: 10px 30px; 
+  padding: 4px 10px; 
   border-bottom: 1px solid rgba(0,0,0,.1);
   background: rgba(248,248,248,.9);
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 300;
   color: #232323;
 }
@@ -5978,7 +5977,7 @@ fieldset[disabled] .btn-vk.active {
 .imagenPerfil {
   width: 15%;
   display: inline-block;
-  margin-top: 8px;
+  margin-top: 11px;
   vertical-align: top;
 }
 
@@ -5989,7 +5988,7 @@ fieldset[disabled] .btn-vk.active {
     display: inline-block;
     margin-top: 5px;
     margin-bottom: 0px;
-    margin-left: 14px;
+    margin-left: 10px;
 }
 
 .datosPerfil p{
@@ -6009,7 +6008,7 @@ fieldset[disabled] .btn-vk.active {
     text-overflow: ellipsis;
     overflow: hidden;
     color: #000;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .img-circle{
@@ -6025,7 +6024,6 @@ fieldset[disabled] .btn-vk.active {
     .live-chat{
         width: 60%;
         height: 85%;
-        right: 1%;
     }
 
     .datosPerfil {
@@ -6037,7 +6035,6 @@ fieldset[disabled] .btn-vk.active {
     .live-chat{
         width: 45%;
         height: 93%;
-        right: 1%;
     }
 }
 
@@ -6053,7 +6050,6 @@ fieldset[disabled] .btn-vk.active {
     .live-chat{
         width: 24%;
         height: 93%;
-        right: 1%;
     }
 }
 
@@ -6063,19 +6059,19 @@ fieldset[disabled] .btn-vk.active {
     bottom: 2px;
     /*left: 20px;*/
     right: 18%;
-    width: 25%;
-    height: 42%;
-    z-index: 999;
-    box-shadow: 0px 0px 7px black;
+    width: 18%;
+    height: 50%;
+    /*z-index: 999;*/
+   /* box-shadow: 0px 0px 7px black;*/
 }
 
 
 .chatonline header{
     display: block;
-    padding: 5px 10px;
+    padding: 3px 8px;
     border-bottom: 1px solid rgba(0,0,0,.1);
     /*background: rgba(248,248,248,.9);*/
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 300;
     color: #232323;
     background-color:#4080FF;
@@ -6083,7 +6079,7 @@ fieldset[disabled] .btn-vk.active {
 
 .chatonline fieldset{
     display: block;
-    padding: 10px 20px;
+    padding: 5px 10px;
     border: none;
     background: rgba(255,255,255,.9);
     width: 100%;
@@ -6091,7 +6087,8 @@ fieldset[disabled] .btn-vk.active {
 
 .chatonline .conversation{
     overflow: hidden;
-    height: 292px;
+    max-height: 230px;
+    height: 220px;
     position: relative;
 }
 
@@ -6156,7 +6153,7 @@ fieldset[disabled] .btn-vk.active {
     bottom: 2px;
     right: 18%;
     width: 19%;
-    height: 54%;
+    height: 60%;
  /*   z-index: 999;*/
     box-shadow: 0px 0px 7px black;
 }
@@ -6174,7 +6171,7 @@ fieldset[disabled] .btn-vk.active {
 
 .nuevomensaje fieldset{
     display: block;
-    padding: 10px 20px;
+    padding: 3px 10px;
     border: none;
     background: rgba(255,255,255,.9);
     width: 100%;

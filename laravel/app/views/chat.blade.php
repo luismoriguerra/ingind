@@ -1,5 +1,3 @@
- {{ HTML::style('css/admin/admin.css') }}
-
 <div id="chat">
     <a class="open-chat-button tooltips hidden" onClick="show()" href="javascript:void(0)" data-toggle="tooltip" data-placement="right" title="" data-original-title="Info Chat"><i class="fa fa-wechat"></i></a>
                     
@@ -65,7 +63,7 @@
                 <div class="row mensaje">
                     <div class="col-md-12 col-sm-12 col-xs-12 left">
                         <span>Mensaje:</span>
-                        <textarea v-model="body" rows="6" class="form-control" name="body"  id="body" style="border-radius: 5px !important"></textarea>
+                        <textarea v-model="body" rows="4" class="form-control" name="body"  id="body" style="border-radius: 5px !important"></textarea>
                     </div>
                 </div>
                 <div class="row enviar" style="margin-top:5px">
