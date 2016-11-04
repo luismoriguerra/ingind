@@ -8,7 +8,7 @@
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
     {{ HTML::script('lib/datetime/js/bootstrap-datetimepicker.min.js') }}
 
-  {{ HTML::style('lib/momentjs/2.9.0/moment.min.js') }}
+  {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }}
     {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
   {{--   {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }} --}}
   
