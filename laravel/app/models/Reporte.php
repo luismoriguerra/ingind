@@ -93,7 +93,7 @@ class Reporte extends Eloquent
                 INNER JOIN rutas r ON tr.id=r.tabla_relacion_id and r.estado=1
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1
                 INNER JOIN areas a2 ON rd.area_id=a2.id
-                INNER JOIN tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
+                LEFT JOIN tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
                 LEFT JOIN areas a ON a.id=tr.area_id
                 WHERE tr.estado=1".
                 $array['ruta_flujo_id'].

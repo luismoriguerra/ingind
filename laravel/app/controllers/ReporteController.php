@@ -352,7 +352,7 @@ class ReporteController extends BaseController
                   AND alerta=2) AS 'corregido'
                 FROM tablas_relacion tr 
                 inner JOIN rutas r ON tr.id=r.tabla_relacion_id and r.estado=1
-                inner join tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
+                LEFT join tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
                 LEFT JOIN areas a ON a.id=tr.area_id
                 WHERE r.ruta_flujo_id='".$rutaFlujoId."'
                 $tf
@@ -622,7 +622,7 @@ class ReporteController extends BaseController
                 (SELECT COUNT(alerta) FROM rutas_detalle rd WHERE r.id=rd.ruta_id AND estado=1 AND alerta=2) AS 'corregido'
                 FROM tablas_relacion tr 
                 JOIN rutas r ON tr.id=r.tabla_relacion_id
-                inner join tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
+                LEFT join tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
                 LEFT JOIN areas a ON a.id=tr.area_id
                 WHERE r.ruta_flujo_id=? AND tr.estado=1
                 AND r.estado=1 ";
@@ -871,7 +871,7 @@ class ReporteController extends BaseController
                 INNER JOIN areas a ON rd.area_id=a.id
                 INNER JOIN flujos f ON r.flujo_id=f.id
                 INNER JOIN tablas_relacion t ON r.tabla_relacion_id=t.id
-                INNER JOIN tipo_solicitante ts ON t.tipo_persona=ts.id
+                LEFT JOIN tipo_solicitante ts ON t.tipo_persona=ts.id
                 LEFT JOIN areas a2 ON t.area_id=a2.id
                 WHERE rdv.documento IS NOT NULL
                 AND rdv.verbo_id=1
@@ -970,7 +970,7 @@ class ReporteController extends BaseController
                 FROM tablas_relacion tr 
                 JOIN rutas r ON tr.id=r.tabla_relacion_id and r.estado=1
                 INNER JOIN flujos f ON f.id=r.flujo_id and f.estado=1
-                INNER JOIN tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
+                LEFT JOIN tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
                 LEFT JOIN areas a ON a.id=tr.area_id
                 WHERE tr.estado=1
                 ".$filtrofecha.$filtroflujo;
@@ -1002,7 +1002,7 @@ class ReporteController extends BaseController
             inner join areas a2 ON a2.id=r.area_id
             inner join flujos f ON f.id=r.flujo_id AND f.estado=1
             inner join tablas_relacion tr ON tr.id=r.tabla_relacion_id
-            inner join tipo_solicitante ts ON ts.id=tr.tipo_persona
+            LEFT join tipo_solicitante ts ON ts.id=tr.tipo_persona
             LEFT JOIN areas a ON a.id=tr.area_id
             WHERE r.estado=1
             AND rdv.finalizo=1
@@ -1034,7 +1034,7 @@ class ReporteController extends BaseController
                 INNER JOIN areas a ON rd.area_id=a.id
                 INNER JOIN flujos f ON r.flujo_id=f.id
                 INNER JOIN tablas_relacion t ON r.tabla_relacion_id=t.id
-                INNER JOIN tipo_solicitante ts ON t.tipo_persona=ts.id
+                LEFT JOIN tipo_solicitante ts ON t.tipo_persona=ts.id
                 LEFT JOIN areas a2 ON t.area_id=a2.id
                 WHERE rdv.documento IS NOT NULL
                 AND rdv.verbo_id=1
@@ -1077,7 +1077,7 @@ class ReporteController extends BaseController
                 INNER JOIN areas a ON rd.area_id=a.id 
                 INNER JOIN flujos f ON r.flujo_id=f.id 
                 INNER JOIN tablas_relacion t ON r.tabla_relacion_id=t.id 
-                INNER JOIN tipo_solicitante ts ON t.tipo_persona=ts.id 
+                LEFT JOIN tipo_solicitante ts ON t.tipo_persona=ts.id 
                 LEFT JOIN personas pe on pe.id=al.persona_id
                 WHERE r.estado=1";
 

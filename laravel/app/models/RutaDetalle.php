@@ -123,9 +123,9 @@ class RutaDetalle extends Eloquent
             INNER JOIN areas a ON a.id=rd.area_id
             INNER JOIN flujos f ON f.id=r.flujo_id
             INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id
-            INNER JOIN tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
             INNER JOIN tiempos t ON t.id=rd.tiempo_id 
             INNER JOIN softwares s ON s.id=tr.software_id
+            LEFT JOIN tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
             LEFT JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id
             LEFT JOIN personas p ON p.id=rdv.usuario_updated_at
             LEFT JOIN personas p2 ON p2.id=cd.persona_id
@@ -134,7 +134,7 @@ class RutaDetalle extends Eloquent
             LEFT JOIN documentos do ON do.id=rdv.documento_id'.
             $adicional;
         $rd = DB::select($query);
-        echo $query;
+        //echo $query;
         if ( Input::get('ruta_detalle_id') ) {
             return $rd[0];
         }

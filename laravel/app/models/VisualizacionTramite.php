@@ -73,7 +73,7 @@ class VisualizacionTramite extends Eloquent
                     JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id 
                     JOIN flujos f ON r.flujo_id=f.id
                     JOIN tiempos t ON rd.tiempo_id=t.id
-                    JOIN tipo_solicitante ts ON tr.tipo_persona=ts.id
+                    LEFT JOIN tipo_solicitante ts ON tr.tipo_persona=ts.id
                     LEFT JOIN tipos_respuesta rsp ON rd.tipo_respuesta_id=rsp.id
                     LEFT JOIN tipos_respuesta_detalle rspd
                             ON rd.tipo_respuesta_detalle_id=rspd.id
@@ -136,7 +136,7 @@ class VisualizacionTramite extends Eloquent
                 JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id 
                 JOIN flujos f ON r.flujo_id=f.id
                 JOIN tiempos t ON rd.tiempo_id=t.id
-                JOIN tipo_solicitante ts ON tr.tipo_persona=ts.id
+                LEFT JOIN tipo_solicitante ts ON tr.tipo_persona=ts.id
                 LEFT JOIN tipos_respuesta rsp ON rd.tipo_respuesta_id=rsp.id
                 LEFT JOIN tipos_respuesta_detalle rspd
                         ON rd.tipo_respuesta_detalle_id=rspd.id
