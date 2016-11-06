@@ -161,6 +161,61 @@ td, th{
                 </div>
             </div>
 
+
+
+            <!--- anexos-->
+            <div class="anexo hidden">
+              <div class="box" style="margin-top: 20px">
+                  <fieldset>
+                      <div class="row form-group filtros" style="margin-bottom:-5px">
+                          <div class="col-sm-12">
+                              <div class="col-md-4 col-sm-4">
+                                  <label class="control-label">INGRESAR COD O NOMBRE DEL ANEXO:</label>
+                              </div>
+                              <div class="col-md-4 col-sm-4">
+                                  <input type="text" class="form-control" id="txt_anexobuscar" name="txt_anexobuscar">
+                              </div>
+                              <div class="col-md-1 col-sm-2">
+                                  <span class="btn btn-primary btn-md" id="generarAnexo" name="generarAnexo"><i class="glyphicon glyphicon-search"></i> Buscar</span>
+                              </div>
+
+                              <div class="col-md-1 col-sm-2" style="padding:24px">
+                                  <!-- <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Export</i></a> -->
+                                 {{--  <span class='btn btn-primary btn-sm' data-toggle='modal' data-target='#estadoAnexo'>Listar</span --}}
+                              </div>
+                          </div>
+                      </div>
+                  </fieldset>
+              </div>
+              <br>
+
+              <div class="box-body table-responsive">
+                  <div class="row form-group" id="reporte">
+                      <div class="col-sm-12">
+                          <div class="box-body table-responsive">
+                              <table id="t_reporte_anexos" class="table table-bordered">
+                                  <thead>
+                                      <tr>
+                                          <th>COD</th>
+                                          <th>NOMBRE DEL ANEXO</th>
+                                          <th>FECHA DE INGRESO</th>
+                                          <th>USUARIO REGISTRADOR</th>
+                                          <th>ESTADO</th>
+                                          <th>OBSERVACION</th>
+                                          <th>AREA</th>
+                                          <th>VER DETALLE</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody id="tb_reporte">
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <!-- anexos-->
+
                 </div><!-- /.col (RIGHT) -->
             </div>
             <!-- Finaliza contenido -->

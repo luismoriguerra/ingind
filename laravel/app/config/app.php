@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'debug' => false,// false por default
+	'debug' => true,// false por default
 
 	/*
 	|--------------------------------------------------------------------------

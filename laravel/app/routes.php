@@ -187,3 +187,4 @@ Route::controller('llamadaatencion', 'Cronograma\LlamadaAtencion\Llamadaatencion
 Route::controller('reportec', 'Cronograma\Reporte\EstadoCronogramaTareaController');
 Route::controller('produccion', 'ProduccionController');
 Route::controller('asignacion', 'AsignacionController');
+Route::controller('anexo', 'AnexoController');
