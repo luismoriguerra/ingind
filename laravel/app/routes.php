@@ -122,6 +122,9 @@ Route::controller('login', 'LoginController');
 Route::get('register/confirm/{token}', 'LoginController@confirmEmail');
 Route::controller('cargar', 'CargarController');
 
+Route::group(['before' => 'auth'], function() {
+    Route::resource('empresa', 'EmpresaController');
+});
 Route::get(
     '/{ruta}', array('before' => 'auth', function ($ruta) {
         if (Session::has('accesos')) {
@@ -161,6 +164,7 @@ Route::controller('language', 'LanguageController');
 Route::controller('lista', 'ListaController');
 Route::controller('menu', 'MenuController');
 Route::controller('opcion', 'OpcionController');
+Route::controller('empresapersona', 'EmpresaPersonaController');
 Route::controller('persona', 'PersonaController');
 Route::controller('reporte', 'ReporteController');
 Route::controller('rol', 'RolController');
