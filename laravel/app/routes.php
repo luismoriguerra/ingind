@@ -179,6 +179,7 @@ Route::controller('tiporespuesta', 'TipoRespuestaController');
 Route::controller('tiporespuestadetalle', 'TipoRespuestaDetalleController');
 Route::controller('tiposolicitante', 'TipoSolicitanteController');
 Route::controller('tramite', 'VisualizacionTramiteController');
+Route::controller('tipotramite', 'TipoTramiteController');
 Route::controller('usuario', 'UsuarioController');
 Route::controller('verbo', 'VerboController');
 Route::controller('carta', 'CartaController');
