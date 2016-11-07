@@ -41,7 +41,7 @@
 </section>
 
 <!-- Main content -->
-<section class="content" id="listado">
+<section class="content">
     
     <div class="row form-group">
         <div class="col-sm-12">
@@ -57,8 +57,8 @@
             </div>
             <div class="tab-content">
                 <div class="tab-pane fade active in" id="misempresas">
+                    <spinner id="spinner-box" :size="size" :fixed="fixed" v-show="loaded" text="Espere un momento por favor"></spinner>
                     <div class="box box-solid">
-                        <spinner id="spinner-box" :size="size" :fixed="fixed" v-show="loaded" text="Espere un momento por favor"></spinner>
                         <div class="alert alert-success" transition="success" v-if="success">@{{ msj }} </div>
 
                         <div class="form-group">

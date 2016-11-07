@@ -172,11 +172,8 @@ var app=new Vue({
         //
         Edit: function (id) { // enviar a laravel para guardar edicion
             this.load(1);
-            //var empresa = this.newEmpresa;
             this.$http.patch( ''+id, this.newEmpresa, function (data) {
                 if (data.rst==2) {
-                    this.errores=data.msj;
-                    this.mensaje_error = data.error
                     this.ShowMensaje(data.msj, 5, false, true);
                 } else {
                     this.showModal=false;
@@ -211,6 +208,7 @@ var app=new Vue({
         },
         New: function () {// cargar modal para añadir empresa
             this.showModal=true;
+            this.ShowMensaje('',0,false,false);
             this.edit = false;
             this.tituloModal = 'Nueva Empresa';
             this.newEmpresa = {
@@ -229,11 +227,8 @@ var app=new Vue({
         },
         AddNew: function () { //añadir un empresa
             this.load(1);
-            //var empresa = this.newEmpresa;
             this.$http.post('/empresa', this.newEmpresa,  function (data) {
                 if (data.rst==2) {
-                    this.errores=data.msj;
-                    this.mensaje_error = data.error
                     this.ShowMensaje(data.msj, 5, false, true);
                 } else {
                     this.newEmpresa = {
@@ -261,6 +256,7 @@ var app=new Vue({
             self = this;
         },
         Show: function (id) { //mostrar modal para editar
+            this.ShowMensaje('',0,false,false);
             this.showModal=true;
             this.edit = true;
             this.tituloModal = 'Editar Empresa';
@@ -285,8 +281,29 @@ var app=new Vue({
                 });
             }
         },
+        validarRuc: function(ruc) {
+
+            if (ruc=='' || ruc == undefined || ruc == null)
+                return;
+            this.ShowMensaje('',0,false,true);
+            this.$http.get('/empresapersona/porruc/'+ ruc,  function (data) {
+                if (data.estado==1) {
+                    var msj = new Object();
+                    msj.ruc=["ruc ya ha sido registrado."];
+                    
+                    this.ShowMensaje(msj,5,false,true);
+                    this.newEmpresa.ruc='';
+                } else {
+
+                    this.newEmpresa.ruc=ruc;
+                }
+            });
+        },
         ShowMensaje: function(msj, time, success, danger) {
-            this.msj=msj;
+            if (success)
+                this.msj=msj;
+            if (danger)
+                this.errores=msj;
             self = this;
             this.danger = danger;
             this.success = success;

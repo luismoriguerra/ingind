@@ -37,4 +37,7 @@ class EmpresaPersonaController extends BaseController
 
         return Response::json($query->paginate($perPage));
     }
+    public function getPorruc($ruc){
+        return Empresa::where('ruc',$ruc)->first();
+    }
 }
