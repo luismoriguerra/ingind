@@ -308,6 +308,9 @@ var app=new Vue({
         $('#myTab a').click(function (e) {
             e.preventDefault();
             $(this).tab('show');
+            if ($(this).attr('href') == "#afiliadas") 
+                afiliadas.$broadcast('vuetable:refresh');
+            
         });
         $('#fecha_nacimiento').daterangepicker({
             format: 'YYYY-MM-DD HH:mm:ss',

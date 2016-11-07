@@ -22,6 +22,7 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
             $('#form_menus #txt_nombre').val( $('#t_menus #nombre_'+button.data('id') ).text() );
+            $('#form_menus #txt_ruta').val( $('#t_menus #ruta_'+button.data('id') ).text() );
             $('#form_menus #txt_class_icono').val( $('#t_menus #class_icono_'+button.data('id') ).text() );
             $('#form_menus #slct_estado').val( $('#t_menus #estado_'+button.data('id') ).attr("data-estado") );
             $("#form_menus").append("<input type='hidden' value='"+button.data('id')+"' name='id'>");

@@ -130,11 +130,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
      */
     public function empresas()
     {
-        return $this->belongsToMany('Empresa')
-        ->withPivot('cargo')
-        ->withPivot('fecha_vigencia')
-        ->withPivot('fecha_cese')
-        ->withPivot('estado');
+        return $this->belongsToMany('Empresa')->withTimestamps();
     }
     /**
      * 
