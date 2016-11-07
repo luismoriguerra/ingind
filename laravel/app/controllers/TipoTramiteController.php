@@ -3,20 +3,13 @@
 class TipoTramiteController extends \BaseController
 {
     protected $_errorController;
-    /**
-     * Valida sesion activa
-     */
+
     public function __construct(ErrorController $ErrorController)
     {
         $this->beforeFilter('auth');
         $this->_errorController = $ErrorController;
     }
-    /**
-     * cargar tipotramites, mantenimiento
-     * POST /rol/cargar
-     *
-     * @return Response
-     */
+
     public function postCargar()
     {
         if ( Request::ajax() ) {
@@ -67,12 +60,7 @@ class TipoTramiteController extends \BaseController
 
         }
     }
-    /**
-     * cargar tipotramites, mantenimiento
-     * POST /rol/listar
-     *
-     * @return Response
-     */
+    
    public function postListar()
     {
         if ( Request::ajax() ) {
@@ -89,12 +77,6 @@ class TipoTramiteController extends \BaseController
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * POST /rol/crear
-     *
-     * @return Response
-     */
 
     public function postCrear()
     {
@@ -126,12 +108,6 @@ class TipoTramiteController extends \BaseController
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     * POST /rol/editar
-     *
-     * @return Response
-     */
    public function postEditar()
     {
         if ( Request::ajax() ) {
@@ -163,12 +139,7 @@ class TipoTramiteController extends \BaseController
         }
     }
 
-    /**
-     * Changed the specified resource from storage.
-     * POST /rol/cambiarestado
-     *
-     * @return Response
-     */
+    
     public function postCambiarestado()
     {
 

@@ -11,15 +11,10 @@
       <div class="modal-body">
         <form id="form_tipotramites_modal" name="form_tipotramites_modal" action="" method="post">
 
-          
-
           <div class="form-group">
             <label class="control-label">Nombre:</label>
             <input type="text" class="form-control" placeholder="Ingrese Nombre" name="txt_nombre" id="txt_nombre">
           </div>
-
-         
-
 
           <div class="form-group">
             <label class="control-label">Estado:
@@ -29,7 +24,6 @@
                 <option value='1' selected>Activo</option>
             </select>
           </div>
-
 
         </form>
       </div>

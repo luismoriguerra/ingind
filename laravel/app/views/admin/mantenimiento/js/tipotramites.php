@@ -86,7 +86,6 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
         return estadohtml;
     }
 }
-
 activarTabla=function(){
     $("#t_tipotramites").dataTable(); // inicializo el datatable    
 };

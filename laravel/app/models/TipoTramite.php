@@ -15,7 +15,6 @@ class TipoTramite extends Base
         $oData = DB::select($sSql);
         return $oData[0]->cant;
     }
-
     public static function getCargar( $array )
     {
         $sSql=" SELECT tt.id, tt.nombre, tt.estado
@@ -27,8 +26,6 @@ class TipoTramite extends Base
         $oData = DB::select($sSql);
         return $oData;
     }
-
-
     public function getTipoTramite(){
         $tipotramite=DB::table('tipo_tramite')
                 ->select('id','nombre','estado')
