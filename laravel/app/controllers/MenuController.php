@@ -94,6 +94,7 @@ class MenuController extends \BaseController
 
             $menus = new Menu;
             $menus['nombre'] = Input::get('nombre');
+            $menus['ruta'] = Input::get('ruta');
             $menus['estado'] = Input::get('estado');
             $menus['class_icono'] = Input::get('class_icono');
             $menus['usuario_created_at'] = Auth::user()->id;
@@ -141,6 +142,7 @@ class MenuController extends \BaseController
             $menuId = Input::get('id');
             $menu = Menu::find($menuId);
             $menu['nombre'] = Input::get('nombre');
+            $menu['ruta'] = Input::get('ruta');
             $menu['estado'] = Input::get('estado');
             $menu['class_icono'] = Input::get('class_icono');
             $menu['usuario_updated_at'] = Auth::user()->id;

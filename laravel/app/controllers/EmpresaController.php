@@ -57,7 +57,18 @@ class EmpresaController extends BaseController
                 'msj'=>$validator->messages(),
             ]);
         }
-        return Empresa::create(Input::all());
+        $empresa = Empresa::create(Input::all());
+
+        $empresa->personas()->save(Auth::user(),
+                [
+                'cargo'=>Input::get('cargo'),
+                'fecha_vigencia'=> Input::get('fecha_vigencia'),
+                'persona_id'=> Auth::id(),
+                'estado'=> 1,
+                'usuario_created_at'=> Auth::id()
+                ]
+        );
+        return $empresa;
     }
     /**
      * muestra datos del recurso y combos asociados para editar

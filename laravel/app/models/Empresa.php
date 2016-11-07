@@ -64,11 +64,7 @@ class Empresa extends Base
      */
     public function personas()
     {
-        return $this->belongsToMany('Persona')
-        ->withPivot('cargo')
-        ->withPivot('fecha_vigencia')
-        ->withPivot('fecha_cese')
-        ->withPivot('estado');
+        return $this->belongsToMany('Persona')->withTimestamps();
     }
 }
 

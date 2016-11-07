@@ -19,6 +19,14 @@
             <input type="text" class="form-control" placeholder="Ingrese Nombre" name="txt_nombre" id="txt_nombre">
           </div>
           <div class="form-group">
+            <label class="control-label">ruta
+                <a id="error_ruta" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese ruta">
+                    <i class="fa fa-exclamation"></i>
+                </a>
+            </label>
+            <input type="text" class="form-control" placeholder="Ingrese ruta" name="txt_ruta" id="txt_ruta">
+          </div>
+          <div class="form-group">
             <label class="control-label">Icono
                 <a id="error_class_icono" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Icono">
                     <i class="fa fa-exclamation"></i>

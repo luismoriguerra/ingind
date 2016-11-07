@@ -35,6 +35,7 @@
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
+                                        <th>Ruta</th>
                                         <th>Icono</th>
                                         <th>Estado</th>
                                         <th> [ ] </th>
@@ -45,6 +46,7 @@
                                 <tfoot>
                                     <tr>
                                         <th>Nombre</th>
+                                        <th>Ruta</th>
                                         <th>Icono</th>
                                         <th>Estado</th>
                                         <th> [ ] </th>
