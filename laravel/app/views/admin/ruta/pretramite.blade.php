@@ -5,8 +5,12 @@
     @parent
     {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
+{{--     {{ HTML::style('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css') }} --}}
+
     {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
+   {{--  {{ HTML::script('<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"> </script>') }} --}}
+
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
@@ -104,7 +108,7 @@ td, th{
     <section class="content-header">
         <h1>
             Listado de Pre Tramites
-            <small> </small>
+            <span class="btn btn-success" id="btnnuevo" style="margin-left: 10px">Nuevo <i class="glyphicon glyphicon-plus"></i></span>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
@@ -144,16 +148,9 @@ td, th{
                     </div>
                 </div>
             </div>
-              <!-- span class="btn btn-primary" data-toggle='modal' data-target='#detallepretramite'>detalle usuario</span>
-              <span class="btn btn-primary" data-toggle='modal' data-target='#detalleempresa'>detalle empresa</span>
 
-              <span class="btn btn-primary" data-toggle='modal' data-target='#voucherusuario'>voucher usuario</span>
-              <span class="btn btn-primary" data-toggle='modal' data-target='#voucherempresa'>voucher empresa</span> -->
-
-              <span class="btn btn-primary" id="btnnuevo">Nuevo Pre Tramite</span>
-
-            <div class="crearPreTramite hidden" style="margin-top: 30px">
-              <h1 style="padding-left: 3%">Crear Pre Tramite</h1>
+            <div class="crearPreTramite hidden">
+              <h1>Crear Pre Tramite</h1>
               <form id="FormCrearPreTramite" method="post">
                 <div class="col-md-12 form-group">
                   <div class="col-md-5">
@@ -191,6 +188,7 @@ td, th{
                         <div class="col-md-8">
                           <input type="text" name="txt_nombretramite" id="txt_nombretramite" class="form-control" disabled>
                           <input type="hidden" name="txt_idclasitramite" id="txt_idclasitramite" class="form-control">
+                          <input type="hidden" name="txt_idarea" id="txt_idarea" class="form-control">
                         </div>
                       </div>
                     </div>
@@ -373,8 +371,7 @@ td, th{
                   </fieldset>
                 </div>
 
-                <div class="col-md-12 form-group" style="text-align: right;padding-right: 4%;">
-                  <
+                <div class="col-md-12 form-group" style="text-align: right;padding-right: 4%;">                  
                   <span class="btn btn-primary btn-sm" onclick="generarPreTramite()">GENERAR</span>
                   <span class="btn btn-primary btn-sm">CANCELAR</span>                
                 </div>

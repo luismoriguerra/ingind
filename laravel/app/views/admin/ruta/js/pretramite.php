@@ -1,23 +1,17 @@
 <script type="text/javascript">
 $(document).ready(function() {
 
-
     UsuarioId='<?php echo Auth::user()->id; ?>';
     DataUser = '<?php echo Auth::user(); ?>';
-    poblateData('usuario',DataUser);
     /*Inicializar tramites*/
     var data={'persona':UsuarioId,'estado':1};
     Bandeja.MostrarPreTramites(data,HTMLPreTramite);
     /*end Inicializar tramites*/
 
-
     /*inicializate selects*/
-/*    inicializateSelect();
-    inicializateSelect = function(){*/
-        slctGlobal.listarSlct('tipotramite','cbo_tipotramite','simple',null,data);  
-        slctGlobal.listarSlct('documento','cbo_tipodoc','simple',null,data);        
-        slctGlobal.listarSlct('tiposolicitante','cbo_tiposolicitante','simple',null,data);
-/*    }*/
+    slctGlobal.listarSlct('tipotramite','cbo_tipotramite','simple',null,data);  
+    slctGlobal.listarSlct('documento','cbo_tipodoc','simple',null,data);        
+    slctGlobal.listarSlct('tiposolicitante','cbo_tiposolicitante','simple',null,data);
     /*end inicializate selects*/
 
     $(document).on('change', '#cbo_tiposolicitante', function(event) {
@@ -27,14 +21,8 @@ $(document).ready(function() {
 
     $(document).on('click', '#btnnuevo', function(event) {
         $(".crearPreTramite").removeClass('hidden');
+        window.scrollTo(0,document.body.scrollHeight);
     });
-
-    $("#t_reporte").dataTable(
-        {
-            "order": [[ 0, "asc" ],[1, "asc"]],
-        }
-    ); 
-    $("#t_reporte").show();
 });
 
 CargarPreTramites = function(){
@@ -43,6 +31,7 @@ CargarPreTramites = function(){
 }
 
 HTMLPreTramite = function(data){
+    $('#t_reporte').dataTable().fnDestroy();
     if(data){
         var html ='';
         $.each(data,function(index, el) {
@@ -61,18 +50,12 @@ HTMLPreTramite = function(data){
             html+=    "<td>"+el.tipodoc+"</td>";
             html+=    "<td>"+el.tramite+"</td>";
             html+=    "<td>"+el.fecha+"</td>";
-
-            if(el.solicitante == 'Juridica'){
-                html+=    '<td><span class="btn btn-primary btn-sm" id-pretramite="'+el.pretramite+'" onclick="Detallepret(this)"><i class="glyphicon glyphicon-th-list"></i></span></td>';
-                html+=    '<td><span class="btn btn-primary btn-sm" id-pretramite="'+el.pretramite+'" onclick="Voucherpret(this)"><i class="glyphicon glyphicon-search"></i></span></td>';
-            }else{
-             /*   html+=    "<td><span class='btn btn-primary btn-sm' id-pretramite='"+el.pretramite+"' onclick="'Detallepret(this)'" data-toggle='modal' data-target='#detallepretramite'><i class='glyphicon glyphicon-th-list'></i></span></td>";
-                html+=    "<td><span class='btn btn-primary btn-sm' id-pretramite='"+el.pretramite+"' data-toggle='modal' data-target='#voucherusuario'><i class='glyphicon glyphicon-search'></i></span></td>";*/
-            }
-
+            html+=    '<td><span class="btn btn-primary btn-sm" id-pretramite="'+el.pretramite+'" onclick="Detallepret(this)"><i class="glyphicon glyphicon-th-list"></i></span></td>';
+            html+=    '<td><span class="btn btn-primary btn-sm" id-pretramite="'+el.pretramite+'" onclick="Voucherpret(this)"><i class="glyphicon glyphicon-search"></i></span></td>';
             html+="</tr>";            
         });
         $("#tb_reporte").html(html);
+        $("#t_reporte").dataTable(); 
     }else{
         alert('no hay nada');
     }
@@ -167,16 +150,16 @@ ValidacionEmpresa = function(data){
     if(data.length > 1){
         var html = '';
         $.each(data,function(index, el) {
-            html+='<tr id-empresa='+el.id+'>';
+            html+='<tr id='+el.id+'>';
             html+='<td name="ruc">'+el.ruc+'</td>';
-            html+='<td name="tipoemp">'+el.tipo_id+'</td>';
-            html+='<td name="razonsocial">'+el.razon_social+'</td>';
-            html+='<td name="nombcomercial">'+el.nombre_comercial+'</td>';
-            html+='<td name="direcfiscal">'+el.direccion_fiscal+'</td>';
-            html+='<td name="telfemp">'+el.telefono+'</td>';
-            html+='<td name="empfv">'+el.fecha_vigencia+'</td>';
-            html+='<td name="empestado">'+el.estado+'</td>';
-            html+='<td name="reprelegal">'+el.representante+'</td>';
+            html+='<td name="tipo_id">'+el.tipo_id+'</td>';
+            html+='<td name="razon_social">'+el.razon_social+'</td>';
+            html+='<td name="nombre_comercial">'+el.nombre_comercial+'</td>';
+            html+='<td name="direccion_fiscal">'+el.direccion_fiscal+'</td>';
+            html+='<td name="telefono">'+el.telefono+'</td>';
+            html+='<td name="fecha_vigencia">'+el.fecha_vigencia+'</td>';
+            html+='<td name="estado">'+el.estado+'</td>';
+            html+='<td name="representante">'+el.representante+'</td>';
             html+='<td name="dnirepre">'+el.dnirepre+'</td>';
             html+='<td><span class="btn btn-primary btn-sm" id-empresa='+el.id+' onClick="selectEmpresa(this)">Seleccionar</span></td>';
             html+='</tr>';
@@ -184,51 +167,52 @@ ValidacionEmpresa = function(data){
         $('#tb_empresa').html(html);
         $('#empresasbyuser').modal('show');
     }else if(data.length == 1){
-
+        poblateData('empresa',data[0]);
     }
 }
 
 selectEmpresa = function(obj){
-    var idempresa = obj.parentNode.parentNode.getAttribute('id-empresa');
-    var td = document.querySelectorAll("#t_empresa tr[id-empresa='"+idempresa+"'] td");
+    var idempresa = obj.parentNode.parentNode.getAttribute('id');
+    var td = document.querySelectorAll("#t_empresa tr[id='"+idempresa+"'] td");
     var data = '{';
     for (var i = 0; i < td.length; i++) {
         if(td[i].getAttribute('name')){
           data+=(i==0) ? '"'+td[i].getAttribute('name')+'":"'+td[i].innerHTML : '","' + td[i].getAttribute('name')+'":"'+td[i].innerHTML;   
         }
     }
-    data+='","empresa_id":'+idempresa+'}';
+    data+='","id":'+idempresa+'}';
     poblateData('empresa',JSON.parse(data));
     $('#empresasbyuser').modal('hide');
 }
    
 poblateData = function(tipo,data){
-    if(tipo == 'usuario'){
-        var result = JSON.parse(data);
+/*    if(tipo == 'usuario'){*/
+        var result = JSON.parse(DataUser);
         document.querySelector('#txt_userdni').value=result.dni;
         document.querySelector('#txt_usernomb').value=result.nombre;
         document.querySelector('#txt_userapepat').value=result.paterno;
         document.querySelector('#txt_userapemat').value=result.materno;
     /*    user_telf.value=data.;
         user_direc.value=data.;*/
-    }
+    /*  */
 
     if(tipo == 'empresa'){
-        document.querySelector('#txt_idempresa').value=data.empresa_id;
+        document.querySelector('#txt_idempresa').value=data.id;
         document.querySelector('#txt_ruc').value=data.ruc;
-        document.querySelector('#txt_tipoempresa').value=data.tipoemp;
-        document.querySelector('#txt_razonsocial').value=data.razonsocial;
-        document.querySelector('#txt_nombcomercial').value=data.nombcomercial;
-        document.querySelector('#txt_domiciliofiscal').value=data.direcfiscal;
-        document.querySelector('#txt_emptelefono').value=data.telfemp;
-        document.querySelector('#txt_empfechav').value=data.empfv;
-        document.querySelector('#txt_reprelegal').value=data.reprelegal;
+        document.querySelector('#txt_tipoempresa').value=data.tipo_id;
+        document.querySelector('#txt_razonsocial').value=data.razon_social;
+        document.querySelector('#txt_nombcomercial').value=data.nombre_comercial;
+        document.querySelector('#txt_domiciliofiscal').value=data.direccion_fiscal;
+        document.querySelector('#txt_emptelefono').value=data.telefono;
+        document.querySelector('#txt_empfechav').value=data.fecha_vigencia;
+        document.querySelector('#txt_reprelegal').value=data.representante;
         document.querySelector('#txt_repredni').value=data.dnirepre;
     }
 
     if(tipo== 'tramite'){
         document.querySelector('#txt_nombretramite').value=data.nombre;
         document.querySelector('#txt_idclasitramite').value=data.id;
+        document.querySelector('#txt_idarea').value=data.area;
     }
 
 }
@@ -246,6 +230,7 @@ consultar = function(){
         data.tipotra = tipotramite.value;
     }
     Bandeja.getClasificadoresTramite(data,HTMLClasificadores);
+    $(".rowArea").addClass('hidden');
     $('#buscartramite').modal('show');
 }
 
@@ -264,8 +249,23 @@ HTMLClasificadores = function(data){
 
 selectClaTramite = function(obj){
     data ={'id':obj.getAttribute('id'),'nombre':obj.getAttribute('nombre')};
-    poblateData('tramite',data);
-    $('#buscartramite').modal('hide');
+    Bandeja.GetAreasbyCTramite({'idc':obj.getAttribute('id')},data);
+}
+
+confirmInfo = function(data,tipo){
+    if(tipo == 'incompleto'){ //falta seleccionar su area
+        var areaSelect = document.querySelector("#slcAreasct");
+        if(areaSelect.value != ''){
+            data.area = areaSelect.value;
+            poblateData('tramite',data);
+            $('#buscartramite').modal('hide');
+        }else{
+            alert('seleccione una area');
+        }
+    }else{
+        poblateData('tramite',data);
+        $('#buscartramite').modal('hide');
+    }
 }
 
 getRequisitos = function(obj){

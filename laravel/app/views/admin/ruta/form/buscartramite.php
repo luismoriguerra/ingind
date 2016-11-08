@@ -26,6 +26,29 @@
                 </fieldset>
             </div><!-- /.box -->
 
+            <div class="row rowArea hidden">
+              <div class="col-sm-12">
+                <div class="box-body table-responsive">
+                  <table id="tblAreasCT" class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <td >(*) Seleccione area que tomara el tramite</td>                    
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                          <td>
+                            <select class="form-control" id="slcAreasct" name="slcAreasct">
+                              <!-- <option value="-1">Seleccione</option> -->
+                            </select>
+                          </td>
+                        </tr>
+                    </tbody>                 
+                  </table>
+                </div>
+              </div>              
+            </div>
+
             <div class="box-body table-responsive">
                 <div class="row form-group" id="reporte">
                     <div class="col-sm-12">

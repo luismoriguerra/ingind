@@ -23,6 +23,17 @@ class PretramiteController extends BaseController {
           );
 	}
 
+	public function postListar(){ //listar clasificacion tramite area
+		
+		$rst=Pretramite::getAreasbyClaTramite();
+          return Response::json(
+              array(
+                  'rst'=>1,
+                  'datos'=>$rst
+              )
+          );
+	}
+
 	public function postGetbyid(){
 		$rst=Pretramite::getPreTramiteById();
         return Response::json(
@@ -74,11 +85,16 @@ class PretramiteController extends BaseController {
 		$pretramite = new Pretramite;
        	$pretramite['persona_id'] =  Auth::user()->id;
         $pretramite['clasificador_tramite_id'] = $array_data->idclasitramite;
-        $pretramite['empresa_id'] = $array_data->idempresa;
+
+        if($array_data->idempresa){
+        	$pretramite['empresa_id'] = $array_data->idempresa;        	
+        }
+
         $pretramite['tipo_solicitante_id'] = $array_data->cbo_tiposolicitante;
         $pretramite['tipo_documento_id'] = $array_data->cbo_tipodoc;
         $pretramite['documento'] = $array_data->tipodoc;
         $pretramite['nro_folios'] = $array_data->numfolio;
+        $pretramite['area_id'] = $array_data->idarea;
 /*        $pretramite['fecha_pretramite'] = date();*/
         $pretramite['usuario_created_at'] = Auth::user()->id;
         $pretramite->save();

@@ -15,7 +15,7 @@ class Pretramite extends base {
 				LEFT JOIN empresa e on e.id=pt.empresa_id 
 				INNER JOIN tipo_solicitante ts on ts.id=pt.tipo_solicitante_id 
 				INNER JOIN documentos d on d.id=pt.tipo_documento_id 
-				WHERE pt.estado = 1";
+				WHERE pt.estado = 1 and pt.persona_id=".Input::get('persona');
 		$r= DB::select($sql);
         return $r; 		
     }
@@ -45,7 +45,7 @@ class Pretramite extends base {
     	$sql = "select e.*,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) as representante,p.dni as dnirepre from empresa e 
 				INNER JOIN empresa_persona ep on e.id=ep.empresa_id 
 				INNER JOIN personas p on e.representante_legal=p.id
-				where e.estado=1 and ep.persona_id=".Input::get('persona');
+				where e.estado=1 and ep.estado=1 and ep.persona_id=".Input::get('persona');
 
         $r= DB::select($sql);
         return $r; 
@@ -83,5 +83,21 @@ class Pretramite extends base {
                 )
                 ->get();  
         return $requisitos;
+    }
+
+    public static function getAreasbyClaTramite(){
+        $areas=DB::table('clasificador_tramite_area as cta')
+                ->join('areas as a', 'cta.area_id', '=', 'a.id')
+                ->select('a.id','a.nombre')               
+                ->where( 
+                    function($query){
+                        if ( Input::get('idc') ) {
+                            $query->where('cta.clasificador_tramite_id','=',Input::get('idc'));
+                        }
+                        $query->where('cta.estado','=','1');
+                    }
+                )
+                ->get();  
+        return $areas;
     }
 }

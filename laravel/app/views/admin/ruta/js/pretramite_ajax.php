@@ -146,7 +146,9 @@ var Bandeja={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                    evento();                       
+                    evento();
+                    $(".crearPreTramite").addClass('hidden');
+                    $('#FormCrearPreTramite').find('input[type="text"],input[type="email"],textarea,select').val('');        
                 }
             },
             error: function(){
@@ -173,6 +175,33 @@ var Bandeja={
             },
             error: function(){
                /* $(".overlay,.loading-img").remove();*/
+                msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);
+            }
+        });
+    },
+    GetAreasbyCTramite:function(data,info){
+        $.ajax({
+            url         : 'pretramite/listar',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : data,
+            beforeSend : function() {
+            },
+            success : function(obj) {
+                if(obj.rst==1){
+                    var result = obj.datos;
+                    if(result.length > 1){
+                        $(".rowArea").removeClass('hidden');
+                        slctGlobal.listarSlct('pretramite','slcAreasct','simple',null,data);
+                        confirmInfo(info,'incompleto');  
+                    }else{
+                        info.area = result[0].id;
+                        confirmInfo(info,'completo');  
+                    }            
+                }
+            },
+            error: function(){
                 msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);
             }
         });
