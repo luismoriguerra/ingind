@@ -8,14 +8,12 @@ class EmpresaPersonaController extends BaseController
      * el cargo se muestra de la tabla empresa_persona
      */
     public function getIndex(){
-
-
         $query = DB::table('empresas as e')
         ->join('empresa_persona as ep','e.id','=','ep.empresa_id')
-        ->join('personas as p','ep.persona_id','=','p.id')
         ->leftjoin(
             DB::raw("(
                 SELECT ep.cargo, ep.fecha_vigencia, ep.fecha_cese,ep.empresa_id,
+                p.dni,
                 CONCAT(p.paterno,' ',p.materno,', ', p.nombre ) AS representante
                 FROM empresa_persona ep 
                 JOIN personas p ON  ep.persona_id=p.id 
@@ -24,10 +22,13 @@ class EmpresaPersonaController extends BaseController
             "),
             'e.id', '=', 'rep.empresa_id'
         )
-        ->select( 'ep.id','e.tipo_id' , 'e.ruc', 'e.razon_social' ,'ep.cargo',
-            'ep.fecha_vigencia' ,'ep.fecha_cese',
-            DB::raw(
-                'IFNULL(rep.representante,"sin representante") as representante'
+        ->select(
+        'e.id','e.nombre_comercial','e.direccion_fiscal','e.telefono',
+        'e.estado','e.fecha_vigencia', 'e.tipo_id' , 'e.ruc', 'e.razon_social',
+        'ep.cargo as persona_cargo', 'ep.fecha_vigencia as persona_vigencia',
+        'ep.fecha_cese as persona_cese', 'rep.dni',
+        DB::raw(
+            'IFNULL(rep.representante,"sin representante") as representante'
             )
         );
 
