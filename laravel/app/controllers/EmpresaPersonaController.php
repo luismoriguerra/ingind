@@ -2,14 +2,30 @@
 
 class EmpresaPersonaController extends BaseController
 {
+    /**
+     * mostrar listado de empresas a las que he sido afiliado,
+     * el campo representante sera la persona que tiene representante_legal=1
+     * el cargo se muestra de la tabla empresa_persona
+     */
     public function getIndex(){
 
-        $query = DB::table('empresa as e')
+
+        $query = DB::table('empresas as e')
         ->join('empresa_persona as ep','e.id','=','ep.empresa_id')
         ->join('personas as p','ep.persona_id','=','p.id')
-        ->select( 'e.tipo_id' , 'e.ruc', 'e.razon_social' , 
-    DB::RAW("CONCAT(p.paterno,' ',p.materno,', ', p.nombre ) AS representante")
-            ,'e.cargo' , 'ep.fecha_vigencia' ,'ep.fecha_cese'
+        ->join(
+            DB::raw("(
+                SELECT ep.cargo, ep.fecha_vigencia, ep.fecha_cese,ep.empresa_id,
+                CONCAT(p.paterno,' ',p.materno,', ', p.nombre ) AS representante
+                FROM empresa_persona ep 
+                JOIN personas p ON  ep.persona_id=p.id 
+                AND ep.representante_legal=1
+                ) rep
+            "),
+            'e.id', '=', 'rep.empresa_id'
+        )
+        ->select( 'ep.id','e.tipo_id' , 'e.ruc', 'e.razon_social' ,'ep.cargo',
+            'ep.fecha_vigencia' ,'ep.fecha_cese','rep.representante'
         );
 
         if (Input::has('sort')) {
@@ -30,13 +46,16 @@ class EmpresaPersonaController extends BaseController
             });
         }
         if (Input::has('usuario_actual')) {
-            $query->where('e.representante_legal','=',Auth::id());
+            $query->where('ep.persona_id','=',Auth::id());
         }
 
         $perPage = Input::has('per_page') ? (int) Input::get('per_page') : null;
 
         return Response::json($query->paginate($perPage));
     }
+    /**
+     * consultar empresa por ruc
+     */
     public function getPorruc($ruc){
         return Empresa::where('ruc',$ruc)->first();
     }

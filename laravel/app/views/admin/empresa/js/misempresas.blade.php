@@ -89,7 +89,7 @@ var app=new Vue({
             razon_social:'',
             nombre_comercial:'',
             direccion_fiscal:'',
-            representante_legal:'{{Auth::id()}}',
+            persona_id:'{{Auth::id()}}',
             cargo:'',
             telefono:'',
             fecha_vigencia:'',
@@ -151,7 +151,7 @@ var app=new Vue({
             return (index % 2) === 0 ? 'positive' : '';
         },
         paginationConfig: function(componentName) {
-            console.log('paginationConfig: ', componentName);
+            //console.log('paginationConfig: ', componentName);
             if (componentName == 'vuetable-pagination') {
                 this.$broadcast('vuetable-pagination:set-options', {
                     wrapperClass: 'pagination',

@@ -3,14 +3,14 @@ var E_SERVER_ERROR = 'Error communicating with the server';
 Vue.config.debug = true;
 // fields definition
 var tableColumns = [
-    {
+    /*{
         name: 'id',
         title: '',
         dataClass: 'text-center',
         callback: 'showDetailRow'
-    },
+    },*/
     {
-        title: 'Tipo Empresa',
+        title: 'TIPO EMPRESA',
         name: 'tipo_id',
         sortField: 'tipo_id',
         callback: 'tipoEmpresa'
@@ -26,12 +26,12 @@ var tableColumns = [
         sortField: 'razon_social',
     },
     {
-        title: 'Representante',
+        title: 'REPRESENTANTE',
         name: 'representante',
         sortField: 'representante'
     },
     {
-        title: 'Cargo',
+        title: 'Mi Cargo',
         name: 'cargo',
         sortField: 'cargo'
     },
@@ -81,7 +81,7 @@ Vue.component('my-detail-row', {
     },
     methods: {
         onClick: function(event) {
-            console.log('my-detail-row: on-click');
+            //console.log('my-detail-row: on-click');
         }
     },
 });
@@ -216,7 +216,7 @@ var afiliadas=new Vue({
             return (index % 2) === 0 ? 'positive' : '';
         },
         paginationConfig: function(componentName) {
-            console.log('paginationConfig: ', componentName);
+            //console.log('paginationConfig: ', componentName);
             if (componentName == 'vuetable-pagination') {
                 this.$broadcast('vuetable-pagination:set-options', {
                     wrapperClass: 'pagination',

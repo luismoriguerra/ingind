@@ -1,3 +1,14 @@
+--08-11-2016
+
+ALTER TABLE `procesos`.`empresa`   
+  CHANGE `representante_legal` `persona_id` INT(11) NULL COMMENT 'persona_id';
+
+RENAME TABLE `procesos`.`empresa` TO `procesos`.`empresas`;
+
+
+ALTER TABLE `procesos`.`empresa_persona`   
+  ADD COLUMN `representante_legal` INT(11) NULL COMMENT 'indica si es representante legal' AFTER `fecha_cese`;
+
 --04-11-2016
 DROP TABLE IF EXISTS `tipo_tramite` ;
 
