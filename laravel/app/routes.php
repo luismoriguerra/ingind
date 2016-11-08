@@ -188,3 +188,5 @@ Route::controller('reportec', 'Cronograma\Reporte\EstadoCronogramaTareaControlle
 Route::controller('produccion', 'ProduccionController');
 Route::controller('asignacion', 'AsignacionController');
 Route::controller('anexo', 'AnexoController');
+Route::controller('pretramite', 'PretramiteController');
+Route::controller('tipotramite', 'TipotramiteController');

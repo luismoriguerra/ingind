@@ -1,3 +1,10 @@
+--06-11-2016
+ALTER TABLE `tipo_solicitante`
+ADD COLUMN `pide_empresa`  int(11) NULL DEFAULT 0 AFTER `nombre_relacion`;
+
+
+
+
 --27-10-2016
 ALTER TABLE `rutas_detalle_verbo`
 ADD COLUMN `adicional`  int NULL DEFAULT 0 AFTER `estado`;
