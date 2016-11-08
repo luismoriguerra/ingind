@@ -125,22 +125,6 @@ var afiliadas=new Vue({
         ],
         //
         loaded: false,
-        newEmpresa: {
-            id: '',
-            tipo_id:'',
-            ruc:'',
-            razon_social:'',
-            nombre_comercial:'',
-            direccion_fiscal:'',
-            representante_legal:'{{Auth::id()}}',
-            cargo:'',
-            telefono:'',
-            fecha_vigencia:'',
-            estado:1,
-        },
-        showModal: false,
-        edit: false,
-        tituloModal:'',
         success: false,
         danger: false,
         msj: '',
@@ -250,26 +234,6 @@ var afiliadas=new Vue({
                 this.loaded=false;
                 clearInterval(this.handle);
             },segundos*1000);
-        }
-    },
-    computed: {
-        validation: function () {
-            return {
-                tipo_id: !!$.isNumeric(this.newEmpresa.tipo_id),
-                ruc: !!$.isNumeric(this.newEmpresa.ruc),
-                razon_social: !!this.newEmpresa.razon_social.trim(),
-                nombre_comercial: !!this.newEmpresa.nombre_comercial.trim(),
-                direccion_fiscal: !!this.newEmpresa.direccion_fiscal.trim(),
-                cargo: !!this.newEmpresa.cargo.trim(),
-                telefono: !!this.newEmpresa.telefono.trim(),
-                fecha_vigencia: !!this.newEmpresa.fecha_vigencia.trim(),
-            };
-        },
-        isValid: function () {
-            var validation = this.validation;
-            return Object.keys(validation).every(function (key) {
-                return validation[key];
-            });
         }
     },
     events: {

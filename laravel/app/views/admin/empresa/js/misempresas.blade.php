@@ -186,7 +186,7 @@ var app=new Vue({
                         razon_social:'',
                         nombre_comercial:'',
                         direccion_fiscal:'',
-                        representante_legal:'{{Auth::id()}}',
+                        persona_id:'{{Auth::id()}}',
                         cargo:'',
                         telefono:'',
                         fecha_vigencia:'',
