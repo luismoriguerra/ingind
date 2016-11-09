@@ -2,15 +2,14 @@
 var persona_id, cargos_selec=[], PersonaObj;
 var Persona={
     AgregarEditarPersona:function(AE){
-        $("#form_personas input[name='cargos_selec']").remove();
-        $("#form_personas").append("<input type='hidden' value='"+cargos_selec+"' name='cargos_selec'>");
+        $("#form_personas_modal input[name='cargos_selec']").remove();
+        $("#form_personas_modal").append("<input type='hidden' value='"+cargos_selec+"' name='cargos_selec'>");
         
-        var datos=$("#form_personas").serialize().split("txt_").join("").split("slct_").join("");
+        var datos=$("#form_personas_modal").serialize().split("txt_").join("").split("slct_").join("");
         var accion="persona/crear";
         if(AE==1){
             accion="persona/editar";
         }
-
         $.ajax({
             url         : accion,
             type        : 'POST',
@@ -23,32 +22,29 @@ var Persona={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
+                   
                     $('#t_personas').dataTable().fnDestroy();
-
+                    MostrarAjax('persona');
                     Persona.CargarPersonas(activarTabla);
-                    $("#msj").html('<div class="alert alert-dismissable alert-success">'+
-                                        '<i class="fa fa-check"></i>'+
-                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                        '<b>'+obj.msj+'</b>'+
-                                    '</div>');
+                    
+                    msjG.mensaje('success',obj.msj,4000);
                     $('#personaModal .modal-footer [data-dismiss="modal"]').click();
                     cargos_selec=[];
                 }
                 else{ 
-                    $.each(obj.msj,function(index,datos){
-                        $("#error_"+index).attr("data-original-title",datos);
-                        $('#error_'+index).css('display','');
+                            var cont = 0;
+                    $.each(obj.msj, function(index, datos){
+                        cont++;
+                         if(cont==1){
+                            alert(datos[0]);
+                       }
+
                     });
                 }
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                    '<i class="fa fa-ban"></i>'+
-                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.</b>'+
-                                '</div>');
-                //cargos_selec=[];
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
             }
         });
     },
@@ -60,22 +56,21 @@ var Persona={
             dataType    : 'json',
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
-                slctGlobal.listarSlct('cargo','slct_cargos','simple');//para que cargue antes el cargo
+                
+                slctGlobal.listarSlct('cargo','slct_cargos','simple');
+                //para que cargue antes el cargo
             },
             success : function(obj) {
                 if(obj.rst==1){
-                    HTMLCargarPersona(obj.datos);
-                    PersonaObj=obj.datos;
+                    MostrarAjax('persona');
+                   // HTMLCargarPersona(obj.datos);
+                    //PersonaObj=obj.datos;
                 }
                 $(".overlay,.loading-img").remove();
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                    '<i class="fa fa-ban"></i>'+
-                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.</b>'+
-                '</div>');
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
             }
         });
     },
@@ -122,9 +117,9 @@ var Persona={
         });
     },
     CambiarEstadoPersonas:function(id,AD){
-        $("#form_personas").append("<input type='hidden' value='"+id+"' name='id'>");
-        $("#form_personas").append("<input type='hidden' value='"+AD+"' name='estado'>");
-        var datos=$("#form_personas").serialize().split("txt_").join("").split("slct_").join("");
+        $("#form_personas_modal").append("<input type='hidden' value='"+id+"' name='id'>");
+        $("#form_personas_modal").append("<input type='hidden' value='"+AD+"' name='estado'>");
+        var datos=$("#form_personas_modal").serialize().split("txt_").join("").split("slct_").join("");
         $.ajax({
             url         : 'persona/cambiarestado',
             type        : 'POST',
@@ -138,12 +133,10 @@ var Persona={
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
                     $('#t_personas').dataTable().fnDestroy();
+                    MostrarAjax('persona');
                     Persona.CargarPersonas(activarTabla);
-                    $("#msj").html('<div class="alert alert-dismissable alert-success">'+
-                                        '<i class="fa fa-check"></i>'+
-                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                        '<b>'+obj.msj+'</b>'+
-                                    '</div>');
+                  
+                    msjG.mensaje('success',obj.msj,4000);
                     $('#personaModal .modal-footer [data-dismiss="modal"]').click();
                 }
                 else{ 
@@ -155,11 +148,8 @@ var Persona={
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                    '<i class="fa fa-ban"></i>'+
-                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.</b>'+
-                                '</div>');
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
+
             }
         });
 

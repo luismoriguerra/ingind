@@ -15,6 +15,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
      * @var string
      */
     public $table = "personas";
+
     protected $fillable = [
             'paterno',
             'materno',
@@ -148,24 +149,34 @@ class Persona extends Base implements UserInterface, RemindableInterface
         return 'img/admin/M.jpg';
     }
     public static $where =[
-                        'id', 'paterno','materno','nombre','email','dni','rol_id','area_id',
-                        'password','fecha_nacimiento','sexo', 'estado'
-                        ];
+                        'id', 'paterno','materno','nombre','dni','sexo','area_id', 'rol_id',
+                         'estado','email','fecha_nacimiento','password',
+                          ];
     public static $selec =[
-                        'id', 'paterno','materno','nombre','email','dni','rol_id','area_id',
-                        'password','fecha_nacimiento','sexo', 'estado'
-                        ];
+                        'id', 'paterno','materno','nombre','dni','sexo','area_id', 'rol_id',
+                         'estado','email','fecha_nacimiento','password'
+                          ];
 
-    public static function getCargar()
+    public static function getCargar($array)
     {
-        $sql="  SELECT p.id ,a.id area_id,r.id rol_id,p.dni,p.email,p.estado,
-                    p.paterno,p.materno,p.nombre,a.nombre area,r.nombre rol
+     
+        $sSql=" SELECT p.id ,a.id area_id,r.id rol_id, p.paterno, p.materno, p.nombre,p.dni,p.sexo sexo_id,p.fecha_nacimiento,
+                                a.nombre area,r.nombre rol, 
+                                p.estado,p.email,p.password,
+                                CASE p.sexo
+                                WHEN 'M' THEN 'Masculino'
+                                WHEN 'F' THEN 'Femenino'
+                                END sexo
                 FROM personas p
+                LEFT JOIN roles r ON r.id=p.rol_id 
                 LEFT JOIN areas a ON a.id=p.area_id 
-                LEFT JOIN roles r ON r.id=p.rol_id ";
-        $personas = DB::select($sql);
-
-        return $personas;
+                
+                                WHERE 1=1";
+        $sSql.= $array['where'].
+                $array['order'].
+                $array['limit'];
+        $oData = DB::select($sSql);
+        return $oData;
     }
 
     public static function getCargarp()
@@ -180,6 +191,17 @@ class Persona extends Base implements UserInterface, RemindableInterface
         $personas = DB::select($sql);
 
         return $personas;
+    }
+    public static function getCargarCount( $array )
+    {
+        $sSql=" SELECT COUNT(p.id) cant
+                FROM personas p
+                INNER JOIN roles r ON r.id=p.rol_id
+                INNER JOIN areas a ON a.id=p.area_id
+                WHERE 1=1 ";
+        $sSql.= $array['where'];
+        $oData = DB::select($sSql);
+        return $oData[0]->cant;
     }
 
     public static function getPersonas()
