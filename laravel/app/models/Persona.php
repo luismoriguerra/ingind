@@ -105,19 +105,42 @@ class Persona extends Base implements UserInterface, RemindableInterface
         $this->token = null;
         $this->save();
     }
+    /**
+     * 
+     */
     public function cargos()
     {
         return $this->belongsToMany('Cargo');
     }
+    /**
+     * 
+     */
     public function conversations() {
         return $this->belongsToMany('Conversation', 'conversations_users', 'user_id', 'conversation_id');
     }
+    /**
+     * 
+     */
     public function areas() {
         return $this->belongsTo('Area', 'area_id');
     }
+
+    /**
+     * Empresa relationship
+     */
+    public function empresas()
+    {
+        return $this->belongsToMany('Empresa')->withTimestamps();
+    }
+    /**
+     * 
+     */
     public function getFullNameAttribute(){
         return "$this->paterno $this->materno, $this->nombre";
     }
+    /**
+     * 
+     */
     public function getImgAttribute(){
         if (isset($this->imagen) ){
             return  'img/user/'.md5('u'.$this->id).'/'.$this->imagen;

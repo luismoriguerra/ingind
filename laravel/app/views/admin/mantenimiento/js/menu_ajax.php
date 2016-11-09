@@ -67,6 +67,7 @@ var Menus={
 
                         html+="<tr>"+
                             "<td id='nombre_"+data.id+"'>"+data.nombre+"</td>"+
+                            "<td id='ruta_"+data.id+"'>"+data.ruta+"</td>"+
                             "<td id='class_icono_"+data.id+"'>"+data.class_icono+"</td>"+
                             "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
                             '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#menuModal" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
