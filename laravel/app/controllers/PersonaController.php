@@ -230,6 +230,8 @@ class PersonaController extends BaseController
             $persona['rol_id'] = Input::get('rol');
             $persona['estado'] = Input::get('estado');
             $persona['usuario_created_at'] = Auth::user()->id;
+            $persona['verified'] = true;
+            $persona['token'] = null;
             $persona->save();
             $personaId = $persona->id;
             //si es cero no seguir, si es 1 ->estado se debe copiar de celulas
