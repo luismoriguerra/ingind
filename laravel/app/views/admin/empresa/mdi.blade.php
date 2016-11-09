@@ -80,7 +80,7 @@
                         </div>
                         <div class="table-responsive">
                             <vuetable v-ref:vuetable
-                                api-url="empresa"
+                                api-url="empresapersona/index"
                                 data-path="data"
                                 pagination-path=""
                                 :fields="fields"
@@ -111,7 +111,7 @@
                                 </select>
                             </div>
                         </div>
-                        @include( 'admin.empresa.form.listado' ) 
+                        @include( 'admin.empresa.form.mdi' ) 
                     </div><!-- /.box -->
                 </div>
                 <div class="tab-pane fade" id="afiliadas">
@@ -172,8 +172,8 @@
             </div>
         </div>
     </div>
-    @include( 'admin.empresa.js.misempresas' )
-    @include( 'admin.empresa.js.afiliadas' )
+    @include( 'admin.empresa.js.mdimisempresas' )
+    @include( 'admin.empresa.js.mdiafiliadas' )
 </section><!-- /.content -->
 @stop
 

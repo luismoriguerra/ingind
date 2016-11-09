@@ -9,6 +9,12 @@ var tableColumns = [
         sortField: 'ruc',
     },
     {
+        title: 'TIPO EMPRESA',
+        name: 'tipo_id',
+        sortField: 'tipo_id',
+        callback: 'tipoEmpresa'
+    },
+    {
         title: 'RAZON SOCIAL',
         name: 'razon_social',
         sortField: 'razon_social',
@@ -19,11 +25,6 @@ var tableColumns = [
         sortField: 'nombre_comercial'
     },
     {
-        title: 'TELEFONO',
-        name: 'telefono',
-        sortField: 'telefono'
-    },
-    {
         title: 'DIRECCION FISCAL',
         name: 'direccion_fiscal',
         sortField: 'direccion_fiscal',
@@ -31,10 +32,31 @@ var tableColumns = [
         dataClass: 'text-center',
     },
     {
+        title: 'TELEFONO',
+        name: 'telefono',
+        sortField: 'telefono'
+    },
+    {
         title: 'VIGENCIA',
         name: 'fecha_vigencia',
         sortField: 'fecha_vigencia',
         callback: 'formatDate|DD-MM-YYYY'
+    },
+    {
+        title: 'ESTADO',
+        name: 'estado',
+        sortField: 'estado',
+        callback: 'estado'
+    },
+    {
+        title: 'REPRESENTANTE',
+        name: 'representante',
+        sortField: 'representante',
+    },
+    {
+        title: 'DNI',
+        name: 'dni',
+        sortField: 'dni',
     },
     {
         name: '__actions',
@@ -118,6 +140,29 @@ var app=new Vue({
         /**
          * Callback functions
          */
+        tipoEmpresa: function(value) {
+            switch(value) {
+                case 1:
+                    return 'Natural';
+                case 2:
+                    return 'Juridico';
+                case 3:
+                    return 'Organizacion Social';
+                case 4:
+                    return 'Institucion Publica';
+                default:
+                    return '';
+            }
+        },
+        estado: function(value) {
+            switch(value) {
+                case 1:
+                    return 'Activo';
+                case 0:
+                    return 'Inactivo';
+                    return '';
+            }
+        },
         formatDate: function(value, fmt) {
             if (value == null) return '';
             fmt = (typeof fmt == 'undefined') ? 'D MMM YYYY' : fmt;
