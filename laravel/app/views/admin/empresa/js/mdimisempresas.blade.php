@@ -92,16 +92,14 @@ var app=new Vue({
             direction: 'asc'
         }],
         multiSort: true,
-        perPage: 10,
+        perPage: 5,
         paginationComponent: 'vuetable-pagination',
         paginationInfoTemplate: 'Mostrando {from} hasta {to} de {total} items',
                 
         itemActions: [
             { name: 'edit-item', label: '', icon: 'glyphicon glyphicon-pencil', class: 'btn btn-warning', extra: {title: 'Edit', 'data-toggle':"tooltip", 'data-placement': "top"} }
         ],
-        moreParams: [
-            'usuario_actual=true'
-        ],
+        moreParams: [],
         //
         loaded: false,
         newEmpresa: {
@@ -126,6 +124,7 @@ var app=new Vue({
         errores:[],
         mensaje_ok:false,
         mensaje_error:false,
+        empresaSelec:0
     },
     watch: {
         'perPage': function(val, oldVal) {
@@ -366,15 +365,7 @@ var app=new Vue({
         }
     },
     ready: function () {
-        //$('[data-toggle="tooltip"]').tooltip();
-        $('#myTab a').click(function (e) {
-            e.preventDefault();
-            $(this).tab('show');
-            if ($(this).attr('href') == "#afiliadas") 
-                afiliadas.$broadcast('vuetable:refresh');
-            
-        });
-        $('#fecha_nacimiento').daterangepicker({
+        $('#fecha_vigencia').daterangepicker({
             format: 'YYYY-MM-DD HH:mm:ss',
             singleDatePicker: true,
             //timePicker: true,
@@ -406,7 +397,16 @@ var app=new Vue({
             //console.log('row-changed:', data.name);
         },
         'vuetable:row-clicked': function(data, event) {
-            //console.log('row-clicked:', data.name);
+            var moreParams = 'empresa_id='+data.id;
+            afiliadas.$set('moreParams', [moreParams] );
+            this.$nextTick(function() {
+                afiliadas.$broadcast('vuetable:refresh');
+            });
+            /*
+            var moreParams = 'empresa_id='+data.id;
+            app.$set('empresaSelec', data.id );
+            afiliadas.$broadcast('vuetable:refresh');*/
+            //cargar la tabla de peronas afiliadas a esta empresa
         },
         'vuetable:cell-clicked': function(data, field, event) {
             //console.log('cell-clicked:', field.name);

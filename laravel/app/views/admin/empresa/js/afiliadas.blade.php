@@ -177,6 +177,7 @@ var afiliadas=new Vue({
          */
         setFilter: function() {
             this.moreParams = [
+                'usuario_actual=true',
                 'filter=' + this.searchFor
             ];
             this.$nextTick(function() {

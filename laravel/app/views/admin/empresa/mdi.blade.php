@@ -45,18 +45,7 @@
     
     <div class="row form-group">
         <div class="col-sm-12">
-            <div>
-                <ul id="myTab" class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active">
-                        <a  href="#misempresas">Mis empresas</a>
-                    </li>
-                    <li role="presentation">
-                        <a  href="#afiliadas">Empresas Afiliadas</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="tab-content">
-                <div class="tab-pane fade active in" id="misempresas">
+                <div  id="misempresas">
                     <spinner id="spinner-box" :size="size" :fixed="fixed" v-show="loaded" text="Espere un momento por favor"></spinner>
                     <div class="box box-solid">
                         <div class="alert alert-success" transition="success" v-if="success">@{{ msj }} </div>
@@ -65,11 +54,6 @@
                             <div class="row form-group form-inline">
                                 <div class="col-md-6">
                                     <div class="control-group">
-                                        <button type="button" class="btn btn-primary btn-sm"  @click="New">Nuevo</button>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="control-group pull-right">
                                         <label class="control-label">Buscar:</label>
                                         <input v-model="searchFor" class="form-control input-sm" @keyup.enter="setFilter">
                                         <button class="btn btn-primary btn-sm" @click="setFilter">Go</button>
@@ -101,22 +85,22 @@
                                 loading-class="loading"
                                 row-class-callback="rowClassCB"
                             ></vuetable>
-                            <div class="control-group pull-right">
-                                <select class="form-control input-sm" v-model="perPage">
-                                    <option value=5>5</option>
-                                    <option value=10>10</option>
-                                    <option value=15>15</option>
-                                    <option value=20>20</option>
-                                    <option value=25>25</option>
-                                </select>
+                        </div>
+                        <div class="form-group">
+                            <div class="row form-group form-inline">
+                                <div class="col-md-6">
+                                    <div class="control-group">
+                                        <button type="button" class="btn btn-primary btn-sm"  @click="New">Nueva Empresa</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         @include( 'admin.empresa.form.mdi' ) 
                     </div><!-- /.box -->
                 </div>
-                <div class="tab-pane fade" id="afiliadas">
+                <div id="afiliadas">
+                    <spinner id="spinner-box" :size="size" :fixed="fixed" v-show="loaded" text="Espere un momento por favor"></spinner>
                     <div class="box box-solid">
-                        <spinner id="spinner-box" :size="size" :fixed="fixed" v-show="loaded" text="Espere un momento por favor"></spinner>
                         <div class="alert alert-success" transition="success" v-if="success">@{{ msj }} </div>
 
                         <div class="form-group">
@@ -133,7 +117,7 @@
                         </div>
                         <div class="table-responsive">
                             <vuetable v-ref:vuetable
-                                api-url="empresapersona/index"
+                                api-url="empresapersona/afiliados"
                                 data-path="data"
                                 pagination-path=""
                                 :fields="fields"
@@ -157,19 +141,19 @@
                                 detail-row-transition="expand"
                                 row-class-callback="rowClassCB"
                             ></vuetable>
-                            <div class="control-group pull-right">
-                                <select class="form-control input-sm" v-model="perPage">
-                                    <option value=5>5</option>
-                                    <option value=10>10</option>
-                                    <option value=15>15</option>
-                                    <option value=20>20</option>
-                                    <option value=25>25</option>
-                                </select>
+                        </div>
+                        <div class="form-group">
+                            <div class="row form-group form-inline">
+                                <div class="col-md-6">
+                                    <div class="control-group">
+                                        <button type="button" class="btn btn-primary btn-sm"  @click="New">Nueva Persona</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div><!-- /.box -->
                 </div>
-            </div>
+            
         </div>
     </div>
     @include( 'admin.empresa.js.mdimisempresas' )

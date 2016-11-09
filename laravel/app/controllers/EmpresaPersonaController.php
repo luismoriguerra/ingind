@@ -58,6 +58,42 @@ class EmpresaPersonaController extends BaseController
         return Response::json($query->paginate($perPage));
     }
     /**
+     * consultar las personas afiliadas por empresa
+     */
+    public function getAfiliados(){
+        
+        $query = DB::table('personas as p')
+        ->join('empresa_persona as ep','p.id','=','ep.persona_id')
+        ->select('p.id', 'p.dni', 'p.paterno', 'p.materno',
+                'p.nombre', 'ep.fecha_vigencia', 'ep.fecha_cese',
+                'ep.cargo', 'p.estado', 'ep.representante_legal');
+
+        if (Input::has('sort')) {
+            list($sortCol, $sortDir) = explode('|', Input::get('sort'));
+            $query->orderBy($sortCol, $sortDir);
+        } else {
+            $query->orderBy('e.id', 'asc');
+        }
+
+        if (Input::has('filter')) {
+            $filter=Input::get('filter');
+            $query->where(function($q) use($filter) {
+                $value = "%{$filter}%";
+                $q->where('paterno', 'like', $value)
+                    ->orWhere('materno', 'like', $value)
+                    ->orWhere('nombre', 'like', $value)
+                    ->orWhere('cargo', 'like', $value);
+            });
+        }
+        if (Input::has('empresa_id')) {
+            $query->where('ep.empresa_id','=',Input::get('empresa_id'));
+        }
+
+        $perPage = Input::has('per_page') ? (int) Input::get('per_page') : null;
+
+        return Response::json($query->paginate($perPage));
+    }
+    /**
      * consultar empresa por ruc
      */
     public function getPorruc($ruc){

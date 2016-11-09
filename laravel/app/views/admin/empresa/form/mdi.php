@@ -113,7 +113,7 @@
                   </a>
                 </label>
                 <div class="col-sm-9">
-                  <input type="text" id='fecha_nacimiento' name='fecha_nacimiento' v-model="newEmpresa.fecha_vigencia" class="form-control input-sm pull-right" placeholder="AAAA-MM-DD" onfocus="blur()" autocomplete="off">
+                  <input type="text" id='fecha_vigencia' name='fecha_vigencia' v-model="newEmpresa.fecha_vigencia" class="form-control input-sm pull-right" placeholder="AAAA-MM-DD" onfocus="blur()" autocomplete="off">
                 </div>
               </div>
           </div>
