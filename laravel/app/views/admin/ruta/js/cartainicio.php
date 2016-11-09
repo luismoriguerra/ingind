@@ -236,7 +236,7 @@ Nuevo=function(){
 HTMLCargarDetalleCartas=function(datos, flujo){
     var des=[];
     $('#txt_flujo').val( datos[0].nombre);
-    $('#txt_flujo_id').val( datos[0].flujo_id);
+    $('#txt_flujo_id').val( datos[0].id);
     $.each(datos,function(index,data){
         tiemposG.push(data.tiempo+'|'+data.responsable_area.split("-")[1]);
         AddTr('btn_desgloses_2',data,1);
