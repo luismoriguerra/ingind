@@ -1,10 +1,50 @@
 <script type="text/javascript">
+var cabeceraG=[]; // Cabecera del Datatable
+var columnDefsG=[]; // Columnas de la BD del datatable
+var targetsG=-1; // Posiciones de las columnas del datatable
+var PersonasG={
+        id:0,
+        paterno:"",
+        materno:"",
+        nombre:"",
+        dni:"",
+        sexo:"",
+        email:"",
+        fecha_nacimiento:"",
+        password:"",
+        area:"",     
+        rol:"", 
+        estado:1
+        };
+
 $(document).ready(function() {  
-    Persona.CargarPersonas(activarTabla);
+    
+      
+        var idG={   paterno       :'onBlur|Apellido Paterno|#DCE6F1', //#DCE6F1
+                materno       :'onBlur|Apellido Materno|#DCE6F1', //#DCE6F1
+                nombre        :'onBlur|Nombre|#DCE6F1', //#DCE6F1
+                dni           :'onBlur|DNI|#DCE6F1', //#DCE6F1
+                sexo          :'3|Tipo de Sexo|#DCE6F1', //#DCE6F1
+                email         :'onBlur|Email|#DCE6F1', //#DCE6F1
+              //  password      :'onBlur|Password|#DCE6F1', //#DCE6F1
+                area          :'3|Área de la Persona|#DCE6F1', 
+                rol           :'3|Rol de la Persona|#DCE6F1', //#DCE6F1      
+                estado        :'2|Estado|#DCE6F1', //#DCE6F1
+             };
+
+    var resG=dataTableG.CargarCab(idG);
+    cabeceraG=resG; // registra la cabecera
+    var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,1,'persona','t_persona');
+    columnDefsG=resG[0]; // registra las columnas del datatable
+    targetsG=resG[1]; // registra los contadores
+    var resG=dataTableG.CargarBtn(columnDefsG,targetsG,1,'BtnEditar','t_persona','fa-edit');
+    columnDefsG=resG[0]; // registra la colunmna adiciona con boton
+    targetsG=resG[1]; // registra el contador actualizado
+    MostrarAjax('persona');
 
     $('#personaModal').on('show.bs.modal', function (event) {
         
-        $('#txt_fecha_nac').daterangepicker({
+        $('#txt_fecha_nacimiento').daterangepicker({
             format: 'YYYY-MM-DD',
             singleDatePicker: true,
             showDropdowns: true
@@ -12,50 +52,59 @@ $(document).ready(function() {
 
         var button = $(event.relatedTarget); // captura al boton
         var titulo = button.data('titulo'); // extrae del atributo data-
-        var persona_id = button.data('id'); //extrae el id del atributo data
+        //var persona_id = button.data('id'); //extrae el id del atributo data
+
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this); //captura el modal
         modal.find('.modal-title').text(titulo+' Persona');
-        $('#form_personas [data-toggle="tooltip"]').css("display","none");
-        $("#form_personas input[type='hidden']").remove();
+        $('#form_personas_modal [data-toggle="tooltip"]').css("display","none");
+        $("#form_personas_modal input[type='hidden']").remove();
         slctGlobal.listarSlct('cargo','slct_cargos','simple');
         
         if(titulo=='Nuevo'){
             
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
-            $('#form_personas #slct_estado').val(1); 
-            $('#form_personas #txt_nombre').focus();
+            $('#form_personas_modal #txt_nombre').focus();
             var datos={estado:1};
             slctGlobal.listarSlct('area','slct_area','simple',null,datos);
             slctGlobal.listarSlct('rol','slct_rol','simple',null,datos);
         }
         else{
-            Persona.CargarAreas(PersonaObj[persona_id].id); //no es multiselect
+
+
+            Persona.CargarAreas(PersonasG.id); //no es multiselect
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
-            //PersonaObj[persona_id]
-            $('#form_personas #txt_nombre').val( PersonaObj[persona_id].nombre );
-            $('#form_personas #txt_paterno').val( PersonaObj[persona_id].paterno );
-            $('#form_personas #txt_materno').val( PersonaObj[persona_id].materno );
-            $('#form_personas #txt_fecha_nac').val( PersonaObj[persona_id].fecha_nacimiento );
-            $('#form_personas #txt_dni').val( PersonaObj[persona_id].dni );
-            $('#form_personas #txt_password').val( '' );
-            $('#form_personas #txt_email').val( PersonaObj[persona_id].email );
-            $('#form_personas #slct_sexo').val( PersonaObj[persona_id].sexo );
-            $('#form_personas #slct_estado').val( PersonaObj[persona_id].estado );
-            $("#form_personas").append("<input type='hidden' value='"+PersonaObj[persona_id].id+"' name='id'>");
+            //PersonasG
+            $('#form_personas_modal #txt_paterno').val( PersonasG.paterno );
+            $('#form_personas_modal #txt_materno').val( PersonasG.materno );
+            $('#form_personas_modal #txt_nombre').val( PersonasG.nombre );
+            $('#form_personas_modal #txt_dni').val( PersonasG.dni );
+            $('#form_personas_modal #slct_sexo').val( PersonasG.sexo );
+            $('#form_personas_modal #txt_email').val( PersonasG.email );
+            $('#form_personas_modal #txt_fecha_nacimiento').val( PersonasG.fecha_nacimiento );
+            $('#form_personas_modal #txt_password').val( '' );
+            
 
-            var datos={estado:1};
-            var idsarea=[]; idsarea.push(PersonaObj[persona_id].area_id);
-            var idsrol=[]; idsrol.push(PersonaObj[persona_id].rol_id);
-            slctGlobal.listarSlct('area','slct_area','simple',idsarea,datos);
-            slctGlobal.listarSlct('rol','slct_rol','simple',idsrol,datos);
+            $('#form_personas_modal #slct_estado').val( PersonasG.estado );
+            $("#form_personas_modal").append("<input type='hidden' value='"+PersonasG.id+"' name='id'>");
+
+            //var datos={estado:1};
+            //var idsarea=[]; idsarea.push(PersonasG.area_id);
+            //var idsrol=[]; idsrol.push(PersonasG.rol_id);
+            //slctGlobal.listarSlct('area','slct_area','simple',idsarea,datos);
+            
+            slctGlobal.listarSlctFijo('area','slct_area',PersonasG.area);
+         //   alert(PersonasG.fecha_nacimiento_id);
+            //slctGlobal.listarSlct('rol','slct_rol','simple',idsrol,datos);
+            
+            slctGlobal.listarSlctFijo('rol','slct_rol',PersonasG.rol);
         }
-        $( "#form_personas #slct_estado" ).trigger('change');
-        $( "#form_personas #slct_estado" ).change(function() {
-            if ($( "#form_personas #slct_estado" ).val()==1) {
+        $( "#form_personas_modal #slct_estado" ).trigger('change');
+        $( "#form_personas_modal #slct_estado" ).change(function() {
+            if ($( "#form_personas_modal #slct_estado" ).val()==1) {
                 $('#f_areas_cargo').removeAttr('disabled');
             }
             else {
@@ -71,6 +120,60 @@ $(document).ready(function() {
         $("#t_cargoPersona").html('');
     });
 });
+BtnEditar=function(btn,id){
+    var tr = btn.parentNode.parentNode; // Intocable
+    PersonasG.id=id;
+    PersonasG.paterno=$(tr).find("td:eq(0)").text();
+    PersonasG.materno=$(tr).find("td:eq(1)").text();
+    PersonasG.nombre=$(tr).find("td:eq(2)").text();
+    PersonasG.dni=$(tr).find("td:eq(3)").text();
+    PersonasG.sexo=$(tr).find("td:eq(4) input[name='txt_sexo']").val();
+    PersonasG.email=$(tr).find("td:eq(5)").text();
+    // se detecta el atributo que se esta enviando atravez del hiden del txt_sexo
+    PersonasG.fecha_nacimiento=$(tr).find("td:eq(4) input[name='txt_sexo']").attr('fecha_nacimiento'); 
+      //PersonasG.password=$(tr).find("td:eq(6) input[name='txt_password']").val();
+    PersonasG.area=$(tr).find("td:eq(6) input[name='txt_area']").val();   
+    PersonasG.rol=$(tr).find("td:eq(7) input[name='txt_rol']").val();   
+    PersonasG.estado=$(tr).find("td:eq(8)>span").attr("data-estado");
+    $("#BtnEditar").click();
+};
+
+MostrarAjax=function(t){
+    if( t=="persona" ){
+        if( columnDefsG.length>0 ){
+            dataTableG.CargarDatos(t,'persona','cargar',columnDefsG);
+        }
+        else{
+            alert('Faltas datos');
+        }
+    }
+}
+GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
+    
+    if(typeof(fn)!='undefined' && fn.col==4){
+        //se envia de manera ocultada la fecha de nacimiento en el txt_sexo
+        return row.sexo+"<input type='hidden'name='txt_sexo' fecha_nacimiento='"+row.fecha_nacimiento+"' value='"+row.sexo_id+"'>";
+    }
+
+
+    else if(typeof(fn)!='undefined' && fn.col==6){
+        return row.area+"<input type='hidden'name='txt_area' value='"+row.area_id+"'>";
+    }
+
+    else if(typeof(fn)!='undefined' && fn.col==7){
+        return row.rol+"<input type='hidden'name='txt_rol' value='"+row.rol_id+"'>";
+    }
+
+
+    else if(typeof(fn)!='undefined' && fn.col==8){
+        var estadohtml='';
+        estadohtml='<span id="'+row.id+'" onClick="activar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-danger">Inactivo</span>';
+        if(row.estado==1){
+            estadohtml='<span id="'+row.id+'" onClick="desactivar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-success">Activo</span>';
+        }
+        return estadohtml;
+    }
+}
 
 eventoSlctGlobalSimple=function(){
 }
@@ -135,7 +238,7 @@ EliminarArea=function(obj){
     cargos_selec.splice( index, 1 );
 };
 validaPersonas=function(){
-    $('#form_personas [data-toggle="tooltip"]').css("display","none");
+ /*   $('#form_personas_modal [data-toggle="tooltip"]').css("display","none");
     var a=[];
     a[0]=valida("txt","nombre","");
     var rpta=true;
@@ -146,10 +249,55 @@ validaPersonas=function(){
             break;
         }
     }
-    return rpta;
+    return rpta;*/
+    var r=true;
+    if( $("#form_personas_modal #txt_nombre").val()=='' ){
+        alert("Ingrese Nombre");
+        r=false;
+    }
+    else if( $("#form_personas_modal #txt_paterno").val()==''){
+        alert("Ingrese Apellido Paterno");
+        r=false;
+    }
+    else if( $("#form_personas_modal #txt_materno").val()=='' ){
+        alert("Ingrese Apellido Materno");
+        r=false;
+    }
+    else if( $("#form_personas_modal #txt_fecha_nacimiento").val()=='' ){
+       alert("Ingrese Fecha Nacimiento");
+        r=false;
+    }
+   
+    else if( $("#form_personas_modal #txt_dni").val()=='' ){
+        alert("Ingrese Numero DNI");
+        r=false;
+    }
+    //else if( $("#form_personas_modal #txt_password").val()=='' ){
+    //    alert("Ingrese Password");
+    //    r=false;
+    //}
+    else if( $("#form_personas_modal #txt_email").val()=='' ){
+        alert("Ingrese Email");
+        r=false;
+    }
+
+    else if( $("#form_personas_modal #slct_sexo").val()=='' ){
+        alert("Seleccione Tipo de Sexo");
+        r=false;
+    }
+
+    else if( $("#form_personas_modal #slct_area_id").val()=='' ){
+        alert("Seleccione Área");
+        r=false;
+    }
+    else if( $("#form_personas_modal #slct_rol_id").val()=='' ){
+        alert("Seleccione Rol");
+        r=false;
+    }
+    return r;
 };
 
-valida=function(inicial,id,v_default){
+/*valida=function(inicial,id,v_default){
     var texto="Seleccione";
     if(inicial=="txt"){
         texto="Ingrese";
@@ -160,9 +308,9 @@ valida=function(inicial,id,v_default){
         $('#error_'+id).css('display','');
         return false;
     }
-};
+};*/
 
-HTMLCargarPersona=function(datos){
+/*HTMLCargarPersona=function(datos){
     var html="";
     $('#t_personas').dataTable().fnDestroy();
 
@@ -186,5 +334,5 @@ HTMLCargarPersona=function(datos){
     });
     $("#tb_personas").html(html);
     activarTabla();
-};
+};*/
 </script>

@@ -3,7 +3,6 @@ var TipoTramites={
     AgregarEditarTipoTramite:function(AE){
         var datos = $("#form_tipotramites_modal").serialize().split("txt_").join("").split("slct_").join("");
         var accion = (AE==1) ? "tipotramite/editar" : "tipotramite/crear";
-
         $.ajax({
             url         : accion,
             type        : 'POST',
