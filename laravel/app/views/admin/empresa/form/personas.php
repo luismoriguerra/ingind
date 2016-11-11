@@ -31,7 +31,7 @@
                   <option value="">Seleccione tipo de empresa</option>
                   <option value="1">Natural</option>
                   <option value="2">Juridico</option>
-                  <!--<option value="3">Organizacion Social</option>-->
+                  <option value="3">Organizacion Social</option>
               </select>
             </div>
           </div>

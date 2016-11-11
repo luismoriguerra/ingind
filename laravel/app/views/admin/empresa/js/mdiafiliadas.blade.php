@@ -10,43 +10,54 @@ var tableColumns = [
         callback: 'showDetailRow'
     },*/
     {
-        title: 'TIPO EMPRESA',
-        name: 'tipo_id',
-        sortField: 'tipo_id',
-        callback: 'tipoEmpresa'
+        title: 'DNI',
+        name: 'dni',
+        sortField: 'dni',
     },
     {
-        title: 'RUC',
-        name: 'ruc',
-        sortField: 'ruc',
+        title: 'AP PATERNO',
+        name: 'paterno',
+        sortField: 'paterno',
     },
     {
-        title: 'RAZON SOCIAL',
-        name: 'razon_social',
-        sortField: 'razon_social',
+        title: 'AP MATERNO',
+        name: 'materno',
+        sortField: 'materno',
     },
     {
-        title: 'REPRESENTANTE',
-        name: 'representante',
-        sortField: 'representante'
-    },
-    {
-        title: 'Mi Cargo',
-        name: 'persona_cargo',
-        sortField: 'persona_cargo'
+        title: 'NOMBRE',
+        name: 'nombre',
+        sortField: 'nombre'
     },
     {
         title: 'VIGENCIA',
-        name: 'persona_vigencia',
-        sortField: 'persona_vigencia',
-        callback: 'formatDate|DD-MM-YYYY'
+        name: 'fecha_vigencia',
+        sortField: 'fecha_vigencia',
+        callback: 'formatDate|DD-MM-YYYY',
     },
     {
         title: 'CESE',
-        name: 'persona_cese',
-        sortField: 'persona_cese',
-        callback: 'formatDate|DD-MM-YYYY'
-    }
+        name: 'fecha_cese',
+        sortField: 'fecha_cese',
+        callback: 'formatDate|DD-MM-YYYY',
+    },
+    {
+        title: 'CARGO',
+        name: 'cargo',
+        sortField: 'cargo',
+    },
+    {
+        title: 'ESTADO',
+        name: 'estado',
+        sortField: 'estado',
+        callback: 'estado',
+    },
+    {
+        title: 'TIPO REPRESENTANTE',
+        name: 'representante_legal',
+        sortField: 'representante_legal',
+        callback: 'tipoRepresentante',
+    },
 ];
 Vue.component('my-detail-row', {
     template: [
@@ -109,11 +120,19 @@ var afiliadas=new Vue({
         searchFor: '',
         fields: tableColumns,
         sortOrder: [{
-            field: 'razon_social',
+            field: 'paterno',
+            direction: 'asc'
+        },
+        {
+            field: 'materno',
+            direction: 'asc'
+        },
+        {
+            field: 'nombre',
             direction: 'asc'
         }],
         multiSort: true,
-        perPage: 10,
+        perPage: 5,
         paginationComponent: 'vuetable-pagination',
         paginationInfoTemplate: 'Mostrando {from} hasta {to} de {total} items',
                 
@@ -121,10 +140,13 @@ var afiliadas=new Vue({
             { name: 'edit-item', label: '', icon: 'glyphicon glyphicon-pencil', class: 'btn btn-warning', extra: {title: 'Edit', 'data-toggle':"tooltip", 'data-placement': "top"} }
         ],
         moreParams: [
-            'usuario_actual=true'
+            'empresa_id=0',
         ],
         //
         loaded: false,
+        showModal: false,
+        edit: false,
+        tituloModal:'',
         success: false,
         danger: false,
         msj: '',
@@ -145,16 +167,21 @@ var afiliadas=new Vue({
         /**
          * Callback functions
          */
-        tipoEmpresa: function(value) {
+        estado: function(value) {
             switch(value) {
                 case 1:
-                    return 'Natural';
-                case 2:
-                    return 'Juridico';
-                case 3:
-                    return 'Organizacion Social';
-                case 4:
-                    return 'Institucion Publica';
+                    return 'Activo';
+                case 0:
+                    return 'Inactivo';
+                    return '';
+            }
+        },
+        tipoRepresentante: function(value) {
+            switch(value) {
+                case 0:
+                    return 'Trabajador';
+                case 1:
+                    return 'Representante';
                 default:
                     return '';
             }
@@ -177,7 +204,7 @@ var afiliadas=new Vue({
          */
         setFilter: function() {
             this.moreParams = [
-                'usuario_actual=true',
+                'empresa_id='+app.empresaSelec,
                 'filter=' + this.searchFor
             ];
             this.$nextTick(function() {
@@ -219,6 +246,13 @@ var afiliadas=new Vue({
                 });
             }
         },
+        Add: function () {// cargar modal para añadir personal
+            this.showModal=true;
+            this.ShowMensaje('',0,false,false);
+            this.edit = false;
+            this.tituloModal = 'Nueva Empresa';
+            
+        },
         ShowMensaje: function(msj, time, success, danger) {
             this.msj=msj;
             self = this;
@@ -249,6 +283,10 @@ var afiliadas=new Vue({
             if (field.name !== '__actions') {
                 this.$broadcast('vuetable:toggle-detail', data.id);
             }
+        },
+        'vuetable:loading': function() {
+            var moreParams='empresa_id='+app.empresaSelec;
+            this.$set('moreParams', [moreParams]);
         },
         'vuetable:load-success': function(response) {
             this.empresas = response.data.data;

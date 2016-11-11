@@ -28,7 +28,7 @@ class EmpresaController extends BaseController
             });
         }
         if (Input::has('usuario_actual')) {
-            $query->where('representante_legal','=',Auth::id());
+            $query->misEmpresas();//('persona_id','=',Auth::id());
         }
 
         $perPage = Input::has('per_page') ? (int) Input::get('per_page') : null;
@@ -64,6 +64,7 @@ class EmpresaController extends BaseController
                 'cargo'=>Input::get('cargo'),
                 'fecha_vigencia'=> Input::get('fecha_vigencia'),
                 'persona_id'=> Auth::id(),
+                'representante_legal'=> 1,//por defecto
                 'estado'=> 1,
                 'usuario_created_at'=> Auth::id()
                 ]
@@ -76,16 +77,12 @@ class EmpresaController extends BaseController
      * @param  int  $id
      * @return Response
      */
-    /**
-     * muestra datos del recurso y combos asociados para editar
-     */
     public function edit($id) {
         
         $empresa = Empresa::findOrFail($id);
         $empresaPersona = Empresa::find($id)->personas()->lists('representante_legal')->toArray();
         $persona = Persona::orderBy('display_name', 'asc')->lists('display_name', 'id');
         return Response::json(['empresa'=>$empresa,'empresa_persona'=>$empresaPersona,'persona'=>$persona]);
-        //return view('auth::user.edit', compact('user', 'roles', 'roles_user'));
     
     }
     /**
@@ -97,7 +94,6 @@ class EmpresaController extends BaseController
     public function show($id)
     {
         return Empresa::findOrFail($id);
-        
     }
     /**
      * actualizar empresa
@@ -109,7 +105,6 @@ class EmpresaController extends BaseController
     {
         $rules = Empresa::$rules;
         $rules['ruc']=$rules['ruc'].','.Input::get('id');
-        //dd($rules);
         $validator = Validator::make(Input::all(),$rules, Persona::$messajes);
         if ( $validator->fails() ) {
             return Response::json([

@@ -45,76 +45,7 @@
     
     <div class="row form-group">
         <div class="col-sm-12">
-            <div>
-                <ul id="myTab" class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active">
-                        <a  href="#misempresas">Mis empresas</a>
-                    </li>
-                    <li role="presentation">
-                        <a  href="#afiliadas">Empresas Afiliadas</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="tab-content">
-                <div class="tab-pane fade active in" id="misempresas">
-                    <spinner id="spinner-box" :size="size" :fixed="fixed" v-show="loaded" text="Espere un momento por favor"></spinner>
-                    <div class="box box-solid">
-                        <div class="alert alert-success" transition="success" v-if="success">@{{ msj }} </div>
-
-                        <div class="form-group">
-                            <div class="row form-group form-inline">
-                                <div class="col-md-6">
-                                    <div class="control-group">
-                                        <button type="button" class="btn btn-primary btn-sm"  @click="New">Nuevo</button>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="control-group pull-right">
-                                        <label class="control-label">Buscar:</label>
-                                        <input v-model="searchFor" class="form-control input-sm" @keyup.enter="setFilter">
-                                        <button class="btn btn-primary btn-sm" @click="setFilter">Go</button>
-                                        <button class="btn btn-default btn-sm" @click="resetFilter">Reset</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <vuetable v-ref:vuetable
-                                api-url="empresa"
-                                data-path="data"
-                                pagination-path=""
-                                :fields="fields"
-                                :sort-order="sortOrder"
-                                :multi-sort="multiSort"
-                                table-class="table table-bordered table-striped table-hover"
-                                ascending-icon="glyphicon glyphicon-chevron-up"
-                                descending-icon="glyphicon glyphicon-chevron-down"
-                                pagination-class=""
-                                pagination-info-class=""
-                                pagination-component-class=""
-                                :pagination-component="paginationComponent"
-                                :item-actions="itemActions"
-                                :append-params="moreParams"
-                                :per-page="perPage"
-                                wrapper-class="vuetable-wrapper"
-                                table-wrapper=".vuetable-wrapper"
-                                loading-class="loading"
-                                row-class-callback="rowClassCB"
-                            ></vuetable>
-                            <div class="control-group pull-right">
-                                <select class="form-control input-sm" v-model="perPage">
-                                    <option value=5>5</option>
-                                    <option value=10>10</option>
-                                    <option value=15>15</option>
-                                    <option value=20>20</option>
-                                    <option value=25>25</option>
-                                </select>
-                            </div>
-                        </div>
-                        @include( 'admin.empresa.form.listado' ) 
-                    </div><!-- /.box -->
-                </div>
-                <div class="tab-pane fade" id="afiliadas">
+                <div  id="misempresas">
                     <spinner id="spinner-box" :size="size" :fixed="fixed" v-show="loaded" text="Espere un momento por favor"></spinner>
                     <div class="box box-solid">
                         <div class="alert alert-success" transition="success" v-if="success">@{{ msj }} </div>
@@ -152,28 +83,82 @@
                                 wrapper-class="vuetable-wrapper"
                                 table-wrapper=".vuetable-wrapper"
                                 loading-class="loading"
+                                row-class-callback="rowClassCB"
+                            ></vuetable>
+                        </div>
+                        <div class="form-group">
+                            <div class="row form-group form-inline">
+                                <div class="col-md-6">
+                                    <div class="control-group">
+                                        <button type="button" class="btn btn-primary btn-sm"  @click="New">Nueva Empresa</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @include( 'admin.empresa.form.mdi' ) 
+                    </div><!-- /.box -->
+                </div>
+                <div id="afiliadas">
+                    <spinner id="spinner-box" :size="size" :fixed="fixed" v-show="loaded" text="Espere un momento por favor"></spinner>
+                    <div class="box box-solid">
+                        <div class="alert alert-success" transition="success" v-if="success">@{{ msj }} </div>
+
+                        <div class="form-group">
+                            <div class="row form-group form-inline">
+                                <div class="col-md-6">
+                                    <div class="control-group">
+                                        <label class="control-label">Buscar:</label>
+                                        <input v-model="searchFor" class="form-control input-sm" @keyup.enter="setFilter">
+                                        <button class="btn btn-primary btn-sm" @click="setFilter">Go</button>
+                                        <button class="btn btn-default btn-sm" @click="resetFilter">Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <vuetable v-ref:vuetable
+                                api-url="empresapersona/afiliados"
+                                data-path="data"
+                                pagination-path=""
+                                :fields="fields"
+                                :sort-order="sortOrder"
+                                :multi-sort="multiSort"
+                                table-class="table table-bordered table-striped table-hover"
+                                ascending-icon="glyphicon glyphicon-chevron-up"
+                                descending-icon="glyphicon glyphicon-chevron-down"
+                                pagination-class=""
+                                pagination-info-class=""
+                                pagination-component-class=""
+                                :pagination-component="paginationComponent"
+                                :item-actions="itemActions"
+                                :append-params="moreParams"
+                                :per-page="perPage"
+                                wrapper-class="vuetable-wrapper"
+                                table-wrapper=".vuetable-wrapper"
+                                loading-class="loading"
                                 detail-row-component="my-detail-row"
                                 detail-row-id="id"
                                 detail-row-transition="expand"
                                 row-class-callback="rowClassCB"
                             ></vuetable>
-                            <div class="control-group pull-right">
-                                <select class="form-control input-sm" v-model="perPage">
-                                    <option value=5>5</option>
-                                    <option value=10>10</option>
-                                    <option value=15>15</option>
-                                    <option value=20>20</option>
-                                    <option value=25>25</option>
-                                </select>
+                        </div>
+                        <div class="form-group">
+                            <div class="row form-group form-inline">
+                                <div class="col-md-6">
+                                    <div class="control-group">
+                                        <button type="button" class="btn btn-primary btn-sm"  @click="Add">Agregar Personal</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        @include( 'admin.empresa.form.personas' ) 
                     </div><!-- /.box -->
                 </div>
-            </div>
+            
         </div>
     </div>
-    @include( 'admin.empresa.js.misempresas' )
-    @include( 'admin.empresa.js.afiliadas' )
+    @include( 'admin.empresa.js.mdimisempresas' )
+    @include( 'admin.empresa.js.mdiafiliadas' )
 </section><!-- /.content -->
 @stop
 

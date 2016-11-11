@@ -9,6 +9,12 @@ var tableColumns = [
         sortField: 'ruc',
     },
     {
+        title: 'TIPO EMPRESA',
+        name: 'tipo_id',
+        sortField: 'tipo_id',
+        callback: 'tipoEmpresa'
+    },
+    {
         title: 'RAZON SOCIAL',
         name: 'razon_social',
         sortField: 'razon_social',
@@ -19,11 +25,6 @@ var tableColumns = [
         sortField: 'nombre_comercial'
     },
     {
-        title: 'TELEFONO',
-        name: 'telefono',
-        sortField: 'telefono'
-    },
-    {
         title: 'DIRECCION FISCAL',
         name: 'direccion_fiscal',
         sortField: 'direccion_fiscal',
@@ -31,10 +32,31 @@ var tableColumns = [
         dataClass: 'text-center',
     },
     {
+        title: 'TELEFONO',
+        name: 'telefono',
+        sortField: 'telefono'
+    },
+    {
         title: 'VIGENCIA',
         name: 'fecha_vigencia',
         sortField: 'fecha_vigencia',
         callback: 'formatDate|DD-MM-YYYY'
+    },
+    {
+        title: 'ESTADO',
+        name: 'estado',
+        sortField: 'estado',
+        callback: 'estado'
+    },
+    {
+        title: 'REPRESENTANTE',
+        name: 'representante',
+        sortField: 'representante',
+    },
+    {
+        title: 'DNI',
+        name: 'dni',
+        sortField: 'dni',
     },
     {
         name: '__actions',
@@ -70,16 +92,14 @@ var app=new Vue({
             direction: 'asc'
         }],
         multiSort: true,
-        perPage: 10,
+        perPage: 5,
         paginationComponent: 'vuetable-pagination',
         paginationInfoTemplate: 'Mostrando {from} hasta {to} de {total} items',
                 
         itemActions: [
             { name: 'edit-item', label: '', icon: 'glyphicon glyphicon-pencil', class: 'btn btn-warning', extra: {title: 'Edit', 'data-toggle':"tooltip", 'data-placement': "top"} }
         ],
-        moreParams: [
-            'usuario_actual=true'
-        ],
+        moreParams: [],
         //
         loaded: false,
         newEmpresa: {
@@ -104,6 +124,7 @@ var app=new Vue({
         errores:[],
         mensaje_ok:false,
         mensaje_error:false,
+        empresaSelec:0
     },
     watch: {
         'perPage': function(val, oldVal) {
@@ -118,6 +139,29 @@ var app=new Vue({
         /**
          * Callback functions
          */
+        tipoEmpresa: function(value) {
+            switch(value) {
+                case 1:
+                    return 'Natural';
+                case 2:
+                    return 'Juridico';
+                case 3:
+                    return 'Organizacion Social';
+                case 4:
+                    return 'Institucion Publica';
+                default:
+                    return '';
+            }
+        },
+        estado: function(value) {
+            switch(value) {
+                case 1:
+                    return 'Activo';
+                case 0:
+                    return 'Inactivo';
+                    return '';
+            }
+        },
         formatDate: function(value, fmt) {
             if (value == null) return '';
             fmt = (typeof fmt == 'undefined') ? 'D MMM YYYY' : fmt;
@@ -128,7 +172,6 @@ var app=new Vue({
          */
         setFilter: function() {
             this.moreParams = [
-                'usuario_actual=true',
                 'filter=' + this.searchFor
             ];
             this.$nextTick(function() {
@@ -354,7 +397,16 @@ var app=new Vue({
             //console.log('row-changed:', data.name);
         },
         'vuetable:row-clicked': function(data, event) {
-            //console.log('row-clicked:', data.name);
+            var moreParams = 'empresa_id='+data.id;
+            afiliadas.$set('moreParams', [moreParams] );
+            this.$nextTick(function() {
+                afiliadas.$broadcast('vuetable:refresh');
+            });
+            /*
+            var moreParams = 'empresa_id='+data.id;
+            app.$set('empresaSelec', data.id );
+            afiliadas.$broadcast('vuetable:refresh');*/
+            //cargar la tabla de peronas afiliadas a esta empresa
         },
         'vuetable:cell-clicked': function(data, field, event) {
             //console.log('cell-clicked:', field.name);

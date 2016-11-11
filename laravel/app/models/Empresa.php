@@ -8,14 +8,14 @@ class Empresa extends Base
      *
      * @var string
      */
-    public $table = "empresa";
+    public $table = "empresas";
     protected $fillable = [
             'tipo_id',
             'ruc',
             'razon_social',
             'nombre_comercial',
             'direccion_fiscal',
-            'representante_legal',
+            'persona_id',
             'cargo',
             'telefono',
             'fecha_vigencia',
@@ -24,7 +24,7 @@ class Empresa extends Base
 
     public static $rules = [
         'tipo_id'                   => 'required|Integer',
-        'ruc'                       => 'required|size:11|unique:empresa,ruc',
+        'ruc'                       => 'required|size:11|unique:empresas,ruc',
         'razon_social'              => 'required|Max:200',
         'nombre_comercial'          => 'required|Max:150',
         'direccion_fiscal'          => 'required|Max:250',
@@ -66,6 +66,10 @@ class Empresa extends Base
     {
         return $this->belongsToMany('Persona')->withTimestamps();
     }
+    public function scopeMisEmpresas($query)
+   {
+        return $query->where('persona_id','=',Auth::id());
+   }
 }
 
 
