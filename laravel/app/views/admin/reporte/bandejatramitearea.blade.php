@@ -92,10 +92,18 @@
                             <div class="box-body table-responsive">
                             <!-- THE MESSAGES -->
                             <form name="form_filtros" id="form_filtros" method="POST" action="">
-                                <div class="row col-sm-5">
+                             <div class="col-md-12">
+                                <div class="col-md-4 col-sm-4" style="padding:24px">
                                     <select name="slct_areas" id="slct_areas" onChange="Bandeja.MostrarAjax();">
                                     </select>
+
                                 </div>
+                                <div class="col-md-1 col-sm-2" style="padding:24px">
+                                {{-- <span class="btn btn-success btn-md" id="btnexport" name="btnexport"><i class="glyphicon glyphicon-download-alt"></i> Export</span> --}}
+                                <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target=""><i class="glyphicon glyphicon-download-alt"></i> Export</i></a>
+                                {{-- <input type="button" class="form-control btn btn-primary" id="generar" name="generar" value="mostrar"> --}}
+                            </div>
+                            </div>
                                 <br><br>
                                 
                                 <table id="t_reporte_ajax" class="table table-mailbox">

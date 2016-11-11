@@ -46,6 +46,20 @@ $(document).ready(function() {
       MostrarAjax();
     });
 
+    $(document).on('click', '#btnexport', function(event) {
+        area = $('#slct_areas').val();
+        if (area!=="") {
+            $(this).attr('target','_blank');
+            $(this).attr('href','reportef/exportbandejatramite'+'?area_id='+area);      
+        } else {
+                alert("Seleccione Área");
+            }
+
+             
+        
+    });
+    
+
 });
 
 Close=function(todo){

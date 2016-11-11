@@ -210,7 +210,14 @@ class Reporte extends Eloquent
                     (rd.dtiempo*t.totalminutos),
                     rd.area_id
                     )>=CURRENT_TIMESTAMP(),'<div style=\"background: #00DF00;color: white;\">Dentro del Tiempo</div>','<div style=\"background: #FE0000;color: white;\">Fuera del Tiempo</div>'
-                ) tiempo_final
+                ) tiempo_final,
+                IF( 
+                    CalcularFechaFinal(
+                    rd.fecha_inicio, 
+                    (rd.dtiempo*t.totalminutos),
+                    rd.area_id
+                    )>=CURRENT_TIMESTAMP(),'Dentro del Tiempo','Fuera del Tiempo'
+                ) tiempo_final_n
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
