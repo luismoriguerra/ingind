@@ -146,11 +146,12 @@
                             <div class="row form-group form-inline">
                                 <div class="col-md-6">
                                     <div class="control-group">
-                                        <button type="button" class="btn btn-primary btn-sm"  @click="New">Nueva Persona</button>
+                                        <button type="button" class="btn btn-primary btn-sm"  @click="Add">Agregar Personal</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        @include( 'admin.empresa.form.personas' ) 
                     </div><!-- /.box -->
                 </div>
             

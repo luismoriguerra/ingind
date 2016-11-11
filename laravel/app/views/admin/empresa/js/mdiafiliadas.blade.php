@@ -139,11 +139,14 @@ var afiliadas=new Vue({
         itemActions: [
             { name: 'edit-item', label: '', icon: 'glyphicon glyphicon-pencil', class: 'btn btn-warning', extra: {title: 'Edit', 'data-toggle':"tooltip", 'data-placement': "top"} }
         ],
-        /*moreParams: [
+        moreParams: [
             'empresa_id=0',
-        ],*/
+        ],
         //
         loaded: false,
+        showModal: false,
+        edit: false,
+        tituloModal:'',
         success: false,
         danger: false,
         msj: '',
@@ -242,6 +245,13 @@ var afiliadas=new Vue({
                     dropdownClass: 'form-control'
                 });
             }
+        },
+        Add: function () {// cargar modal para añadir personal
+            this.showModal=true;
+            this.ShowMensaje('',0,false,false);
+            this.edit = false;
+            this.tituloModal = 'Nueva Empresa';
+            
         },
         ShowMensaje: function(msj, time, success, danger) {
             this.msj=msj;
