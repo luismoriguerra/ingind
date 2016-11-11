@@ -1,51 +1,76 @@
 <script type="text/javascript">
+var cabeceraG=[]; // Cabecera del Datatable
+var columnDefsG=[]; // Columnas de la BD del datatable
+var targetsG=-1; // Posiciones de las columnas del datatable
+var AreasG={id:0,nombre:"",nemonico:"",estado:1}; // Datos Globales
 $(document).ready(function() {  
-    Areas.CargarAreas(activarTabla);
+    /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
+        2: Descripción de cabecera
+        3: Color Cabecera
+    */
+
+    slctGlobalHtml('slct_estado','simple');
+    var idG={   nombre        :'onBlur|Nombre Area|#DCE6F1', //#DCE6F1
+                nemonico      :'onBlur|Nemonico Area|#DCE6F1', //#DCE6F1
+                estado        :'2|Estado|#DCE6F1', //#DCE6F1
+             };
+
+    var resG=dataTableG.CargarCab(idG);
+    cabeceraG=resG; // registra la cabecera
+    var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,1,'areas','t_areas');
+    columnDefsG=resG[0]; // registra las columnas del datatable
+    targetsG=resG[1]; // registra los contadores
+    var resG=dataTableG.CargarBtn(columnDefsG,targetsG,1,'BtnEditar','t_areas','fa-edit');
+    columnDefsG=resG[0]; // registra la colunmna adiciona con boton
+    targetsG=resG[1]; // registra el contador actualizado
+    MostrarAjax('areas');
+
 
     $('#areaModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
       var titulo = button.data('titulo'); // extrae del atributo data-
-      var area_id = button.data('id');
+    
       // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
       // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
       var modal = $(this); //captura el modal
       modal.find('.modal-title').text(titulo+' Area');
-      $('#form_areas [data-toggle="tooltip"]').css("display","none");
-      $("#form_areas input[type='hidden']").remove();
+      $('#form_areas_modal [data-toggle="tooltip"]').css("display","none");
+      $("#form_areas_modal input[type='hidden']").remove();
 
         if(titulo=='Nuevo'){
 
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
-            $('#form_areas #slct_estado').val(1); 
-            $('#form_areas #txt_nombre').focus();
+            $('#form_areas_modal #slct_estado').val(1); 
+            $('#form_areas_modal #txt_nombre').focus();
+             $('#form_areas_modal #txt_nemonico').focus();
         }
         else{
-            var id = AreaObj[area_id].id;
-            if (AreaObj[area_id].imagen===null || AreaObj[area_id].imagen==='')
+            
+            if (AreasG.imagen===null || AreasG.imagen==='')
                 $("#img_imagen_").attr( "src",'');
             else
-                $("#img_imagen_").attr( "src", 'img/admin/area/'+AreaObj[area_id].imagen );
+                $("#img_imagen_").attr( "src", 'img/admin/area/'+AreasG.imagen );
 
-            if (AreaObj[area_id].imagenc===null || AreaObj[area_id].imagenc==='') 
+            if (AreasG.imagenc===null || AreasG.imagenc==='') 
                 $("#img_imagenc").attr( "src", '');
             else
-                $("#img_imagenc").attr( "src", 'img/admin/area/'+AreaObj[area_id].imagenc );
-            if (AreaObj[area_id].imagenp===null || AreaObj[area_id].imagenp==='')
+                $("#img_imagenc").attr( "src", 'img/admin/area/'+AreasG.imagenc );
+            if (AreasG.imagenp===null || AreasG.imagenp==='')
                 $("#img_imagenp").attr( "src",'');
             else
-                $("#img_imagenp").attr( "src", 'img/admin/area/'+AreaObj[area_id].imagenp );
+                $("#img_imagenp").attr( "src", 'img/admin/area/'+AreasG.imagenp );
 
 
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
-            $('#form_areas #txt_nombre').val( AreaObj[area_id].nombre );
-            $('#form_areas #txt_nemonico').val( AreaObj[area_id].nemonico );
-            $('#form_areas #slct_estado').val( AreaObj[area_id].estado );
-            $("#form_areas").append("<input type='hidden' value='"+id+"' name='id'>");
-            $("#upload_id").val(AreaObj[area_id].id);
-            $("#upload_idc").val(AreaObj[area_id].id);
-            $("#upload_idp").val(AreaObj[area_id].id);
+            $('#form_areas_modal #txt_nombre').val( AreasG.nombre );
+            $('#form_areas_modal #txt_nemonico').val( AreasG.nemonico );
+            $('#form_areas_modal #slct_estado').val( AreasG.estado );
+            $("#form_areas_modal").append("<input type='hidden' value='"+AreasG.id+"' name='id'>");
+            $("#upload_id").val(AreasG.id);
+            $("#upload_idc").val(AreasG.id);
+            $("#upload_idp").val(AreasG.id);
         }
         $("#upload_imagen").on('change',function() {
             CargarImagen(this, 'imagen_');
@@ -59,8 +84,9 @@ $(document).ready(function() {
     });
 
     $('#areaModal').on('hide.bs.modal', function (event) {
-        var modal = $(this); //captura el modal
-        modal.find('.modal-body input').val(''); // busca un input para copiarle texto
+         $('#form_areas_modal input').val('');
+        //var modal = $(this); captura el modal
+        // modal.find('.modal-body input').val(''); busca un input para copiarle texto
         $("#upload_imagen").val('');
         $("#upload_imagenc").val('');
         $("#upload_imagenp").val('');
@@ -69,11 +95,54 @@ $(document).ready(function() {
         $("#img_imagenc").attr( "src", '' );
     });
 });
-beforeSubmit=function (){};
-        success=function (){};
+
+BtnEditar=function(btn,id){
+    var tr = btn.parentNode.parentNode; // Intocable
+    AreasG.id=id;
+    AreasG.nombre=$(tr).find("td:eq(0)").text();
+    AreasG.nemonico=$(tr).find("td:eq(0)").text();
+    AreasG.estado=$(tr).find("td:eq(1)>span").attr("data-estado");
+    $("#BtnEditar").click();
+};
+
+
+MostrarAjax=function(t){
+    if( t=="areas" ){
+        if( columnDefsG.length>0 ){
+            dataTableG.CargarDatos(t,'area','cargar',columnDefsG);
+        }
+        else{
+            alert('Faltas datos');
+        }
+    }
+}
+
+GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
+    if(typeof(fn)!='undefined' 
+        //&& fn.col==1
+        ){
+        var estadohtml='';
+        estadohtml='<span id="'+row.id+'" onClick="activar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-danger">Inactivo</span>';
+        if(row.estado==1){
+            estadohtml='<span id="'+row.id+'" onClick="desactivar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-success">Activo</span>';
+        }
+        return estadohtml;
+    }
+}
+
 activarTabla=function(){
     $("#t_areas").dataTable(); // inicializo el datatable    
 };
+
+activar=function(id){
+    Areas.CambiarEstadoAreas(id,1);
+};
+
+desactivar=function(id){
+    Areas.CambiarEstadoAreas(id,0);
+};
+
+
 
 Editar=function(){
     if(validaAreas()){
@@ -81,9 +150,27 @@ Editar=function(){
     }
 };
 
-activar=function(id){
-    Areas.CambiarEstadoAreas(id,1);
+Agregar=function(){
+    if(validaAreas()){
+        Areas.AgregarEditarArea(0);
+    }
 };
+
+validaAreas=function(){
+    var r=true;
+    if( $("#form_areas_modal #txt_nombre").val()=='' ){
+        alert("Ingrese Nombre de Area");
+        r=false;
+    }
+    if( $("#form_areas_modal #txt_nemonico").val()=='' ){
+        alert("Ingrese Nemonico");
+        r=false;
+    }
+
+    return r;
+};
+
+
 HTMLCargarArea=function(datos){
     var html="", estadohtml="";
     $('#t_areas').dataTable().fnDestroy();
@@ -115,29 +202,18 @@ CargarImagen=function(input, html){
         reader.readAsDataURL(input.files[0]);
     }
 };
-desactivar=function(id){
-    Areas.CambiarEstadoAreas(id,0);
-};
 
-Agregar=function(){
-    if(validaAreas()){
-        Areas.AgregarEditarArea(0);
-    }
-};
+
+
+
 
 validaAreas=function(){
-    $('#form_areas [data-toggle="tooltip"]').css("display","none");
-    var a=[];
-    a[0]=valida("txt","nombre","");
-    var rpta=true;
-
-    for(i=0;i<a.length;i++){
-        if(a[i]===false){
-            rpta=false;
-            break;
-        }
+   var r=true;
+    if( $("#form_areas_modal #txt_nombre").val()=='' ){
+        alert("Ingrese Nombre de areas");
+        r=false;
     }
-    return rpta;
+    return r;
 };
 
 valida=function(inicial,id,v_default){
@@ -152,4 +228,6 @@ valida=function(inicial,id,v_default){
         return false;
     }   
 };
+beforeSubmit=function (){};
+        success=function (){};
 </script>

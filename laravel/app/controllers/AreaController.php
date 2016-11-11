@@ -1,24 +1,17 @@
 <?php
-use Chat\Repositories\User\UserRepository;
 
 class AreaController extends \BaseController
 {
+    protected $_errorController;
     /**
-     * @var Chat\Repositories\UserRepository
-     */
-    private $userRepository; 
-    public function __construct( UserRepository $userRepository)
+     *
+     */    
+    public function __construct(ErrorController $ErrorController)
     {
-        $this->userRepository = $userRepository;
+        $this->beforefilter('auth');
+        $this->_errorController = $ErrorController;
     }
-    /**
-     * areas/{area_id}/users
-     */
-    public function index($area_id){
-        $usuarios = $this->userRepository->getAllExceptFromArea(Auth::user()->id,$area_id);
-        return $usuarios->lists('full_name', 'id');
-    }
-    /**
+     /**
      * cargar areas, mantenimiento
      * POST /area/cargar
      *
@@ -26,10 +19,60 @@ class AreaController extends \BaseController
      */
     public function postCargar()
     {
-        //si la peticion es ajax
         if ( Request::ajax() ) {
-            $areas = Area::get(Input::all());
-            return Response::json(array('rst'=>1,'datos'=>$areas));
+            /*********************FIJO*****************************/
+            $array=array();
+            $array['where']='';$array['usuario']=Auth::user()->id;
+            $array['limit']='';$array['order']='';
+            
+            if (Input::has('draw')) {
+                if (Input::has('order')) {
+                    $inorder=Input::get('order');
+                    $incolumns=Input::get('columns');
+                    $array['order']=  ' ORDER BY '.
+                                      $incolumns[ $inorder[0]['column'] ]['name'].' '.
+                                      $inorder[0]['dir'];
+                }
+
+                $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
+                $aParametro["draw"]=Input::get('draw');
+            }
+            /************************************************************/
+
+            if( Input::has("nombre") ){
+                $nombre=Input::get("nombre");
+                if( trim( $nombre )!='' ){
+                    $array['where'].=" AND a.nombre LIKE '%".$nombre."%' ";
+                }
+            }
+
+            if( Input::has("nemonico") ){
+                $nemonico=Input::get("nemonico");
+                if( trim( $nemonico )!='' ){
+                    $array['where'].=" AND a.nemonico LIKE '%".$nemonico."%' ";
+                }
+            }
+
+
+            if( Input::has("estado") ){
+                $estado=Input::get("estado");
+                if( trim( $estado )!='' ){
+                    $array['where'].=" AND a.estado='".$estado."' ";
+                }
+            }
+
+            $array['order']=" ORDER BY a.nombre ";
+
+            $cant  = Area::getCargarCount( $array );
+            $aData = Area::getCargar( $array );
+
+            $aParametro['rst'] = 1;
+            $aParametro["recordsTotal"]=$cant;
+            $aParametro["recordsFiltered"]=$cant;
+            $aParametro['data'] = $aData;
+            $aParametro['msj'] = "No hay registros aún";   
+            return Response::json($aParametro);
+
         }
     }
     /**
@@ -44,7 +87,7 @@ class AreaController extends \BaseController
             $a      = new Area;
             $listar = Array();
             $listar = $a->getArea();
-
+         
             return Response::json(
                 array(
                     'rst'   => 1,
@@ -54,21 +97,6 @@ class AreaController extends \BaseController
         }
     }
 
-    public function postListara()
-    {
-        if ( Request::ajax() ) {
-            $a      = new Area;
-            $listar = Array();
-            $listar = $a->getListar();
-
-            return Response::json(
-                array(
-                    'rst'   => 1,
-                    'datos' => $listar
-                )
-            );
-        }
-    }
     /**
      * 
      */
@@ -207,7 +235,6 @@ class AreaController extends \BaseController
             $reglas = array(
                 'nombre' => $required.'|'.$regex,
             );
-
             $mensaje= array(
                 'required'    => ':attribute Es requerido',
                 'regex'        => ':attribute Solo debe ser Texto',

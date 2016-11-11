@@ -12,6 +12,32 @@ class Area extends Base
     {
         return $this->belongsToMany('Cargo');
     }*/
+    public static function getCargarCount( $array )
+    {
+        $sSql=" SELECT  COUNT(a.id) cant
+                FROM areas a
+                WHERE 1=1 ";
+        $sSql.= $array['where'];
+        $oData = DB::select($sSql);
+        return $oData[0]->cant;
+    }
+
+    public static function getCargar( $array )
+    {
+        $sSql=" SELECT a.id, a.nombre,a.nemonico, a.estado
+                FROM areas a
+                WHERE 1=1 ";
+        $sSql.= $array['where'].
+                $array['order'].
+                $array['limit'];
+        $oData = DB::select($sSql);
+        return $oData;
+    }
+
+  
+
+
+
     public function personas() {
         return $this->hasMany('Persona');
     }
@@ -41,6 +67,7 @@ class Area extends Base
                                                     AND cp.persona_id='.Auth::user()->id.'
                                                     )       )>0 ');
                         }
+
                     }
                 )
                 ->orderBy('nombre')

@@ -98,6 +98,7 @@ class ReporteFinalController extends BaseController
       );
     }
 
+    ////////// query para lo solicitado
     public function postBandejatramite()
     {
       $array=array();
@@ -212,6 +213,146 @@ class ReporteFinalController extends BaseController
 
       return Response::json( $retorno );
     }
+
+    /////////////////// export de lo solicitado 
+
+    public function getExportbandejatramite(){
+      $array=array();
+      $array['usuario']=Auth::user()->id;
+      $array['limit']='';$array['order']='';
+      $array['referido']=' LEFT ';
+      $array['w']='';
+      $array['id_union']='';$array['id_ant']='';
+      $array['solicitante']='';$array['areas']='';
+      $array['proceso']='';$array['tiempo_final']='';
+
+         if( Input::has('area_id') ){ // Filtra por área
+          $reporte=Input::get('area_id');
+          $array['w']=" AND rd.area_id=".$reporte." ";
+
+        }
+
+
+         $result = Reporte::BandejaTramite( $array );
+        
+
+        /*style*/
+        $styleThinBlackBorderAllborders = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('argb' => 'FF000000'),
+                ),
+            ),
+            'font'    => array(
+                'bold'      => true
+            ),
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            )
+        );
+        $styleAlignmentBold= array(
+            'font'    => array(
+                'bold'      => true
+            ),
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            ),
+        );
+        $styleAlignment= array(
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            ),
+        );
+        /*end style*/
+
+          /*export*/
+            /* instanciar phpExcel!*/
+            
+            $objPHPExcel = new PHPExcel();
+
+            /*configure*/
+            $objPHPExcel->getProperties()->setCreator("Gerencia Modernizacion")
+               ->setSubject("Trámites Inconclusos");
+
+            $objPHPExcel->getDefaultStyle()->getFont()->setName('Bookman Old Style');
+            $objPHPExcel->getDefaultStyle()->getFont()->setSize(8);
+            /*end configure*/
+
+            /*head*/
+            $objPHPExcel->setActiveSheetIndex(0)
+                        ->setCellValue('A3', 'N°')
+                        ->setCellValue('B3', 'DOCUMENTO GENERADO POR EL PASO ANTERIOR')
+                        ->setCellValue('C3', 'PRIMER DOCUMENTO INGRESADO')
+                        ->setCellValue('D3', 'TIEMPO')
+                        ->setCellValue('E3', 'FECHA DE INICIO')
+                        ->setCellValue('F3', 'ESTADO DEL PASO')
+                        ->setCellValue('G3', 'PASO')
+                        ->setCellValue('H3', 'PROCESO')
+                        ->setCellValue('I3', 'SOLICITANTE')
+                   
+                  ->mergeCells('A1:I1')
+                  ->setCellValue('A1', 'Trámites Inconclusos')
+                  ->getStyle('A1:I1')->getFont()->setSize(18);
+
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('C')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('D')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('E')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('G')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('H')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('I')->setAutoSize(true);
+         
+            /*end head*/
+            /*body*/
+            if($result){
+              foreach ($result as $key => $value) {
+                $objPHPExcel->setActiveSheetIndex(0)
+                              ->setCellValueExplicit('A' . ($key + 4), $key + 1)
+                              ->setCellValueExplicit('B' . ($key + 4), $value->id_union_ant)
+                              ->setCellValueExplicit('C' . ($key + 4), $value->id_union)
+                              ->setCellValueExplicit('D' . ($key + 4), $value->tiempo)
+                              ->setCellValueExplicit('E' . ($key + 4), $value->fecha_inicio)
+                              ->setCellValueExplicit('F' . ($key + 4), $value->tiempo_final_n)
+                              ->setCellValue('G' . ($key + 4), $value->norden)
+                              ->setCellValue('H' . ($key + 4), $value->proceso)
+                              ->setCellValue('I' . ($key + 4), $value->persona)
+                    
+                              ;
+              }
+            }
+            /*end body*/
+            $objPHPExcel->getActiveSheet()->getStyle('A3:I3')->applyFromArray($styleThinBlackBorderAllborders);
+            $objPHPExcel->getActiveSheet()->getStyle('A1:L1')->applyFromArray($styleAlignment);
+            // Rename worksheet
+            $objPHPExcel->getActiveSheet()->setTitle('Tràmites Inconclusos');
+            // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+            $objPHPExcel->setActiveSheetIndex(0);
+            // Redirect output to a client’s web browser (Excel5)
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="reporteti.xls"'); // file name of excel
+            header('Cache-Control: max-age=0');
+            // If you're serving to IE 9, then the following may be needed
+            header('Cache-Control: max-age=1');
+            // If you're serving to IE over SSL, then the following may be needed
+            header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+            header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+            header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+            header ('Pragma: public'); // HTTP/1.0
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+            $objWriter->save('php://output');
+            exit;
+          /* end export*/
+     /* }else{
+        echo 'no hay data';
+      }*/
+    }
+
 
     public function postTramitependiente()
     {
