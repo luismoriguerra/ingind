@@ -123,6 +123,7 @@ Route::get('register/confirm/{token}', 'LoginController@confirmEmail');
 Route::controller('cargar', 'CargarController');
 
 Route::group(['before' => 'auth'], function() {
+    Route::resource('personas', 'PersonaController');
     Route::resource('empresa', 'EmpresaController');
 });
 Route::get(

@@ -2,7 +2,33 @@
 
 class PersonaController extends BaseController
 {
+    /**
+     *
+     * @return Response
+     * muestra todas personas
+     */
+    public function index()
+    {
+        if (Input::has('sort')) {
+            list($sortCol, $sortDir) = explode('|', Input::get('sort'));
+            $query = Persona::orderBy($sortCol, $sortDir);
+        } else {
+            $query = Persona::orderBy('id', 'asc');
+        }
 
+        if (Input::has('filter')) {
+            $filter=Input::get('filter');
+            $query->where(function($q) use($filter) {
+                $value = "%{$filter}%";
+                $q->where('paterno', 'like', $value)
+                    ->orWhere('materno', 'like', $value)
+                    ->orWhere('nombre', 'like', $value)
+                    ->orWhere('dni', 'like', $value);
+            });
+        }
+        $perPage = Input::has('per_page') ? (int) Input::get('per_page') : null;
+        return Response::json($query->paginate($perPage));
+    }
     /**
      * cargar personas
      * POST /persona/cargar
