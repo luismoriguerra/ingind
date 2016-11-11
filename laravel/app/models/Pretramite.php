@@ -21,7 +21,7 @@ class Pretramite extends base {
     }
 
     public static function getPreTramiteById(){
-    	$sql = "select pt.id as pretramite,p.dni dniU,p.nombre nombusuario,p.paterno apepusuario,p.materno apemusuario,
+    	$sql = "select pt.id as pretramite,a.nombre as area,p.dni dniU,p.nombre nombusuario,p.paterno apepusuario,p.materno apemusuario,
 				e.ruc ruc,e.tipo_id tipoempresa,e.razon_social as empresa,e.nombre_comercial nomcomercial,e.direccion_fiscal edireccion,
 				e.telefono etelf,e.fecha_vigencia efvigencia,CONCAT_WS(' ',p2.nombre,p2.paterno,p2.materno) as reprelegal,
 				p2.dni repredni,
@@ -35,6 +35,7 @@ class Pretramite extends base {
 				LEFT JOIN personas p2 on p2.id=e.representante_legal
 				INNER JOIN tipo_solicitante ts on ts.id=pt.tipo_solicitante_id 
 				INNER JOIN documentos d on d.id=pt.tipo_documento_id 
+                LEFT JOIN areas a on a.id=pt.area_id 
 				WHERE pt.estado = 1 and pt.id=".Input::get('idpretramite');
 		$r= DB::select($sql);
         return $r; 

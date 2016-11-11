@@ -38,9 +38,11 @@
                     <tbody>
                         <tr>
                           <td>
-                            <select class="form-control" id="slcAreasct" name="slcAreasct">
+                            <select class="form-control" id="slcAreasct" name="slcAreasct" onchange="selectCA(this)">
                               <!-- <option value="-1">Seleccione</option> -->
                             </select>
+                            <input type="text" id="txt_clasificador_id" name="txt_clasificador_id">
+                            <input type="text" id="txt_clasificador_nomb" name="txt_clasificador_nomb">
                           </td>
                         </tr>
                     </tbody>                 
