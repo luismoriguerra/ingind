@@ -194,10 +194,13 @@ var Bandeja={
                     if(result.length > 1){
                         $(".rowArea").removeClass('hidden');
                         slctGlobal.listarSlct('pretramite','slcAreasct','simple',null,data);
-                        confirmInfo(info,'incompleto');  
+                        document.querySelector('#txt_clasificador_id').value=info.id;
+                        document.querySelector('#txt_clasificador_nomb').value=info.nombre;
                     }else{
-                        info.area = result[0].id;
-                        confirmInfo(info,'completo');  
+                        info.area = result[0].nombre;
+                        info.areaid = result[0].id;
+                        poblateData('tramite',info);
+                        $('#buscartramite').modal('hide');
                     }            
                 }
             },

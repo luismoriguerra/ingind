@@ -77,7 +77,7 @@ poblarDetalle = function(data){
     document.querySelector('#spanNumTipoDoc').innerHTML = result.nrotipodoc;
     document.querySelector('#spanTipoSolicitante').innerHTML = result.solicitante;
 
-    if(result.statusemp == 1){
+    if(result.empresa){
         document.querySelector('#spanRuc').innerHTML = result.ruc;
         document.querySelector('#spanTipoEmpresa').innerHTML = result.tipoempresa;
         document.querySelector('#spanRazonSocial').innerHTML = result.empresa;
@@ -113,7 +113,7 @@ poblarVoucher = function(data){
     document.querySelector('#spanvncomprobante').innerHTML='';
     document.querySelector('#spanvcodpretramite').innerHTML=result.pretramite;
 
-   if(result.statusemp == 1){
+   if(result.empresa){
         document.querySelector('#spanveruc').innerHTML=result.ruc;
         document.querySelector('#spanvetipo').innerHTML=result.tipoempresa;
         document.querySelector('#spanverazonsocial').innerHTML=result.empresa;
@@ -143,6 +143,7 @@ Mostrar = function(data){
     }else{
         $(".empresa").addClass('hidden');
         $(".usuario").removeClass('hidden');
+        poblateData('usuario',DataUser);
     }
 }
 
@@ -212,7 +213,7 @@ poblateData = function(tipo,data){
     if(tipo== 'tramite'){
         document.querySelector('#txt_nombretramite').value=data.nombre;
         document.querySelector('#txt_idclasitramite').value=data.id;
-        document.querySelector('#txt_idarea').value=data.area;
+        document.querySelector('#txt_idarea').value=data.areaid;
     }
 
 }
@@ -252,6 +253,16 @@ selectClaTramite = function(obj){
     Bandeja.GetAreasbyCTramite({'idc':obj.getAttribute('id')},data);
 }
 
+selectCA = function(obj){
+    var areaid= obj.value;
+    var area_nomb = document.querySelectorAll("#slcAreasct option[value='"+areaid+"']");
+    var cla_id = document.querySelector('#txt_clasificador_id').value;
+    var cla_nomb = document.querySelector('#txt_clasificador_nomb').value;
+    var data ={'id':cla_id,'nombre':cla_nomb,'area':area_nomb[0].textContent,'areaid':areaid};
+    poblateData('tramite',data);
+    $('#buscartramite').modal('hide');
+}
+/*
 confirmInfo = function(data,tipo){
     if(tipo == 'incompleto'){ //falta seleccionar su area
         var areaSelect = document.querySelector("#slcAreasct");
@@ -267,7 +278,7 @@ confirmInfo = function(data,tipo){
         $('#buscartramite').modal('hide');
     }
 }
-
+*/
 getRequisitos = function(obj){
     data = {'idclatramite':obj.getAttribute('id'),'estado':1};
     Bandeja.getRequisitosbyclatramite(data,HTMLRequisitos,obj.getAttribute('nombre'));
