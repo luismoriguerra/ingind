@@ -17,22 +17,42 @@ $(document).ready(function() {
                 if (tipo == 'file') {                 
                     $('#btnImage').text('SUCCESS');
                     $('#btnImage').addClass('btn btn-success');
+                    $('.img-tramite').attr('src',e.target.result);
                 }
             }
             reader.readAsDataURL(input.files[0]);
         }
     }
 
+    $("form[name='FormTramite']").submit(function(e) {
+        e.preventDefault();
 
+        $.ajax({
+            type: "POST",
+            url: 'tramitec/create',
+            data: new FormData($(this)[0]),
+            processData: false,
+            contentType: false,
+            success: function (obj) {
+                if(obj.rst==1){
+                    limpiar();
+                }
+            }
+        });
+     });
 
+    function limpiar(){
+        $('#FormTramite').find('input[type="text"],input[type="email"],textarea,select').val('');
+        $('#FormTramite').find('span').text('');
+        $('#FormTramite').find('img').attr('src','index.img');
+        $('#btnImage').removeClass('btn-success'); 
+        $('.content-body').addClass('hidden');
+    }
 
-
-
-
-
-
-
-
+    $(document).on('click', '#btnCancelar', function(event) {
+        event.preventDefault();
+        limpiar();  
+    });
 
     UsuarioId='<?php echo Auth::user()->id; ?>';
     DataUser = '<?php echo Auth::user(); ?>';
@@ -56,6 +76,33 @@ $(document).ready(function() {
         $(".crearPreTramite").removeClass('hidden');
         window.scrollTo(0,document.body.scrollHeight);
     });
+
+
+/*     $('#FormTramite').bootstrapValidator({
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh',
+                    },
+                    excluded: ':disabled',
+                    fields: {
+                        txt_tdoc: {
+                           validators: {
+                                notEmpty: {
+                                    message: 'select a date'
+                                }
+                            }
+                        },
+                        txt_folio: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'select a date'
+                                }
+                            }
+                        }
+                    }
+                });*/
+                /* end validanting info*/
 });
 
 
@@ -70,28 +117,48 @@ Detallepret = function(){
 }
 
 poblarDetalle = function(data){
-    var result = data[0];
-    document.querySelector('#spanTipoT').innerHTML=result.tipotramite;
-    document.querySelector('#spanTipoD').innerHTML=result.tipodoc;
-    document.querySelector('#spanNumTP').innerHTML=result.nrotipodoc;
-    document.querySelector('#spanTSoli').innerHTML=result.solicitante;
-    document.querySelector('#spanFolio').innerHTML=result.folio;
-    document.querySelector('#spanNombreU').innerHTML=result.nombusuario;
-    document.querySelector('#spanTipoDIU').innerHTML=result.data;
-                                
-    document.querySelector('#spanPaternoU').innerHTML=result.apepusuario;
-    document.querySelector('#spanMaternoU').innerHTML=result.apemusuario;
-    document.querySelector('#spanDNIU').innerHTML=result.dniU;
+    if(data.length > 0){
+        var result = data[0];
+        document.querySelector('#spanTipoT').innerHTML=result.tipotramite;
+        document.querySelector('#spanTipoD').innerHTML=result.tipodoc;
+        document.querySelector('#txt_tdoc').value=result.nrotipodoc;
+        document.querySelector('#spanTSoli').innerHTML=result.solicitante;
+        document.querySelector('#txt_folio').value=result.folio;
+        document.querySelector('#spanNombreU').innerHTML=result.nombusuario;
+        document.querySelector('#spanTipoDIU').innerHTML=result.data;
+                                    
+        document.querySelector('#spanPaternoU').innerHTML=result.apepusuario;
+        document.querySelector('#spanMaternoU').innerHTML=result.apemusuario;
+        document.querySelector('#spanDNIU').innerHTML=result.dniU;
 
-    document.querySelector('#spanTE').innerHTML=result.data;
-    document.querySelector('#spanRazonS').innerHTML=result.empresa;
-    document.querySelector('#spanDF').innerHTML=result.edireccion;
-    document.querySelector('#spanRUC').innerHTML=result.ruc;
-    document.querySelector('#spanRepresentante').innerHTML=result.reprelegal;
-    document.querySelector('#spanTelefono').innerHTML=result.etelf;
+        if(result.empresaid){
+            document.querySelector('#spanTE').innerHTML=result.data;
+            document.querySelector('#spanRazonS').innerHTML=result.empresa;
+            document.querySelector('#spanDF').innerHTML=result.edireccion;
+            document.querySelector('#spanRUC').innerHTML=result.ruc;
+            document.querySelector('#spanRepresentante').innerHTML=result.reprelegal;
+            document.querySelector('#spanTelefono').innerHTML=result.etelf;
+            document.querySelector('.empresa').classList.remove('hidden');            
+        }else{
+            document.querySelector('.empresa').classList.add('hidden'); 
+        }
 
-    document.querySelector('#spanNombreT').innerHTML=result.tramite;
-    document.querySelector('#spanArea').innerHTML=result.area;
+        document.querySelector('#spanNombreT').innerHTML=result.tramite;
+        document.querySelector('#spanArea').innerHTML=result.area;
+        document.querySelector('.content-body').classList.remove('hidden');
+
+
+        document.querySelector('#txt_pretramiteid').value=result.pretramite;
+        document.querySelector('#txt_personaid').value=result.personaid;
+        document.querySelector('#txt_ctramite').value=result.ctid;
+        document.querySelector('#txt_empresaid').value=result.empresaid;
+        document.querySelector('#txt_tsolicitante').value=result.tsid;
+        document.querySelector('#txt_tdocumento').value=result.tdocid;
+        document.querySelector('#txt_area').value=result.areaid;
+    }else{
+        document.querySelector('.content-body').classList.add('hidden');
+        alert('no se encontro el pre tramite');
+    }
 }
 
 getCTramites  = function(){
@@ -127,7 +194,7 @@ selectCA = function(obj){
     var area_nomb = document.querySelectorAll("#slcAreasct option[value='"+areaid+"']");
     var cla_id = document.querySelector('#txt_clasificador_id').value;
     var cla_nomb = document.querySelector('#txt_clasificador_nomb').value;
-    var data ={'id':cla_id,'nombre':cla_nomb,'area':area_nomb[0].textContent};
+    var data ={'id':cla_id,'nombre':cla_nomb,'area':area_nomb[0].textContent,'areaid':areaid};
     poblateData('tramite',data);
     $('#buscartramite').modal('hide');
 }
@@ -136,7 +203,8 @@ poblateData = function(tipo,data){
     if(tipo=='tramite'){
         document.querySelector('#spanNombreT').innerHTML=data.nombre;
         document.querySelector('#spanArea').innerHTML=data.area;
-/*        document.querySelector('#txt_idarea').value=data.area;*/
+        document.querySelector('#txt_ctramite').value=data.id;
+        document.querySelector('#txt_area').value=data.areaid;
     }
 }
 
@@ -149,6 +217,20 @@ consultar = function(){
        data.buscar = busqueda.value;
     }
     Bandeja.getClasificadoresTramite(data,HTMLClasificadores);
+}
+
+generarTramite = function(){
+    datos=$("#FormTramite").serialize().split("txt_").join("").split("slct_").join("").split("%5B%5D").join("[]").split("+").join(" ").split("%7C").join("|").split("&");
+    data = '{';
+    for (var i = 0; i < datos.length ; i++) {
+        var elemento = datos[i].split('=');
+        data+=(i == 0) ? '"'+elemento[0]+'":"'+elemento[1] : '","' + elemento[0]+'":"'+elemento[1];   
+    }
+    data+='"}';
+/*    img  = document.querySelector('#txt_file').files[0];*/
+    var form = new FormData($("#FormTramite")[0]);
+    console.log(form);
+/*    Bandeja.GuardarTramite(data);*/
 }
 
 </script>

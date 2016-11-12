@@ -1,3 +1,15 @@
+--12-11-2016
+ALTER TABLE `tramites`
+ADD COLUMN `area_id`  int(11) NOT NULL AFTER `persona_id`;
+
+ALTER TABLE `tramites` ADD CONSTRAINT `fk_tramite_area_id` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE `tramites`
+MODIFY COLUMN `fecha_tramite`  datetime NULL DEFAULT CURRENT_TIMESTAMP AFTER `nro_folios`;
+
+
+
+
 --08-11-2016
 ALTER TABLE `pretramites`
 MODIFY COLUMN `fecha_pretramite`  datetime NULL DEFAULT CURRENT_TIMESTAMP AFTER `nro_folios`;

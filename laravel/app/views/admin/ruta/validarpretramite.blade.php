@@ -5,9 +5,11 @@
     @parent
     {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
+    {{ HTML::style('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css') }}
 
     {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
+    {{ HTML::script('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js') }}
 
 
     @include( 'admin.js.slct_global_ajax' )
@@ -136,7 +138,7 @@ td, th{
                                 <label class="control-label">CODIGO PRE TRAMITE: </label>
                              </div>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" placeholder="2341" id="txt_codpt" name="txt_codpt"/>
+                                <input type="text" class="form-control" placeholder="Codigo Pre Tramite" id="txt_codpt" name="txt_codpt"/>
                               
                             </div>
                             <div class="col-sm-3">
@@ -145,154 +147,169 @@ td, th{
                           </div>
                         </div>
 
-                        <div class="col-sm-12 format">
-                          <div class="row">
-                            <div class="col-sm-10">
-                               <div class="row form-group">
-                                  <div class="col-sm-4">
-                                      <label>TIPO TRAMITE: </label>
-                                      <span id="spanTipoT"></span>
-                                  </div>
-                                   <div class="col-sm-4">
-                                      <label>TIPO DOCUMENTO: </label>
-                                      <span id="spanTipoD"></span>
-                                  </div>
-                                   <div class="col-sm-4">
-                                      <label>#TIPO DOC: </label>
-                                      <span id="spanNumTP"></span>
-                                  </div>
-                               </div>
-                               <div class="row form-group">
-                                  <div class="col-sm-4">
-                                      <label>TIPO SOLICITANTE: </label>
-                                      <span id="spanTSoli"></span>
-                                  </div>
-                                   <div class="col-sm-4">
-                                      <label>#FOLIO: </label>
-                                      <span id="spanFolio"></span>
-                                  </div>
-                               </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <input type="file" name="txt_file" id="txt_file" style="display: none">
-                                <span class="btn btn-primary btn-sm" id="btnImage" name="btnImage" style="width: 100%">CARGAR IMAGEN</span>
-                                <span id="spanNombreAdjunto" class="hidden"></span>
-                                <img class="imgSlide" src="assets/images/agregar.png" style="height:auto;width:100%;border:1px solid;" />         
-                            </div>
-                          </div>
-                        </div>
+                        <div class="content-body hidden">
+                          <form id="FormTramite" name="FormTramite" method="post" action="" enctype="multipart/form-data">
 
-                        <div class="col-sm-12 cliente format">
-                          <div class="row form-group">
-                            <div class="col-sm-4">
-                              <label style="color:red">DATOS CLIENTE (*)</label>
-                            </div>
-                          </div>
-                          <div class="row form-group">
-                            <div class="col-sm-4">
-                              <label>NOMBRE: </label>
-                              <span id="spanNombreU"></span>
-                            </div>
-                            <div class="col-sm-4">
-                              <label>TIPO DOCUMENTO IDENT: </label>
-                              <span id="spanTipoDIU"></span>
-                            </div>                            
-                          </div>
-                          <div class="row form-group">
-                            <div class="col-sm-4">
-                              <label>PATERNO: </label>
-                              <span id="spanPaternoU"></span>
-                            </div>
-                            <div class="col-sm-4">
-                              <label>MATERNO: </label>
-                              <span id="spanMaternoU"></span>
-                            </div>
-                            <div class="col-sm-4">
-                              <label>#DOCUMENTO IDENT: </label>
-                              <span id="spanDNIU"></span>
-                            </div>                            
-                          </div>
-                        </div>
+                            <input type="hidden" id="txt_pretramiteid" name="txt_pretramiteid">
+                            <input type="hidden" id="txt_personaid" name="txt_personaid">
+                            <input type="hidden" id="txt_ctramite" name="txt_ctramite">
+                            <input type="hidden" id="txt_empresaid" name="txt_empresaid">
+                            <input type="hidden" id="txt_tsolicitante" name="txt_tsolicitante">
+                            <input type="hidden" id="txt_tdocumento" name="txt_tdocumento">
+                            <input type="hidden" id="txt_area" name="txt_area">
 
-                         <div class="col-sm-12 empresa format hidden">
-                          <div class="row form-group">
-                            <div class="col-sm-4">
-                              <label style="color:red">DATOS EMPRESA (*)</label>
+                            <div class="col-sm-12 format">
+                              <div class="row">
+                                <div class="col-sm-10">
+                                   <div class="row form-group">
+                                      <div class="col-sm-4">
+                                          <label>TIPO TRAMITE: </label>
+                                          <span id="spanTipoT"></span>
+                                      </div>
+                                       <div class="col-sm-4">
+                                          <label>TIPO DOCUMENTO: </label>
+                                          <span id="spanTipoD"></span>
+                                      </div>
+                                      <div class="col-sm-4">
+                                          <label>TIPO SOLICITANTE: </label>
+                                          <span id="spanTSoli"></span>
+                                      </div>
+                                   </div>
+                                   <div class="row form-group">
+                                       <div class="col-sm-4">
+                                          <label>#TIPO DOC: </label>
+                                          <input type="text" id="txt_tdoc" name="txt_tdoc" class="form-control">
+                                         {{--  <span id="spanNumTP"></span> --}}
+                                      </div>
+                                       <div class="col-sm-4">
+                                          <label>#FOLIO: </label>
+                                          <input type="text" id="txt_folio" name="txt_folio" class="form-control">
+{{-- 
+                                          <span id="spanFolio"></span> --}}
+                                      </div>
+                                   </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="file" name="txt_file" id="txt_file" style="display: none">
+                                    <label class="btn btn-primary btn-sm" id="btnImage" name="btnImage" style="width: 100%">CARGAR IMAGEN</label>
+                                    <img class="img-circle img-tramite" style="height: 142px;width: 100%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px" :src="index.img">         
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                          <div class="row form-group">
-                            <div class="col-sm-4">
-                              <label>TIPO EMPRESA: </label>
-                              <span id="spanTE"></span>
-                            </div>
-                            <div class="col-sm-4">
-                              <label>RAZON SOCIAL: </label>
-                              <span id="spanRazonS"></span>
-                            </div>
-                            <div class="col-sm-4">
-                              <label>DIRECCION: </label>
-                              <span id="spanDF"></span>
-                            </div>                            
-                          </div>
-                          <div class="row form-group">
-                            <div class="col-sm-4">
-                              <label>RUC: </label>
-                              <span id="spanRUC"></span>
-                            </div>
-                            <div class="col-sm-4">
-                              <label>REPRESENTANTE: </label>
-                              <span id="spanRepresentante"></span>
-                            </div>
-                            <div class="col-sm-4">
-                              <label>#TELEFONO: </label>
-                              <span id="spanTelefono"></span>
-                            </div>                            
-                          </div>
-                        </div>
 
-                        <div class="col-sm-12 clasificacion format">
-                          <div class="row form-group">
-                            <div class="col-sm-4">
-                              <label style="color:red">CLASIFICACION DEL TRAMITE (*)</label>
+                            <div class="col-sm-12 cliente format">
+                              <div class="row form-group">
+                                <div class="col-sm-4">
+                                  <label style="color:red">DATOS CLIENTE (*)</label>
+                                </div>
+                              </div>
+                              <div class="row form-group">
+                                <div class="col-sm-4">
+                                  <label>NOMBRE: </label>
+                                  <span id="spanNombreU"></span>
+                                </div>
+                                <div class="col-sm-4">
+                                  <label>TIPO DOCUMENTO IDENT: </label>
+                                  <span id="spanTipoDIU"></span>
+                                </div>                            
+                              </div>
+                              <div class="row form-group">
+                                <div class="col-sm-4">
+                                  <label>PATERNO: </label>
+                                  <span id="spanPaternoU"></span>
+                                </div>
+                                <div class="col-sm-4">
+                                  <label>MATERNO: </label>
+                                  <span id="spanMaternoU"></span>
+                                </div>
+                                <div class="col-sm-4">
+                                  <label>#DOCUMENTO IDENT: </label>
+                                  <span id="spanDNIU"></span>
+                                </div>                            
+                              </div>
                             </div>
-                          </div>
-                          <div class="row form-group">
-                            <div class="col-sm-5">
-                              <label>NOMBRE DEL TRAMITE: </label>
-                              <span id="spanNombreT"></span>
-                            </div>
-                            <div class="col-sm-5">
-                              <label>AREA: </label>
-                              <span id="spanArea"></span>
-                            </div>
-                            <div class="col-sm-2">                              
-                              <span class="btn btn-primary btn-sm" id="spanEditar" onclick="getCTramites()" style="width: 100%">Editar</span>
-                            </div>                          
-                          </div>
-                        </div>
 
-                        <div class="col-sm-12 observacion format">
-                          <div class="row form-group">
-                            <div class="col-sm-4">
-                              <label style="color:red">OBSERVACIONES (*)</label>
+                             <div class="col-sm-12 empresa format">
+                              <div class="row form-group">
+                                <div class="col-sm-4">
+                                  <label style="color:red">DATOS EMPRESA (*)</label>
+                                </div>
+                              </div>
+                              <div class="row form-group">
+                                <div class="col-sm-4">
+                                  <label>TIPO EMPRESA: </label>
+                                  <span id="spanTE"></span>
+                                </div>
+                                <div class="col-sm-4">
+                                  <label>RAZON SOCIAL: </label>
+                                  <span id="spanRazonS"></span>
+                                </div>
+                                <div class="col-sm-4">
+                                  <label>DIRECCION: </label>
+                                  <span id="spanDF"></span>
+                                </div>                            
+                              </div>
+                              <div class="row form-group">
+                                <div class="col-sm-4">
+                                  <label>RUC: </label>
+                                  <span id="spanRUC"></span>
+                                </div>
+                                <div class="col-sm-4">
+                                  <label>REPRESENTANTE: </label>
+                                  <span id="spanRepresentante"></span>
+                                </div>
+                                <div class="col-sm-4">
+                                  <label>#TELEFONO: </label>
+                                  <span id="spanTelefono"></span>
+                                </div>                            
+                              </div>
                             </div>
-                          </div>
-                          <div class="row form-group">
-                            <div class="col-md-12">
-                              <textarea class="form-control" id="txt_observaciones" name="txt_observaciones" rows="4"></textarea>
-                            </div>                     
-                          </div>
-                        </div>
 
-                        <div class="col-sm-12">
-                          <div class="row">
-                            <div class="col-md-6">
-                              <span class="btn btn-primary btn-sm" style="float: right;">GRABAR</span>
+                            <div class="col-sm-12 clasificacion format">
+                              <div class="row form-group">
+                                <div class="col-sm-4">
+                                  <label style="color:red">CLASIFICACION DEL TRAMITE (*)</label>
+                                </div>
+                              </div>
+                              <div class="row form-group">
+                                <div class="col-sm-5">
+                                  <label>NOMBRE DEL TRAMITE: </label>
+                                  <span id="spanNombreT"></span>
+                                </div>
+                                <div class="col-sm-5">
+                                  <label>AREA: </label>
+                                  <span id="spanArea"></span>
+                                </div>
+                                <div class="col-sm-2">                              
+                                  <label class="btn btn-primary btn-sm" id="spanEditar" onclick="getCTramites()" style="width: 100%">Editar</label>
+                                </div>                          
+                              </div>
                             </div>
-                            <div class="col-md-6">
-                              <span class="btn btn-primary btn-sm">CANCELAR</span>
+
+                            <div class="col-sm-12 observacion format">
+                              <div class="row form-group">
+                                <div class="col-sm-4">
+                                  <label style="color:red">OBSERVACIONES (*)</label>
+                                </div>
+                              </div>
+                              <div class="row form-group">
+                                <div class="col-md-12">
+                                  <textarea class="form-control" id="txt_observaciones" name="txt_observaciones" rows="4"></textarea>
+                                </div>                     
+                              </div>
                             </div>
-                          </div>
+
+                            <div class="col-sm-12">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <input type="submit" class="btn btn-primary btn-sm" style="float: right;" value="GRABAR">
+                                </div>
+                                <div class="col-md-6">
+                                  <label id="btnCancelar" class="btn btn-primary btn-sm">CANCELAR</label>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
                         </div>
 
                     </div>

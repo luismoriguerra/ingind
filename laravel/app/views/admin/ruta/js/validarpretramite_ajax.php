@@ -132,13 +132,11 @@ var Bandeja={
             }
         });
     },
-    GuardarPreTramite:function(data,evento){
-        var datos = {'info':data};
+    GuardarTramite:function(data,img){
+        var datos = {'data':data};
         $.ajax({
-            url         : 'pretramite/create',
+            url         : 'tramitec/create',
             type        : 'POST',
-            cache       : false,
-            dataType    : 'json',
             data        : datos,
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
@@ -146,9 +144,7 @@ var Bandeja={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                    evento();
-                    $(".crearPreTramite").addClass('hidden');
-                    $('#FormCrearPreTramite').find('input[type="text"],input[type="email"],textarea,select').val('');        
+
                 }
             },
             error: function(){
@@ -198,6 +194,7 @@ var Bandeja={
                         document.querySelector('#txt_clasificador_nomb').value=info.nombre;
                     }else{
                         info.area = result[0].nombre;
+                        info.areaid = result[0].id;
                         poblateData('tramite',info);
                         $('#buscartramite').modal('hide');
                     }            

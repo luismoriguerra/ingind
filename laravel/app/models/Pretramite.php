@@ -21,8 +21,8 @@ class Pretramite extends base {
     }
 
     public static function getPreTramiteById(){
-    	$sql = "select pt.id as pretramite,a.nombre as area,p.dni dniU,p.nombre nombusuario,p.paterno apepusuario,p.materno apemusuario,
-				e.ruc ruc,e.tipo_id tipoempresa,e.razon_social as empresa,e.nombre_comercial nomcomercial,e.direccion_fiscal edireccion,
+    	$sql = "select pt.id as pretramite,a.nombre as area,pt.persona_id personaid,pt.tipo_documento_id tdocid,pt.clasificador_tramite_id ctid,pt.tipo_solicitante_id tsid,pt.area_id areaid,p.dni dniU,p.nombre nombusuario,p.paterno apepusuario,p.materno apemusuario,
+				pt.empresa_id empresaid,e.ruc ruc,e.tipo_id tipoempresa,e.razon_social as empresa,e.nombre_comercial nomcomercial,e.direccion_fiscal edireccion,
 				e.telefono etelf,e.fecha_vigencia efvigencia,CONCAT_WS(' ',p2.nombre,p2.paterno,p2.materno) as reprelegal,
 				p2.dni repredni,
 				ts.nombre solicitante,tt.nombre_tipo_tramite tipotramite,d.nombre tipodoc,ct.nombre_clasificador_tramite as tramite,

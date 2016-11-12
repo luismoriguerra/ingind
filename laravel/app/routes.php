@@ -190,3 +190,4 @@ Route::controller('asignacion', 'AsignacionController');
 Route::controller('anexo', 'AnexoController');
 Route::controller('pretramite', 'PretramiteController');
 Route::controller('tipotramite', 'TipotramiteController');
+Route::controller('tramitec', 'TramiteController');
