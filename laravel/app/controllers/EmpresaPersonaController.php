@@ -99,4 +99,84 @@ class EmpresaPersonaController extends BaseController
     public function getPorruc($ruc){
         return Empresa::where('ruc',$ruc)->first();
     }
+        /**
+     * crear empresa
+     *
+     * @return Response
+     */
+    public function postAfiliar()
+    {
+        $id=Input::get('id');
+        $uploadFolder = 'img/user/'.md5('u'.$id);
+        if ( !is_dir($uploadFolder) ) {
+            mkdir($uploadFolder);
+        }
+        $imagen=Input::get('imagen');
+        $imagenDni=Input::get('imagen_dni');
+        if (Input::has('imagen')) {
+            $data = Input::get('imagen');
+            if (isset( explode(';', $data)[1] )) {
+                list($type, $data) = explode(';', $data);
+                list(, $type) = explode('/', $type);
+                if ($type=='jpeg') $type='jpg';
+                list(, $data)      = explode(',', $data);
+                $data = base64_decode($data);
+                $imagen = "u".Input::get('id') . "." . $type;
+                $file = $uploadFolder . '/' . $imagen;
+                file_put_contents($file , $data);
+            }
+        }
+        if (Input::has('imagen_dni')) {
+            $data = Input::get('imagen_dni');
+            if (isset( explode(';', $data)[1] )) {
+                list($type, $data) = explode(';', $data);
+                list(, $type) = explode('/', $type);
+                if ($type=='jpeg') $type='jpg';
+                list(, $data)      = explode(',', $data);
+                $data = base64_decode($data);
+                $imagenDni = "dni".Input::get('dni') . "." . $type;
+                $file = $uploadFolder . '/' . $imagenDni;
+                file_put_contents($file , $data);
+            }
+        }
+
+        $persona = Persona::find($id);
+        $persona->imagen =$imagen;
+        $persona->imagen_dni =$imagenDni;
+        $rst=$persona->save();
+        $empresaId=Input::get('empresa_id');
+        if ($rst && $empresaId>0) {
+            //buscar si esta afiliado a dicha empresa
+            $empresaPersona = DB::table('empresa_persona')
+                                    ->where('persona_id', '=', $id)
+                                    ->where('empresa_id', '=', $empresaId)
+                                    ->first();
+            if (is_null($cargoPersona)) {
+                $empresa = Empresa::find(Input::get('empresa_id'));
+                $persona->empresas()->save(
+                    $empresa,
+                    [
+                        'cargo'=> Input::get('cargo'),
+                        'representante_legal'=> Input::get('representante_legal'),
+                        'fecha_vigencia'=> Input::get('vigencia'),
+                        'fecha_cese'=> Input::get('cese'),
+                    ]
+                );
+            } else {
+                DB::table('empresa_persona')
+                    ->where('persona_id', '=', $id)
+                    ->where('empresa_id', '=', $empresaId)
+                    ->update(
+                       [
+                        'cargo'=> Input::get('cargo'),
+                        'representante_legal'=> Input::get('representante_legal'),
+                        'fecha_vigencia'=> Input::get('vigencia'),
+                        'fecha_cese'=> Input::get('cese'),
+                        ]
+                    );
+            }
+        }
+
+        return Response::json($rst);
+    }
 }

@@ -1,33 +1,23 @@
 <!-- /.modal -->
 <div class="modal fade" id="personasModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header logo">
         <button class="btn btn-sm btn-default pull-right" data-dismiss="modal">
             <i class="fa fa-close"></i>
         </button>
-        <h4 class="modal-title">New message</h4>
+        <h4 class="modal-title">Agregar Personal</h4>
       </div>
       <div class="modal-body">
-        <form id="form_areas_modal" name="form_areas_modal" action="" method="post" >
-          <div class="form-group">
-            <label class="control-label">Nombre
-                <a id="error_nombre" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Nombre">
-                    <i class="fa fa-exclamation"></i>
-                </a>
-            </label>
-            <input type="text" class="form-control" placeholder="Ingrese Nombre" name="txt_nombre" id="txt_nombre">
-          </div>
-        </form>
- 
-        <div class="row form-group">
+      
+        <div class="form-group">
           <spinner id="spinner-box" :size="size" :fixed="fixed" v-show="loaded" text="Espere un momento por favor"></spinner>
           <div class="box box-solid">
               <div class="alert alert-success" transition="success" v-if="success">@{{ msj }} </div>
 
               <div class="form-group">
                   <div class="row form-group form-inline">
-                      <div class="col-md-6">
+                      <div class="col-md-12">
                           <div class="control-group">
                               <label class="control-label">Buscar:</label>
                               <input v-model="searchFor" class="form-control input-sm" @keyup.enter="setFilter">
@@ -58,52 +48,106 @@
                       wrapper-class="vuetable-wrapper"
                       table-wrapper=".vuetable-wrapper"
                       loading-class="loading"
-                      detail-row-component="my-detail-row"
-                      detail-row-id="id"
-                      detail-row-transition="expand"
                       row-class-callback="rowClassCB"
                   ></vuetable>
               </div>
+              <form action="#" @submit.prevent="AfiliarPersona">
+              <div class="row form-group form-inline">
+                  <div class="col-xs-6">
+                    <div class="control-group">
+                      <label class="control-label">Persona</label>
+                      <input type="text" readonly="true" class="form-control pull-right" v-model='nombresApellidos' autocomplete="off">
+                    </div>
+                  </div>
+                  <div class="col-xs-6">
+                    <div class="control-group">
+                      <label class="control-label">DNI:</label>
+                      <input type="text" readonly="true" class="form-control pull-right" v-model='persona.dni' autocomplete="off">
+                    </div>
+                  </div>
+              </div>
+              <div class="row form-group form-inline">
+                  <div class="col-xs-6">
+                    <div class="control-group">
+                      <label class="control-label">Cargo</label>
+                      <input type="text" class="form-control pull-right" v-model='persona.cargo' autocomplete="off">
+                    </div>
+                  </div>
+                  
+              </div>
+               
+              <div class="row form-group form-inline">
+                <div class="col-xs-12">
+                  <div class="control-group">
+                    <label class="control-label">Tipo representante </label>
+                    <label class="radio-inline">
+                      <input type="radio" class="form-control pull-right" v-model="persona.representante_legal" value="1" name="representante_legal">
+                      Si
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" class="form-control pull-right" v-model="persona.representante_legal" value="0" name="representante_legal">
+                      No
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row form-group form-inline">
+                  <div class="col-xs-6">
+                    <div class="control-group">
+                      <label class="control-label">Fecha Vigencia</label>
+                      <input type="text" id='vigencia' name='vigencia' v-model='persona.vigencia' class="form-control  pull-right" placeholder="AAAA-MM-DD" onfocus="blur()" autocomplete="off">
+                    </div>
+                  </div>
+              </div>
+              <div class="row form-group form-inline">
+                  <div class="col-xs-6">
+                    <div class="control-group">
+                      <label class="control-label">Fecha Cese</label>
+                      <input type="text" id='cese' name='cese' v-model='persona.cese' class="form-control  pull-right" placeholder="AAAA-MM-DD" onfocus="blur()" autocomplete="off">
+                    </div>
+                  </div>
+              </div>
+
+              <div class="row form-group form-inline">
+                  <div class="col-xs-6">
+                    <div class="control-group">
+                      <div v-if="!persona.imagen">
+                       @{{ persona.imagen }}
+                        <label class="control-label">Adjuntar Imagen</label>
+                        <input type="file" @change="onFileChange" id="imagen" accept="image/*">
+                      </div>
+                      <div v-else>
+                        <img :src="getImagen" />
+                        <button @click="removeImage('imagen')">Quitar Imagen</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xs-6">
+                    <div class="control-group">
+                      <div v-if="!persona.imagen_dni">
+                        <label class="control-label">Adjuntar Imagen</label>
+                        <input type="file" @change="onFileChange" id="imagen_dni" accept="image/*">
+                      </div>
+                      <div v-else>
+                        <img :src="getImagenDni" />
+                        <button @click="removeImage('imagen_dni')">Quitar Imagen</button>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
           </div>
         </div>
-        <div class="row form-group"> 
-        
-          <div class="col-sm-12">
-            
-            <div class="col-sm-4">
-              <label class="control-label">Imagen condicional
-                  <a id="error_imagenc" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Id Ext.">
-                      <i class="fa fa-exclamation"></i>
-                  </a>
-              </label></br>
-              <img id="img_imagenc" src="" class="img-thumbnail imgArea" />
-              <form id="form_imagenc" name="form_imagenc" action="area/imagenc" enctype="multipart/form-data" method="post" >
-                <input type="file" id="upload_imagenc" name="upload_imagenc" accept="image/*">
-                <input type='hidden' name='upload_idc' id='upload_idc'>
-              </form>
-            </div>
-            <div class="col-sm-4">
-              <label class="control-label">Imagen paralela
-                  <a id="error_imagenp" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Id Ext.">
-                      <i class="fa fa-exclamation"></i>
-                  </a>
-              </label></br>
-              <img id="img_imagenp" src="" class="img-thumbnail imgArea" />
-              <form id="form_imagenp" name="form_imagenp" action="area/imagenp" enctype="multipart/form-data" method="post" >
-                <input type="file" id="upload_imagenp" name="upload_imagenp" accept="image/*">
-                <input type='hidden' name='upload_idp' id='upload_idp'>
-              </form>
-            </div>
-          </div>
-        </div>
-          <!-- </div> -->
-         
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Guardar</button>
+        <button  class="btn btn-primary" type="submit">Guardar</button>
       </div>
+      </form>
     </div>
   </div>
 </div>
+@include( 'admin.empresa.js.personas' )
 <!-- /.modal -->

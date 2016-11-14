@@ -153,6 +153,10 @@ var afiliadas=new Vue({
         errores:[],
         mensaje_ok:false,
         mensaje_error:false,
+        empresaSelec:{
+            id:false,
+            nombre_comercial:'',
+        }
     },
     watch: {
         'perPage': function(val, oldVal) {

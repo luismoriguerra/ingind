@@ -1,3 +1,7 @@
+--11-11-2016
+ALTER TABLE `procesos`.`personas`   
+  ADD COLUMN `imagen_dni` VARCHAR(100) NULL AFTER `imagen`;
+
 --08-11-2016
 
 ALTER TABLE `procesos`.`empresa`   
