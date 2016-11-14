@@ -24,7 +24,11 @@ $(document).ready(function() {
             $('#form_detalles #txt_nombre').focus();
         }
         else {
-            $('#form_detalles #slct_tiporespuesta_id').val(button.data('id'));
+            var ids = [];
+            ids.push(button.data('id'));
+            $('#slct_tiporespuesta_id').multiselect('destroy');
+            slctGlobal.listarSlct('tiporespuestadetalle','slct_tiporespuesta_id','simple',ids,data,1);
+
             tiporespuesta_id=$('#t_detalles #tiporespuesta_id_'+button.data('id') ).attr('tiporespuesta_id');
             Detalles.cargarTipoRespuesta('editar',tiporespuesta_id);
             modal.find('.modal-footer .btn-primary').text('Actualizar');
