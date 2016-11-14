@@ -9,7 +9,7 @@
         <h4 class="modal-title">New message</h4>
       </div>
       <div class="modal-body">
-        <form id="form_personas" name="form_personas" action="" method="post">
+        <form id="form_personas_modal" name="form_personas_modal" action="" method="post">
           <fieldset>
             <legend>Datos personales</legend>
             <div class="row form-group">
@@ -44,11 +44,11 @@
               <div class="col-sm-12">
                 <div class="col-sm-4">
                   <label class="control-label">Fecha de Nacimiento
-                      <a id="error_fecha_nac" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Fecha de Nacimiento">
+                      <a id="error_fecha_nacimiento" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Fecha de Nacimiento">
                           <i class="fa fa-exclamation"></i>
                       </a>
                   </label>
-                  <input type="text" class="form-control" placeholder="AAAA-MM-DD" id="txt_fecha_nac" name="txt_fecha_nac" onfocus="blur()"/>
+                  <input type="text" class="form-control" placeholder="AAAA-MM-DD" id="txt_fecha_nacimiento" name="txt_fecha_nacimiento" onfocus="blur()"/>
                 </div>
                 <div class="col-sm-4">
                   <label class="control-label">DNI

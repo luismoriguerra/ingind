@@ -1,8 +1,9 @@
 <script type="text/javascript">
-var TipoTramites={
-    AgregarEditarTipoTramite:function(AE){
-        var datos = $("#form_tipotramites_modal").serialize().split("txt_").join("").split("slct_").join("");
-        var accion = (AE==1) ? "tipotramite/editar" : "tipotramite/crear";
+var ClasificadorTramites={
+    AgregarEditarClasificadorTramite:function(AE){
+        var datos = $("#form_clasificadortramites_modal").serialize().split("txt_").join("").split("slct_").join("");
+        var accion = (AE==1) ? "clasificadortramite/editar" : "clasificadortramite/crear";
+
         $.ajax({
             url         : accion,
             type        : 'POST',
@@ -15,9 +16,10 @@ var TipoTramites={
             success : function(obj) {
                 $(".overlay, .loading-img").remove();
                 if(obj.rst==1){
-                    MostrarAjax('tipotramites');
+                  
+                    MostrarAjax('clasificadortramites');
                     msjG.mensaje('success',obj.msj,4000);
-                    $('#tipotramiteModal .modal-footer [data-dismiss="modal"]').click();
+                    $('#clasificadortramiteModal .modal-footer [data-dismiss="modal"]').click();
 
                 } else {
                     var cont = 0;
@@ -38,9 +40,9 @@ var TipoTramites={
         });
 
     },
-    CargarTipoTramites:function(evento){
+    CargarClasificadorTramites:function(evento){
         $.ajax({
-            url         : 'tipotramite/cargar',
+            url         : 'clasificadortramite/cargar',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -51,6 +53,7 @@ var TipoTramites={
                 var html="";
                 var estadohtml="";
                 if(obj.rst==1){
+                    MostrarAjax('clasificadortramites');
                     $.each(obj.datos,function(index,data){
                         estadohtml='<span id="'+data.id+'" onClick="activar('+data.id+')" class="btn btn-danger">Inactivo</span>';
                         if(data.estado==1){
@@ -60,24 +63,24 @@ var TipoTramites={
                         html+="<tr>"+
                             "<td id='nombre_"+data.id+"'>"+data.nombre+"</td>"+
                             "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
-                            '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#tipotramiteModal" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
+                            '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#clasificadortramiteModal" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
 
                         html+="</tr>";
                     });
                 }
-                $("#tb_tipotramites").html(html); 
+                $("#tb_clasificadortramites").html(html); 
                 evento();  
             },
             error: function(){
             }
         });
     },
-      CambiarEstadoTipoTramites: function(id, AD){
-        $("#form_tipotramites_modal").append("<input type='hidden' value='"+id+"' name='id'>");
-        $("#form_tipotramites_modal").append("<input type='hidden' value='"+AD+"' name='estado'>");
-        var datos = $("#form_tipotramites_modal").serialize().split("txt_").join("").split("slct_").join("");
+      CambiarEstadoClasificadorTramites: function(id, AD){
+        $("#form_clasificadortramites_modal").append("<input type='hidden' value='"+id+"' name='id'>");
+        $("#form_clasificadortramites_modal").append("<input type='hidden' value='"+AD+"' name='estado'>");
+        var datos = $("#form_clasificadortramites_modal").serialize().split("txt_").join("").split("slct_").join("");
         $.ajax({
-            url         : 'tipotramite/cambiarestado',
+            url         : 'clasificadortramite/cambiarestado',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -89,9 +92,9 @@ var TipoTramites={
                 $(".overlay, .loading-img").remove();
 
                 if (obj.rst==1) {
-                    MostrarAjax('tipotramites');
+                    MostrarAjax('clasificadortramites');
                     msjG.mensaje('success',obj.msj,4000);
-                    $('#tipotramiteModal .modal-footer [data-dismiss="modal"]').click();
+                    $('#clasificadortramiteModal .modal-footer [data-dismiss="modal"]').click();
                 } else {
                     $.each(obj.msj, function(index, datos) {
                         $("#error_"+index).attr("data-original-title",datos);

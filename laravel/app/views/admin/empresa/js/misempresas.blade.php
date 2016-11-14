@@ -128,6 +128,7 @@ var app=new Vue({
          */
         setFilter: function() {
             this.moreParams = [
+                'usuario_actual=true',
                 'filter=' + this.searchFor
             ];
             this.$nextTick(function() {
@@ -321,15 +322,7 @@ var app=new Vue({
         }
     },
     ready: function () {
-        //$('[data-toggle="tooltip"]').tooltip();
-        $('#myTab a').click(function (e) {
-            e.preventDefault();
-            $(this).tab('show');
-            if ($(this).attr('href') == "#afiliadas") 
-                afiliadas.$broadcast('vuetable:refresh');
-            
-        });
-        $('#fecha_nacimiento').daterangepicker({
+        $('#fecha_vigencia').daterangepicker({
             format: 'YYYY-MM-DD HH:mm:ss',
             singleDatePicker: true,
             //timePicker: true,

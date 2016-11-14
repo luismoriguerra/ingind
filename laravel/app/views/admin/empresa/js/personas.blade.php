@@ -2,18 +2,13 @@
 var E_SERVER_ERROR = 'Error communicating with the server';
 Vue.config.debug = true;
 // fields definition
-var tableColumns = [
+var tableColumnsPersona = [
     /*{
         name: 'id',
         title: '',
         dataClass: 'text-center',
         callback: 'showDetailRow'
     },*/
-    {
-        title: 'DNI',
-        name: 'dni',
-        sortField: 'dni',
-    },
     {
         title: 'AP PATERNO',
         name: 'paterno',
@@ -30,85 +25,31 @@ var tableColumns = [
         sortField: 'nombre'
     },
     {
-        title: 'VIGENCIA',
-        name: 'fecha_vigencia',
-        sortField: 'fecha_vigencia',
-        callback: 'formatDate|DD-MM-YYYY',
+        title: 'DNI',
+        name: 'dni',
+        sortField: 'dni',
     },
     {
-        title: 'CESE',
-        name: 'fecha_cese',
-        sortField: 'fecha_cese',
-        callback: 'formatDate|DD-MM-YYYY',
-    },
-    {
-        title: 'CARGO',
-        name: 'cargo',
-        sortField: 'cargo',
-    },
-    {
-        title: 'ESTADO',
-        name: 'estado',
-        sortField: 'estado',
-        callback: 'estado',
-    },
-    {
-        title: 'TIPO REPRESENTANTE',
-        name: 'representante_legal',
-        sortField: 'representante_legal',
-        callback: 'tipoRepresentante',
-    },
+        name: '__actions',
+        dataClass: 'text-center',
+    }
 ];
-Vue.component('my-detail-row', {
-    template: [
-        '<div class="detail-row ui form" @click="onClick($event)">',
-            '<div class="inline field">',
-                '<label>Name: </label>',
-                '<span>@{{rowData.name}}</span>',
-            '</div>',
-            '<div class="inline field">',
-                '<label>Email: </label>',
-                '<span>@{{rowData.email}}</span>',
-            '</div>',
-            '<div class="inline field">',
-                '<label>Nickname: </label>',
-                '<span>@{{rowData.nickname}}</span>',
-            '</div>',
-            '<div class="inline field">',
-                '<label>Birthdate: </label>',
-                '<span>@{{rowData.birthdate}}</span>',
-            '</div>',
-            '<div class="inline field">',
-                '<label>Gender: </label>',
-                '<span>@{{rowData.gender}}</span>',
-            '</div>',
-        '</div>',
-    ].join(''),
-    props: {
-        rowData: {
-            type: Object,
-            required: true
-        }
-    },
-    methods: {
-        onClick: function(event) {
-            //console.log('my-detail-row: on-click');
-        }
-    },
-});
-var afiliadas=new Vue({
+
+var modal=new Vue({
     http: {
-      root: '/empresapersona',
+      root: '/personas',
       headers: {
         'X-CSRF-TOKEN': document.querySelector('#token').getAttribute('value')
       }
     },
-    el: '#afiliadas',
+    el: '#personasModal',
     components: {
         'v-select': VueStrap.select,
         'v-option': VueStrap.option,
         'checkbox-group': VueStrap.checkboxGroup,
         'checkbox': VueStrap.checkboxBtn,
+        'radio-group': VueStrap.radioGroup,
+        'radio': VueStrap.radioBtn,
         'datepicker': VueStrap.datepicker,
         'alert': VueStrap.alert,
         'modal': VueStrap.modal,
@@ -117,20 +58,15 @@ var afiliadas=new Vue({
         'spinner': VueStrap.spinner,
     },
     data: {
+        radioValue:'',
         searchFor: '',
-        fields: tableColumns,
-        sortOrder: [{
-            field: 'paterno',
-            direction: 'asc'
-        },
-        {
-            field: 'materno',
-            direction: 'asc'
-        },
-        {
-            field: 'nombre',
-            direction: 'asc'
-        }],
+        fields: tableColumnsPersona,
+        sortOrder: [
+            {
+                field: 'paterno',
+                direction: 'asc'
+            },
+        ],
         multiSort: true,
         perPage: 5,
         paginationComponent: 'vuetable-pagination',
@@ -140,9 +76,11 @@ var afiliadas=new Vue({
             { name: 'edit-item', label: '', icon: 'glyphicon glyphicon-pencil', class: 'btn btn-warning', extra: {title: 'Edit', 'data-toggle':"tooltip", 'data-placement': "top"} }
         ],
         moreParams: [
-            'empresa_id=0',
+            'estado=1',
         ],
-        //
+        persona:{
+            representante_legal:'',
+        },
         loaded: false,
         showModal: false,
         edit: false,
@@ -153,10 +91,31 @@ var afiliadas=new Vue({
         errores:[],
         mensaje_ok:false,
         mensaje_error:false,
-        empresaSelec:{
-            id:false,
-            nombre_comercial:'',
-        }
+    },
+    ready: function () {
+        $('#cese,#vigencia').daterangepicker({
+            format: 'YYYY-MM-DD HH:mm:ss',
+            singleDatePicker: true,
+            showDropdowns: true
+        });
+    },
+    computed: {
+        nombresApellidos: function () {
+            if (this.persona.nombre) {
+                return this.persona.nombre+' ' + this.persona.paterno+' ' +this.persona.materno;
+            }
+            return '';
+        },
+        getImagen: function() {
+            if (this.persona.imagen) {
+                return 'img/user/'+hex_md5('u'+this.persona.id)+'/'+this.persona.imagen;
+            }
+        },
+        getImagenDni: function() {
+            if (this.persona.imagen_dni) {
+                return 'img/user/'+hex_md5('u'+this.persona.id)+'/'+this.persona.imagen_dni;
+            }
+        },
     },
     watch: {
         'perPage': function(val, oldVal) {
@@ -171,44 +130,72 @@ var afiliadas=new Vue({
         /**
          * Callback functions
          */
-        estado: function(value) {
-            switch(value) {
-                case 1:
-                    return 'Activo';
-                case 0:
-                    return 'Inactivo';
-                    return '';
-            }
-        },
-        tipoRepresentante: function(value) {
-            switch(value) {
-                case 0:
-                    return 'Trabajador';
-                case 1:
-                    return 'Representante';
-                default:
-                    return '';
-            }
-        },
         formatDate: function(value, fmt) {
             if (value == null) return '';
             fmt = (typeof fmt == 'undefined') ? 'D MMM YYYY' : fmt;
             return moment(value, 'YYYY-MM-DD').format(fmt);
         },
-        showDetailRow: function(value) {
-            var icon = this.$refs.vuetable.isVisibleDetailRow(value) ? 'glyphicon glyphicon-minus-sign' : 'glyphicon glyphicon-plus-sign';
-            return [
-                '<a class="show-detail-row">',
-                    '<i class="' + icon + '"></i>',
-                '</a>'
-            ].join('');
-        },
         /**
          * Other functions
          */
+        onFileChange(e) {
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length)
+              return;
+            this.createImage(files[0],e.target.id);
+        },
+        createImage(file,id) {
+            var image = new Image();
+            var reader = new FileReader();
+  
+            reader.onload = (e) => {
+                if (id=='imagen') modal.persona.imagen = e.target.result;
+                if (id=='imagen_dni') modal.persona.imagen_dni = e.target.result;
+              //vm.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        },
+        removeImage: function (id) {
+            if (id=='imagen') this.persona.imagen = '';
+            if (id=='imagen_dni') this.persona.imagen_dni = '';
+        },
+        AfiliarPersona: function (){
+            this.load(1);
+            this.$http.post('/empresapersona/afiliar', this.persona,  function (data) {
+                if (data.rst==2) {
+                    this.ShowMensaje(data.msj, 5, false, true);
+                } else {
+                    this.persona = {
+                        id: '',
+                        tipo_id:'',
+                        ruc:'',
+                        razon_social:'',
+                        nombre_comercial:'',
+                        direccion_fiscal:'',
+                        cargo:'',
+                        telefono:'',
+                        fecha_vigencia:'',
+                        estado:1,
+                    };
+                    //this.showModal=false;
+                    //app.$broadcast('vuetable:refresh');
+                    //msj=' empresa nueva creado correctamente.';
+                    //this.ShowMensaje(msj, 5, true, false);
+                }
+
+            }).error(function(errors) {
+                this.ShowMensaje(errors, 5, false, true);
+            });
+            //self = this;
+        },
+        MostrarPersona: function(data){
+            if (data.id!=this.persona.id) {
+                this.persona=data;
+            }
+            this.persona.empresa_id=app.empresaSelec;
+        },
         setFilter: function() {
             this.moreParams = [
-                'empresa_id='+app.empresaSelec,
                 'filter=' + this.searchFor
             ];
             this.$nextTick(function() {
@@ -288,12 +275,12 @@ var afiliadas=new Vue({
                 this.$broadcast('vuetable:toggle-detail', data.id);
             }
         },
-        'vuetable:loading': function() {
-            var moreParams='empresa_id='+app.empresaSelec;
-            this.$set('moreParams', [moreParams]);
+        /* esto depende si no tiene componente el datatable*/
+        'vuetable:action': function(action, data) {
+            this.MostrarPersona(data);
         },
         'vuetable:load-success': function(response) {
-            this.empresas = response.data.data;
+            //this.empresas = response.data.data;
         },
         'vuetable:load-error': function(response) {
             if (response.status == 400) {

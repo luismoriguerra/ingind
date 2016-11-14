@@ -6,7 +6,9 @@
 
     {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
-    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
+    
+
+    {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }}
     {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
     @include( 'admin.js.slct_global_ajax' )
@@ -38,40 +40,24 @@
                                 <div class="box-header">
                                     <h3 class="box-title">Filtros</h3>
                                 </div><!-- /.box-header -->
+                                <form id="form_persona" name="form_persona" method="POST" action="">
                                 <div class="box-body table-responsive">
-                                    <table id="t_personas" class="table table-bordered table-striped">
+                                    <table id="t_persona" class="table table-bordered table-hover">
                                         <thead>
-                                            <tr>
-                                                <th>Apellido P</th>
-                                                <th>Apellido M</th>
-                                                <th>Nombres</th>
-                                                <th>Email</th>
-                                                <th>DNI</th>
-                                                <th>Area</th>
-                                                <th>Rol</th>
-                                                <th>Estado</th>
-                                                <th> [ ] </th>
-                                            </tr>
+                                        <tr>
+                                        <th colspan="9" style="text-align:center;background-color:#A7C0DC;"><h2>Persona</h2></th>
+                                        </tr>
+                                        <tr></tr>
                                         </thead>
-                                        <tbody id="tb_personas">
-                                            
+                                        <tbody>
                                         </tbody>
                                         <tfoot>
-                                            <tr>
-                                                <th>Apellido P</th>
-                                                <th>Apellido M</th>
-                                                <th>Nombres</th>
-                                                <th>Email</th>
-                                                <th>DNI</th>
-                                                <th>Area</th>
-                                                <th>Rol</th>
-                                                <th>Estado</th>
-                                                <th> [ ] </th>
-                                            </tr>
+                                        <tr></tr>
                                         </tfoot>
                                     </table>
-                                    <a class='btn btn-primary btn-sm' class="btn btn-primary" 
+                                    <a class="btn btn-primary"
                                     data-toggle="modal" data-target="#personaModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                                    <a style="display:none" id="BtnEditar" data-toggle="modal" data-target="#personaModal" data-titulo="Editar"></a>
                                 </div><!-- /.box-body -->
                             </div><!-- /.box -->
                             <!-- Finaliza contenido -->

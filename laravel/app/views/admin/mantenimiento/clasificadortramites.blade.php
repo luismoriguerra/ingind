@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-@extends('layouts.master')  
+@extends('layouts.master')
 
 @section('includes')
     @parent
@@ -10,28 +10,27 @@
 
     {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
     {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
-    {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
 
-    {{ HTML::script('http://malsup.github.com/jquery.form.js') }} 
-
-        @include( 'admin.js.slct_global_ajax' )
-    @include( 'admin.js.slct_global' )
     
-    @include( 'admin.mantenimiento.js.area_ajax' )
-    @include( 'admin.mantenimiento.js.area' )
+    {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
+    @include( 'admin.js.slct_global_ajax' )
+    @include( 'admin.js.slct_global' )
+
+    @include( 'admin.mantenimiento.js.clasificadortramites_ajax' )
+    @include( 'admin.mantenimiento.js.clasificadortramites' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
     <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Mantenimiento de Areas
+                Mantenimiento de Clasificador Tramite
                 <small> </small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
                 <li><a href="#">Mantenimientos</a></li>
-                <li class="active">Mantenimiento de Areas</li>
+                <li class="active">Mantenimiento de Clasificador Tramite</li>
             </ol>
         </section>
 
@@ -44,26 +43,24 @@
                         <div class="box-header">
                             <h3 class="box-title">Filtros</h3>
                         </div><!-- /.box-header -->
-                        <form id="form_areas" name="form_areas" method="POST" action="">
+                        <form id="form_clasificadortramites" name="form_clasificadortramites" method="POST" action="">
                         <div class="box-body table-responsive">
-                            <table id="t_areas" class="table table-bordered table-striped">
+                            <table id="t_clasificadortramites" class="table table-bordered table-hover">
                                 <thead>
-                                <tr><th colspan="3" style="text-align:center;background-color:#A7C0DC;"><h2>Áreas</h2></th></tr>
-                                    <tr>
-                                    
-                                    </tr>
+                                <tr><th colspan="4" style="text-align:center;background-color:#A7C0DC;"><h2>Clasificador Tramite</h2></th></tr>
+                                <tr></tr>
                                 </thead>
                                 <tbody>
                                 </tbody>
                                 <tfoot>
-                                   
+                                <tr></tr>
                                 </tfoot>
                             </table>
-                            <a class='btn btn-primary btn-sm' class="btn btn-primary" 
-                            data-toggle="modal" data-target="#areaModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
-                            <a style="display:none" id="BtnEditar" data-toggle="modal" data-target="#areaModal" data-titulo="Editar"></a>
+                            <a class="btn btn-primary"
+                            data-toggle="modal" data-target="#clasificadortramiteModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                            <a style="display:none" id="BtnEditar" data-toggle="modal" data-target="#clasificadortramiteModal" data-titulo="Editar"></a>
                         </div><!-- /.box-body -->
-                         </form>
+                        </form>
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->
                 </div>
@@ -73,5 +70,5 @@
 @stop
 
 @section('formulario')
-     @include( 'admin.mantenimiento.form.area' )
+     @include( 'admin.mantenimiento.form.clasificadortramite' )
 @stop

@@ -115,8 +115,8 @@
                     </div><!-- /.box -->
                 </div>
                 <div class="tab-pane fade" id="afiliadas">
+                    <spinner id="spinner-box" :size="size" :fixed="fixed" v-show="loaded" text="Espere un momento por favor"></spinner>
                     <div class="box box-solid">
-                        <spinner id="spinner-box" :size="size" :fixed="fixed" v-show="loaded" text="Espere un momento por favor"></spinner>
                         <div class="alert alert-success" transition="success" v-if="success">@{{ msj }} </div>
 
                         <div class="form-group">

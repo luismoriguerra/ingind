@@ -2,7 +2,33 @@
 
 class PersonaController extends BaseController
 {
+    /**
+     *
+     * @return Response
+     * muestra todas personas
+     */
+    public function index()
+    {
+        if (Input::has('sort')) {
+            list($sortCol, $sortDir) = explode('|', Input::get('sort'));
+            $query = Persona::orderBy($sortCol, $sortDir);
+        } else {
+            $query = Persona::orderBy('id', 'asc');
+        }
 
+        if (Input::has('filter')) {
+            $filter=Input::get('filter');
+            $query->where(function($q) use($filter) {
+                $value = "%{$filter}%";
+                $q->where('paterno', 'like', $value)
+                    ->orWhere('materno', 'like', $value)
+                    ->orWhere('nombre', 'like', $value)
+                    ->orWhere('dni', 'like', $value);
+            });
+        }
+        $perPage = Input::has('per_page') ? (int) Input::get('per_page') : null;
+        return Response::json($query->paginate($perPage));
+    }
     /**
      * cargar personas
      * POST /persona/cargar
@@ -12,9 +38,125 @@ class PersonaController extends BaseController
     public function postCargar()
     {
         //si la peticion es ajax
-        if ( Request::ajax() ) {
+       /* if ( Request::ajax() ) {
             $personas = Persona::getCargar(Input::all());
             return Response::json(array('rst'=>1,'datos'=>$personas));
+        }*/
+        if ( Request::ajax() ) {
+            /*********************FIJO*****************************/
+            $array=array();
+            $array['where']='';$array['usuario']=Auth::user()->id;
+            $array['limit']='';$array['order']='';
+            
+            if (Input::has('draw')) {
+                if (Input::has('order')) {
+                    $inorder=Input::get('order');
+                    $incolumns=Input::get('columns');
+                    $array['order']=  ' ORDER BY '.
+                                      $incolumns[ $inorder[0]['column'] ]['name'].' '.
+                                      $inorder[0]['dir'];
+                }
+
+                $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
+                $aParametro["draw"]=Input::get('draw');
+            }
+            /************************************************************/
+
+   
+
+             if( Input::has("paterno") ){
+                $paterno=Input::get("paterno");
+                if( trim( $paterno )!='' ){
+                    $array['where'].=" AND p.paterno LIKE '%".$paterno."%' ";
+                }
+            }
+
+            if( Input::has("materno") ){
+                $materno=Input::get("materno");
+                if( trim( $materno )!='' ){
+                    $array['where'].=" AND p.materno LIKE '%".$materno."%' ";
+                }
+            }
+
+            if( Input::has("nombre") ){
+                $nombre=Input::get("nombre");
+                if( trim( $nombre )!='' ){
+                    $array['where'].=" AND p.nombre LIKE '%".$nombre."%' ";
+                }
+            }
+
+            if( Input::has("dni") ){
+                $dni=Input::get("dni");
+                if( trim( $dni )!='' ){
+                    $array['where'].=" AND p.dni LIKE '%".$dni."%' ";
+                }
+            }
+
+            if( Input::has("sexo") ){
+                $sexo=Input::get("sexo");
+                if( trim( $sexo )!='' ){
+                    $array['where'].=" AND p.sexo='".$sexo."' ";
+                }
+            }
+
+
+            if( Input::has("email") ){
+                $email=Input::get("email");
+                if( trim( $email )!='' ){
+                    $array['where'].=" AND p.email LIKE '%".$email."%' ";
+                }
+            }
+
+
+            if( Input::has("fecha_nacimiento") ){
+                $fecha_nacimiento=Input::get("fecha_nacimiento");
+                if( trim( $fecha_nacimiento )!='' ){
+                    $array['where'].=" AND p.fecha_nacimiento LIKE '%".$fecha_nacimiento."%' ";
+                }
+            }
+
+            if( Input::has("password") ){
+                $password=Input::get("password");
+                if( trim( $password )!='' ){
+                    $array['where'].=" AND p.password='".$password."' ";
+                }
+            }
+
+
+            if( Input::has("area") ){
+                $area=Input::get("area");
+                if( trim( $area )!='' ){
+                    $array['where'].=" AND a.nombre LIKE '%".$area."%' ";
+                }
+            }
+
+            if( Input::has("rol") ){
+                $rol=Input::get("rol");
+                if( trim( $rol )!='' ){
+                    $array['where'].=" AND r.nombre LIKE '%".$rol."%' ";
+                }
+            }
+            
+
+            if( Input::has("estado") ){
+                $estado=Input::get("estado");
+                if( trim( $estado )!='' ){
+                    $array['where'].=" AND p.estado='".$estado."' ";
+                }
+            }
+
+            $array['order']=" ORDER BY p.nombre ";
+
+            $cant  = Persona::getCargarCount( $array );
+            $aData = Persona::getCargar( $array );
+
+            $aParametro['rst'] = 1;
+            $aParametro["recordsTotal"]=$cant;
+            $aParametro["recordsFiltered"]=$cant;
+            $aParametro['data'] = $aData;
+            $aParametro['msj'] = "No hay registros aún";
+            return Response::json($aParametro);
+
         }
     }
 
@@ -80,7 +222,7 @@ class PersonaController extends BaseController
                 'materno' => $required.'|'.$regex,
                 'email' => 'required|email|unique:personas,email',
                 'password'      => 'required|min:6',
-                'dni'      => 'required|min:8|unique:personas,dni',
+                'dni'      => 'required|numeric|min:8|unique:personas,dni',
             );
 
             $mensaje= array(
@@ -108,12 +250,14 @@ class PersonaController extends BaseController
             $persona['dni'] = Input::get('dni');
             $persona['sexo'] = Input::get('sexo');
             $persona['password'] = Input::get('password');
-            if (Input::get('fecha_nac')<>'') 
-            $persona['fecha_nacimiento'] = Input::get('fecha_nac');
+            if (Input::get('fecha_nacimiento')<>'') 
+            $persona['fecha_nacimiento'] = Input::get('fecha_nacimiento');
             $persona['area_id'] = Input::get('area');
             $persona['rol_id'] = Input::get('rol');
             $persona['estado'] = Input::get('estado');
             $persona['usuario_created_at'] = Auth::user()->id;
+            $persona['verified'] = true;
+            $persona['token'] = null;
             $persona->save();
             $personaId = $persona->id;
             //si es cero no seguir, si es 1 ->estado se debe copiar de celulas
@@ -219,7 +363,7 @@ class PersonaController extends BaseController
                 'paterno' => $required.'|'.$regex,
                 'materno' => $required.'|'.$regex,
                 'email' => 'required|email|unique:personas,email,'.Input::get('id'),
-                'dni'      => 'required|min:8|unique:personas,dni,'.Input::get('id'),
+                'dni'      => 'required|numeric|min:8|unique:personas,dni,'.Input::get('id'),
                 //'password'      => 'required|min:6',
             );
 
@@ -250,8 +394,8 @@ class PersonaController extends BaseController
             $persona['rol_id'] = Input::get('rol');
             if (Input::has('password'))
                 $persona['password'] = Input::get('password');
-            if (Input::has('fecha_nac'))
-                $persona['fecha_nacimiento'] = Input::get('fecha_nac');
+            if (Input::has('fecha_nacimiento'))
+                $persona['fecha_nacimiento'] = Input::get('fecha_nacimiento');
 
             $persona['estado'] = Input::get('estado');
             $persona['usuario_updated_at'] = Auth::user()->id;
