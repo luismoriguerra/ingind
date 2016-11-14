@@ -371,6 +371,14 @@ var app=new Vue({
             //timePicker: true,
             showDropdowns: true
         });
+        $('#empresas tbody').on( 'click', 'tr', function () {
+            if ( $(this).hasClass('active') ) {
+                //$(this).removeClass('active');
+            } else {
+                $('#empresas tbody tr.active').removeClass('active');
+                $(this).addClass('active');
+            }
+        });
     },
     computed: {
         validation: function () {

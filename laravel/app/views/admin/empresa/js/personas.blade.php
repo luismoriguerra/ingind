@@ -29,10 +29,10 @@ var tableColumnsPersona = [
         name: 'dni',
         sortField: 'dni',
     },
-    {
+    /*{
         name: '__actions',
         dataClass: 'text-center',
-    }
+    }*/
 ];
 
 var modal=new Vue({
@@ -82,9 +82,6 @@ var modal=new Vue({
             representante_legal:'',
         },
         loaded: false,
-        showModal: false,
-        edit: false,
-        tituloModal:'',
         success: false,
         danger: false,
         msj: '',
@@ -98,6 +95,14 @@ var modal=new Vue({
             singleDatePicker: true,
             showDropdowns: true
         });
+        $('#personas tbody').on( 'click', 'tr', function () {
+            if ( $(this).hasClass('active') ) {
+                //$(this).removeClass('active');
+            } else {
+                $('#personas tbody tr.active').removeClass('active');
+                $(this).addClass('active');
+            }
+        });
     },
     computed: {
         nombresApellidos: function () {
@@ -105,16 +110,6 @@ var modal=new Vue({
                 return this.persona.nombre+' ' + this.persona.paterno+' ' +this.persona.materno;
             }
             return '';
-        },
-        getImagen: function() {
-            if (this.persona.imagen) {
-                return 'img/user/'+hex_md5('u'+this.persona.id)+'/'+this.persona.imagen;
-            }
-        },
-        getImagenDni: function() {
-            if (this.persona.imagen_dni) {
-                return 'img/user/'+hex_md5('u'+this.persona.id)+'/'+this.persona.imagen_dni;
-            }
         },
     },
     watch: {
@@ -134,6 +129,28 @@ var modal=new Vue({
             if (value == null) return '';
             fmt = (typeof fmt == 'undefined') ? 'D MMM YYYY' : fmt;
             return moment(value, 'YYYY-MM-DD').format(fmt);
+        },
+        getImagen: function() {
+            if (this.persona.imagen) {
+                return this.persona.imagen;
+            }
+        },
+        getImagenDni: function() {
+            if (this.persona.imagen_dni) {
+                return this.persona.imagen_dni;
+            }
+        },
+        setImagen: function(imagen) {
+            this.persona.imagen='';
+            if (imagen) {
+                this.persona.imagen = 'img/user/'+hex_md5('u'+this.persona.id)+'/'+imagen;
+            }
+        },
+        setImagenDni: function(imagen_dni) {
+            this.persona.imagen_dni='';
+            if (imagen_dni) {
+                this.persona.imagen_dni = 'img/user/'+hex_md5('u'+this.persona.dni)+'/'+imagen_dni;
+            }
         },
         /**
          * Other functions
@@ -162,35 +179,26 @@ var modal=new Vue({
         AfiliarPersona: function (){
             this.load(1);
             this.$http.post('/empresapersona/afiliar', this.persona,  function (data) {
-                if (data.rst==2) {
+                if (data.rst==false) {
                     this.ShowMensaje(data.msj, 5, false, true);
                 } else {
-                    this.persona = {
-                        id: '',
-                        tipo_id:'',
-                        ruc:'',
-                        razon_social:'',
-                        nombre_comercial:'',
-                        direccion_fiscal:'',
-                        cargo:'',
-                        telefono:'',
-                        fecha_vigencia:'',
-                        estado:1,
-                    };
-                    //this.showModal=false;
-                    //app.$broadcast('vuetable:refresh');
-                    //msj=' empresa nueva creado correctamente.';
-                    //this.ShowMensaje(msj, 5, true, false);
+                    this.persona={representante_legal:''};
+                    $('#personas tbody tr.active').removeClass('active');
+                    $('#personasModal').modal('hide');
+                    afiliadas.$broadcast('vuetable:refresh');
                 }
 
             }).error(function(errors) {
-                this.ShowMensaje(errors, 5, false, true);
+                this.ShowMensaje("ocurrio un error vuelva a intentar", 5, false, true);
             });
             //self = this;
         },
         MostrarPersona: function(data){
             if (data.id!=this.persona.id) {
                 this.persona=data;
+                
+                this.setImagen(data.imagen);
+                this.setImagenDni(data.imagen_dni);
             }
             this.persona.empresa_id=app.empresaSelec;
         },
@@ -237,13 +245,6 @@ var modal=new Vue({
                 });
             }
         },
-        Add: function () {// cargar modal para añadir personal
-            this.showModal=true;
-            this.ShowMensaje('',0,false,false);
-            this.edit = false;
-            this.tituloModal = 'Nueva Empresa';
-            
-        },
         ShowMensaje: function(msj, time, success, danger) {
             this.msj=msj;
             self = this;
@@ -268,6 +269,7 @@ var modal=new Vue({
         },
         'vuetable:row-clicked': function(data, event) {
             //console.log('row-clicked:', data.name);
+            this.MostrarPersona(data);
         },
         'vuetable:cell-clicked': function(data, field, event) {
             //console.log('cell-clicked:', field.name);

@@ -64,7 +64,7 @@
                             </div>
                         </div>
                         <div class="table-responsive">
-                            <vuetable v-ref:vuetable
+                            <vuetable v-ref:vuetable id="empresas"
                                 api-url="empresapersona/index"
                                 data-path="data"
                                 pagination-path=""

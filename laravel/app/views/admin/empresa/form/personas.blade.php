@@ -14,6 +14,7 @@
           <spinner id="spinner-box" :size="size" :fixed="fixed" v-show="loaded" text="Espere un momento por favor"></spinner>
           <div class="box box-solid">
               <div class="alert alert-success" transition="success" v-if="success">@{{ msj }} </div>
+              <div class="alert alert-danger" transition="danger" v-if="danger">@{{ msj }} </div>
 
               <div class="form-group">
                   <div class="row form-group form-inline">
@@ -28,7 +29,7 @@
                   </div>
               </div>
               <div class="table-responsive">
-                  <vuetable v-ref:vuetable
+                  <vuetable v-ref:vuetable id='personas'
                       api-url="personas"
                       data-path="data"
                       pagination-path=""
@@ -118,7 +119,7 @@
                         <input type="file" @change="onFileChange" id="imagen" accept="image/*">
                       </div>
                       <div v-else>
-                        <img :src="getImagen" />
+                        <img :src="persona.imagen" />
                         <button @click="removeImage('imagen')">Quitar Imagen</button>
                       </div>
                     </div>
@@ -131,7 +132,7 @@
                         <input type="file" @change="onFileChange" id="imagen_dni" accept="image/*">
                       </div>
                       <div v-else>
-                        <img :src="getImagenDni" />
+                        <img :src="persona.imagen_dni" />
                         <button @click="removeImage('imagen_dni')">Quitar Imagen</button>
                       </div>
                     </div>

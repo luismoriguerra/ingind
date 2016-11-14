@@ -145,13 +145,14 @@ class EmpresaPersonaController extends BaseController
         $persona->imagen_dni =$imagenDni;
         $rst=$persona->save();
         $empresaId=Input::get('empresa_id');
+        $msj='no se encontro empresa o usuario a afiliar';
         if ($rst && $empresaId>0) {
             //buscar si esta afiliado a dicha empresa
             $empresaPersona = DB::table('empresa_persona')
                                     ->where('persona_id', '=', $id)
                                     ->where('empresa_id', '=', $empresaId)
                                     ->first();
-            if (is_null($cargoPersona)) {
+            if (is_null($empresaPersona)) {
                 $empresa = Empresa::find(Input::get('empresa_id'));
                 $persona->empresas()->save(
                     $empresa,
@@ -162,6 +163,7 @@ class EmpresaPersonaController extends BaseController
                         'fecha_cese'=> Input::get('cese'),
                     ]
                 );
+                $msj='se afilio persona correctamente';
             } else {
                 DB::table('empresa_persona')
                     ->where('persona_id', '=', $id)
@@ -174,9 +176,13 @@ class EmpresaPersonaController extends BaseController
                         'fecha_cese'=> Input::get('cese'),
                         ]
                     );
+                $msj='se actualizo afiliacion';
             }
         }
-
-        return Response::json($rst);
+        $reesponse=[
+            'rst'=>$rst,
+            'msj'=>$msj,
+        ];
+        return Response::json($reesponse);
     }
 }
