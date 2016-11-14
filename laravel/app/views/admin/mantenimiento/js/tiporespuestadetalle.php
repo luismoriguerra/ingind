@@ -12,6 +12,9 @@ $(document).ready(function() {
         modal.find('.modal-title').text(titulo+' Detalle');
         $('#form_detalles [data-toggle="tooltip"]').css("display","none");
         $("#form_detalles input[type='hidden']").remove();
+
+        var data = {estado:1};
+        slctGlobal.listarSlct('tiporespuestadetalle','slct_tiporespuesta_id','simple',null,data);
         
         if(titulo=='Nuevo') {
             Detalles.cargarTipoRespuesta('nuevo',null);
@@ -21,6 +24,7 @@ $(document).ready(function() {
             $('#form_detalles #txt_nombre').focus();
         }
         else {
+            $('#form_detalles #slct_tiporespuesta_id').val(button.data('id'));
             tiporespuesta_id=$('#t_detalles #tiporespuesta_id_'+button.data('id') ).attr('tiporespuesta_id');
             Detalles.cargarTipoRespuesta('editar',tiporespuesta_id);
             modal.find('.modal-footer .btn-primary').text('Actualizar');
@@ -28,6 +32,7 @@ $(document).ready(function() {
             $('#form_detalles #txt_nombre').val( $('#t_detalles #nombre_'+button.data('id') ).text() );
             $('#form_detalles #slct_estado').val( $('#t_detalles #estado_'+button.data('id') ).attr("data-estado") );
             $("#form_detalles").append("<input type='hidden' value='"+button.data('id')+"' name='id'>");
+            /*$("#slct_tiporespuesta_id>option[value="+button.data('id')+"]").prop('selected',true);*/
         }
 
     });
