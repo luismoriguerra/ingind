@@ -12,6 +12,7 @@ $(document).ready(function() {
         modal.find('.modal-title').text(titulo+' Detalle');
         $('#form_detalles [data-toggle="tooltip"]').css("display","none");
         $("#form_detalles input[type='hidden']").remove();
+
         
         if(titulo=='Nuevo') {
             Detalles.cargarTipoRespuesta('nuevo',null);
@@ -19,15 +20,26 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
             $('#form_detalles #slct_estado').val(1);
             $('#form_detalles #txt_nombre').focus();
+
+            var data = {estado:1};
+            $('#slct_tiporespuesta_id').multiselect('destroy');
+            slctGlobal.listarSlct('tiporespuesta','slct_tiporespuesta_id','simple',null,data);
         }
         else {
             tiporespuesta_id=$('#t_detalles #tiporespuesta_id_'+button.data('id') ).attr('tiporespuesta_id');
+            var ids = [];
+            ids.push(tiporespuesta_id);
+            var data = {estado:1};
+            $('#slct_tiporespuesta_id').multiselect('destroy');
+            slctGlobal.listarSlct('tiporespuesta','slct_tiporespuesta_id','simple',ids,data,1);
+
             Detalles.cargarTipoRespuesta('editar',tiporespuesta_id);
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
             $('#form_detalles #txt_nombre').val( $('#t_detalles #nombre_'+button.data('id') ).text() );
             $('#form_detalles #slct_estado').val( $('#t_detalles #estado_'+button.data('id') ).attr("data-estado") );
             $("#form_detalles").append("<input type='hidden' value='"+button.data('id')+"' name='id'>");
+            /*$("#slct_tiporespuesta_id>option[value="+button.data('id')+"]").prop('selected',true);*/
         }
 
     });

@@ -3,8 +3,14 @@
 
 @section('includes')
     @parent
+    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
+    {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
+    {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
+    {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
     @include( 'admin.mantenimiento.js.tiporespuestadetalle_ajax' )
     @include( 'admin.mantenimiento.js.tiporespuestadetalle' )
+    @include( 'admin.js.slct_global_ajax' )
+    @include( 'admin.js.slct_global' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')

@@ -97,6 +97,22 @@ class AreaController extends \BaseController
         }
     }
 
+    public function postListara()
+    {
+        if ( Request::ajax() ) {
+            $a      = new Area;
+            $listar = Array();
+            $listar = $a->getListar();
+
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $listar
+                )
+            );
+        }
+    }
+
     /**
      * 
      */
