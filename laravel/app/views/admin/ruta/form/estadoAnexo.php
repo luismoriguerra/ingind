@@ -16,7 +16,7 @@
                             <label>COD. TRAMITE: </label>
                        </div>
                        <div class="col-md-6">
-                           <input class="form-control" type="text" name="txt_anexocodtramite" id="txt_anexocodtramite" value=""> 
+                           <input class="form-control" type="text" name="txt_anexocodtramite" id="txt_anexocodtramite" value="" disabled> 
                        </div>
                    </div>
                </div>
@@ -26,7 +26,7 @@
                             <label>USUARIO REGISTRO: </label>
                        </div>
                        <div class="col-md-6">
-                           <input class="form-control" type="text" name="txt_anexousuariore" id="txt_anexousuariore" value=""> 
+                           <input class="form-control" type="text" name="txt_anexousuariore" id="txt_anexousuariore" value="" disabled> 
                        </div>
                    </div>                   
                </div>
@@ -36,7 +36,7 @@
                     <label>NOMBRE DEL TRAMITE: </label>
                 </div>
                 <div class="col-md-8">
-                    <input class="form-control" type="text" name="txt_anexonomtra" id="txt_anexonomtra" value=""> 
+                    <input class="form-control" type="text" name="txt_anexonomtra" id="txt_anexonomtra" value="" disabled> 
                 </div>
            </div>          
 
@@ -47,7 +47,7 @@
                             <label>COD. ANEXO: </label>
                        </div>
                        <div class="col-md-7">
-                           <input class="form-control" type="text" name="txt_anexocod" id="txt_anexocod" value=""> 
+                           <input class="form-control" type="text" name="txt_anexocod" id="txt_anexocod" value="" disabled> 
                        </div>
                    </div>
                </div>
@@ -57,7 +57,7 @@
                             <label>AREA: </label>
                        </div>
                        <div class="col-md-8">
-                           <input class="form-control" type="text" name="txt_anexoarea" id="txt_anexoarea" value=""> 
+                           <input class="form-control" type="text" name="txt_anexoarea" id="txt_anexoarea" value="" disabled> 
                        </div>
                    </div>                   
                </div>
@@ -69,7 +69,7 @@
                         <label>FECHA REGISTRO: </label>
                     </div>
                     <div class="col-md-6">
-                        <input class="form-control" type="text" name="txt_anexofecha" id="txt_anexofecha" value=""> 
+                        <input class="form-control" type="text" name="txt_anexofecha" id="txt_anexofecha" value="" disabled> 
                     </div>                                     
                   </div>
                </div>
@@ -79,7 +79,7 @@
                        <label>ESTADO: </label> 
                     </div>
                     <div class="col-md-7">
-                        <input class="form-control" type="text" name="txt_anexoestado" id="txt_anexoestado" value="">
+                        <input class="form-control" type="text" name="txt_anexoestado" id="txt_anexoestado" value="" disabled>
                     </div>
                   </div>                     
                 </div>

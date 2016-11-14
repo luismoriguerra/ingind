@@ -15,7 +15,7 @@
                             <label>COD. TRAMITE: </label>
                        </div>
                        <div class="col-md-7">
-                           <input class="form-control" type="text" name="txtcodtramite" id="txtcodtramite" value=""> 
+                           <input class="form-control" type="text" name="txtcodtramite" id="txtcodtramite" value="" disabled> 
                        </div>
                    </div>
                </div>
@@ -25,7 +25,7 @@
                             <label>FECHA INGRESADA: </label>
                        </div>
                        <div class="col-md-6">
-                           <input class="form-control" type="text" name="txtfechaIngresado" id="txtfechaIngresado" value=""> 
+                           <input class="form-control" type="text" name="txtfechaIngresado" id="txtfechaIngresado" value="" disabled> 
                        </div>
                    </div>                   
                </div>
@@ -35,13 +35,14 @@
                     <label>NOMBRE DEL TRAMITE: </label>
                 </div>
                 <div class="col-md-8">
-                    <input class="form-control" type="text" name="txtnombtramite" id="txtnombtramite" value=""> 
+                    <input class="form-control" type="text" name="txtnombtramite" id="txtnombtramite" value="" disabled> 
                 </div>
            </div>
            <div class="row form-group">
                 <div class="col-md-12">
-                    <label>DETALLE: </label>                
-                    <input class="form-control" type="text" name="txtdetalle" id="txtdetalle" value="">                     
+                    <label>DETALLE: </label>
+                    <textarea class="form-control" name="txtdetalle" id="txtdetalle" disabled></textarea>                
+                   <!--  <input class="form-control" type="text" name="txtdetalle" id="txtdetalle" value="" disabled>       -->               
                 </div>
            </div>
       </div>

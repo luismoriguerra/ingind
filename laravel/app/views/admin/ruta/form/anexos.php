@@ -35,7 +35,7 @@
                 <div class="row form-group" id="reporte">
                     <div class="col-sm-12">
                         <div class="box-body table-responsive">
-                            <table id="t_reporte" class="table table-bordered">
+                            <table id="t_anexo" class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th>COD</th>
@@ -48,7 +48,7 @@
                                         <th>VER DETALLE</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tb_reporte">
+                                <tbody id="tb_anexo">
                                 </tbody>
                             </table>
                         </div>
@@ -57,7 +57,7 @@
             </div>
       </div>
       <div class="modal-footer" style="margin-top:8px">
-         <span id="btnAgregarAnexo" class="btn btn-primary btn-sm" onclick=""><i class="glyphicon glyphicon-plus"></i> AGREGAR ANEXO</span>
+         <!-- <span id="btnAgregarAnexo" class="btn btn-primary btn-sm" onclick=""><i class="glyphicon glyphicon-plus"></i> AGREGAR ANEXO</span> -->
       </div>
     </div>
   </div>

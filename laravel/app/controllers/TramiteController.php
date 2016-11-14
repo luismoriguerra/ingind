@@ -13,6 +13,16 @@ class TramiteController extends BaseController {
 		//
 	}
 
+	public function postListartramites(){
+		$rst=Tramite::getAllTramites();
+          return Response::json(
+              array(
+                  'rst'=>1,
+                  'datos'=>$rst
+              )
+          );
+	}
+
 	/**
 	 * Show the form for creating a new resource.
 	 * GET /tramite/create

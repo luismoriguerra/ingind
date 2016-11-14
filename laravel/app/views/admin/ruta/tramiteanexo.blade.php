@@ -5,8 +5,10 @@
     @parent
     {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
+    {{ HTML::style('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css') }}
     {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
+    {{ HTML::script('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js') }}
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
@@ -26,7 +28,9 @@
     margin-top: 10px;
     margin-bottom: 0px;
 }
-
+.right {
+    text-align: right;
+}
 td, th{
     text-align:center;
 }
@@ -126,11 +130,11 @@ td, th{
                                 <input type="text" class="form-control" id="txtbuscar" name="txtbuscar">
                             </div>
                             <div class="col-md-1 col-sm-2">
-                                <span class="btn btn-primary btn-md" id="generar" name="generar"><i class="glyphicon glyphicon-search"></i> Buscar</span>
+                                <span class="btn btn-primary btn-md" id="generar" name="generar" onclick="mostrarTramites()"><i class="glyphicon glyphicon-search"></i> Buscar</span>
                             </div>
-                          <!--   <div class="col-md-1 col-sm-2" style="padding:24px">
-                                <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Export</i></a>
-                            </div> -->
+                            <div class="col-md-1 col-sm-2">
+                                <a class='btn btn-success btn-md' id="btnNuevo" name="btnNuevo" data-toggle="modal" data-target="#addAnexo">Anexo <i class="glyphicon glyphicon-plus"></i></a>
+                            </div>
                         </div>
                     </div>
                 </fieldset>
@@ -174,9 +178,10 @@ td, th{
                               </div>
                               <div class="col-md-4 col-sm-4">
                                   <input type="text" class="form-control" id="txt_anexobuscar" name="txt_anexobuscar">
+                                  <input type="hidden" id="txt_idtramite" name="txt_idtramite" value="">
                               </div>
                               <div class="col-md-1 col-sm-2">
-                                  <span class="btn btn-primary btn-md" id="generarAnexo" name="generarAnexo"><i class="glyphicon glyphicon-search"></i> Buscar</span>
+                                  <span class="btn btn-primary btn-md" id="generarAnexo" name="generarAnexo" onclick="buscarAnexo()"><i class="glyphicon glyphicon-search"></i> Buscar</span>
                               </div>
 
                               <div class="col-md-1 col-sm-2" style="padding:24px">
@@ -193,7 +198,7 @@ td, th{
                   <div class="row form-group" id="reporte">
                       <div class="col-sm-12">
                           <div class="box-body table-responsive">
-                              <table id="t_reporte_anexos" class="table table-bordered">
+                              <table id="t_anexo" class="table table-bordered">
                                   <thead>
                                       <tr>
                                           <th>COD</th>
@@ -204,9 +209,10 @@ td, th{
                                           <th>OBSERVACION</th>
                                           <th>AREA</th>
                                           <th>VER DETALLE</th>
+                                          <th>VOUCHER</th>
                                       </tr>
                                   </thead>
-                                  <tbody id="tb_reporte">
+                                  <tbody id="tb_anexo">
                                   </tbody>
                               </table>
                           </div>
@@ -223,7 +229,9 @@ td, th{
     </section><!-- /.content -->
 @stop
 @section('formulario')
-     @include( 'admin.ruta.form.anexos' )
+   {{--   @include( 'admin.ruta.form.anexos' ) --}}
      @include( 'admin.ruta.form.estadoTramite' )
      @include( 'admin.ruta.form.estadoAnexo' )
+     @include( 'admin.ruta.form.agregarAnexo' )
+     ç@include( 'admin.ruta.form.voucheranexo' )
 @stop
