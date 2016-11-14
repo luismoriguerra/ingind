@@ -14,7 +14,8 @@ $(document).ready(function() {
         $("#form_detalles input[type='hidden']").remove();
 
         var data = {estado:1};
-        slctGlobal.listarSlct('tiporespuestadetalle','slct_tiporespuesta_id','simple',null,data);
+        $('#slct_tiporespuesta_id').multiselect('destroy');
+        slctGlobal.listarSlct('tiporespuesta','slct_tiporespuesta_id','simple',null,data);
         
         if(titulo=='Nuevo') {
             Detalles.cargarTipoRespuesta('nuevo',null);
@@ -24,12 +25,12 @@ $(document).ready(function() {
             $('#form_detalles #txt_nombre').focus();
         }
         else {
-            var ids = [];
-            ids.push(button.data('id'));
-            $('#slct_tiporespuesta_id').multiselect('destroy');
-            slctGlobal.listarSlct('tiporespuestadetalle','slct_tiporespuesta_id','simple',ids,data,1);
-
             tiporespuesta_id=$('#t_detalles #tiporespuesta_id_'+button.data('id') ).attr('tiporespuesta_id');
+            var ids = [];
+            ids.push(tiporespuesta_id);
+            $('#slct_tiporespuesta_id').multiselect('destroy');
+            slctGlobal.listarSlct('tiporespuesta','slct_tiporespuesta_id','simple',ids,data,1);
+
             Detalles.cargarTipoRespuesta('editar',tiporespuesta_id);
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
