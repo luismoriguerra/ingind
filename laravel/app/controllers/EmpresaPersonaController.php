@@ -124,6 +124,8 @@ class EmpresaPersonaController extends BaseController
                 $imagen = "u".Input::get('id') . "." . $type;
                 $file = $uploadFolder . '/' . $imagen;
                 file_put_contents($file , $data);
+            } elseif (strpos($data, 'img/user/')!== false) {
+                $imagen = explode('/', $data)[3];
             }
         }
         if (Input::has('imagen_dni')) {
@@ -137,6 +139,8 @@ class EmpresaPersonaController extends BaseController
                 $imagenDni = "dni".Input::get('dni') . "." . $type;
                 $file = $uploadFolder . '/' . $imagenDni;
                 file_put_contents($file , $data);
+            } elseif (strpos($data, 'img/user/')!== false) {
+                $imagenDni = explode('/', $data)[3];
             }
         }
 

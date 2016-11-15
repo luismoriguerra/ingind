@@ -113,13 +113,12 @@
               <div class="row form-group form-inline">
                   <div class="col-xs-6">
                     <div class="control-group">
-                      <div v-if="!persona.imagen">
-                       @{{ persona.imagen }}
+                      <div v-if="!imagen">
                         <label class="control-label">Adjuntar Imagen</label>
                         <input type="file" @change="onFileChange" id="imagen" accept="image/*">
                       </div>
                       <div v-else>
-                        <img :src="persona.imagen" />
+                        <img :src="imagen" />
                         <button @click="removeImage('imagen')">Quitar Imagen</button>
                       </div>
                     </div>
@@ -127,12 +126,12 @@
 
                   <div class="col-xs-6">
                     <div class="control-group">
-                      <div v-if="!persona.imagen_dni">
+                      <div v-if="!imagen_dni">
                         <label class="control-label">Adjuntar Imagen</label>
                         <input type="file" @change="onFileChange" id="imagen_dni" accept="image/*">
                       </div>
                       <div v-else>
-                        <img :src="persona.imagen_dni" />
+                        <img :src="imagen_dni" />
                         <button @click="removeImage('imagen_dni')">Quitar Imagen</button>
                       </div>
                     </div>

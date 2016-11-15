@@ -75,6 +75,8 @@ var modal=new Vue({
         itemActions: [
             { name: 'edit-item', label: '', icon: 'glyphicon glyphicon-pencil', class: 'btn btn-warning', extra: {title: 'Edit', 'data-toggle':"tooltip", 'data-placement': "top"} }
         ],
+        imagen:false,
+        imagen_dni:false,
         moreParams: [
             'estado=1',
         ],
@@ -131,25 +133,25 @@ var modal=new Vue({
             return moment(value, 'YYYY-MM-DD').format(fmt);
         },
         getImagen: function() {
-            if (this.persona.imagen) {
-                return this.persona.imagen;
+            if (this.imagen) {
+                return this.imagen;
             }
         },
         getImagenDni: function() {
-            if (this.persona.imagen_dni) {
-                return this.persona.imagen_dni;
+            if (this.imagen_dni) {
+                return this.imagen_dni;
             }
         },
         setImagen: function(imagen) {
-            this.persona.imagen='';
+            this.imagen='';
             if (imagen) {
-                this.persona.imagen = 'img/user/'+hex_md5('u'+this.persona.id)+'/'+imagen;
+                this.imagen = 'img/user/'+hex_md5('u'+this.persona.id)+'/'+imagen;
             }
         },
         setImagenDni: function(imagen_dni) {
-            this.persona.imagen_dni='';
+            this.imagen_dni='';
             if (imagen_dni) {
-                this.persona.imagen_dni = 'img/user/'+hex_md5('u'+this.persona.dni)+'/'+imagen_dni;
+                this.imagen_dni = 'img/user/'+hex_md5('u'+this.persona.id)+'/'+imagen_dni;
             }
         },
         /**
@@ -166,28 +168,31 @@ var modal=new Vue({
             var reader = new FileReader();
   
             reader.onload = (e) => {
-                if (id=='imagen') modal.persona.imagen = e.target.result;
-                if (id=='imagen_dni') modal.persona.imagen_dni = e.target.result;
+                if (id=='imagen') modal.imagen = e.target.result;
+                if (id=='imagen_dni') modal.imagen_dni = e.target.result;
               //vm.image = e.target.result;
             };
             reader.readAsDataURL(file);
         },
         removeImage: function (id) {
-            if (id=='imagen') this.persona.imagen = '';
-            if (id=='imagen_dni') this.persona.imagen_dni = '';
+            if (id=='imagen') this.imagen = '';
+            if (id=='imagen_dni') this.imagen_dni = '';
         },
         AfiliarPersona: function (){
             this.load(1);
+            this.persona.imagen=this.imagen;
+            this.persona.imagen_dni=this.imagen_dni;
             this.$http.post('/empresapersona/afiliar', this.persona,  function (data) {
                 if (data.rst==false) {
                     this.ShowMensaje(data.msj, 5, false, true);
                 } else {
                     this.persona={representante_legal:''};
+                    this.imagen='';
+                    this.imagen_dni=''
                     $('#personas tbody tr.active').removeClass('active');
                     $('#personasModal').modal('hide');
                     afiliadas.$broadcast('vuetable:refresh');
                 }
-
             }).error(function(errors) {
                 this.ShowMensaje("ocurrio un error vuelva a intentar", 5, false, true);
             });
@@ -196,7 +201,6 @@ var modal=new Vue({
         MostrarPersona: function(data){
             if (data.id!=this.persona.id) {
                 this.persona=data;
-                
                 this.setImagen(data.imagen);
                 this.setImagenDni(data.imagen_dni);
             }
