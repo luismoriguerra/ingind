@@ -9,7 +9,6 @@ class EmpresaPersonaController extends BaseController
      */
     public function getIndex(){
         $query = DB::table('empresas as e')
-        ->join('empresa_persona as ep','e.id','=','ep.empresa_id')
         ->leftjoin(
             DB::raw("(
                 SELECT ep.cargo, ep.fecha_vigencia, ep.fecha_cese,ep.empresa_id,
@@ -21,16 +20,8 @@ class EmpresaPersonaController extends BaseController
                 ) rep
             "),
             'e.id', '=', 'rep.empresa_id'
-        )
-        ->select(
-        'e.id','e.nombre_comercial','e.direccion_fiscal','e.telefono',
-        'e.estado','e.fecha_vigencia', 'e.tipo_id' , 'e.ruc', 'e.razon_social',
-        'ep.cargo as persona_cargo', 'ep.fecha_vigencia as persona_vigencia',
-        'ep.fecha_cese as persona_cese', 'rep.dni',
-        DB::raw(
-            'IFNULL(rep.representante,"sin representante") as representante'
-            )
         );
+        
 
         if (Input::has('sort')) {
             list($sortCol, $sortDir) = explode('|', Input::get('sort'));
@@ -50,7 +41,26 @@ class EmpresaPersonaController extends BaseController
             });
         }
         if (Input::has('usuario_actual')) {
+            
+            $query->join('empresa_persona as ep','e.id','=','ep.empresa_id');
+            $query->select(
+            'e.id','e.nombre_comercial','e.direccion_fiscal','e.telefono','rep.dni',
+            'e.estado','e.fecha_vigencia', 'e.tipo_id' , 'e.ruc', 'e.razon_social',
+            'ep.cargo as persona_cargo', 'ep.fecha_vigencia as persona_vigencia',
+            'ep.fecha_cese as persona_cese', 'rep.dni',
+            DB::raw(
+                'IFNULL(rep.representante,"sin representante") as representante'
+                )
+            );
             $query->where('ep.persona_id','=',Auth::id());
+        } else {
+            $query->select(
+            'e.id','e.nombre_comercial','e.direccion_fiscal','e.telefono','rep.dni',
+            'e.estado','e.fecha_vigencia', 'e.tipo_id' , 'e.ruc', 'e.razon_social',
+            DB::raw(
+                'IFNULL(rep.representante,"sin representante") as representante'
+                )
+            );
         }
 
         $perPage = Input::has('per_page') ? (int) Input::get('per_page') : null;
@@ -106,6 +116,23 @@ class EmpresaPersonaController extends BaseController
      */
     public function postAfiliar()
     {
+        $rules = [
+            'id'                     => 'required|Integer',
+            'empresa_id'             => 'required|Integer',
+            'imagen'                 => 'required',
+            'imagen_dni'             => 'required',
+            'cargo'                  => 'required|Alpha',
+            'cese'                   => 'required|date_format:"Y-m-d H:i:s"',
+            'vigencia'               => 'required|date_format:"Y-m-d H:i:s"',
+            'representante_legal'    => 'required|Integer|Max:1',
+        ];
+        $validator = Validator::make(Input::all(),$rules);
+        if ( $validator->fails() ) {
+            return Response::json([
+                'rst'=>false,
+                'msj'=>$validator->messages()->all()[0],
+            ]);
+        }
         $id=Input::get('id');
         $uploadFolder = 'img/user/'.md5('u'.$id);
         if ( !is_dir($uploadFolder) ) {

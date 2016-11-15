@@ -80,9 +80,8 @@ var modal=new Vue({
         moreParams: [
             'estado=1',
         ],
-        persona:{
-            representante_legal:'',
-        },
+        representante_legal:'',
+        persona:{},
         loaded: false,
         success: false,
         danger: false,
@@ -104,6 +103,9 @@ var modal=new Vue({
                 $('#personas tbody tr.active').removeClass('active');
                 $(this).addClass('active');
             }
+        });
+        $('input').on('ifChecked', function(event){
+            modal.representante_legal=event.currentTarget.defaultValue;
         });
     },
     computed: {
@@ -131,16 +133,6 @@ var modal=new Vue({
             if (value == null) return '';
             fmt = (typeof fmt == 'undefined') ? 'D MMM YYYY' : fmt;
             return moment(value, 'YYYY-MM-DD').format(fmt);
-        },
-        getImagen: function() {
-            if (this.imagen) {
-                return this.imagen;
-            }
-        },
-        getImagenDni: function() {
-            if (this.imagen_dni) {
-                return this.imagen_dni;
-            }
         },
         setImagen: function(imagen) {
             this.imagen='';
@@ -182,16 +174,17 @@ var modal=new Vue({
             this.load(1);
             this.persona.imagen=this.imagen;
             this.persona.imagen_dni=this.imagen_dni;
+            this.persona.representante_legal=this.representante_legal;
             this.$http.post('/empresapersona/afiliar', this.persona,  function (data) {
                 if (data.rst==false) {
                     this.ShowMensaje(data.msj, 5, false, true);
                 } else {
-                    this.persona={representante_legal:''};
+                    this.representante_legal='';
                     this.imagen='';
                     this.imagen_dni=''
-                    $('#personas tbody tr.active').removeClass('active');
                     $('#personasModal').modal('hide');
                     afiliadas.$broadcast('vuetable:refresh');
+                    modal.$broadcast('vuetable:refresh');
                 }
             }).error(function(errors) {
                 this.ShowMensaje("ocurrio un error vuelva a intentar", 5, false, true);

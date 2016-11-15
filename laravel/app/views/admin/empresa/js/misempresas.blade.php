@@ -322,6 +322,13 @@ var app=new Vue({
         }
     },
     ready: function () {
+        $('#myTab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+            if ($(this).attr('href') == "#afiliadas") 
+                afiliadas.$broadcast('vuetable:refresh');
+            
+        });
         $('#fecha_vigencia').daterangepicker({
             format: 'YYYY-MM-DD HH:mm:ss',
             singleDatePicker: true,
