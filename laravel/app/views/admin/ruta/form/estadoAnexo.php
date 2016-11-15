@@ -86,14 +86,15 @@
            </div>
             <div class="row form-group">
                 <div class="col-md-12">
-                    <label>OBSERVACION: </label>                
-                    <input class="form-control" type="text" name="txt_anexoobser" id="txt_anexoobser" value="">                     
+                    <label>OBSERVACION: </label>
+                    <textarea class="form-control" name="txt_anexoobser" id="txt_anexoobser" rows="3"></textarea>               
+<!--                     <input class="form-control" type="text" name="txt_anexoobser" id="txt_anexoobser" value=""> -->     
                 </div>
            </div>
   
       </div>
       <div class="modal-footer" style="padding: 10px;margin-top:-20px">
-         <span id="btnAnexoRecepcionar" class="btn btn-primary btn-sm" onclick="">RECEPCIONAR <i class="glyphicon glyphicon-floppy-saved"></i></span>
+         <span id="btnAnexoRecepcionar" class="btn btn-primary btn-sm btnAnexoRecepcionar hidden" onclick="recepcionar()">RECEPCIONAR <i class="glyphicon glyphicon-floppy-saved"></i></span>
       </div>
     </div>
   </div>

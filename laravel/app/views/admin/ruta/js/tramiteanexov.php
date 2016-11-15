@@ -11,13 +11,15 @@ $(document).ready(function() {
     slctGlobal.listarSlct('documento','cbo_tipodoc','simple',null,data);
 
     function limpia(area) {
-        $(area).find('input[type="text"],input[type="email"],textarea,select').val('');
+       /* $(area).find('input[type="text"],input[type="email"],textarea,select').val('');*/
+        $('#spanRuta').addClass('hidden');
+        $('.img-anexo').attr('src','index.img');
+        $('#txt_folio,#txt_anexoid').val('');
         $('#FormNuevoAnexo').data('bootstrapValidator').resetForm();
     };
 
     $('#addAnexo').on('hidden.bs.modal', function(){
         limpia(this);
-        $('#spanRuta').addClass('hidden');
     });
 
     /*validaciones*/
@@ -28,45 +30,7 @@ $(document).ready(function() {
             validating: 'glyphicon glyphicon-refresh',
         },
         excluded: ':disabled',
-        fields: {
-            txt_nombreP: {
-                validators: {
-                    notEmpty: {
-                        message: 'campo requerido'
-                    }
-                }
-            },
-            txt_apeP: {
-                validators: {
-                    notEmpty: {
-                        message: 'campo requerido'
-                    }
-                }
-            },
-            txt_apeM: {
-                validators: {
-                    notEmpty: {
-                        message: 'campo requerido'
-                    }
-                }
-            },
-        /*    txt_tipodocP: {
-                validators: {
-                    notEmpty: {
-                        message: 'campo requerido'
-                    }
-                }
-            },*/
-            txt_numdocP: {
-                validators: {
-                    notEmpty: {
-                        message: 'campo requerido'
-                    },
-                    digits:{
-                        message: 'dato numerico'
-                    }
-                }
-            },
+        fields: {           
             txt_codtramite: {
                 validators: {
                     notEmpty: {
@@ -153,9 +117,9 @@ $(document).ready(function() {
             var reader = new FileReader();
             reader.onload = function(e) {
                 if (tipo == 'file') {                 
-/*                    $('.img-tramite').attr('src',e.target.result);*/
-                    $('#spanRuta').text(input.value);
-                    $('#spanRuta').removeClass('hidden');
+                    $('.img-anexo').attr('src',e.target.result);
+                    /*$('#spanRuta').text(input.value);
+                    $('#spanRuta').removeClass('hidden');*/
                 }
             }
             reader.readAsDataURL(input.files[0]);
@@ -167,6 +131,7 @@ mostrarTramites = function(){
     var busqueda = document.querySelector('#txtbuscar').value;
     var data ={};
     data.estado = 1;
+    data.persona = UsuarioId;
     if(busqueda){
         data.buscar = busqueda;
     }
@@ -178,7 +143,7 @@ HTMLTramites = function(data){
         $("#t_reporte").dataTable().fnDestroy();
         var html ='';
         $.each(data,function(index, el) {
-            html+="<tr id="+el.codigo+">"+
+            html+="<tr id="+el.codigo+" numdoc="+el.numdoc+">"+
                 "<td name='codigo'>"+el.codigo +"</td>"+
                 "<td name='nombre'>"+el.tramite+"</td>"+
                 "<td name='fechaingreso'>"+el.fecha_ingreso+"</td>"+
@@ -234,8 +199,18 @@ seleccionado = function(obj){
 
 mostrarAnexos = function(obj){
     var idtramite = obj.parentNode.parentNode.getAttribute("id");
-    var data={'idtramite':idtramite};
+    var nombret = document.querySelectorAll("#t_reporte tr[id='"+idtramite+"'] td[name='nombre']");
+    var numdoc = obj.parentNode.parentNode.getAttribute("numdoc");
+
+    /*poblate info in new anexo*/
     document.querySelector('#txt_idtramite').value=idtramite;
+    document.querySelector('#txt_codtramite').value=idtramite;
+    document.querySelector('#txt_nombtramite').value=nombret[0].innerHTML;
+    document.querySelector('#txt_fechaingreso').value= new Date().toLocaleString();
+    document.querySelector('#txt_numdocA').value= numdoc;
+    /*end poblate info in new anexo*/
+
+    var data={'idtramite':idtramite};
     Bandeja.MostrarAnexos(data,HTMLAnexos);
 }
 
@@ -254,6 +229,8 @@ HTMLAnexos = function(data,$tipo_busqueda = ''){
                 "<td name='area'>"+el.area+"</td>"+
                 "<td><span class='btn btn-primary btn-sm' idanexo='"+el.codigoanexo+"' onclick='selectAnexotoDetail(this)'><i class='glyphicon glyphicon-search'></i></span></td>"+
                 "<td><span class='btn btn-primary btn-sm' idanexo='"+el.codigoanexo+"' onclick='selectVoucher(this)'><i class='glyphicon glyphicon-open'></i></span></td>"+
+                "<td><span class='btn btn-primary btn-sm' idanexo='"+el.codigoanexo+"' onclick='selectToEdit(this)'><i class='glyphicon glyphicon-pencil'></i></span></td>"+
+                 "<td><span class='btn btn-danger btn-sm' idanexo='"+el.codigoanexo+"' onclick='deleteAnexo(this)'><i class='glyphicon glyphicon-trash'></i></span></td>"+
             "</tr>";            
         });
         $("#tb_anexo").html(html);
@@ -294,7 +271,7 @@ buscarAnexo = function(){
 }
 
 selectAnexotoDetail = function(obj){
-    var idanexo = obj.parentNode.parentNode.getAttribute('idanexo');
+   /* var idanexo = obj.parentNode.parentNode.getAttribute('idanexo');
     var td = document.querySelectorAll("#t_anexo tr[idanexo='"+idanexo+"'] td");
     var data = '{';
     for (var i = 0; i < td.length; i++) {
@@ -304,25 +281,73 @@ selectAnexotoDetail = function(obj){
     }
     data+='","id":'+idanexo+'}';
     HTMLDetalleAnexo(JSON.parse(data));
-    $('#estadoAnexo').modal('show');
+    $('#estadoAnexo').modal('show');*/
+    var codanexo = obj.getAttribute('idanexo');
+    if(codanexo){
+        var data = {estado:1,codanexo:codanexo};
+        Bandeja.AnexoById(data,HTMLDetalleAnexo);
+        $("#estadoAnexo").modal('show');
+    }
 }
 
 HTMLDetalleAnexo = function(data){
-    document.querySelector('#txt_anexocodtramite').value=data.prueba;
-    document.querySelector('#txt_anexousuariore').value=data.persona;
-    document.querySelector('#txt_anexonomtra').value=data.nombre;
-    document.querySelector('#txt_anexocod').value=data.id;
-    document.querySelector('#txt_anexoarea').value=data.area;
-    document.querySelector('#txt_anexofecha').value=data.fechaingreso;
-    document.querySelector('#txt_anexoestado').value=data.estado;
-    document.querySelector('#txt_anexoobser').value=data.observacion;
+    var result = data[0];
+    document.querySelector('#txt_anexocodtramite').value=result.codtramite;
+    document.querySelector('#txt_anexousuariore').value=result.nombrepersona+' '+result.apepersona+' '+result.apempersona;
+    document.querySelector('#txt_anexonomtra').value=result.nombretramite;
+    document.querySelector('#txt_anexocod').value=result.codanexo;
+    document.querySelector('#txt_anexoarea').value=result.area;
+    document.querySelector('#txt_anexofecha').value=result.fechaanexo;
+    document.querySelector('#txt_anexoestado').value=result.estado;
+    document.querySelector('#txt_anexoobser').value=result.observ;
+}
+
+selectToEdit = function(obj){
+    var codanexo = obj.getAttribute('idanexo');
+    if(codanexo){
+        var data = {estado:1,codanexo:codanexo};
+        Bandeja.AnexoById(data,HTMLEdit);
+        $("#addAnexo").modal('show');
+    }
+}
+
+HTMLEdit = function(data){
+    if(data.length > 0){
+        var result = data[0];
+        document.querySelector('#txt_codtramite').value=result.codtramite;
+        document.querySelector('#txt_fechaingreso').value=result.fechaanexo;
+       /* document.querySelector('#cbo_tipodoc').value=result.tipodoc;*/
+        document.querySelector('#txt_nombtramite').value=result.nombretramite;
+        document.querySelector('#txt_numdocA').value=result.numdoc;
+        document.querySelector('#txt_folio').value=result.folios;
+        document.querySelector('#txt_anexoid').value=result.codanexo;
+
+        var ids = [];
+        ids.push(result.idtipodoc);
+        $('#cbo_tipodoc').multiselect('destroy');
+        slctGlobal.listarSlct('documento','cbo_tipodoc','simple',ids,{estado:1},1);
+
+      /*  $('.img-tramite').attr('src','C:/xampp/htdocs/ingind/public/img/anexo/'+result.img);*/
+    }else{
+        alert('no se pudo cargar informacion');
+    }
+}
+
+deleteAnexo = function(obj){
+    var codanexo = obj.getAttribute('idanexo');
+    if(codanexo){
+        var data = {codanexo:codanexo};
+        var r = confirm("¿Esta seguro de eliminar?");
+        if (r == true) {
+            Bandeja.deleteAnexo(data);           
+        }
+    }
 }
 
 selectVoucher = function(obj){
     var codanexo = obj.getAttribute('idanexo');
     if(codanexo){
         var data = {estado:1,codanexo:codanexo};
-        console.log(data);
         Bandeja.AnexoById(data,HTMLVoucherAnexo);
         $("#voucherAnexo").modal('show');
     }

@@ -1,3 +1,9 @@
+--14/11/2016
+ALTER TABLE `tramites_anexo`
+ADD COLUMN `fecha_recepcion`  datetime NULL AFTER `fecha_anexo`;
+
+
+
 --12-11-2016
 ALTER TABLE `tramites`
 ADD COLUMN `area_id`  int(11) NOT NULL AFTER `persona_id`;

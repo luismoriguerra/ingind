@@ -132,9 +132,9 @@ td, th{
                             <div class="col-md-1 col-sm-2">
                                 <span class="btn btn-primary btn-md" id="generar" name="generar" onclick="mostrarTramites()"><i class="glyphicon glyphicon-search"></i> Buscar</span>
                             </div>
-                            <div class="col-md-1 col-sm-2">
+                          {{--   <div class="col-md-1 col-sm-2">
                                 <a class='btn btn-success btn-md' id="btnNuevo" name="btnNuevo" data-toggle="modal" data-target="#addAnexo">Anexo <i class="glyphicon glyphicon-plus"></i></a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </fieldset>

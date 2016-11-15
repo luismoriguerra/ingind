@@ -132,9 +132,9 @@ td, th{
                             <div class="col-md-1 col-sm-2">
                                 <span class="btn btn-primary btn-md" id="generar" name="generar" onclick="mostrarTramites()"><i class="glyphicon glyphicon-search"></i> Buscar</span>
                             </div>
-                            <div class="col-md-1 col-sm-2">
+                          <!--   <div class="col-md-1 col-sm-2">
                                 <a class='btn btn-success btn-md' id="btnNuevo" name="btnNuevo" data-toggle="modal" data-target="#addAnexo">Anexo <i class="glyphicon glyphicon-plus"></i></a>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </fieldset>
@@ -183,10 +183,8 @@ td, th{
                               <div class="col-md-1 col-sm-2">
                                   <span class="btn btn-primary btn-md" id="generarAnexo" name="generarAnexo" onclick="buscarAnexo()"><i class="glyphicon glyphicon-search"></i> Buscar</span>
                               </div>
-
-                              <div class="col-md-1 col-sm-2" style="padding:24px">
-                                  <!-- <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Export</i></a> -->
-                                 {{--  <span class='btn btn-primary btn-sm' data-toggle='modal' data-target='#estadoAnexo'>Listar</span --}}
+                              <div class="col-md-1 col-sm-2">
+                                  <a class='btn btn-success btn-md' id="btnNuevo" name="btnNuevo" data-toggle="modal" data-target="#addAnexo">Anexo <i class="glyphicon glyphicon-plus"></i></a>
                               </div>
                           </div>
                       </div>
@@ -208,8 +206,10 @@ td, th{
                                           <th>ESTADO</th>
                                           <th>OBSERVACION</th>
                                           <th>AREA</th>
-                                          <th>VER DETALLE</th>
+                                          <th>DETALLE</th>
                                           <th>VOUCHER</th>
+                                          <th>EDITAR</th>
+                                          <th>ELIMINAR</th>
                                       </tr>
                                   </thead>
                                   <tbody id="tb_anexo">

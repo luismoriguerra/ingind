@@ -292,7 +292,7 @@ buscarAnexo = function(){
 }
 
 selectAnexotoDetail = function(obj){
-    var idanexo = obj.parentNode.parentNode.getAttribute('idanexo');
+   /* var idanexo = obj.parentNode.parentNode.getAttribute('idanexo');
     var td = document.querySelectorAll("#t_anexo tr[idanexo='"+idanexo+"'] td");
     var data = '{';
     for (var i = 0; i < td.length; i++) {
@@ -302,25 +302,37 @@ selectAnexotoDetail = function(obj){
     }
     data+='","id":'+idanexo+'}';
     HTMLDetalleAnexo(JSON.parse(data));
-    $('#estadoAnexo').modal('show');
+    $('#estadoAnexo').modal('show');*/
+    var codanexo = obj.getAttribute('idanexo');
+    if(codanexo){
+        var data = {estado:1,codanexo:codanexo};
+        Bandeja.AnexoById(data,HTMLDetalleAnexo);
+        $("#estadoAnexo").modal('show');
+    }
 }
 
 HTMLDetalleAnexo = function(data){
-    document.querySelector('#txt_anexocodtramite').value=data.prueba;
-    document.querySelector('#txt_anexousuariore').value=data.persona;
-    document.querySelector('#txt_anexonomtra').value=data.nombre;
-    document.querySelector('#txt_anexocod').value=data.id;
-    document.querySelector('#txt_anexoarea').value=data.area;
-    document.querySelector('#txt_anexofecha').value=data.fechaingreso;
-    document.querySelector('#txt_anexoestado').value=data.estado;
-    document.querySelector('#txt_anexoobser').value=data.observacion;
+    var result = data[0];
+    document.querySelector('#txt_anexocodtramite').value=result.codtramite;
+    document.querySelector('#txt_anexousuariore').value=result.nombrepersona+' '+result.apepersona+' '+result.apempersona;
+    document.querySelector('#txt_anexonomtra').value=result.nombretramite;
+    document.querySelector('#txt_anexocod').value=result.codanexo;
+    document.querySelector('#txt_anexoarea').value=result.area;
+    document.querySelector('#txt_anexofecha').value=result.fechaanexo;
+    document.querySelector('#txt_anexoestado').value=result.estado;
+    document.querySelector('#txt_anexoobser').value=result.observ;
+
+   /* if(result.fecha_recepcion != ''){*/
+        document.querySelector('.btnAnexoRecepcionar').classList.remove('hidden');
+  /*  }else{
+        document.querySelector('.btnAnexoRecepcionar').classList.add('hidden');
+    }*/
 }
 
 selectVoucher = function(obj){
     var codanexo = obj.getAttribute('idanexo');
     if(codanexo){
         var data = {estado:1,codanexo:codanexo};
-        console.log(data);
         Bandeja.AnexoById(data,HTMLVoucherAnexo);
         $("#voucherAnexo").modal('show');
     }
@@ -354,6 +366,13 @@ HTMLVoucherAnexo = function(data){
     document.querySelector('#spanvnombtramite').innerHTML=result.nombretramite;
     document.querySelector('#spanFechaTramite').innerHTML=result.fechatramite;
     document.querySelector('#spanArea').innerHTML=result.area;
+}
+
+recepcionar = function(){
+    var codanexo = document.querySelector('#txt_anexocod').value;
+    var observacion = document.querySelector('#txt_anexoobser').value;
+    var data = {'codanexo':codanexo,'observacion':observacion};
+    Bandeja.Recepcionar(data);
 }
    
 </script>
