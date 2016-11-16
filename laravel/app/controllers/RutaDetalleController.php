@@ -362,6 +362,8 @@ class RutaDetalleController extends \BaseController
                     $faltaparalelo=0;
                     $inciodato=0;
                     $terminodato=0;
+                    var_dump($validaSiguiente);
+                    exit();
                     for ($i=0; $i<count($validaSiguiente); $i++) {
                         if(trim($validaSiguiente[$i]->fecha_inicio)!=''){
                             $faltaparalelo++;
