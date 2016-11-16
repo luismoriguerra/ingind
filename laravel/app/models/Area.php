@@ -95,7 +95,7 @@ class Area extends Base
                             $areas= DB::select($sql);
                             $areas_id = '';
                             foreach($areas as $key => $value){
-                                var_dump($value);
+                                var_dump($value->area_id);
                                 exit();
                                 $areas_id.= ($key == 0) ? $value : ','.$value; 
                             }
