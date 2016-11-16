@@ -93,7 +93,7 @@ class Area extends Base
                                                     AND cp.persona_id=".Auth::user()->id;
 
                             $areas= DB::select($sql);
-                            var_dump(implode(",", $areas));
+                            var_dump($areas[0]);
                             exit();
                     
                             $query->whereRaw('  FIND_IN_SET( id, 
