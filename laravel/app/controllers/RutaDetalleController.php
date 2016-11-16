@@ -325,7 +325,6 @@ class RutaDetalleController extends \BaseController
                 else{
                     $siguiente= "0";
                 }
-                echo $siguiente;
                 $query='
                     SELECT condicion
                     FROM rutas_detalle_verbo
@@ -388,6 +387,9 @@ class RutaDetalleController extends \BaseController
                             }*/
                             elseif($siguiente>=1){ // condicional +n
                                 for($j=0; $j<$siguientefinal; $j++){
+                                    echo $i;
+                                    echo $j;
+                                    echo $validaSiguiente[($i+$j)]->id;
                                     if( $siguiente==($j+1) ){
                                         $idSiguiente= $validaSiguiente[($i+$j)]->id;
                                         $fechaInicio= $validaSiguiente[($i+$j)]->ahora;
