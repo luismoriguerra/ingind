@@ -387,8 +387,8 @@ class RutaDetalleController extends \BaseController
                             }*/
                             elseif($siguiente>=1){ // condicional +n
                                 for($j=0; $j<$siguientefinal; $j++){
-                                    echo $i;
-                                    echo $j;
+                            /*        echo $i;
+                                    echo $j;*/
                                     echo $validaSiguiente[($i+$j)]->id;
                                     if( $siguiente==($j+1) ){
                                         $idSiguiente= $validaSiguiente[($i+$j)]->id;
