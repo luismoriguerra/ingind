@@ -362,8 +362,6 @@ class RutaDetalleController extends \BaseController
                     $faltaparalelo=0;
                     $inciodato=0;
                     $terminodato=0;
-                    var_dump($validaSiguiente);
-                    exit();
                     for ($i=0; $i<count($validaSiguiente); $i++) {
                         if(trim($validaSiguiente[$i]->fecha_inicio)!=''){
                             $faltaparalelo++;
@@ -391,13 +389,6 @@ class RutaDetalleController extends \BaseController
                             elseif($siguiente>=1){ // condicional +n
                                 for($j=0; $j<$siguientefinal; $j++){
                                     if( $siguiente==($j+1) ){
-                                        var_dump($siguiente);
-                                        var_dump($j);
-                                        var_dump($i);
-                                        var_dump($i+$j);
-                                        var_dump($validaSiguiente[$j]);
-                                        var_dump($validaSiguiente[1]->id);
-                                        exit();
                                         $idSiguiente= $validaSiguiente[($i+$j)]->id;
                                         $fechaInicio= $validaSiguiente[($i+$j)]->ahora;
                                     }
