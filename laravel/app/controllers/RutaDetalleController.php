@@ -389,8 +389,10 @@ class RutaDetalleController extends \BaseController
                             elseif($siguiente>=1){ // condicional +n
                                 for($j=0; $j<$siguientefinal; $j++){
                                     if( $siguiente==($j+1) ){
-                                        $idSiguiente= $validaSiguiente[($i+$j)]->id;
-                                        $fechaInicio= $validaSiguiente[($i+$j)]->ahora;
+                                        if($validaSiguiente[($i+$j)]){ //si existe dentro del array de valida siguiente
+                                            $idSiguiente= $validaSiguiente[($i+$j)]->id;
+                                            $fechaInicio= $validaSiguiente[($i+$j)]->ahora;
+                                        }
                                     }
                                     else{
                                         $idinvalido= $validaSiguiente[($i+$j)]->id;
@@ -406,10 +408,12 @@ class RutaDetalleController extends \BaseController
                                 }
                             }
 
-                            $rd2 = RutaDetalle::find($idSiguiente);
-                            $rd2['fecha_inicio']= $fechaInicio ;
-                            $rd2['usuario_updated_at']= Auth::user()->id;
-                            $rd2->save();
+                            if($idSiguiente){ //si existe actualizara
+                                $rd2 = RutaDetalle::find($idSiguiente);
+                                $rd2['fecha_inicio']= $fechaInicio ;
+                                $rd2['usuario_updated_at']= Auth::user()->id;
+                                $rd2->save();                                
+                            }
                         }
                         elseif($faltaparalelo==0 and $inciodato>0 and $terminodato==0 and $validaSiguiente[$i]->estado_ruta==2){ // cuando es paralelo iniciar tb
                             $rd3 = RutaDetalle::find($validaSiguiente[$i]->id);
