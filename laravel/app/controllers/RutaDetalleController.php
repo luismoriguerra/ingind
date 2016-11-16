@@ -392,6 +392,7 @@ class RutaDetalleController extends \BaseController
                                         var_dump($siguiente);
                                         var_dump($j);
                                         var_dump($i);
+                                        var_dump($i+$j);
                                         var_dump($validaSiguiente[($i+$j)]->id);
                                         exit();
                                         $idSiguiente= $validaSiguiente[($i+$j)]->id;
