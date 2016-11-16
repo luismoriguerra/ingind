@@ -389,7 +389,7 @@ class RutaDetalleController extends \BaseController
                             elseif($siguiente>=1){ // condicional +n
                                 for($j=0; $j<$siguientefinal; $j++){
                                     if( $siguiente==($j+1) ){
-                                        if($validaSiguiente[($i+$j)]){ //si existe dentro del array de valida siguiente
+                                        if(!empty($validaSiguiente[($i+$j)]->id)){ //si existe dentro del array de valida siguiente
                                             $idSiguiente= $validaSiguiente[($i+$j)]->id;
                                             $fechaInicio= $validaSiguiente[($i+$j)]->ahora;
                                         }
