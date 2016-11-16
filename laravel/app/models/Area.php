@@ -97,7 +97,7 @@ class Area extends Base
                             foreach($areas as $key => $value){
                                 $areas_id.= ($key == 0) ? $value->area_id : ','.$value->area_id; 
                             }
-                            $query->whereRaw('FIND_IN_SET( id,('.$areas_id.'))>0 ');
+                            $query->whereRaw('FIND_IN_SET( id,'.$areas_id.')>0 ');
                         }
                     }
                 )
