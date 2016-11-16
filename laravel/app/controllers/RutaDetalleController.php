@@ -389,8 +389,12 @@ class RutaDetalleController extends \BaseController
                                 for($j=0; $j<$siguientefinal; $j++){
                             /*        echo $i;
                                     echo $j;*/
-                                    echo $validaSiguiente[($i+$j)]->id;
                                     if( $siguiente==($j+1) ){
+                                    echo $validaSiguiente[($i+$j)]->id;
+                                     echo '<br>';
+                                      echo $i;
+                                       echo '<br>';
+                                      echo $j;
                                         $idSiguiente= $validaSiguiente[($i+$j)]->id;
                                         $fechaInicio= $validaSiguiente[($i+$j)]->ahora;
                                     }
