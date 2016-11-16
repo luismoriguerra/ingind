@@ -359,6 +359,7 @@ class RutaDetalleController extends \BaseController
                                     ->get();
                                     
                 if( count($validaSiguiente)>0  and ( ($alerta==1 and $alertaTipo==1) or ($alerta==0 and $alertaTipo==0) ) ){
+                    $idSiguiente = 0;
                     $faltaparalelo=0;
                     $inciodato=0;
                     $terminodato=0;
@@ -408,7 +409,7 @@ class RutaDetalleController extends \BaseController
                                 }
                             }
 
-                            if($idSiguiente){ //si existe actualizara
+                            if($idSiguiente != 0){ //si existe actualizara
                                 $rd2 = RutaDetalle::find($idSiguiente);
                                 $rd2['fecha_inicio']= $fechaInicio ;
                                 $rd2['usuario_updated_at']= Auth::user()->id;
