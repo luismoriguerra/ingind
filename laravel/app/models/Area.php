@@ -97,17 +97,7 @@ class Area extends Base
                             foreach($areas as $key => $value){
                                 $areas_id.= ($key == 0) ? $value->area_id : ','.$value->area_id; 
                             }
-                            var_dump($areas_id);
-                            exit();
-                    
-                            $query->whereRaw('  FIND_IN_SET( id, 
-                                                    (
-                                                    SELECT acp.area_id
-                                                    FROM area_cargo_persona acp
-                                                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
-                                                    WHERE acp.estado=1
-                                                    AND cp.persona_id='.Auth::user()->id.'
-                                                    )       )>0 ');
+                            $query->whereRaw('FIND_IN_SET( id,('.$areas_id.'))>0 ');
                         }
                     }
                 )
