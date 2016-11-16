@@ -325,7 +325,7 @@ class RutaDetalleController extends \BaseController
                 else{
                     $siguiente= "0";
                 }
-
+                echo $siguiente;
                 $query='
                     SELECT condicion
                     FROM rutas_detalle_verbo
