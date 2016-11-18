@@ -47,6 +47,8 @@ class Pretramite extends base {
             }else{ //si aun no 
                 return DB::select($sql);
             }
+        }else{
+           return DB::select($sql); 
         }
     }
 
