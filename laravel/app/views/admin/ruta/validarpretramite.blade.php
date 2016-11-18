@@ -208,10 +208,10 @@ td, th{
                                   <label>NOMBRE: </label>
                                   <span id="spanNombreU"></span>
                                 </div>
-                                <div class="col-sm-4">
+                              {{--   <div class="col-sm-4">
                                   <label>TIPO DOCUMENTO IDENT: </label>
                                   <span id="spanTipoDIU"></span>
-                                </div>                            
+                                </div>          --}}                   
                               </div>
                               <div class="row form-group">
                                 <div class="col-sm-4">

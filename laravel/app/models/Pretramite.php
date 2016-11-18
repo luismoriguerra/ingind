@@ -21,6 +21,7 @@ class Pretramite extends base {
     }
 
     public static function getPreTramiteById(){
+
     	$sql = "select pt.id as pretramite,a.nombre as area,pt.persona_id personaid,pt.tipo_documento_id tdocid,pt.clasificador_tramite_id ctid,pt.tipo_solicitante_id tsid,pt.area_id areaid,p.dni dniU,p.nombre nombusuario,p.paterno apepusuario,p.materno apemusuario,
 				pt.empresa_id empresaid,e.ruc ruc,e.tipo_id tipoempresa,e.razon_social as empresa,e.nombre_comercial nomcomercial,e.direccion_fiscal edireccion,
 				e.telefono etelf,e.fecha_vigencia efvigencia,CONCAT_WS(' ',p2.nombre,p2.paterno,p2.materno) as reprelegal,
@@ -37,8 +38,16 @@ class Pretramite extends base {
 				INNER JOIN documentos d on d.id=pt.tipo_documento_id 
                 LEFT JOIN areas a on a.id=pt.area_id 
 				WHERE pt.estado = 1 and pt.id=".Input::get('idpretramite');
-		$r= DB::select($sql);
-        return $r; 
+
+        if(Input::get('validacion')){
+            $query = "select id tramiteid from tramites where pretramite_id=".Input::get('idpretramite');
+            $tramite= DB::select($query);       
+            if(count($tramite)>0){ //si ya es un tramite
+                return $tramite;
+            }else{ //si aun no 
+                return DB::select($sql);
+            }
+        }
     }
 
 

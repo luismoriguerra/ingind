@@ -109,7 +109,7 @@ $(document).ready(function() {
 Detallepret = function(){
     var codpretramite = $('#txt_codpt').val();
     if(codpretramite){
-        var data = {'idpretramite':codpretramite};
+        var data = {'idpretramite':codpretramite,'validacion':true};
         Bandeja.GetPreTramitebyid(data,poblarDetalle);        
     }else{
         alert('ingrese codigo');
@@ -119,42 +119,47 @@ Detallepret = function(){
 poblarDetalle = function(data){
     if(data.length > 0){
         var result = data[0];
-        document.querySelector('#spanTipoT').innerHTML=result.tipotramite;
-        document.querySelector('#spanTipoD').innerHTML=result.tipodoc;
-        document.querySelector('#txt_tdoc').value=result.nrotipodoc;
-        document.querySelector('#spanTSoli').innerHTML=result.solicitante;
-        document.querySelector('#txt_folio').value=result.folio;
-        document.querySelector('#spanNombreU').innerHTML=result.nombusuario;
-        document.querySelector('#spanTipoDIU').innerHTML=result.data;
-                                    
-        document.querySelector('#spanPaternoU').innerHTML=result.apepusuario;
-        document.querySelector('#spanMaternoU').innerHTML=result.apemusuario;
-        document.querySelector('#spanDNIU').innerHTML=result.dniU;
+        if(!result.tramiteid){
+            document.querySelector('#spanTipoT').innerHTML=result.tipotramite;
+            document.querySelector('#spanTipoD').innerHTML=result.tipodoc;
+            document.querySelector('#txt_tdoc').value=result.nrotipodoc;
+            document.querySelector('#spanTSoli').innerHTML=result.solicitante;
+            document.querySelector('#txt_folio').value=result.folio;
+            document.querySelector('#spanNombreU').innerHTML=result.nombusuario;
+            /*document.querySelector('#spanTipoDIU').innerHTML=result.data;*/
+                                        
+            document.querySelector('#spanPaternoU').innerHTML=result.apepusuario;
+            document.querySelector('#spanMaternoU').innerHTML=result.apemusuario;
+            document.querySelector('#spanDNIU').innerHTML=result.dniU;
 
-        if(result.empresaid){
-            document.querySelector('#spanTE').innerHTML=result.data;
-            document.querySelector('#spanRazonS').innerHTML=result.empresa;
-            document.querySelector('#spanDF').innerHTML=result.edireccion;
-            document.querySelector('#spanRUC').innerHTML=result.ruc;
-            document.querySelector('#spanRepresentante').innerHTML=result.reprelegal;
-            document.querySelector('#spanTelefono').innerHTML=result.etelf;
-            document.querySelector('.empresa').classList.remove('hidden');            
+            if(result.empresaid){
+                document.querySelector('#spanTE').innerHTML=result.data;
+                document.querySelector('#spanRazonS').innerHTML=result.empresa;
+                document.querySelector('#spanDF').innerHTML=result.edireccion;
+                document.querySelector('#spanRUC').innerHTML=result.ruc;
+                document.querySelector('#spanRepresentante').innerHTML=result.reprelegal;
+                document.querySelector('#spanTelefono').innerHTML=result.etelf;
+                document.querySelector('.empresa').classList.remove('hidden');            
+            }else{
+                document.querySelector('.empresa').classList.add('hidden'); 
+            }
+
+            document.querySelector('#spanNombreT').innerHTML=result.tramite;
+            document.querySelector('#spanArea').innerHTML=result.area;
+            document.querySelector('.content-body').classList.remove('hidden');
+
+
+            document.querySelector('#txt_pretramiteid').value=result.pretramite;
+            document.querySelector('#txt_personaid').value=result.personaid;
+            document.querySelector('#txt_ctramite').value=result.ctid;
+            document.querySelector('#txt_empresaid').value=result.empresaid;
+            document.querySelector('#txt_tsolicitante').value=result.tsid;
+            document.querySelector('#txt_tdocumento').value=result.tdocid;
+            document.querySelector('#txt_area').value=result.areaid;            
         }else{
-            document.querySelector('.empresa').classList.add('hidden'); 
+            document.querySelector('.content-body').classList.add('hidden');
+            alert('Ya fue gestionado!');
         }
-
-        document.querySelector('#spanNombreT').innerHTML=result.tramite;
-        document.querySelector('#spanArea').innerHTML=result.area;
-        document.querySelector('.content-body').classList.remove('hidden');
-
-
-        document.querySelector('#txt_pretramiteid').value=result.pretramite;
-        document.querySelector('#txt_personaid').value=result.personaid;
-        document.querySelector('#txt_ctramite').value=result.ctid;
-        document.querySelector('#txt_empresaid').value=result.empresaid;
-        document.querySelector('#txt_tsolicitante').value=result.tsid;
-        document.querySelector('#txt_tdocumento').value=result.tdocid;
-        document.querySelector('#txt_area').value=result.areaid;
     }else{
         document.querySelector('.content-body').classList.add('hidden');
         alert('no se encontro el pre tramite');
