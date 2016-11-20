@@ -2,12 +2,16 @@
 
 $(document).ready(function() {
 
+    var ids=[];
+    var data = {estado:1};
+
     Plantillas.Cargar(activarTabla);
     HTML_Ckeditor();
 
-    slctGlobalHtml('slct_plantilla','simple');
-
     $('#plantillaModal').on('show.bs.modal', function (event) {
+
+        slctGlobal.listarSlct('plantilla','slct_plantilla','simple',null,data);
+
         var button = $(event.relatedTarget);
         var titulo = button.data('titulo');
             plantilla_id = button.data('id');
@@ -15,7 +19,7 @@ $(document).ready(function() {
         var modal = $(this);
 
         $(this).find('form')[0].reset();
-        modal.find('.modal-title').text(titulo+' Plantilla');
+        modal.find('.modal-title').text(titulo+' Documento');
         $('#form_plantilla [data-toggle="tooltip"]').css("display","none");
         $("#form_plantilla input[type='hidden']").remove();
 
@@ -77,9 +81,10 @@ Agregar=function(){
     }
 };
 validaPlantilla=function(){
-    $('#form_plantilla [data-toggle="tooltip"]').css("display","none");
+    $('#id [data-toggle="tooltip"]').css("display","none");
     var a=[];
-    a[0]=valida("txt","nombre","");
+    a[0]=valida("slct","plantilla","");
+    // a[1]=valida("txt","nombre","");
     var rpta=true;
     for(i=0;i<a.length;i++){
         if(a[i]===false){
@@ -108,7 +113,7 @@ HTMLCargar=function(datos){
 
         html+="<tr>"+
             "<td>"+data.titulo+"</td>"+
-            "<td>"+data.nombre+"</td>"+
+            "<td>"+data.asunto+"</td>"+
             "<td>"+data.fecha+"</td>"+
             "<td>"+
                 "<div class='btn-group' role='group'>"+
@@ -131,5 +136,7 @@ openPrevisualizarPlantilla=function(id){
     window.open("plantilla/previsualizar/"+id,
                 "PrevisualizarPlantilla",
                 "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
+};
+eventoSlctGlobalSimple=function(slct,valores){
 };
 </script>

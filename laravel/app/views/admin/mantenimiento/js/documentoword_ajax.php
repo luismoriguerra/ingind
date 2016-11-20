@@ -2,6 +2,7 @@
 var plantilla_id, PlantillaObj;
 var Plantillas={
     AgregarEditar:function(AE){
+        alert();
         $("#form_plantilla input[name='word']").remove();
         $("#form_plantilla").append("<input type='hidden' value='"+CKEDITOR.instances.plantillaWord.getData()+"' name='word'>");
         var datos=$("#form_plantilla").serialize().split("txt_").join("").split("slct_").join("");

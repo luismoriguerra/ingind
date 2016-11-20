@@ -1,3 +1,4 @@
+
 <!-- /.modal -->
 <div class="modal fade" id="plantillaModal" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -11,18 +12,29 @@
       <div class="modal-body">
         <form id="form_plantilla" name="form_plantilla" action="plantilla/editar" method="post">
           <div class="row">
-            <div class="col-xs-6">
+            <div class="col-xs-4">
                 <div class="form-group">
-                    <label class="control-label">Plantilla:</label>
+                    <label class="control-label">Seleccionar Plantilla:
+                      <a id="error_plantilla" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Seleccionar Plantilla">
+                            <i class="fa fa-exclamation"></i>
+                      </a>
+                      </label>
                     <select class="form-control" name="slct_plantilla" id="slct_plantilla" >
-                        <option value="">Seleccione plantilla</option>
-                        <option value="1">Producción del proceso</option>
-                        <option value="2">Ingreso del tramite al proceso</option>
                     </select>
                 </div>
             </div>
           </div>
-          <div class="row">
+
+          <div class="row" style="display: none;">
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label class="control-label">Plantilla:</label>
+                    <select class="form-control" name="slct_plantilla2" id="slct_plantilla2" >
+                    </select>
+                </div>
+            </div>
+          </div>
+          <div class="row" style="display: none;">
             <div class="col-xs-6">
               <div class="form-group">
                   <label class="control-label">titulo
@@ -34,7 +46,7 @@
               </div>
             </div>
           </div>
-          <div class="row" id="partesCabecera">
+          <div class="row" id="partesCabecera" style="display: none;">
             <div class="col-xs-12">
               <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                 <div class="panel panel-default">
@@ -75,7 +87,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row" style="display: none;">
             <div class="col-xs-12">
               <div class="form-group">
                   <textarea id="plantillaWord" name="word" class="form-control" rows="6"></textarea>
