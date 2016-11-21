@@ -3,7 +3,7 @@
 class Tipotramite extends Eloquent {
 	protected $fillable = [];
 
-	public static function getAllTiposTramites(){
+	public function getAllTiposTramites(){
         $anexos=DB::table('tipo_tramite')
                 ->select('id','nombre_tipo_tramite as nombre','estado')
                 ->where( 
