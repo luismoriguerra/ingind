@@ -107,6 +107,103 @@ class PretramiteController extends BaseController {
         );
 	}
 
+	public function getVoucherpretramite()
+	{
+
+		/*get data*/
+		$rst=Pretramite::getPreTramiteById();
+		$data = $rst[0];
+		/*end get data*/
+
+		$html = "<html><meta charset=\"UTF-8\">";
+		$html.="
+				<body>
+				<style>
+				table, tr , td, th {
+				text-align: left !important;
+				border-collapse: collapse;
+				border: 1px solid #ccc;
+				width: 100%;
+				font-size: .9em;
+				font-family: arial, sans-serif;
+				}
+				Th, td {
+				padding: 5px;
+				}
+				</style>";
+		$html.="<h3>VOCHER PRE TRAMITE</h3>";
+		$html.="
+				<table>
+					<tr>
+						<th>FECHA: </th>
+						<td>".$data->fregistro."</td>
+					</tr>
+					<tr>
+						<th>Nº COMPROBANTE: </th>
+						<td>".$data->pretramite."</td>
+					</tr>
+					<tr>
+						<th>COD PRE TRAMITE: </th>
+						<td>".$data->pretramite."</td>
+					</tr>";
+
+		$html.="
+					<tr>
+						<th>DNI: </th>
+						<td>".$data->dniU."</td>
+					</tr>
+					<tr>
+						<th>APELLIDO PATERNO: </th>
+						<td>".$data->apepusuario."</td>
+					</tr>
+					<tr>
+						<th>APELLIDO MATERNO: </th>
+						<td>".$data->apemusuario."</td>
+					</tr>
+					<tr>
+						<th>NOMBRE USUARIO: </th>
+						<td>".$data->nombusuario."</td>
+					</tr>";
+					
+		if($data->empresa){
+			$html.="
+						<tr>
+							<th>RUC: </th>
+							<td>".$data->ruc."</td>
+						</tr>
+						<tr>
+							<th>TIPO EMPRESA: </th>
+							<td>".$data->tipoempresa."</td>
+						</tr>
+						<tr>
+							<th>RAZON SOCIAL: </th>
+							<td>".$data->empresa."</td>
+						</tr>
+						<tr>
+							<th>NOMBRE COMERCIAL: </th>
+							<td>".$data->nomcomercial."</td>
+						</tr>
+						<tr>
+							<th>DIRECCION FISCAL: </th>
+							<td>".$data->edireccion."</td>
+						</tr>
+						<tr>
+							<th>TELEFONO: </th>
+							<td>".$data->etelf."</td>
+						</tr>
+						<tr>
+							<th>REPRESENTANTE: </th>
+							<td>".$data->reprelegal."</td>
+						</tr>";
+		}
+				
+		$html.="</table><hr>
+		</body>
+		</html>";
+
+		return PDF::load($html, 'A4', 'landscape')->download('voucher-pretramite-'.$data->pretramite);
+	}
+
 	/**
 	 * Store a newly created resource in storage.
 	 * POST /pretramite

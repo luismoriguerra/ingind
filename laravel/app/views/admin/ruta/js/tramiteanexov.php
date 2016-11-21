@@ -99,6 +99,7 @@ $(document).ready(function() {
             success: function (obj) {
                 if(obj.rst==1){
                    $('#addAnexo').modal('hide');
+                   mostrarAnexos('',document.querySelector('#txt_idtramite').value);
                 }
             }
         });
@@ -194,25 +195,49 @@ seleccionado = function(obj){
             tr[i].setAttribute("style","background-color:#f9f9f9;");
         }
         obj.parentNode.parentNode.setAttribute("style","background-color:#9CD9DE;");
+
+        /*poblate info acoording to select to create new anexo*/
+        var idtramite = obj.parentNode.parentNode.getAttribute("id");
+        var nombret = document.querySelectorAll("#t_reporte tr[id='"+idtramite+"'] td[name='nombre']");
+        var numdoc = obj.parentNode.parentNode.getAttribute("numdoc");
+
+        document.querySelector('#txt_idtramite').value=idtramite;
+        document.querySelector('#txt_codtramite').value=idtramite;
+        document.querySelector('#txt_nombtramite').value=nombret[0].innerHTML;
+        document.querySelector('#txt_fechaingreso').value= new Date().toLocaleString();
+        document.querySelector('#txt_numdocA').value= numdoc;
+        /*end poblate info acoording to select to create new anexo*/
     }
 }
 
-mostrarAnexos = function(obj){
-    var idtramite = obj.parentNode.parentNode.getAttribute("id");
-    var nombret = document.querySelectorAll("#t_reporte tr[id='"+idtramite+"'] td[name='nombre']");
-    var numdoc = obj.parentNode.parentNode.getAttribute("numdoc");
+mostrarAnexos = function(obj,idtramite = ''){
+    var id_tramite = '';
+    if(idtramite){
+        id_tramite = idtramite;
+    }else{
+        id_tramite = obj.parentNode.parentNode.getAttribute("id");        
+    }
+
+    var data={'idtramite':id_tramite};
+    Bandeja.MostrarAnexos(data,HTMLAnexos);
+}
+
+/*mostrarAnexos = function(obj){
+    var idtramite = obj.parentNode.parentNode.getAttribute("id");*/
+  /*  var nombret = document.querySelectorAll("#t_reporte tr[id='"+idtramite+"'] td[name='nombre']");
+    var numdoc = obj.parentNode.parentNode.getAttribute("numdoc");*/
 
     /*poblate info in new anexo*/
-    document.querySelector('#txt_idtramite').value=idtramite;
+   /* document.querySelector('#txt_idtramite').value=idtramite;
     document.querySelector('#txt_codtramite').value=idtramite;
     document.querySelector('#txt_nombtramite').value=nombret[0].innerHTML;
     document.querySelector('#txt_fechaingreso').value= new Date().toLocaleString();
-    document.querySelector('#txt_numdocA').value= numdoc;
+    document.querySelector('#txt_numdocA').value= numdoc;*/
     /*end poblate info in new anexo*/
 
-    var data={'idtramite':idtramite};
+/*    var data={'idtramite':idtramite};
     Bandeja.MostrarAnexos(data,HTMLAnexos);
-}
+}*/
 
 HTMLAnexos = function(data,$tipo_busqueda = ''){
     if(data.length > 0){
@@ -327,7 +352,7 @@ HTMLEdit = function(data){
         $('#cbo_tipodoc').multiselect('destroy');
         slctGlobal.listarSlct('documento','cbo_tipodoc','simple',ids,{estado:1},1);
 
-      /*  $('.img-tramite').attr('src','C:/xampp/htdocs/ingind/public/img/anexo/'+result.img);*/
+        $('.img-anexo').attr('src','img/anexo/'+result.img);
     }else{
         alert('no se pudo cargar informacion');
     }
@@ -339,7 +364,7 @@ deleteAnexo = function(obj){
         var data = {codanexo:codanexo};
         var r = confirm("¿Esta seguro de eliminar?");
         if (r == true) {
-            Bandeja.deleteAnexo(data);           
+            Bandeja.deleteAnexo(data,mostrarAnexos);           
         }
     }
 }

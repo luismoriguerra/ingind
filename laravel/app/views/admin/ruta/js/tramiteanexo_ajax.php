@@ -66,7 +66,7 @@ var Bandeja={
             }
         });
     },
-    Recepcionar:function(data){
+    Recepcionar:function(data,evento){
         $.ajax({
             url         : 'anexo/recepcionar',
             type        : 'POST',
@@ -79,7 +79,8 @@ var Bandeja={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                    $('#estadoAnexo').modal('hide');                    
+                    $('#estadoAnexo').modal('hide');
+                    evento('',document.querySelector('#txt_idtramite').value);                    
                 }
             },
             error: function(){

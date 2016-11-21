@@ -230,10 +230,16 @@ seleccionado = function(obj){
     }
 }
 
-mostrarAnexos = function(obj){
-    var idtramite = obj.parentNode.parentNode.getAttribute("id");
-    var data={'idtramite':idtramite};
-    document.querySelector('#txt_idtramite').value=idtramite;
+mostrarAnexos = function(obj,idtramite = ''){
+    var id_tramite = '';
+    if(idtramite){
+        id_tramite = idtramite;
+    }else{
+        id_tramite = obj.parentNode.parentNode.getAttribute("id");        
+    }
+
+    var data={'idtramite':id_tramite};
+    document.querySelector('#txt_idtramite').value=id_tramite;
     Bandeja.MostrarAnexos(data,HTMLAnexos);
 }
 
@@ -313,6 +319,13 @@ selectAnexotoDetail = function(obj){
 
 HTMLDetalleAnexo = function(data){
     var result = data[0];
+
+    if(result.frecepcion){
+        document.querySelector('.btnAnexoRecepcionar').classList.add('hidden');
+    }else{
+        document.querySelector('.btnAnexoRecepcionar').classList.remove('hidden');
+    }
+
     document.querySelector('#txt_anexocodtramite').value=result.codtramite;
     document.querySelector('#txt_anexousuariore').value=result.nombrepersona+' '+result.apepersona+' '+result.apempersona;
     document.querySelector('#txt_anexonomtra').value=result.nombretramite;
@@ -321,12 +334,6 @@ HTMLDetalleAnexo = function(data){
     document.querySelector('#txt_anexofecha').value=result.fechaanexo;
     document.querySelector('#txt_anexoestado').value=result.estado;
     document.querySelector('#txt_anexoobser').value=result.observ;
-
-   /* if(result.fecha_recepcion != ''){*/
-        document.querySelector('.btnAnexoRecepcionar').classList.remove('hidden');
-  /*  }else{
-        document.querySelector('.btnAnexoRecepcionar').classList.add('hidden');
-    }*/
 }
 
 selectVoucher = function(obj){
@@ -372,7 +379,7 @@ recepcionar = function(){
     var codanexo = document.querySelector('#txt_anexocod').value;
     var observacion = document.querySelector('#txt_anexoobser').value;
     var data = {'codanexo':codanexo,'observacion':observacion};
-    Bandeja.Recepcionar(data);
+    Bandeja.Recepcionar(data,mostrarAnexos);
 }
    
 </script>

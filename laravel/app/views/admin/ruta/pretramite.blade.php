@@ -5,12 +5,11 @@
     @parent
     {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
-{{--     {{ HTML::style('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css') }} --}}
+    {{ HTML::style('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css') }}
 
     {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
-   {{--  {{ HTML::script('<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"> </script>') }} --}}
-
+   {{ HTML::script('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js') }}
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
@@ -192,8 +191,8 @@ td, th{
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-12 form-group">
-                      <div class="col-md-6">
+                    <div class="col-md-12">
+                      <div class="col-md-6  form-group">
                         <div class="col-md-5">
                           <span>NUMERO DE FOLIO: </span>
                         </div>
@@ -201,7 +200,7 @@ td, th{
                           <input type="text" name="txt_numfolio" id="txt_numfolio" class="form-control">
                         </div>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-6  form-group">
                         <div class="col-md-5">
                           <span>NUMERO TIPO DOCUMENTO: </span>
                         </div>
@@ -372,7 +371,8 @@ td, th{
                 </div>
 
                 <div class="col-md-12 form-group" style="text-align: right;padding-right: 4%;">                  
-                  <span class="btn btn-primary btn-sm" onclick="generarPreTramite()">GENERAR</span>
+                 {{--  <span class="btn btn-primary btn-sm" onclick="generarPreTramite()">GENERAR</span> --}}
+                  <input type="submit" class="btn btn-primary btn-sm btnAction" id="" value="Guardar" onclick="generarPreTramite()">
                   <span class="btn btn-primary btn-sm">CANCELAR</span>                
                 </div>
               </form>

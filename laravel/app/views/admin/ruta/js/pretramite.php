@@ -23,6 +23,38 @@ $(document).ready(function() {
         $(".crearPreTramite").removeClass('hidden');
         window.scrollTo(0,document.body.scrollHeight);
     });
+
+     /*validaciones*/
+    $('#FormCrearPreTramite').bootstrapValidator({
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh',
+        },
+        excluded: ':disabled',
+        fields: {
+            txt_numfolio: {
+                validators: {
+                    notEmpty: {
+                        message: 'campo requerido'
+                    },
+                    digits:{
+                        message: 'dato numerico'
+                    }
+                }
+            },
+            txt_tipodoc: {
+                validators: {
+                    notEmpty: {
+                        message: 'campo requerido'
+                    },
+                    digits:{
+                        message: 'dato numerico'
+                    }
+                }
+            }
+        }
+    });
 });
 
 CargarPreTramites = function(){
@@ -109,9 +141,10 @@ Voucherpret = function(obj){
 
 poblarVoucher = function(data){
     var result = data[0];
-    document.querySelector('#spanvfecha').innerHTML='';
-    document.querySelector('#spanvncomprobante').innerHTML='';
+    document.querySelector('#spanvfecha').innerHTML=result.fregistro;
+    document.querySelector('#spanvncomprobante').innerHTML=result.pretramite;
     document.querySelector('#spanvcodpretramite').innerHTML=result.pretramite;
+    document.querySelector('#spanImprimir').setAttribute('idpretramite',result.pretramite);
 
    if(result.empresa){
         document.querySelector('#spanveruc').innerHTML=result.ruc;
@@ -120,7 +153,7 @@ poblarVoucher = function(data){
         document.querySelector('#spanvenombreco').innerHTML=result.nomcomercial;
         document.querySelector('#spanvedirecfiscal').innerHTML=result.edireccion;
         document.querySelector('#spanvetelf').innerHTML=result.etelf;
-        document.querySelector('#spanverepre').innerHTML=result.efvigencia;
+        document.querySelector('#spanverepre').innerHTML=result.reprelegal;
         $('.vempresa').removeClass('hidden');
     }else{
         $('.vempresa').addClass('hidden');
@@ -133,6 +166,16 @@ poblarVoucher = function(data){
     document.querySelector('#spanvnombtramite').innerHTML=result.tramite;
     
     $('#voucher').modal('show');
+}
+
+exportPDF = function(obj){
+    var idpretramite = obj.getAttribute('idpretramite');
+    if(idpretramite){
+        obj.setAttribute('href','pretramite/voucherpretramite'+'?idpretramite='+idpretramite);
+       /* $(this).attr('href','reporte/exportprocesosactividades'+'?estado='+data[0]['estado']+'&area_id='+data[0]['area_id']);*/
+    }else{
+        event.preventDefault();
+    }
 }
 
 Mostrar = function(data){
@@ -304,14 +347,20 @@ HTMLRequisitos = function(data,tramite){
 }
 
 generarPreTramite = function(){
-    datos=$("#FormCrearPreTramite").serialize().split("txt_").join("").split("slct_").join("").split("%5B%5D").join("[]").split("+").join(" ").split("%7C").join("|").split("&");
-    data = '{';
-    for (var i = 0; i < datos.length ; i++) {
-        var elemento = datos[i].split('=');
-        data+=(i == 0) ? '"'+elemento[0]+'":"'+elemento[1] : '","' + elemento[0]+'":"'+elemento[1];   
+    var tipodoc = document.querySelector('#cbo_tipodoc').value;
+    if(tipodoc){
+        datos=$("#FormCrearPreTramite").serialize().split("txt_").join("").split("slct_").join("").split("%5B%5D").join("[]").split("+").join(" ").split("%7C").join("|").split("&");
+        data = '{';
+        for (var i = 0; i < datos.length ; i++) {
+            var elemento = datos[i].split('=');
+            data+=(i == 0) ? '"'+elemento[0]+'":"'+elemento[1] : '","' + elemento[0]+'":"'+elemento[1];   
+        }
+        data+='"}';
+        Bandeja.GuardarPreTramite(data,CargarPreTramites);
+        
+    }else{
+        alert('complete data');
     }
-    data+='"}';
-    Bandeja.GuardarPreTramite(data,CargarPreTramites);
 }
 
 </script>

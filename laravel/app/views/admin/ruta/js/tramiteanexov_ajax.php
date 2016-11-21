@@ -66,7 +66,7 @@ var Bandeja={
             }
         });
     },
-    deleteAnexo:function(data){
+    deleteAnexo:function(data,evento){
         $.ajax({
             url         : 'anexo/destroy',
             type        : 'POST',
@@ -79,7 +79,7 @@ var Bandeja={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                   /* evento(obj.datos);                    */
+                    evento('',document.querySelector('#txt_idtramite').value);                    
                 }
             },
             error: function(){
