@@ -35,7 +35,7 @@ class TipoTramiteController extends \BaseController
             if( Input::has("nombre") ){
                 $nombre=Input::get("nombre");
                 if( trim( $nombre )!='' ){
-                    $array['where'].=" AND tt.nombre LIKE '%".$nombre."%' ";
+                    $array['where'].=" AND tt.nombre_tipo_tramite LIKE '%".$nombre."%' ";
                 }
             }
 
@@ -46,7 +46,7 @@ class TipoTramiteController extends \BaseController
                 }
             }
 
-            $array['order']=" ORDER BY tt.nombre ";
+            $array['order']=" ORDER BY tt.nombre_tipo_tramite ";
 
             $cant  = TipoTramite::getCargarCount( $array );
             $aData = TipoTramite::getCargar( $array );
