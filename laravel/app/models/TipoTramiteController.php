@@ -46,7 +46,7 @@ class TipoTramiteController extends \BaseController
                 }
             }
 
-            $array['order']=" ORDER BY tt.nombre_tipo_tramite ";
+            $array['order']=" ORDER BY tt.nombre_tipo_tramite";
 
             $cant  = TipoTramite::getCargarCount( $array );
             $aData = TipoTramite::getCargar( $array );
