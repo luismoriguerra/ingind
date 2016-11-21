@@ -99,7 +99,7 @@ class TipoTramiteController extends \BaseController
             }
 
             $tipotramite = new TipoTramite;
-            $tipotramite->nombre = Input::get('nombre');
+            $tipotramite->nombre_tipo_tramite = Input::get('nombre');
             $tipotramite->estado = Input::get('estado');
             $tipotramite->usuario_created_at = Auth::user()->id;
             $tipotramite->save();
@@ -130,7 +130,7 @@ class TipoTramiteController extends \BaseController
 
             $tipotramiteId = Input::get('id');
             $tipotramite = TipoTramite::find($tipotramiteId);
-            $tipotramite->nombre = Input::get('nombre');
+            $tipotramite->nombre_tipo_tramite = Input::get('nombre');
             $tipotramite->estado = Input::get('estado');
             $tipotramite->usuario_updated_at = Auth::user()->id;
             $tipotramite->save();
