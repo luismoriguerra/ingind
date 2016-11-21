@@ -182,7 +182,7 @@ Route::controller('tiporespuesta', 'TipoRespuestaController');
 Route::controller('tiporespuestadetalle', 'TipoRespuestaDetalleController');
 Route::controller('tiposolicitante', 'TipoSolicitanteController');
 Route::controller('tramite', 'VisualizacionTramiteController');
-/*Route::controller('tipotramite', 'TipoTramiteController');*/
+Route::controller('tipotramite', 'TipoTramiteController');
 Route::controller('usuario', 'UsuarioController');
 Route::controller('verbo', 'VerboController');
 Route::controller('carta', 'CartaController');
@@ -199,5 +199,5 @@ Route::controller('produccion', 'ProduccionController');
 Route::controller('asignacion', 'AsignacionController');
 Route::controller('anexo', 'AnexoController');
 Route::controller('pretramite', 'PretramiteController');
-Route::controller('tipotramite', 'TipoTramiteController');
+/*Route::controller('tipotramite', 'TipotramiteController');*/
 Route::controller('tramitec', 'TramiteController');

@@ -1,10 +1,10 @@
 <?php
 
-class TipoTramite extends Base
+class TipoTramite extends Eloquent
 {
     public $table = "tipo_tramite";
-    public static $where =['id', 'nombre', 'estado'];
-    public static $selec =['id', 'nombre', 'estado'];
+    public static $where =['id', 'nombre_tipo_tramite', 'estado'];
+    public static $selec =['id', 'nombre_tipo_tramite', 'estado'];
     
     public static function getCargarCount( $array )
     {
