@@ -11,7 +11,10 @@ class TipoTramite extends Eloquent {
                         $query->where('estado','=','1');
                     }
                 )
-                ->get();  
+                ->get(); 
+
+        var_dump($anexos);
+        exit(); 
         return $anexos;
     }
 }
