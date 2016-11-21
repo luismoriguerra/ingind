@@ -112,4 +112,20 @@ class Pretramite extends Eloquent {
                 ->get();  
         return $areas;
     }
+
+    public function getTipoTramite(){
+        $tipotramite=DB::table('tipo_tramite')
+                ->select('id','nombre_tipo_tramite as nombre','estado')
+                ->where( 
+                    function($query){
+                        if ( Input::get('estado') ) {
+                            $query->where('estado','=','1');
+                        }
+                    }
+                )
+                ->orderBy('nombre_tipo_tramite')
+                ->get();
+                
+        return $tipotramite;
+    }
 }

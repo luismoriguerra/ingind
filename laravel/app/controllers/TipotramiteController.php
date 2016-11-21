@@ -64,7 +64,7 @@ class TipoTramiteController extends \BaseController
    public function postListar()
     {
         if ( Request::ajax() ) {
-            $a      = new TipoTramite;
+            $a      = new Pretramite;
             $listar = Array();
             $listar = $a->getTipoTramite();
 
