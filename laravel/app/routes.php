@@ -199,5 +199,5 @@ Route::controller('produccion', 'ProduccionController');
 Route::controller('asignacion', 'AsignacionController');
 Route::controller('anexo', 'AnexoController');
 Route::controller('pretramite', 'PretramiteController');
-Route::controller('tipotramite', 'TipotramiteController');
+Route::controller('tipotramite', 'TipoTramiteController');
 Route::controller('tramitec', 'TramiteController');

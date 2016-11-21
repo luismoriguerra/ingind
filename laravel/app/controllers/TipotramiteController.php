@@ -1,6 +1,6 @@
 <?php
 
-class TipotramiteController extends BaseController {
+class TipoTramiteController extends BaseController {
 
 	/**
 	 * Display a listing of the resource.
@@ -17,9 +17,6 @@ class TipotramiteController extends BaseController {
 		$a      = new TipoTramite;
         $listar = Array();
         $listar = $a->getAllTiposTramites();
-        
-        var_dump($listar);
-        exit();
         
          return Response::json(
               array(
