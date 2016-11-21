@@ -84,7 +84,7 @@
                   </div>                     
                 </div>
            </div>
-            <div class="row form-group">
+            <div class="row form-group observacion hidden">
                 <div class="col-md-12">
                     <label>OBSERVACION: </label>
                     <textarea class="form-control" name="txt_anexoobser" id="txt_anexoobser" rows="3"></textarea>               

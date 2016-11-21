@@ -11,23 +11,15 @@ $(document).ready(function() {
     slctGlobal.listarSlct('documento','cbo_tipodoc','simple',null,data);
 
     function limpia(area) {
-<<<<<<< HEAD
-        $(area).find('input[type="text"],input[type="email"],textarea,select').val('');
-=======
        /* $(area).find('input[type="text"],input[type="email"],textarea,select').val('');*/
         $('#spanRuta').addClass('hidden');
         $('.img-anexo').attr('src','index.img');
         $('#txt_folio,#txt_anexoid').val('');
->>>>>>> externo
         $('#FormNuevoAnexo').data('bootstrapValidator').resetForm();
     };
 
     $('#addAnexo').on('hidden.bs.modal', function(){
         limpia(this);
-<<<<<<< HEAD
-        $('#spanRuta').addClass('hidden');
-=======
->>>>>>> externo
     });
 
     /*validaciones*/
@@ -38,49 +30,7 @@ $(document).ready(function() {
             validating: 'glyphicon glyphicon-refresh',
         },
         excluded: ':disabled',
-<<<<<<< HEAD
-        fields: {
-            txt_nombreP: {
-                validators: {
-                    notEmpty: {
-                        message: 'campo requerido'
-                    }
-                }
-            },
-            txt_apeP: {
-                validators: {
-                    notEmpty: {
-                        message: 'campo requerido'
-                    }
-                }
-            },
-            txt_apeM: {
-                validators: {
-                    notEmpty: {
-                        message: 'campo requerido'
-                    }
-                }
-            },
-        /*    txt_tipodocP: {
-                validators: {
-                    notEmpty: {
-                        message: 'campo requerido'
-                    }
-                }
-            },*/
-            txt_numdocP: {
-                validators: {
-                    notEmpty: {
-                        message: 'campo requerido'
-                    },
-                    digits:{
-                        message: 'dato numerico'
-                    }
-                }
-            },
-=======
-        fields: {           
->>>>>>> externo
+         fields: {
             txt_codtramite: {
                 validators: {
                     notEmpty: {
@@ -149,10 +99,7 @@ $(document).ready(function() {
             success: function (obj) {
                 if(obj.rst==1){
                    $('#addAnexo').modal('hide');
-<<<<<<< HEAD
-=======
                    mostrarAnexos('',document.querySelector('#txt_idtramite').value);
->>>>>>> externo
                 }
             }
         });
@@ -171,15 +118,9 @@ $(document).ready(function() {
             var reader = new FileReader();
             reader.onload = function(e) {
                 if (tipo == 'file') {                 
-<<<<<<< HEAD
-/*                    $('.img-tramite').attr('src',e.target.result);*/
-                    $('#spanRuta').text(input.value);
-                    $('#spanRuta').removeClass('hidden');
-=======
                     $('.img-anexo').attr('src',e.target.result);
                     /*$('#spanRuta').text(input.value);
                     $('#spanRuta').removeClass('hidden');*/
->>>>>>> externo
                 }
             }
             reader.readAsDataURL(input.files[0]);
@@ -191,10 +132,7 @@ mostrarTramites = function(){
     var busqueda = document.querySelector('#txtbuscar').value;
     var data ={};
     data.estado = 1;
-<<<<<<< HEAD
-=======
     data.persona = UsuarioId;
->>>>>>> externo
     if(busqueda){
         data.buscar = busqueda;
     }
@@ -206,11 +144,7 @@ HTMLTramites = function(data){
         $("#t_reporte").dataTable().fnDestroy();
         var html ='';
         $.each(data,function(index, el) {
-<<<<<<< HEAD
-            html+="<tr id="+el.codigo+">"+
-=======
             html+="<tr id="+el.codigo+" numdoc="+el.numdoc+">"+
->>>>>>> externo
                 "<td name='codigo'>"+el.codigo +"</td>"+
                 "<td name='nombre'>"+el.tramite+"</td>"+
                 "<td name='fechaingreso'>"+el.fecha_ingreso+"</td>"+
@@ -261,18 +195,6 @@ seleccionado = function(obj){
             tr[i].setAttribute("style","background-color:#f9f9f9;");
         }
         obj.parentNode.parentNode.setAttribute("style","background-color:#9CD9DE;");
-<<<<<<< HEAD
-    }
-}
-
-mostrarAnexos = function(obj){
-    var idtramite = obj.parentNode.parentNode.getAttribute("id");
-    var data={'idtramite':idtramite};
-    document.querySelector('#txt_idtramite').value=idtramite;
-    Bandeja.MostrarAnexos(data,HTMLAnexos);
-}
-
-=======
 
         /*poblate info acoording to select to create new anexo*/
         var idtramite = obj.parentNode.parentNode.getAttribute("id");
@@ -317,7 +239,6 @@ mostrarAnexos = function(obj,idtramite = ''){
     Bandeja.MostrarAnexos(data,HTMLAnexos);
 }*/
 
->>>>>>> externo
 HTMLAnexos = function(data,$tipo_busqueda = ''){
     if(data.length > 0){
         $("#t_anexo").dataTable().fnDestroy();
@@ -333,11 +254,8 @@ HTMLAnexos = function(data,$tipo_busqueda = ''){
                 "<td name='area'>"+el.area+"</td>"+
                 "<td><span class='btn btn-primary btn-sm' idanexo='"+el.codigoanexo+"' onclick='selectAnexotoDetail(this)'><i class='glyphicon glyphicon-search'></i></span></td>"+
                 "<td><span class='btn btn-primary btn-sm' idanexo='"+el.codigoanexo+"' onclick='selectVoucher(this)'><i class='glyphicon glyphicon-open'></i></span></td>"+
-<<<<<<< HEAD
-=======
                 "<td><span class='btn btn-primary btn-sm' idanexo='"+el.codigoanexo+"' onclick='selectToEdit(this)'><i class='glyphicon glyphicon-pencil'></i></span></td>"+
                  "<td><span class='btn btn-danger btn-sm' idanexo='"+el.codigoanexo+"' onclick='deleteAnexo(this)'><i class='glyphicon glyphicon-trash'></i></span></td>"+
->>>>>>> externo
             "</tr>";            
         });
         $("#tb_anexo").html(html);
@@ -378,9 +296,6 @@ buscarAnexo = function(){
 }
 
 selectAnexotoDetail = function(obj){
-<<<<<<< HEAD
-    var idanexo = obj.parentNode.parentNode.getAttribute('idanexo');
-=======
    /* var idanexo = obj.parentNode.parentNode.getAttribute('idanexo');
 >>>>>>> externo
     var td = document.querySelectorAll("#t_anexo tr[idanexo='"+idanexo+"'] td");
@@ -467,17 +382,12 @@ deleteAnexo = function(obj){
             Bandeja.deleteAnexo(data,mostrarAnexos);           
         }
     }
->>>>>>> externo
 }
 
 selectVoucher = function(obj){
     var codanexo = obj.getAttribute('idanexo');
     if(codanexo){
         var data = {estado:1,codanexo:codanexo};
-<<<<<<< HEAD
-        console.log(data);
-=======
->>>>>>> externo
         Bandeja.AnexoById(data,HTMLVoucherAnexo);
         $("#voucherAnexo").modal('show');
     }
@@ -487,6 +397,7 @@ HTMLVoucherAnexo = function(data){
     var result = data[0];
     document.querySelector('#spanvfecha').innerHTML=result.fechaanexo;
     document.querySelector('#spanvncomprobante').innerHTML=result.codanexo;
+    document.querySelector('#spanImprimir').setAttribute('codanexo',result.codanexo);
 
     document.querySelector('#spanvcodtramite').innerHTML=result.codtramite;
 
@@ -511,6 +422,16 @@ HTMLVoucherAnexo = function(data){
     document.querySelector('#spanvnombtramite').innerHTML=result.nombretramite;
     document.querySelector('#spanFechaTramite').innerHTML=result.fechatramite;
     document.querySelector('#spanArea').innerHTML=result.area;
+}
+
+exportPDF = function(obj){
+    var anexo = obj.getAttribute('codanexo');
+    if(anexo){
+        obj.setAttribute('href','anexo/voucheranexo'+'?codanexo='+anexo);
+       /* $(this).attr('href','reporte/exportprocesosactividades'+'?estado='+data[0]['estado']+'&area_id='+data[0]['area_id']);*/
+    }else{
+        event.preventDefault();
+    }
 }
    
 </script>

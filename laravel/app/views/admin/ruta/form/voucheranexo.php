@@ -155,7 +155,8 @@
   
       </div>
       <div class="modal-footer" style="border-top: 0px;">
-        <span class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-print"></i> IMPRIMIR</span>        
+       <a class="btn btn-primary btn-sm" href="#" id="spanImprimir" target="_blank" onclick="exportPDF(this)"><i class="glyphicon glyphicon-print"></i> IMPRIMIR</a>
+       <!--  <span class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-print"></i> IMPRIMIR</span>         -->
       </div>
     </div>
   </div>

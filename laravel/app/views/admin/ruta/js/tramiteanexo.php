@@ -319,12 +319,12 @@ selectAnexotoDetail = function(obj){
 
 HTMLDetalleAnexo = function(data){
     var result = data[0];
-
     if(result.frecepcion){
         document.querySelector('.btnAnexoRecepcionar').classList.add('hidden');
     }else{
         document.querySelector('.btnAnexoRecepcionar').classList.remove('hidden');
     }
+    document.querySelector('.observacion').classList.remove('hidden');
 
     document.querySelector('#txt_anexocodtramite').value=result.codtramite;
     document.querySelector('#txt_anexousuariore').value=result.nombrepersona+' '+result.apepersona+' '+result.apempersona;
@@ -349,6 +349,7 @@ HTMLVoucherAnexo = function(data){
     var result = data[0];
     document.querySelector('#spanvfecha').innerHTML=result.fechaanexo;
     document.querySelector('#spanvncomprobante').innerHTML=result.codanexo;
+    document.querySelector('#spanImprimir').setAttribute('codanexo',result.codanexo);
 
     document.querySelector('#spanvcodtramite').innerHTML=result.codtramite;
 
@@ -373,6 +374,16 @@ HTMLVoucherAnexo = function(data){
     document.querySelector('#spanvnombtramite').innerHTML=result.nombretramite;
     document.querySelector('#spanFechaTramite').innerHTML=result.fechatramite;
     document.querySelector('#spanArea').innerHTML=result.area;
+}
+
+exportPDF = function(obj){
+    var anexo = obj.getAttribute('codanexo');
+    if(anexo){
+        obj.setAttribute('href','anexo/voucheranexo'+'?codanexo='+anexo);
+       /* $(this).attr('href','reporte/exportprocesosactividades'+'?estado='+data[0]['estado']+'&area_id='+data[0]['area_id']);*/
+    }else{
+        event.preventDefault();
+    }
 }
 
 recepcionar = function(){

@@ -125,6 +125,116 @@ class AnexoController extends BaseController {
 		}
 	}
 
+	public function getVoucheranexo()
+	{
+
+		/*get data*/
+		$rst=Anexo::getDetalleAnexobyId();
+		$data = $rst[0];
+		/*end get data*/
+
+		$html = "<html><meta charset=\"UTF-8\">";
+		$html.="
+				<body>
+				<style>
+				table, tr , td, th {
+				text-align: left !important;
+				border-collapse: collapse;
+				border: 1px solid #ccc;
+				width: 100%;
+				font-size: .9em;
+				font-family: arial, sans-serif;
+				}
+				Th, td {
+				padding: 5px;
+				}
+				</style>";
+		$html.="<h3>VOCHER ANEXO</h3>";
+		$html.="
+				<table>
+					<tr>
+						<th>FECHA: </th>
+						<td>".$data->fechaanexo."</td>
+					</tr>
+					<tr>
+						<th>Nº COMPROBANTE: </th>
+						<td>".$data->codanexo."</td>
+					</tr>
+					<tr>
+						<th>COD TRAMITE: </th>
+						<td>".$data->codtramite."</td>
+					</tr>";
+
+		$html.="
+					<tr>
+						<th>DNI: </th>
+						<td>".$data->dnipersona."</td>
+					</tr>
+					<tr>
+						<th>APELLIDO PATERNO: </th>
+						<td>".$data->apepersona."</td>
+					</tr>
+					<tr>
+						<th>APELLIDO MATERNO: </th>
+						<td>".$data->apempersona."</td>
+					</tr>
+					<tr>
+						<th>NOMBRE USUARIO: </th>
+						<td>".$data->nombrepersona."</td>
+					</tr>";
+					
+		if($data->ruc){
+			$html.="
+						<tr>
+							<th>RUC: </th>
+							<td>".$data->ruc."</td>
+						</tr>
+						<tr>
+							<th>TIPO EMPRESA: </th>
+							<td>".$data->tipoempresa."</td>
+						</tr>
+						<tr>
+							<th>RAZON SOCIAL: </th>
+							<td>".$data->razonsocial."</td>
+						</tr>
+						<tr>
+							<th>NOMBRE COMERCIAL: </th>
+							<td>".$data->nombcomercial."</td>
+						</tr>
+						<tr>
+							<th>DIRECCION FISCAL: </th>
+							<td>".$data->direcfiscal."</td>
+						</tr>
+						<tr>
+							<th>TELEFONO: </th>
+							<td>".$data->etelefono."</td>
+						</tr>
+						<tr>
+							<th>REPRESENTANTE: </th>
+							<td>".$data->representantelegal."</td>
+						</tr>";
+		}
+
+		$html.="		<tr>
+							<th>NOMBRE TRAMITE: </th>
+							<td>".$data->nombretramite."</td>
+						</tr>
+						<tr>
+							<th>FECHA TRAMITE: </th>
+							<td>".$data->fechatramite."</td>
+						</tr>
+						<tr>
+							<th>AREA: </th>
+							<td>".$data->area."</td>
+						</tr>";
+				
+		$html.="</table><hr>
+		</body>
+		</html>";
+
+		return PDF::load($html, 'A4', 'landscape')->download('voucher-anexo-'.$data->codanexo);
+	}
+
 	/**
 	 * Store a newly created resource in storage.
 	 *
