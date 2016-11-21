@@ -118,7 +118,9 @@ Route::get(
     }
 );
 Route::controller('password', 'RemindersController');
+Route::controller('check', 'LoginController');
 Route::controller('login', 'LoginController');
+
 Route::get('register/confirm/{token}', 'LoginController@confirmEmail');
 Route::controller('cargar', 'CargarController');
 
@@ -195,3 +197,7 @@ Route::controller('llamadaatencion', 'Cronograma\LlamadaAtencion\Llamadaatencion
 Route::controller('reportec', 'Cronograma\Reporte\EstadoCronogramaTareaController');
 Route::controller('produccion', 'ProduccionController');
 Route::controller('asignacion', 'AsignacionController');
+Route::controller('anexo', 'AnexoController');
+Route::controller('pretramite', 'PretramiteController');
+Route::controller('tipotramite', 'TipotramiteController');
+Route::controller('tramitec', 'TramiteController');

@@ -30,7 +30,7 @@ class TipoSolicitante extends Base
     
     public static function getTipoSolicitante(){
         $r=DB::table('tipo_solicitante')
-        ->select('id','nombre','estado')
+        ->select('id','nombre','estado','pide_empresa')
         ->where( 
             function($query){
                 if ( Input::get('estado') ) {
