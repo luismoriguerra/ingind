@@ -4,6 +4,8 @@ class TipoTramite extends Eloquent {
 	protected $fillable = [];
 
 	public function getAllTiposTramites(){
+        var_dump('entre');
+        exit();
         $anexos=DB::table('tipo_tramite')
                 ->select('id','nombre_tipo_tramite as nombre','estado')
                 ->where( 
@@ -11,10 +13,7 @@ class TipoTramite extends Eloquent {
                         $query->where('estado','=','1');
                     }
                 )
-                ->get(); 
-
-        var_dump($anexos);
-        exit(); 
+                ->get();  
         return $anexos;
     }
 }
