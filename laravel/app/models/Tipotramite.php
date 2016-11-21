@@ -36,7 +36,7 @@ class TipoTramite extends Base
                         }
                     }
                 )
-                ->orderBy('nombre')
+                ->orderBy('nombre_tipo_tramite')
                 ->get();
                 
         return $tipotramite;
