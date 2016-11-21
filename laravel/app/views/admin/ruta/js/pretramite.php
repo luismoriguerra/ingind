@@ -9,7 +9,7 @@ $(document).ready(function() {
     /*end Inicializar tramites*/
 
     /*inicializate selects*/
-    slctGlobal.listarSlct('tipotramite','cbo_tipotramite','simple',null,data);  
+    slctGlobal.listarSlct('tipotramites','cbo_tipotramite','simple',null,data);  
     slctGlobal.listarSlct('documento','cbo_tipodoc','simple',null,data);        
     slctGlobal.listarSlct('tiposolicitante','cbo_tiposolicitante','simple',null,data);
     /*end inicializate selects*/
