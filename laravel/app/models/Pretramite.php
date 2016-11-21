@@ -1,6 +1,6 @@
 <?php
 
-class Pretramite extends base {
+class Pretramite extends Eloquent {
 	protected $fillable = [];
 
 

@@ -1,6 +1,6 @@
 <?php
 
-class Tipotramite extends Base {
+class Tipotramite extends Eloquent {
 	protected $fillable = [];
 
 	public static function getAllTiposTramites(){
