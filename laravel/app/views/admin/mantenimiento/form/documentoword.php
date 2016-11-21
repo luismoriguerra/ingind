@@ -1,6 +1,6 @@
 
 <!-- /.modal -->
-<div class="modal fade" id="plantillaModal" role="dialog" aria-hidden="true">
+<div class="modal fade" id="documentoModal" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header logo">
@@ -10,7 +10,7 @@
         <h4 class="modal-title">New message</h4>
       </div>
       <div class="modal-body">
-        <form id="form_plantilla" name="form_plantilla" action="plantilla/editar" method="post">
+        <form id="form_documento" name="form_documento" method="post">
           <div class="row">
             <div class="col-xs-4">
                 <div class="form-group">
@@ -24,29 +24,19 @@
                 </div>
             </div>
           </div>
-
-          <div class="row" style="display: none;">
-            <div class="col-xs-6">
-                <div class="form-group">
-                    <label class="control-label">Plantilla:</label>
-                    <select class="form-control" name="slct_plantilla2" id="slct_plantilla2" >
-                    </select>
-                </div>
-            </div>
-          </div>
-          <div class="row" style="display: none;">
+          <div class="row" id="divTitulo" style="display: none;">
             <div class="col-xs-6">
               <div class="form-group">
-                  <label class="control-label">titulo
-                      <a id="error_nombre" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Nombre">
+                  <label class="control-label">Título
+                      <a id="error_titulo" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Título">
                           <i class="fa fa-exclamation"></i>
                       </a>
                   </label>
-                  <input type="text" class="form-control" placeholder="Ingrese Titulo" name="txt_nombre" id="txt_nombre">
+                  <input type="text" class="form-control" placeholder="Ingrese Título" name="txt_titulo" id="txt_titulo">
               </div>
             </div>
           </div>
-          <div class="row" id="partesCabecera" style="display: none;">
+          <div class="row" id="divCebecera" style="display: none;">
             <div class="col-xs-12">
               <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                 <div class="panel panel-default">
@@ -87,7 +77,7 @@
               </div>
             </div>
           </div>
-          <div class="row" style="display: none;">
+          <div class="row" id="divPlantillaWord" style="display: none;">
             <div class="col-xs-12">
               <div class="form-group">
                   <textarea id="plantillaWord" name="word" class="form-control" rows="6"></textarea>

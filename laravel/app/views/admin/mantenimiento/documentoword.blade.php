@@ -61,7 +61,7 @@
                             </table>
 
                             <a class='btn btn-primary btn-sm' class="btn btn-primary"
-                            data-toggle="modal" data-target="#plantillaModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                            data-toggle="modal" data-target="#documentoModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->
