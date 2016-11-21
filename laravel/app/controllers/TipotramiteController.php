@@ -17,7 +17,10 @@ class TipotramiteController extends BaseController {
 		$a      = new TipoTramite;
         $listar = Array();
         $listar = $a->getAllTiposTramites();
-         
+        
+        var_dump($listar);
+        exit();
+        
          return Response::json(
               array(
                   'rst'=>1,
