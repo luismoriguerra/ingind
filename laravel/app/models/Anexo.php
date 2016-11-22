@@ -30,7 +30,7 @@ class Anexo extends Base {
             CONCAT_WS(' ',p2.nombre,p2.paterno,p2.materno) representantelegal,t.tipo_documento_id idtipodoc,d.nombre tipodoc,t.documento numdoc,ta.nro_folios folios,ta.imagen img from tramites_anexo ta 
             inner join tramites t on ta.tramite_id=t.id 
             inner join areas a on t.area_id=a.id 
-            left join empresa e on t.empresa_id=e.id 
+            left join empresas e on t.empresa_id=e.id 
             left join personas p2 on e.representante_legal=p2.id 
             inner join documentos d on t.tipo_documento_id=d.id 
             inner join clasificador_tramite ct on t.clasificador_tramite_id=ct.id 
