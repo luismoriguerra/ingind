@@ -33,29 +33,34 @@ class DocumentoController extends \BaseController {
     public function postEditar()
     {
         if ( Request::ajax() ) {
-            $html = Input::get('word', '');
-
             $documento = DocumentoWord::find(Input::get('id'));
-            $documento->nombre = Input::get('nombre');
-            $documento->path = '';
-            $documento->cuerpo = $html;
-            $documento->estado = Input::get('estado');
+            $documento->titulo = Input::get('titulo');
             $documento->cabecera = Input::get('cabecera');
+            $documento->remitente = '';
+            $documento->destinatario = '';
+            $documento->asunto = '';
+            // $documento->fecha = new \DateTime();
+            $documento->cuerpo = Input::get('word', '');
+            // $documento->correlativo = '';
+            // $documento->plantillaId = '';
+            // $documento->areaIdRemitente = '';
+            // $documento->areaIdDestinatario = '';
+            // $documento->personaIdRemitente = '';
+            // $documento->personaIdDestinatario = '';
             $documento->usuario_updated_at = Auth::user()->id;
             $documento->save();
-            return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
 
+            return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
         }
     }
 
     /**
      * Actualizar documento
-     * POST /documentoword/editar
+     * POST /documentoword/crear
      */
     public function postCrear()
     {
         if ( Request::ajax() ) {
-            $html = Input::get('word', '');
 
             $documento = new DocumentoWord;
             $documento->titulo = Input::get('titulo');
@@ -63,8 +68,8 @@ class DocumentoController extends \BaseController {
             $documento->remitente = '';
             $documento->destinatario = '';
             $documento->asunto = '';
-            $documento->fecha = '';
-            $documento->cuerpo = '';
+            $documento->fecha = new \DateTime();
+            $documento->cuerpo = Input::get('word', '');
             $documento->correlativo = '';
             $documento->plantillaId = '';
             $documento->areaIdRemitente = '';
@@ -73,8 +78,8 @@ class DocumentoController extends \BaseController {
             $documento->personaIdDestinatario = '';
             $documento->usuario_created_at = Auth::user()->id;
             $documento->save();
-            return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
 
+            return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
         }
     }
 

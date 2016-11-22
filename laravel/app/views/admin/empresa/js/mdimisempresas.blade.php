@@ -124,7 +124,7 @@ var app=new Vue({
         errores:[],
         mensaje_ok:false,
         mensaje_error:false,
-        empresaSelec:0
+        empresaSelec:false
     },
     watch: {
         'perPage': function(val, oldVal) {
@@ -371,6 +371,14 @@ var app=new Vue({
             //timePicker: true,
             showDropdowns: true
         });
+        $('#empresas tbody').on( 'click', 'tr', function () {
+            if ( $(this).hasClass('active') ) {
+                //$(this).removeClass('active');
+            } else {
+                $('#empresas tbody tr.active').removeClass('active');
+                $(this).addClass('active');
+            }
+        });
     },
     computed: {
         validation: function () {
@@ -398,15 +406,13 @@ var app=new Vue({
         },
         'vuetable:row-clicked': function(data, event) {
             var moreParams = 'empresa_id='+data.id;
+            app.empresaSelec = data.id;
+            afiliadas.empresaSelec.id = data.id;
+            afiliadas.empresaSelec.nombre_comercial = data.nombre_comercial;
             afiliadas.$set('moreParams', [moreParams] );
             this.$nextTick(function() {
                 afiliadas.$broadcast('vuetable:refresh');
             });
-            /*
-            var moreParams = 'empresa_id='+data.id;
-            app.$set('empresaSelec', data.id );
-            afiliadas.$broadcast('vuetable:refresh');*/
-            //cargar la tabla de peronas afiliadas a esta empresa
         },
         'vuetable:cell-clicked': function(data, field, event) {
             //console.log('cell-clicked:', field.name);

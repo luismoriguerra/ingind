@@ -6,6 +6,7 @@ class DocumentoWord extends Base
 {
 
     public $table = "documentosword";
+
     public static $where = [
         'id',
         'titulo',

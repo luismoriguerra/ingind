@@ -1,3 +1,7 @@
+--11-11-2016
+ALTER TABLE `procesos`.`personas`   
+  ADD COLUMN `imagen_dni` VARCHAR(100) NULL AFTER `imagen`;
+
 --08-11-2016
 
 ALTER TABLE `procesos`.`empresa`   
@@ -325,6 +329,65 @@ DEFAULT CHARACTER SET = utf8;
 CREATE INDEX `fk_tramites_id_idx` ON `tramites_requisitos` (`tramite_id` ASC) ;
 
 /*******************************************************************************/
+=======
+--14/11/2016
+ALTER TABLE `tramites_anexo`
+ADD COLUMN `fecha_recepcion`  datetime NULL AFTER `fecha_anexo`;
+
+
+
+--12-11-2016
+ALTER TABLE `tramites`
+ADD COLUMN `area_id`  int(11) NOT NULL AFTER `persona_id`;
+
+ALTER TABLE `tramites` ADD CONSTRAINT `fk_tramite_area_id` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE `tramites`
+MODIFY COLUMN `fecha_tramite`  datetime NULL DEFAULT CURRENT_TIMESTAMP AFTER `nro_folios`;
+
+
+
+
+--08-11-2016
+ALTER TABLE `pretramites`
+MODIFY COLUMN `fecha_pretramite`  datetime NULL DEFAULT CURRENT_TIMESTAMP AFTER `nro_folios`;
+
+
+CREATE TABLE `clasificador_tramite_area` (
+`id`  int(11) NOT NULL ,
+`clasificador_tramite_id`  int(11) NULL ,
+`area_id`  int(11) NULL ,
+`estado`  int(11) NULL DEFAULT 1 ,
+`created_at`  datetime NULL ,
+`updated_at`  datetime NULL ,
+`usuario_created_at`  int(11) NULL ,
+`usuario_updated_at`  int(11) NULL ,
+PRIMARY KEY (`id`),
+CONSTRAINT `fk_clasificador_tramite` FOREIGN KEY (`clasificador_tramite_id`) REFERENCES `clasificador_tramite` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+CONSTRAINT `fk_area_id` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION);
+
+ALTER TABLE `clasificador_tramite_area`
+MODIFY COLUMN `id`  int(11) NOT NULL AUTO_INCREMENT FIRST ;
+
+ALTER TABLE `clasificador_tramite` DROP FOREIGN KEY `fk_clasificador_tramite_areas1`;
+ALTER TABLE `clasificador_tramite`
+DROP COLUMN `area_id`;
+
+
+ALTER TABLE `pretramites`
+ADD COLUMN `area_id`  int(11) NULL AFTER `clasificador_tramite_id`;
+ALTER TABLE `pretramites` ADD CONSTRAINT `fk_PRE_TRAMITE_area` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`) ON DELETE NO ACTION ON UPDATE
+
+
+
+
+--06-11-2016
+ALTER TABLE `tipo_solicitante`
+ADD COLUMN `pide_empresa`  int(11) NULL DEFAULT 0 AFTER `nombre_relacion`;
+
+
+
+
 --27-10-2016
 ALTER TABLE `rutas_detalle_verbo`
 ADD COLUMN `adicional`  int NULL DEFAULT 0 AFTER `estado`;

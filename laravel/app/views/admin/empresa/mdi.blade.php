@@ -16,6 +16,7 @@
     {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js') }}
     {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.2/vue-resource.min.js') }}
     {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue-strap/1.0.11/vue-strap.min.js') }}
+    <script src="http://pajhome.org.uk/crypt/md5/2.2/md5-min.js"></script>
 
 
     <script src="/js/vue-table.js"></script>
@@ -63,7 +64,7 @@
                             </div>
                         </div>
                         <div class="table-responsive">
-                            <vuetable v-ref:vuetable
+                            <vuetable v-ref:vuetable id="empresas"
                                 api-url="empresapersona/index"
                                 data-path="data"
                                 pagination-path=""
@@ -146,8 +147,8 @@
                             <div class="row form-group form-inline">
                                 <div class="col-md-6">
                                     <div class="control-group">
-                                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#personasModal">
-                                            Agregar Personal
+                                        <button class="btn btn-primary btn-sm" :disabled="empresaSelec.id? false:true" data-toggle="modal" data-target="#personasModal">
+                                            Agregar Personal @{{empresaSelec.nombre_comercial}}
                                         </button>
                                     </div>
                                 </div>

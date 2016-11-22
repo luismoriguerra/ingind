@@ -3,8 +3,8 @@
 class TipoTramite extends Base
 {
     public $table = "tipo_tramite";
-    public static $where =['id', 'nombre', 'estado'];
-    public static $selec =['id', 'nombre', 'estado'];
+    public static $where =['id', 'nombre_tipo_tramite', 'estado'];
+    public static $selec =['id', 'nombre_tipo_tramite', 'estado'];
     
     public static function getCargarCount( $array )
     {
@@ -17,7 +17,7 @@ class TipoTramite extends Base
     }
     public static function getCargar( $array )
     {
-        $sSql=" SELECT tt.id, tt.nombre, tt.estado
+        $sSql=" SELECT tt.id, tt.nombre_tipo_tramite nombre, tt.estado
                 FROM tipo_tramite tt
                 WHERE 1=1 ";
         $sSql.= $array['where'].
@@ -28,7 +28,7 @@ class TipoTramite extends Base
     }
     public function getTipoTramite(){
         $tipotramite=DB::table('tipo_tramite')
-                ->select('id','nombre','estado')
+                ->select('id','nombre_tipo_tramite as nombre','estado')
                 ->where( 
                     function($query){
                         if ( Input::get('estado') ) {
@@ -36,7 +36,7 @@ class TipoTramite extends Base
                         }
                     }
                 )
-                ->orderBy('nombre')
+                ->orderBy('nombre_tipo_tramite')
                 ->get();
                 
         return $tipotramite;

@@ -30,6 +30,8 @@ class Persona extends Base implements UserInterface, RemindableInterface
             'area_id',
             'estado',
             'fecha_nacimiento',
+            'imagen',
+            'imagen_dni',
             'sexo'
     ];
     public $hidden = ['password', 'remember_token'];

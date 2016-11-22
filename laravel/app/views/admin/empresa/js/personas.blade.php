@@ -29,49 +29,13 @@ var tableColumnsPersona = [
         name: 'dni',
         sortField: 'dni',
     },
-    {
+    /*{
         name: '__actions',
         dataClass: 'text-center',
-    }
+    }*/
 ];
-Vue.component('my-detail-row', {
-    template: [
-        '<div class="detail-row ui form" @click="onClick($event)">',
-            '<div class="inline field">',
-                '<label>Name: </label>',
-                '<span>@{{rowData.name}}</span>',
-            '</div>',
-            '<div class="inline field">',
-                '<label>Email: </label>',
-                '<span>@{{rowData.email}}</span>',
-            '</div>',
-            '<div class="inline field">',
-                '<label>Nickname: </label>',
-                '<span>@{{rowData.nickname}}</span>',
-            '</div>',
-            '<div class="inline field">',
-                '<label>Birthdate: </label>',
-                '<span>@{{rowData.birthdate}}</span>',
-            '</div>',
-            '<div class="inline field">',
-                '<label>Gender: </label>',
-                '<span>@{{rowData.gender}}</span>',
-            '</div>',
-        '</div>',
-    ].join(''),
-    props: {
-        rowData: {
-            type: Object,
-            required: true
-        }
-    },
-    methods: {
-        onClick: function(event) {
-            //console.log('my-detail-row: on-click');
-        }
-    },
-});
-var persona=new Vue({
+
+var modal=new Vue({
     http: {
       root: '/personas',
       headers: {
@@ -84,6 +48,8 @@ var persona=new Vue({
         'v-option': VueStrap.option,
         'checkbox-group': VueStrap.checkboxGroup,
         'checkbox': VueStrap.checkboxBtn,
+        'radio-group': VueStrap.radioGroup,
+        'radio': VueStrap.radioBtn,
         'datepicker': VueStrap.datepicker,
         'alert': VueStrap.alert,
         'modal': VueStrap.modal,
@@ -92,20 +58,15 @@ var persona=new Vue({
         'spinner': VueStrap.spinner,
     },
     data: {
+        radioValue:'',
         searchFor: '',
         fields: tableColumnsPersona,
-        sortOrder: [{
-            field: 'paterno',
-            direction: 'asc'
-        },
-        {
-            field: 'materno',
-            direction: 'asc'
-        },
-        {
-            field: 'nombre',
-            direction: 'asc'
-        }],
+        sortOrder: [
+            {
+                field: 'paterno',
+                direction: 'asc'
+            },
+        ],
         multiSort: true,
         perPage: 5,
         paginationComponent: 'vuetable-pagination',
@@ -114,20 +75,46 @@ var persona=new Vue({
         itemActions: [
             { name: 'edit-item', label: '', icon: 'glyphicon glyphicon-pencil', class: 'btn btn-warning', extra: {title: 'Edit', 'data-toggle':"tooltip", 'data-placement': "top"} }
         ],
+        imagen:false,
+        imagen_dni:false,
         moreParams: [
             'estado=1',
         ],
-        //
+        representante_legal:'',
+        persona:{},
         loaded: false,
-        showModal: false,
-        edit: false,
-        tituloModal:'',
         success: false,
         danger: false,
         msj: '',
         errores:[],
         mensaje_ok:false,
         mensaje_error:false,
+    },
+    ready: function () {
+        $('#cese,#vigencia').daterangepicker({
+            format: 'YYYY-MM-DD HH:mm:ss',
+            singleDatePicker: true,
+            showDropdowns: true
+        });
+        $('#personas tbody').on( 'click', 'tr', function () {
+            if ( $(this).hasClass('active') ) {
+                //$(this).removeClass('active');
+            } else {
+                $('#personas tbody tr.active').removeClass('active');
+                $(this).addClass('active');
+            }
+        });
+        $('input').on('ifChecked', function(event){
+            modal.representante_legal=event.currentTarget.defaultValue;
+        });
+    },
+    computed: {
+        nombresApellidos: function () {
+            if (this.persona.nombre) {
+                return this.persona.nombre+' ' + this.persona.paterno+' ' +this.persona.materno;
+            }
+            return '';
+        },
     },
     watch: {
         'perPage': function(val, oldVal) {
@@ -142,44 +129,78 @@ var persona=new Vue({
         /**
          * Callback functions
          */
-        estado: function(value) {
-            switch(value) {
-                case 1:
-                    return 'Activo';
-                case 0:
-                    return 'Inactivo';
-                    return '';
-            }
-        },
-        tipoRepresentante: function(value) {
-            switch(value) {
-                case 0:
-                    return 'Trabajador';
-                case 1:
-                    return 'Representante';
-                default:
-                    return '';
-            }
-        },
         formatDate: function(value, fmt) {
             if (value == null) return '';
             fmt = (typeof fmt == 'undefined') ? 'D MMM YYYY' : fmt;
             return moment(value, 'YYYY-MM-DD').format(fmt);
         },
-        showDetailRow: function(value) {
-            var icon = this.$refs.vuetable.isVisibleDetailRow(value) ? 'glyphicon glyphicon-minus-sign' : 'glyphicon glyphicon-plus-sign';
-            return [
-                '<a class="show-detail-row">',
-                    '<i class="' + icon + '"></i>',
-                '</a>'
-            ].join('');
+        setImagen: function(imagen) {
+            this.imagen='';
+            if (imagen) {
+                this.imagen = 'img/user/'+hex_md5('u'+this.persona.id)+'/'+imagen;
+            }
+        },
+        setImagenDni: function(imagen_dni) {
+            this.imagen_dni='';
+            if (imagen_dni) {
+                this.imagen_dni = 'img/user/'+hex_md5('u'+this.persona.id)+'/'+imagen_dni;
+            }
         },
         /**
          * Other functions
          */
+        onFileChange(e) {
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length)
+              return;
+            this.createImage(files[0],e.target.id);
+        },
+        createImage(file,id) {
+            var image = new Image();
+            var reader = new FileReader();
+  
+            reader.onload = (e) => {
+                if (id=='imagen') modal.imagen = e.target.result;
+                if (id=='imagen_dni') modal.imagen_dni = e.target.result;
+              //vm.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        },
+        removeImage: function (id) {
+            if (id=='imagen') this.imagen = '';
+            if (id=='imagen_dni') this.imagen_dni = '';
+        },
+        AfiliarPersona: function (){
+            this.load(1);
+            this.persona.imagen=this.imagen;
+            this.persona.imagen_dni=this.imagen_dni;
+            this.persona.representante_legal=this.representante_legal;
+            this.$http.post('/empresapersona/afiliar', this.persona,  function (data) {
+                if (data.rst==false) {
+                    this.ShowMensaje(data.msj, 5, false, true);
+                } else {
+                    this.representante_legal='';
+                    this.imagen='';
+                    this.imagen_dni=''
+                    $('#personasModal').modal('hide');
+                    afiliadas.$broadcast('vuetable:refresh');
+                    modal.$broadcast('vuetable:refresh');
+                }
+            }).error(function(errors) {
+                this.ShowMensaje("ocurrio un error vuelva a intentar", 5, false, true);
+            });
+            //self = this;
+        },
+        MostrarPersona: function(data){
+            if (data.id!=this.persona.id) {
+                this.persona=data;
+                this.setImagen(data.imagen);
+                this.setImagenDni(data.imagen_dni);
+            }
+            this.persona.empresa_id=app.empresaSelec;
+        },
         setFilter: function() {
             this.moreParams = [
-                'empresa_id='+app.empresaSelec,
                 'filter=' + this.searchFor
             ];
             this.$nextTick(function() {
@@ -221,13 +242,6 @@ var persona=new Vue({
                 });
             }
         },
-        Add: function () {// cargar modal para añadir personal
-            this.showModal=true;
-            this.ShowMensaje('',0,false,false);
-            this.edit = false;
-            this.tituloModal = 'Nueva Empresa';
-            
-        },
         ShowMensaje: function(msj, time, success, danger) {
             this.msj=msj;
             self = this;
@@ -252,6 +266,7 @@ var persona=new Vue({
         },
         'vuetable:row-clicked': function(data, event) {
             //console.log('row-clicked:', data.name);
+            this.MostrarPersona(data);
         },
         'vuetable:cell-clicked': function(data, field, event) {
             //console.log('cell-clicked:', field.name);
@@ -259,8 +274,12 @@ var persona=new Vue({
                 this.$broadcast('vuetable:toggle-detail', data.id);
             }
         },
+        /* esto depende si no tiene componente el datatable*/
+        'vuetable:action': function(action, data) {
+            this.MostrarPersona(data);
+        },
         'vuetable:load-success': function(response) {
-            this.empresas = response.data.data;
+            //this.empresas = response.data.data;
         },
         'vuetable:load-error': function(response) {
             if (response.status == 400) {
