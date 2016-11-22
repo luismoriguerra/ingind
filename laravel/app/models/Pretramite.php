@@ -33,7 +33,7 @@ class Pretramite extends Eloquent {
 				INNER JOIN clasificador_tramite ct on ct.id=pt.clasificador_tramite_id
 				INNER JOIN tipo_tramite tt on tt.id=ct.tipo_tramite_id 
 				LEFT JOIN empresas e on e.id=pt.empresa_id 
-				LEFT JOIN personas p2 on p2.id=e.representante_legal
+				LEFT JOIN personas p2 on p2.id=e.persona_id
 				INNER JOIN tipo_solicitante ts on ts.id=pt.tipo_solicitante_id 
 				INNER JOIN documentos d on d.id=pt.tipo_documento_id 
                 LEFT JOIN areas a on a.id=pt.area_id 
@@ -56,7 +56,7 @@ class Pretramite extends Eloquent {
     public static function getEmpresasUser(){
     	$sql = "select e.*,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) as representante,p.dni as dnirepre from empresas e 
 				INNER JOIN empresa_persona ep on e.id=ep.empresa_id 
-				INNER JOIN personas p on e.representante_legal=p.id
+				INNER JOIN personas p on e.persona_id=p.id
 				where e.estado=1 and ep.estado=1 and ep.persona_id=".Input::get('persona');
 
         $r= DB::select($sql);
