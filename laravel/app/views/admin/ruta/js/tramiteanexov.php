@@ -240,23 +240,29 @@ mostrarAnexos = function(obj,idtramite = ''){
 }*/
 
 HTMLAnexos = function(data,$tipo_busqueda = ''){
+    $('.nuevoanexo').removeClass('hidden');
     if(data.length > 0){
         $("#t_anexo").dataTable().fnDestroy();
         var html ='';
         $.each(data,function(index, el) {
-            html+="<tr idanexo="+el.codigoanexo+">"+
-                "<td name='codigo'>"+el.codigoanexo +"</td>"+
-                "<td name='nombre'>"+el.nombreanexo+"</td>"+
-                "<td name='fechaingreso'>"+el.fechaingreso+"</td>"+
-                "<td name='persona'>"+el.usuarioregistrador+"</td>"+
-                "<td name='estado'>"+el.estado+"</td>"+
-                "<td name='observacion'>"+el.observacion+"</td>"+
-                "<td name='area'>"+el.area+"</td>"+
-                "<td><span class='btn btn-primary btn-sm' idanexo='"+el.codigoanexo+"' onclick='selectAnexotoDetail(this)'><i class='glyphicon glyphicon-search'></i></span></td>"+
-                "<td><span class='btn btn-primary btn-sm' idanexo='"+el.codigoanexo+"' onclick='selectVoucher(this)'><i class='glyphicon glyphicon-open'></i></span></td>"+
-                "<td><span class='btn btn-primary btn-sm' idanexo='"+el.codigoanexo+"' onclick='selectToEdit(this)'><i class='glyphicon glyphicon-pencil'></i></span></td>"+
-                 "<td><span class='btn btn-danger btn-sm' idanexo='"+el.codigoanexo+"' onclick='deleteAnexo(this)'><i class='glyphicon glyphicon-trash'></i></span></td>"+
-            "</tr>";            
+            html+="<tr idanexo="+el.codigoanexo+">";
+            html+="<td name='codigo'>"+el.codigoanexo +"</td>";
+            html+="<td name='nombre'>"+el.nombreanexo+"</td>";
+            html+="<td name='fechaingreso'>"+el.fechaingreso+"</td>";
+            html+="<td name='persona'>"+el.usuarioregistrador+"</td>";
+            html+="<td name='estado'>"+el.estado+"</td>";
+            html+="<td name='observacion'>"+el.observacion+"</td>";
+            html+="<td name='area'>"+el.area+"</td>";
+            html+="<td><span class='btn btn-primary btn-sm' idanexo='"+el.codigoanexo+"' onclick='selectAnexotoDetail(this)'><i class='glyphicon glyphicon-search'></i></span></td>";
+            html+="<td><span class='btn btn-primary btn-sm' idanexo='"+el.codigoanexo+"' onclick='selectVoucher(this)'><i class='glyphicon glyphicon-open'></i></span></td>";
+            html+="<td><span class='btn btn-primary btn-sm' idanexo='"+el.codigoanexo+"' onclick='selectToEdit(this)'><i class='glyphicon glyphicon-pencil'></i></span></td>";
+            if(el.observacion){
+                html+="<td><span class='btn btn-danger btn-sm' idanexo='"+el.codigoanexo+"' style='opacity:0.5'><i class='glyphicon glyphicon-trash'></i></span></td>";                     
+            }else{
+                 html+="<td><span class='btn btn-danger btn-sm' idanexo='"+el.codigoanexo+"' onclick='deleteAnexo(this)'><i class='glyphicon glyphicon-trash'></i></span></td>";          
+            }
+
+            html+="</tr>";      
         });
         $("#tb_anexo").html(html);
         $("#t_anexo").dataTable(

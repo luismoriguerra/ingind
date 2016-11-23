@@ -9,6 +9,9 @@ $(document).ready(function() {
         readURLI(this, 'file');
     });
     
+     $('#buscartramite').on('hidden.bs.modal', function(){
+        $(".rowArea").addClass('hidden');
+    });
 
     function readURLI(input, tipo) {
         if (input.files && input.files[0]) {
@@ -186,6 +189,30 @@ HTMLClasificadores = function(data){
         $("#buscartramite").modal('show');
     }else{
         alert('sin data');
+    }
+}
+
+getRequisitos = function(obj){
+    data = {'idclatramite':obj.getAttribute('id'),'estado':1};
+    Bandeja.getRequisitosbyclatramite(data,HTMLRequisitos,obj.getAttribute('nombre'));
+}
+
+HTMLRequisitos = function(data,tramite){
+    $("#tb_requisitos").html('');
+    if(data){
+        var html ='';
+        var cont = 0;
+        $.each(data,function(index, el) {
+            cont = index + 1;
+            html+='<tr>';
+            html+='<td>'+cont+'</td>';
+            html+='<td>'+el.nombre+'</td>';
+            html+='<td>'+el.cantidad+'</td>';
+            html+='</tr>';
+        });
+        $("#tb_requisitos").html(html);
+        $("#nombtramite").text(tramite);
+        $("#requisitos").modal('show');
     }
 }
 

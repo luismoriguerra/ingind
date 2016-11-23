@@ -164,12 +164,16 @@ td, th{
                     </div>
                 </div>
             </div>
-
+            <div class="nuevoanexo hidden">
+              <div class="col-md-1 col-sm-2">
+                  <a class='btn btn-success btn-md' id="btnNuevo" name="btnNuevo" data-toggle="modal" data-target="#addAnexo">Anexo <i class="glyphicon glyphicon-plus"></i></a>
+              </div>
+            </div>
 
 
             <!--- anexos-->
             <div class="anexo hidden">
-              <div class="box" style="margin-top: 20px">
+              <div class="box" style="margin-top: 40px">
                   <fieldset>
                       <div class="row form-group filtros" style="margin-bottom:-5px">
                           <div class="col-sm-12">
@@ -183,9 +187,9 @@ td, th{
                               <div class="col-md-1 col-sm-2">
                                   <span class="btn btn-primary btn-md" id="generarAnexo" name="generarAnexo" onclick="buscarAnexo()"><i class="glyphicon glyphicon-search"></i> Buscar</span>
                               </div>
-                              <div class="col-md-1 col-sm-2">
+                             {{--  <div class="col-md-1 col-sm-2">
                                   <a class='btn btn-success btn-md' id="btnNuevo" name="btnNuevo" data-toggle="modal" data-target="#addAnexo">Anexo <i class="glyphicon glyphicon-plus"></i></a>
-                              </div>
+                              </div> --}}
                           </div>
                       </div>
                   </fieldset>

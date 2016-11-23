@@ -105,10 +105,15 @@ class TramiteController extends BaseController {
 			        $tablaRelacion['fecha_tramite']= $tramite->fecha_tramite; //Input::get('fecha_tramite');
 			        $tablaRelacion['tipo_persona']=$tramite->tipo_solicitante_id;
 
-			        if( Input::has('paterno') AND Input::has('materno') AND Input::has('nombre') ){
-			            $tablaRelacion['paterno']=Input::get('paterno');
+			       /* if( Input::has('paterno') AND Input::has('materno') AND Input::has('nombre') ){*/
+			       	if($data['txt_personaid']){
+			            /*$tablaRelacion['paterno']=Input::get('paterno');
 			            $tablaRelacion['materno']=Input::get('materno');
-			            $tablaRelacion['nombre']=Input::get('nombre');
+			            $tablaRelacion['nombre']=Input::get('nombre');*/
+			            $persona = Persona::find($data['txt_personaid']);
+			        	$tablaRelacion['paterno']=$persona['paterno'];
+			            $tablaRelacion['materno']=$persona['materno'];
+			            $tablaRelacion['nombre']=$persona['nombre'];
 			        }
 			        elseif( Input::has('razon_social') AND Input::has('ruc') ){
 			            $tablaRelacion['razon_social']=Input::get('razon_social');
