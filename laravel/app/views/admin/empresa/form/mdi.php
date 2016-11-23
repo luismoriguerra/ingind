@@ -38,7 +38,7 @@
 
           <div class="form-group">
             <label class="control-label col-sm-3" for="validar_ruc">RUC
-              <a v-show="!validation.ruc" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Telefono">
+              <a v-show="!validation.ruc" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese ruc">
                   <i class="fa fa-exclamation"></i>
               </a>
             </label>
@@ -47,6 +47,21 @@
             </div>
             <div class="col-sm-3">
             <input :disabled="ruc==''" @click.prevent="validarRuc(ruc)" class="btn btn-sm btn-primary" type="button" value='VALIDAR'>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label class="control-label col-sm-3" for="validar_dni">Persona (DNI)
+              <a v-show="!validation.persona_id" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese DNI">
+                  <i class="fa fa-exclamation"></i>
+              </a>
+            </label>
+            <div class="col-sm-6">
+              <input v-model="dni" type="text" id='validar_dni' placeholder="Ingrese DNI" maxlength="8" class="form-control input-sm">
+            </div>
+            <div class="col-sm-3">
+            <input :disabled="dni==''" @click.prevent="validarDni(dni)" class="btn btn-sm btn-primary" type="button" value='Buscar'>
             </div>
           </div>
 
@@ -59,9 +74,17 @@
           <legend>Datos</legend>
           <div class="form-horizontal">
             <div class="form-group">
-                <label class="control-label col-sm-3" for="nombre">RUC:</label>
+                <label class="control-label col-sm-3" for="ruc">RUC:</label>
                 <div class="col-sm-9">
                   <input v-model="newEmpresa.ruc" readonly type="text" id="ruc" name="ruc" class="form-control input-sm pull-right">
+                </div>
+              </div>
+          </div>
+          <div class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="persona_fullname">Persona:</label>
+                <div class="col-sm-9">
+                  <input v-model="newEmpresa.persona_fullname" readonly type="text" id="persona_fullname" name="persona_fullname" class="form-control input-sm pull-right">
                 </div>
               </div>
           </div>

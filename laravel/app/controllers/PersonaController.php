@@ -30,6 +30,12 @@ class PersonaController extends BaseController
         return Response::json($query->paginate($perPage));
     }
     /**
+     * consultar persona por dni
+     */
+    public function getPordni($dni){
+        return Persona::where('dni',$dni)->first();
+    }
+    /**
      * cargar personas
      * POST /persona/cargar
      *
