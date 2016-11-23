@@ -2,24 +2,20 @@
 
 $(document).ready(function() {
     /*Inicializar tramites*/
-
-    UsuarioId='<?php echo Auth::user()->id; ?>';
-    var data={estado:1,persona:UsuarioId};
+    var data={estado:1};
     Bandeja.MostrarTramites(data,HTMLTramites);
     /*end Inicializar tramites*/
 
     slctGlobal.listarSlct('documento','cbo_tipodoc','simple',null,data);
 
     function limpia(area) {
-       /* $(area).find('input[type="text"],input[type="email"],textarea,select').val('');*/
-        $('#spanRuta').addClass('hidden');
-        $('.img-anexo').attr('src','index.img');
-        $('#txt_folio,#txt_anexoid').val('');
+        $(area).find('input[type="text"],input[type="email"],textarea,select').val('');
         $('#FormNuevoAnexo').data('bootstrapValidator').resetForm();
     };
 
     $('#addAnexo').on('hidden.bs.modal', function(){
         limpia(this);
+        $('#spanRuta').addClass('hidden');
     });
 
     /*validaciones*/
@@ -30,7 +26,45 @@ $(document).ready(function() {
             validating: 'glyphicon glyphicon-refresh',
         },
         excluded: ':disabled',
-         fields: {
+        fields: {
+            txt_nombreP: {
+                validators: {
+                    notEmpty: {
+                        message: 'campo requerido'
+                    }
+                }
+            },
+            txt_apeP: {
+                validators: {
+                    notEmpty: {
+                        message: 'campo requerido'
+                    }
+                }
+            },
+            txt_apeM: {
+                validators: {
+                    notEmpty: {
+                        message: 'campo requerido'
+                    }
+                }
+            },
+        /*    txt_tipodocP: {
+                validators: {
+                    notEmpty: {
+                        message: 'campo requerido'
+                    }
+                }
+            },*/
+            txt_numdocP: {
+                validators: {
+                    notEmpty: {
+                        message: 'campo requerido'
+                    },
+                    digits:{
+                        message: 'dato numerico'
+                    }
+                }
+            },
             txt_codtramite: {
                 validators: {
                     notEmpty: {
@@ -99,7 +133,6 @@ $(document).ready(function() {
             success: function (obj) {
                 if(obj.rst==1){
                    $('#addAnexo').modal('hide');
-                   mostrarAnexos('',document.querySelector('#txt_idtramite').value);
                 }
             }
         });
@@ -118,9 +151,9 @@ $(document).ready(function() {
             var reader = new FileReader();
             reader.onload = function(e) {
                 if (tipo == 'file') {                 
-                    $('.img-anexo').attr('src',e.target.result);
-                    /*$('#spanRuta').text(input.value);
-                    $('#spanRuta').removeClass('hidden');*/
+/*                    $('.img-tramite').attr('src',e.target.result);*/
+                    $('#spanRuta').text(input.value);
+                    $('#spanRuta').removeClass('hidden');
                 }
             }
             reader.readAsDataURL(input.files[0]);
@@ -132,7 +165,6 @@ mostrarTramites = function(){
     var busqueda = document.querySelector('#txtbuscar').value;
     var data ={};
     data.estado = 1;
-    data.persona = UsuarioId;
     if(busqueda){
         data.buscar = busqueda;
     }
@@ -144,7 +176,7 @@ HTMLTramites = function(data){
         $("#t_reporte").dataTable().fnDestroy();
         var html ='';
         $.each(data,function(index, el) {
-            html+="<tr id="+el.codigo+" numdoc="+el.numdoc+">"+
+            html+="<tr id="+el.codigo+">"+
                 "<td name='codigo'>"+el.codigo +"</td>"+
                 "<td name='nombre'>"+el.tramite+"</td>"+
                 "<td name='fechaingreso'>"+el.fecha_ingreso+"</td>"+
@@ -195,18 +227,6 @@ seleccionado = function(obj){
             tr[i].setAttribute("style","background-color:#f9f9f9;");
         }
         obj.parentNode.parentNode.setAttribute("style","background-color:#9CD9DE;");
-
-        /*poblate info acoording to select to create new anexo*/
-        var idtramite = obj.parentNode.parentNode.getAttribute("id");
-        var nombret = document.querySelectorAll("#t_reporte tr[id='"+idtramite+"'] td[name='nombre']");
-        var numdoc = obj.parentNode.parentNode.getAttribute("numdoc");
-
-        document.querySelector('#txt_idtramite').value=idtramite;
-        document.querySelector('#txt_codtramite').value=idtramite;
-        document.querySelector('#txt_nombtramite').value=nombret[0].innerHTML;
-        document.querySelector('#txt_fechaingreso').value= new Date().toLocaleString();
-        document.querySelector('#txt_numdocA').value= numdoc;
-        /*end poblate info acoording to select to create new anexo*/
     }
 }
 
@@ -219,25 +239,9 @@ mostrarAnexos = function(obj,idtramite = ''){
     }
 
     var data={'idtramite':id_tramite};
+    document.querySelector('#txt_idtramite').value=id_tramite;
     Bandeja.MostrarAnexos(data,HTMLAnexos);
 }
-
-/*mostrarAnexos = function(obj){
-    var idtramite = obj.parentNode.parentNode.getAttribute("id");*/
-  /*  var nombret = document.querySelectorAll("#t_reporte tr[id='"+idtramite+"'] td[name='nombre']");
-    var numdoc = obj.parentNode.parentNode.getAttribute("numdoc");*/
-
-    /*poblate info in new anexo*/
-   /* document.querySelector('#txt_idtramite').value=idtramite;
-    document.querySelector('#txt_codtramite').value=idtramite;
-    document.querySelector('#txt_nombtramite').value=nombret[0].innerHTML;
-    document.querySelector('#txt_fechaingreso').value= new Date().toLocaleString();
-    document.querySelector('#txt_numdocA').value= numdoc;*/
-    /*end poblate info in new anexo*/
-
-/*    var data={'idtramite':idtramite};
-    Bandeja.MostrarAnexos(data,HTMLAnexos);
-}*/
 
 HTMLAnexos = function(data,$tipo_busqueda = ''){
     if(data.length > 0){
@@ -254,8 +258,6 @@ HTMLAnexos = function(data,$tipo_busqueda = ''){
                 "<td name='area'>"+el.area+"</td>"+
                 "<td><span class='btn btn-primary btn-sm' idanexo='"+el.codigoanexo+"' onclick='selectAnexotoDetail(this)'><i class='glyphicon glyphicon-search'></i></span></td>"+
                 "<td><span class='btn btn-primary btn-sm' idanexo='"+el.codigoanexo+"' onclick='selectVoucher(this)'><i class='glyphicon glyphicon-open'></i></span></td>"+
-                "<td><span class='btn btn-primary btn-sm' idanexo='"+el.codigoanexo+"' onclick='selectToEdit(this)'><i class='glyphicon glyphicon-pencil'></i></span></td>"+
-                 "<td><span class='btn btn-danger btn-sm' idanexo='"+el.codigoanexo+"' onclick='deleteAnexo(this)'><i class='glyphicon glyphicon-trash'></i></span></td>"+
             "</tr>";            
         });
         $("#tb_anexo").html(html);
@@ -297,7 +299,6 @@ buscarAnexo = function(){
 
 selectAnexotoDetail = function(obj){
    /* var idanexo = obj.parentNode.parentNode.getAttribute('idanexo');
->>>>>>> externo
     var td = document.querySelectorAll("#t_anexo tr[idanexo='"+idanexo+"'] td");
     var data = '{';
     for (var i = 0; i < td.length; i++) {
@@ -307,20 +308,6 @@ selectAnexotoDetail = function(obj){
     }
     data+='","id":'+idanexo+'}';
     HTMLDetalleAnexo(JSON.parse(data));
-<<<<<<< HEAD
-    $('#estadoAnexo').modal('show');
-}
-
-HTMLDetalleAnexo = function(data){
-    document.querySelector('#txt_anexocodtramite').value=data.prueba;
-    document.querySelector('#txt_anexousuariore').value=data.persona;
-    document.querySelector('#txt_anexonomtra').value=data.nombre;
-    document.querySelector('#txt_anexocod').value=data.id;
-    document.querySelector('#txt_anexoarea').value=data.area;
-    document.querySelector('#txt_anexofecha').value=data.fechaingreso;
-    document.querySelector('#txt_anexoestado').value=data.estado;
-    document.querySelector('#txt_anexoobser').value=data.observacion;
-=======
     $('#estadoAnexo').modal('show');*/
     var codanexo = obj.getAttribute('idanexo');
     if(codanexo){
@@ -332,6 +319,13 @@ HTMLDetalleAnexo = function(data){
 
 HTMLDetalleAnexo = function(data){
     var result = data[0];
+    if(result.frecepcion){
+        document.querySelector('.btnAnexoRecepcionar').classList.add('hidden');
+    }else{
+        document.querySelector('.btnAnexoRecepcionar').classList.remove('hidden');
+    }
+    document.querySelector('.observacion').classList.remove('hidden');
+
     document.querySelector('#txt_anexocodtramite').value=result.codtramite;
     document.querySelector('#txt_anexousuariore').value=result.nombrepersona+' '+result.apepersona+' '+result.apempersona;
     document.querySelector('#txt_anexonomtra').value=result.nombretramite;
@@ -340,48 +334,6 @@ HTMLDetalleAnexo = function(data){
     document.querySelector('#txt_anexofecha').value=result.fechaanexo;
     document.querySelector('#txt_anexoestado').value=result.estado;
     document.querySelector('#txt_anexoobser').value=result.observ;
-}
-
-selectToEdit = function(obj){
-    var codanexo = obj.getAttribute('idanexo');
-    if(codanexo){
-        var data = {estado:1,codanexo:codanexo};
-        Bandeja.AnexoById(data,HTMLEdit);
-        $("#addAnexo").modal('show');
-    }
-}
-
-HTMLEdit = function(data){
-    if(data.length > 0){
-        var result = data[0];
-        document.querySelector('#txt_codtramite').value=result.codtramite;
-        document.querySelector('#txt_fechaingreso').value=result.fechaanexo;
-       /* document.querySelector('#cbo_tipodoc').value=result.tipodoc;*/
-        document.querySelector('#txt_nombtramite').value=result.nombretramite;
-        document.querySelector('#txt_numdocA').value=result.numdoc;
-        document.querySelector('#txt_folio').value=result.folios;
-        document.querySelector('#txt_anexoid').value=result.codanexo;
-
-        var ids = [];
-        ids.push(result.idtipodoc);
-        $('#cbo_tipodoc').multiselect('destroy');
-        slctGlobal.listarSlct('documento','cbo_tipodoc','simple',ids,{estado:1},1);
-
-        $('.img-anexo').attr('src','img/anexo/'+result.img);
-    }else{
-        alert('no se pudo cargar informacion');
-    }
-}
-
-deleteAnexo = function(obj){
-    var codanexo = obj.getAttribute('idanexo');
-    if(codanexo){
-        var data = {codanexo:codanexo};
-        var r = confirm("¿Esta seguro de eliminar?");
-        if (r == true) {
-            Bandeja.deleteAnexo(data,mostrarAnexos);           
-        }
-    }
 }
 
 selectVoucher = function(obj){
@@ -432,6 +384,13 @@ exportPDF = function(obj){
     }else{
         event.preventDefault();
     }
+}
+
+recepcionar = function(){
+    var codanexo = document.querySelector('#txt_anexocod').value;
+    var observacion = document.querySelector('#txt_anexoobser').value;
+    var data = {'codanexo':codanexo,'observacion':observacion};
+    Bandeja.Recepcionar(data,mostrarAnexos);
 }
    
 </script>

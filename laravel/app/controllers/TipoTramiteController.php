@@ -35,7 +35,7 @@ class TipoTramiteController extends \BaseController
             if( Input::has("nombre") ){
                 $nombre=Input::get("nombre");
                 if( trim( $nombre )!='' ){
-                    $array['where'].=" AND tt.nombre LIKE '%".$nombre."%' ";
+                    $array['where'].=" AND tt.nombre_tipo_tramite LIKE '%".$nombre."%' ";
                 }
             }
 
@@ -46,7 +46,7 @@ class TipoTramiteController extends \BaseController
                 }
             }
 
-            $array['order']=" ORDER BY tt.nombre ";
+            $array['order']=" ORDER BY tt.nombre_tipo_tramite ";
 
             $cant  = TipoTramite::getCargarCount( $array );
             $aData = TipoTramite::getCargar( $array );
@@ -99,7 +99,7 @@ class TipoTramiteController extends \BaseController
             }
 
             $tipotramite = new TipoTramite;
-            $tipotramite->nombre = Input::get('nombre');
+            $tipotramite->nombre_tipo_tramite = Input::get('nombre');
             $tipotramite->estado = Input::get('estado');
             $tipotramite->usuario_created_at = Auth::user()->id;
             $tipotramite->save();
@@ -130,7 +130,7 @@ class TipoTramiteController extends \BaseController
 
             $tipotramiteId = Input::get('id');
             $tipotramite = TipoTramite::find($tipotramiteId);
-            $tipotramite->nombre = Input::get('nombre');
+            $tipotramite->nombre_tipo_tramite = Input::get('nombre');
             $tipotramite->estado = Input::get('estado');
             $tipotramite->usuario_updated_at = Auth::user()->id;
             $tipotramite->save();

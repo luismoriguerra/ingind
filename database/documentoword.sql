@@ -1,0 +1,22 @@
+CREATE TABLE `documentosword` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(250) CHARACTER SET utf8 DEFAULT NULL,
+  `estado` int(1) DEFAULT NULL,
+  `cabecera` int(1) DEFAULT '0',
+  `remitente` varchar(250) CHARACTER SET utf8 DEFAULT NULL,
+  `destinatario` varchar(250) CHARACTER SET utf8 DEFAULT NULL,
+  `asunto` varchar(250) CHARACTER SET utf8 DEFAULT NULL,
+  `fecha` datetime DEFAULT NULL,
+  `cuerpo` text CHARACTER SET utf8,
+  `correlativo` int(11) DEFAULT NULL,
+  `plantillaId` int(11) DEFAULT NULL,
+  `areaIdRemitente` int(11) DEFAULT NULL,
+  `areaIdDestinatario` int(11) DEFAULT NULL,
+  `personaIdRemitente` int(11) DEFAULT NULL,
+  `personaIdDestinatario` int(11) DEFAULT NULL,
+  `usuario_created_at` int(11) DEFAULT NULL,
+  `usuario_updated_at` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;

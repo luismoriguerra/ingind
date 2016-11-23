@@ -8,7 +8,9 @@
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
 
+    @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
+
     @include( 'admin.mantenimiento.js.documentoword_ajax' )
     @include( 'admin.mantenimiento.js.documentoword' )
 @stop
@@ -59,7 +61,7 @@
                             </table>
 
                             <a class='btn btn-primary btn-sm' class="btn btn-primary"
-                            data-toggle="modal" data-target="#plantillaModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                            data-toggle="modal" data-target="#documentoModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->

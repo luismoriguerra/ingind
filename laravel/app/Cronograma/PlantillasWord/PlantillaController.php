@@ -24,6 +24,38 @@ class PlantillaController extends \BaseController {
             return Response::json(array('rst'=>1,'datos'=>$plantillas));
         }
     }
+
+    /**
+     * Listar plantilla
+     * POST /plantilla/listar
+     */
+    public function postListar()
+    {
+        if ( Request::ajax() ) {
+
+            $areas = Plantilla::getPlantillas();
+
+            return Response::json(array('rst' => 1, 'datos' => $areas));
+        }
+    }
+
+    /**
+     * Obtener una plantilla
+     * POST /plantilla/plantilla
+     */
+    public function postPlantilla()
+    {
+        if ( Request::ajax() ) {
+
+            $id = Input::get('id');
+            $area = Plantilla::where('id','=',$id)
+                            ->where('estado','=','1')
+                            ->get();
+
+            return Response::json(array('rst' => 1, 'datos' => $area));
+        }
+    }
+
     /**
      * Actualizar plantilla
      * POST /plantilla/editar
