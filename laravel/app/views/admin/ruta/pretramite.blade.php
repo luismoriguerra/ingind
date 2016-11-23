@@ -373,7 +373,7 @@ td, th{
                 <div class="col-md-12 form-group" style="text-align: right;padding-right: 4%;">                  
                   <span class="btn btn-primary btn-sm" onclick="generarPreTramite()">GENERAR</span>
                 {{--   <input type="submit" class="btn btn-primary btn-sm btnAction" id="" value="Guardar" onclick="generarPreTramite()"> --}}
-                  <span class="btn btn-primary btn-sm">CANCELAR</span>                
+                  {{-- <span class="btn btn-primary btn-sm">CANCELAR</span>              --}}   
                 </div>
               </form>
             </div>

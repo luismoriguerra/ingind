@@ -212,6 +212,9 @@ ValidacionEmpresa = function(data){
         $('#empresasbyuser').modal('show');
     }else if(data.length == 1){
         poblateData('empresa',data[0]);
+    }else{
+        $(".empresa").addClass('hidden');
+        alert('no cuenta con una empresa');
     }
 }
 
