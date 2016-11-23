@@ -335,6 +335,14 @@ var app=new Vue({
             //timePicker: true,
             showDropdowns: true
         });
+        $('#empresas tbody').on( 'click', 'tr', function () {
+            if ( $(this).hasClass('active') ) {
+                //$(this).removeClass('active');
+            } else {
+                $('#empresas tbody tr.active').removeClass('active');
+                $(this).addClass('active');
+            }
+        });
     },
     computed: {
         validation: function () {
@@ -361,7 +369,14 @@ var app=new Vue({
             //console.log('row-changed:', data.name);
         },
         'vuetable:row-clicked': function(data, event) {
-            //console.log('row-clicked:', data.name);
+            var moreParams = 'empresa_id='+data.id;
+            app.empresaSelec = data.id;
+            personas.empresaSelec.id = data.id;
+            personas.empresaSelec.nombre_comercial = data.nombre_comercial;
+            personas.$set('moreParams', [moreParams] );
+            this.$nextTick(function() {
+                personas.$broadcast('vuetable:refresh');
+            });
         },
         'vuetable:cell-clicked': function(data, field, event) {
             //console.log('cell-clicked:', field.name);

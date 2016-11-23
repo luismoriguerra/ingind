@@ -109,11 +109,12 @@ var app=new Vue({
             razon_social:'',
             nombre_comercial:'',
             direccion_fiscal:'',
-            persona_id:'{{Auth::id()}}',
+            persona_id:'',
             cargo:'',
             telefono:'',
             fecha_vigencia:'',
             estado:1,
+            persona_fullname:'',
         },
         showModal: false,
         edit: false,
@@ -230,11 +231,12 @@ var app=new Vue({
                         razon_social:'',
                         nombre_comercial:'',
                         direccion_fiscal:'',
-                        persona_id:'{{Auth::id()}}',
+                        persona_id:'',
                         cargo:'',
                         telefono:'',
                         fecha_vigencia:'',
                         estado:1,
+                        persona_fullname:'',
                     };
                     this.ShowMensaje(msj, 5, true, false);
                     this.edit = false;
@@ -262,11 +264,12 @@ var app=new Vue({
                     razon_social:'',
                     nombre_comercial:'',
                     direccion_fiscal:'',
-                    persona_id:'{{Auth::id()}}',
+                    persona_id:'',
                     cargo:'',
                     telefono:'',
                     fecha_vigencia:'',
                     estado:1,
+                    persona_fullname:'',
                 };
         },
         AddNew: function () { //añadir un empresa
@@ -282,11 +285,12 @@ var app=new Vue({
                         razon_social:'',
                         nombre_comercial:'',
                         direccion_fiscal:'',
-                        persona_id:'{{Auth::id()}}',
+                        persona_id:'',
                         cargo:'',
                         telefono:'',
                         fecha_vigencia:'',
                         estado:1,
+                        persona_fullname:'',
                     };
                     this.showModal=false;
                     app.$broadcast('vuetable:refresh');
@@ -343,6 +347,24 @@ var app=new Vue({
                 }
             });
         },
+
+        validarDni: function(dni) {
+            if (dni=='' || dni == undefined || dni == null)
+                return;
+            this.ShowMensaje('',0,false,true);
+            this.$http.get('/persona/pordni/'+ dni,  function (data) {
+                if (data.estado==1) {
+                    this.newEmpresa.persona_fullname=data.paterno+' '+data.materno+', '+data.nombre;
+                    this.newEmpresa.persona_id=data.id;
+                } else {
+                    this.newEmpresa.persona_fullname='';
+                    this.newEmpresa.persona_id='';
+                    var msj = new Object();
+                    msj.dni=["dni no se encontro."];
+                    this.ShowMensaje(msj,5,false,true);
+                }
+            });
+        },
         ShowMensaje: function(msj, time, success, danger) {
             if (success)
                 this.msj=msj;
@@ -385,6 +407,7 @@ var app=new Vue({
             return {
                 tipo_id: !!$.isNumeric(this.newEmpresa.tipo_id),
                 ruc: !!$.isNumeric(this.newEmpresa.ruc),
+                persona_id: !!$.isNumeric(this.newEmpresa.persona_id),
                 razon_social: !!this.newEmpresa.razon_social.trim(),
                 nombre_comercial: !!this.newEmpresa.nombre_comercial.trim(),
                 direccion_fiscal: !!this.newEmpresa.direccion_fiscal.trim(),

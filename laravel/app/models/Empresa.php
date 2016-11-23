@@ -32,6 +32,7 @@ class Empresa extends Base
         'telefono'                  => 'required|digits_between:9,12',
         'fecha_vigencia'            => 'required|date_format:"Y-m-d H:i:s"',
         'estado'                    => 'required|Integer|Max:1',
+        //'persona_id'                => 'required|Integer',
     ];
     public static $messajes = [
         'required'      => ':attribute Es requerido',

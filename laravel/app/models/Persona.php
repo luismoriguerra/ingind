@@ -299,7 +299,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
     {
         $areaId=implode("','",Input::get('area_id'));
 
-          $sql="SELECT paterno,materno,p.nombre,dni,email,dni,fecha_nacimiento,
+          $sql="SELECT p.id,paterno,materno,p.nombre,dni,email,dni,fecha_nacimiento,
                 CASE sexo
                 WHEN 'F' THEN 'Femenino'
                 WHEN 'M' THEN 'Masculino'

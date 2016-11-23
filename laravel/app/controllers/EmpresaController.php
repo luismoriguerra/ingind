@@ -50,7 +50,7 @@ class EmpresaController extends BaseController
      */
     public function store()
     {
-        $validator = Validator::make(Input::all(),Empresa::$rules, Persona::$messajes);
+        $validator = Validator::make(Input::all(),Empresa::$rules, Empresa::$messajes);
         if ( $validator->fails() ) {
             return Response::json([
                 'rst'=>2,
@@ -58,12 +58,11 @@ class EmpresaController extends BaseController
             ]);
         }
         $empresa = Empresa::create(Input::all());
-
-        $empresa->personas()->save(Auth::user(),
+        $persona = Persona::find(Input::get('persona_id'));
+        $empresa->personas()->save($persona,
                 [
                 'cargo'=>Input::get('cargo'),
                 'fecha_vigencia'=> Input::get('fecha_vigencia'),
-                'persona_id'=> Auth::id(),
                 'representante_legal'=> 1,//por defecto
                 'estado'=> 1,
                 'usuario_created_at'=> Auth::id()
