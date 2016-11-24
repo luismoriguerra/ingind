@@ -32,6 +32,14 @@
             <span id="spanvcodpretramite">1254</span>
           </div>
         </div>
+        <div class="row">
+          <div class="col-md-4 right">
+            <label>AREA: </label>
+          </div>
+          <div class="col-md-8">
+            <span id="spantArea">1254</span>
+          </div>
+        </div>
 
         <div class="vempresa hidden">
           <div class="row">

@@ -108,6 +108,7 @@ poblarDetalle = function(data){
     document.querySelector('#spanNumFolio').innerHTML = result.folio;
     document.querySelector('#spanNumTipoDoc').innerHTML = result.nrotipodoc;
     document.querySelector('#spanTipoSolicitante').innerHTML = result.solicitante;
+    document.querySelector('#spanArea').innerHTML = result.area;
 
     if(result.empresa){
         document.querySelector('#spanRuc').innerHTML = result.ruc;
@@ -144,6 +145,7 @@ poblarVoucher = function(data){
     document.querySelector('#spanvfecha').innerHTML=result.fregistro;
     document.querySelector('#spanvncomprobante').innerHTML=result.pretramite;
     document.querySelector('#spanvcodpretramite').innerHTML=result.pretramite;
+    document.querySelector('#spantArea').innerHTML=result.area;
     document.querySelector('#spanImprimir').setAttribute('idpretramite',result.pretramite);
 
    if(result.empresa){

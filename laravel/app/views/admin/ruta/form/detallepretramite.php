@@ -37,10 +37,14 @@
           		</div>
           	</div>
           	<div class="row">
-          		<div class="col-md-6">
-          			<label>TIPO SOLICITANTE:</label>
-          			<span id="spanTipoSolicitante">NATURAL</span>
-          		</div>          		
+              <div class="col-md-6">
+                <label>AREA:</label>
+                <span id="spanArea">NATURAL</span>
+              </div>           		
+              <div class="col-md-6">
+                <label>TIPO SOLICITANTE:</label>
+                <span id="spanTipoSolicitante">NATURAL</span>
+              </div>
           	</div>
           	<legend style="margin: auto;border-bottom: 0px;font-size: 15px;padding-left: 5px;font-weight: bold">PRE TRAMITE</legend>
           </fieldset>

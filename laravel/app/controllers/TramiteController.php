@@ -23,6 +23,122 @@ class TramiteController extends BaseController {
           );
 	}
 
+	public function postGetbyid(){
+		$rst=Tramite::getTramiteById();
+          return Response::json(
+              array(
+                  'rst'=>1,
+                  'datos'=>$rst
+              )
+          );
+	}
+
+	public function getVouchertramite()
+	{
+
+		/*get data*/
+		$rst=Tramite::getTramiteById();
+		$data = $rst[0];
+		/*end get data*/
+
+		$html = "<html><meta charset=\"UTF-8\">";
+		$html.="
+				<body>
+				<style>
+				table, tr , td, th {
+				text-align: left !important;
+				border-collapse: collapse;
+				border: 1px solid #ccc;
+				width: 100%;
+				font-size: .9em;
+				font-family: arial, sans-serif;
+				}
+				Th, td {
+				padding: 5px;
+				}
+				</style>";
+		$html.="<h3>VOCHER TRAMITE</h3>";
+		$html.="
+				<table>
+					<tr>
+						<th>FECHA: </th>
+						<td>".$data->tipotramite."</td>
+					</tr>
+					<tr>
+						<th>Nº COMPROBANTE: </th>
+						<td>".$data->tramiteid."</td>
+					</tr>
+					<tr>
+						<th>COD TRAMITE: </th>
+						<td>".$data->tramiteid."</td>
+					</tr>";
+
+		$html.="
+					<tr>
+						<th>DNI: </th>
+						<td>".$data->dniU."</td>
+					</tr>
+					<tr>
+						<th>APELLIDO PATERNO: </th>
+						<td>".$data->apepusuario."</td>
+					</tr>
+					<tr>
+						<th>APELLIDO MATERNO: </th>
+						<td>".$data->apemusuario."</td>
+					</tr>
+					<tr>
+						<th>NOMBRE USUARIO: </th>
+						<td>".$data->nombusuario."</td>
+					</tr>";
+					
+		if($data->ruc){
+			$html.="
+						<tr>
+							<th>RUC: </th>
+							<td>".$data->ruc."</td>
+						</tr>
+						<tr>
+							<th>TIPO EMPRESA: </th>
+							<td>".$data->tipoempresa."</td>
+						</tr>
+						<tr>
+							<th>RAZON SOCIAL: </th>
+							<td>".$data->empresa."</td>
+						</tr>
+						<tr>
+							<th>NOMBRE COMERCIAL: </th>
+							<td>".$data->nomcomercial."</td>
+						</tr>
+						<tr>
+							<th>DIRECCION FISCAL: </th>
+							<td>".$data->edireccion."</td>
+						</tr>
+						<tr>
+							<th>TELEFONO: </th>
+							<td>".$data->etelf."</td>
+						</tr>
+						<tr>
+							<th>REPRESENTANTE: </th>
+							<td>".$data->reprelegal."</td>
+						</tr>";
+		}
+
+		$html.="		<tr>
+							<th>NOMBRE TRAMITE: </th>
+							<td>".$data->tramite."</td>
+						</tr>					
+						<tr>
+							<th>AREA: </th>
+							<td>".$data->area."</td>
+						</tr>";
+				
+		$html.="</table><hr>
+		</body>
+		</html>";
+
+		return PDF::load($html, 'A4', 'landscape')->download('voucher-tramite-'.$data->tramiteid);
+	}
+
 	/**
 	 * Show the form for creating a new resource.
 	 * GET /tramite/create
@@ -213,9 +329,20 @@ class TramiteController extends BaseController {
 			                $rutaDetalle['dtiempo']=$rd->dtiempo;
 			                $rutaDetalle['norden']=$rd->norden;
 			                $rutaDetalle['estado_ruta']=$rd->estado_ruta;
-			                if($rd->norden==1 or ($rd->norden>1 and $validaactivar==0 and $rd->estado_ruta==2) ){
+			                /*if($rd->norden==1 or ($rd->norden>1 and $validaactivar==0 and $rd->estado_ruta==2) ){
 			                    $rutaDetalle['fecha_inicio']=Input::get('fecha_inicio');
-			                }
+			                }*/
+			                 if($rd->norden==1 or $rd->norden==2 or ($rd->norden>1 and $validaactivar==0 and $rd->estado_ruta==2) ){
+                                if($rd->norden==1){
+                                    $rutaDetalle['dtiempo_final']=date("Y-m-d H:i:s");
+                                    $rutaDetalle['tipo_respuesta_id']=2;
+                                                $rutaDetalle['tipo_respuesta_detalle_id']=1;
+                                    $rutaDetalle['observacion']="";
+                                    $rutaDetalle['usuario_updated_at']=Auth::user()->id;
+                                    $rutaDetalle['updated_at']=date("Y-m-d H:i:s");
+                                }
+                                $rutaDetalle['fecha_inicio']=date("Y-m-d H:i:s");
+                            }
 			                else{
 			                    $validaactivar=1;
 			                }
@@ -311,7 +438,7 @@ class TramiteController extends BaseController {
 			                                ->get();
 
 		                    if(count($qrutaDetalleVerbo)>0){
-		                        foreach ($qrutaDetalleVerbo as $rdv) {
+		                        /*foreach ($qrutaDetalleVerbo as $rdv) {
 		                            $rutaDetalleVerbo = new RutaDetalleVerbo;
 		                            $rutaDetalleVerbo['ruta_detalle_id']= $rutaDetalle->id;
 		                            $rutaDetalleVerbo['nombre']= $rdv->nombre;
@@ -322,7 +449,26 @@ class TramiteController extends BaseController {
 		                            $rutaDetalleVerbo['orden']= $rdv->orden;
 		                            $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
 		                            $rutaDetalleVerbo->save();
-		                        }
+		                        }*/
+		                        foreach ($qrutaDetalleVerbo as $rdv) {
+                                                $rutaDetalleVerbo = new RutaDetalleVerbo;
+                                                $rutaDetalleVerbo['ruta_detalle_id']= $rutaDetalle->id;
+                                                $rutaDetalleVerbo['nombre']= $rdv->nombre;
+                                                $rutaDetalleVerbo['condicion']= $rdv->condicion;
+                                                $rutaDetalleVerbo['rol_id']= $rdv->rol_id;
+                                                $rutaDetalleVerbo['verbo_id']= $rdv->verbo_id;
+                                                $rutaDetalleVerbo['documento_id']= $rdv->documento_id;
+                                                $rutaDetalleVerbo['orden']= $rdv->orden;
+                                                $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
+
+                                                if($rd->norden==1){
+                                                    $rutaDetalleVerbo['usuario_updated_at']= Auth::user()->id;
+                                                    $rutaDetalleVerbo['updated_at']= date("Y-m-d H:i:s");
+                                                    $rutaDetalleVerbo['finalizo']=1;
+                                                }
+
+                                                $rutaDetalleVerbo->save();
+                                            }
 		                    }
 		                }
 		                DB::commit();

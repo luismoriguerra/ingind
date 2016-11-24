@@ -168,7 +168,7 @@ HTMLTramites = function(data){
 }
 
 selectTramitetoDetail = function(obj){
-    var idtramite = obj.parentNode.parentNode.getAttribute('id');
+    /*var idtramite = obj.parentNode.parentNode.getAttribute('id');
     var td = document.querySelectorAll("#t_reporte tr[id='"+idtramite+"'] td");
     var data = '{';
     for (var i = 0; i < td.length; i++) {
@@ -178,14 +178,47 @@ selectTramitetoDetail = function(obj){
     }
     data+='","id":'+idtramite+'}';
     HTMLDetalleTramite(JSON.parse(data));
-    $('#estadoTramite').modal('show');
+    $('#estadoTramite').modal('show');*/
+      var idtramite = obj.parentNode.parentNode.getAttribute('id');
+    Bandeja.TramiteById({'idtramite':idtramite},HTMLDetalleTramite);
 }
 
 HTMLDetalleTramite = function(data){
-    document.querySelector('#txtcodtramite').value=data.codigo;
+    var result = data[0];
+    document.querySelector('#spanTipoTramite').innerHTML=result.tipotramite;
+    document.querySelector('#spanTipoDoc').innerHTML=result.tipodoc;
+    document.querySelector('#spanNombreTramite').innerHTML=result.tramite;
+    document.querySelector('#spanNumFolio').innerHTML=result.folio;
+    document.querySelector('#spanNumTipoDoc').innerHTML=result.nrotipodoc;
+    document.querySelector('#spanArea').innerHTML=result.area;
+    document.querySelector('#spanTipoSolicitante').innerHTML=result.solicitante;
+    document.querySelector('#spanImprimir2').setAttribute('idtramite',result.tramiteid);
+
+    if(result.empresaid){
+        document.querySelector('#spanRuc').innerHTML=result.ruc;
+        document.querySelector('#spanTipoEmpresa').innerHTML=result.tipoempresa;
+        document.querySelector('#spanRazonSocial').innerHTML=result.empresa;
+        document.querySelector('#spanNombComer').innerHTML=result.nomcomercial;
+        document.querySelector('#spanDomiFiscal').innerHTML=result.edireccion;
+        document.querySelector('#spanTelefonoE').innerHTML=result.etelf;
+        document.querySelector('#spanFechavE').innerHTML=result.fregistro;
+        document.querySelector('#spanRepreL').innerHTML=result.reprelegal;
+        document.querySelector('#spanDniRL').innerHTML=result.repredni;
+        document.querySelector('.empresadetalle').classList.remove('hidden');    
+    }else{
+        document.querySelector('.empresadetalle').classList.add('hidden'); 
+    }
+
+
+    document.querySelector('#spanDniU').innerHTML=result.dniU;
+    document.querySelector('#spanNombreU').innerHTML=result.nombusuario;
+    document.querySelector('#spanNombreApeP').innerHTML=result.apepusuario;
+    document.querySelector('#spanNombreApeM').innerHTML=result.apemusuario;
+    $('#estadoTramite').modal('show');
+   /* document.querySelector('#txtcodtramite').value=data.codigo;
     document.querySelector('#txtfechaIngresado').value=data.fechaingreso;
     document.querySelector('#txtnombtramite').value=data.nombre;
-    document.querySelector('#txtdetalle').value=data.observacion;
+    document.querySelector('#txtdetalle').value=data.observacion;*/
 }
 
 seleccionado = function(obj){
@@ -434,6 +467,16 @@ exportPDF = function(obj){
     var anexo = obj.getAttribute('codanexo');
     if(anexo){
         obj.setAttribute('href','anexo/voucheranexo'+'?codanexo='+anexo);
+       /* $(this).attr('href','reporte/exportprocesosactividades'+'?estado='+data[0]['estado']+'&area_id='+data[0]['area_id']);*/
+    }else{
+        event.preventDefault();
+    }
+}
+
+exportPDFTramite = function(obj){
+    var idtramite = obj.getAttribute('idtramite');
+    if(idtramite){
+        obj.setAttribute('href','tramitec/vouchertramite'+'?idtramite='+idtramite);
        /* $(this).attr('href','reporte/exportprocesosactividades'+'?estado='+data[0]['estado']+'&area_id='+data[0]['area_id']);*/
     }else{
         event.preventDefault();

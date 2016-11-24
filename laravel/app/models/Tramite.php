@@ -21,4 +21,25 @@ class Tramite extends Eloquent {
 		$r= DB::select($sql);
         return $r; 
 	}
+
+	public static function getTramiteById(){
+		$sql = "select t.id tramiteid,a.nombre as area,t.persona_id personaid,t.tipo_documento_id tdocid,t.clasificador_tramite_id ctid,t.tipo_solicitante_id tsid,t.area_id areaid,t.fecha_tramite fregistro,p.dni dniU,p.nombre nombusuario,p.paterno apepusuario,p.materno apemusuario,
+				t.empresa_id empresaid,e.ruc ruc,e.tipo_id tipoempresa,e.razon_social as empresa,e.nombre_comercial nomcomercial,e.direccion_fiscal edireccion,
+				e.telefono etelf,e.fecha_vigencia efvigencia,CONCAT_WS(' ',p2.nombre,p2.paterno,p2.materno) as reprelegal,
+				p2.dni repredni,
+				ts.nombre solicitante,tt.nombre_tipo_tramite tipotramite,d.nombre tipodoc,ct.nombre_clasificador_tramite as tramite,
+				t.fecha_tramite fecha ,t.nro_folios folio, t.documento as nrotipodoc,ts.pide_empresa statusemp 
+				from tramites t 
+				INNER JOIN personas p on p.id=t.persona_id 
+				INNER JOIN clasificador_tramite ct on ct.id=t.clasificador_tramite_id
+				INNER JOIN tipo_tramite tt on tt.id=ct.tipo_tramite_id 
+				LEFT JOIN empresas e on e.id=t.empresa_id 
+				LEFT JOIN personas p2 on p2.id=e.persona_id
+				INNER JOIN tipo_solicitante ts on ts.id=t.tipo_solicitante_id 
+				INNER JOIN documentos d on d.id=t.tipo_documento_id 
+                LEFT JOIN areas a on a.id=t.area_id 
+				WHERE t.estado = 1 and t.id=".Input::get('idtramite');
+		$r= DB::select($sql);
+        return $r; 
+	}
 }

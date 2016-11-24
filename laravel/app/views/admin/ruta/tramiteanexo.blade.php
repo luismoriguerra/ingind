@@ -155,6 +155,7 @@ td, th{
                                         <th>OBSERVACION</th>
                                         <th>LISTAR ANEXO</th>
                                         <th>VISUALIZADO</th>
+                                       {{--  <th>VOUCHER</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody id="tb_reporte">
