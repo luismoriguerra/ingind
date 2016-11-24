@@ -1079,7 +1079,7 @@ class ReporteController extends BaseController
                 INNER JOIN tablas_relacion t ON r.tabla_relacion_id=t.id 
                 LEFT JOIN tipo_solicitante ts ON t.tipo_persona=ts.id 
                 LEFT JOIN personas pe on pe.id=al.persona_id
-                WHERE r.estado=1";
+                WHERE r.estado=1 AND al.estado=1";
 
           if($fecha != ''){
             list($fechaIni,$fechaFin) = explode(" - ", $fecha);
