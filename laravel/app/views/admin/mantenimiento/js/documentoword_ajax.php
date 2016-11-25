@@ -145,9 +145,17 @@ var Documento={
 
                     $('#txt_titulo').closest('.row').show();
                     $('#plantillaWord').closest('.row').show();
+                    $('#divCebecera').hide();
+
+                    if (obj.datos[0].cabecera) {
+                        $('#divCebecera').show();
+                    }
 
                     $('#txt_titulo').val(obj.datos[0].titulo);
                     CKEDITOR.instances.plantillaWord.setData( obj.datos[0].cuerpo );
+
+
+                    console.log(obj.datos[0]);
 
                 } else {
                     // $.each(obj.msj,function(index,datos){
