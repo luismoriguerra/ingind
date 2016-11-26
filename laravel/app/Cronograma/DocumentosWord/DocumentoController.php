@@ -38,7 +38,7 @@ class DocumentoController extends \BaseController {
             $documento->cabecera = Input::get('cabecera');
             $documento->remitente = '';
             $documento->destinatario = '';
-            $documento->asunto = '';
+            $documento->asunto = Input::get('asunto', '');
             // $documento->fecha = new \DateTime();
             $documento->cuerpo = Input::get('word', '');
             // $documento->correlativo = '';
@@ -67,8 +67,8 @@ class DocumentoController extends \BaseController {
             $documento->cabecera = Input::get('cabecera');
             $documento->remitente = '';
             $documento->destinatario = '';
-            $documento->asunto = '';
-            $documento->fecha = new \DateTime();
+            $documento->asunto = Input::get('asunto', '');
+            $documento->fecha = Input::get('fechaDocumento', new \DateTime());
             $documento->cuerpo = Input::get('word', '');
             $documento->correlativo = '';
             $documento->plantillaId = '';

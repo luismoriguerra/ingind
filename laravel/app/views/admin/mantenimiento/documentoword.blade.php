@@ -5,6 +5,10 @@
     @parent
     {{ HTML::script('lib/ckeditor/ckeditor.js') }}
     {{ HTML::style('css/admin/plantilla.css') }}
+    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
+    {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.0/locale/es.js') }}
+    {{ HTML::style('/lib/daterangepicker/css/daterangepicker-bs3.css') }}
+    {{ HTML::script('/lib/daterangepicker/js/daterangepicker_single.js') }}
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
 

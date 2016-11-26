@@ -63,12 +63,20 @@
                           <tr>
                               <td width='25%' class='text-negrita'>ASUNTO</td>
                               <td width='5px' class='text-negrita'>:</td>
-                              <td width='75%'>Titulo, <i>Ejemplo:</i>  Invitación a la Inaguración del Palacio Municipal</td>
+                              <td width='75%'>
+                                <input type="text" class="form-control" placeholder="Ingrese Asunto" name="txt_asunto" id="txt_asunto"/>
+                              </td>
                           </tr>
                           <tr>
                               <td width='25%' class='text-negrita'>FECHA</td>
                               <td width='5px' class='text-negrita'>:</td>
-                              <td width='75%'>Fecha, <i>Ejemplo:</i> Lima, 01 de diciembre del 2016</td>
+                              <td width='75%'>
+                                <input type="hidden" name="txt_fechaDocumento" id="txt_fechaDocumento"/>
+                                <div class="fecha">
+                                  <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                  <span></span>
+                                </div>
+                              </td>
                           </tr>
                       </table>
                     </div>
