@@ -14,7 +14,7 @@ class AreaController extends \BaseController
     {
         $this->beforefilter('auth');
         $this->_errorController = $ErrorController;
-        $this->userRepository = $userRepository;
+        $this->UserRepository = $userRepository;
     }
 
     public function index($area_id){
