@@ -55,7 +55,7 @@
                 <div class="row usuario">
                     <div class="col-md-12 col-sm-12 col-xs-12 left">
                     <span>Seleccione usuario:</span>
-                        <select v-model="users" id="users" name="users[]" multiple class="form-control" style="border-radius: 5px !important">
+                        <select v-model="users" id="users" name="users[]" class="form-control" style="border-radius: 5px !important">
                             <option>Debe escoger una area primero</option>
                         </select>
                      </div>
@@ -203,6 +203,7 @@
                     this.$http.post("/conversations",data,function(data) {
                         this.getConversations(current_conversation);
                         $('#newMessageModal').modal('hide');
+                        $('.nuevomensaje').css('display', 'none');
                     });
                 },
                 getArea: function (area_id){
