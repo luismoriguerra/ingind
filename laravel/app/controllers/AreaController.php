@@ -10,8 +10,10 @@ class AreaController extends \BaseController
     /**
      *
      */    
-    public function __construct(ErrorController $ErrorController)
-    {
+    public function __construct(
+        ErrorController $ErrorController,
+        UserRepository $userRepository
+    ) {
         $this->beforefilter('auth');
         $this->_errorController = $ErrorController;
         $this->userRepository = $userRepository;
