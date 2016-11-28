@@ -198,7 +198,7 @@
                 sendConversation: function(env){
                     var usuarios;
                     if (!Array.isArray(this.users)){
-                        usuarios.push(this.users);
+                        usuarios = [this.users];
                     }else{
                         usuarios = this.users;
                     }
