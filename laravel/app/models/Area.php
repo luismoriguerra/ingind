@@ -12,6 +12,12 @@ class Area extends Base
     {
         return $this->belongsToMany('Cargo');
     }*/
+
+    public static function getPersonasByArea($area_id){
+        $sql = "SELECT acp.area_id FROM area_cargo_persona acp WHERE acp.estado=1 AND acp.area_id=".$area_id;
+        $r= DB::select($sql);
+        return $r[0];
+    }
     public static function getCargarCount( $array )
     {
         $sSql=" SELECT  COUNT(a.id) cant

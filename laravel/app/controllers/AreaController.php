@@ -12,15 +12,13 @@ class AreaController extends \BaseController
         $this->_errorController = $ErrorController;
     }
 
-    public function index(){
-        $area      = new Area;
-        var_dump($area->personas());
-        exit();
+    public function index($area_id) {
+        $areas = Area::getPersonasByArea($area_id);
         return Response::json([
             'success' => true,
-            'result' => $message
+            'result' => $areas
         ]);
-    } 
+    }
      /**
      * cargar areas, mantenimiento
      * POST /area/cargar
