@@ -90,7 +90,7 @@ class ConversationController extends \BaseController {
             ]);
         }
 
-        /*validate if have same conversation*/
+        /*validate if have same conversation //miss to multiple */
         $conversation_id = '';
         $conversations = Auth::user()->conversations()->get();
         foreach ($conversations as $conversation) {
@@ -100,25 +100,31 @@ class ConversationController extends \BaseController {
                 } 
             }
         }
-        var_dump($conversation_id);
-        exit();       
         /*end validate if have same conversation*/
 
-        // Create Conversation
-        $params = array(
-            'created_at' => new DateTime,
-            'name'          => str_random(30),
-            'author_id'  => Auth::user()->id,
-        );
+        $conversationid = '';
+        if($conversation_id){
+            $conversationFind=Conversation::find($conversation_id);
+            $conversationid = $conversationFind->id;           
+        }else{
+            // Create Conversation
+            $params = array(
+                'created_at' => new DateTime,
+                'name'          => str_random(30),
+                'author_id'  => Auth::user()->id,
+            );
 
-        $conversation = Conversation::create($params);
+            $conversation = Conversation::create($params);
 
-        $conversation->users()->attach(Input::get('users'));
-        $conversation->users()->attach(array(Auth::user()->id));
+            $conversation->users()->attach(Input::get('users'));
+            $conversation->users()->attach(array(Auth::user()->id));
+            $conversationid = $conversation->id;     
+        }
+
 
         // Create Message
         $params = array(
-            'conversation_id' => $conversation->id,
+            'conversation_id' => $conversationid,
             'body'               => Input::get('body'),
             'user_id'           => Auth::user()->id,
             'created_at'      => new DateTime,
@@ -130,11 +136,11 @@ class ConversationController extends \BaseController {
         $messages_notifications = array();
 
         foreach(Input::get('users') as $user_id) {
-            array_push($messages_notifications, new MessageNotification(array('user_id' => $user_id, 'read' => false, 'conversation_id' => $conversation->id)));
+            array_push($messages_notifications, new MessageNotification(array('user_id' => $user_id, 'read' => false, 'conversation_id' => $conversationid)));
 
             $data = array(
                 'room'    => $user_id,
-                'message' => array('conversation_id' => $conversation->id)
+                'message' => array('conversation_id' => $conversationid)
             );
             Event::fire(ChatConversationsEventHandler::EVENT, array(json_encode($data)));
         }
