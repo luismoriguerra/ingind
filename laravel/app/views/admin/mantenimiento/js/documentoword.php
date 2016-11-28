@@ -27,6 +27,11 @@ $(document).ready(function() {
         if (titulo=='Nuevo') {
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
+
+            Documento.GetEncargadoAreaDelUsuarioLogeado();
+            slctGlobal.listarSlct('area','slct_area_a','simple',null,data);
+            slctGlobalHtml('slct_encargado_area_a','simple',['Seleccione']);
+
         } else {
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
@@ -61,6 +66,12 @@ $(document).ready(function() {
         Documento.GetPlantilla(id);
     });
 
+    $('#form_documento #slct_area_a').on('change', function (event) {
+        alert();
+        // var id = $(this).val();
+        // Documento.GetPlantilla(id);
+    });
+
     $('.fecha').daterangepicker({
         singleDatePicker: true,
         showDropdowns: true,
@@ -73,6 +84,8 @@ $(document).ready(function() {
     });
 
 });
+eventoSlctGlobalSimple=function(){
+}
 activarTabla=function(){
     $("#t_plantilla").dataTable();
 };

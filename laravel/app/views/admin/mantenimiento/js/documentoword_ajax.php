@@ -127,6 +127,37 @@ var Documento={
     },
     Previsualizar:function(){
     },
+    GetEncargadoAreaDelUsuarioLogeado:function(){
+        $.ajax({
+            url         : 'documentoword/encargado-area-del-usuario-logeado',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : {},
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay,.loading-img").remove();
+
+                if (obj.rst==1) {
+                    $('#gerencia_de').text( obj.datos.area );
+                    $('#encargado_de').text( [obj.datos.nombre, obj.datos.paterno, obj.datos.materno].join(' ') );
+                    $('#txt_gerencia_de').val(obj.datos.area_id);
+                    $('#txt_encargado_de').val(obj.datos.persona_id);
+                } else {
+                    // $.each(obj.msj,function(index,datos){
+                    //     $("#error_"+index).attr("data-original-title",datos);
+                    //     $('#error_'+index).css('display','');
+                    // });
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                alertBootstrap('danger', 'Ocurrio una interrupción en el proceso,Favor de intentar nuevamente', 6);
+            }
+        });
+    },
     GetPlantilla:function(plantilla_id){
 
         $.ajax({
@@ -153,9 +184,6 @@ var Documento={
 
                     $('#txt_titulo').val(obj.datos[0].titulo);
                     CKEDITOR.instances.plantillaWord.setData( obj.datos[0].cuerpo );
-
-
-                    console.log(obj.datos[0]);
 
                 } else {
                     // $.each(obj.msj,function(index,datos){

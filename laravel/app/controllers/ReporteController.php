@@ -1114,6 +1114,44 @@ class ReporteController extends BaseController
         );
     }
 
+    
+    public function postProduccionusuario(){
+        $fecha = '';
+        $id_usuario = '';
+          if(Input::get('fecha')){
+            $fecha = Input::get('fecha');
+          }
+          if(Input::get('usuario_id')){
+             $id_usuario = Input::get('usuario_id');
+          }
+
+        $r= Persona::ProduccionUsuario($fecha,$id_usuario);
+            return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$r 
+            )
+        );
+    }
+    public function postProduccionusuarioxarea(){
+        $fecha = '';
+        $id_usuario = '';
+          if(Input::get('fecha')){
+            $fecha = Input::get('fecha');
+          }
+          if(Input::get('usuario_id')){
+             $id_usuario = Input::get('usuario_id');
+          }
+
+        $r= Persona::ProduccionUsuarioxArea($fecha,$id_usuario);
+            return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$r 
+            )
+        );
+    }
+
     public function getExportnotincumplimiento(){
    /*   if( Request::ajax() ){*/
         $fecha = Input::get('fecha');

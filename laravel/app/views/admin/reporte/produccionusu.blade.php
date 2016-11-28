@@ -18,7 +18,7 @@
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Producciòn de Usuarios
+            Producciòn de Usuario
             <small> </small>
         </h1>
         <ol class="breadcrumb">
@@ -42,7 +42,7 @@
                             </div>
                             <div class="col-sm-2">
                                 <label class="control-label"></label>
-                                <input type="button" class="form-control btn btn-primary" id="generar" name="generar" value="Mostrar">
+                                <input type="button" class="form-control btn btn-primary" id="generar_area" name="generar_area" value="Mostrar">
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,8 @@
                                             </small>
                                             </h3>
                                         </div>
-                                        <div class="col-sm-12">                                          
+                                        <div class="col-sm-12">
+                                            <input type="hidden" id="usuario_id" name="usuario_id">
                                             <div class="col-md-4 col-sm-4">
                                                 <label class="control-label">Nombre:</label>
                                                 <input type="text" class="form-control" id="txt_persona" readonly>
@@ -105,8 +106,39 @@
                         </div>
                     </div>
                 </div>
+              
+               
+                
+                
                 
             </div><!-- /.box -->
+              <div class="row form-group" id="produccion" style="display:none;">
+                    <div class="col-sm-12">
+                        <div class="box-body table-responsive">
+                            <table id="t_produccion" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre del Proceso</th>
+                                        <th>Cantidad de Tareas Realizadas</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tb_produccion">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                   <div class="col-sm-12">
+                    <br>
+                </div>
+                <div class="col-sm-12">
+                    <div id="div_total_produccion" >
+                    
+                </div>
+                </div>
+                  
+                </div>
+             
+               
             <!-- Finaliza contenido -->
         </div>
     </section><!-- /.content -->
