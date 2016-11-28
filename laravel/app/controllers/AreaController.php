@@ -11,6 +11,16 @@ class AreaController extends \BaseController
         $this->beforefilter('auth');
         $this->_errorController = $ErrorController;
     }
+
+    public function index(){
+        $area      = new Area;
+        var_dump($area->personas());
+        exit();
+        return Response::json([
+            'success' => true,
+            'result' => $message
+        ]);
+    } 
      /**
      * cargar areas, mantenimiento
      * POST /area/cargar
