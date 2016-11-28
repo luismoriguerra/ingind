@@ -1,8 +1,12 @@
 <?php
-
+use Chat\Repositories\User\UserRepository;
 class AreaController extends \BaseController
 {
     protected $_errorController;
+    /**
+      * @var Chat\Repositories\UserRepository
+     */
+    private $userRepository;
     /**
      *
      */    
@@ -10,14 +14,12 @@ class AreaController extends \BaseController
     {
         $this->beforefilter('auth');
         $this->_errorController = $ErrorController;
+        $this->userRepository = $userRepository;
     }
 
-    public function index($area_id) {
-        $areas = Area::getPersonasByArea($area_id);
-        return Response::json([
-            'success' => true,
-            'result' => $areas
-        ]);
+    public function index($area_id){
+        $usuarios = $this->userRepository->getAllExceptFromArea(Auth::user()->id,$area_id);
+        return $usuarios->lists('full_name', 'id');
     }
      /**
      * cargar areas, mantenimiento
