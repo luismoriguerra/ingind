@@ -8,7 +8,7 @@
 		
 		<link rel="shortcut icon" href="assets/ico/favicon.ico">
 		<meta name="description" content="">
-		<title>			
+		<title>	
 				M. Independencia
 		</title>
 		<meta name="token" id="token" value="{{ csrf_token() }}">
