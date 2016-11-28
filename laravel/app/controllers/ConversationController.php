@@ -90,6 +90,20 @@ class ConversationController extends \BaseController {
             ]);
         }
 
+        /*validate if have same conversation*/
+        $conversation_id = '';
+        $conversations = Auth::user()->conversations()->get();
+        foreach ($conversations as $conversation) {
+            foreach ($conversation->users()->get() as $user) {
+                if($user->id == Input::get('users')[0]){
+                    $conversation_id = $conversation->id;
+                } 
+            }
+        }
+        var_dump($conversation_id);
+        exit();       
+        /*end validate if have same conversation*/
+
         // Create Conversation
         $params = array(
             'created_at' => new DateTime,
