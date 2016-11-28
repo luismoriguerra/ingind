@@ -1,3 +1,23 @@
+--28-11-2016
+ALTER TABLE `messages`
+CHANGE COLUMN `user_id` `author_id`  int(11) NULL DEFAULT NULL COMMENT 'quien envia el mensaje' AFTER `conversation_id`,
+ADD COLUMN `user_id`  int(11) NULL COMMENT 'quien recibe el mensaje' AFTER `author_id`;
+ALTER TABLE `conversations`
+ADD COLUMN `usuario_id`  int(11) NOT NULL COMMENT 'second in conversation' AFTER `author_id`;
+ALTER TABLE `messages`
+ADD COLUMN `read`  int(11) NULL AFTER `user_id`,
+ADD COLUMN `fecha_leido`  date NULL AFTER `read`;
+ALTER TABLE `messages`
+CHANGE COLUMN `author_id` `user_id`  int(11) NULL DEFAULT NULL COMMENT 'quien envia el mensaje' AFTER `conversation_id`,
+CHANGE COLUMN `user_id` `user_recept`  int(11) NULL DEFAULT NULL COMMENT 'quien recibe el mensaje' AFTER `user_id`,
+MODIFY COLUMN `read`  tinyint(11) NULL DEFAULT NULL AFTER `user_recept`;
+
+
+
+
+
+
+
 --11-11-2016
 ALTER TABLE `procesos`.`personas`   
   ADD COLUMN `imagen_dni` VARCHAR(100) NULL AFTER `imagen`;

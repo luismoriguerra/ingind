@@ -94,12 +94,11 @@ class ConversationController extends \BaseController {
         $params = array(
             'created_at' => new DateTime,
             'name'          => str_random(30),
-            'author_id'  => Auth::user()->id
+            'author_id'  => Auth::user()->id,
         );
 
         $conversation = Conversation::create($params);
 
-        //aqui para cancelar el registro en conversacion user
         $conversation->users()->attach(Input::get('users'));
         $conversation->users()->attach(array(Auth::user()->id));
 
@@ -108,7 +107,7 @@ class ConversationController extends \BaseController {
             'conversation_id' => $conversation->id,
             'body'               => Input::get('body'),
             'user_id'           => Auth::user()->id,
-            'created_at'      => new DateTime
+            'created_at'      => new DateTime,
         );
 
         $message = Message::create($params);
@@ -119,14 +118,20 @@ class ConversationController extends \BaseController {
         foreach(Input::get('users') as $user_id) {
             array_push($messages_notifications, new MessageNotification(array('user_id' => $user_id, 'read' => false, 'conversation_id' => $conversation->id)));
 
-            // Publish Data To Redis
             $data = array(
                 'room'    => $user_id,
                 'message' => array('conversation_id' => $conversation->id)
             );
-
             Event::fire(ChatConversationsEventHandler::EVENT, array(json_encode($data)));
         }
+
+            // Publish Data To Redis
+           /* $data = array(
+               /* 'room'    => $user_id,*/
+                'room'    => Input::get('users'),
+                'message' => array('conversation_id' => $conversation->id)
+            );
+             Event::fire(ChatConversationsEventHandler::EVENT, array(json_encode($data)));*/
 
         $message->messages_notifications()->saveMany($messages_notifications);
         return [];
