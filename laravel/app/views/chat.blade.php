@@ -96,7 +96,7 @@
                 //messageList  : [],
                 $conversation : [],
                 message      : [],
-                //user_id : [],
+                user_id : "{{ Auth::user()->id }}",
                 from_user_id : [],
                 conversation : [],
             },
