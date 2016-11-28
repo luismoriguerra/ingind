@@ -321,6 +321,49 @@ class Persona extends Base implements UserInterface, RemindableInterface
 
         return $r;
     }
+    public static function ProduccionUsuario($fecha,$id_usuario)
+    {     $query = '';
+    
+          $query.="select COUNT(rdv.id) as tareas
+                from rutas_detalle_verbo rdv
+                INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1						 
+                INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
+                INNER JOIN flujos f on r.flujo_id=f.id 
+                WHERE rdv.estado=1 
+                AND rdv.finalizo=1 
+                AND rdv.usuario_updated_at=$id_usuario";
+          
+           if($fecha != ''){
+            list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+            $query.=' AND date(rdv.updated_at) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
+         }      
+        $r= DB::select($query);
+
+        return $r;
+    }
+    
+    public static function ProduccionUsuarioxArea($fecha,$id_usuario)
+    {     $query = '';
+    
+          $query.="select f.nombre ,COUNT(rdv.id) AS tareas
+            from rutas_detalle_verbo rdv 
+            INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1						 
+            INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
+            INNER JOIN flujos f on r.flujo_id=f.id
+            WHERE rdv.estado=1 
+            AND rdv.finalizo=1 
+            AND rdv.usuario_updated_at=$id_usuario
+            AND DATE(rdv.updated_at) BETWEEN '2016-01-01' AND '2016-12-01' ";
+          
+           if($fecha != ''){
+            list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+            $query.=' AND date(rdv.updated_at) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
+         }
+         $query.='GROUP BY r.id';
+        $r= DB::select($query);
+
+        return $r;
+    }
     /*public static function getCargoArea()
     {
         $query = DB::table('tipos_respuesta_detalle as trd')

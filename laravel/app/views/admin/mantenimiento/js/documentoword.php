@@ -4,6 +4,7 @@ $(document).ready(function() {
 
     var ids=[];
     var data = {estado:1};
+    moment.locale('es');
 
     Documento.Cargar(activarTabla);
     HTML_Ckeditor();
@@ -21,11 +22,16 @@ $(document).ready(function() {
         $(this).find('form')[0].reset();
         modal.find('.modal-title').text(titulo+' Documento');
         $('#form_documento [data-toggle="tooltip"]').css("display","none");
-        $("#form_documento input[type='hidden']").remove();
+        // $("#form_documento input[type='hidden']").remove();
 
         if (titulo=='Nuevo') {
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
+
+            Documento.GetEncargadoAreaDelUsuarioLogeado();
+            slctGlobal.listarSlct('area','slct_area_a','simple',null,data);
+            slctGlobalHtml('slct_encargado_area_a','simple',['Seleccione']);
+
         } else {
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
@@ -51,7 +57,7 @@ $(document).ready(function() {
         $("#slct_plantilla").multiselect('destroy');
 
         $("#divTitulo").hide();
-        $("#divCebecera").hide();
+        $('#divCebecera').hide();
         $("#divPlantillaWord").hide();
     });
 
@@ -60,7 +66,26 @@ $(document).ready(function() {
         Documento.GetPlantilla(id);
     });
 
+    $('#form_documento #slct_area_a').on('change', function (event) {
+        alert();
+        // var id = $(this).val();
+        // Documento.GetPlantilla(id);
+    });
+
+    $('.fecha').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+    },
+    function(start, end, label) {
+
+        var fecha = moment(start);
+        $('.fecha span').html(fecha.format('LL'));
+        $('#txt_fechaDocumento').val(fecha.format());
+    });
+
 });
+eventoSlctGlobalSimple=function(){
+}
 activarTabla=function(){
     $("#t_plantilla").dataTable();
 };
