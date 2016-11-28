@@ -99,6 +99,7 @@ class ConversationController extends \BaseController {
 
         $conversation = Conversation::create($params);
 
+        //aqui para cancelar el registro en conversacion user
         $conversation->users()->attach(Input::get('users'));
         $conversation->users()->attach(array(Auth::user()->id));
 
