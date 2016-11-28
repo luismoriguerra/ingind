@@ -359,7 +359,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
             list($fechaIni,$fechaFin) = explode(" - ", $fecha);
             $query.=' AND date(rdv.updated_at) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
          }
-         $query.='GROUP BY r.id';
+         $query.='GROUP BY f.id';
         $r= DB::select($query);
 
         return $r;
