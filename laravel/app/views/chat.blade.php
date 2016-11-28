@@ -2,7 +2,7 @@
     <a class="open-chat-button tooltips hidden" onClick="show()" href="javascript:void(0)" data-toggle="tooltip" data-placement="right" title="" data-original-title="Info Chat"><i class="fa fa-wechat"></i></a>
                     
     <a class="open-chat-button-active tooltips hidden" href="javascript:void(0)" data-toggle="tooltip" data-placement="right" title="" data-original-title="Info Chat"><i class="fa fa-wechat"></i></a>
-    <div class="live-chat" id="chat" style="display:none">
+    <div class="live-chat" style="display:none">
         <form action="#" id="form-chat" class="sky-form">
             <header>
                 <span>Chat</span>
@@ -74,7 +74,7 @@
             </form>
         </fieldset> 
     </div>
-    @include('templates/new_message_modal', array('areas' => $areas))
+
 </div>
 {{ HTML::script('https://cdn.socket.io/socket.io-1.2.0.js') }}
 {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js') }}
