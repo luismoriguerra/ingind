@@ -80,7 +80,7 @@
 {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js') }}
 {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.2/vue-resource.min.js') }}
 <script>
-    var user_id   = "{{ Auth::user()->id }}";
+        var user_id   = "{{ Auth::user()->id }}";
         var current_conversation = "{{ Session::get('current_conversation') }}";
         var vm = new Vue({
             http: {
@@ -96,7 +96,7 @@
                 //messageList  : [],
                 $conversation : [],
                 message      : [],
-                user_id : [],
+                users : [],
                 from_user_id : [],
                 conversation : [],
             },
