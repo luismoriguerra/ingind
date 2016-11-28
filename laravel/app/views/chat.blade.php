@@ -196,9 +196,16 @@
                     });
                 },
                 sendConversation: function(env){
+                    var usuarios;
+                    if (!Array.isArray(this.users)){
+                        usuarios.push(this.users);
+                    }else{
+                        usuarios = this.users;
+                    }
+
                     data={
                         body:this.body,
-                        users:this.users
+                        users:usuarios
                     };
                     this.$http.post("/conversations",data,function(data) {
                         this.getConversations(current_conversation);
