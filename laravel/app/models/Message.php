@@ -9,7 +9,7 @@ class Message extends Eloquent {
 
     public function user()
     {
-        return $this->belongsTo('Persona', 'author_id');
+        return $this->belongsTo('Persona', 'user_id');
     }
 
     public function conversation()

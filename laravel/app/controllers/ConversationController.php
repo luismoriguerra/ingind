@@ -107,9 +107,9 @@ class ConversationController extends \BaseController {
         $params = array(
             'conversation_id' => $conversation->id,
             'body'               => Input::get('body'),
-            'author_id'           => Auth::user()->id,
+            'user_id'           => Auth::user()->id,
             'created_at'      => new DateTime,
-            'user_id' => Input::get('users'),
+            'user_recept' => Input::get('users'),
             'read' => false
         );
 
@@ -127,7 +127,7 @@ class ConversationController extends \BaseController {
             );
             Event::fire(ChatConversationsEventHandler::EVENT, array(json_encode($data)));
         }*/
-        
+
             // Publish Data To Redis
             $data = array(
                /* 'room'    => $user_id,*/
