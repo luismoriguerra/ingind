@@ -127,7 +127,6 @@ class ConversationController extends \BaseController {
 
             // Publish Data To Redis
            /* $data = array(
-               /* 'room'    => $user_id,*/
                 'room'    => Input::get('users'),
                 'message' => array('conversation_id' => $conversation->id)
             );
