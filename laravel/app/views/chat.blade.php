@@ -55,7 +55,7 @@
                 <div class="row usuario">
                     <div class="col-md-12 col-sm-12 col-xs-12 left">
                     <span>Seleccione usuario:</span>
-                        <select v-model="users" id="users" name="users[]" class="form-control" style="border-radius: 5px !important">
+                        <select v-model="users" id="users" name="users" class="form-control" style="border-radius: 5px !important">
                             <option>Debe escoger una area primero</option>
                         </select>
                      </div>
@@ -96,7 +96,7 @@
                 //messageList  : [],
                 $conversation : [],
                 message      : [],
-                user_id : "{{ Auth::user()->id }}",
+                user_id : [],
                 from_user_id : [],
                 conversation : [],
             },
