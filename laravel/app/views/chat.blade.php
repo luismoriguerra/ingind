@@ -157,9 +157,7 @@
                     this.conversations= response.conversations;
                     this.messages= response.messages;
                     this.areas= response.areas;
-                    /*this.scrollToBottom();*/
-                    $('#messageList').removeClass('myscroll');
-                    $('#messageList').addClass('myscroll');
+                    /*this.scrollToBottom();*/                   
                 });
                 if (conversation) {
                     $('.chatonline').css('display', 'block');
