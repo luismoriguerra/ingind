@@ -1115,26 +1115,60 @@ class ReporteController extends BaseController
     }
 
     public function postDetalleproduccion(){
+        
+        if ( Request::ajax() ) {
+            /*********************FIJO*****************************/
+            $array=array();
+            $array['where']='';
+
+            /************************************************************/
+
+            if( Input::has("usuario_id") ){
+                $id_usuario=Input::get("usuario_id");
+                if($id_usuario != ''){
+                    $array['where'].=" AND rdv.usuario_updated_at='.$id_usuario.' ";
+                }
+            }
+            
+            if( Input::has("proceso_id") ){
+                $id_proceso=Input::get("proceso_id");
+                if($id_proceso != ''){
+                    $array['where'].=" AND f.id='.$id_proceso.' ";
+                }
+            }
+
+            if( Input::has("fecha") ){
+                $fecha=Input::get("fecha");
+                    list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+                    $array['where'].=" AND date(rdv.updated_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+            }
+
+            $array['order']=" ORDER BY f.nombre ";
+
+            $cant  = Persona::getDetalleProduccion( $array );
+            $aData = Persona::getDPCount( $array );
+
+            $aParametro['rst'] = 1;
+            $aParametro["recordsTotal"]=$cant;
+            $aParametro["recordsFiltered"]=$cant;
+            $aParametro['data'] = $aData;
+            $aParametro['msj'] = "No hay registros aún";
+            return Response::json($aParametro);
+
+        }
+        
         $fecha = '';
         $id_usuario = '';
         $id_proceso='';
-          if(Input::get('fecha')){
-            $fecha = Input::get('fecha');
-          }
-          if(Input::get('usuario_id')){
-             $id_usuario = Input::get('usuario_id');
-          }
-          if(Input::get('proceso_id')){
-             $id_proceso = Input::get('proceso_id');
-          }
+        
+           if($id_proceso != ''){
+            $query.=' AND f.id='.$id_proceso.'';
+         }  
 
-        $r= Persona::DetalleProduccion($fecha,$id_usuario,$id_proceso);
-            return Response::json(
-            array(
-                'rst'=>1,
-                'datos'=>$r 
-            )
-        );
+        
+          
+
+       
     }
     public function postProduccionusuario(){
         $fecha = '';

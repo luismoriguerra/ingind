@@ -1,5 +1,35 @@
 <script type="text/javascript">
+var cabeceraG=[]; // Cabecera del Datatable
+var columnDefsG=[]; // Columnas de la BD del datatable
+var targetsG=-1; // Posiciones de las columnas del datatable
+var DetalleG={id:0,proceso:"",area:"",tarea:"",verbo:"",documento:"",observacion:"",norden:"",updated_at:""}; // Datos Globales
+
 $(document).ready(function() {
+    
+     /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
+        2: Descripción de cabecera
+        3: Color Cabecera
+    */
+
+    slctGlobalHtml('slct_estado','simple');
+    var idG={   proceso        :'onBlur|Proceso|#DCE6F1', //#DCE6F1
+                area        :'onBlur|area|#DCE6F1', //#DCE6F1
+                tarea        :'onBlur|tarea|#DCE6F1', //#DCE6F1
+                verbo        :'onBlur|verbo|#DCE6F1', //#DCE6F1
+                documento        :'0onBlur|documento|#DCE6F1', //#DCE6F1
+                observacion        :'onBlur|observacion|#DCE6F1', //#DCE6F1
+                norden        :'onBlur|norden|#DCE6F1', //#DCE6F1
+                updated_at        :'onBlur|updated_at|#DCE6F1' //#DCE6F1
+             };
+
+    var resG=dataTableG.CargarCab(idG);
+    cabeceraG=resG; // registra la cabecera
+    var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,1,'detalles','t_detalles');
+    columnDefsG=resG[0]; // registra las columnas del datatable
+    targetsG=resG[1]; // registra los contadores
+   
+
+    
     $('#fecha').daterangepicker({
         format: 'YYYY-MM-DD',
         singleDatePicker: false
@@ -35,6 +65,19 @@ $(document).ready(function() {
  
 
 });
+
+MostrarAjax=function(t){ 
+    if( t=="detalles" ){
+       
+        if( columnDefsG.length>0 ){
+            
+            dataTableG.CargarDatos(t,'reporte','detalleproduccion',columnDefsG);
+        }
+        else{
+            alert('Faltan datos');
+        }
+    }
+}
 
 HTMLreporte=function(datos){
     var html="";
@@ -140,10 +183,11 @@ MostrarUsuario=function(id){
 };
 
 MostrarDetalle=function(id){
-     usuario_id = $('#usuario_id').val();
-     var fecha=$("#fecha").val();
-    dataG = {usuario_id:usuario_id,fecha:fecha,proceso_id:id};
-    Usuario.CargarDetalleProduccion(dataG);
+//     usuario_id = $('#usuario_id').val();
+//     var fecha=$("#fecha").val();
+//    dataG = {usuario_id:usuario_id,fecha:fecha,proceso_id:id};
+    $("#t_detalles").dataTable(); 
+     MostrarAjax('detalles');
 };
 
 ActPest=function(nro){
@@ -157,6 +201,9 @@ Regresar=function(){
      $(".nav-tabs-custom").hide();
     $('#bandeja_detalle').hide();
     
+};
+activarTabla=function(){
+    $("#t_detalles").dataTable(); // inicializo el datatable    
 };
 eventoSlctGlobalSimple=function(slct,valores){
 };

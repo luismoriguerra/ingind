@@ -133,7 +133,7 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1" onclick="ActPest(1);">
-                    <form id="form_1" name="form_1" method="post">
+                    <form id="form_produccion" name="form_produccion" method="post">
                           <div class="row form-group" id="produccion" >
                     <div class="col-sm-12">
                         <div class="box-body table-responsive">
