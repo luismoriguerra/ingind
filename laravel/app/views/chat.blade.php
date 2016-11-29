@@ -23,7 +23,7 @@
                 <span type="button" class="btn-sm" aria-hidden="true" @click.prevent="ocultar('chatonline')" style="float:right;"><i class="fa fa-minus"></i></span>
             </header>
             <fieldset>
-                <div id="messageList" class="conversation">
+                <div id="messageList" class="conversation myscroll">
                     @include('templates/messages', array('messages' => $current_conversation->messages))
                 </div>
                 <footer>
