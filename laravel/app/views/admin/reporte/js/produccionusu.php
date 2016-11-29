@@ -77,20 +77,47 @@ HTMLproxarea=function(datos){
         pos++;
         html+="<tr>"+
             "<td>"+data.nombre+"</td>"+
-            "<td>"+data.tareas+"</td>";
+            "<td>"+data.tareas+"</td>"+
+            "<td><span data-toggle='modal' onClick='MostrarDetalle("+data.id+");' data-id='' data-target='#produccionusuModal' class='btn btn-info'>Detalle</span></td>";
         html+="</tr>";
     });
     $("#tb_produccion").html(html);
     $("#t_produccion").dataTable(
     ); 
-    $("#produccion").show();
+    $(".nav-tabs-custom").show();
+
+};
+
+HTMLdetalleproduccion=function(datos){
+  var html="";
+    
+    var alerta_tipo= '';
+    $('#t_detalle_area').dataTable().fnDestroy();
+    pos=0;
+    $.each(datos,function(index,data){
+        pos++;
+        html+="<tr>"+
+            "<td>"+data.proceso+"</td>"+
+            "<td>"+data.area+"</td>"+
+            "<td>"+data.tarea+"</td>"+
+            "<td>"+data.verbo+"</td>"+
+            "<td>"+data.documento+"</td>"+
+            "<td>"+data.observacion+"</td>"+
+            "<td>"+data.norden+"</td>"+
+            "<td>"+data.updated_at+"</td>";
+        html+="</tr>";
+    });
+    $("#tb_detalle_area").html(html);
+    $("#t_detalle_area").dataTable(
+    ); 
+
 
 };
 
 HTMLproduccion=function(datos){
     var html="";
     $.each(datos,function(index,data){
-      html+="<table class='table table-bordered'><tr><td><b>Total de Tareas Realizadas</b></td><td>"+data.tareas+"</td></tr>";
+      html+="<table class='table table-bordered'><tr><td><b>Total de Tareas Realizadas</b></td><td>"+data.tareas+"</td><td><span data-toggle='modal' onClick='MostrarDetalle();' data-id='' data-target='#produccionusuModal' class='btn btn-info'>Detalle Total</span></td></tr>";
     });
     
     $("#div_total_produccion").html(html);
@@ -107,19 +134,27 @@ MostrarUsuario=function(id){
     var app = document.getElementById(id).getElementsByTagName('td')[0].innerHTML;
     var apm = document.getElementById(id).getElementsByTagName('td')[1].innerHTML;
     var nombre = document.getElementById(id).getElementsByTagName('td')[2].innerHTML;
-    //var appp = $("tr td")[0].innerHTML;
-    //var apmm = $("tr td")[1].innerHTML;
-    //var nombree = $("tr td")[2].innerHTML;
     $("#txt_persona").attr("value",app+" "+apm +" "+ nombre);
     $("#usuario_id").attr("value",id);
     
+};
+
+MostrarDetalle=function(id){
+     usuario_id = $('#usuario_id').val();
+     var fecha=$("#fecha").val();
+    dataG = {usuario_id:usuario_id,fecha:fecha,proceso_id:id};
+    Usuario.CargarDetalleProduccion(dataG);
+};
+
+ActPest=function(nro){
+    Pest=nro;
 };
 
 Regresar=function(){
     
     $('#reporte').show();
     $('fieldset').show();
-     $("#produccion").hide();
+     $(".nav-tabs-custom").hide();
     $('#bandeja_detalle').hide();
     
 };

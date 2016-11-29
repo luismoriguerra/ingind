@@ -1114,7 +1114,28 @@ class ReporteController extends BaseController
         );
     }
 
-    
+    public function postDetalleproduccion(){
+        $fecha = '';
+        $id_usuario = '';
+        $id_proceso='';
+          if(Input::get('fecha')){
+            $fecha = Input::get('fecha');
+          }
+          if(Input::get('usuario_id')){
+             $id_usuario = Input::get('usuario_id');
+          }
+          if(Input::get('proceso_id')){
+             $id_proceso = Input::get('proceso_id');
+          }
+
+        $r= Persona::DetalleProduccion($fecha,$id_usuario,$id_proceso);
+            return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$r 
+            )
+        );
+    }
     public function postProduccionusuario(){
         $fecha = '';
         $id_usuario = '';

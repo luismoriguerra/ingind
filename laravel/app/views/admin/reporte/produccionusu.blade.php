@@ -50,12 +50,14 @@
                   <form name="form_persona_detalle" id="form_persona_detalle" method="POST" action="">
                                     <div id="bandeja_detalle" class="row form-group" style="display:none;">
                                         <div class="col-sm-12">
+                                            <div class="col-md-12 col-sm-12">
                                             <h3><span id="txt_titulo2">Usuario</span>
                                             <small>
                                                 <i class="fa fa-angle-double-right fa-lg"></i>
                                                 <span id="texto_fecha_creacion2">:</span>
                                             </small>
                                             </h3>
+                                                </div>
                                         </div>
                                         <div class="col-sm-12">
                                             <input type="hidden" id="usuario_id" name="usuario_id">
@@ -67,13 +69,13 @@
                                                 <label class="control-label">Rango de Fechas:</label>
                                                 <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha" onfocus="blur()"/>
                                              </div>
-                                             <div class="col-md-2 col-sm-2">                            
+                                             <div class="col-md-1 col-sm-1">                            
                                                 <label class="control-label" style="color: white">aaaaa</label>
                                                 <input type="button" class="btn btn-info" id="generar" name="generar" value="Productividad">
                                              </div>
                                         </div>
-                                        <div class="col-md-12">
-                                             <div class="col-md-2">
+                                        <div class="col-sm-12">
+                                             <div class="col-md-1 col-sm-1">
                                                 <label class="control-label" style="color: white">aaaaa</label>
                                                 <button type="button"  class="btn btn-primary" id="regresar" name="regresar" value="Regresar" onClick='Regresar();'>regresar</button>
                                              </div>
@@ -112,7 +114,27 @@
                 
                 
             </div><!-- /.box -->
-              <div class="row form-group" id="produccion" style="display:none;">
+            
+             
+           <div class="nav-tabs-custom" style="display:none;">
+            <ul class="nav nav-tabs logo modal-header">
+                <li class="logo tab_1 active">
+                    <a href="#tab_1" data-toggle="tab">
+                        <button class="btn btn-primary btn-sm"><i class="fa fa-cloud fa-lg"></i> </button>
+                        Tareas Realizadas
+                    </a>
+                </li>
+                <li class="logo tab_2">
+                    <a href="#tab_2" data-toggle="tab">
+                        <button class="btn btn-primary btn-sm"><i class="fa fa-cloud fa-lg"></i> </button>
+                        Trámites Asignados
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_1" onclick="ActPest(1);">
+                    <form id="form_1" name="form_1" method="post">
+                          <div class="row form-group" id="produccion" >
                     <div class="col-sm-12">
                         <div class="box-body table-responsive">
                             <table id="t_produccion" class="table table-bordered">
@@ -120,6 +142,7 @@
                                     <tr>
                                         <th>Nombre del Proceso</th>
                                         <th>Cantidad de Tareas Realizadas</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_produccion">
@@ -137,10 +160,22 @@
                 </div>
                   
                 </div>
+                    </form>
+                </div>
+                <div class="tab-pane" id="tab_2" onclick="ActPest(2);">
+                    <form id="form_2" name="form_2" method="post">
+                       
+                    </form>
+                </div>
              
-               
+            </div><!-- /.tab-content -->
+        </div><!-- nav-tabs-custom --> 
             <!-- Finaliza contenido -->
         </div>
     </section><!-- /.content -->
+    
 
+@stop
+@section('formulario')
+     @include( 'admin.reporte.form.produccionusu' )
 @stop

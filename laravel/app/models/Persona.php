@@ -345,21 +345,47 @@ class Persona extends Base implements UserInterface, RemindableInterface
     public static function ProduccionUsuarioxArea($fecha,$id_usuario)
     {     $query = '';
     
-          $query.="select f.nombre ,COUNT(rdv.id) AS tareas
+          $query.="select f.id,f.nombre ,COUNT(rdv.id) AS tareas
             from rutas_detalle_verbo rdv 
             INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1						 
             INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
             INNER JOIN flujos f on r.flujo_id=f.id
             WHERE rdv.estado=1 
             AND rdv.finalizo=1 
-            AND rdv.usuario_updated_at=$id_usuario
-            AND DATE(rdv.updated_at) BETWEEN '2016-01-01' AND '2016-12-01' ";
+            AND rdv.usuario_updated_at=$id_usuario";
           
            if($fecha != ''){
             list($fechaIni,$fechaFin) = explode(" - ", $fecha);
             $query.=' AND date(rdv.updated_at) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
          }
          $query.='GROUP BY f.id';
+        $r= DB::select($query);
+
+        return $r;
+    }
+    
+    public static function DetalleProduccion($fecha,$id_usuario,$id_proceso)
+    {     
+        $query = '';
+        $query.= "select f.nombre as proceso,a.nombre as area,rdv.nombre  as tarea,
+                    v.nombre as verbo,rdv.documento,rdv.observacion,rd.norden,rdv.updated_at
+                    from rutas_detalle_verbo rdv 
+                    INNER JOIN verbos v on rdv.verbo_id=v.id
+                    INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1
+                    INNER JOIN areas a on rd.area_id=a.id						 
+                    INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
+                    INNER JOIN flujos f on r.flujo_id=f.id
+                    WHERE rdv.estado=1 
+                    AND rdv.finalizo=1 
+                    AND rdv.usuario_updated_at=$id_usuario";
+  
+            if($id_proceso != ''){
+            $query.=' AND f.id='.$id_proceso.'';
+         }  
+           if($fecha != ''){
+            list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+            $query.=' AND date(rdv.updated_at) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
+         }      
         $r= DB::select($query);
 
         return $r;
