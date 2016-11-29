@@ -157,7 +157,11 @@
                     this.conversations= response.conversations;
                     this.messages= response.messages;
                     this.areas= response.areas;
-                    /*this.scrollToBottom();*/                   
+                    /*this.scrollToBottom();*/ 
+
+                    if(response.messages.length > 9){
+                        this.scrollToBottom();
+                    }                  
                 });
                 if (conversation) {
                     $('.chatonline').css('display', 'block');
