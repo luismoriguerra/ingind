@@ -270,7 +270,7 @@
                 $('.'+element).css('display', 'none');
                 //si es chat online
                 if ('chatonline'==element) {
-                    current_conversation=[];
+                    this.current_conversation=[];
                 }
             },
             nuevoMensaje:function(){
