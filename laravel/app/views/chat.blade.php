@@ -19,7 +19,7 @@
     <div class="chatonline" style="display:none">
         @if($current_conversation)
             <header>
-                <span id="spanNombre">Fabio Franco Venero Carra</span>
+                <span id="spanNombre">Chat</span>
                 <span type="button" class="btn-sm" aria-hidden="true" @click.prevent="ocultar('chatonline')" style="float:right;"><i class="fa fa-minus"></i></span>
             </header>
             <fieldset>
@@ -157,7 +157,11 @@
                     this.conversations= response.conversations;
                     this.messages= response.messages;
                     this.areas= response.areas;
-                    this.scrollToBottom();
+                    /*this.scrollToBottom();*/ 
+
+                    if(response.messages.length > 9){
+                        this.scrollToBottom();
+                    }                  
                 });
                 if (conversation) {
                     $('.chatonline').css('display', 'block');
