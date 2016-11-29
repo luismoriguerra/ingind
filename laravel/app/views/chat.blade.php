@@ -19,11 +19,11 @@
     <div class="chatonline" style="display:none">
         @if($current_conversation)
             <header>
-                <span id="spanNombre">$current_conversation->messages->user->nombre</span>
+                <span id="spanNombre">Chat</span>
                 <span type="button" class="btn-sm" aria-hidden="true" @click.prevent="ocultar('chatonline')" style="float:right;"><i class="fa fa-minus"></i></span>
             </header>
             <fieldset>
-                <div id="messageList" class="conversation myscroll">
+                <div id="messageList" class="conversation">
                     @include('templates/messages', array('messages' => $current_conversation->messages))
                 </div>
                 <footer>
@@ -157,7 +157,9 @@
                     this.conversations= response.conversations;
                     this.messages= response.messages;
                     this.areas= response.areas;
-                    this.scrollToBottom();
+                    /*this.scrollToBottom();*/
+                    $('#messageList').removeClass('myscroll');
+                    $('#messageList').addClass('myscroll');
                 });
                 if (conversation) {
                     $('.chatonline').css('display', 'block');
