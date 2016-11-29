@@ -42,7 +42,7 @@ class ConversationController extends \BaseController {
             $viewData['current_conversation']= Conversation::where('name', Input::get('conversation'))->first();
         }
         
-        $viewData['conversations'] = Auth::user()->conversations()->get();
+        $viewData['conversations'] = Auth::user()->conversations()->orderby('created_at','desc')->get();
         ///armando json
         foreach($viewData['conversations'] as $conversation) {
             $conversationObj['name']= $conversation->name;
@@ -90,21 +90,41 @@ class ConversationController extends \BaseController {
             ]);
         }
 
-        // Create Conversation
-        $params = array(
-            'created_at' => new DateTime,
-            'name'          => str_random(30),
-            'author_id'  => Auth::user()->id,
-        );
+        /*validate if have same conversation //miss to multiple */
+        $conversation_id = '';
+        $conversations = Auth::user()->conversations()->get();
+        foreach ($conversations as $conversation) {
+            foreach ($conversation->users()->get() as $user) {
+                if($user->id == Input::get('users')[0]){
+                    $conversation_id = $conversation->id;
+                } 
+            }
+        }
+        /*end validate if have same conversation*/
 
-        $conversation = Conversation::create($params);
+        $conversationid = '';
+        if($conversation_id){
+            $conversationFind=Conversation::find($conversation_id);
+            $conversationid = $conversationFind->id;           
+        }else{
+            // Create Conversation
+            $params = array(
+                'created_at' => new DateTime,
+                'name'          => str_random(30),
+                'author_id'  => Auth::user()->id,
+            );
 
-        $conversation->users()->attach(Input::get('users'));
-        $conversation->users()->attach(array(Auth::user()->id));
+            $conversation = Conversation::create($params);
+
+            $conversation->users()->attach(Input::get('users'));
+            $conversation->users()->attach(array(Auth::user()->id));
+            $conversationid = $conversation->id;     
+        }
+
 
         // Create Message
         $params = array(
-            'conversation_id' => $conversation->id,
+            'conversation_id' => $conversationid,
             'body'               => Input::get('body'),
             'user_id'           => Auth::user()->id,
             'created_at'      => new DateTime,
@@ -116,11 +136,11 @@ class ConversationController extends \BaseController {
         $messages_notifications = array();
 
         foreach(Input::get('users') as $user_id) {
-            array_push($messages_notifications, new MessageNotification(array('user_id' => $user_id, 'read' => false, 'conversation_id' => $conversation->id)));
+            array_push($messages_notifications, new MessageNotification(array('user_id' => $user_id, 'read' => false, 'conversation_id' => $conversationid)));
 
             $data = array(
                 'room'    => $user_id,
-                'message' => array('conversation_id' => $conversation->id)
+                'message' => array('conversation_id' => $conversationid)
             );
             Event::fire(ChatConversationsEventHandler::EVENT, array(json_encode($data)));
         }
