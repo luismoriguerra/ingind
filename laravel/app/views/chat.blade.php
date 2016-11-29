@@ -1,13 +1,13 @@
 <div id="chat">
-    <a class="open-chat-button tooltips hidden" onClick="show()" href="javascript:void(0)" data-toggle="tooltip" data-placement="right" title="" data-original-title="Info Chat"><i class="fa fa-wechat"></i></a>
+    <a class="open-chat-button tooltips hidden" @click.prevent="show" href="javascript:void(0)" data-toggle="tooltip" data-placement="right" title="" data-original-title="Info Chat"><i class="fa fa-wechat"></i></a>
                     
     <a class="open-chat-button-active tooltips hidden" href="javascript:void(0)" data-toggle="tooltip" data-placement="right" title="" data-original-title="Info Chat"><i class="fa fa-wechat"></i></a>
     <div class="live-chat" style="display:none">
         <form action="#" id="form-chat" class="sky-form">
             <header>
                 <span>Chat</span>
-                <span class="nuevo-chat btn-sm" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Nuevo Mensaje"  onclick="nuevoMensaje()"><i class="glyphicon glyphicon-edit"></i></span>
-                <span type="button" class="btn-sm" aria-hidden="true" onclick="ocultar(this,'live-chat')"><i class="fa fa-minus"></i></span>
+                <span class="nuevo-chat btn-sm" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Nuevo Mensaje" @click.prevent="nuevoMensaje"><i class="glyphicon glyphicon-edit"></i></span>
+                <span type="button" class="btn-sm" aria-hidden="true" @click.prevent="ocultar('live-chat')"><i class="fa fa-minus"></i></span>
             </header>
             <fieldset class="myscroll"> 
                 <div id="conversationList">
@@ -20,7 +20,7 @@
         @if($current_conversation)
             <header>
                 <span id="spanNombre">Fabio Franco Venero Carra</span>
-                <span type="button" class="btn-sm" aria-hidden="true" onclick="ocultar(this,'chatonline')" style="float:right;"><i class="fa fa-minus"></i></span>
+                <span type="button" class="btn-sm" aria-hidden="true" @click.prevent="ocultar('chatonline')" style="float:right;"><i class="fa fa-minus"></i></span>
             </header>
             <fieldset>
                 <div id="messageList" class="conversation myscroll">
@@ -42,7 +42,7 @@
     <div class="nuevomensaje" style="display:none">
         <header>
             <span id="spanNombre">Nuevo Mensaje</span>
-            <span type="button" class="btn-sm" aria-hidden="true" onclick="ocultar(this,'nuevomensaje')" style="float:right;"><i class="fa fa-minus"></i></span>
+            <span type="button" class="btn-sm" aria-hidden="true" @click.prevent="ocultar('nuevomensaje')" style="float:right;"><i class="fa fa-minus"></i></span>
         </header>
         <fieldset>
             <form v-on:submit.prevent='sendConversation(this)'>
@@ -56,7 +56,6 @@
                     <div class="col-md-12 col-sm-12 col-xs-12 left">
                     <span>Seleccione usuario:</span>
                         <select class="form-control" id="users" name="users" v-model="users_id" style="border-radius: 5px !important">
-                          <option>Debe escoger una area primero</option>
                           <option v-for="(key, val) in users" v-bind:value="key">@{{ val }}</option>
                         </select>
                      </div>
@@ -263,7 +262,20 @@
                     }
                     clearInterval(this.handle);
                 },1);
-            }
+            },
+            show:function(){
+                $('.live-chat').css('display', 'block');
+            },
+            ocultar:function(element){
+                $('.'+element).css('display', 'none');
+                //si es chat online
+                if ('chatonline'==element) {
+                    current_conversation=[];
+                }
+            },
+            nuevoMensaje:function(){
+                $('.nuevomensaje').css('display', 'block');
+            },
         }
     });
 </script>
