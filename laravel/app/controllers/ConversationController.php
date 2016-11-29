@@ -42,7 +42,7 @@ class ConversationController extends \BaseController {
             $viewData['current_conversation']= Conversation::where('name', Input::get('conversation'))->first();
         }
         
-        $viewData['conversations'] = Auth::user()->conversations()->get();
+        $viewData['conversations'] = Auth::user()->conversations()->orderby('created_at','desc')->get();
         ///armando json
         foreach($viewData['conversations'] as $conversation) {
             $conversationObj['name']= $conversation->name;

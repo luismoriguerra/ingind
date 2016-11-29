@@ -96,7 +96,7 @@ class ChatController extends \BaseController {
             $areasObj[$area->id] = $area->nombre;
         }
         
-        $viewData['conversations'] = Auth::user()->conversations()->get();
+        $viewData['conversations'] = Auth::user()->conversations()->orderby('created_at','desc')->get();
 
         $conversations=$messagesObj=[];
         foreach($viewData['conversations'] as $conversation) {
