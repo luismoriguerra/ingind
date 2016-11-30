@@ -304,17 +304,13 @@ class Persona extends Base implements UserInterface, RemindableInterface
                 WHEN 'F' THEN 'Femenino'
                 WHEN 'M' THEN 'Masculino'
                 END sexo,
-                CASE p.estado
-                WHEN '1' THEN 'Activo'
-                WHEN '0' THEN 'Inactivo'
-                END estado,
                 a.nombre area,c.nombre cargo
                 FROM personas p
                 INNER JOIN cargo_persona cp ON cp.persona_id=p.id AND cp.estado=1
                 INNER JOIN area_cargo_persona acp ON acp.cargo_persona_id=cp.id AND acp.estado=1
                 INNER JOIN cargos c ON c.id=cp.cargo_id AND c.estado=1
                 INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
-                WHERE a.id IN ('$areaId')
+                WHERE a.id IN ('$areaId') AND p.estado=1
                 GROUP BY acp.area_id,acp.cargo_persona_id";
 
         $r= DB::select($sql);
@@ -377,7 +373,10 @@ class Persona extends Base implements UserInterface, RemindableInterface
                     INNER JOIN flujos f on r.flujo_id=f.id
                     WHERE rdv.estado=1 
                     AND rdv.finalizo=1";
-        $sSql.=$array['where'];
+        $sSql.= $array['where'].
+                $array['order'].
+                $array['limit'];
+       
         $oData= DB::select($sSql);
 
         return $oData;

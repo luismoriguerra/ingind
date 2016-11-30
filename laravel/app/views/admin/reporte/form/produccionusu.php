@@ -19,6 +19,9 @@
                     </div><!-- /.box-header -->
                     <div class="box-body table-responsive">
                         <form id="form_detalles" name="form_detalles" method="POST" action="">
+                            <input type="hidden" id="txt_usuario_id" name="txt_usuario_id" value="">
+                            <input type="hidden" id="txt_proceso_id" name="txt_proceso_id" value="">
+                            <input type="hidden" id="txt_fecha" name="txt_fecha" value="">
                             <table id="t_detalles" class="table table-bordered table-hover">
                                 <thead>
                             

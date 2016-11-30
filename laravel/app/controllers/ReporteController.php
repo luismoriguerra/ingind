@@ -1120,20 +1120,33 @@ class ReporteController extends BaseController
             /*********************FIJO*****************************/
             $array=array();
             $array['where']='';
+            $array['limit']='';$array['order']='';
+            
+            if (Input::has('draw')) {
+                if (Input::has('order')) {
+                    $inorder=Input::get('order');
+                    $incolumns=Input::get('columns');
+                    $array['order']=  ' ORDER BY '.
+                                      $incolumns[ $inorder[0]['column'] ]['name'].' '.
+                                      $inorder[0]['dir'];
+                }
 
+                $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
+                $aParametro["draw"]=Input::get('draw');
+            }
             /************************************************************/
 
             if( Input::has("usuario_id") ){
                 $id_usuario=Input::get("usuario_id");
                 if($id_usuario != ''){
-                    $array['where'].=" AND rdv.usuario_updated_at='.$id_usuario.' ";
+                    $array['where'].=" AND rdv.usuario_updated_at=$id_usuario ";
                 }
             }
             
             if( Input::has("proceso_id") ){
                 $id_proceso=Input::get("proceso_id");
                 if($id_proceso != ''){
-                    $array['where'].=" AND f.id='.$id_proceso.' ";
+                    $array['where'].=" AND f.id=$id_proceso ";
                 }
             }
 
@@ -1145,8 +1158,8 @@ class ReporteController extends BaseController
 
             $array['order']=" ORDER BY f.nombre ";
 
-            $cant  = Persona::getDetalleProduccion( $array );
-            $aData = Persona::getDPCount( $array );
+            $cant  = Persona::getDPCount( $array );
+            $aData = Persona::getDetalleProduccion( $array );
 
             $aParametro['rst'] = 1;
             $aParametro["recordsTotal"]=$cant;
@@ -1156,19 +1169,7 @@ class ReporteController extends BaseController
             return Response::json($aParametro);
 
         }
-        
-        $fecha = '';
-        $id_usuario = '';
-        $id_proceso='';
-        
-           if($id_proceso != ''){
-            $query.=' AND f.id='.$id_proceso.'';
-         }  
 
-        
-          
-
-       
     }
     public function postProduccionusuario(){
         $fecha = '';

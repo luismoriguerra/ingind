@@ -200,7 +200,7 @@ var dataTableG={
         for(i=0; i<cab.length; i++){
             tar++;
 
-            if(cab[i].evento*1>0){
+            if( cab[i].evento*1>0 ){
             col.push({
                         "targets": tar,
                         "data": function ( row, type, val, meta) {
@@ -218,7 +218,7 @@ var dataTableG={
                     });
             }
 
-            if(cab[i].evento*1==1){
+            if(cab[i].evento*1==1 || cab[i].evento*1==0){
                 $("#"+table+">tfoot>tr,#"+table+">thead>tr:eq("+trpos+")").append('<th style="background-color:'+cab[i].color+';" class="unread">'+cab[i].nombre+'</th>');
             }
             else if( cab[i].evento*1==2 || cab[i].evento=='estado' ){

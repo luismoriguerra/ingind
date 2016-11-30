@@ -12,19 +12,19 @@ $(document).ready(function() {
     */
 
     slctGlobalHtml('slct_estado','simple');
-    var idG={   proceso        :'onBlur|Proceso|#DCE6F1', //#DCE6F1
-                area        :'onBlur|area|#DCE6F1', //#DCE6F1
-                tarea        :'onBlur|tarea|#DCE6F1', //#DCE6F1
-                verbo        :'onBlur|verbo|#DCE6F1', //#DCE6F1
-                documento        :'0onBlur|documento|#DCE6F1', //#DCE6F1
-                observacion        :'onBlur|observacion|#DCE6F1', //#DCE6F1
-                norden        :'onBlur|norden|#DCE6F1', //#DCE6F1
-                updated_at        :'onBlur|updated_at|#DCE6F1' //#DCE6F1
+    var idG={   proceso        :'0|Proceso|#DCE6F1', //#DCE6F1
+                area        :'0|Área|#DCE6F1', //#DCE6F1
+                tarea        :'0|Tarea|#DCE6F1', //#DCE6F1
+                verbo        :'0|Verbo|#DCE6F1', //#DCE6F1
+                documento        :'0|Documento Generado|#DCE6F1', //#DCE6F1
+                observacion        :'0|Observación|#DCE6F1', //#DCE6F1
+                norden        :'0|N° de Actividad|#DCE6F1', //#DCE6F1
+                updated_at        :'0|Fecha|#DCE6F1' //#DCE6F1
              };
 
     var resG=dataTableG.CargarCab(idG);
     cabeceraG=resG; // registra la cabecera
-    var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,1,'detalles','t_detalles');
+    var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,0,'detalles','t_detalles');
     columnDefsG=resG[0]; // registra las columnas del datatable
     targetsG=resG[1]; // registra los contadores
    
@@ -32,7 +32,8 @@ $(document).ready(function() {
     
     $('#fecha').daterangepicker({
         format: 'YYYY-MM-DD',
-        singleDatePicker: false
+        singleDatePicker: false,
+         showDropdowns: true
     });
     var dataG = {estado:1};
     var data = {estado:1};
@@ -95,7 +96,6 @@ HTMLreporte=function(datos){
             "<td>"+data.dni+"</td>"+
             "<td>"+data.fecha_nacimiento+"</td>"+
             "<td>"+data.sexo+"</td>"+
-            "<td>"+data.estado+"</td>"+
             "<td>"+data.area+"</td>"+
             "<td>"+data.cargo+"</td>"+
             "<td><span onClick='MostrarUsuario("+data.id+");' class='btn btn-success'>Productividad</span></td>";
@@ -183,8 +183,14 @@ MostrarUsuario=function(id){
 };
 
 MostrarDetalle=function(id){
-//     usuario_id = $('#usuario_id').val();
-//     var fecha=$("#fecha").val();
+     usuario_id = $('#usuario_id').val();
+     var fecha=$("#fecha").val();
+     $("#txt_usuario_id").attr("value",'');
+     $("#txt_proceso_id").attr("value",'');
+     $("#txt_fecha").attr("value",'');
+     $("#txt_usuario_id").attr("value",usuario_id);
+     $("#txt_proceso_id").attr("value",id);
+     $("#txt_fecha").attr("value",fecha);
 //    dataG = {usuario_id:usuario_id,fecha:fecha,proceso_id:id};
     $("#t_detalles").dataTable(); 
      MostrarAjax('detalles');

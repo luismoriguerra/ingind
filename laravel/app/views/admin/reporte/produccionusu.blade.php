@@ -96,7 +96,6 @@
                                         <th>Dni</th>
                                         <th>Fecha Nacimiento</th>
                                         <th>Sexo</th>
-                                        <th>Estado</th>
                                         <th>Area</th>
                                         <th>Cargo</th>
                                         <th>Cargo</th>
