@@ -2,7 +2,7 @@
 var cabeceraG=[]; // Cabecera del Datatable
 var columnDefsG=[]; // Columnas de la BD del datatable
 var targetsG=-1; // Posiciones de las columnas del datatable
-var DetalleG={id:0,proceso:"",area:"",tarea:"",verbo:"",documento:"",observacion:"",norden:"",updated_at:""}; // Datos Globales
+var DetalleG={id:0,proceso:"",area:"",tarea:"",verbo:"",documento:"",observacion:"",nroacti:"",updated_at:""}; // Datos Globales
 
 $(document).ready(function() {
     
@@ -18,7 +18,7 @@ $(document).ready(function() {
                 verbo        :'0|Verbo|#DCE6F1', //#DCE6F1
                 documento        :'0|Documento Generado|#DCE6F1', //#DCE6F1
                 observacion        :'0|Observación|#DCE6F1', //#DCE6F1
-                norden        :'0|N° de Actividad|#DCE6F1', //#DCE6F1
+                nroacti        :'0|N° de Actividad|#DCE6F1', //#DCE6F1
                 updated_at        :'0|Fecha|#DCE6F1' //#DCE6F1
              };
 

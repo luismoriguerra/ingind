@@ -362,7 +362,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
     {     
   
         $sSql= "select f.nombre as proceso,a.nombre as area,rdv.nombre  as tarea,
-                    v.nombre as verbo,rdv.documento,rdv.observacion,rd.norden,rdv.updated_at
+                    v.nombre as verbo,rdv.documento,rdv.observacion,rd.norden as nroacti,rdv.updated_at
                     from rutas_detalle_verbo rdv 
                     INNER JOIN verbos v on rdv.verbo_id=v.id
                     INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1
