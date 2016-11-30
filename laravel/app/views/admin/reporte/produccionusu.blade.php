@@ -141,7 +141,8 @@
                                     <tr>
                                         <th>Nombre del Proceso</th>
                                         <th>Cantidad de Tareas Realizadas</th>
-                                        <th></th>
+                                        <th>[]</th>
+                                        <th>[]</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_produccion">

@@ -121,7 +121,8 @@ HTMLproxarea=function(datos){
         html+="<tr>"+
             "<td>"+data.nombre+"</td>"+
             "<td>"+data.tareas+"</td>"+
-            "<td><span data-toggle='modal' onClick='MostrarDetalle("+data.id+");' data-id='' data-target='#produccionusuModal' class='btn btn-info'>Detalle</span></td>";
+            "<td align='center'><span data-toggle='modal' onClick='MostrarDetalle("+data.id+");' data-id='' data-target='#produccionusuModal' class='btn btn-info'>Detalle</span></td>"+
+            "<td align='center'><a class='btn btn-success btn-md' onClick='ExportDetalle("+data.id+");' id='btnexport_"+data.id+"' name='btnexport' href='' target=''><i class='glyphicon glyphicon-download-alt'></i> Export</i></a></td>";
         html+="</tr>";
     });
     $("#tb_produccion").html(html);
@@ -131,36 +132,12 @@ HTMLproxarea=function(datos){
 
 };
 
-HTMLdetalleproduccion=function(datos){
-  var html="";
-    
-    var alerta_tipo= '';
-    $('#t_detalle_area').dataTable().fnDestroy();
-    pos=0;
-    $.each(datos,function(index,data){
-        pos++;
-        html+="<tr>"+
-            "<td>"+data.proceso+"</td>"+
-            "<td>"+data.area+"</td>"+
-            "<td>"+data.tarea+"</td>"+
-            "<td>"+data.verbo+"</td>"+
-            "<td>"+data.documento+"</td>"+
-            "<td>"+data.observacion+"</td>"+
-            "<td>"+data.norden+"</td>"+
-            "<td>"+data.updated_at+"</td>";
-        html+="</tr>";
-    });
-    $("#tb_detalle_area").html(html);
-    $("#t_detalle_area").dataTable(
-    ); 
 
-
-};
 
 HTMLproduccion=function(datos){
     var html="";
     $.each(datos,function(index,data){
-      html+="<table class='table table-bordered'><tr><td><b>Total de Tareas Realizadas</b></td><td>"+data.tareas+"</td><td><span data-toggle='modal' onClick='MostrarDetalle();' data-id='' data-target='#produccionusuModal' class='btn btn-info'>Detalle Total</span></td></tr>";
+      html+="<table class='table table-bordered'><tr><td><b>Total de Tareas Realizadas</b></td><td>"+data.tareas+"</td><td align='center'><span data-toggle='modal' onClick='MostrarDetalle();' data-id='' data-target='#produccionusuModal' class='btn btn-info'>Detalle Total</span></td><td align='center'><a class='btn btn-success btn-md' onClick='ExportDetalleTotal();' id='btnexport_'  href='' target=''><i class='glyphicon glyphicon-download-alt'></i> Export</i></a></td></tr>";
     });
     
     $("#div_total_produccion").html(html);
@@ -193,7 +170,19 @@ MostrarDetalle=function(id){
      $("#txt_fecha").attr("value",fecha);
 //    dataG = {usuario_id:usuario_id,fecha:fecha,proceso_id:id};
     $("#t_detalles").dataTable(); 
-     MostrarAjax('detalles');
+     MostrarAjax('detalles'); 
+};
+
+ExportDetalle=function(id){
+     usuario_id = $('#usuario_id').val();
+     var fecha=$("#fecha").val();
+     $("#btnexport_"+id+"").attr('href','reporte/exportdetalleproduccion'+'?fecha='+fecha+'&proceso_id='+id+'&usuario_id='+usuario_id);   
+};
+
+ExportDetalleTotal=function(){
+     usuario_id = $('#usuario_id').val();
+     var fecha=$("#fecha").val();
+     $("#btnexport_").attr('href','reporte/exportdetalleproduccion'+'?fecha='+fecha+'&usuario_id='+usuario_id);   
 };
 
 ActPest=function(nro){

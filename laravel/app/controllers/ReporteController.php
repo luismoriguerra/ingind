@@ -1114,6 +1114,56 @@ class ReporteController extends BaseController
         );
     }
 
+     public function getExportdetalleproduccion(){
+         $array=array();
+            $array['where']='';
+            $array['limit']='';$array['order']='';
+         
+         if( Input::has("usuario_id") ){
+                $id_usuario=Input::get("usuario_id");
+                if($id_usuario != ''){
+                    $array['where'].=" AND rdv.usuario_updated_at=$id_usuario ";
+                }
+            }
+            
+            if( Input::has("proceso_id") ){
+                $id_proceso=Input::get("proceso_id");
+                if($id_proceso != ''){
+                    $array['where'].=" AND f.id=$id_proceso ";
+                }
+            }
+
+            if( Input::has("fecha") ){
+                $fecha=Input::get("fecha");
+                    list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+                    $array['where'].=" AND date(rdv.updated_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+            }
+
+            $array['order']=" ORDER BY f.nombre ";
+            
+        $rst=Persona::getDetalleProduccion($array); 
+        
+
+        $propiedades = array(
+          'creador'=>'Gerencia Modernizacion',
+          'subject'=>'Detalle de Tareas',
+          'tittle'=>'Plataforma',
+          'font-name'=>'Bookman Old Style',
+          'font-size'=>8,
+        );
+
+        $cabecera = array(
+          'PROCESO',
+          'AREA',
+          'TAREA',
+          'VERBO',
+          'DOCUMENTO GENERADO',
+          'OBSERVACION',
+          'N° DE ACTIVIDAD',
+          'FECHA',
+        );
+        $this->exportExcel($propiedades,'',$cabecera,$rst);
+    }
     public function postDetalleproduccion(){
         
         if ( Request::ajax() ) {
