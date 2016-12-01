@@ -143,8 +143,8 @@ var Documento={
                 if (obj.rst==1) {
                     $('#gerencia_de').text( obj.datos.area );
                     $('#encargado_de').text( [obj.datos.nombre, obj.datos.paterno, obj.datos.materno].join(' ') );
-                    $('#txt_gerencia_de').val(obj.datos.area_id);
-                    $('#txt_encargado_de').val(obj.datos.persona_id);
+                    $('#txt_area_de').val(obj.datos.area_id);
+                    $('#txt_encargado_area_de').val(obj.datos.id);
                 } else {
                     // $.each(obj.msj,function(index,datos){
                     //     $("#error_"+index).attr("data-original-title",datos);
