@@ -4,6 +4,11 @@ var columnDefsG=[]; // Columnas de la BD del datatable
 var targetsG=-1; // Posiciones de las columnas del datatable
 var DetalleG={id:0,proceso:"",area:"",tarea:"",verbo:"",documento:"",observacion:"",nroacti:"",updated_at:""}; // Datos Globales
 
+var cabeceraG1=[]; // Cabecera del Datatable
+var columnDefsG1=[]; // Columnas de la BD del datatable
+var targetsG1=-1; // Posiciones de las columnas del datatable
+var DetalleG1={id:0,proceso:"",area:"",id_union:"",sumilla:"",fecha:""}; // Datos Globales
+
 $(document).ready(function() {
     
      /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
@@ -27,6 +32,20 @@ $(document).ready(function() {
     var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,0,'detalles','t_detalles');
     columnDefsG=resG[0]; // registra las columnas del datatable
     targetsG=resG[1]; // registra los contadores
+    
+    slctGlobalHtml('slct_estado','simple');
+    var idG1={   proceso        :'0|Proceso|#DCE6F1', //#DCE6F1
+                area        :'0|Área|#DCE6F1', //#DCE6F1
+                id_union        :'0|Nombre|#DCE6F1', //#DCE6F1
+                sumilla        :'0|Sumilla|#DCE6F1', //#DCE6F1
+                fecha        :'0|Fecha|#DCE6F1'
+             };
+
+    var resG1=dataTableG.CargarCab(idG1);
+    cabeceraG1=resG1; // registra la cabecera
+    var resG1=dataTableG.CargarCol(cabeceraG1,columnDefsG1,targetsG1,0,'detalles_tramite','t_detalles_tramite');
+    columnDefsG1=resG1[0]; // registra las columnas del datatable
+    targetsG1=resG1[1]; // registra los contadores
    
 
     
@@ -57,7 +76,8 @@ $(document).ready(function() {
                 dataG = {usuario_id:usuario_id,fecha:fecha};
                 Usuario.CargarProduccion(dataG);
                 Usuario.CargarProduccionArea(dataG);
-       
+                Usuario.CargarProduccionTramiteAsignado(dataG);
+                Usuario.CargarProduccionTramiteAsignadoTotal(dataG);
         } else {
             alert("Seleccione Fecha");
         }
@@ -74,11 +94,27 @@ MostrarAjax=function(t){
             
             dataTableG.CargarDatos(t,'reporte','detalleproduccion',columnDefsG);
         }
+       
         else{
             alert('Faltan datos');
         }
     }
-}
+  
+};
+
+MostrarAjax1=function(t){ 
+    if( t=="detalles_tramite" ){
+   
+        if( columnDefsG1.length>0 ){
+            
+            dataTableG.CargarDatos(t,'reporte','producciontramiteasignadodetalle',columnDefsG1);
+        }
+        else{
+            alert('Faltan datos');
+        }
+    }
+  
+};
 
 HTMLreporte=function(datos){
     var html="";
@@ -132,8 +168,6 @@ HTMLproxarea=function(datos){
 
 };
 
-
-
 HTMLproduccion=function(datos){
     var html="";
     $.each(datos,function(index,data){
@@ -141,6 +175,38 @@ HTMLproduccion=function(datos){
     });
     
     $("#div_total_produccion").html(html);
+  
+};
+
+HTMLprotramiteasignado=function(datos){
+  var html="";
+    
+    var alerta_tipo= '';
+    $('#t_tramite_asignado').dataTable().fnDestroy();
+    pos=0;
+    $.each(datos,function(index,data){
+        pos++;
+        html+="<tr>"+
+            "<td>"+data.nombre+"</td>"+
+            "<td>"+data.tareas+"</td>"+
+            "<td align='center'><span data-toggle='modal' onClick='MostrarDetalleTramite("+data.id+");' data-id='' data-target='#produccionusuModal' class='btn btn-info'>Detalle</span></td>"+
+            "<td align='center'><a class='btn btn-success btn-md' onClick='ExportDetalleTramite("+data.id+");' id='btnexport1_"+data.id+"' name='btnexport1' href='' target=''><i class='glyphicon glyphicon-download-alt'></i> Export</i></a></td>";
+        html+="</tr>";
+    });
+    $("#tb_tramite_asignado").html(html);
+    $("#t_tramite_asignado").dataTable(
+    ); 
+    $(".nav-tabs-custom").show();
+
+};
+
+HTMLprotramiteasignadototal=function(datos){
+    var html="";
+    $.each(datos,function(index,data){
+      html+="<table class='table table-bordered'><tr><td><b>Total de Trámites asignados</b></td><td>"+data.tareas+"</td><td align='center'><span data-toggle='modal' onClick='MostrarDetalleTramite();' data-id='' data-target='#produccionusuModal' class='btn btn-info'>Detalle Total</span></td><td align='center'><a class='btn btn-success btn-md' onClick='ExportDetalleTramiteTotal();' id='btnexport1_'  href='' target=''><i class='glyphicon glyphicon-download-alt'></i> Export</i></a></td></tr>";
+    });
+    
+    $("#div_total_tramite_asignado").html(html);
   
 };
 
@@ -162,15 +228,36 @@ MostrarUsuario=function(id){
 MostrarDetalle=function(id){
      usuario_id = $('#usuario_id').val();
      var fecha=$("#fecha").val();
-     $("#txt_usuario_id").attr("value",'');
-     $("#txt_proceso_id").attr("value",'');
-     $("#txt_fecha").attr("value",'');
-     $("#txt_usuario_id").attr("value",usuario_id);
-     $("#txt_proceso_id").attr("value",id);
-     $("#txt_fecha").attr("value",fecha);
+     $("#form_detalles #txt_usuario_id").attr("value",'');
+     $("#form_detalles #txt_proceso_id").attr("value",'');
+     $("#form_detalles #txt_fecha").attr("value",'');
+     $("#form_detalles #txt_usuario_id").attr("value",usuario_id);
+     $("#form_detalles #txt_proceso_id").attr("value",id);
+     $("#form_detalles #txt_fecha").attr("value",fecha);
 //    dataG = {usuario_id:usuario_id,fecha:fecha,proceso_id:id};
     $("#t_detalles").dataTable(); 
+    
+    $('#form_detalles_tramite').hide();
+    $('#form_detalles').show();
      MostrarAjax('detalles'); 
+};
+
+MostrarDetalleTramite=function(id){
+     usuario_id = $('#usuario_id').val();
+     var fecha=$("#fecha").val();
+     $("#form_detalles_tramite #txt_usuario_id").attr("value",'');
+     $("#form_detalles_tramite #txt_proceso_id").attr("value",'');
+     $("#form_detalles_tramite #txt_fecha").attr("value",'');
+     $("#form_detalles_tramite #txt_usuario_id").attr("value",usuario_id);
+     $("#form_detalles_tramite #txt_proceso_id").attr("value",id);
+     $("#form_detalles_tramite #txt_fecha").attr("value",fecha);
+//    dataG = {usuario_id:usuario_id,fecha:fecha,proceso_id:id};
+    $("#t_detalles_tramite").dataTable(); 
+    
+    $('#form_detalles_tramite').show();
+    $('#form_detalles').hide();
+    
+     MostrarAjax1('detalles_tramite'); 
 };
 
 ExportDetalle=function(id){
@@ -185,6 +272,16 @@ ExportDetalleTotal=function(){
      $("#btnexport_").attr('href','reporte/exportdetalleproduccion'+'?fecha='+fecha+'&usuario_id='+usuario_id);   
 };
 
+ExportDetalleTramite=function(id){
+     usuario_id = $('#usuario_id').val();
+     var fecha=$("#fecha").val();
+     $("#btnexport1_"+id+"").attr('href','reporte/exportproducciontramiteasignadodetalle'+'?fecha='+fecha+'&proceso_id='+id+'&usuario_id='+usuario_id);   
+};
+ExportDetalleTramiteTotal=function(){
+     usuario_id = $('#usuario_id').val();
+     var fecha=$("#fecha").val();
+     $("#btnexport1_").attr('href','reporte/exportproducciontramiteasignadodetalle'+'?fecha='+fecha+'&usuario_id='+usuario_id);   
+};
 ActPest=function(nro){
     Pest=nro;
 };
