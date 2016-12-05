@@ -44,12 +44,12 @@ class DocumentoController extends \BaseController {
             $documento->asunto = Input::get('asunto', '');
             $documento->fecha = Input::get('fechaDocumento', new \DateTime());
             $documento->cuerpo = Input::get('word', '');
-            $documento->correlativo = '';
-            $documento->plantillaId = '';
-            $documento->areaIdRemitente = '';
-            $documento->areaIdDestinatario = '';
-            $documento->personaIdRemitente = '';
-            $documento->personaIdDestinatario = '';
+            // $documento->correlativo = '';
+            $documento->plantillaId = Input::get('plantilla', '');
+            $documento->areaIdRemitente = Input::get('area_de', '');
+            $documento->areaIdDestinatario = Input::get('area_a', '');
+            $documento->personaIdRemitente = Input::get('encargado_area_de', '');
+            $documento->personaIdDestinatario = Input::get('encargado_area_de', '');
             $documento->usuario_created_at = Auth::user()->id;
             $documento->save();
 
@@ -58,16 +58,31 @@ class DocumentoController extends \BaseController {
     }
 
     /**
-     * POST /plantilla/encargado-area-del-usuario-logeado
+     * POST /documentoword/encargado-area-del-usuario-logeado
      *
      * @return Response
      */
     public function postEncargadoAreaDelUsuarioLogeado()
     {
         $persona = Persona::find( Auth::user()->id );
-        $area = DocumentoWord::getEncargadoArea($persona->area_id);
+        $encargados = DocumentoWord::getEncargadoArea($persona->area_id);
 
-        return Response::json(array('rst'=>1, 'datos'=>$area));
+        return Response::json(array('rst'=>1, 'datos'=>$encargados));
+    }
+
+    /**
+     * POST /documentoword/encargados-por-area
+     *
+     * @return Response
+     */
+    public function postEncargadosPorArea()
+    {
+        $area_id = Input::get('areaId');;
+        $encargados = DocumentoWord::getEncargadoArea($area_id);
+
+        $encargados = (count($encargados) == 1)? [$encargados]: $encargados;
+
+        return Response::json(array('rst'=>1, 'datos'=>$encargados));
     }
 
     /**

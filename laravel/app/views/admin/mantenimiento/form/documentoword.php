@@ -67,12 +67,12 @@
                                   Nombre de Gerencia y/o Subgerencia:
                                   <br>
                                   <b><span id="gerencia_de"></span></b>
-                                  <input type="hidden" name="txt_area_de">
+                                  <input type="hidden" name="txt_area_de" id="txt_area_de">
                                   <br>
                                   Nombre de quien va dirigido:
                                   <br>
                                   <b><span id="encargado_de"></span></b>
-                                  <input type="hidden" name="txt_encargado_area_de">
+                                  <input type="hidden" name="txt_encargado_area_de" id="txt_encargado_area_de">
                                </td>
                           </tr>
                           <tr>
