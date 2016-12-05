@@ -67,9 +67,11 @@ $(document).ready(function() {
     });
 
     $('#form_documento #slct_area_a').on('change', function (event) {
-        alert();
-        // var id = $(this).val();
-        // Documento.GetPlantilla(id);
+
+        var data = {estado:1, areaId: $(this).val()};
+
+        $("#slct_encargado_area_a").multiselect('destroy');
+        slctGlobal.listarSlctFuncion('documentoword','encargados-por-area','slct_encargado_area_a','simple',null,data);
     });
 
     $('.fecha').daterangepicker({

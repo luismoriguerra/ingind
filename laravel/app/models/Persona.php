@@ -304,17 +304,13 @@ class Persona extends Base implements UserInterface, RemindableInterface
                 WHEN 'F' THEN 'Femenino'
                 WHEN 'M' THEN 'Masculino'
                 END sexo,
-                CASE p.estado
-                WHEN '1' THEN 'Activo'
-                WHEN '0' THEN 'Inactivo'
-                END estado,
                 a.nombre area,c.nombre cargo
                 FROM personas p
                 INNER JOIN cargo_persona cp ON cp.persona_id=p.id AND cp.estado=1
                 INNER JOIN area_cargo_persona acp ON acp.cargo_persona_id=cp.id AND acp.estado=1
                 INNER JOIN cargos c ON c.id=cp.cargo_id AND c.estado=1
                 INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
-                WHERE a.id IN ('$areaId')
+                WHERE a.id IN ('$areaId') AND p.estado=1
                 GROUP BY acp.area_id,acp.cargo_persona_id";
 
         $r= DB::select($sql);
@@ -329,8 +325,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
                 INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1						 
                 INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
                 INNER JOIN flujos f on r.flujo_id=f.id 
-                WHERE rdv.estado=1 
-                AND rdv.finalizo=1 
+                WHERE rdv.finalizo=1 
                 AND rdv.usuario_updated_at=$id_usuario";
           
            if($fecha != ''){
@@ -350,8 +345,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
             INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1						 
             INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
             INNER JOIN flujos f on r.flujo_id=f.id
-            WHERE rdv.estado=1 
-            AND rdv.finalizo=1 
+            WHERE rdv.finalizo=1 
             AND rdv.usuario_updated_at=$id_usuario";
           
            if($fecha != ''){
@@ -364,31 +358,43 @@ class Persona extends Base implements UserInterface, RemindableInterface
         return $r;
     }
     
-    public static function DetalleProduccion($fecha,$id_usuario,$id_proceso)
+    public static function getDetalleProduccion($array)
     {     
-        $query = '';
-        $query.= "select f.nombre as proceso,a.nombre as area,rdv.nombre  as tarea,
-                    v.nombre as verbo,rdv.documento,rdv.observacion,rd.norden,rdv.updated_at
+  
+        $sSql= "select f.nombre as proceso,a.nombre as area,rdv.nombre  as tarea,
+                    v.nombre as verbo,rdv.documento,rdv.observacion,rd.norden as nroacti,rdv.updated_at
                     from rutas_detalle_verbo rdv 
                     INNER JOIN verbos v on rdv.verbo_id=v.id
                     INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1
                     INNER JOIN areas a on rd.area_id=a.id						 
                     INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
                     INNER JOIN flujos f on r.flujo_id=f.id
-                    WHERE rdv.estado=1 
-                    AND rdv.finalizo=1 
-                    AND rdv.usuario_updated_at=$id_usuario";
-  
-            if($id_proceso != ''){
-            $query.=' AND f.id='.$id_proceso.'';
-         }  
-           if($fecha != ''){
-            list($fechaIni,$fechaFin) = explode(" - ", $fecha);
-            $query.=' AND date(rdv.updated_at) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
-         }      
-        $r= DB::select($query);
+                    WHERE rdv.finalizo=1";
+        $sSql.= $array['where'].
+                $array['order'].
+                $array['limit'];
+       
+        $oData= DB::select($sSql);
 
-        return $r;
+        return $oData;
+    }
+    
+     public static function getDPCount($array)
+    {     
+  
+        $sSql= "select COUNT(rdv.id) cant
+                    from rutas_detalle_verbo rdv 
+                    INNER JOIN verbos v on rdv.verbo_id=v.id
+                    INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1
+                    INNER JOIN areas a on rd.area_id=a.id						 
+                    INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
+                    INNER JOIN flujos f on r.flujo_id=f.id
+                    WHERE rdv.finalizo=1";
+        $sSql.=$array['where'];
+
+        $oData= DB::select($sSql);
+
+        return $oData[0]->cant;
     }
     /*public static function getCargoArea()
     {

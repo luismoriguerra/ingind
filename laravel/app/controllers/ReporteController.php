@@ -1114,27 +1114,112 @@ class ReporteController extends BaseController
         );
     }
 
-    public function postDetalleproduccion(){
-        $fecha = '';
-        $id_usuario = '';
-        $id_proceso='';
-          if(Input::get('fecha')){
-            $fecha = Input::get('fecha');
-          }
-          if(Input::get('usuario_id')){
-             $id_usuario = Input::get('usuario_id');
-          }
-          if(Input::get('proceso_id')){
-             $id_proceso = Input::get('proceso_id');
-          }
+     public function getExportdetalleproduccion(){
+         $array=array();
+            $array['where']='';
+            $array['limit']='';$array['order']='';
+         
+         if( Input::has("usuario_id") ){
+                $id_usuario=Input::get("usuario_id");
+                if($id_usuario != ''){
+                    $array['where'].=" AND rdv.usuario_updated_at=$id_usuario ";
+                }
+            }
+            
+            if( Input::has("proceso_id") ){
+                $id_proceso=Input::get("proceso_id");
+                if($id_proceso != ''){
+                    $array['where'].=" AND f.id=$id_proceso ";
+                }
+            }
 
-        $r= Persona::DetalleProduccion($fecha,$id_usuario,$id_proceso);
-            return Response::json(
-            array(
-                'rst'=>1,
-                'datos'=>$r 
-            )
+            if( Input::has("fecha") ){
+                $fecha=Input::get("fecha");
+                    list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+                    $array['where'].=" AND date(rdv.updated_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+            }
+
+            $array['order']=" ORDER BY f.nombre ";
+            
+        $rst=Persona::getDetalleProduccion($array); 
+        
+
+        $propiedades = array(
+          'creador'=>'Gerencia Modernizacion',
+          'subject'=>'Detalle de Tareas',
+          'tittle'=>'Plataforma',
+          'font-name'=>'Bookman Old Style',
+          'font-size'=>8,
         );
+
+        $cabecera = array(
+          'PROCESO',
+          'AREA',
+          'TAREA',
+          'VERBO',
+          'DOCUMENTO GENERADO',
+          'OBSERVACION',
+          'N° DE ACTIVIDAD',
+          'FECHA',
+        );
+        $this->exportExcel($propiedades,'',$cabecera,$rst);
+    }
+    public function postDetalleproduccion(){
+        
+        if ( Request::ajax() ) {
+            /*********************FIJO*****************************/
+            $array=array();
+            $array['where']='';
+            $array['limit']='';$array['order']='';
+            
+            if (Input::has('draw')) {
+                if (Input::has('order')) {
+                    $inorder=Input::get('order');
+                    $incolumns=Input::get('columns');
+                    $array['order']=  ' ORDER BY '.
+                                      $incolumns[ $inorder[0]['column'] ]['name'].' '.
+                                      $inorder[0]['dir'];
+                }
+
+                $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
+                $aParametro["draw"]=Input::get('draw');
+            }
+            /************************************************************/
+
+            if( Input::has("usuario_id") ){
+                $id_usuario=Input::get("usuario_id");
+                if($id_usuario != ''){
+                    $array['where'].=" AND rdv.usuario_updated_at=$id_usuario ";
+                }
+            }
+            
+            if( Input::has("proceso_id") ){
+                $id_proceso=Input::get("proceso_id");
+                if($id_proceso != ''){
+                    $array['where'].=" AND f.id=$id_proceso ";
+                }
+            }
+
+            if( Input::has("fecha") ){
+                $fecha=Input::get("fecha");
+                    list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+                    $array['where'].=" AND date(rdv.updated_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+            }
+
+            $array['order']=" ORDER BY f.nombre ";
+
+            $cant  = Persona::getDPCount( $array );
+            $aData = Persona::getDetalleProduccion( $array );
+
+            $aParametro['rst'] = 1;
+            $aParametro["recordsTotal"]=$cant;
+            $aParametro["recordsFiltered"]=$cant;
+            $aParametro['data'] = $aData;
+            $aParametro['msj'] = "No hay registros aún";
+            return Response::json($aParametro);
+
+        }
+
     }
     public function postProduccionusuario(){
         $fecha = '';

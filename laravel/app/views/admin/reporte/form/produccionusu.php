@@ -18,34 +18,25 @@
                         <h3 class="box-title"></h3>
                     </div><!-- /.box-header -->
                     <div class="box-body table-responsive">
-                        <table id="t_detalle_area" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Proceso</th>
-                                    <th>Área</th>
-                                    <th>Tarea</th>
-                                    <th>Verbo</th>
-                                    <th>Documento</th>
-                                    <th>Observación</th>
-                                     <th>Orden</th>
-                                     <th>Fecha</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tb_detalle_area">
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Proceso</th>
-                                    <th>Área</th>
-                                    <th>Tarea</th>
-                                    <th>Verbo</th>
-                                    <th>Documento</th>
-                                    <th>Observación</th>
-                                     <th>Orden</th>
-                                     <th>Fecha</th>
-                                </tr>
-                            </tfoot>
-                        </table>
+                        <form id="form_detalles" name="form_detalles" method="POST" action="">
+                            <input type="hidden" id="txt_usuario_id" name="txt_usuario_id" value="">
+                            <input type="hidden" id="txt_proceso_id" name="txt_proceso_id" value="">
+                            <input type="hidden" id="txt_fecha" name="txt_fecha" value="">
+                            <table id="t_detalles" class="table table-bordered table-hover">
+                                <thead>
+                            
+                                <tr></tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                <tfoot>
+                                <tr></tr>
+                                </tfoot>
+                            </table>
+                        </form>
+                            
+
+                        
 
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->

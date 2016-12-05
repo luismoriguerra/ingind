@@ -96,7 +96,6 @@
                                         <th>Dni</th>
                                         <th>Fecha Nacimiento</th>
                                         <th>Sexo</th>
-                                        <th>Estado</th>
                                         <th>Area</th>
                                         <th>Cargo</th>
                                         <th>Cargo</th>
@@ -133,7 +132,7 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1" onclick="ActPest(1);">
-                    <form id="form_1" name="form_1" method="post">
+                    <form id="form_produccion" name="form_produccion" method="post">
                           <div class="row form-group" id="produccion" >
                     <div class="col-sm-12">
                         <div class="box-body table-responsive">
@@ -142,7 +141,8 @@
                                     <tr>
                                         <th>Nombre del Proceso</th>
                                         <th>Cantidad de Tareas Realizadas</th>
-                                        <th></th>
+                                        <th>[]</th>
+                                        <th>[]</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_produccion">
