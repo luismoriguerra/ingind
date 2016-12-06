@@ -38,13 +38,14 @@ class DocumentoController extends \BaseController {
 
             $documento = new DocumentoWord;
             $documento->titulo = Input::get('titulo');
-            $documento->cabecera = Input::get('cabecera');
+            $documento->cabecera = Input::get('cabecera', 0);
+            $documento->estado = 1;
             $documento->remitente = '';
             $documento->destinatario = '';
             $documento->asunto = Input::get('asunto', '');
             $documento->fecha = Input::get('fechaDocumento', new \DateTime());
             $documento->cuerpo = Input::get('word', '');
-            // $documento->correlativo = '';
+            $documento->correlativo = Input::get('correlativo', '');
             $documento->plantillaId = Input::get('plantilla', '');
             $documento->areaIdRemitente = Input::get('area_de', '');
             $documento->areaIdDestinatario = Input::get('area_a', '');

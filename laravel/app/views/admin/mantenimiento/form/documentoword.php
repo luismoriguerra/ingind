@@ -9,8 +9,13 @@
         </button>
         <h4 class="modal-title">New message</h4>
       </div>
+
       <div class="modal-body">
+
         <form id="form_documento" name="form_documento" method="post">
+
+          <input type="hidden" name="txt_cabecera" id="txt_cabecera">
+
           <div class="row">
             <div class="col-xs-4">
                 <div class="form-group">
@@ -33,6 +38,16 @@
                       </a>
                   </label>
                   <input type="text" class="form-control" placeholder="Ingrese Título" name="txt_titulo" id="txt_titulo">
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <div class="form-group">
+                  <label class="control-label">Correlativo
+                      <a id="error_correlativo" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom">
+                          <i class="fa fa-exclamation"></i>
+                      </a>
+                  </label>
+                  <input type="text" class="form-control" name="txt_correlativo" id="txt_correlativo" readonly="true" value="">
               </div>
             </div>
           </div>
