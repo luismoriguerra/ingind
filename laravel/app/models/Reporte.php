@@ -320,7 +320,7 @@ class Reporte extends Eloquent
                     AND a.estado=1 
                     ORDER BY a.id DESC
                     LIMIT 0,1
-                ),'|' ) alerta, p.id persona_id,
+                ),'|' ) alerta, p.id persona_id, p2.id jefe_id,
                 CONCAT(p2.paterno,' ',p2.materno,', ',p2.nombre) jefe,
                 p2.email_mdi email_jefe,
                 (
