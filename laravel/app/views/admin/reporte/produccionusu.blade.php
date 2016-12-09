@@ -164,7 +164,33 @@
                 </div>
                 <div class="tab-pane" id="tab_2" onclick="ActPest(2);">
                     <form id="form_2" name="form_2" method="post">
-                       
+                           <div class="row form-group" id="tramite_asignado" >
+                    <div class="col-sm-12">
+                        <div class="box-body table-responsive">
+                            <table id="t_tramite_asignado" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre del Proceso</th>
+                                        <th>Cantidad de Trámites Asignados</th>
+                                        <th>[]</th>
+                                        <th>[]</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tb_tramite_asignado">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                   <div class="col-sm-12">
+                    <br>
+                </div>
+                <div class="col-sm-12">
+                    <div id="div_total_tramite_asignado" >
+                    
+                </div>
+                </div>
+                  
+                </div>
                     </form>
                 </div>
              

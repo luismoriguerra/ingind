@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Plantilla;
+use DocumentoWord;
 use Helpers;
 
 class PlantillaController extends \BaseController {
@@ -49,10 +50,15 @@ class PlantillaController extends \BaseController {
 
             $id = Input::get('id');
             $area = Plantilla::where('id','=',$id)
-                            ->where('estado','=','1')
-                            ->get();
+                        ->where('estado','=','1')
+                        ->get();
 
-            return Response::json(array('rst' => 1, 'datos' => $area));
+            $correlativo = DocumentoWord::where('plantillaId','=',$id)
+                        ->where('estado','=','1')
+                        ->count();
+            $correlativo = str_pad($correlativo+1, 3, "0", STR_PAD_LEFT);
+
+            return Response::json(array('rst' => 1, 'datos' => $area, 'correlativo' => $correlativo));
         }
     }
 

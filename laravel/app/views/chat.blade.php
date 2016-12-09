@@ -11,33 +11,31 @@
             </header>
             <fieldset class="myscroll"> 
                 <div id="conversationList">
-                    @include('templates/conversations', array('conversations' => $conversations))
+                    @include('templates/conversations')
                 </div>
             </fieldset>
         </form>
     </div>
     <div class="chatonline" style="display:none">
-        @if($current_conversation)
-            <header>
-                <span id="spanNombre">Chat</span>
-                <span type="button" class="btn-sm" aria-hidden="true" @click.prevent="ocultar('chatonline')" style="float:right;"><i class="fa fa-minus"></i></span>
-            </header>
-            <fieldset>
-                <div id="messageList" class="conversation myscroll">
-                    @include('templates/messages', array('messages' => $current_conversation->messages))
-                </div>
-                <footer>
-                    <div class="row bodyBottom">
-                        <div class="contComments hacerComentario" style="margin-bottom: 5px"> 
-                            <div class="replicate">
-                                <img class="comentarioPropio" src="http://www.e-quipu.pe/static/img/btnEnviarcomentario.png" @click.prevent="sendMessage">
-                                <textarea @keyup.prevent="handleKeypress" id="messageBox" class="comentariohacer" placeholder="Escribe una respuesta..."></textarea>
-                            </div>
+        <header>
+            <span id="spanNombre">Chat</span>
+            <span type="button" class="btn-sm" aria-hidden="true" @click.prevent="ocultar('chatonline')" style="float:right;"><i class="fa fa-minus"></i></span>
+        </header>
+        <fieldset>
+            <div id="messageList" class="conversation myscroll">
+                @include('templates/messages')
+            </div>
+            <footer>
+                <div class="row bodyBottom">
+                    <div class="contComments hacerComentario" style="margin-bottom: 5px"> 
+                        <div class="replicate">
+                            <img class="comentarioPropio" src="http://www.e-quipu.pe/static/img/btnEnviarcomentario.png" @click.prevent="sendMessage">
+                            <textarea @keyup.prevent="handleKeypress" id="messageBox" class="comentariohacer" placeholder="Escribe una respuesta..."></textarea>
                         </div>
                     </div>
-                </footer>
-            </fieldset> 
-        @endif
+                </div>
+            </footer>
+        </fieldset>
     </div>
     <div class="nuevomensaje" style="display:none">
         <header>

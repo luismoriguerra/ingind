@@ -177,12 +177,15 @@ var Documento={
                     $('#txt_titulo').closest('.row').show();
                     $('#plantillaWord').closest('.row').show();
                     $('#divCebecera').hide();
+                    $('#txt_cabecera').val(0);
 
                     if (obj.datos[0].cabecera) {
                         $('#divCebecera').show();
+                        $('#txt_cabecera').val(1);
                     }
 
                     $('#txt_titulo').val(obj.datos[0].titulo);
+                    $('#txt_correlativo').val(obj.correlativo);
                     CKEDITOR.instances.plantillaWord.setData( obj.datos[0].cuerpo );
 
                 } else {

@@ -76,7 +76,11 @@ class MessageController extends \BaseController {
         );
 
         Event::fire(ChatMessagesEventHandler::EVENT, array(json_encode($data)));
-
+        $dataConversation = array(
+            'room'    => Input::get('user_id'),
+            'message' => array('conversation_id' => $conversation->id)
+        );
+        Event::fire(ChatConversationsEventHandler::EVENT, array(json_encode($dataConversation)));
         return Response::json([
             'success' => true,
             'result' => $message

@@ -180,7 +180,7 @@
       </div>
       <div class="modal-footer">
         <!--  <span id="btnAgregarAnexo" class="btn btn-primary btn-sm" onclick="updateTiempo(this)"><i class="glyphicon glyphicon-plus"></i> AGREGAR ANEXO</span> -->
-         <a class="btn btn-primary btn-sm" href="#" id="spanImprimir2" target="_blank" onclick="exportPDFTramite(this)"><i class="glyphicon glyphicon-print"></i> IMPRIMIR</a
+         <a class="btn btn-primary btn-sm" href="#" id="spanImprimir2" target="_blank" onclick="exportPDFTramite(this)"><i class="glyphicon glyphicon-print"></i> IMPRIMIR</a>
       </div>
     </div>
   </div>

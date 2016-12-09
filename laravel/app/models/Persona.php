@@ -358,6 +358,79 @@ class Persona extends Base implements UserInterface, RemindableInterface
         return $r;
     }
     
+     public static function ProduccionTramiteAsignadoTotal($fecha,$id_usuario)
+    {     $query = '';
+    
+          $query.="SELECT COUNT(tr.id) as tareas
+                    FROM tablas_relacion tr 
+                    INNER JOIN rutas r on tr.id=r.tabla_relacion_id AND r.estado=1
+                    INNER JOIN flujos f on r.flujo_id=f.id
+                    WHERE tr.estado=1
+                    AND tr.usuario_created_at=$id_usuario";
+          
+           if($fecha != ''){
+            list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+            $query.=' AND date(tr.created_at) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
+         }      
+        $r= DB::select($query);
+
+        return $r;
+    }
+    
+    public static function ProduccionTramiteAsignado($fecha,$id_usuario)
+    {     $query = '';
+    
+          $query.="SELECT f.id,f.nombre,COUNT(tr.id) as tareas
+                    FROM tablas_relacion tr 
+                    INNER JOIN rutas r on tr.id=r.tabla_relacion_id AND r.estado=1
+                    INNER JOIN flujos f on r.flujo_id=f.id
+                    WHERE tr.estado=1 
+                    AND tr.usuario_created_at=$id_usuario";
+          
+           if($fecha != ''){
+            list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+            $query.=' AND date(tr.created_at) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
+         }
+         $query.='GROUP BY f.id';
+        $r= DB::select($query);
+
+        return $r;
+    }
+    
+    public static function getProduccionTramiteAsignadoDetalle($array)
+    {     
+  
+        $sSql= "SELECT f.nombre as proceso,a.nombre as area,tr.id_union,tr.sumilla,tr.created_at as fecha
+                FROM tablas_relacion tr 
+                INNER JOIN rutas r on tr.id=r.tabla_relacion_id AND r.estado=1
+                INNER JOIN flujos f on r.flujo_id=f.id
+                INNER JOIN areas a on r.area_id=a.id
+                WHERE tr.estado=1";
+        $sSql.= $array['where'].
+                $array['order'].
+                $array['limit'];
+       
+        $oData= DB::select($sSql);
+
+        return $oData;
+    }
+    
+     public static function getPTADCount($array)
+    {     
+  
+        $sSql= "SELECT COUNT(tr.id) cant
+                    FROM tablas_relacion tr 
+                    INNER JOIN rutas r on tr.id=r.tabla_relacion_id AND r.estado=1
+                    INNER JOIN flujos f on r.flujo_id=f.id
+                    INNER JOIN areas a on r.area_id=a.id
+                    WHERE tr.estado=1";
+        $sSql.=$array['where'];
+
+        $oData= DB::select($sSql);
+
+        return $oData[0]->cant;
+    }
+    
     public static function getDetalleProduccion($array)
     {     
   
