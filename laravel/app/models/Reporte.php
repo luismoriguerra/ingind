@@ -438,5 +438,22 @@ class Reporte extends Eloquent
             $r=DB::select($sql);
             return $r;
     }
+
+    public function getExpedienteUnico(){
+        if(Input::get('ruta_detalle_id')){
+            $data = [];
+            $sql = "SELECT referido,ruta_detalle_id,fecha_hora_referido fecha_hora,usuario_referido, 'r' tipo
+                    FROM referidos
+                    WHERE ruta_id='".Input::get('ruta_id')."'
+                    UNION
+                    SELECT sustento,ruta_detalle_id,fecha_hora_sustento fecha_hora,usuario_sustento, 's' tipo
+                    FROM sustentos s
+                    INNER JOIN rutas_detalle rd ON rd.id=s.ruta_detalle_id
+                    WHERE rd.ruta_id='".Input::get('ruta_id')."'
+                    ORDER BY ruta_detalle_id,tipo,fecha_hora";
+            $r=DB::select($r);
+            return $r;
+        }
+    }
 }
 ?>

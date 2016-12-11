@@ -466,4 +466,112 @@ eliminardv = function(id){
     }
 }
 /*end delete rdv*/
+
+/* Formatting function for row details - modify as you need */
+function format ( d ) {
+    // `d` is the original data object for the row
+    return '<fieldset> <legend>    Agencies  </legend>   <table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+        '<tr>'+
+            '<td>agencies has to come from data attributes from tds</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>agencies has to come from data attributes from tds</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>agencies has to come from data attributes from tds</td>'+
+        '</tr>'+
+    '</table> </fieldset>' 
+        
+}
+$(document).ready(function() {
+     var table = $('#example').DataTable();
+     
+    
+    function HTMLExpedienteUnico(){
+        $('#example').dataTable().fnDestroy();
+        if(data){
+            var html ='';
+            $.each(data,function(index, el) {
+                html+="<tr>";
+                html+=    "<td>"+el.pretramite +"</td>";
+                html+=    "<td>"+el.usuario+"</td>";
+                
+                if(el.empresa){
+                    html+=    "<td>"+el.empresa+"</td>";                
+                }else{
+                    html+=    "<td>"+el.usuario+"</td>";
+                }
+                
+                html+=    "<td>"+el.solicitante+"</td>";
+                html+=    "<td>"+el.tipotramite+"</td>";
+                html+=    "<td>"+el.tipodoc+"</td>";
+                html+=    "<td>"+el.tramite+"</td>";
+                html+=    "<td>"+el.fecha+"</td>";
+                html+=    '<td><span class="btn btn-primary btn-sm" id-pretramite="'+el.pretramite+'" onclick="Detallepret(this)"><i class="glyphicon glyphicon-th-list"></i></span></td>';
+                html+=    '<td><span class="btn btn-primary btn-sm" id-pretramite="'+el.pretramite+'" onclick="Voucherpret(this)"><i class="glyphicon glyphicon-search"></i></span></td>';
+                html+="</tr>";            
+            });
+            $("#tb_reporte").html(html);
+            $("#t_reporte").dataTable(); 
+        }else{
+            alert('no hay nada');
+        }
+    }
+
+// Add event listener for opening and closing details
+    $('#example tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+ 
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            // Open this row
+            console.log(row);
+            row.child( format(row.data()) ).show();
+            tr.addClass('shown');
+        }
+    } );
+   // End add event 
+    
+    $("#divPopUp").dialog({
+        resizable: true,
+        autoOpen: false,
+        width: 550,
+        modal: true,
+        buttons: {
+            "Save": function() {
+                var text = $(this).find( ":checkbox:checked" ).map(function() {
+                    return this.value+' ';
+                }).get().join();
+                
+                var obj = $(this).data("opener");
+                $(obj).parents('td:first').siblings(':eq(2)').find(':text').val(text);
+                $( this ).dialog( "close" );
+            },
+            Cancel: function() {
+                $( this ).dialog( "close" );
+            }
+        },
+        close:function(){
+            $(this).find( ":checkbox" ).removeAttr('checked');
+            $( this ).dialog( "close" );
+        }
+    });
+    
+    $('button.btn').on('click', function(){
+        var title = $(this).parents('td:first').siblings(':eq(0)').text();
+        console.log("title is : "  + title);
+        $( "#divPopUp" ).data('opener', this).dialog( "option", "title", title ).dialog( "open" );
+        var text = $(this).parents('td:first').siblings(':eq(2)').find(':input').val();
+        if($.trim(text) != ''){
+            var texts = text.split(" ,"); 
+            $.each(texts, function(i, value){ $("#divPopUp").find(':checkbox[value="'+$.trim(value)+'"]').prop('checked', true);
+            });
+        }
+    });
+} );
 </script>

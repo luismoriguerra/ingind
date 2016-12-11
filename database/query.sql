@@ -1,3 +1,73 @@
+--08-12-2016 documentos digitales
+ALTER TABLE `areas`
+ADD COLUMN `nemonico_doc`  varchar(20) NULL AFTER `nemonico`;
+
+
+
+CREATE TABLE `plantilla_doc` (
+`id`  int(11) NOT NULL AUTO_INCREMENT ,
+`descripcion`  varchar(250) NULL ,
+`tipo_documento_id`  int(10) NOT NULL ,
+`area_id`  int(11) NOT NULL ,
+`cuerpo`  text NOT NULL ,
+`estado`  tinyint(1) NULL DEFAULT 1 ,
+`created_at`  datetime NULL ,
+`updated_at`  datetime NULL ,
+`usuario_created_at`  int(11) NULL ,
+`usuario_updated_at`  int(11) NULL ,
+PRIMARY KEY (`id`),
+CONSTRAINT `fk_documento` FOREIGN KEY (`tipo_documento_id`) REFERENCES `documentos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+CONSTRAINT `fk_area` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+)ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+CREATE TABLE `doc_digital` (
+`id`  int(11) NOT NULL AUTO_INCREMENT ,
+`titulo`  varchar(250) NOT NULL ,
+`asunto`  varchar(250) NOT NULL ,
+`cuerpo`  text NOT NULL ,
+`plantilla_doc_id`  int(11) NOT NULL ,
+`persona_id`  int(11) NOT NULL COMMENT 'gerente actual que enviara el doc' ,
+`created_at`  datetime NULL DEFAULT CURRENT_TIMESTAMP ,
+`updated_at`  datetime NULL ,
+`usuario_created_at`  int(11) NULL ,
+`usuario_updated_at`  int(11) NULL ,
+PRIMARY KEY (`id`),
+CONSTRAINT `fk_plantilla` FOREIGN KEY (`plantilla_doc_id`) REFERENCES `plantilla_doc` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+CONSTRAINT `fk_persona` FOREIGN KEY (`persona_id`) REFERENCES `personas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+)
+;
+
+ALTER TABLE `doc_digital`
+ADD COLUMN `area_id`  int(11) NOT NULL AFTER `plantilla_doc_id`;
+
+ALTER TABLE `doc_digital` ADD CONSTRAINT `fk_area` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+
+
+CREATE TABLE `doc_digital_area` (
+`id`  int(11) NOT NULL AUTO_INCREMENT ,
+`doc_digital_id`  int(11) NOT NULL ,
+`persona_id`  int(11) NOT NULL ,
+`area_id`  int(11) NOT NULL ,
+`estado`  tinyint(1) NOT NULL DEFAULT 1 ,
+`created_at`  datetime NULL DEFAULT CURRENT_TIMESTAMP ,
+`updated_at`  datetime NULL ,
+`usuario_created_at`  int(11) NULL ,
+`usuario_updated_at`  int(11) NULL ,
+PRIMARY KEY (`id`),
+CONSTRAINT `fk_doc_digital` FOREIGN KEY (`doc_digital_id`) REFERENCES `doc_digital` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+CONSTRAINT `fk_persona_id` FOREIGN KEY (`persona_id`) REFERENCES `personas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+CONSTRAINT `fk_area_id` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+)
+;
+
+
+
+
+
+
 --28-11-2016
 ALTER TABLE `messages`
 CHANGE COLUMN `user_id` `author_id`  int(11) NULL DEFAULT NULL COMMENT 'quien envia el mensaje' AFTER `conversation_id`,

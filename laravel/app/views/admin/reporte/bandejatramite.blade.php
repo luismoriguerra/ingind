@@ -63,6 +63,14 @@
     font-weight: bold;
 }
 
+td.details-control {
+    background: url('http://www.datatables.net/examples/resources/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('http://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
+}
+
 @media screen and (max-width: 767px) {
   .mailbox .nav-stacked > li:not(.header) {
     float: left;
@@ -159,10 +167,10 @@
                                                 <i class="fa fa-angle-double-right fa-lg"></i>
                                                 <span id="texto_fecha_creacion2">:</span>
                                             </small>
-                                            <!--a class="btn btn-sm btn-primary" data-toggle="modal" data-id='' data-target="#expedienteModal">
+                                            <a class="btn btn-sm btn-primary" data-toggle="modal" data-id='' data-target="#expedienteModal">
                                                 <i class="fa fa-search fa-lg"></i>
                                                 .::Expediente::.
-                                            </a-->
+                                            </a>
                                             </h1>
                                         </div>
                                         <div class="col-sm-12">

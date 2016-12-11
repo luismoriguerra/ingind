@@ -78,7 +78,7 @@ hr {
             <div class="logo">
                 <img src="img/logo_muni.jpg">
             </div>
-            <h3 class="nombre-municipio">MINICIPALIDAD DISTRITAL DE INDEPENDECIA</h3>
+            <h3 class="nombre-municipio">MUNICIPALIDAD DISTRITAL DE INDEPENDECIA</h3>
             <h4 class="nombre-anio">“Año de la consolidación del Mar de Grau”</h4>
         </div>
 
@@ -87,12 +87,12 @@ hr {
         @if ($conCabecera)
         <table class="tabla-cabecera">
             <tr>
-                <td width='25%' class='text-negrita'>A</td>
+                <td width='25%' class='text-negrita'>DE</td>
                 <td width='5px' class='text-negrita'>:</td>
                 <td width='75%'>{{ $remitente }}</td>
             </tr>
             <tr>
-                <td width='25%' class='text-negrita'>DE</td>
+                <td width='25%' class='text-negrita'>A</td>
                 <td width='5px' class='text-negrita'>:</td>
                 <td width='75%'>{{ $destinatario }}</td>
             </tr>

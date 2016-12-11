@@ -1709,4 +1709,14 @@ class ReporteController extends BaseController
             )
         );
     }
+
+    public function postExpedienteunico(){
+      $rst=Reporte::getExpedienteUnico(); 
+      return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$rst
+            )
+        );
+    }
 }
