@@ -1,13 +1,17 @@
 <script type="text/javascript">
 var plantilla_id, PlantillaObj;
 var Plantillas={
-    Agregar:function(areas){
+    AgregarEditar:function(areas,event){
         $("#formNuevoDocDigital input[name='word']").remove();
         $("#formNuevoDocDigital").append("<input type='hidden' value='"+CKEDITOR.instances.plantillaWord.getData()+"' name='word'>");
         $("#txt_titulofinal").val($("#lblDocumento").text()+$("#txt_titulo").val()+$("#lblArea").text());
         var datos=$("#formNuevoDocDigital").serialize().split("txt_").join("").split("slct_").join("");
         datos+="&areasselect="+JSON.stringify(areas);
         var accion="documentodig/crear";
+        if(event == 1){
+            var accion="documentodig/editar";
+        }
+
         $.ajax({
             url         : accion,
             type        : 'POST',
@@ -21,7 +25,7 @@ var Plantillas={
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
                     $('#t_plantilla').dataTable().fnDestroy();
-                    Plantillas.Cargar(activarTabla);
+                    Plantillas.Cargar(HTMLCargar);
                     alertBootstrap('success', obj.msj, 6);
                     $("#NuevoDocDigital").modal('hide');
                 }
@@ -38,18 +42,19 @@ var Plantillas={
             }
         });
     },
-    Cargar:function(evento){
+    Cargar:function(evento,data = ''){
         $.ajax({
             url         : 'documentodig/cargar',
             type        : 'POST',
             cache       : false,
+            data : data,
             dataType    : 'json',
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
             success : function(obj) {
                 if(obj.rst==1){
-                    HTMLCargar(obj.datos);
+                    evento(obj.datos);
                    /* PlantillaObj=obj.datos;*/
                 }
                 $(".overlay,.loading-img").remove();
@@ -153,7 +158,7 @@ var Plantillas={
             url         : 'area/areasgerencia',
             type        : 'POST',
             cache       : false,
-            data        : data,
+         /*   data        : data,*/
             dataType    : 'json',
             beforeSend : function() {
               /*  $("body").append('<div class="overlay"></div><div class="loading-img"></div>');*/
@@ -170,11 +175,12 @@ var Plantillas={
             }
         });
     },
-    CargarCorrelativo:function(evento){
+    CargarCorrelativo:function(data,evento){
         $.ajax({
             url         : 'documentodig/correlativo',
             type        : 'POST',
             cache       : false,
+            data        : data,
             dataType    : 'json',
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
