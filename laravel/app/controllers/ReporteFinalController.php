@@ -522,5 +522,81 @@ class ReporteFinalController extends BaseController
 
       return Response::json( $retorno );
     }
+    
+     public function postSeguridadciudadanaalertas()
+    {
+      $array=array();
+      $array['usuario']=Auth::user()->id;
+    
+      $retorno=array(
+                  'rst'=>1
+               );
+
+      $url ='http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=faltas';
+      $curl_options = array(
+                    //reemplazar url 
+                    CURLOPT_URL => $url,
+                    CURLOPT_HEADER => 0,
+                    CURLOPT_RETURNTRANSFER => TRUE,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_SSL_VERIFYPEER => 0,
+                    CURLOPT_FOLLOWLOCATION => TRUE,
+                    CURLOPT_ENCODING => 'gzip,deflate',
+            );
+ 
+            $ch = curl_init();
+            curl_setopt_array( $ch, $curl_options );
+            $output = curl_exec( $ch );
+            curl_close($ch);
+
+      $r = json_decode(utf8_encode($output),true);
+      
+      $html="";
+      $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
+      
+      
+      $n=1;
+      foreach ($r["faltas"] as $rr) {
+        
+        $html.="<tr>";
+        $html.="<td>".$n."</td>";
+        $html.="<td>".$rr["Persona"]."</td>";
+        $html.="<td>".$rr["Dni"]."</td>";
+        $html.="<td>".$rr["Email"]."</td>";
+        $html.="<td>".$rr["Area"]."</td>";
+        $html.="<td>".$rr["faltas"]."</td>";
+        $html.="</tr>";
+        
+        $email=$rr["Email"];
+        $plantilla=Plantilla::where('tipo','=','1')->first();
+        $buscar=array('persona:','dia:','mes:','año:','paso:','tramite:','area:');
+        $reemplazar=array($rr["Persona"],date('d'),$meses[date('n')],date("Y"),$rr["faltas"],$rr["Persona"],$rr["Persona"]);
+        $parametros=array(
+          'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
+        );
+        
+        if($email!=" "){
+        try{
+            Mail::send('notreirel', $parametros , 
+                function($message) use ($email){
+                    $message
+                    ->to('consultas.gmgm@gmail.com')
+                    ->cc('rrr@gmail.com')
+                    ->subject('.::Notificación::.');
+                }
+            );
+       }
+        catch(Exception $e){
+            //echo $qem[$k]->email."<br>";
+            
+        }
+        
+        }
+        $n++;
+      }
+      $retorno["data"]=$html;
+
+      return Response::json( $retorno );
+    }
 
 }
