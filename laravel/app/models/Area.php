@@ -112,4 +112,15 @@ class Area extends Base
                 
         return $area;
     }
+
+    public static function getAreasGerencia(){
+        $sql = "SELECT a.id idarea ,a.nombre area,p.id idpersona,p.nombre persona FROM areas a 
+                INNER JOIN area_cargo_persona acp ON acp.area_id=a.id AND acp.estado=1
+                INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1 
+                INNER JOIN personas p ON p.id=cp.persona_id AND p.estado = 1 AND p.rol_id IN (8,9) 
+                WHERE a.estado=1
+                ";
+        $result = DB::select($sql);
+        return ($result) ? $result : false;
+    }
 }

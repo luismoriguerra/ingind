@@ -284,16 +284,27 @@ consultar = function(){
 }
 
 HTMLClasificadores = function(data){
-    var html = '';
-    $.each(data,function(index, el) {
-        html+='<tr>';
-        html+='<td>'+el.id+'</td>';
-        html+='<td>'+el.nombre_clasificador_tramite+'</td>';
-        html+='<td><span class="btn btn-primary btn-sm" id="'+el.id+'" nombre="'+el.nombre_clasificador_tramite+'" onClick="getRequisitos(this)">View</span></td>';
-        html+='<td><span class="btn btn-primary btn-sm" id="'+el.id+'" nombre="'+el.nombre_clasificador_tramite+'" onclick="selectClaTramite(this)">Select</span></td>';
-        html+='</tr>';        
-    });
-    $("#tb_clasificador").html(html);
+    if(data.length > 0){
+        $("#t_clasificador").dataTable().fnDestroy();
+        var html = '';
+        $.each(data,function(index, el) {
+            html+='<tr>';
+            html+='<td>'+el.id+'</td>';
+            html+='<td>'+el.nombre_clasificador_tramite+'</td>';
+            html+='<td><span class="btn btn-primary btn-sm" id="'+el.id+'" nombre="'+el.nombre_clasificador_tramite+'" onClick="getRequisitos(this)">View</span></td>';
+            html+='<td><span class="btn btn-primary btn-sm" id="'+el.id+'" nombre="'+el.nombre_clasificador_tramite+'" onclick="selectClaTramite(this)">Select</span></td>';
+            html+='</tr>';        
+        });
+        $("#tb_clasificador").html(html);
+        $("#t_clasificador").dataTable(
+                {
+                    "order": [[ 0, "asc" ],[1, "asc"]],
+                }
+        ); 
+        $("#t_clasificador").show();        
+    }else{
+        alert('no hay data');
+    }
 }
 
 selectClaTramite = function(obj){

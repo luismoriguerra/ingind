@@ -13,7 +13,7 @@
           <div class="row form-group">
               <div class="col-sm-12">
                   <div class="box-body table-responsive">
-                      <table id="t_expediente" class="table table-bordered table-striped">
+                     <!--  <table id="t_expediente" class="table table-bordered table-striped">
                           <thead>
                               <tr>
                                   <th>Carta</th>
@@ -33,7 +33,60 @@
                                   <th>[ ]</th>
                               </tr>
                           </tfoot>
-                      </table>
+                      </table> -->
+                      <table id="example" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                 <th></th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+                <th>Map Columns</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+               <td class="details-control" data-agencies='["agency22", "agency33","agency17","agency89"]'></td>       
+                <td>Tiger Nixon</td>
+                <td>System Architect</td>
+                <td>Edinburgh</td>
+                <td>61</td>
+                <td>2011/04/25</td>
+                <td>$320,800</td>
+                <td>
+                <button type="button" class="btn">Assign Agenc and Glob</button>
+            </td>
+            </tr>
+            <tr>
+                 <td class="details-control" data-agencies='["agency23", "agency344","agency7","agency8"]'></td>
+                <td>Garrett Winters</td>
+                <td>Accountant</td>
+                <td>Tokyo</td>
+                <td>63</td>
+                <td>2011/07/25</td>
+                <td>$170,750</td>
+                <td>
+                <button type="button" class="btn">Assign Agenc and Glob</button>
+            </td>
+            </tr>
+            <tr>
+                 <td class="details-control" data-agencies='["agency2", "agency53","agency67","agency29"]'></td>
+                <td>Ashton Cox</td>
+                <td>Junior Technical Author</td>
+                <td>San Francisco</td>
+                <td>66</td>
+                <td>2009/01/12</td>
+                <td>$86,000</td>
+                <td>
+                <button type="button" class="btn">Assign Agenc and Glob</button>
+            </td>
+            </tr>
+           
+        </tbody>
+    </table>
                   </div>
               </div>
           </div>

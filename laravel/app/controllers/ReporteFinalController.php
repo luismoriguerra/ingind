@@ -399,7 +399,7 @@ class ReporteFinalController extends BaseController
 
       $estadofinal="<CURRENT_TIMESTAMP()";
       $datehoy=date("Y-m-d");
-      $datesp=date("Y-m-d",strtotime("-10 days"));
+      $datesp=date("Y-m-d",strtotime("-10 days")); 
       $array['tiempo_final']="  AND CalcularFechaFinal(
                                 rd.fecha_inicio, 
                                 (rd.dtiempo*t.totalminutos),
@@ -430,6 +430,7 @@ class ReporteFinalController extends BaseController
         $alerta=explode("|",$value->alerta);
         $texto="";
         $tipo=0;
+        DB::beginTransaction();
         if($alerta[1]==''){
           $tipo=1;
           $texto=".::Notificación::.";
@@ -441,12 +442,19 @@ class ReporteFinalController extends BaseController
         elseif($alerta[1]!='' AND $alerta[1]==2){
           $tipo=$alerta[1]+1;
           $texto=".::Relevo::.";
+          $cd=CartaDesglose::where('ruta_detalle_id',$value->ruta_detalle_id)->first();
+          $cartaDesglose=CartaDesglose::find($cd->id);
+          $cartaDesglose->persona_id=$value->jefe_id;
+          $cartaDesglose->save();
         }
         elseif($alerta[1]!='' AND $alerta[1]==3){
           $tipo=1;
           $texto=".::Notificación::.";
         }
-        
+
+        $retorno['texto'][]=$texto;
+        $retorno['tipo'][]=$tipo;
+
         if( trim($alerta[0])=='' OR $alerta[0]!=DATE("Y-m-d") ){
           $retorno['retorno']=$alerta[0];
             $plantilla=Plantilla::where('tipo','=',$tipo)->first();
@@ -455,8 +463,8 @@ class ReporteFinalController extends BaseController
             $parametros=array(
               'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
             );
-            DB::beginTransaction();
-            /*$value->email_mdi='jorgeshevchenk1988@gmail.com';
+            /*
+            $value->email_mdi='jorgeshevchenk1988@gmail.com';
             $value->email='';
             $value->email_jefe='jorge_shevchenk@hotmail.com';
             if($key%2==0){
@@ -477,7 +485,7 @@ class ReporteFinalController extends BaseController
                   if( $value->email_mdi!=$value->email_jefe ){
                     array_push($emailseguimiento, $value->email_jefe);
                   }
-                    Mail::queue('notreirel', $parametros , 
+                    Mail::send('notreirel', $parametros , 
                         function($message) use( $email,$emailseguimiento,$texto ) {
                             $message
                             ->to($email)
@@ -492,6 +500,8 @@ class ReporteFinalController extends BaseController
                   $alerta['tipo']=$tipo;
                   $alerta['fecha']=DATE("Y-m-d");
                   $alerta->save();
+                  $retorno['persona_id'][]=$value->persona_id;
+                  $retorno['jefe_id'][]=$value->jefe_id;
                 }
                 else{
                   /*$FaltaEmail=new FaltaEmail;

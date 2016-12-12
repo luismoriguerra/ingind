@@ -1,15 +1,13 @@
 <script type="text/javascript">
-
-var documento_id, DocumentoObj;
-
-var Documento={
-    AgregarEditar:function(AE){
-        $("#form_documento input[name='word']").remove();
-        $("#form_documento").append("<input type='hidden' value='"+CKEDITOR.instances.plantillaWord.getData()+"' name='word'>");
-        var datos=$("#form_documento").serialize().split("txt_").join("").split("slct_").join("");
-
-        var accion = (AE==1)? "documentoword/editar": "documentoword/crear";
-
+var plantilla_id, PlantillaObj;
+var Plantillas={
+    Agregar:function(areas){
+        $("#formNuevoDocDigital input[name='word']").remove();
+        $("#formNuevoDocDigital").append("<input type='hidden' value='"+CKEDITOR.instances.plantillaWord.getData()+"' name='word'>");
+        $("#txt_titulofinal").val($("#lblDocumento").text()+$("#txt_titulo").val()+$("#lblArea").text());
+        var datos=$("#formNuevoDocDigital").serialize().split("txt_").join("").split("slct_").join("");
+        datos+="&areasselect="+JSON.stringify(areas);
+        var accion="documentodig/crear";
         $.ajax({
             url         : accion,
             type        : 'POST',
@@ -23,9 +21,9 @@ var Documento={
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
                     $('#t_plantilla').dataTable().fnDestroy();
-                    Documento.Cargar(activarTabla);
+                    Plantillas.Cargar(activarTabla);
                     alertBootstrap('success', obj.msj, 6);
-                    $('#documentoModal .modal-footer [data-dismiss="modal"]').click();
+                    $("#NuevoDocDigital").modal('hide');
                 }
                 else{
                     $.each(obj.msj,function(index,datos){
@@ -42,7 +40,7 @@ var Documento={
     },
     Cargar:function(evento){
         $.ajax({
-            url         : 'documentoword/cargar',
+            url         : 'documentodig/cargar',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -52,7 +50,7 @@ var Documento={
             success : function(obj) {
                 if(obj.rst==1){
                     HTMLCargar(obj.datos);
-                    DocumentoObj=obj.datos;
+                   /* PlantillaObj=obj.datos;*/
                 }
                 $(".overlay,.loading-img").remove();
             },
@@ -92,11 +90,12 @@ var Documento={
         });
     },
     CambiarEstado:function(id,AD){
-        $("#form_documento").append("<input type='hidden' value='"+id+"' name='id'>");
-        $("#form_documento").append("<input type='hidden' value='"+AD+"' name='estado'>");
-        var datos=$("#form_documento").serialize().split("txt_").join("").split("slct_").join("");
+       /* $("#form_plantilla").append("<input type='hidden' value='"+id+"' name='id'>");
+        $("#form_plantilla").append("<input type='hidden' value='"+AD+"' name='estado'>");*/
+       /* var datos=$("#form_plantilla").serialize().split("txt_").join("").split("slct_").join("");*/
+        var datos={'id':id,'estado':AD};
         $.ajax({
-            url         : 'plantilla/cambiarestado',
+            url         : 'plantilladoc/cambiarestado',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -108,16 +107,16 @@ var Documento={
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
                     $('#t_plantilla').dataTable().fnDestroy();
-                    Documento.Cargar(activarTabla);
-                    alertBootstrap('success', obj.msj, 6);
-                    $('#documentoModal .modal-footer [data-dismiss="modal"]').click();
+                    Plantillas.Cargar(activarTabla);
+                   /* alertBootstrap('success', obj.msj, 6);
+                    $('#plantillaModal .modal-footer [data-dismiss="modal"]').click();*/
                 }
-                else{
+               /* else{
                     $.each(obj.msj,function(index,datos){
                         $("#error_"+index).attr("data-original-title",datos);
                         $('#error_'+index).css('display','');
                     });
-                }
+                }*/
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
@@ -127,30 +126,21 @@ var Documento={
     },
     Previsualizar:function(){
     },
-    GetEncargadoAreaDelUsuarioLogeado:function(){
+    CargarInfo:function(data,evento){
         $.ajax({
-            url         : 'documentoword/encargado-area-del-usuario-logeado',
+            url         : 'plantilladoc/cargar',
             type        : 'POST',
             cache       : false,
+            data        : data,
             dataType    : 'json',
-            data        : {},
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
             success : function(obj) {
-                $(".overlay,.loading-img").remove();
-
-                if (obj.rst==1) {
-                    $('#gerencia_de').text( obj.datos.area );
-                    $('#encargado_de').text( [obj.datos.nombre, obj.datos.paterno, obj.datos.materno].join(' ') );
-                    $('#txt_area_de').val(obj.datos.area_id);
-                    $('#txt_encargado_area_de').val(obj.datos.id);
-                } else {
-                    // $.each(obj.msj,function(index,datos){
-                    //     $("#error_"+index).attr("data-original-title",datos);
-                    //     $('#error_'+index).css('display','');
-                    // });
+                if(obj.rst==1){
+                    evento(obj.datos);
                 }
+                $(".overlay,.loading-img").remove();
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
@@ -158,49 +148,52 @@ var Documento={
             }
         });
     },
-    GetPlantilla:function(plantilla_id){
-
+    CargarAreas:function(evento){
         $.ajax({
-            url         : 'plantilla/plantilla',
+            url         : 'area/areasgerencia',
+            type        : 'POST',
+            cache       : false,
+            data        : data,
+            dataType    : 'json',
+            beforeSend : function() {
+              /*  $("body").append('<div class="overlay"></div><div class="loading-img"></div>');*/
+            },
+            success : function(obj) {
+                if(obj.rst==1){
+                    evento(obj.datos);
+                }
+               /* $(".overlay,.loading-img").remove();*/
+            },
+            error: function(){
+                /*$(".overlay,.loading-img").remove();*/
+                alertBootstrap('danger', 'Ocurrio una interrupción en el proceso,Favor de intentar nuevamente', 6);
+            }
+        });
+    },
+    CargarCorrelativo:function(evento){
+        $.ajax({
+            url         : 'documentodig/correlativo',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
-            data        : {id: plantilla_id},
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
             success : function(obj) {
+                if(obj.rst==1){
+                    evento(obj.datos);
+                }  
                 $(".overlay,.loading-img").remove();
-
-                if (obj.rst==1) {
-
-                    $('#txt_titulo').closest('.row').show();
-                    $('#plantillaWord').closest('.row').show();
-                    $('#divCebecera').hide();
-                    $('#txt_cabecera').val(0);
-
-                    if (obj.datos[0].cabecera) {
-                        $('#divCebecera').show();
-                        $('#txt_cabecera').val(1);
-                    }
-
-                    $('#txt_titulo').val(obj.datos[0].titulo);
-                    $('#txt_correlativo').val(obj.correlativo);
-                    CKEDITOR.instances.plantillaWord.setData( obj.datos[0].cuerpo );
-
-                } else {
-                    // $.each(obj.msj,function(index,datos){
-                    //     $("#error_"+index).attr("data-original-title",datos);
-                    //     $('#error_'+index).css('display','');
-                    // });
-                }
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
-                alertBootstrap('danger', 'Ocurrio una interrupción en el proceso,Favor de intentar nuevamente', 6);
+                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
+                                        '<i class="fa fa-ban"></i>'+
+                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
+                                        '<b><?php echo trans("greetings.mensaje_error"); ?></b>'+
+                                    '</div>');
             }
         });
-
     },
 };
 </script>

@@ -380,5 +380,28 @@ var Bandeja={
             }
         });
     },
+    ExpedienteUnico:function(data,evento){
+        parametros = {'datos':data};
+        $.ajax({
+            url         : 'reporte/expedienteunico',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : parametros,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay,.loading-img").remove();
+                if(obj.rst==1){
+                 /*   evento(obj.ruta_detalle_id);   */                 
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);
+            }
+        });
+    }
 };
 </script>

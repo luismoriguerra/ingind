@@ -201,3 +201,5 @@ Route::controller('anexo', 'AnexoController');
 Route::controller('pretramite', 'PretramiteController');
 /*Route::controller('tipotramite', 'TipotramiteController');*/
 Route::controller('tramitec', 'TramiteController');
+Route::controller('plantilladoc', 'PlantillaDocumentoController');
+Route::controller('documentodig', 'DocumentoDigitalController');
