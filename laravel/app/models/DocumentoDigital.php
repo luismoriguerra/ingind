@@ -29,9 +29,10 @@ class DocumentoDigital extends Base {
 
     public static function Correlativo(){
     	$año= date("Y");
+        $r2=array(array('correlativo'=>'000001','ano'=>$año));
     	$sql = "SELECT LPAD(id+1,6,'0') as correlativo,'$año' ano FROM doc_digital ORDER BY id DESC LIMIT 1";
     	$r= DB::select($sql);
-    	return ($r[0]) ? $r[0] : false;
+    	return (isset($r[0])) ? $r[0] : $r2[0];
     }
 
 }
