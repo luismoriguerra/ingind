@@ -121,7 +121,7 @@ class DocumentoDigitalController extends \BaseController {
         	/*get destinatario data*/
         	$destinatarios = '';
         	$destinatarios.= '<ul>';
-        	$DocDigitalArea = DocumentoDigitalArea::where('doc_digital_id', '=', $id)->get();
+        	$DocDigitalArea = DocumentoDigitalArea::where('doc_digital_id', '=', $id)->where('estado', '=', 1)->get();
         	foreach($DocDigitalArea as $key => $value){
         		$persona2 = Persona::find($value->persona_id);
         		$area2 = Area::find($value->area_id);
