@@ -21,6 +21,9 @@
     @include( 'admin.ruta.js.asignar_ajax' )
     @include( 'admin.ruta.js.asignar' )
     @include( 'admin.ruta.js.plataforma' )
+    
+    @include( 'admin.ruta.js.indedocs' )
+    @include( 'admin.ruta.js.indedocs_ajax' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -62,10 +65,18 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <label class="control-label">Nro Trámite:</label>
-                                                <input class="form-control" id="txt_codigo" name="txt_codigo" type="text" placeholder="Ing. Trámite">
+                                                <input class="form-control" id="txt_codigo" name="txt_codigo" type="text"  readonly="">
+                                                
                                             </div>
+                                            <div class="col-sm-1">
+                                                <label class="control-label" style="color: white">######</label>
+                                                <a class="btn btn-primary" data-toggle="modal" data-target="#indedocsModal" data-texto="txt_codigo" id="btn_buscar">
+                                                    <i class="fa fa-search fa-lg"></i>
+                                                </a>
+                                            </div>
+                                          
                                             <div class="col-sm-3">
                                                 <label class="control-label"> Referente:</label>
                                                 <input class="form-control" id="txt_referente" name="txt_referente" type="text" placeholder="Ing. Trámite Ref.">
@@ -279,4 +290,5 @@
      @include( 'admin.ruta.form.asignar' )
      @include( 'admin.ruta.form.ruta' )
      @include( 'admin.ruta.form.plataforma' )
+     @include( 'admin.ruta.form.indedocs' )
 @stop
