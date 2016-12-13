@@ -38,17 +38,37 @@ class DocumentoDigitalController extends \BaseController {
         if ( Request::ajax() ) {
             $html = Input::get('word', '');
 
-            $plantilla = PlantillaDocumento::find(Input::get('id'));
-            $plantilla->descripcion = Input::get('nombre');
-            $plantilla->tipo_documento_id = Input::get('tipodoc');
-            $plantilla->area_id = Input::get('area');
-            $plantilla->cuerpo = $html;
-/*            $plantilla->estado = Input::get('estado');*/
-/*            $plantilla->cabecera = Input::get('cabecera');*/
-            $plantilla->usuario_updated_at = Auth::user()->id;
-            $plantilla->save();
-            return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
+            $DocDigital = DocumentoDigital::find(Input::get('iddocdigital'));
+            $DocDigital->titulo = Input::get('titulofinal');
+            $DocDigital->asunto = Input::get('asunto');
+            $DocDigital->cuerpo = $html;
+            $DocDigital->plantilla_doc_id = Input::get('plantilla');
+            $DocDigital->area_id = Input::get('area_plantilla');
+            $DocDigital->persona_id = Auth::user()->id;
+            $DocDigital->usuario_created_at = Auth::user()->id;
+            $DocDigital->save();
 
+            if($DocDigital->id){
+                $affectedRows = DocumentoDigitalArea::where('doc_digital_id', '=', $DocDigital->id)->get();
+                foreach ($affectedRows as $docd) {
+                    $dd = DocumentoDigitalArea::find($docd->id);
+                    $dd->estado = 0;
+                    $dd->usuario_updated_at = Auth::user()->id;
+                    $dd->save();
+                }
+
+                $areas_envio = json_decode(Input::get('areasselect'));
+                foreach ($areas_envio as $key => $value) {
+                    $DocDigitalArea = new DocumentoDigitalArea();
+                    $DocDigitalArea->doc_digital_id = $DocDigital->id;
+                    $DocDigitalArea->persona_id = $value->persona_id;
+                    $DocDigitalArea->area_id = $value->area_id;
+                    $DocDigitalArea->usuario_created_at = Auth::user()->id;
+                    $DocDigitalArea->save();
+                }                    
+            }
+
+            return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
         }
     }
 
@@ -101,7 +121,7 @@ class DocumentoDigitalController extends \BaseController {
         	/*get destinatario data*/
         	$destinatarios = '';
         	$destinatarios.= '<ul>';
-        	$DocDigitalArea = DocumentoDigitalArea::where('doc_digital_id', '=', $id)->get();
+        	$DocDigitalArea = DocumentoDigitalArea::where('doc_digital_id', '=', $id)->where('estado', '=', 1)->get();
         	foreach($DocDigitalArea as $key => $value){
         		$persona2 = Persona::find($value->persona_id);
         		$area2 = Area::find($value->area_id);

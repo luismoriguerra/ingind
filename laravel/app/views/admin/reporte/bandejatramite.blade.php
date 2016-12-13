@@ -167,10 +167,10 @@ tr.shown td.details-control {
                                                 <i class="fa fa-angle-double-right fa-lg"></i>
                                                 <span id="texto_fecha_creacion2">:</span>
                                             </small>
-                                            <a class="btn btn-sm btn-primary" data-toggle="modal" data-id='' data-target="#expedienteModal">
+                                            <!--<a class="btn btn-sm btn-primary" data-toggle="modal" data-id='' data-target="#expedienteModal">
                                                 <i class="fa fa-search fa-lg"></i>
                                                 .::Expediente::.
-                                            </a>
+                                            </a-->
                                             </h1>
                                         </div>
                                         <div class="col-sm-12">

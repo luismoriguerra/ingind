@@ -92,11 +92,19 @@ class Area extends Base
                         }
                         if ( Input::has('areapersona') ){
 
-                            $sql = "SELECT acp.area_id
-                                                    FROM area_cargo_persona acp
-                                                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
-                                                    WHERE acp.estado=1
-                                                    AND cp.persona_id=".Auth::user()->id;
+                            if ( Input::has('areagerencia') ){
+                                $sql = "SELECT acp.area_id
+                                    FROM area_cargo_persona acp
+                                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1 and cp.cargo_id=5
+                                    WHERE acp.estado=1
+                                    AND cp.persona_id=".Auth::user()->id;
+                            }else{
+                                $sql = "SELECT acp.area_id
+                                    FROM area_cargo_persona acp
+                                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                    WHERE acp.estado=1
+                                    AND cp.persona_id=".Auth::user()->id;
+                            }
 
                             $areas= DB::select($sql);
                             $areas_id = '';
@@ -114,9 +122,10 @@ class Area extends Base
     }
 
     public static function getAreasGerencia(){
-        $sql = "SELECT a.id idarea ,a.nombre area,p.id idpersona,p.nombre persona FROM areas a 
+        $sql = "SELECT a.id idarea ,a.nombre area,p.id idpersona,p.nombre persona 
+                FROM areas a 
                 INNER JOIN area_cargo_persona acp ON acp.area_id=a.id AND acp.estado=1
-                INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1 
+                INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1 AND cp.cargo_id=5
                 INNER JOIN personas p ON p.id=cp.persona_id AND p.estado = 1 AND p.rol_id IN (8,9) 
                 WHERE a.estado=1
                 ";
