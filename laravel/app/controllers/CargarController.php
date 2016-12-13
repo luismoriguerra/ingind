@@ -40,6 +40,23 @@ class CargarController extends BaseController
             //$file=file('/home/m1ndepen/public_html/procesosmuni/public/txt/asignacion/'.$archivoNuevo);
             
             $file=file('/var/www/ingind/public/txt/asignacion/'.$archivoNuevo);
+
+            $tipoTramite['01']='EN TRAMITE';
+            $tipoTramite['02']='ANULADO';
+            $tipoTramite['03']='RESUELTO';
+            $tipoTramite['04']='ARCHIVADO';
+            $tipoTramite['05']='CUSTODIA';
+            $tipoTramite['06']='1º RESOLUCION ( ATENDIDO )';
+            $tipoTramite['07']='2º RESOLUCIÓN ( RESOL. RECONSD.)';
+            $tipoTramite['08']='3º RESOLUCION ( RESOL. APELACION )';
+            $tipoTramite['09']='4º RESOLUCION ( ABANDONO )';
+            $tipoTramite['10']='5º RESOLUCION ( RECONS. ABANDNO )';
+            $tipoTramite['11']='6º RESOLUCION ( APELAC. ABANDONO )';
+            $tipoTramite['12']='FORMULARIOS';
+            $tipoTramite['13']='DOCUMENTACION INTERNA';
+            $tipoTramite['14']='ENVIAR EL ANEXO AL EXPEDIENTE ORIGINAL';
+            $tipoTramite['15']='ATENDIDO';
+            $tipoTramite['16']='EN PROCESO';
                 for($i=0; $i < count($file); $i++) {
                     $detfile=explode("\t",$file[$i]);
 
@@ -64,17 +81,20 @@ class CargarController extends BaseController
 
                             if( count($exist)!=1 ){
                                 if( count($exist)==0 ){
-                                    $arrayExist[]=$detfile[0]."; Tramite no existe";
+                                    $arrayExist[]=$detfile[0]."; Tramite no existe. ".$tipoTramite[$detfile[15]];
                                 }
                                 elseif( count($exist)>1 ){
-                                    $arrayExist[]=$detfile[0]."; Tramite ya existe";
+                                    $arrayExist[]=$detfile[0]."; Tramite ya existe. ".$tipoTramite[$detfile[15]];
                                 }
+                            }
+                            elseif( $detfile[15]*1!=3 AND $detfile[15]*1!=4 AND $detfile[15]*1!=15 ){
+                                $arrayExist[]=$detfile[0]."; Tramite no fué atendido por Sistradoc. Estado: ".$tipoTramite[$detfile[15]];
                             }
                             else{
 
                                 $tipoPersona=TipoSolicitante::where('nombre_relacion','=',$detfile[2])->first();
                                 if( count($tipoPersona)==0 ){
-                                    $arrayExist[]=$detfile[0]."; TipoPersona no existe";
+                                    $arrayExist[]=$detfile[0]."; TipoPersona no existe. ".$tipoTramite[$detfile[15]];
                                 }
                                 else{
                                     DB::beginTransaction();
@@ -106,7 +126,7 @@ class CargarController extends BaseController
                                         $tr['nombre']=$detfile[8];
                                     }
                                     
-                                    $fecha_inicio=date("Y-m-d H:i:s");
+                                    $fecha_inicio=date("Y-m-d 08:00:00");
 
                                     $tr['software_id']= '1';
                                     $tr['id_union']= $detfile[0];
