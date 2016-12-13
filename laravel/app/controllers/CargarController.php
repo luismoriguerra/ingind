@@ -87,7 +87,7 @@ class CargarController extends BaseController
                                     $arrayExist[]=$detfile[0]."; Tramite ya existe. Estado: ".$tipoTramite[$detfile[15]]." Cant: ".$detfile[16];
                                 }
                             }
-                            elseif( $detfile[16]<=2 ) ){
+                            elseif( $detfile[16]<=2 ){
                                 $arrayExist[]=$detfile[0]."; Tramite no fué atendido por Sistradoc. Estado: ".$tipoTramite[$detfile[15]]." Cant:".$detfile[16];
                             }
                             else{
