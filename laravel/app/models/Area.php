@@ -92,11 +92,19 @@ class Area extends Base
                         }
                         if ( Input::has('areapersona') ){
 
-                            $sql = "SELECT acp.area_id
-                                                    FROM area_cargo_persona acp
-                                                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
-                                                    WHERE acp.estado=1
-                                                    AND cp.persona_id=".Auth::user()->id;
+                            if ( Input::has('areagerencia') ){
+                                $sql = "SELECT acp.area_id
+                                    FROM area_cargo_persona acp
+                                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1 and cp.cargo_id=5
+                                    WHERE acp.estado=1
+                                    AND cp.persona_id=".Auth::user()->id;
+                            }else{
+                                $sql = "SELECT acp.area_id
+                                    FROM area_cargo_persona acp
+                                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                    WHERE acp.estado=1
+                                    AND cp.persona_id=".Auth::user()->id;
+                            }
 
                             $areas= DB::select($sql);
                             $areas_id = '';
