@@ -7,6 +7,9 @@
     {{ HTML::style('css/admin/plantilla.css') }}
     {{ HTML::style('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css') }}
     {{ HTML::script('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js') }}
+    {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
+    {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
+
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
     @include( 'admin.mantenimiento.js.docdigital_ajax' )
@@ -45,6 +48,7 @@
                                         <th style="width: 30%">Plantilla</th>
                                        {{--  <th style="width: 19%">Area Recepcion</th>
                                         <th style="width: 19">Persona Recepcion</th> --}}
+                                        <th style="width: 5%">Editar</th>
                                         <th style="width: 5%">Vista Previa</th>
                                     </tr>
                                 </thead>
@@ -57,13 +61,14 @@
                                         <th style="width: 30%">Plantilla</th>
                         {{--                 <th style="width: 19%">Area Recepcion</th>
                                         <th style="width: 19">Persona Recepcion</th> --}}
+                                         <th style="width: 5%">Editar</th>
                                         <th style="width: 5%">Vista Previa</th>
                                     </tr>
                                 </tfoot>
                             </table>
 
                             <a class='btn btn-success btn-sm' class="btn btn-primary"
-                            data-toggle="modal" data-target="#NuevoDocDigital" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                            data-toggle="modal" data-target="#NuevoDocDigital" data-titulo="Nuevo" onclick="Plantillas.CargarAreas(HTMLAreas);"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->

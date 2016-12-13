@@ -3,6 +3,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <form id="formNuevoDocDigital" name="form_plantilla" method="post">
+        <input type="hidden" id="txt_iddocdigital" name="txt_iddocdigital" value="">
         <input type="hidden" id="txt_area_plantilla" name="txt_area_plantilla" value="">
         <div class="modal-header logo">
           <button class="btn btn-sm btn-default pull-right" data-dismiss="modal">

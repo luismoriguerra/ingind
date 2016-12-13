@@ -7,30 +7,49 @@ class DocumentoDigital extends Base {
     public static $selec =['id', 'titulo', 'asunto', 'cuerpo', 'plantilla_doc_id', 'area_id','persona_id'];
 
     public static function getDocumentosDigitales(){
-        return DB::table('doc_digital as dd')
-        		->join('plantilla_doc as pd', 'dd.plantilla_doc_id', '=', 'pd.id')
-        		/*->join('doc_digital_area as dda', 'dda.doc_digital_id', '=', 'dd.id')
-        		->join('areas as a','dda.area_id', '=', 'a.id')
-        		->join('personas as p','dda.persona_id', '=', 'p.id')*/
-                /*->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla', 'a.nombre as area','p.nombre as pnombre','p.paterno as ppaterno','p.materno as pmaterno')*/
-                ->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla')
-               	->where( 
-                    function($query){
-                    	if ( Input::get('id') ) {
-                            $query->where('dd.id','=',Input::get('id'));
+        if(Input::get('id')){
+            return DB::table('doc_digital as dd')
+                    ->join('plantilla_doc as pd', 'dd.plantilla_doc_id', '=', 'pd.id')
+                    ->join('doc_digital_area as dda', 'dda.doc_digital_id', '=', 'dd.id')
+                    ->join('areas as a','dda.area_id', '=', 'a.id')
+                    ->join('personas as p','dda.persona_id', '=', 'p.id')
+                    ->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla', 'dd.plantilla_doc_id' ,'a.nombre as area','a.id as area_id','p.nombre as pnombre','p.paterno as ppaterno','p.materno as pmaterno','dd.cuerpo')
+                    ->where( 
+                        function($query){
+                            if ( Input::get('id') ) {
+                                $query->where('dd.id','=',Input::get('id'));
+                            }
+                            $query->where('dd.persona_id','=',Auth::user()->id);
+                            $query->where('dda.estado','=',1);
                         }
-                        $query->where('dd.persona_id','=',Auth::user()->id);
-                    }
-                )
-                ->orderBy('dd.id')
-                ->get();
+                    )
+                    ->orderBy('dd.id')
+                    ->get();            
+        }else{
+            return DB::table('doc_digital as dd')
+            		->join('plantilla_doc as pd', 'dd.plantilla_doc_id', '=', 'pd.id')
+                    ->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla')
+                   	->where( 
+                        function($query){
+                        	if ( Input::get('id') ) {
+                                $query->where('dd.id','=',Input::get('id'));
+                            }
+                            $query->where('dd.persona_id','=',Auth::user()->id);
+                        }
+                    )
+                    ->orderBy('dd.id')
+                    ->get();            
+        }
     }
 
 
     public static function Correlativo(){
     	$año= date("Y");
         $r2=array(array('correlativo'=>'000001','ano'=>$año));
-    	$sql = "SELECT LPAD(id+1,6,'0') as correlativo,'$año' ano FROM doc_digital ORDER BY id DESC LIMIT 1";
+    	/*$sql = "SELECT LPAD(id+1,6,'0') as correlativo,'$año' ano FROM doc_digital ORDER BY id DESC LIMIT 1";*/
+        $sql = "select LPAD(count(dd.id)+1,6,'0') as correlativo from doc_digital dd 
+                inner join plantilla_doc pd on dd.plantilla_doc_id=pd.id and pd.tipo_documento_id=".Input::get('tipo_doc')."
+                ORDER BY dd.id DESC LIMIT 1";
     	$r= DB::select($sql);
     	return (isset($r[0])) ? $r[0] : $r2[0];
     }
