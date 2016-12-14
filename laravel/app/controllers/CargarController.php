@@ -69,16 +69,31 @@ class CargarController extends BaseController
                     }
 
                     //if($i>0){
+                        $exist=TablaRelacion::where('id_union','=',$detfile[0])
+                                            ->where('estado','=','1')
+                                            ->get();
+
                         $ainterna=AreaInterna::find($detfile[12]);
                         $tdoc=explode("-",$detfile[0]);
+
+                        if( count($ainterna)==0 AND count($exist)==1 ){
+                            $sql="  SELECT rd.area_id
+                                    FROM rutas r
+                                    INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1
+                                    where rd.norden=2
+                                    AND r.estado=1 
+                                    AND r.tabla_relacion_id='".$exist[0]->id."'";
+                            $areaId=DB::select($sql);
+
+                            $ainterna=AreaInterna::where('area_id','=',$areaId[0]->area_id)
+                                                    ->where('estado','=','1')
+                                                    ->firts();
+                        }
 
                         if( count($ainterna)==0 ){
                             $arrayExist[]=$detfile[0]."; No cuenta con Ruta revise cod area de plataforma ingresado.";
                         }
                         else{
-                        $exist=TablaRelacion::where('id_union','=',$detfile[0])
-                                            ->where('estado','=','1')
-                                            ->get();
 
                             if( count($exist)!=1 ){
                                 if( count($exist)==0 ){
