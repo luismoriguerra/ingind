@@ -41,16 +41,16 @@ $(document).ready(function() {
     $("#t_tramites_plataforma").dataTable();
 });
 
-MostrarAjax=function(t){
-    if( t=="plataforma" ){
-        if( columnDefsG.length>0 ){
-            dataTableG.CargarDatos(t,'tabla_relacion','plataforma',columnDefsG);
-        }
-        else{
-            alert('Faltas datos');
-        }
-    }
-}
+//MostrarAjax=function(t){
+//    if( t=="plataforma" ){
+//        if( columnDefsG.length>0 ){
+//            dataTableG.CargarDatos(t,'tabla_relacion','plataforma',columnDefsG);
+//        }
+//        else{
+//            alert('Faltas datos');
+//        }
+//    }
+//}
 
 /*PlataformaHTML=function(datos){
     var html="";
@@ -78,7 +78,6 @@ CargarTramitePlataforma=function(t,id){
     var codigo= id.split("|")[1];
     $("#txt_codigo").val( codigo );
     $("#plataformaModal .modal-footer>button").click();
-    alert('Si modifica el trámite de plataforma seleccionado será considerado como un trámite nuevo');
 }
 
 </script>

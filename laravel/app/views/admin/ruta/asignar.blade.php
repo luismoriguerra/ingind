@@ -24,6 +24,8 @@
     
     @include( 'admin.ruta.js.indedocs' )
     @include( 'admin.ruta.js.indedocs_ajax' )
+    
+    @include( 'admin.ruta.js.proceso' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -53,15 +55,18 @@
                                                 <label class="control-label">Fecha Inicio de la Gestión:</label>
                                                 <input type="text" class="form-control" name="txt_fecha_inicio" id="txt_fecha_inicio" readOnly>
                                             </div>
-                                            <div class="col-sm-5">
+                                             <div class="col-sm-8">
                                                 <label class="control-label">Proceso:</label>
-                                                <select class="form-control" name="slct_flujo2_id" id="slct_flujo2_id">
-                                                </select>
+                                                <input type="hidden" id="txt_flujo2_id" name="txt_flujo2_id">
+                                                 <input type="hidden" id="txt_area2_id" name="txt_area2_id">
+                                                <input class="form-control" id="txt_proceso" name="txt_proceso" type="text"  value="" readonly="">
+                                                
                                             </div>
-                                            <div class="col-sm-3">
-                                                <label class="control-label">Area:</label>
-                                                <select class="form-control" disabled name="slct_area2_id" id="slct_area2_id">
-                                                </select>
+                                            <div class="col-sm-1">
+                                                <label class="control-label" style="color: white">######</label>
+                                                <a class="btn btn-primary" data-toggle="modal" data-target="#procesoModal" data-texto="txt_proceso" data-id="txt_flujo2_id" data-idarea="txt_area2_id" data-evento="cargarRutaFlujo" id="btn_buscar">
+                                                    <i class="fa fa-search fa-lg"></i>
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
@@ -89,6 +94,7 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">
+                                                <label class="control-label" style="color: white">######</label>
                                                 <a class="btn btn-warning btn-sm" data-toggle="modal" data-target="#plataformaModal" id="btn_verificar">
                                                     <i class="fa fa-search fa-lg"></i>&nbsp;Verificar Trámites Pendientes de Plataforma
                                                 </a>
@@ -226,7 +232,7 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <label class="control-label">Proceso:</label>
-                                                <input class="form-control" type="text" id="txt_proceso" name="txt_proceso" readonly>
+                                                <input class="form-control" type="text" id="txt_proceso_1" name="txt_proceso_1" readonly>
                                             </div>
                                             <div class="col-sm-4">
                                                 <label class="control-label">Area del Dueño del Proceso:</label>
@@ -291,4 +297,5 @@
      @include( 'admin.ruta.form.ruta' )
      @include( 'admin.ruta.form.plataforma' )
      @include( 'admin.ruta.form.indedocs' )
+      @include( 'admin.ruta.form.proceso' )
 @stop

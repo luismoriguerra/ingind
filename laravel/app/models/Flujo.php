@@ -122,7 +122,64 @@ class Flujo extends Base
                 
         return $flujo;
     }
+    
+    public static function getFlujoProceso($array){
+        
+            $usuario=Auth::user()->id;
+           
+            $sSql="  SELECT f.id, f.nombre, f.estado, a.nombre as area, 
+                    f.area_id, f.area_id as evento, 
+                    IF(f.tipo_flujo=1,'Trámite','Proceso de oficio') as tipo_flujo,
+                    f.tipo_flujo as tipo_flujo_id,
+                    GROUP_CONCAT(
+                        CONCAT(rf.id,'|',rfd.id,'|',rfd.area_id,'|',rfd.norden)
+                    ) validacion
+                    FROM flujos as f 
+                    INNER JOIN areas as a on a.id = f.area_id 
+                    INNER JOIN rutas_flujo as rf on rf.flujo_id = f.id AND rf.estado = 1
+                    INNER JOIN rutas_flujo_detalle as rfd on rfd.ruta_flujo_id = rf.id and rfd.norden = 1  AND rfd.estado=1
+                    WHERE  f.estado = 1  
+                    AND rfd.area_id IN (
+                        SELECT a.id
+                        FROM area_cargo_persona acp
+                        INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                        INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                        WHERE acp.estado=1
+                        AND cp.persona_id= $usuario
+                       )";
+            $sSql.= $array['where'];
+            $sSql.= " GROUP BY f.id ";
+            $sSql.= $array['order'];
+            $sSql.= $array['limit'];
+          
+      return  $r=DB::select($sSql);
+      
+    }
+    
+      public static function getFlujoProcesoCount($array){
 
+          $usuario=Auth::user()->id;
+           
+            $sSql="  SELECT COUNT(f.id) cant
+                    FROM flujos as f 
+                    INNER JOIN areas as a on a.id = f.area_id 
+                    INNER JOIN rutas_flujo as rf on rf.flujo_id = f.id AND rf.estado = 1
+                    INNER JOIN rutas_flujo_detalle as rfd on rfd.ruta_flujo_id = rf.id and rfd.norden = 1  AND rfd.estado=1
+                    WHERE  f.estado = 1  
+                    AND rfd.area_id IN (
+                        SELECT a.id
+                        FROM area_cargo_persona acp
+                        INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                        INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                        WHERE acp.estado=1
+                        AND cp.persona_id= $usuario
+                    )";
+            $sSql.= $array['where'];
+            $sSql.= " ORDER BY f.nombre ASC ";
+            
+        $oData = DB::select($sSql);
+        return $oData[0]->cant;
+    }
     public static function getCargarCount( $array )
     {
         $sSql=" SELECT COUNT(f.id) cant
