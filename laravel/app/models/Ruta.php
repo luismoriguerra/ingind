@@ -10,7 +10,7 @@ class Ruta extends Eloquent
         DB::beginTransaction();
         $codigounico="";
         $codigounico=Input::get('codigo');
-        
+        $id_documento=Input::get('documento_id');
 
         $tablaRelacion=DB::table('tablas_relacion as tr')
                         ->join(
@@ -288,7 +288,37 @@ class Ruta extends Eloquent
                     }
                 }
             }*/
+    
+      $url ='https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=sincro&documento_id='.$id_documento;
+      $curl_options = array(
+                    //reemplazar url 
+                    CURLOPT_URL => $url,
+                    CURLOPT_HEADER => 0,
+                    CURLOPT_RETURNTRANSFER => TRUE,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_SSL_VERIFYPEER => 0,
+                    CURLOPT_FOLLOWLOCATION => TRUE,
+                    CURLOPT_ENCODING => 'gzip,deflate',
+            );
+ 
+            $ch = curl_init();
+            curl_setopt_array( $ch, $curl_options );
+            $output = curl_exec( $ch );
+            curl_close($ch);
 
+      $r = json_decode(utf8_encode($output),true);
+      
+      if ( !isset($r["sincro"][0]["valida"]) OR (isset($r["sincro"][0]["valida"]) AND $r["sincro"][0]["valida"]!='TRUE') ){
+          try {             
+              $insert='INSERT INTO documentos_indedocs (documento_id) 
+                             VALUES ('.$id_documento.')';
+                    DB::insert($insert);
+          } catch (Exception $ex) {
+              
+          }
+          
+      }
+                    
         DB::commit();
 
         return  array(
