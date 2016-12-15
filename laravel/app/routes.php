@@ -204,3 +204,4 @@ Route::controller('tramitec', 'TramiteController');
 Route::controller('plantilladoc', 'PlantillaDocumentoController');
 Route::controller('documentodig', 'DocumentoDigitalController');
 Route::controller('indedocs', 'IndedocsController');
+Route::controller('referido', 'ReferidoController');

@@ -631,4 +631,46 @@ validandoconteo=0;
 AbreTv=function(val){
     $("#areasasignacion [data-id='"+val+"']").click();
 }
+
+MostrarAjax=function(t){
+    if( t=="proceso" ){
+        if( columnDefsG.length>0 ){
+            dataTableG.CargarDatos(t,'flujo','listarproceso',columnDefsG);
+        }
+        else{
+            alert('Faltas datos');
+        }
+    }
+    if( t=="plataforma" ){
+        if( columnDefsG.length>0 ){
+            dataTableG.CargarDatos(t,'tabla_relacion','plataforma',columnDefsG);
+        }
+        else{
+            alert('Faltas datos');
+        }
+    }
+    if( t=="referente" ){
+        if( columnDefsG.length>0 ){
+            dataTableG.CargarDatos(t,'referido','cargar',columnDefsG);
+        }
+        else{
+            alert('Faltas datos');
+        }
+    }
+};
+
+GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
+  
+    if(typeof(fn)!='undefined' && fn.col==1){
+        var estadohtml='';
+        estadohtml='<span id="'+row.id+'" onClick="CargarProceso(\''+row.id+'\',\''+row.nombre+'\',\''+row.area_id+'\',\''+row.area+'\')" class="btn btn-success"><i class="fa fa-lg fa-check"></i></span>';
+//        estadohtml='<a class="form-control btn-success" onClick="CargarProceso('+row.nombre+')"<i class="fa fa-lg fa-check"></i></a>';
+        return estadohtml;
+    }
+     if(typeof(fn)!='undefined' && fn.col==2){
+        var estadohtml='';
+        estadohtml='<span id="'+row.id+'" onClick="CargarReferente(\''+row.id+'\',\''+row.ruta_id+'\',\''+row.tabla_relacion_id+'\',\''+row.ruta_detalle_id+'\',\''+row.referido+'\',\''+row.fecha_hora_referido+'\')" class="btn btn-success"><i class="fa fa-lg fa-check"></i></span>';
+        return estadohtml;
+    }
+};
 </script>
