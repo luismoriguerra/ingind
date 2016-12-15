@@ -76,7 +76,7 @@ class CargarController extends BaseController
                         $ainterna=AreaInterna::find($detfile[12]);
                         $tdoc=explode("-",$detfile[0]);
 
-                        if( count($ainterna)==0 AND count($exist)==1 ){
+                        if( count($ainterna)==0 AND count($exist)>0 ){
                             $sql="  SELECT rd.area_id
                                     FROM rutas r
                                     INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1
