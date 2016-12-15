@@ -74,11 +74,12 @@
                                             <div class="col-sm-4">
                                                 <label class="control-label">Nro Trámite:</label>
                                                 <input class="form-control" id="txt_codigo" name="txt_codigo" type="text"  readonly="">
+                                                <input id="txt_documento_id" name="txt_documento_id" type="hidden"  value="">
                                                 
                                             </div>
                                              <div class="col-sm-1">
                                                  <br>
-                                                <span class="btn btn-primary" data-toggle="modal" data-target="#indedocsModal" data-texto="txt_codigo" id="btn_buscar">
+                                                <span class="btn btn-primary" data-toggle="modal" data-target="#indedocsModal" data-texto="txt_codigo" data-id="txt_documento_id" id="btn_buscar_indedocs">
                                                     <i class="fa fa-search fa-lg"></i>
                                                 </span>
                                             </div>

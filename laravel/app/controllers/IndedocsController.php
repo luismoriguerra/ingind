@@ -7,6 +7,7 @@ class IndedocsController extends \BaseController {
     {
       
       $area=Auth::user()->area_id;
+      //$area=1;
       $retorno=array(
                   'rst'=>1
                );

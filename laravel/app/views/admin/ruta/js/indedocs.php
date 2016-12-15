@@ -1,10 +1,12 @@
 <script type="text/javascript">
 var textoIdG='';
+var documentoIdIG='';
 $(document).ready(function() {
      $('#t_indedocs').dataTable();
     $('#indedocsModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
       textoIdG= button.data('texto');
+      documentoIdIG= button.data('id');
         Indedocs.mostrar();
     });
 
@@ -15,12 +17,13 @@ $(document).ready(function() {
 
 cargarNroDoc=function(docu,id){
     $("#"+textoIdG).val(docu);
-    $("#txt_documento_id").val(id);
+    $("#"+documentoIdIG).val(id);
     
 };
 
 mostrarHTML=function(datos){
     $('#t_indedocs').dataTable().fnDestroy();
+    $("#t_indedocs>tbody").html('');
     $("#t_indedocs>tbody").html(datos);
     $("#t_indedocs").dataTable({
             "scrollY": "400px",

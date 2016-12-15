@@ -1,6 +1,6 @@
 <!-- /.modal -->
 <div class="modal fade" id="indedocsModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lgz">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header logo">
         <button class="btn btn-sm btn-default pull-right" data-dismiss="modal">
@@ -12,7 +12,6 @@
           <div class="row form-group">
               <div class="col-sm-12">
               <form id="form_indedocs" name="form_indedocs" method="POST" action="">
-                  <input id="txt_documento_id" name="txt_documento_id" type="hidden"  value="">
                   <div class="box-body table-responsive">
                       <table id="t_indedocs" class="table table-bordered table-striped">
                           <thead>

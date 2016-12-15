@@ -86,9 +86,8 @@ var Asignar={
         });
     },
     guardarAsignacion:function(){
-        $("#form_asignar #txt_ci,#form_asignar #txt_documento_id").remove();
+        $("#form_asignar #txt_ci").remove();
         $("#form_asignar").append('<input type="hidden" value="CI-" name="txt_ci" id="txt_ci">');
-        $("#form_asignar").append('<input type="hidden" value="'+$("#form_indedocs #txt_documento_id").val()+'" name="txt_documento_id">');
         var datos=$("#form_asignar").serialize().split("txt_").join("").split("slct_").join("").split("_modal").join("");
         $.ajax({
             url         : 'ruta/crear',
