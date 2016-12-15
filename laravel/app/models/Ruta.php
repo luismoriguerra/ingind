@@ -288,7 +288,7 @@ class Ruta extends Eloquent
                     }
                 }
             }*/
-    
+            $id_documento=1;
       $url ='https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=sincro&documento_id='.$id_documento;
       $curl_options = array(
                     //reemplazar url 

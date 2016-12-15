@@ -89,6 +89,7 @@ class FlujoController extends \BaseController
     public function postListar()
     {
         if ( Request::ajax() ) {
+           
             $f      = new Flujo();
             $listar = Array();
             $listar = $f->getFlujo();
@@ -99,6 +100,59 @@ class FlujoController extends \BaseController
                     'datos' => $listar
                 )
             );
+        }
+    }
+    
+        public function postListarproceso()
+    {
+        if ( Request::ajax() ) {
+            $array=array();
+            $array['where']='';$array['usuario']=Auth::user()->id;
+            $array['limit']='';$array['order']='';
+            
+            if (Input::has('draw')) {
+                if (Input::has('order')) {
+                    $inorder=Input::get('order');
+                    $incolumns=Input::get('columns');
+                    $array['order']=  ' ORDER BY '.
+                                      $incolumns[ $inorder[0]['column'] ]['name'].' '.
+                                      $inorder[0]['dir'];
+                }
+
+                $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
+                $aParametro["draw"]=Input::get('draw');
+            }
+             
+             
+                if( Input::has('tipo_flujo') AND Input::get('tipo_flujo')==2 ){
+                    $array['where'].=" AND f.tipo_flujo=2 ";
+                }
+                elseif( Input::has('tipo_flujo') AND Input::get('tipo_flujo')==1 ){
+                    $array['where'].=" AND f.tipo_flujo=1 ";
+                }
+                
+            if( Input::has("nombre") ){
+                $proceso=Input::get("nombre");
+                if( trim( $proceso )!='' ){
+                    $array['where'].=" AND f.nombre LIKE '%".$proceso."%' ";
+                }
+            }
+            
+            $array['order']=" ORDER BY f.nombre ";
+//            $f      = new Flujo();
+//            $cant  = $f->getFlujoProceso( $array );
+//            $aData = $f->getFlujoProcesoCount( $array );
+
+            $cant  = Flujo::getFlujoProcesoCount( $array );
+            $aData = Flujo::getFlujoProceso( $array );
+            
+            $aParametro['rst'] = 1;
+            $aParametro["recordsTotal"]=$cant;
+            $aParametro["recordsFiltered"]=$cant;
+            $aParametro['data'] = $aData;
+            $aParametro['msj'] = "No hay registros aún";
+            return Response::json($aParametro);
+
         }
     }
 

@@ -16,15 +16,11 @@ $(document).ready(function() {
     $("#btn_close").click(Close);
     var data = {estado:1,tipo_flujo:1};
     var ids = [];
-    //slctGlobal.listarSlct('flujo','slct_flujo_id','simple',ids,data);
-    data = {estado:1};
-    slctGlobal.listarSlct('area','slct_area2_id,#slct_area_p_id','simple',ids,data);
-    data={soloruta:1,tipo_flujo:1,pasouno:1};
-    slctGlobal.listarSlct('flujo','slct_flujo2_id','simple',ids,data);
+
     data = {estado:1};
     slctGlobal.listarSlct('software','slct_software_id_modal','simple',ids,data);
     slctGlobal.listarSlct('tiposolicitante','slct_tipo_persona','simple',ids,data);
-
+    slctGlobal.listarSlct('area','slct_area2_id,#slct_area_p_id','simple',ids,data);
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
     slctGlobal.listarSlct2('documento','slct_documento_modal',data);
@@ -128,7 +124,7 @@ $(document).ready(function() {
     hora();
     //$("#areasasignacion").DataTable();
 });
-
+eventoSlctGlobalSimple=function (){} 
 tpersona=function(valor){//1->natural,2->juridica,3->a.i. y 4->org social
     $(".natural, .juridica, .area, .org").css("display","none");
     $(".natural input[type='text'], .juridica input[type='text'], .area select, .org input[type='text']").val("");
@@ -153,15 +149,10 @@ Asignar.FechaActual("");
 tiempo = setTimeout('hora()',5000);
 }
 
-eventoSlctGlobalSimple=function(slct,valores){
-    if( slct=="slct_flujo2_id" ){
-        var valor=valores.split('|').join("");
-        $("#slct_area2_id").val(valor);
-        $("#slct_area2_id").multiselect('refresh');
-
-        //$("#form_ruta_detalle>.form-group").css("display","none");
-        var flujo_id=$.trim($("#slct_flujo2_id").val());
-        var area_id=$.trim($("#slct_area2_id").val());
+eventoFG=function(evento){
+    if(evento=='cargarRutaFlujo'){
+        var flujo_id=$.trim($("#txt_flujo2_id").val());
+        var area_id=$.trim($("#txt_area2_id").val());
 
         if( flujo_id!='' && area_id!='' ){
             var datos={ flujo_id:flujo_id,area_id:area_id };
@@ -628,7 +619,7 @@ validandoconteo=0;
         validandoconteo++;
         if(validandoconteo==1){
             $("#txt_persona").val(data.persona);
-            $("#txt_proceso").val(data.flujo);
+            $("#txt_proceso_1").val(data.flujo);
             $("#txt_area").val(data.area);
         }
         adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta);
@@ -640,4 +631,46 @@ validandoconteo=0;
 AbreTv=function(val){
     $("#areasasignacion [data-id='"+val+"']").click();
 }
+
+MostrarAjax=function(t){
+    if( t=="proceso" ){
+        if( columnDefsG.length>0 ){
+            dataTableG.CargarDatos(t,'flujo','listarproceso',columnDefsG);
+        }
+        else{
+            alert('Faltas datos');
+        }
+    }
+    if( t=="plataforma" ){
+        if( columnDefsG.length>0 ){
+            dataTableG.CargarDatos(t,'tabla_relacion','plataforma',columnDefsG);
+        }
+        else{
+            alert('Faltas datos');
+        }
+    }
+    if( t=="referente" ){
+        if( columnDefsG.length>0 ){
+            dataTableG.CargarDatos(t,'referido','cargar',columnDefsG);
+        }
+        else{
+            alert('Faltas datos');
+        }
+    }
+};
+
+GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
+  
+    if(typeof(fn)!='undefined' && fn.col==1){
+        var estadohtml='';
+        estadohtml='<span id="'+row.id+'" onClick="CargarProceso(\''+row.id+'\',\''+row.nombre+'\',\''+row.area_id+'\',\''+row.area+'\')" class="btn btn-success"><i class="fa fa-lg fa-check"></i></span>';
+//        estadohtml='<a class="form-control btn-success" onClick="CargarProceso('+row.nombre+')"<i class="fa fa-lg fa-check"></i></a>';
+        return estadohtml;
+    }
+     if(typeof(fn)!='undefined' && fn.col==2){
+        var estadohtml='';
+        estadohtml='<span id="'+row.id+'" onClick="CargarReferente(\''+row.id+'\',\''+row.ruta_id+'\',\''+row.tabla_relacion_id+'\',\''+row.ruta_detalle_id+'\',\''+row.referido+'\',\''+row.fecha_hora_referido+'\')" class="btn btn-success"><i class="fa fa-lg fa-check"></i></span>';
+        return estadohtml;
+    }
+};
 </script>
