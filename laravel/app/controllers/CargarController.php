@@ -5,6 +5,7 @@ class CargarController extends BaseController
     public function postAsignacionsistradocvalida()
     {
         ini_set('memory_limit','512M');
+        set_time_limit(600);
         if (isset($_FILES['carga']) and $_FILES['carga']['size'] > 0) {
 
             $uploadFolder = 'txt/asignacion';
@@ -68,16 +69,31 @@ class CargarController extends BaseController
                     }
 
                     //if($i>0){
+                        $exist=TablaRelacion::where('id_union','=',$detfile[0])
+                                            ->where('estado','=','1')
+                                            ->get();
+
                         $ainterna=AreaInterna::find($detfile[12]);
                         $tdoc=explode("-",$detfile[0]);
+
+                        if( count($ainterna)==0 AND count($exist)>0 ){
+                            $sql="  SELECT rd.area_id
+                                    FROM rutas r
+                                    INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1
+                                    where rd.norden=2
+                                    AND r.estado=1 
+                                    AND r.tabla_relacion_id='".$exist[0]->id."'";
+                            $areaId=DB::select($sql);
+
+                            $ainterna=AreaInterna::where('area_id','=',$areaId[0]->area_id)
+                                                    ->where('estado','=','1')
+                                                    ->firts();
+                        }
 
                         if( count($ainterna)==0 ){
                             $arrayExist[]=$detfile[0]."; No cuenta con Ruta revise cod area de plataforma ingresado.";
                         }
                         else{
-                        $exist=TablaRelacion::where('id_union','=',$detfile[0])
-                                            ->where('estado','=','1')
-                                            ->get();
 
                             if( count($exist)!=1 ){
                                 if( count($exist)==0 ){
@@ -87,7 +103,7 @@ class CargarController extends BaseController
                                     $arrayExist[]=$detfile[0]."; Tramite ya existe. Estado: ".$tipoTramite[$detfile[15]]." Cant: ".$detfile[16];
                                 }
                             }
-                            elseif( ($detfile[15]*1!=3 AND $detfile[15]*1!=4 AND $detfile[15]*1!=15) OR ($detfile[15]*1==1 AND $detfile[16]<=2 ) ){
+                            elseif( $detfile[16]<=2 ){
                                 $arrayExist[]=$detfile[0]."; Tramite no fué atendido por Sistradoc. Estado: ".$tipoTramite[$detfile[15]]." Cant:".$detfile[16];
                             }
                             else{

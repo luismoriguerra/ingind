@@ -21,6 +21,12 @@
     @include( 'admin.ruta.js.asignar_ajax' )
     @include( 'admin.ruta.js.asignar' )
     @include( 'admin.ruta.js.plataforma' )
+    
+    @include( 'admin.ruta.js.indedocs' )
+    @include( 'admin.ruta.js.indedocs_ajax' )
+    
+    @include( 'admin.ruta.js.proceso' )
+    @include( 'admin.ruta.js.referente' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -50,31 +56,55 @@
                                                 <label class="control-label">Fecha Inicio de la Gestión:</label>
                                                 <input type="text" class="form-control" name="txt_fecha_inicio" id="txt_fecha_inicio" readOnly>
                                             </div>
-                                            <div class="col-sm-5">
+                                             <div class="col-sm-8">
                                                 <label class="control-label">Proceso:</label>
-                                                <select class="form-control" name="slct_flujo2_id" id="slct_flujo2_id">
-                                                </select>
+                                                <input type="hidden" id="txt_flujo2_id" name="txt_flujo2_id">
+                                                 <input type="hidden" id="txt_area2_id" name="txt_area2_id">
+                                                <input class="form-control" id="txt_proceso" name="txt_proceso" type="text"  value="" readonly="">
+                                                
                                             </div>
-                                            <div class="col-sm-3">
-                                                <label class="control-label">Area:</label>
-                                                <select class="form-control" disabled name="slct_area2_id" id="slct_area2_id">
-                                                </select>
+                                            <div class="col-sm-1">
+                                                <br>
+                                                <span class="btn btn-primary" data-toggle="modal" data-target="#procesoModal" data-texto="txt_proceso" data-id="txt_flujo2_id" data-idarea="txt_area2_id" data-evento="cargarRutaFlujo" id="btn_buscar">
+                                                    <i class="fa fa-search fa-lg"></i>
+                                                </span>
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <label class="control-label">Nro Trámite:</label>
-                                                <input class="form-control" id="txt_codigo" name="txt_codigo" type="text" placeholder="Ing. Trámite">
+                                                <input class="form-control" id="txt_codigo" name="txt_codigo" type="text"  readonly="">
+                                                <input id="txt_documento_id" name="txt_documento_id" type="hidden"  value="">
+                                                
                                             </div>
-                                            <div class="col-sm-3">
+                                             <div class="col-sm-1">
+                                                 <br>
+                                                <span class="btn btn-primary" data-toggle="modal" data-target="#indedocsModal" data-texto="txt_codigo" data-id="txt_documento_id" id="btn_buscar_indedocs">
+                                                    <i class="fa fa-search fa-lg"></i>
+                                                </span>
+                                            </div>
+                                          
+                                          
+                                            <div class="col-sm-5">
+                                                <input type="hidden" name="txt_referido_id" id="txt_referido_id">
+                                                <input type="hidden" name="txt_ruta_id" id="txt_ruta_id">
+                                                <input type="hidden" name="txt_rutadetalle_id" id="txt_rutadetalle_id">
+                                                <input type="hidden" name="txt_tablarelacion_id" id="txt_tablarelacion_id">
                                                 <label class="control-label"> Referente:</label>
-                                                <input class="form-control" id="txt_referente" name="txt_referente" type="text" placeholder="Ing. Trámite Ref.">
+                                                <input class="form-control" id="txt_referente" name="txt_referente" type="text" placeholder="Ing. Trámite Ref." readonly="">
                                             </div>
-                                            <div class="col-sm-3">
-                                                <label class="control-label">Tipo Solicitante:</label>
-                                                <select class="form-control" name="slct_tipo_persona" id="slct_tipo_persona" onchange="tpersona(this.value);">
-                                                </select>
+                                            <div class="col-sm-2">
+                                                <br>
+                                                <span class="btn btn-primary" data-toggle="modal" data-target="#referenteModal" data-texto="txt_referente" data-idreferido="txt_referido_id" data-idruta="txt_ruta_id" data-idtablarelacion="txt_tablarelacion_id" data-idrutadetalle="txt_rutadetalle_id" id="btn_buscar_referente">
+                                                    <i class="fa fa-search fa-lg"></i>
+                                                </span>
+                                          
+                                              
+                                                <span class="btn btn-danger" data-toggle="modal" onclick="BorrarReferido()" id="btn_borrar">
+                                                    <i class="fa fa-eraser fa-lg"></i>
+                                                </span>
                                             </div>
+                                          
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">
@@ -84,6 +114,11 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
+                                              <div class="col-sm-3">
+                                                <label class="control-label">Tipo Solicitante:</label>
+                                                <select class="form-control" name="slct_tipo_persona" id="slct_tipo_persona" onchange="tpersona(this.value);">
+                                                </select>
+                                            </div>
                                             <div class="col-sm-3 juridica" style="display:none">
                                                 <label class="control-label"> RUC:</label>
                                                 <input class="form-control" type="text" id="txt_ruc" name="txt_ruc" placeholder='RUC'>
@@ -215,7 +250,7 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <label class="control-label">Proceso:</label>
-                                                <input class="form-control" type="text" id="txt_proceso" name="txt_proceso" readonly>
+                                                <input class="form-control" type="text" id="txt_proceso_1" name="txt_proceso_1" readonly>
                                             </div>
                                             <div class="col-sm-4">
                                                 <label class="control-label">Area del Dueño del Proceso:</label>
@@ -279,4 +314,7 @@
      @include( 'admin.ruta.form.asignar' )
      @include( 'admin.ruta.form.ruta' )
      @include( 'admin.ruta.form.plataforma' )
+     @include( 'admin.ruta.form.indedocs' )
+     @include( 'admin.ruta.form.proceso' )
+     @include( 'admin.ruta.form.referente' )
 @stop

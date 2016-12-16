@@ -86,6 +86,7 @@ var Asignar={
         });
     },
     guardarAsignacion:function(){
+        $("#form_asignar #txt_ci").remove();
         $("#form_asignar").append('<input type="hidden" value="CI-" name="txt_ci" id="txt_ci">');
         var datos=$("#form_asignar").serialize().split("txt_").join("").split("slct_").join("").split("_modal").join("");
         $.ajax({
@@ -100,15 +101,10 @@ var Asignar={
             success : function(obj) {
                 if(obj.rst==1){
                     $("#tb_ruta_flujo").html("");
-                    $("#form_asignar input[type='hidden']").remove();
                     $(".natural, .juridica, .area").css("display","none");
-                    $("#form_asignar input[type='text'],#form_asignar select,#form_asignar textarea").val("");
-                    $('#form_asignar select').multiselect('refresh');
-                    $("#msj").html('<div class="alert alert-dismissable alert-success">'+
-                                        '<i class="fa fa-check"></i>'+
-                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                        '<b>'+obj.msj+'</b>'+
-                                    '</div>');
+                    $("#form_asignar input[type='hidden'],#form_asignar input[type='text'],#form_asignar select,#form_asignar textarea").val("");
+                    $('#form_asignar select').multiselect('refresh');  
+                    msjG.mensaje('success',obj.msj,4000);
                 }
                 else{
                     alert(obj.msj);
