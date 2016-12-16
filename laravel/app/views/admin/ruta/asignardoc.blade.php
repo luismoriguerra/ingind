@@ -21,9 +21,7 @@
     @include( 'admin.ruta.js.asignar_doc_ajax' )
     @include( 'admin.ruta.js.asignar_doc' )
     @include( 'admin.ruta.js.plataforma' )
-    
-    @include( 'admin.ruta.js.asignar' )
-    
+      
     @include( 'admin.ruta.js.docs' )
     @include( 'admin.ruta.js.docs_ajax' )
     
