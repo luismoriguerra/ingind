@@ -301,6 +301,7 @@ class RutaDetalleController extends \BaseController
                 }
             }
 
+            $datos=array();
             if ( Input::get('tipo_respuesta') ) {
                 $rd['dtiempo_final']= Input::get('respuesta');
                 $rd['tipo_respuesta_id']= Input::get('tipo_respuesta');
@@ -482,7 +483,6 @@ class RutaDetalleController extends \BaseController
                 DB::commit();
                 /******************************************Validación del Documento***********************************************/
             if( Input::get('verbog') OR Input::get('codg') OR Input::get('obsg') ){
-                $datos=array();
                 for($i=0; $i<count($coddocg); $i++){
                     if($coddocg[$i]!='undefined'){
                         $url ='https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=sincro&documento_id='.$coddocg[$i];
@@ -525,7 +525,6 @@ class RutaDetalleController extends \BaseController
             else{
                 DB::commit();
                 /******************************************Validación del Documento***********************************************/
-                $datos=array();
             if( Input::get('verbog') OR Input::get('codg') OR Input::get('obsg') ){
                 for($i=0; $i<count($coddocg); $i++){
                     if($coddocg[$i]!='undefined'){
