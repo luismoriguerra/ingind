@@ -82,6 +82,9 @@
                                                 <span class="btn btn-primary" data-toggle="modal" data-target="#indedocsModal" data-texto="txt_codigo" data-id="txt_documento_id" id="btn_buscar_indedocs">
                                                     <i class="fa fa-search fa-lg"></i>
                                                 </span>
+                                                <span class="btn btn-warning" data-toggle="modal" onclick="Liberar('txt_codigo','txt_documento_id')" id="btn_borrar">
+                                                    <i class="fa fa-pencil fa-lg"></i>
+                                                </span>
                                             </div>
                                           
                                           
