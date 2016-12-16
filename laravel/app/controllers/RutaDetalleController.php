@@ -215,6 +215,7 @@ class RutaDetalleController extends \BaseController
             $rd = RutaDetalle::find($rdid);
 
             $r=Ruta::find($rd->ruta_id);
+            $tablaReferido=Referido::where('ruta_id','=',$r->id)->first();
 
             $alerta= Input::get('alerta');
             $alertaTipo= Input::get('alerta_tipo');
@@ -240,7 +241,7 @@ class RutaDetalleController extends \BaseController
                                     'ruta_id','=',$r->id
                                 )
                                 ->where(
-                                    'tabla_relacion_id','=',$r->tabla_relacion_id
+                                    'tabla_relacion_id','=',$tablaReferido->tabla_relacion_id
                                 )
                                 ->where(
                                     'ruta_detalle_id','=',$rd->id
@@ -251,7 +252,7 @@ class RutaDetalleController extends \BaseController
                         if( count($refid)==0 ){
                             $referido=new Referido;
                             $referido['ruta_id']=$r->id;
-                            $referido['tabla_relacion_id']=$r->tabla_relacion_id;
+                            $referido['tabla_relacion_id']=$tablaReferido->tabla_relacion_id;
                             $referido['ruta_detalle_id']=$rd->id;
                             $referido['norden']=$rd->norden;
                             $referido['estado_ruta']=$rd->estado_ruta;

@@ -36,11 +36,13 @@ class IndedocsController extends \BaseController {
       
       $n=1;
       foreach ($r["documento"] as $rr) {
-
+        $buscar=array(' - ');
+        $reemplazar=array('-');
+        $valor=str_replace($buscar, $reemplazar, $rr["Docu_cabecera"]);
         $html.="<tr>";
         $html.="<td>".$n."</td>";
-        $html.="<td>".$rr["Docu_cabecera"]."</td>";
-        $html.='<td> <a class="btn btn-success" onClick="cargarNroDoc(\''.$rr["Docu_cabecera"].'\',\''.$rr["Documento_id"].'\')" data-toggle="modal" data-target="#indedocsModal">
+        $html.="<td>".$valor."</td>";
+        $html.='<td> <a class="btn btn-success" onClick="cargarNroDoc(\''.$valor.'\',\''.$rr["Documento_id"].'\')" data-toggle="modal" data-target="#indedocsModal">
                                                     <i class="fa fa-check fa-lg"></i>
                                                 </a></td>';
         $html.="</tr>";

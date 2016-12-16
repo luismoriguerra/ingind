@@ -11,6 +11,9 @@ class Ruta extends Eloquent
         $codigounico="";
         $codigounico=Input::get('codigo');
         $id_documento=Input::get('documento_id');
+        $ruta_id= Input::get('ruta_id');
+        $rutadetalle_id= Input::get('rutadetalle_id');
+        $tablarelacion_id= Input::get('tablarelacion_id');
 
         $tablaRelacion=DB::table('tablas_relacion as tr')
                         ->join(
@@ -117,6 +120,10 @@ class Ruta extends Eloquent
         $referido=new Referido;
         $referido['ruta_id']=$ruta->id;
         $referido['tabla_relacion_id']=$tablaRelacion->id;
+        if($tablarelacion_id!=''){
+            $referido['tabla_relacion_id']=$tablarelacion_id;
+        }
+        $referido['tipo']=0;
         $referido['ruta_detalle_verbo_id']=0;
         $referido['referido']=$tablaRelacion->id_union;
         $referido['fecha_hora_referido']=$tablaRelacion->created_at;
