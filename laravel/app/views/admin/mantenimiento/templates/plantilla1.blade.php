@@ -96,6 +96,11 @@ hr {
                 <td width='5px' class='text-negrita'>:</td>
                 <td width='75%'>{{ $destinatario }}</td>
             </tr>
+             <tr>
+                <td width='25%' class='text-negrita'>CC</td>
+                <td width='5px' class='text-negrita'>:</td>
+                <td width='75%'>{{ $copias }}</td>
+            </tr>
             <tr>
                 <td width='25%' class='text-negrita'>ASUNTO</td>
                 <td width='5px' class='text-negrita'>:</td>

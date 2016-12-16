@@ -121,15 +121,22 @@ class DocumentoDigitalController extends \BaseController {
         	/*end get remitente data */
 
         	/*get destinatario data*/
+            $copias = '';
+            $copias.= '<ul>';
         	$destinatarios = '';
         	$destinatarios.= '<ul>';
         	$DocDigitalArea = DocumentoDigitalArea::where('doc_digital_id', '=', $id)->where('estado', '=', 1)->get();
         	foreach($DocDigitalArea as $key => $value){
         		$persona2 = Persona::find($value->persona_id);
         		$area2 = Area::find($value->area_id);
-        		$destinatarios.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' ('.$area2->nombre.')</li>';
+                if($value->tipo ==1){
+        		  $destinatarios.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' ('.$area2->nombre.')</li>';                    
+                }else{
+                    $copias.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' ('.$area2->nombre.')</li>';
+                }        
         	}
-        	$destinatarios.= '</ul>';        	
+            $destinatarios.= '</ul>';    
+        	$copias.= '</ul>';        	
         	/*end get destinatario data*/
 
             $params = [
@@ -140,6 +147,7 @@ class DocumentoDigitalController extends \BaseController {
                 'fecha' => 'Lima,'.date('d').' de '.date('F').' del '.date('Y'),
                 'remitente' => $remitente,
                 'destinatario' => $destinatarios,
+                'copias' => $copias,
             ];
             $params = $params;
 
