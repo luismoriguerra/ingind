@@ -319,6 +319,7 @@ mostrarDetalleHTML=function(datos){
 
 Liberar=function(txt){
     $("#"+txt).removeAttr("readonly");
+    $("#"+txt).focus();
 }
 
 guardarTodo=function(){
