@@ -98,8 +98,7 @@
                                                 <span class="btn btn-primary" data-toggle="modal" data-target="#referenteModal" data-texto="txt_referente" data-idreferido="txt_referido_id" data-idruta="txt_ruta_id" data-idtablarelacion="txt_tablarelacion_id" data-idrutadetalle="txt_rutadetalle_id" id="btn_buscar_referente">
                                                     <i class="fa fa-search fa-lg"></i>
                                                 </span>
-                                          
-                                              
+
                                                 <span class="btn btn-danger" data-toggle="modal" onclick="BorrarReferido()" id="btn_borrar">
                                                     <i class="fa fa-eraser fa-lg"></i>
                                                 </span>

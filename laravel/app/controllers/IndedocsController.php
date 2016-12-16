@@ -7,13 +7,14 @@ class IndedocsController extends \BaseController {
     {
       
       $area=Auth::user()->area_id;
-      //$area=1;
+      //$area=32;
       $AreaIntera=AreaInterna::where('area_id','=',$area)->first();
+      $tipoDocumento=Input::get('tipo_documento');
       $retorno=array(
                   'rst'=>1
                );
 
-      $url ='https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=documento&area='.$AreaIntera->area_id_indedocs;
+      $url ='https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=documento&area='.$AreaIntera->area_id_indedocs.'&tipo='.$tipoDocumento;
       $curl_options = array(
                     //reemplazar url 
                     CURLOPT_URL => $url,
@@ -53,88 +54,41 @@ class IndedocsController extends \BaseController {
 
       return Response::json( $retorno );
     }
-	/**
-	 * Display a listing of the resource.
-	 * GET /prueba
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		//
-	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 * GET /prueba/create
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
-        
+    public function postListatipodocumentosindedocs()
+    {
+      $retorno=array(
+                  'rst'=>1
+               );
 
-	/**
-	 * Store a newly created resource in storage.
-	 * POST /prueba
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
+      $url ='https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=tipos';
+      $curl_options = array(
+                    CURLOPT_URL => $url,
+                    CURLOPT_HEADER => 0,
+                    CURLOPT_RETURNTRANSFER => TRUE,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_SSL_VERIFYPEER => 0,
+                    CURLOPT_FOLLOWLOCATION => TRUE,
+                    CURLOPT_ENCODING => 'gzip,deflate',
+            );
+ 
+            $ch = curl_init();
+            curl_setopt_array( $ch, $curl_options );
+            $output = curl_exec( $ch );
+            curl_close($ch);
 
-	/**
-	 * Display the specified resource.
-	 * GET /prueba/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
+      $r = json_decode(utf8_encode($output),true);
+      
+      $html="";
+      
+      
+      $n=1;
+      foreach ($r["tipos"] as $rr) {
+        $html.="<option value='".$rr['documentotipo_id']."'>".$rr['documentotipo_descripcion']."</option>";
+      }
+      $retorno["data"]=$html;
 
-	/**
-	 * Show the form for editing the specified resource.
-	 * GET /prueba/{id}/edit
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 * PUT /prueba/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 * DELETE /prueba/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
-        
-        
-
+      return Response::json( $retorno );
+    }
+	
 }
