@@ -8,11 +8,12 @@ class IndedocsController extends \BaseController {
       
       $area=Auth::user()->area_id;
       //$area=1;
+      $AreaIntera=AreaInterna::where('area_id','=',$area)->first();
       $retorno=array(
                   'rst'=>1
                );
 
-      $url ='https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=documento&area='.$area;
+      $url ='https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=documento&area='.$AreaIntera->area_id_indedocs;
       $curl_options = array(
                     //reemplazar url 
                     CURLOPT_URL => $url,
