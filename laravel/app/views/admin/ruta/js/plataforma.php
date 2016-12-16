@@ -77,6 +77,7 @@ $(document).ready(function() {
 CargarTramitePlataforma=function(t,id){
     var codigo= id.split("|")[1];
     $("#txt_codigo").val( codigo );
+    $("#txt_documento_id").val("");
     $("#plataformaModal .modal-footer>button").click();
 }
 
