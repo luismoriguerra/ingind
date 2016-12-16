@@ -87,6 +87,7 @@ class DocumentoDigitalController extends \BaseController {
             $DocDigital->cuerpo = $html;
             $DocDigital->plantilla_doc_id = Input::get('plantilla');
             $DocDigital->area_id = Input::get('area_plantilla');
+            $DocDigital->tipo_envio = Input::get('tipoenvio');
             $DocDigital->persona_id = Auth::user()->id;;
             $DocDigital->usuario_created_at = Auth::user()->id;
             $DocDigital->save();
@@ -98,6 +99,7 @@ class DocumentoDigitalController extends \BaseController {
             		$DocDigitalArea->doc_digital_id = $DocDigital->id;
             		$DocDigitalArea->persona_id = $value->persona_id;
             		$DocDigitalArea->area_id = $value->area_id;
+                    $DocDigitalArea->tipo = $value->tipo;
             		$DocDigitalArea->usuario_created_at = Auth::user()->id;
             		$DocDigitalArea->save();
             	}

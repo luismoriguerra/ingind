@@ -12,7 +12,7 @@ htmlListarSlct=function(obj,slct,tipo,valarray,afectado,afectados,slct_id,slctan
     if(obj.rst==1){                    
         $.each(obj.datos,function(index,data){
         disabled=''; 
-        rel=''; rel2='';rel3='';x='';y='';direccion='';
+        rel=''; rel2='';rel3='';x='';y='';direccion='';rel4='';
             if(data.block=='disabled'){ // validacion pra visualizacion
                 disabled='disabled';
             }
@@ -40,12 +40,19 @@ htmlListarSlct=function(obj,slct,tipo,valarray,afectado,afectados,slct_id,slctan
             if (data.direccion!='' && data.direccion!=null) {
                 direccion=' data-direccion="'+data.direccion+'" ';
             }
+
+            /*if send a concat data*/
+            if(data.concat !=''&& data.concat !=null){
+                rel4 = "("+data.concat+")";
+            }
+            /*end if  */
+            /* */
                         //si se recibe estado
             /*if (data.estado==1 && tipo=='multiple')
                 html += "<option selected"+rel+rel2+x+y+direccion+" value=\"" + data.id + "\" "+disabled+">" + data.nombre + "</option>";
             else*/
             
-                html += "<option "+rel+rel2+rel3+x+y+direccion+" value=\"" + data.id + "\" "+disabled+">" + data.nombre + "</option>";
+                html += "<option "+rel+rel2+rel3+x+y+direccion+" value=\"" + data.id + "\" "+disabled+">" + data.nombre + rel4 + "</option>";
         }); 
     }      
     $("#"+slct).html(html);
@@ -83,6 +90,7 @@ slctGlobalHtml=function(slct,tipo,valarray,afectado,afectados,slct_id,slctant,sl
             }
         },
         buttonText: function(options, select) { // para multiselect indicar vacio...
+
             if(tipo=="multiple"){
                 if (options.length === 0) {
                     return '.::Todo::.';

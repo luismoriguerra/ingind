@@ -2,6 +2,11 @@
 $(document).ready(function() {
     
     slctGlobal.listarSlctFuncion('plantilladoc','cargar','slct_plantilla','simple',null,{'area':1});
+    slctGlobal.listarSlctFuncion('area','areasgerencia','slct_areas','multiple',null);
+    slctGlobal.listarSlctFuncion('area','areasgerencia','slct_copia','multiple',null);
+    slctGlobalHtml('slct_tipoenvio','simple');
+    slctGlobal.listarSlct('area','slct_areasp','simple',null,{estado:1});   
+    /*slctGlobal.listarSlctFuncion('area','personasarea','slct_personaarea','simple',null);     */
     
     UsuarioArea='<?php echo Auth::user()->area_id; ?>';
     Plantillas.Cargar(HTMLCargar);
@@ -13,13 +18,18 @@ $(document).ready(function() {
         event.preventDefault();
         Plantillas.CargarInfo({'id':$(this).val()},HTMLPlantilla);
     });
-/*
-    $(document).on('change', '#slct_areas', function(event) {
+
+    $(document).on('change', '#slct_tipoenvio', function(event) {
         event.preventDefault();
-        var area_id = $(this).val();
-        var persona_id = $("#slct_areas option[value="+area_id.slice(-1)[0]+"]").attr('id-persona');
-        areasSelect.push({'area_id':area_id.slice(-1)[0],'persona_id':persona_id});
-    });*/
+        if($(this).val() == 1){ //persona
+            $(".araesgerencia").addClass('hidden');
+            $(".areaspersona").removeClass('hidden');
+        }else{ //gerencia
+             $(".araesgerencia").removeClass('hidden');
+             $(".areaspersona").addClass('hidden');
+             $(".personasarea").addClass('hidden');
+        }
+    });
 
     $(document).on('click', '#btnCrear', function(event) {
         event.preventDefault();       
@@ -31,13 +41,22 @@ $(document).ready(function() {
         }
     });
 
+    $(document).on('change','#slct_areasp',function(event){
+        $('#slct_personaarea').multiselect('destroy');
+        slctGlobal.listarSlctFuncion('area','personaarea','slct_personaarea','simple',null,{'area_id':$(this).val()});  
+        $(".personasarea").removeClass('hidden');
+    });
+
     /*validaciones*/
     function limpia(area) {
         $(area).find('input[type="text"],input[type="hidden"],input[type="email"],textarea,select').val('');
         $("#lblDocumento").text('');
         $("#lblArea").text('');
-        $('#formNuevoDocDigital').data('bootstrapValidator').resetForm();
+       /* $('#formNuevoDocDigital').data('bootstrapValidator').resetForm();*/
         CKEDITOR.instances.plantillaWord.setData('');
+        $(".araesgerencia,.areaspersona,.personasarea").addClass('hidden');
+        $("#slct_copia").val(['']);
+        $("#slct_copia").multiselect('refresh');
     };
 
     $('#NuevoDocDigital').on('hidden.bs.modal', function(){
@@ -81,7 +100,8 @@ $(document).ready(function() {
 
 
     $('#NuevoDocDigital').on('show.bs.modal', function (event) {
-
+        $("#slct_tipoenvio").multiselect('destroy');
+        slctGlobalHtml('slct_tipoenvio','simple');
      /*   var button = $(event.relatedTarget);
         var titulo = button.data('titulo');
             plantilla_id = button.data('id');
@@ -192,11 +212,12 @@ openPrevisualizarPlantilla=function(id){
 
 HTMLAreas = function (data){
     if(data.length > 0){
-        var html = '';
+      /*  var html = '';
         $.each(data,function(index, el) {
             html+="<option value='"+el.idarea+"' id-persona='"+el.idpersona+"'>"+el.area+"("+el.persona+")"+"</option>";
         });
         $("#slct_areas").html(html);
+        $("#slct_areas2").html(html);*/
     }
 }
 
@@ -226,11 +247,35 @@ editDocDigital = function(id){
 
 HTMLEdit = function(data){
     if(data.length > 0){
-        /*set areas*/
-        $.each(data,function(index, el) {
-            $("#slct_areas option[value='"+el.area_id+"']").prop("selected",true);
-        });
-        /*end set areas*/
+        /*personas area envio*/
+        if(data[0].tipo_envio == 1){ //persona
+            $(".areaspersona,.personasarea").removeClass('hidden');
+            $("#slct_areasp").val(data[0].area_id);
+            $('#slct_areasp').multiselect('refresh');
+
+            var ids = [];
+            ids.push(data[0].persona_id);
+            $('#slct_personaarea').multiselect('destroy');
+            slctGlobal.listarSlctFuncion('area','personaarea','slct_personaarea','simple',ids,{'area_id':data[0].area_id});  
+        }else{ //gerencia
+            originales = [];copias = [];
+            $.each(data,function(index, el) {
+                if(el.tipo == 1 ){
+                    originales.push(el.area_id);
+                }else if(el.tipo == 2){
+                    copias.push(el.area_id);
+                }
+            });
+            $("#slct_areas").val(originales);
+            $('#slct_areas').multiselect('refresh');
+            $("#slct_copia").val(copias);
+            $('#slct_copia').multiselect('refresh');
+            $(".araesgerencia").removeClass('hidden');
+        }
+
+        $('#slct_tipoenvio').val(data[0].tipo_envio);
+        $('#slct_tipoenvio').multiselect('refresh');        
+        /*end personas area envio */
 
         $('#slct_plantilla').val(data[0].plantilla_doc_id);
         $('#slct_plantilla').multiselect('refresh');
@@ -249,12 +294,30 @@ HTMLEdit = function(data){
 
 AreaSeleccionadas = function(){
     areasSelect = [];
-    $('#slct_areas  option:selected').each(function(index,el) {
-        var area_id = $(el).val();
-        var persona_id  = $(el).attr('id-persona');
-        areasSelect.push({'area_id':area_id,'persona_id':persona_id});
-    });
+    if($('#slct_tipoenvio').val() == 1){ //persona
+        areasSelect.push({'area_id':$('#slct_areasp').val(),'persona_id':$('#slct_personaarea').val(),'tipo':1});
+    }else{ //gerencias
+        $('#slct_areas  option:selected').each(function(index,el) {
+            var area_id = $(el).val();
+            var persona_id  = $(el).attr('data-relation').split('|');
+            areasSelect.push({'area_id':area_id,'persona_id':persona_id[1],'tipo':1});
+        });
+    }
+
+    if($("#slct_copia").val().length > 0){
+        $('#slct_copia  option:selected').each(function(index,el) {
+            var area_id = $(el).val();
+            var persona_id  = $(el).attr('data-relation').split('|');
+            areasSelect.push({'area_id':area_id,'persona_id':persona_id[1],'tipo':2});
+        });
+    }
     return areasSelect;
 }
 
+copias = function(){
+    $(".copias").removeClass('hidden');
+}
+
+eventoSlctGlobalSimple=function(){
+}
 </script>

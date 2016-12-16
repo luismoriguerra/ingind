@@ -1,4 +1,49 @@
 --08-12-2016 documentos digitales
+ALTER TABLE `doc_digital`
+ADD COLUMN `tipo_envio`  int(11) NULL DEFAULT 0 COMMENT '1:persona/2:gerencia' AFTER `persona_id`;
+
+ALTER TABLE `doc_digital_area`
+ADD COLUMN `rol_id`  int(11) NULL AFTER `area_id`;
+
+
+
+
+
+CREATE TABLE `area_grupo` (
+`id`  int(11) NOT NULL AUTO_INCREMENT ,
+`nombre`  varchar(255) NULL ,
+`nemonico`  varchar(50) NULL ,
+`logo`  varchar(100) NULL ,
+`estado`  tinyint(1) NULL DEFAULT 1 ,
+`created_at`  datetime NULL DEFAULT CURRENT_TIMESTAMP ,
+`updated_at`  datetime NULL ,
+`usuario_created_at`  int(11) NULL ,
+`usuario_updated_at`  int(11) NULL ,
+PRIMARY KEY (`id`)
+)
+;
+
+CREATE TABLE `area_grupo_integrante` (
+`id`  int(11) NOT NULL AUTO_INCREMENT ,
+`area_grupo_id`  int(11) NOT NULL ,
+`area_id`  int(11) NOT NULL ,
+`estado`  tinyint(1) NOT NULL ,
+`created_at`  datetime NULL DEFAULT CURRENT_TIMESTAMP ,
+`updated_at`  datetime NULL ,
+`usuario_created_at`  int(11) NOT NULL ,
+`usuario_updated_at`  int(11) NOT NULL ,
+PRIMARY KEY (`id`),
+CONSTRAINT `fk_area_grupo` FOREIGN KEY (`area_grupo_id`) REFERENCES `area_grupo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+CONSTRAINT `fk_areas_area` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+)
+;
+
+
+
+ALTER TABLE `doc_digital_area`
+ADD COLUMN `tipo`  int(11) NOT NULL DEFAULT 1 COMMENT '1:original 2:copia' AFTER `area_id`;
+
+
 ALTER TABLE `areas`
 ADD COLUMN `nemonico_doc`  varchar(20) NULL AFTER `nemonico`;
 
