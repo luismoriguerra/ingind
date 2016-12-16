@@ -17,9 +17,7 @@ class ReferidoController extends \BaseController
             );
         }
     }
-    
-   
-    
+
     public function postCargar()
     {
         if ( Request::ajax() ) {
@@ -48,15 +46,13 @@ class ReferidoController extends \BaseController
                     $array['where'].=" AND r.fecha_hora_referido LIKE '%".$fecha."%' ";
                 }
             }
-            
-            if( Input::has("referido") ){
-                $referido=Input::get("referido");
-                if( trim( $referido )!='' ){
-                    $array['where'].=" AND r.referido LIKE '%".$referido."%' ";
-                }
-            }
 
-          
+            if( Input::has('referido') AND Input::get('referido')!='' ){
+              $referido=explode(" ",trim(Input::get('referido')));
+              for($i=0; $i<count($referido); $i++){
+                $array['where'].=" AND r.referido LIKE '%".$referido[$i]."%' ";
+              }
+            }
 
             $array['order']=" ORDER BY r.referido ";
 
