@@ -23,7 +23,11 @@ class DocsController extends \BaseController {
                 $aParametro["draw"]=Input::get('draw');
             }
             /************************************************************/
-        
+            
+            if( Input::has('area_personal') ){
+                $array['where'].=" AND dd.area_id='".Auth::user()->area_id."' ";
+            }
+
             if( Input::has("titulo") ){
                 $titulo=Input::get("titulo");
                 if( trim( $titulo )!='' ){

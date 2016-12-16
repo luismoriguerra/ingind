@@ -72,7 +72,7 @@ class DocumentoDigital extends Base {
         $sSql.= $array['where'].
                 $array['order'].
                 $array['limit'];
-        
+        //echo $sSql;
         $oData = DB::select($sSql);
         return $oData;
     }

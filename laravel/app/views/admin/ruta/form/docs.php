@@ -12,6 +12,7 @@
           <div class="row form-group">
               <div class="col-sm-12">
               <form id="form_docs" name="form_docs" method="POST" action="">
+              <input type='hidden' name='area_personal' value="1">
                   <div class="box-body table-responsive">
                       <table id="t_docs" class="table table-bordered table-striped">
                           <thead>
