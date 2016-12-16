@@ -319,6 +319,7 @@ mostrarDetalleHTML=function(datos){
 
 Liberar=function(txt){
     $("#"+txt).removeAttr("readonly");
+    $("#txt_documento_id_"+txt.split("_")[1]).val('');
     $("#"+txt).focus();
 }
 
