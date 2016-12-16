@@ -285,6 +285,9 @@ mostrarDetalleHTML=function(datos){
                             imagenadd= '<input data-pos="'+(i*1+1)+'" type="text" readonly class="form-control txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'" id="documento_'+detalle[i].split("=>")[0]+'" name="documento_'+detalle[i].split("=>")[0]+'" value="" /><input type="hidden" id="txt_documento_id_'+detalle[i].split("=>")[0]+'" name="txt_documento_id_'+detalle[i].split("=>")[0]+'" value="">'+
                                         '<span class="btn btn-primary" data-toggle="modal" data-target="#indedocsModal" data-texto="documento_'+detalle[i].split("=>")[0]+'" data-id="txt_documento_id_'+detalle[i].split("=>")[0]+'" id="btn_buscar_indedocs">'+
                                             '<i class="fa fa-search fa-lg"></i>'+
+                                         '</span>'+
+                                         '<span class="btn btn-warning" onClick="Liberar(\'documento_'+detalle[i].split("=>")[0]+'\')" >'+
+                                            '<i class="fa fa-pencil fa-lg"></i>'+
                                          '</span>';
                             archivo='<input class="form-control" id="archivo_'+detalle[i].split("=>")[0]+'" name="archivo_'+detalle[i].split("=>")[0]+'" type="file">';
                         }
@@ -312,6 +315,10 @@ mostrarDetalleHTML=function(datos){
             }
         }
 
+}
+
+Liberar=function(txt){
+    $("#"+txt).removeAttr("readonly");
 }
 
 guardarTodo=function(){
