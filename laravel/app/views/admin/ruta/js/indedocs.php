@@ -8,6 +8,8 @@ $(document).ready(function() {
       var button = $(event.relatedTarget); // captura al boton
       textoIdG= button.data('texto');
       documentoIdIG= button.data('id');
+      $("#"+textoIdG).removeAttr("readonly");
+      $("#"+textoIdG).attr("readonly",'true');
     });
 
     $('#indedocsModal').on('hide.bs.modal', function (event) {
