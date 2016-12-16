@@ -124,7 +124,16 @@ $(document).ready(function() {
     hora();
     //$("#areasasignacion").DataTable();
 });
+
+Liberar=function(txt,id){
+    $("#"+txt).removeAttr("readonly");
+    $("#"+txt).val('');
+    $("#"+id).val('');
+    $("#"+txt).focus();
+}
+
 eventoSlctGlobalSimple=function (){} 
+
 tpersona=function(valor){//1->natural,2->juridica,3->a.i. y 4->org social
     $(".natural, .juridica, .area, .org").css("display","none");
     $(".natural input[type='text'], .juridica input[type='text'], .area select, .org input[type='text']").val("");

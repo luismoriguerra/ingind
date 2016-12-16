@@ -10,6 +10,7 @@ $(document).ready(function() {
       documentoIdIG= button.data('id');
       $("#"+textoIdG).removeAttr("readonly");
       $("#"+textoIdG).attr("readonly",'true');
+      $("#"+textoIdG).val("");
     });
 
     $('#indedocsModal').on('hide.bs.modal', function (event) {
