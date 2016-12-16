@@ -53,5 +53,28 @@ class DocumentoDigital extends Base {
     	$r= DB::select($sql);
     	return (isset($r[0])) ? $r[0] : $r2[0];
     }
+    
+         public static function getListarCount( $array )
+    {
+        $sSql=" select COUNT(dd.id) as cant
+                from doc_digital dd
+                WHERE 1=1";
+        $sSql.= $array['where'];
+        $oData = DB::select($sSql);
+        return $oData[0]->cant;
+    }
+    
+    public static function getListar( $array )
+    {
+        $sSql=" select dd.id,dd.titulo,dd.asunto,dd.created_at
+                from doc_digital dd
+                WHERE 1=1";
+        $sSql.= $array['where'].
+                $array['order'].
+                $array['limit'];
+        
+        $oData = DB::select($sSql);
+        return $oData;
+    }
 
 }

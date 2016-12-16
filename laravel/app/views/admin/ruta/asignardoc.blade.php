@@ -22,6 +22,8 @@
     @include( 'admin.ruta.js.asignar_doc' )
     @include( 'admin.ruta.js.plataforma' )
     
+    @include( 'admin.ruta.js.asignar' )
+    
     @include( 'admin.ruta.js.docs' )
     @include( 'admin.ruta.js.docs_ajax' )
     
@@ -79,7 +81,7 @@
                                             </div>
                                              <div class="col-sm-1">
                                                  <br>
-                                                <span class="btn btn-primary" data-toggle="modal" data-target="#indedocsModal" data-texto="txt_codigo" data-id="txt_documento_id" id="btn_buscar_indedocs">
+                                                <span class="btn btn-primary" data-toggle="modal" data-target="#docsModal" data-texto="txt_codigo" data-id="txt_documento_id" id="btn_buscar_docs">
                                                     <i class="fa fa-search fa-lg"></i>
                                                 </span>
                                             </div>
