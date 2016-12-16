@@ -5,7 +5,7 @@ var targetsG=-1; // Posiciones de las columnas del datatable
 
 //var RolsG={id:0,nombre:"",estado:1}; // Datos Globales
 var textoDocumentoG;
-var textoIdDocumentoG;
+////var textoIdDocumentoG;
 
 
 $(document).ready(function() {
@@ -13,7 +13,11 @@ $(document).ready(function() {
       var button = $(event.relatedTarget); // captura al boton
       
       textoDocumentoG= button.data('texto');  
-      textoIdDocumentoG= button.data('id');
+      //textoIdDocumentoG= button.data('id');
+
+      $("#"+textoDocumentoG).removeAttr("readonly");
+      $("#"+textoDocumentoG).attr("readonly",'true');
+      $("#"+textoDocumentoG).val("");
       
       var modal = $(this); //captura el modal
       //Asignar.Plataforma(PlataformaHTML);
@@ -90,7 +94,7 @@ $(document).ready(function() {
 }*/
 
 CargarDoc=function(id_documento,titulo){
-    $("#"+textoIdDocumentoG).val($.trim(id_documento));
+    //$("#"+textoIdDocumentoG).val($.trim(id_documento));
     
     $("#"+textoDocumentoG).val($.trim(titulo));
     
