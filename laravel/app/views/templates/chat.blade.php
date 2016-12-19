@@ -1,6 +1,6 @@
 <div id='chat'>
     
-    <a class="open-chat-button tooltips" @click.prevent="live_chat=true" data-toggle="tooltip" data-placement="right" data-original-title="Info Chat"><i class="fa fa-wechat"></i>
+    <a class="open-chat-button tooltips hidden" @click.prevent="live_chat=true" data-toggle="tooltip" data-placement="right" data-original-title="Info Chat"><i class="fa fa-wechat"></i>
     </a>
     <a class="open-chat-button-active tooltips" data-toggle="tooltip" data-placement="right" data-original-title="Info Chat"><i class="fa fa-wechat"></i>
     </a>
