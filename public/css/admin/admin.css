@@ -3775,7 +3775,7 @@ fieldset[disabled] .btn-vk.active {
 }
 
 .live-chat{
-    display: none;
+    /*display: none;*/
     position: fixed;
     bottom: 2px;
     /*left: 20px;*/
@@ -6054,7 +6054,7 @@ fieldset[disabled] .btn-vk.active {
 }
 
 .chatonline{
-    display: none;
+    /*display: none;*/
     position: fixed;
     bottom: 2px;
     /*left: 20px;*/
@@ -6148,7 +6148,7 @@ fieldset[disabled] .btn-vk.active {
 }
 
 .nuevomensaje{
-    display: none;
+    /*display: none;*/
     position: fixed;
     bottom: 2px;
     right: 18%;

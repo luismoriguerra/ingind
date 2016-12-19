@@ -1,8 +1,13 @@
 <?php
 use Chat\Repositories\User\UserRepository;
+use Chat\Repositories\Area\AreaRepository;
 class AreaController extends \BaseController
 {
     protected $_errorController;
+    /**
+     * @var Chat\Repositories\AreaRepository
+     */
+    private $areaRepository; 
     /**
       * @var Chat\Repositories\UserRepository
      */
@@ -12,16 +17,35 @@ class AreaController extends \BaseController
      */    
     public function __construct(
         ErrorController $ErrorController,
+        AreaRepository $areaRepository,
         UserRepository $userRepository
     ) {
         $this->beforefilter('auth');
         $this->_errorController = $ErrorController;
+        $this->areaRepository = $areaRepository;
         $this->userRepository = $userRepository;
     }
-
-    public function index($area_id){
+    /**
+     * Display a listing.
+     *
+     * @return Response
+     */
+    public function index() {
+        $areas = $this->areaRepository->getAllActives();
+        $response=[
+            'areas' => $areas,
+        ];
+        return Response::json($response);
+    }
+    /**
+     * Display a listing of user conversations.
+     *
+     * @return Response
+     */
+    public function show($area_id){
         $usuarios = $this->userRepository->getAllExceptFromArea(Auth::user()->id,$area_id);
-        return $usuarios->lists('full_name', 'id');
+        $response=['users'=>$usuarios];
+        return Response::json($response);
     }
      /**
      * cargar areas, mantenimiento

@@ -34,35 +34,10 @@ App::bind('Chat\Repositories\Conversation\ConversationRepository', 'Chat\Reposit
 App::bind('Chat\Repositories\User\UserRepository', 'Chat\Repositories\User\DbUserRepository');
 App::bind('Chat\Repositories\Area\AreaRepository', 'Chat\Repositories\Area\DbAreaRepository');
 
-/*
-Route::get('/', function() {
-    return Redirect::route('auth.postLogin');
-});*/
-
-Route::get('/loginchat', array(
-    'as'   => 'auth.getLogin',
-    'uses' => 'AuthController@getLogin'
-));
-
-Route::post('/loginchat', array(
-    'as'   => 'auth.postLogin',
-    'uses' => 'AuthController@postLogin'
-));
-
-Route::get('/logout', array(
-    'as'   => 'auth.logout',
-    'uses' => 'AuthController@logout'
-));
-
 Route::post('/chat/', array(
     'before' => 'authChat',
     'as'     => 'chat.index',
     'uses'   => 'ChatController@conversation'
-));
-Route::get('/admin.mantenimiento.chat/', array(
-    'before' => 'authChat',
-    'as'     => 'chat.index',
-    'uses'   => 'ChatController@index'
 ));
 
 Route::get('/messages/', array(
@@ -89,16 +64,17 @@ Route::post('/conversations/', array(
     'uses'   => 'ConversationController@store'
 ));
 
-Route::get('/conversations/', array(
-    'before' => 'authChat',
-    'as'     => 'conversations.index',
-    'uses'   => 'ConversationController@index'
-));
 Route::get('areas/{area_id}/users', array(
     'before' => 'authChat',
-    'as'     => 'areas_users.index',
+    'as'     => 'areas_users.show',
+    'uses'   => 'AreaController@show'
+)); 
+Route::get('/areas/', array(
+    'before' => 'authChat',
+    'as'     => 'areas.index',
     'uses'   => 'AreaController@index'
-));
+)); 
+
 
 Route::get(
     '/', function () {

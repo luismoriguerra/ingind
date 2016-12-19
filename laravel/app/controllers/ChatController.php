@@ -1,135 +1,78 @@
 <?php
 
 use Chat\Repositories\Conversation\ConversationRepository;
-use Chat\Repositories\Area\AreaRepository;
-//use Chat\Repositories\User\UserRepository;
-    
+
 class ChatController extends \BaseController {
 
     /**
-     * @var Chat\Repositories\ConversationRepository
+     * @var LaravelRealtimeChat\Repositories\ConversationRepository
      */
     private $conversationRepository; 
 
-    /**
-     * @var Chat\Repositories\UserRepository
-     */
-    //private $userRepository; 
-
-    /**
-     * @var Chat\Repositories\AreaRepository
-     */
-    private $areaRepository; 
-
-    public function __construct(ConversationRepository $conversationRepository,
-        AreaRepository $areaRepository
-        /*, UserRepository $userRepository*/)
+    public function __construct(ConversationRepository $conversationRepository)
     {
         $this->conversationRepository = $conversationRepository;
-        //$this->userRepository = $userRepository;
-        $this->areaRepository = $areaRepository;
     }
 
     /**
-     * Display the chat index.
-     *
-     * @return Response
-     */
-    public function index() {
-        $viewData = array();
-
-        if(Input::has('conversation')) {
-            $viewData['current_conversation'] = $this->conversationRepository->getByName(Input::get('conversation'));
-        } else {
-            $viewData['current_conversation'] = Auth::user()->conversations()->first();
-        }
-
-        if($viewData['current_conversation']) {
-            Session::set('current_conversation', $viewData['current_conversation']->name);
-    
-            foreach($viewData['current_conversation']->messages_notifications as $notification) {
-                $notification->read = true;
-                $notification->save();
-            }
-        }
-        
-        $areas = $this->areaRepository->getAllActives();
-        foreach($areas as $key => $area) {
-            $viewData['areas'][$area->id] = $area->nombre;
-        }
-
-        //$areas = Area::all();
-        /*$areas = Area::all();
-        foreach($areas as $key => $area) {
-            $viewData['areas'][$area->id] = $area->nombre;
-        }*/
-        
-        $viewData['conversations'] = Auth::user()->conversations()->get();
-        return View::make('templates/chat', $viewData);
-    }
-    /**
-     * Display the chat index.
+     * Display the chat
      *
      * @return Response
      */
     public function conversation() {
-        $viewData = array();
-
+        $current_conversation = false;
         if(Input::has('conversation')) {
-            $viewData['current_conversation'] = $this->conversationRepository->getByName(Input::get('conversation'));
-        } else {
-            $viewData['current_conversation'] = Auth::user()->conversations()->first();
-        }
-
-        if($viewData['current_conversation']) {
-            Session::set('current_conversation', $viewData['current_conversation']->name);
-    
-            foreach($viewData['current_conversation']->messages_notifications as $notification) {
+            $current_conversation = $this->conversationRepository->getByName(Input::get('conversation'));
+        } /*else {
+            $current_conversation = Auth::user()->conversations()->first();
+        }*/
+        if ($current_conversation) {
+            Session::set('current_conversation', $current_conversation->name);
+            foreach($current_conversation->messages_notifications as $notification) {
                 $notification->read = true;
                 $notification->save();
             }
+        } else {
+            $current_conversation = new stdClass() ;
+            $current_conversation->name=null;
         }
-        
-        $areas = $this->areaRepository->getAllActives();
-        foreach($areas as $key => $area) {
-            $viewData['areas'][$area->id] = $area->nombre;
-            $areasObj[$area->id] = $area->nombre;
-        }
-        
-        $viewData['conversations'] = Auth::user()->conversations()->orderby('created_at','desc')->get();
 
-        $conversations=$messagesObj=[];
-        foreach($viewData['conversations'] as $conversation) {
-            $conversationObj['name']= $conversation->name;
-            $conversationObj['messages_notifications_count']= $conversation->messages_notifications->count();
-            $conversationObj['body']= Str::words($conversation->messages->last()->body, 5);
-
-            foreach($conversation->users as $key => $user) {
-                $userObj['img'] = $user->img;
-                $userObj['full_name'] = $user->full_name;
-                $userObj['area'] = $user->areas->nombre;
-                $userObj['count'] = $conversation->users->count();
-                $conversationObj['users'][$key]=$userObj;
+        $messages=[];
+        $conversations = Auth::user()->conversations->map(function($conversation) use (&$current_conversation)
+        {
+            $users=$conversation->users->map(function($user){
+                return [
+                    'img'       => $user->img,
+                    'full_name' => $user->username,
+                    'area'      => $user->areas->nombre,
+                ];
+            });
+            $current=false;
+            if ($conversation->name==$current_conversation->name){
+                $current_conversation->messages = $conversation->messages->map(function($message){
+                    return [
+                        'created_at'    => $message->created_at->format('Y-m-d H:i:s'),
+                        'user'          => $message->user,
+                        'img'           => $message->user->img,
+                        //'nemonico'      => $message->user->areas->nemonico,
+                        'body'          => $message->body,
+                    ];
+                });
+                $current=true;
             }
-            $conversations[] = $conversationObj;
-        }
-        if (count($viewData['current_conversation'])>0) {
-            foreach($viewData['current_conversation']->messages as $message){
-                $messageObj['created_at']=$message->created_at;
-                $messageObj['img']=$message->user->img;
-                $messageObj['area_nemonico']='sin area';
-                if (isset($message->user->areas->nemonico))
-                    $messageObj['area_nemonico']=$message->user->areas->nemonico;
-                $messageObj['user_nombre']=$message->user->nombre;
-                $messageObj['body']=$message->body;
-                $messagesObj[]=$messageObj;
-            }
-        }
-        $response = [
-            'conversations'=>$conversations,
-            'current_conversation'=>$viewData['current_conversation'],
-            'messages'=>$messagesObj,
-            'areas'=>$areasObj,
+            return [
+                'users'    => $users,
+                'messages' => $conversation->messages,
+                'name' => $conversation->name,
+                'messages_notifications_count'=> $conversation->messages_notifications->count(),
+                'last_message'=> Str::words($conversation->messages->last()->body, 5),
+                'current'=> $current,
+            ];
+        });
+        $response=[
+            'current_conversation'   =>$current_conversation,
+            'conversations'   =>$conversations,
+            //'messages'   =>$messages,
         ];
         return Response::json($response);
     }

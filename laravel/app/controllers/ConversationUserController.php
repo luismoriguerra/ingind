@@ -13,7 +13,7 @@ class ConversationUserController extends \BaseController {
         $conversations = array();
 
         if($conversations_users) {
-            $conversations = Conversation::whereIn('id', $conversations_users)->orderby('created_at','desc')->get();
+            $conversations = Conversation::whereIn('id', $conversations_users)->get();
         }
 
         return Response::json([

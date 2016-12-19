@@ -3,36 +3,6 @@
 class MessageController extends \BaseController {
 
     /**
-     * Display a listing of messages.
-     *
-     * @return Response
-     */
-    public function index() {
-
-        $conversation = Conversation::where('name', Input::get('conversation'))->first();
-        $messages       = Message::where('conversation_id', $conversation->id)->orderBy('created_at')->get();
-//aca se estan eliminando las etiquetas html para el salto de linea revisar pork no llega con salto de linea
-
-        foreach($messages as $message){
-            $messageObj['created_at']=$message->created_at;
-            $messageObj['img']=$message->user->img;
-            $messageObj['area_nemonico']='sin area';
-            if (isset($message->user->areas->nemonico))
-                $messageObj['area_nemonico']=$message->user->areas->nemonico;
-            $messageObj['user_nombre']=$message->user->nombre;
-            $messageObj['body']=$message->body;
-            $messagesObj[]=$messageObj;
-        }
-
-        
-        $response=[
-            'messages'=>$messagesObj,
-        ];
-        return Response::json($response);
-        return View::make('templates/messages')->with('messages', $messages)->render();
-    }
-
-    /**
      * Store a newly created message in storage.
      *
      * @return Response
@@ -53,7 +23,7 @@ class MessageController extends \BaseController {
 
         $params = array(
             'conversation_id' => $conversation->id,
-            'body'               => nl2br(Input::get('body')),
+            'body'               => Input::get('body'),
             'user_id'           => Input::get('user_id'),
             'created_at'      => new DateTime
         );
@@ -76,11 +46,7 @@ class MessageController extends \BaseController {
         );
 
         Event::fire(ChatMessagesEventHandler::EVENT, array(json_encode($data)));
-        $dataConversation = array(
-            'room'    => Input::get('user_id'),
-            'message' => array('conversation_id' => $conversation->id)
-        );
-        Event::fire(ChatConversationsEventHandler::EVENT, array(json_encode($dataConversation)));
+
         return Response::json([
             'success' => true,
             'result' => $message

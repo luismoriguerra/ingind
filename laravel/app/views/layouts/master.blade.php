@@ -52,7 +52,7 @@
             @yield('contenido')
 
 
-            @include( 'chat' )
+            @include('templates/chat')
             
 
 
@@ -77,21 +77,5 @@
                 $(elemento).addClass('active');
             }
         });
-
-        show = function(){
-        	$('.live-chat').css('display', 'block');
-        }
-
-        ocultar = function(object,element){
-            $('.'+element).css('display', 'none');
-        }
-
-        nuevoMensaje = function(){
-            $('.nuevomensaje').css('display', 'block');
-        }
-
-        abrirChat = function(object){
-            $('.chatonline').css('display', 'block');
-        }
     </script>
 </html>

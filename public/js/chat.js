@@ -1,160 +1,136 @@
-$(function() {
+var vm = new Vue({
+    http: {
+        root: '/root'
+    },
+    el: '#chat',
+    data: {
+        nuevoMensaje:false,
+        live_chat:false,
+        chat_online:true,
+        conversations:[],
+        current_conversation:[],
+        messages:[],
+        areas:[],
+        users:[],
+        user_id: user_id,
+        socket:socket,
+        messageBox:'',
+        body:''
+    },
+    ready: function () {
+        this.scrollToBottom();
 
-    /***
-        Initialization
-    ***/
-
-    scrollToBottom();
-
-    var
-        socket = io('http://procesos.munindependencia.pe:3000'),
-        //socket = io('http://ingind:3000'),
-        jqxhr  = $.ajax({
-            url: '/users/' + user_id + '/conversations',
-            type: 'GET',
-            dataType: 'json'
+        this.conexionSocket();
+        /***
+            Socket.io Events
+        ***/
+        this.socket.on('welcome', function (data) {
+            vm.socket.emit('join', { room:  user_id });
+        });
+        this.socket.on('joined', function(data) {
+            //console.log(data.message);
+        });
+        this.socket.on('chat.messages', function(data) {
+            vm.chat(vm.current_conversation.name);
+        });
+        this.socket.on('chat.conversations', function(data) {
+           vm.chat(data.conversation_name);
+           vm.conexionSocket();
         });
 
-    jqxhr.done(function(data) {
-        if(data.success && data.result.length > 0) {
-            $.each(data.result, function(index, conversation) {
-                socket.emit('join', { room:  conversation.name });
+        this.getAreas();
+        this.chat();
+    },
+    methods: {
+        conexionSocket: function(){
+            //esta peticion se dbe ejcutr cada vez que se crea una nueva conversacion
+            this.$http.get("/users/" + user_id + '/conversations',function(response) {
+                if(response.success && response.result.length > 0) {
+                    $.each(response.result, function(index, conversation) {
+                        vm.socket.emit('join', { room:  conversation.name });
+                    });
+                }
             });
-        }
-    });
-
-    /***
-        Socket.io Events
-    ***/
-
-    socket.on('welcome', function (data) {
-          //console.log(data.message);
-
-          socket.emit('join', { room:  user_id });
-      });
-
-      socket.on('joined', function(data) {
-          console.log(data.message);
-      });
-
-    socket.on('chat.messages', function(data) {
-        var
-            $messageList  = $("#messageList"),
-            $conversation = $("#" + data.room);
-
-        var message      = data.message.body,
-            from_user_id = data.message.user_id,
-            conversation = data.room;
-
-        getMessages(conversation).done(function(data) {
-
-            $conversation.find('small').text(message);
-
-            if(conversation === current_conversation) {
-                $messageList.html(data);
-                scrollToBottom();
-            }
-
-            if(from_user_id !== user_id && conversation !== current_conversation) {
-                updateConversationCounter($conversation);
-            }
-        });
-       });
-
-       socket.on('chat.conversations', function(data) {
-           var $conversationList = $("#conversationList");
-
-           getConversations(current_conversation).done(function(data) {
-               $conversationList.html(data);
-           });
-       });
-
-    /***
-        Functions
-    ***/
-
-    function getConversations(current_conversation) {
-        var jqxhr = $.ajax({
-                url: '/conversations',
-                type: 'GET',
-                data: { conversation: current_conversation },
-                dataType: 'html'
+        },
+        changeArea: function(){
+            this.$http.get("/areas/"+this.area_id+"/users",function(response) {
+                this.users=response.users;
             });
-
-        return jqxhr;
-    }
-
-    function getMessages(conversation) {
-           var jqxhr = $.ajax({
-            url: '/messages',
-            type: 'GET',
-            data: { conversation: conversation },
-            dataType: 'html'
-        });
-
-        return jqxhr;
-    }
-
-    function sendMessage(body, conversation, user_id) {
-        var jqxhr = $.ajax({
-            url: '/messages',
-            type: 'POST',
-            data:  { body: body , conversation: conversation, user_id: user_id },
-            dataType: 'json'
-        });
-
-        return jqxhr;
-    }
-
-    function updateConversationCounter($conversation) {
-        var
-            $badge  = $conversation.find('.badge'),
-            counter = Number($badge .text());
-
-        if($badge.length) {
-            $badge.text(counter + 1);
-        } else {
-            $conversation.prepend('<span class="badge">1</span>');
+        },
+        changeUser: function(){
+            this.body='';
+            $('#new_message').focus();
+        },
+        getAreas: function(){
+            this.$http.get("/areas",function(response) {
+                vm.areas=response.areas;
+            });
+        },
+        chat: function (conversation) {
+            var request={conversation: conversation };
+            this.$http.post("/chat",request,function(response) {
+                this.current_conversation = response.current_conversation;
+                this.conversations= response.conversations;
+                this.scrollToBottom();
+            });
+        },
+        sendMessage: function() {
+            data=  {
+                body: this.messageBox ,
+                conversation: this.current_conversation.name,
+                user_id: this.user_id
+            };
+            if (this.messageBox.trim()==='') return;
+            this.$http.post("/messages",data,function(data) {
+                this.messageBox='';
+            });
+        },
+        sendConversation: function(){
+            var usuarios;
+            if (this.users_id=='Seleccione usuario') {
+                return;
+            }
+            if (!Array.isArray(this.users_id)){
+                usuarios = [this.users_id];
+            } else {
+                usuarios = this.users_id;
+            }
+            request={
+                body:this.body,
+                users:usuarios
+            };
+            this.$http.post("/conversations",request,function(response) {
+                this.chat(response.conversation);
+                this.conexionSocket();
+                this.body='';
+                //$('#newMessageModal').modal('hide');
+                vm.nuevoMensaje=false;
+            });
+        },
+        handleKeypress: function(event) {
+            if (event.keyCode == 13 && event.shiftKey) {
+            } else if (event.keyCode == 13){
+                if (this.messageBox.trim()==='') return;
+                this.sendMessage();
+            }
+        },
+        handleKeypressModal: function(event) {
+            if (event.keyCode == 13 && event.shiftKey) {
+            } else if (event.keyCode == 13){
+                if (this.body.trim()==='') return;
+                this.sendConversation();
+            }
+        },
+        scrollToBottom: function() {
+            this.handle = setInterval( ( ) => {
+                var $messageList  = $("#messageList");
+                if($messageList.length) {
+                    $messageList.animate({scrollTop: $messageList[0].scrollHeight}, 500);
+                }
+                clearInterval(this.handle);
+            },1);
+            this.messageBox='';
+            $('#message').focus();
         }
     }
-
-    function scrollToBottom() {
-        var $messageList  = $("#messageList");
-
-        if($messageList.length) {
-            $messageList.animate({scrollTop: $messageList[0].scrollHeight}, 500);
-        }
-    }
-
-    /***
-        Events
-    ***/
-
-    $('#btnSendMessage').on('click', function (evt) {
-        var $messageBox  = $("#messageBox");
-
-        evt.preventDefault();
-
-        sendMessage($messageBox.val(), current_conversation, user_id).done(function(data) {
-            console.log(data);
-            $messageBox.val('');
-            $messageBox.focus();
-        });
-    });
-
-    $('#btnNewMessage').on('click', function() {
-        $('#newMessageModal').modal('show');
-    });
-    
-    /**
-     * Shift+Enter to send message
-     */
-    $('#messageBox').keypress(function (event) {
-        if (event.keyCode == 13 && event.shiftKey) {
-        } else if (event.keyCode == 13){
-            event.preventDefault();
-            
-            $('#btnSendMessage').trigger('click');
-        }
-    });
 });
