@@ -124,7 +124,7 @@ HTMLreporte=function(datos){
     pos=0;
     $.each(datos,function(index,data){
         pos++;
-        html+="<tr id="+data.id+">"+
+        html+="<tr id="+data.norden+">"+
             "<td>"+data.paterno+"</td>"+
             "<td>"+data.materno+"</td>"+
             "<td>"+data.nombre+"</td>"+
