@@ -18,12 +18,12 @@
     @include( 'admin.js.slct_global' )
 
     @include( 'admin.ruta.js.ruta_ajax' )
-    @include( 'admin.ruta.js.asignar_ajax' )
-    @include( 'admin.ruta.js.asignar' )
+    @include( 'admin.ruta.js.asignar_doc_ajax' )
+    @include( 'admin.ruta.js.asignar_doc' )
     @include( 'admin.ruta.js.plataforma' )
-    
-    @include( 'admin.ruta.js.indedocs' )
-    @include( 'admin.ruta.js.indedocs_ajax' )
+      
+    @include( 'admin.ruta.js.docs' )
+    @include( 'admin.ruta.js.docs_ajax' )
     
     @include( 'admin.ruta.js.proceso' )
     @include( 'admin.ruta.js.referente' )
@@ -74,12 +74,11 @@
                                             <div class="col-sm-4">
                                                 <label class="control-label">Nro Trámite:</label>
                                                 <input class="form-control" id="txt_codigo" name="txt_codigo" type="text"  readonly="">
-                                                <input id="txt_documento_id" name="txt_documento_id" type="hidden"  value="">
                                                 
                                             </div>
                                              <div class="col-sm-1">
                                                  <br>
-                                                <span class="btn btn-primary" data-toggle="modal" data-target="#indedocsModal" data-texto="txt_codigo" data-id="txt_documento_id" id="btn_buscar_indedocs">
+                                                <span class="btn btn-primary" data-toggle="modal" data-target="#docsModal" data-texto="txt_codigo" data-id="txt_documento_id" id="btn_buscar_docs">
                                                     <i class="fa fa-search fa-lg"></i>
                                                 </span>
                                                 <span class="btn btn-warning" data-toggle="modal" onclick="Liberar('txt_codigo','txt_documento_id')" id="btn_borrar">
@@ -101,7 +100,8 @@
                                                 <span class="btn btn-primary" data-toggle="modal" data-target="#referenteModal" data-texto="txt_referente" data-idreferido="txt_referido_id" data-idruta="txt_ruta_id" data-idtablarelacion="txt_tablarelacion_id" data-idrutadetalle="txt_rutadetalle_id" id="btn_buscar_referente">
                                                     <i class="fa fa-search fa-lg"></i>
                                                 </span>
-
+                                          
+                                              
                                                 <span class="btn btn-danger" data-toggle="modal" onclick="BorrarReferido()" id="btn_borrar">
                                                     <i class="fa fa-eraser fa-lg"></i>
                                                 </span>
@@ -316,7 +316,7 @@
      @include( 'admin.ruta.form.asignar' )
      @include( 'admin.ruta.form.ruta' )
      @include( 'admin.ruta.form.plataforma' )
-     @include( 'admin.ruta.form.indedocs' )
+     @include( 'admin.ruta.form.docs' )
      @include( 'admin.ruta.form.proceso' )
      @include( 'admin.ruta.form.referente' )
 @stop

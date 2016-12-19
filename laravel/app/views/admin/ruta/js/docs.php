@@ -2,45 +2,64 @@
 var cabeceraG=[]; // Cabecera del Datatable
 var columnDefsG=[]; // Columnas de la BD del datatable
 var targetsG=-1; // Posiciones de las columnas del datatable
+
 //var RolsG={id:0,nombre:"",estado:1}; // Datos Globales
+var textoDocumentoG;
+////var textoIdDocumentoG;
+
+
 $(document).ready(function() {
-    $('#plataformaModal').on('show.bs.modal', function (event) {
+    $('#docsModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
+      
+      textoDocumentoG= button.data('texto');  
+      //textoIdDocumentoG= button.data('id');
+
+      $("#"+textoDocumentoG).removeAttr("readonly");
+      $("#"+textoDocumentoG).attr("readonly",'true');
+      $("#"+textoDocumentoG).val("");
+      
       var modal = $(this); //captura el modal
       //Asignar.Plataforma(PlataformaHTML);
       //$('#t_tramites_plataforma').dataTable().fnDestroy();
-        var idG={   tramite        :'onBlur|Tramite|#DCE6F1', //#DCE6F1
-                    fecha_inicio   :'onChange|Fecha Inicio|#DCE6F1|fechaG', //#DCE6F1
-                    proceso        :'onBlur|Proceso|#DCE6F1', //#DCE6F1
+        var idG={   titulo        :'onBlur|Titulo|#DCE6F1', //#DCE6F1
+                    asunto        :'onBlur|Asunto|#DCE6F1', //#DCE6F1
+                    created_at   :'onChange|Fecha Creación|#DCE6F1|fechaG', //#DCE6F1
+                    id        :'1|[]|#DCE6F1', //#DCE6F1
                  };
 
         var resG=dataTableG.CargarCab(idG);
         cabeceraG=resG; // registra la cabecera
-        var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,1,'plataforma','t_plataforma');
+        var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,1,'docs','t_docs');
         columnDefsG=resG[0]; // registra las columnas del datatable
         targetsG=resG[1]; // registra los contadores
-        var resG=dataTableG.CargarBtn(columnDefsG,targetsG,1,'CargarTramitePlataforma','t_plataforma','fa-edit');
-        columnDefsG=resG[0]; // registra la colunmna adiciona con boton
-        targetsG=resG[1]; // registra el contador actualizado
-
+        
         $('.fechaG').daterangepicker({
             format: 'YYYY-MM-DD',
             singleDatePicker: true,
             showDropdowns: true
         });
-        MostrarAjax('plataforma');
+        MostrarAjax('docs');
     });
 
-    $('#plataformaModal').on('hide.bs.modal', function (event) {
+    $('#docsModal').on('hide.bs.modal', function (event) {
       var modal = $(this); //captura el modal
-      $("#t_plataforma>thead>tr:eq(1),#t_plataforma>tfoot>tr:eq(0)").html('');
+      $("#t_docs>thead>tr:eq(1),#t_docs>tfoot>tr:eq(0)").html('');
         cabeceraG=[]; // Cabecera del Datatable
         columnDefsG=[]; // Columnas de la BD del datatable
         targetsG=-1; // Posiciones de las columnas del datatable
     });
-    $("#t_tramites_plataforma").dataTable();
+    //$("#t_referente").dataTable();
 });
 
+//GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
+//  
+//    if(typeof(fn)!='undefined' && fn.col==2){
+//        var estadohtml='';
+//        estadohtml='<span id="'+row.id+'" onClick="CargarReferente(\''+row.id+'\',\''+row.referido+'\',\''+row.fecha_hora_referido+'\',\''+row.ruta_id+'\')" class="btn btn-success"><i class="fa fa-lg fa-check"></i></span>';
+//        return estadohtml;
+//    }
+//};
 //MostrarAjax=function(t){
 //    if( t=="plataforma" ){
 //        if( columnDefsG.length>0 ){
@@ -74,11 +93,12 @@ $(document).ready(function() {
     $("#t_tramites_plataforma").dataTable();
 }*/
 
-CargarTramitePlataforma=function(t,id){
-    var codigo= id.split("|")[1];
-    $("#txt_codigo").val( codigo );
-    $("#txt_documento_id").val("");
-    $("#plataformaModal .modal-footer>button").click();
-}
+CargarDoc=function(id_documento,titulo){
+    //$("#"+textoIdDocumentoG).val($.trim(id_documento));
+    
+    $("#"+textoDocumentoG).val($.trim(titulo));
+    
+    $("#docsModal .modal-footer>button").click();
+};
 
 </script>

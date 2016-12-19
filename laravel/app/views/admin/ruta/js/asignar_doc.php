@@ -666,7 +666,14 @@ MostrarAjax=function(t){
             alert('Faltas datos');
         }
     }
-   
+     if( t=="docs" ){
+        if( columnDefsG.length>0 ){
+            dataTableG.CargarDatos(t,'docs','cargar',columnDefsG);
+        }
+        else{
+            alert('Faltas datos');
+        }
+    }
 };
 
 GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
@@ -682,6 +689,10 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
         estadohtml='<span id="'+row.id+'" onClick="CargarReferente(\''+row.id+'\',\''+row.ruta_id+'\',\''+row.tabla_relacion_id+'\',\''+row.ruta_detalle_id+'\',\''+row.referido+'\',\''+row.fecha_hora_referido+'\')" class="btn btn-success"><i class="fa fa-lg fa-check"></i></span>';
         return estadohtml;
     }
- 
+       if(typeof(fn)!='undefined' && fn.col==3){
+        var estadohtml='';
+        estadohtml='<span id="'+row.id+'" onClick="CargarDoc(\''+row.id+'\',\''+row.titulo+'\')" class="btn btn-success"><i class="fa fa-lg fa-check"></i></span>';
+        return estadohtml;
+    }
 };
 </script>

@@ -215,6 +215,7 @@ class RutaDetalleController extends \BaseController
             $rd = RutaDetalle::find($rdid);
 
             $r=Ruta::find($rd->ruta_id);
+            $tablaReferido=Referido::where('ruta_id','=',$r->id)->first();
 
             $alerta= Input::get('alerta');
             $alertaTipo= Input::get('alerta_tipo');
@@ -240,7 +241,7 @@ class RutaDetalleController extends \BaseController
                                     'ruta_id','=',$r->id
                                 )
                                 ->where(
-                                    'tabla_relacion_id','=',$r->tabla_relacion_id
+                                    'tabla_relacion_id','=',$tablaReferido->tabla_relacion_id
                                 )
                                 ->where(
                                     'ruta_detalle_id','=',$rd->id
@@ -251,7 +252,7 @@ class RutaDetalleController extends \BaseController
                         if( count($refid)==0 ){
                             $referido=new Referido;
                             $referido['ruta_id']=$r->id;
-                            $referido['tabla_relacion_id']=$r->tabla_relacion_id;
+                            $referido['tabla_relacion_id']=$tablaReferido->tabla_relacion_id;
                             $referido['ruta_detalle_id']=$rd->id;
                             $referido['norden']=$rd->norden;
                             $referido['estado_ruta']=$rd->estado_ruta;
@@ -300,6 +301,7 @@ class RutaDetalleController extends \BaseController
                 }
             }
 
+            $datos=array();
             if ( Input::get('tipo_respuesta') ) {
                 $rd['dtiempo_final']= Input::get('respuesta');
                 $rd['tipo_respuesta_id']= Input::get('tipo_respuesta');
@@ -480,7 +482,7 @@ class RutaDetalleController extends \BaseController
                 }*/
                 DB::commit();
                 /******************************************Validación del Documento***********************************************/
-                $datos=array();
+            if( Input::get('verbog') OR Input::get('codg') OR Input::get('obsg') ){
                 for($i=0; $i<count($coddocg); $i++){
                     if($coddocg[$i]!='undefined'){
                         $url ='https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=sincro&documento_id='.$coddocg[$i];
@@ -512,6 +514,7 @@ class RutaDetalleController extends \BaseController
                         }
                     }
                 }
+            }
                 /*********************************************************************************************************************/
                     return Response::json(array(
                         'rst'=>1,
@@ -522,7 +525,7 @@ class RutaDetalleController extends \BaseController
             else{
                 DB::commit();
                 /******************************************Validación del Documento***********************************************/
-                $datos=array();
+            if( Input::get('verbog') OR Input::get('codg') OR Input::get('obsg') ){
                 for($i=0; $i<count($coddocg); $i++){
                     if($coddocg[$i]!='undefined'){
                         $url ='https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=sincro&documento_id='.$coddocg[$i];
@@ -554,6 +557,7 @@ class RutaDetalleController extends \BaseController
                         }
                     }
                 }
+            }
                 /*********************************************************************************************************************/
                 return Response::json(
                     array(
