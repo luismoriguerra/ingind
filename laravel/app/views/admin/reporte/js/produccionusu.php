@@ -134,7 +134,7 @@ HTMLreporte=function(datos){
             "<td>"+data.sexo+"</td>"+
             "<td>"+data.area+"</td>"+
             "<td>"+data.cargo+"</td>"+
-            "<td><span onClick='MostrarUsuario("+data.id+");' class='btn btn-success'>Productividad</span></td>";
+            "<td><span onClick='MostrarUsuario("+data.norden+");' class='btn btn-success'>Productividad</span></td>";
         html+="</tr>";
     });
     $("#tb_reporte").html(html);
