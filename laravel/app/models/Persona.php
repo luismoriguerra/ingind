@@ -296,14 +296,23 @@ class Persona extends Base implements UserInterface, RemindableInterface
     }
 
     public static function ListarUsuarios()
-    {
-        $areaId=implode("','",Input::get('area_id'));
+    {   
+        $areaId = '';
+        if(Input::get('export')){
+            $areaId=Input::get('area_id');
+        }else{
+            $areaId=implode("','",Input::get('area_id'));
+        }
 
-          $sql="SELECT p.id,paterno,materno,p.nombre,dni,email,dni,fecha_nacimiento,
-                CASE sexo
+          $sql="SELECT p.id norden,p.paterno,p.materno,p.nombre,p.email,p.dni,p.fecha_nacimiento,
+                CASE p.sexo
                 WHEN 'F' THEN 'Femenino'
                 WHEN 'M' THEN 'Masculino'
                 END sexo,
+                CASE p.estado
+                WHEN 1 THEN 'Activo'
+                WHEN 0 THEN 'Inactivo'
+                END estado,
                 a.nombre area,c.nombre cargo
                 FROM personas p
                 INNER JOIN cargo_persona cp ON cp.persona_id=p.id AND cp.estado=1

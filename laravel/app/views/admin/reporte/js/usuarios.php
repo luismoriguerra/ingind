@@ -14,6 +14,16 @@ $(document).ready(function() {
     });
 });
 
+$(document).on('click', '#btnexport', function(event) {
+    var area=$("#slct_area_id").val();
+    if ( area!=="") {
+            $(this).attr('href','reporte/exportusuarios'+'?area_id='+$("#slct_area_id").val().join("','")+'&export=1');
+    } else {
+            alert("Seleccione area");
+    }
+});
+
+
 HTMLreporte=function(datos){
     var html="";
     

@@ -1700,6 +1700,33 @@ class ReporteController extends BaseController
         );
     }
 
+    public function getExportusuarios(){
+       $rst=Persona::ListarUsuarios();
+
+        $propiedades = array(
+          'creador'=>'Gerencia Modernizacion',
+          'subject'=>'Listado Usuarios',
+          'tittle'=>'Usuarios',
+          'font-name'=>'Bookman Old Style',
+          'font-size'=>8,
+        );
+
+        $cabecera = array(
+          'N°',        
+          'PATERNO',
+          'MATERNO',
+          'NOMBRE',
+          'EMAIL',
+          'DNI',
+          'FECHA NACIMIENTO',
+          'SEXO',
+          'ESTADO',
+          'AREA',
+          'CARGO'
+        );
+        $this->exportExcel($propiedades,'',$cabecera,$rst);
+    }
+
     public function postDocplataforma(){
       $rst=Reporte::Docplataforma(); 
       return Response::json(
