@@ -122,7 +122,7 @@ class Area extends Base
     }
 
     public static function getAreasGerencia(){
-        $sql = "SELECT a.id idarea ,a.nombre area,p.id idpersona,p.nombre persona 
+        $sql = "SELECT a.id,a.nombre,p.id relation,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) concat 
                 FROM areas a 
                 INNER JOIN area_cargo_persona acp ON acp.area_id=a.id AND acp.estado=1
                 INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1 AND cp.cargo_id=5
@@ -131,5 +131,18 @@ class Area extends Base
                 ";
         $result = DB::select($sql);
         return ($result) ? $result : false;
+    }
+
+    public static function getPersonasFromArea(){
+        if(Input::get('area_id')){
+            $sql = "SELECT acp.area_id areaid,p.id,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) nombre FROM personas p 
+                    INNER JOIN cargo_persona cp ON cp.persona_id=p.id AND p.estado=1 
+                    INNER JOIN area_cargo_persona acp ON acp.cargo_persona_id=cp.id AND acp.estado=1 AND acp.area_id='".Input::get('area_id')."' GROUP BY cp.persona_id";
+            $result = DB::select($sql);
+            return ($result) ? $result : false;
+        }else{
+            return false;
+        }
+
     }
 }

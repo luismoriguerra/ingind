@@ -53,6 +53,7 @@ class AreaController extends \BaseController
      *
      * @return Response
      */
+
     public function postCargar()
     {
         if ( Request::ajax() ) {
@@ -422,6 +423,18 @@ class AreaController extends \BaseController
                 )
             );    
 
+        }
+    }
+
+    public function postPersonaarea(){
+        if ( Request::ajax() ) {
+            $datos = Area::getPersonasFromArea();
+            return Response::json(
+                array(
+                'rst'=>1,
+                'datos'=>$datos,
+                )
+            );    
         }
     }
 

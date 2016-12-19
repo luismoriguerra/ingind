@@ -5,7 +5,7 @@ $(document).ready(function() {
     HTML_Ckeditor();
 
      /*inicializate selects*/
-    slctGlobal.listarSlct('documento','slct_tipodoc','simple',null,data);
+    slctGlobal.listarSlct('documento','slct_tipodoc','simple',null,{estado:1});
     slctGlobal.listarSlctFuncion('area','listara','slct_area','simple',null,{estado:1,areapersona:1,areagerencia:1});
     /*end inicializate selects*/
 

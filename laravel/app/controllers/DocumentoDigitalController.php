@@ -87,6 +87,7 @@ class DocumentoDigitalController extends \BaseController {
             $DocDigital->cuerpo = $html;
             $DocDigital->plantilla_doc_id = Input::get('plantilla');
             $DocDigital->area_id = Input::get('area_plantilla');
+            $DocDigital->tipo_envio = Input::get('tipoenvio');
             $DocDigital->persona_id = Auth::user()->id;;
             $DocDigital->usuario_created_at = Auth::user()->id;
             $DocDigital->save();
@@ -98,6 +99,7 @@ class DocumentoDigitalController extends \BaseController {
             		$DocDigitalArea->doc_digital_id = $DocDigital->id;
             		$DocDigitalArea->persona_id = $value->persona_id;
             		$DocDigitalArea->area_id = $value->area_id;
+                    $DocDigitalArea->tipo = $value->tipo;
             		$DocDigitalArea->usuario_created_at = Auth::user()->id;
             		$DocDigitalArea->save();
             	}
@@ -119,15 +121,22 @@ class DocumentoDigitalController extends \BaseController {
         	/*end get remitente data */
 
         	/*get destinatario data*/
+            $copias = '';
+            $copias.= '<ul>';
         	$destinatarios = '';
         	$destinatarios.= '<ul>';
         	$DocDigitalArea = DocumentoDigitalArea::where('doc_digital_id', '=', $id)->where('estado', '=', 1)->get();
         	foreach($DocDigitalArea as $key => $value){
         		$persona2 = Persona::find($value->persona_id);
         		$area2 = Area::find($value->area_id);
-        		$destinatarios.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' ('.$area2->nombre.')</li>';
+                if($value->tipo ==1){
+        		  $destinatarios.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' ('.$area2->nombre.')</li>';                    
+                }else{
+                    $copias.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' ('.$area2->nombre.')</li>';
+                }        
         	}
-        	$destinatarios.= '</ul>';        	
+            $destinatarios.= '</ul>';    
+        	$copias.= '</ul>';        	
         	/*end get destinatario data*/
 
             $params = [
@@ -138,6 +147,7 @@ class DocumentoDigitalController extends \BaseController {
                 'fecha' => 'Lima,'.date('d').' de '.date('F').' del '.date('Y'),
                 'remitente' => $remitente,
                 'destinatario' => $destinatarios,
+                'copias' => $copias,
             ];
             $params = $params;
 

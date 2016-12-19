@@ -215,6 +215,7 @@ class RutaDetalleController extends \BaseController
             $rd = RutaDetalle::find($rdid);
 
             $r=Ruta::find($rd->ruta_id);
+            $tablaReferido=Referido::where('ruta_id','=',$r->id)->first();
 
             $alerta= Input::get('alerta');
             $alertaTipo= Input::get('alerta_tipo');
@@ -223,6 +224,7 @@ class RutaDetalleController extends \BaseController
             $verbog= explode( "|",Input::get('verbog') );
             $codg= explode( "|",Input::get('codg') );
             $obsg= explode( "|",Input::get('obsg') );
+            $coddocg= explode( "|",Input::get('coddocg') );
                 for( $i=0; $i<count($verbog); $i++ ){
                     $rdv= RutaDetalleVerbo::find($verbog[$i]);
                     $rdv['finalizo'] = '1';
@@ -239,7 +241,7 @@ class RutaDetalleController extends \BaseController
                                     'ruta_id','=',$r->id
                                 )
                                 ->where(
-                                    'tabla_relacion_id','=',$r->tabla_relacion_id
+                                    'tabla_relacion_id','=',$tablaReferido->tabla_relacion_id
                                 )
                                 ->where(
                                     'ruta_detalle_id','=',$rd->id
@@ -250,7 +252,7 @@ class RutaDetalleController extends \BaseController
                         if( count($refid)==0 ){
                             $referido=new Referido;
                             $referido['ruta_id']=$r->id;
-                            $referido['tabla_relacion_id']=$r->tabla_relacion_id;
+                            $referido['tabla_relacion_id']=$tablaReferido->tabla_relacion_id;
                             $referido['ruta_detalle_id']=$rd->id;
                             $referido['norden']=$rd->norden;
                             $referido['estado_ruta']=$rd->estado_ruta;
@@ -263,12 +265,15 @@ class RutaDetalleController extends \BaseController
                             $referidoid=$refid->id;
                         }
 
+                        $rv=array((object)array('cant'=>1));
+                        if($rdv->orden!=0){
                         $sqlvalida= "SELECT count(id) cant
                                      FROM rutas_detalle_verbo
                                      WHERE verbo_id=1
                                      AND ruta_detalle_id=".$rd->id."
                                      AND id>".$rdv->id;
                         $rv = DB::select($sqlvalida);
+                        }
 
                         if( $rv[0]->cant>0 ){
                             $sustento=new Sustento;
@@ -296,6 +301,7 @@ class RutaDetalleController extends \BaseController
                 }
             }
 
+            $datos=array();
             if ( Input::get('tipo_respuesta') ) {
                 $rd['dtiempo_final']= Input::get('respuesta');
                 $rd['tipo_respuesta_id']= Input::get('tipo_respuesta');
@@ -475,18 +481,89 @@ class RutaDetalleController extends \BaseController
                     throw $e;
                 }*/
                 DB::commit();
+                /******************************************Validación del Documento***********************************************/
+            if( Input::get('verbog') OR Input::get('codg') OR Input::get('obsg') ){
+                for($i=0; $i<count($coddocg); $i++){
+                    if($coddocg[$i]!='undefined'){
+                        $url ='https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=sincro&documento_id='.$coddocg[$i];
+                        array_push($datos, $url);
+                        $curl_options = array(
+                                    //reemplazar url 
+                                    CURLOPT_URL => $url,
+                                    CURLOPT_HEADER => 0,
+                                    CURLOPT_RETURNTRANSFER => TRUE,
+                                    CURLOPT_TIMEOUT => 0,
+                                    CURLOPT_SSL_VERIFYPEER => 0,
+                                    CURLOPT_FOLLOWLOCATION => TRUE,
+                                    CURLOPT_ENCODING => 'gzip,deflate',
+                            );
+
+                            $ch = curl_init();
+                            curl_setopt_array( $ch, $curl_options );
+                            $output = curl_exec( $ch );
+                            curl_close($ch);
+                        $r = json_decode(utf8_encode($output),true);
+
+                        if ( !isset($r["sincro"][0]["valida"]) OR (isset($r["sincro"][0]["valida"]) AND $r["sincro"][0]["valida"]!='TRUE') ){
+                          try {             
+                              $insert='INSERT INTO documentos_indedocs (documento_id) 
+                                             VALUES ('.$coddocg[$i].')';
+                                    DB::insert($insert);
+                          } catch (Exception $ex) {
+                          }
+                        }
+                    }
+                }
+            }
+                /*********************************************************************************************************************/
                     return Response::json(array(
                         'rst'=>1,
                         'msj'=>'Se realizó con éxito',
+                        'datos'=>$datos
                     )); 
             }
             else{
                 DB::commit();
+                /******************************************Validación del Documento***********************************************/
+            if( Input::get('verbog') OR Input::get('codg') OR Input::get('obsg') ){
+                for($i=0; $i<count($coddocg); $i++){
+                    if($coddocg[$i]!='undefined'){
+                        $url ='https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=sincro&documento_id='.$coddocg[$i];
+                        array_push($datos, $url);
+                        $curl_options = array(
+                                    //reemplazar url 
+                                    CURLOPT_URL => $url,
+                                    CURLOPT_HEADER => 0,
+                                    CURLOPT_RETURNTRANSFER => TRUE,
+                                    CURLOPT_TIMEOUT => 0,
+                                    CURLOPT_SSL_VERIFYPEER => 0,
+                                    CURLOPT_FOLLOWLOCATION => TRUE,
+                                    CURLOPT_ENCODING => 'gzip,deflate',
+                            );
+
+                            $ch = curl_init();
+                            curl_setopt_array( $ch, $curl_options );
+                            $output = curl_exec( $ch );
+                            curl_close($ch);
+                        $r = json_decode(utf8_encode($output),true);
+
+                        if ( !isset($r["sincro"][0]["valida"]) OR (isset($r["sincro"][0]["valida"]) AND $r["sincro"][0]["valida"]!='TRUE') ){
+                          try {             
+                              $insert='INSERT INTO documentos_indedocs (documento_id) 
+                                             VALUES ('.$coddocg[$i].')';
+                                    DB::insert($insert);
+                          } catch (Exception $ex) {
+                          }
+                        }
+                    }
+                }
+            }
+                /*********************************************************************************************************************/
                 return Response::json(
                     array(
                         'rst'=>'1',
                         'msj'=>'Se realizó con éxito',
-                        'datos'=>''
+                        'datos'=>$datos
                     )
                 );
             }

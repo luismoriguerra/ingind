@@ -14,6 +14,9 @@
     @include( 'admin.ruta.js.validar_ajax' )
     @include( 'admin.reporte.js.bandejatramite_ajax' )
     @include( 'admin.reporte.js.bandejatramite' )
+
+    @include( 'admin.ruta.js.indedocs' )
+    @include( 'admin.ruta.js.indedocs_ajax' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -122,7 +125,7 @@ tr.shown td.details-control {
                                             <th id="th_fi" style='width:250px !important;' class="unread">Fecha Inicio<br>
                                             <input style='width:250px' name="txt_fecha_inicio_b" id="txt_fecha_inicio_b" onChange="MostrarAjax();" type="text" />
                                             </th>
-                                            <th id="th_ep" style='width:250px !important;' class="unread">Estado del Paso<br>
+                                            <th id="th_ep" style='width:250px !important;' class="unread">Estado de la Actividadd<br>
                                             <select name="slct_tiempo_final" id="slct_tiempo_final" onChange="MostrarAjax();" />
                                             <option value="">.::Todo::.</option>
                                             <option value="1">Dentro del Tiempo</option>
@@ -147,7 +150,7 @@ tr.shown td.details-control {
                                             <th>Primer Doc. ingresado <br>por Mesa de Partes</th>
                                             <th>Tiempo</th>
                                             <th>Fecha Inicio</th>
-                                            <th>Estado del Paso</th>
+                                            <th>Estado de la Actividadd</th>
                                             <th>Paso</th>
                                             <th>Proceso</th>
                                             <th>Solicitante</th>
@@ -207,7 +210,7 @@ tr.shown td.details-control {
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">
-                                                <label class="control-label">Tiempo asignado al paso:</label>
+                                                <label class="control-label">Tiempo asignado a la Actividad:</label>
                                                 <input type="text" class="form-control" id="txt_tiempo" readonly>
                                             </div>
                                             <div class="col-sm-3">
@@ -215,7 +218,7 @@ tr.shown td.details-control {
                                                 <input type="text" class="form-control" id="txt_respuesta" name="txt_respuesta" readonly>
                                             </div>
                                             <div class="col-sm-4">
-                                                <label class="control-label">Responsable del Paso:</label>
+                                                <label class="control-label">Responsable de la Actividadd:</label>
                                                 <?php
                                                     if( Auth::user()->rol_id==8 OR Auth::user()->rol_id==9 ){
                                                 ?>
@@ -250,7 +253,7 @@ tr.shown td.details-control {
                                                         <th style="text-align:center">Verbo</th>
                                                         <th style="text-align:center">Tipo Documento</th>
                                                         <th style="text-align:center;width:250px !important;">Descripcion</th>
-                                                        <th style="text-align:center">Documento Generado</th>
+                                                        <th style="text-align:center; width: 250px;">Documento Generado</th>
                                                         <th style="text-align:center">Observaciones</th>
                                                         <!--th style="text-align:center">Adjuntar Doc. Generado</th-->
                                                     </tr>
@@ -305,23 +308,23 @@ tr.shown td.details-control {
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-3">
-                                                <label class="control-label">Tipo de respuesta del Paso:</label>
+                                                <label class="control-label">Tipo de respuesta de la Actividad:</label>
                                                 <select id="slct_tipo_respuesta" name="slct_tipo_respuesta">
                                                     <option>Seleccione</option>
                                                 </select>
                                             </div>
                                             <div class="col-sm-3">
-                                                <label class="control-label">Detalle de respuesta del Paso:</label>
+                                                <label class="control-label">Detalle de respuesta de la Actividadd:</label>
                                                 <select id="slct_tipo_respuesta_detalle" name="slct_tipo_respuesta_detalle">
                                                     <option>Seleccione</option>
                                                 </select>
                                             </div>
                                             <div class="col-sm-3">
-                                                <label class="control-label">Descripción de respuesta del Paso:</label>
+                                                <label class="control-label">Descripción de respuesta de la Actividad:</label>
                                                 <textarea class="form-control" id="txt_observacion" name="txt_observacion" rows="3"></textarea>
                                             </div>
                                             <div class="col-sm-3">
-                                                <label class="control-label">Estado Final del Paso(Alerta):</label>
+                                                <label class="control-label">Estado Final de la Actividadd(Alerta):</label>
                                                 <input type="hidden" class="form-control" id="txt_alerta" name="txt_alerta">
                                                 <input type="hidden" class="form-control" id="txt_alerta_tipo" name="txt_alerta_tipo">
                                                 <div class="progress progress-striped active">
@@ -347,4 +350,5 @@ tr.shown td.details-control {
 @section('formulario')
      @include( 'admin.reporte.form.bandejatramite' )
      @include( 'admin.reporte.form.expediente' )
+     @include( 'admin.ruta.form.indedocs' )
 @stop

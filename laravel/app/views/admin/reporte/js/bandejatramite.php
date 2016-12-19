@@ -16,7 +16,7 @@ var RolIdG='';
 var UsuarioId='';
 var fechaAux="";
 $(document).ready(function() {
-    //$("[data-toggle='offcanvas']").click();
+    $("[data-toggle='offcanvas']").click();
     RolIdG='<?php echo Auth::user()->rol_id; ?>';
     UsuarioId='<?php echo Auth::user()->id; ?>';
 
@@ -280,9 +280,15 @@ mostrarDetalleHTML=function(datos){
 
                         obs = "<textarea class='area"+valorenviado+"' name='area_"+detalle[i].split("=>")[0]+"' id='area_"+detalle[i].split("=>")[0]+"'></textarea>";
                         imagen="<input type='checkbox' class='check"+valorenviado+"' onChange='validacheck("+valorenviado+",this.id);' value='"+detalle[i].split("=>")[0]+"' name='chk_verbo_"+detalle[i].split("=>")[0]+"' id='chk_verbo_"+detalle[i].split("=>")[0]+"_"+$.trim(detalle[i].split("=>")[12])+"'>";
-                        imagenadd= '<input disabled type="text" class="txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'"/>';
+                        imagenadd= '<input disabled type="text" class="form-control txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'"/>';
                         if(verbo=="Generar"){
-                            imagenadd= '<input data-pos="'+(i*1+1)+'" type="text" class="txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'" id="documento_'+detalle[i].split("=>")[0]+'" name="documento_'+detalle[i].split("=>")[0]+'"/>';
+                            imagenadd= '<input data-pos="'+(i*1+1)+'" type="text" readonly class="form-control txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'" id="documento_'+detalle[i].split("=>")[0]+'" name="documento_'+detalle[i].split("=>")[0]+'" value="" /><input type="hidden" id="txt_documento_id_'+detalle[i].split("=>")[0]+'" name="txt_documento_id_'+detalle[i].split("=>")[0]+'" value="">'+
+                                        '<span class="btn btn-primary" data-toggle="modal" data-target="#indedocsModal" data-texto="documento_'+detalle[i].split("=>")[0]+'" data-id="txt_documento_id_'+detalle[i].split("=>")[0]+'" id="btn_buscar_indedocs">'+
+                                            '<i class="fa fa-search fa-lg"></i>'+
+                                         '</span>'+
+                                         '<span class="btn btn-warning" onClick="Liberar(\'documento_'+detalle[i].split("=>")[0]+'\')" >'+
+                                            '<i class="fa fa-pencil fa-lg"></i>'+
+                                         '</span>';
                             archivo='<input class="form-control" id="archivo_'+detalle[i].split("=>")[0]+'" name="archivo_'+detalle[i].split("=>")[0]+'" type="file">';
                         }
                     }
@@ -311,10 +317,18 @@ mostrarDetalleHTML=function(datos){
 
 }
 
+Liberar=function(txt){
+    $("#"+txt).removeAttr("readonly");
+    $("#"+txt).val("");
+    $("#txt_documento_id_"+txt.split("_")[1]).val('');
+    $("#"+txt).focus();
+}
+
 guardarTodo=function(){
     var verboaux="";
     var codaux="";
     var obsaux="";
+    var coddocaux="";
     var contcheck=0;
     var conttotalcheck=0;
     var alerta=false;
@@ -334,10 +348,11 @@ guardarTodo=function(){
                 verboaux+="|"+$(this).val();
                 codaux+= "|"+codauxd.substr(1);
                 obsaux+="|"+$("#area_"+$(this).val()).val();
+                coddocaux+="|"+$("#txt_documento_id_"+$(this).val()).val();
                 contcheck++;
 
                 if( $("#documento_"+$(this).val()).val()=="" ){
-                    alert("Ingrese Nro del documento generado de la acción "+$("#documento_"+$(this).val()).attr("data-pos"));
+                    alert("Busque y Seleccione Nro del documento generado de la tarea "+$("#documento_"+$(this).val()).attr("data-pos"));
                     alerta=true;
                 }
             }
@@ -358,6 +373,9 @@ guardarTodo=function(){
         obsaux=obsaux.substr(1);
         $("#form_ruta_detalle>#obsg").remove();
         $("#form_ruta_detalle").append("<input type='hidden' id='obsg' name='obsg' value='"+obsaux+"'>");
+        coddocaux=coddocaux.substr(1);
+        $("#form_ruta_detalle>#coddocg").remove();
+        $("#form_ruta_detalle").append("<input type='hidden' id='coddocg' name='coddocg' value='"+coddocaux+"'>");
     }
 
     if( $("#slct_tipo_respuesta").val()=='' && conttotalcheck>0 && contcheck==0 && alerta==false ) {
@@ -370,15 +388,18 @@ guardarTodo=function(){
         alert("Seleccione Detalle Tipo Respuesta");
     }
     else if ( $("#txt_observacion").val()=='' && validacheck==0 && alerta==false ) {
-        alert("Ingrese observacion del paso");
+        alert("Ingrese Descripción de respuesta de la Actividad");
     }
     else if ( $("#slct_tipo_respuesta").val()!='' && validacheck==1 && alerta==false 
                 && $("#slct_tipo_respuesta option[value='"+$("#slct_tipo_respuesta").val()+"']").attr("data-evento").split("_")[1]=='0'
             ) {
-        alert("El tipo de respuesta seleccionada solo esta permitida cuando este activada todas las acciones habilitadas");
+        alert("El tipo de respuesta seleccionada solo esta permitida cuando este activada todas las tareas habilitadas");
     }
     else if ( $("#slct_tipo_respuesta_detalle").val()=='' && $("#slct_tipo_respuesta").val()!='' ) {
         alert("Seleccione Detalle Tipo Respuesta");
+    }
+    else if ( $("#txt_observacion").val()!='' && $("#slct_tipo_respuesta").val()=='' ) {
+        alert("La Descripción de respuesta de la Actividad, solo esta permitido cuando seleccione Tipo de respuesta");
     }
     else if( alerta==false ){
         if( confirm("Favor de confirmar para actualizar su información") ){

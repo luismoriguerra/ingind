@@ -13,7 +13,7 @@ class DocumentoDigital extends Base {
                     ->join('doc_digital_area as dda', 'dda.doc_digital_id', '=', 'dd.id')
                     ->join('areas as a','dda.area_id', '=', 'a.id')
                     ->join('personas as p','dda.persona_id', '=', 'p.id')
-                    ->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla', 'dd.plantilla_doc_id' ,'a.nombre as area','a.id as area_id','p.nombre as pnombre','p.paterno as ppaterno','p.materno as pmaterno','dd.cuerpo')
+                    ->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla', 'dd.plantilla_doc_id' ,'a.nombre as area','dda.area_id as area_id','p.nombre as pnombre','p.paterno as ppaterno','p.materno as pmaterno','dd.cuerpo','dd.tipo_envio','dda.persona_id','dda.tipo')
                     ->where( 
                         function($query){
                             if ( Input::get('id') ) {
@@ -52,6 +52,29 @@ class DocumentoDigital extends Base {
                 ORDER BY dd.id DESC LIMIT 1";
     	$r= DB::select($sql);
     	return (isset($r[0])) ? $r[0] : $r2[0];
+    }
+    
+         public static function getListarCount( $array )
+    {
+        $sSql=" select COUNT(dd.id) as cant
+                from doc_digital dd
+                WHERE 1=1";
+        $sSql.= $array['where'];
+        $oData = DB::select($sSql);
+        return $oData[0]->cant;
+    }
+    
+    public static function getListar( $array )
+    {
+        $sSql=" select dd.id,dd.titulo,dd.asunto,dd.created_at
+                from doc_digital dd
+                WHERE 1=1";
+        $sSql.= $array['where'].
+                $array['order'].
+                $array['limit'];
+        //echo $sSql;
+        $oData = DB::select($sSql);
+        return $oData;
     }
 
 }
