@@ -63,7 +63,7 @@
                     <span>Seleccione usuario:</span>
                         <select class="form-control" v-model="users_id" @change="changeUser">
                             <option selected>Seleccione usuario</option>
-                            <option v-for="user in users" v-bind:value="user.id">@{{ user.paterno }}</option>
+                            <option v-bind:class="{ option_sesion: consesion.indexOf(user.id)>=0 }" v-for="user in users" v-bind:value="user.id">@{{ user.paterno }} </option>
                         </select>
                      </div>
                 </div>

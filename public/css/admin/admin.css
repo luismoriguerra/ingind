@@ -1745,6 +1745,10 @@ body > .header .logo .icon {
 .box .chat .item > .attachment:after {
   clear: both;
 }
+.option_sesion{
+    color: black;
+    background-color: lightgreen;
+}
 .overlay,
 .loading-img {
   position: fixed;

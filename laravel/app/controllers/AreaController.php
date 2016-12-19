@@ -43,8 +43,20 @@ class AreaController extends \BaseController
      * @return Response
      */
     public function show($area_id){
+        $keys = Redis::keys("laravel:*");
+        $user=[];
+        for ($i=0; $i < count($keys); $i++) {
+            $temporal=Redis::get($keys[$i]) ;
+            $temporal = unserialize($temporal);
+            $temporal = unserialize($temporal);
+            foreach ($temporal as $key => $value) {
+                if (substr($key,0,6)=='login_') {
+                    $user[]=$value;
+                }
+            }
+        }
         $usuarios = $this->userRepository->getAllExceptFromArea(Auth::user()->id,$area_id);
-        $response=['users'=>$usuarios];
+        $response=['users'=>$usuarios,'consesion'=>$user];
         return Response::json($response);
     }
      /**
