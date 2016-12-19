@@ -124,7 +124,7 @@ HTMLreporte=function(datos){
     pos=0;
     $.each(datos,function(index,data){
         pos++;
-        html+="<tr id="+data.id+">"+
+        html+="<tr id="+data.norden+">"+
             "<td>"+data.paterno+"</td>"+
             "<td>"+data.materno+"</td>"+
             "<td>"+data.nombre+"</td>"+
@@ -134,7 +134,7 @@ HTMLreporte=function(datos){
             "<td>"+data.sexo+"</td>"+
             "<td>"+data.area+"</td>"+
             "<td>"+data.cargo+"</td>"+
-            "<td><span onClick='MostrarUsuario("+data.id+");' class='btn btn-success'>Productividad</span></td>";
+            "<td><span onClick='MostrarUsuario("+data.norden+");' class='btn btn-success'>Productividad</span></td>";
         html+="</tr>";
     });
     $("#tb_reporte").html(html);
