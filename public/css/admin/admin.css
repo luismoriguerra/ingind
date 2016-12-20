@@ -1746,8 +1746,9 @@ body > .header .logo .icon {
   clear: both;
 }
 .option_sesion{
-    color: black;
-    background-color: lightgreen;
+    /*color: black;
+    background-color: lightgreen;*/
+    font-weight: bold;
 }
 .overlay,
 .loading-img {
