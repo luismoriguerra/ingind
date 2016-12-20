@@ -52,11 +52,12 @@ class AreaController extends \BaseController
             foreach ($temporal as $key => $value) {
                
                 if (substr($key,0,6)=='login_') {
+                    var_dump($value);
                     $user[]=$value;
                 }
             }
         }
-        var_dump($user);
+       /* var_dump($user);*/
         $usuarios = $this->userRepository->getAllExceptFromArea(Auth::user()->id,$area_id);
         $response=['users'=>$usuarios,'consesion'=>$user];
         return Response::json($response);
