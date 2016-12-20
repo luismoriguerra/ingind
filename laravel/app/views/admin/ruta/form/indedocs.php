@@ -12,8 +12,12 @@
           <div class="row form-group">
               <div class="col-sm-12">
               <form id="form_indedocs" name="form_indedocs" method="POST" action="">
-                  <div class="col-sm-10">
-                  <label>Seleccione Tipo Docuemnto a Listar:</label>
+                   <div class="col-sm-4">
+                       <label class="control-label">Fecha:</label>
+                       <input type="text" class="form-control" placeholder="AAAA-MM-DD" id="fechaI" name="fechaI" value="<?php echo date('Y-m-d')?>" onfocus="blur()"/>
+                    </div>
+                  <div class="col-sm-6">
+                      <label class="control-label">Seleccione Tipo Documento a Listar:</label>
                   <select id="slct_tipo_documento" name="slct_tipo_documento">
                     <option value="">.::Todo::.</option>
                   </select>
@@ -21,6 +25,7 @@
                   <div class="col-sm-1">
                   <span class="btn btn-primary btn-lg" onclick="Indedocs.mostrar();"><i class="fa fa-search fa-lg"></i></span>
                   </div>
+                  <div class="col-sm-12"><br></div>
                   <div class="col-sm-12">
                   <div class="box-body table-responsive">
                       <table id="t_indedocs" class="table table-bordered table-striped">
