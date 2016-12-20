@@ -8,6 +8,7 @@ var vm = new Vue({
         live_chat:false,
         chat_online:true,
         conversations:[],
+        consesion:[],
         current_conversation:[],
         messages:[],
         areas:[],
@@ -55,6 +56,7 @@ var vm = new Vue({
         changeArea: function(){
             this.$http.get("/areas/"+this.area_id+"/users",function(response) {
                 this.users=response.users;
+                this.consesion=response.consesion;
             });
         },
         changeUser: function(){

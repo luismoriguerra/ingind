@@ -10,11 +10,16 @@ class IndedocsController extends \BaseController {
       //$area=32;
       $AreaIntera=AreaInterna::where('area_id','=',$area)->first();
       $tipoDocumento=Input::get('tipo_documento');
+      $fecha=Input::get('fechaI');
+        $buscar=array('-');
+        $reemplazar=array('.');
+        $fechaActualizada=str_replace($buscar, $reemplazar, $fecha);
+      
       $retorno=array(
                   'rst'=>1
                );
 
-      $url ='https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=documento&area='.$AreaIntera->area_id_indedocs.'&tipo='.$tipoDocumento;
+      $url ='https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=documento&area='.$AreaIntera->area_id_indedocs.'&tipo='.$tipoDocumento.'&fecha='.$fechaActualizada;
       $curl_options = array(
                     //reemplazar url 
                     CURLOPT_URL => $url,

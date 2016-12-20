@@ -2,6 +2,12 @@
 var textoIdG='';
 var documentoIdIG='';
 $(document).ready(function() {
+          $('#fechaI').daterangepicker({
+            format: 'YYYY-MM-DD',
+            singleDatePicker: true,
+            showDropdowns: true
+        });
+        
      $('#t_indedocs').dataTable();
      Indedocs.listar();
     $('#indedocsModal').on('show.bs.modal', function (event) {
