@@ -44,12 +44,12 @@ class AreaController extends \BaseController
      */
     public function show($area_id){
         $keys = Redis::keys("laravel:*");
-         var_dump($keys);
         $user=[];
         for ($i=0; $i < count($keys); $i++) {
             $temporal=Redis::get($keys[$i]) ;
             $temporal = unserialize($temporal);
             $temporal = unserialize($temporal);
+            var_dump($temporal);
             foreach ($temporal as $key => $value) {
                
                 if (substr($key,0,6)=='login_') {
