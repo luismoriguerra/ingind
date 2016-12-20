@@ -49,7 +49,6 @@ class AreaController extends \BaseController
             $temporal=Redis::get($keys[$i]) ;
             $temporal = unserialize($temporal);
             $temporal = unserialize($temporal);
-            var_dump($temporal);
             foreach ($temporal as $key => $value) {
                
                 if (substr($key,0,6)=='login_') {
@@ -57,6 +56,7 @@ class AreaController extends \BaseController
                 }
             }
         }
+        var_dump($user);
         $usuarios = $this->userRepository->getAllExceptFromArea(Auth::user()->id,$area_id);
         $response=['users'=>$usuarios,'consesion'=>$user];
         return Response::json($response);
