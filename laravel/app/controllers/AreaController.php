@@ -52,6 +52,7 @@ class AreaController extends \BaseController
             foreach ($temporal as $key => $value) {
                
                 if (substr($key,0,6)=='login_') {
+                    var_dump($key);
                     var_dump($value);
                     $user[]=$value;
                 }
