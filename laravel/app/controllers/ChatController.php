@@ -41,8 +41,6 @@ class ChatController extends \BaseController {
         $conversations = Auth::user()->conversations->map(function($conversation) use (&$current_conversation)
         {
             $users=$conversation->users->map(function($user){
-                var_dump($user);
-                
                 return [
                     'img'       => $user->img,
                     'full_name' => $user->username,
