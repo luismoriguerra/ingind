@@ -83,9 +83,9 @@
     </div>
 
 </div>
-{{ HTML::script('https://cdn.socket.io/socket.io-1.2.0.js') }}
-{{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js') }}
-{{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.2/vue-resource.min.js') }}
+{{ HTML::script('lib/socket/socket1.2.js') }}
+{{ HTML::script('lib/cloudflare/coudflare-vue-1.0.24.js') }}
+{{ HTML::script('lib/cloudflare/coudflare-vue-0.7.2.js') }}
 <script>
 var user_id="{{ Auth::user()->id }}";
 var socket = io('http://procesos.munindependencia.pe:3000');
