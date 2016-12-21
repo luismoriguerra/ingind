@@ -1746,8 +1746,9 @@ body > .header .logo .icon {
   clear: both;
 }
 .option_sesion{
-    color: black;
-    background-color: lightgreen;
+    /*color: black;
+    background-color: lightgreen;*/
+    font-weight: bold;
 }
 .overlay,
 .loading-img {
@@ -6154,10 +6155,10 @@ fieldset[disabled] .btn-vk.active {
 .nuevomensaje{
     /*display: none;*/
     position: fixed;
-    bottom: 2px;
+    bottom: 0px;
     right: 18%;
-    width: 19%;
-    height: 52%;
+    width: 18%;
+    height: 43%;
  /*   z-index: 999;*/
     box-shadow: 0px 0px 7px black;
 }

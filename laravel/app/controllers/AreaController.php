@@ -49,9 +49,7 @@ class AreaController extends \BaseController
             $temporal=Redis::get($keys[$i]) ;
             $temporal = unserialize($temporal);
             $temporal = unserialize($temporal);
-            var_dump($temporal);
-            foreach ($temporal as $key => $value) {
-               
+            foreach ($temporal as $key => $value) {               
                 if (substr($key,0,6)=='login_') {
                     $user[]=$value;
                 }

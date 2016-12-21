@@ -63,7 +63,7 @@
                     <span>Seleccione usuario:</span>
                         <select class="form-control" v-model="users_id" @change="changeUser">
                             <option selected>Seleccione usuario</option>
-                            <option v-bind:class="{ option_sesion: consesion.indexOf(user.id)>=0 }" v-for="user in users" v-bind:value="user.id">@{{ user.paterno }} </option>
+                            <option v-bind:class="{ option_sesion: consesion.indexOf(user.id)>=0 }" v-for="user in users" v-bind:value="user.id">@{{ user.nombre + " " + user.paterno }} </option>
                         </select>
                      </div>
                 </div>
@@ -73,9 +73,9 @@
                         <textarea @keyup.prevent="handleKeypressModal" id='new_message' v-model="body" rows="4" class="form-control" style="border-radius: 5px !important"></textarea>
                     </div>
                 </div>
-                <div class="row enviar" style="margin-top:5px">
+                <div class="row enviar" style="margin-top:10px">
                     <div class="col-md-12 col-sm-12 col-xs-12 left">
-                        <input class="btn btn-danger" type="submit" :disabled="body.trim()===''" value="Enviar">
+                        <input class="btn btn-primary" type="submit" :disabled="body.trim()===''" value="Enviar">
                     </div>
                 </div>
             </form>
