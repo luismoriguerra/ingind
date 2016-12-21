@@ -7,6 +7,9 @@
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
     {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
+    {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }} 
+    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
+     
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
