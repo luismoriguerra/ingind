@@ -6238,6 +6238,11 @@ ul.pagination {
     opacity: 0;
 }
 
+.list-group-item {
+  border: 0px solid #ddd !important;
+  padding: 10px 5px !important;
+}
+
 /* Loading Animation: */
 .vuetable-wrapper {
     opacity: 1;
