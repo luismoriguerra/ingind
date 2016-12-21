@@ -1063,7 +1063,7 @@ $(document).ready(function() {
 
     $('#imagenModal').on('hide.bs.modal', function (event) {
       var modal = $(this) //captura el modal
-      modal.find('.modal-body input,.modal-body file').val('');
+      modal.find('.modal-body file').val('');
     });
 });
 

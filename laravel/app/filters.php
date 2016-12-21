@@ -48,7 +48,8 @@ Route::filter(
         }
         // if ( !Request::is('admin/*')) {}
         if (Request::ajax()) {
-            if (Session::token() !== Request::header('csrftoken')) {
+            //echo Session::token()." | ".Input::get('token');
+            if (Session::token()!==Input::get('token') AND Session::token() !== Request::header('csrftoken')) {
                 return Response::json(false, 401); 
                 throw new Illuminate\Session\TokenMismatchException;
             }
