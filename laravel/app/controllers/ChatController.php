@@ -43,7 +43,7 @@ class ChatController extends \BaseController {
             $users=$conversation->users->map(function($user){
                 return [
                     'img'       => $user->img,
-                    'full_name' => $user->username,
+                    'full_name' => $user->nombre." ".$user->paterno." ".$user->materno,
                     'area'      => $user->areas->nombre,
                 ];
             });
