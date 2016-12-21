@@ -5,12 +5,12 @@
     <a class="open-chat-button-active tooltips" data-toggle="tooltip" data-placement="right" data-original-title="Info Chat"><i class="fa fa-wechat"></i>
     </a>
 
-    <div class="live-chat" v-show="live_chat">
+    <div class="live-chat hidden" v-show="live_chat">
         <form action="#" id="form-chat" class="sky-form">
             <header>
                 <span>Chat</span>
-                <span type="button" class="nuevo-chat btn-sm"  @click.prevent="nuevoMensaje=true"><i class="glyphicon glyphicon-edit"></i></span>
-                <span type="button" class="btn-sm" aria-hidden="true" @click.prevent="live_chat=false"><i class="fa fa-minus"></i></span>
+                <span type="button" class="nuevo-chat btn-sm"  @click.prevent="nuevoMensaje=true" data-toggle="tooltip" data-placement="bottom" title="Nuevo Mensaje"><i class="glyphicon glyphicon-edit"></i></span>
+                <span type="button" class="btn-sm" aria-hidden="true" @click.prevent="live_chat=false" data-toggle="tooltip" data-placement="bottom" title="Cerrar"><i class="fa fa-minus"></i></span>
             </header>
             <fieldset class="myscroll"> 
                 <div id="conversationList">
@@ -20,7 +20,7 @@
         </form>
     </div>
 
-    <div class="chatonline" v-show="current_conversation.name">
+    <div class="chatonline hidden" v-show="current_conversation.name">
         <header>
             <span id="spanNombre">Chat</span>
             <span type="button" class="btn-sm" aria-hidden="true" @click.prevent="current_conversation=[]" style="float:right;"><i class="fa fa-minus"></i></span>
@@ -42,7 +42,7 @@
         </fieldset>
     </div>
 
-    <div class="nuevomensaje" v-show="nuevoMensaje">
+    <div class="nuevomensaje hidden" v-show="nuevoMensaje">
         <header>
             <span id="spanNombre">Nuevo Mensaje</span>
             <span type="button" class="btn-sm" aria-hidden="true" @click.prevent="nuevoMensaje=false" style="float:right;"><i class="fa fa-minus"></i></span>
@@ -70,7 +70,7 @@
                 <div class="row mensaje">
                     <div class="col-md-12 col-sm-12 col-xs-12 left">
                         <span>Mensaje:</span>
-                        <textarea @keyup.prevent="handleKeypressModal" id='new_message' v-model="body" rows="4" class="form-control" style="border-radius: 5px !important"></textarea>
+                        <textarea @keyup.prevent="handleKeypressModal" id='new_message' v-model="body" rows="5" class="form-control" style="border-radius: 5px !important"></textarea>
                     </div>
                 </div>
                 <div class="row enviar" style="margin-top:10px">
@@ -83,11 +83,24 @@
     </div>
 
 </div>
-{{ HTML::script('https://cdn.socket.io/socket.io-1.2.0.js') }}
-{{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js') }}
-{{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.2/vue-resource.min.js') }}
+{{ HTML::script('lib/socket/socket1.2.js') }}
+{{ HTML::script('lib/cloudflare/coudflare-vue-1.0.24.js') }}
+{{ HTML::script('lib/cloudflare/coudflare-vue-0.7.2.js') }}
 <script>
 var user_id="{{ Auth::user()->id }}";
 var socket = io('http://procesos.munindependencia.pe:3000');
+
+$(document).on('click', '.open-chat-button', function(event) {
+    event.preventDefault();
+    $(".live-chat").removeClass('hidden');
+});
+$(document).on('click', '.nuevo-chat', function(event) {
+    event.preventDefault();
+    $(".nuevomensaje").removeClass('hidden');
+});
+$(document).on('click', '.conversacion', function(event) {
+    event.preventDefault();
+    $(".chatonline").removeClass('hidden');
+});
 </script>
 {{ HTML::script('js/chat.js') }}
