@@ -6061,11 +6061,11 @@ fieldset[disabled] .btn-vk.active {
 .chatonline{
     /*display: none;*/
     position: fixed;
-    bottom: 2px;
+    bottom: 0px;
     /*left: 20px;*/
     right: 18%;
     width: 18%;
-    height: 50%;
+    height: 45%;
     /*z-index: 999;*/
    /* box-shadow: 0px 0px 7px black;*/
 }
@@ -6158,7 +6158,7 @@ fieldset[disabled] .btn-vk.active {
     bottom: 0px;
     right: 18%;
     width: 18%;
-    height: 43%;
+    height: 45%;
  /*   z-index: 999;*/
     box-shadow: 0px 0px 7px black;
 }
@@ -6176,7 +6176,7 @@ fieldset[disabled] .btn-vk.active {
 
 .nuevomensaje fieldset{
     display: block;
-    padding: 3px 10px;
+    padding: 10px 10px;
     border: none;
     background: rgba(255,255,255,.9);
     width: 100%;
