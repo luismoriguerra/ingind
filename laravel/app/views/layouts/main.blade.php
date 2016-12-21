@@ -15,10 +15,10 @@
         @yield('body')
     </body>
 
-    {{ HTML::script('//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js') }}
+    {{ HTML::script('lib/cloudflare/ajax-google-1.11.0.js') }}
     {{ HTML::script('lib/bootstrap-3.3.1/js/bootstrap.min.js') }}
-    {{ HTML::script('https://cdn.socket.io/socket.io-1.2.0.js') }}
-    {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js') }}
-    {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.2/vue-resource.min.js') }}
+    {{ HTML::script('lib/socket/socket1.2.js') }}
+    {{ HTML::script('lib/cloudflare/coudflare-vue-1.0.24.js') }}
+    {{ HTML::script('lib/cloudflare/coudflare-vue-0.7.2.js') }}
     @yield('scripts')
 </html>
