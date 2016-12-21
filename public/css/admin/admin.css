@@ -6063,7 +6063,7 @@ fieldset[disabled] .btn-vk.active {
     position: fixed;
     bottom: 0px;
     /*left: 20px;*/
-    right: 19%;
+    right: 18%;
     width: 18%;
     height: 47%;
     /*z-index: 999;*/
@@ -6236,6 +6236,11 @@ ul.pagination {
 .expand-enter, .expand-leave {
     height: 0;
     opacity: 0;
+}
+
+.list-group-item {
+  border: 0px solid #ddd !important;
+  padding: 10px 5px !important;
 }
 
 /* Loading Animation: */

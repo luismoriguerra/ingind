@@ -9,8 +9,8 @@
         <form action="#" id="form-chat" class="sky-form">
             <header>
                 <span>Chat</span>
-                <span type="button" class="nuevo-chat btn-sm"  @click.prevent="nuevoMensaje=true"><i class="glyphicon glyphicon-edit"></i></span>
-                <span type="button" class="btn-sm" aria-hidden="true" @click.prevent="live_chat=false"><i class="fa fa-minus"></i></span>
+                <span type="button" class="nuevo-chat btn-sm"  @click.prevent="nuevoMensaje=true" data-toggle="tooltip" data-placement="bottom" title="Nuevo Mensaje"><i class="glyphicon glyphicon-edit"></i></span>
+                <span type="button" class="btn-sm" aria-hidden="true" @click.prevent="live_chat=false" data-toggle="tooltip" data-placement="bottom" title="Cerrar"><i class="fa fa-minus"></i></span>
             </header>
             <fieldset class="myscroll"> 
                 <div id="conversationList">
