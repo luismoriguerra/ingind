@@ -42,6 +42,7 @@ class IndedocsController extends \BaseController {
       
       
       $n=1;
+       if(isset($r["documento"]) AND count($r["documento"])>0){
       foreach ($r["documento"] as $rr) {
         $buscar=array(' - ');
         $reemplazar=array('-');
@@ -55,6 +56,7 @@ class IndedocsController extends \BaseController {
         $html.="</tr>";
          $n++;
       }
+       }
       $retorno["data"]=$html;
 
       return Response::json( $retorno );
@@ -88,9 +90,12 @@ class IndedocsController extends \BaseController {
       
       
       $n=1;
-      foreach ($r["tipos"] as $rr) {
+      if(isset($r["tipos"]) AND count($r["tipos"])>0){
+         foreach ($r["tipos"] as $rr) {
         $html.="<option value='".$rr['documentotipo_id']."'>".$rr['documentotipo_descripcion']."</option>";
+      } 
       }
+      
       $retorno["data"]=$html;
 
       return Response::json( $retorno );
