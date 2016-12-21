@@ -84,8 +84,9 @@
 
 </div>
 {{ HTML::script('lib/socket/socket1.2.js') }}
-{{ HTML::script('lib/cloudflare/coudflare-vue-1.0.24.js') }}
-{{ HTML::script('lib/cloudflare/coudflare-vue-0.7.2.js') }}
+{{ HTML::script('lib/cloudflare/cloudflare-vue-1.0.24.js') }}
+{{ HTML::script('lib/cloudflare/cloudflare-vue-0.7.2.js') }}
+
 <script>
 var user_id="{{ Auth::user()->id }}";
 var socket = io('http://procesos.munindependencia.pe:3000');

@@ -18,7 +18,7 @@
     {{ HTML::script('lib/cloudflare/ajax-google-1.11.0.js') }}
     {{ HTML::script('lib/bootstrap-3.3.1/js/bootstrap.min.js') }}
     {{ HTML::script('lib/socket/socket1.2.js') }}
-    {{ HTML::script('lib/cloudflare/coudflare-vue-1.0.24.js') }}
-    {{ HTML::script('lib/cloudflare/coudflare-vue-0.7.2.js') }}
+    {{ HTML::script('lib/cloudflare/cloudflare-vue-1.0.24.js') }}
+    {{ HTML::script('lib/cloudflare/cloudflare-vue-0.7.2.js') }}
     @yield('scripts')
 </html>
