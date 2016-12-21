@@ -6063,9 +6063,9 @@ fieldset[disabled] .btn-vk.active {
     position: fixed;
     bottom: 0px;
     /*left: 20px;*/
-    right: 18%;
+    right: 19%;
     width: 18%;
-    height: 45%;
+    height: 47%;
     /*z-index: 999;*/
    /* box-shadow: 0px 0px 7px black;*/
 }
@@ -6092,8 +6092,8 @@ fieldset[disabled] .btn-vk.active {
 
 .chatonline .conversation{
     overflow: hidden;
-    max-height: 230px;
-    height: 220px;
+    max-height: 240px;
+    height: 235px;
     position: relative;
 }
 
@@ -6111,7 +6111,7 @@ fieldset[disabled] .btn-vk.active {
 .replicate {
     display: inline-block;
     font-size: 11px;
-    width: 100%;
+    width: 95%;
     max-width: 270px;
     margin-top: 5px;
     padding-left: 10px;
@@ -6158,7 +6158,7 @@ fieldset[disabled] .btn-vk.active {
     bottom: 0px;
     right: 18%;
     width: 18%;
-    height: 45%;
+    height: 47%;
  /*   z-index: 999;*/
     box-shadow: 0px 0px 7px black;
 }
