@@ -5,7 +5,7 @@
     <a class="open-chat-button-active tooltips" data-toggle="tooltip" data-placement="right" data-original-title="Info Chat"><i class="fa fa-wechat"></i>
     </a>
 
-    <div class="live-chat" v-show="live_chat">
+    <div class="live-chat hidden" v-show="live_chat">
         <form action="#" id="form-chat" class="sky-form">
             <header>
                 <span>Chat</span>
@@ -20,7 +20,7 @@
         </form>
     </div>
 
-    <div class="chatonline" v-show="current_conversation.name">
+    <div class="chatonline hidden" v-show="current_conversation.name">
         <header>
             <span id="spanNombre">Chat</span>
             <span type="button" class="btn-sm" aria-hidden="true" @click.prevent="current_conversation=[]" style="float:right;"><i class="fa fa-minus"></i></span>
@@ -42,7 +42,7 @@
         </fieldset>
     </div>
 
-    <div class="nuevomensaje" v-show="nuevoMensaje">
+    <div class="nuevomensaje hidden" v-show="nuevoMensaje">
         <header>
             <span id="spanNombre">Nuevo Mensaje</span>
             <span type="button" class="btn-sm" aria-hidden="true" @click.prevent="nuevoMensaje=false" style="float:right;"><i class="fa fa-minus"></i></span>
@@ -89,5 +89,18 @@
 <script>
 var user_id="{{ Auth::user()->id }}";
 var socket = io('http://procesos.munindependencia.pe:3000');
+
+$(document).on('click', '.open-chat-button', function(event) {
+    event.preventDefault();
+    $(".live-chat").removeClass('hidden');
+});
+$(document).on('click', '.nuevo-chat', function(event) {
+    event.preventDefault();
+    $(".nuevomensaje").removeClass('hidden');
+});
+$(document).on('click', '.conversacion', function(event) {
+    event.preventDefault();
+    $(".chatonline").removeClass('hidden');
+});
 </script>
 {{ HTML::script('js/chat.js') }}
