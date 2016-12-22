@@ -44,7 +44,7 @@ class ChatController extends \BaseController {
                 return [
                     'img'       => $user->img,
                     'full_name' => $user->nombre." ".$user->paterno." ".$user->materno,
-                    'area'      => $user->areas->nombre,
+                    'area'      => $user->area_id,
                 ];
             });
             $current=false;

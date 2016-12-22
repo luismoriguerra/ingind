@@ -10,7 +10,8 @@
               </div>
               <div class="modal-body">
                 <form id="form_imagen" name="form_imagen" action="" enctype="multipart/form-data" method="post">
-                <input type='hidden' name="token" id="token" value="<?php echo csrf_token(); ?>">
+
+                    <input name="token" id="token" value="<?php echo csrf_token(); ?>" type="hidden">
                   <div class="form-group">
                       <label for="exampleInputEmail1">Imagen</label>
                       <input type="file" class="form-control" id="imagen" name="imagen" >
