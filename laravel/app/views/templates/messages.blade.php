@@ -6,7 +6,8 @@
                 <img class="media-object img-circle" width="30" height="30" :src="message.img">
             </a>
             <div class="media-body">
-                <span class="media-heading" style="font-size: 12px;font-weight: bold;">@{{ message.user.nombre}}</span>
+                <span class="media-heading" style="font-size: 11px;font-weight: bold;">@{{ message.user.nombre}}</span>
+                <br>
                 <small>@{{ message.body }}</small>
             </div>
         </div>
@@ -21,5 +22,5 @@
           alert(message)
         }
       }    
+    })  
 </script>
-})  
