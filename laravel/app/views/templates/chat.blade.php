@@ -30,7 +30,7 @@
                 @include('templates/messages')
             </div>
             <footer>
-                <div class="row bodyBottom">
+                <div class="row bodyBottom" style="margin-right: -10px !important;">
                     <div class="contComments hacerComentario" style="margin-bottom: 5px"> 
                         <div class="replicate">
                             <img class="comentarioPropio" src="http://www.e-quipu.pe/static/img/btnEnviarcomentario.png" @click.prevent="sendMessage" :disabled="messageBox.trim()===''">
