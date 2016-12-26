@@ -57,6 +57,9 @@ class IndedocsController extends \BaseController {
          $n++;
       }
        }
+       else {
+         $html.="<h3 style='color:blue'><center>IndeDocs no disponible. Usar el Lápiz para digitar manualmente el Documento</center></h3>";
+       }
       $retorno["data"]=$html;
 
       return Response::json( $retorno );
