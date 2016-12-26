@@ -21,6 +21,7 @@ $(document).ready(function() {
 
     $('#indedocsModal').on('hide.bs.modal', function (event) {
         $("#t_indedocs>tbody").html('');
+        $("#mensaje").html('');
     });
 });
 
