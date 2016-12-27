@@ -50,6 +50,7 @@
                   </div>
               </form>
               </div>
+              <div class="col-sm-12"><div  class="col-sm-12" id="mensaje"></div></div>
           </div>
       </div>
       <div class="modal-footer">

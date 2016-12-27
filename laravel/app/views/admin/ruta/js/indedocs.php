@@ -21,6 +21,7 @@ $(document).ready(function() {
 
     $('#indedocsModal').on('hide.bs.modal', function (event) {
         $("#t_indedocs>tbody").html('');
+        $("#mensaje").html('');
     });
 });
 
@@ -36,6 +37,8 @@ mostrarListaHTML=function(datos){
 }
 
 mostrarHTML=function(datos){
+    if(datos==="<h3 style='color:blue'><center>IndeDocs no disponible. Usar el Lápiz para digitar manualmente el Documento</center></h3>"){
+    $("#mensaje").html(datos);}
     $('#t_indedocs').dataTable().fnDestroy();
     $("#t_indedocs>tbody").html('');
     $("#t_indedocs>tbody").html(datos);
