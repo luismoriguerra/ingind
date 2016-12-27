@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>jQuery TreeTable Demo Page</title>
+<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<!-- Bootstrap -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<style>
+body { background-color:#fafafa; font-family:'Open Sans';}
+.container { margin:150px auto;}
+    .treegrid-indent {
+        width: 0px;
+        height: 16px;
+        display: inline-block;
+        position: relative;
+    }
+
+    .treegrid-expander {
+        width: 0px;
+        height: 16px;
+        display: inline-block;
+        position: relative;
+        left:-17px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+<div id="jquery-script-menu">
+<div class="jquery-script-center">
+<ul>
+<li><a href="http://www.jqueryscript.net/table/Minimal-Tree-Table-jQuery-Plugin-For-Bootstrap-TreeTable.html">Download This Plugin</a></li>
+<li><a href="http://www.jqueryscript.net/">Back To jQueryScript.Net</a></li>
+</ul>
+<div class="jquery-script-ads"><script type="text/javascript"><!--
+google_ad_client = "ca-pub-2783044520727903";
+/* jQuery_demo */
+google_ad_slot = "2780937993";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></div>
+<div class="jquery-script-clear"></div>
+</div>
+</div>
+
+<div class="container">
+<h1 class="text-center">jQuery TreeTable Demo Page</h1>
+  <table id="tree-table" class="table table-hover table-bordered">
+    <tbody>
+    <th>#</th>
+      <th>Test</th>
+    <tr data-id="1" data-parent="0" data-level="1">
+      <td data-column="name">Node 1</td>
+      <td>Additional info</td>
+    </tr>
+    <tr data-id="2" data-parent="1" data-level="2">
+      <td data-column="name">Node 1</td>
+      <td>Additional info</td>
+    </tr>
+    <tr data-id="3" data-parent="1" data-level="2">
+      <td data-column="name">Node 1</td>
+      <td>Additional info</td>
+    </tr>
+    <tr data-id="4" data-parent="3" data-level="3">
+      <td data-column="name">Node 1</td>
+      <td>Additional info</td>
+    </tr>
+    <tr data-id="5" data-parent="3" data-level="3">
+      <td data-column="name">Node 1</td>
+      <td>Additional info</td>
+    </tr>
+      </tbody>
+    
+  </table>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"></script> 
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+<script src="js/javascript.js"></script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

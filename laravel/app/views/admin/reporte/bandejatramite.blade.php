@@ -9,6 +9,9 @@
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
     {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }} 
     {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
+
+    {{ HTML::style('http://www.jqueryscript.net/css/jquerysctipttop.css') }}
+{{--     {{ HTML::script('lib/bootstrap-treetable/js/javascript.js') }} --}}
      
 
     @include( 'admin.js.slct_global_ajax' )
@@ -27,6 +30,23 @@
     /*
     Component: Mailbox
 */
+
+    .treegrid-indent {
+        width: 0px;
+        height: 16px;
+        display: inline-block;
+        position: relative;
+    }
+
+    .treegrid-expander {
+        width: 0px;
+        height: 16px;
+        display: inline-block;
+        position: relative;
+        left:-17px;
+        cursor: pointer;
+    }
+
 .mailbox .table-mailbox {
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
@@ -173,10 +193,10 @@ tr.shown td.details-control {
                                                 <i class="fa fa-angle-double-right fa-lg"></i>
                                                 <span id="texto_fecha_creacion2">:</span>
                                             </small>
-                                            <!--<a class="btn btn-sm btn-primary" data-toggle="modal" data-id='' data-target="#expedienteModal">
+                                           {{--  <a class="btn btn-sm btn-primary" id="ExpedienteU">
                                                 <i class="fa fa-search fa-lg"></i>
                                                 .::Expediente::.
-                                            </a-->
+                                            </a> --}}
                                             </h1>
                                         </div>
                                         <div class="col-sm-12">

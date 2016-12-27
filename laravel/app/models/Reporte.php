@@ -180,6 +180,7 @@ class Reporte extends Eloquent
         $sql="  SELECT
                 tr.id_union,
                 rd.id ruta_detalle_id,
+                rd.ruta_id ruta_id,
                 CONCAT(t.apocope,': ',rd.dtiempo) tiempo,
                 IFNULL(rd.fecha_inicio,'') fecha_inicio,
                 rd.norden,
@@ -439,21 +440,33 @@ class Reporte extends Eloquent
             return $r;
     }
 
-    public function getExpedienteUnico(){
-        if(Input::get('ruta_detalle_id')){
-            $data = [];
-            $sql = "SELECT referido,ruta_detalle_id,fecha_hora_referido fecha_hora,usuario_referido, 'r' tipo
-                    FROM referidos
-                    WHERE ruta_id='".Input::get('ruta_id')."'
-                    UNION
-                    SELECT sustento,ruta_detalle_id,fecha_hora_sustento fecha_hora,usuario_sustento, 's' tipo
-                    FROM sustentos s
-                    INNER JOIN rutas_detalle rd ON rd.id=s.ruta_detalle_id
-                    WHERE rd.ruta_id='".Input::get('ruta_id')."'
-                    ORDER BY ruta_detalle_id,tipo,fecha_hora";
-            $r=DB::select($r);
-            return $r;
-        }
+    public static function getExpedienteUnico(){
+            $referido=Referido::where('ruta_id', '=', Input::get('ruta_id'))->firstOrFail();
+      /*  if(Input::get('ruta_detalle_id')){*/
+            if($referido){
+                $data = [];
+                $sql = "SELECT re.ruta_id,re.ruta_detalle_id,re.referido,re.fecha_hora_referido fecha_hora,f.nombre proceso,a.nombre area,re.norden, 'r' tipo 
+                        FROM referidos re 
+                        INNER JOIN rutas r ON re.ruta_id=r.id 
+                        INNER JOIN flujos f ON r.flujo_id=f.id 
+                        LEFT JOIN rutas_detalle rd ON re.ruta_detalle_id=rd.id
+                        LEFT JOIN areas a ON rd.area_id=a.id  
+                        WHERE re.tabla_relacion_id='".$referido->tabla_relacion_id."'
+                        UNION
+                        SELECT re.ruta_id,re.ruta_detalle_id,sustento,fecha_hora_sustento fecha_hora,f.nombre proceso,a.nombre area,rd.norden,'s' tipo
+                        FROM sustentos s
+                        INNER JOIN referidos re ON re.id=s.referido_id AND re.tabla_relacion_id='".$referido->tabla_relacion_id."'
+                        INNER JOIN rutas_detalle rd ON rd.id=s.ruta_detalle_id
+                        LEFT JOIN areas a ON rd.area_id=a.id  
+                        INNER JOIN rutas r ON re.ruta_id=r.id 
+                        INNER JOIN flujos f ON r.flujo_id=f.id
+                        ORDER BY ruta_id,norden,tipo";
+                $r=DB::select($sql);
+                return $r;                
+            }else{
+                return false;
+            }
+       /* }*/
     }
 }
 ?>

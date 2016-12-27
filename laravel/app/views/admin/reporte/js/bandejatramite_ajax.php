@@ -94,15 +94,16 @@ var Bandeja={
         var columnDefs=[{
                         "targets": 0,
                         "data": function ( row, type, val, meta ) {
+                            console.log(row);
                             ruta_detalle_id.push('td_'+row.ruta_detalle_id);
                             if(row.id>0){//est visto
                                 //el boton debera cambiar  a no visto
-                                estado.push('desactivar('+row.id+','+row.ruta_detalle_id+',this)');
+                                estado.push('desactivar('+row.id+','+row.ruta_detalle_id+',this,'+row.ruta_id+')');
                                 fondo.push('');
                                 visto='<i id="td_'+row.ruta_detalle_id+'" class="fa fa-eye"></i>';
                             } else {
                                 //unread
-                                estado.push('activar('+row.id+','+row.ruta_detalle_id+',this)');
+                                estado.push('activar('+row.id+','+row.ruta_detalle_id+',this,'+row.ruta_id+')');
                                 fondo.push('unread');
                                 visto='<i id="td_'+row.ruta_detalle_id+'" class="fa fa-ban"></i>';
                             }
@@ -325,7 +326,8 @@ var Bandeja={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                    evento(obj.ruta_detalle_id);                    
+                    var rta_id= document.querySelector('#ruta_id').value;
+                    evento(obj.ruta_detalle_id,(rta_id) ? rta_id : '');                    
                 }
             },
             error: function(){
@@ -381,20 +383,19 @@ var Bandeja={
         });
     },
     ExpedienteUnico:function(data,evento){
-        parametros = {'datos':data};
         $.ajax({
             url         : 'reporte/expedienteunico',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
-            data        : parametros,
+            data        : data,
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                 /*   evento(obj.ruta_detalle_id);   */                 
+                    evento(obj.datos);                    
                 }
             },
             error: function(){

@@ -34,7 +34,7 @@
                               </tr>
                           </tfoot>
                       </table> -->
-                      <table id="example" class="display" cellspacing="0" width="100%">
+                    <!--   <table id="example" class="display" cellspacing="0" width="100%">
         <thead>
             <tr>
                  <th></th>
@@ -86,7 +86,41 @@
             </tr>
            
         </tbody>
-    </table>
+        </table> -->  <div class="container">
+                      <h2 class="text-center">Expediente Unico</h2>
+                        <table id="tree-table" class="table table-hover table-bordered">
+                          <thead>
+                            <th>Documento</th>
+                            <th>Fecha</th>
+                            <th>Proceso</th>
+                            <th>Area</th>
+                            <th>Paso</th>
+                          </thead>
+                          <tbody id="tb_tretable">                         
+                       <!--    <tr data-id="1" data-parent="0" data-level="1">
+                            <td data-column="name">Node 1</td>
+                            <td>Additional info</td>
+                          </tr>
+                          <tr data-id="2" data-parent="1" data-level="2">
+                            <td data-column="name">Node 1</td>
+                            <td>Additional info</td>
+                          </tr>
+                          <tr data-id="3" data-parent="1" data-level="2">
+                            <td data-column="name">Node 1</td>
+                            <td>Additional info</td>
+                          </tr>
+                          <tr data-id="4" data-parent="3" data-level="3">
+                            <td data-column="name">Node 1</td>
+                            <td>Additional info</td>
+                          </tr>
+                          <tr data-id="5" data-parent="3" data-level="3">
+                            <td data-column="name">Node 1</td>
+                            <td>Additional info</td>
+                          </tr> -->
+                            </tbody>
+                          
+                        </table>
+                      </div>
                   </div>
               </div>
           </div>

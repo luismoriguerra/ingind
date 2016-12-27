@@ -83,7 +83,8 @@ var Validar={
                 if(obj.rst==1){
                     Close();
                     if(id!=null){
-                        evento(id);
+                        var rta_id= document.querySelector('#ruta_id').value;
+                        evento(id,(rta_id) ? rta_id : '');
                     }
                     else if(evento!=null){
                         evento();

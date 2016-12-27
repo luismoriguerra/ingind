@@ -26,6 +26,9 @@
             <span type="button" class="btn-sm" aria-hidden="true" @click.prevent="current_conversation=[]" style="float:right;"><i class="fa fa-minus"></i></span>
         </header>
         <fieldset>
+            <div class="alerta hidden">
+                <a href="#" style="right: 23%;padding: 8px;background-color: #f4f4f4;Z-INDEX: 999999999;border-radius: 10px;color: #777;font-weight: bold;text-decoration: none;position: fixed;" class="back-to-top" lastactivity="2016-12-27 10:30:00">Mensajes Anteriores</a>
+            </div>
             <div id="messageList" class="conversation myscroll">
                 @include('templates/messages')
             </div>
