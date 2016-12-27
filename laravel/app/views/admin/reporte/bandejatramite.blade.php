@@ -193,7 +193,7 @@ tr.shown td.details-control {
                                                 <i class="fa fa-angle-double-right fa-lg"></i>
                                                 <span id="texto_fecha_creacion2">:</span>
                                             </small>
-                                            <a class="btn btn-sm btn-primary hidden" id="ExpedienteU">
+                                            <a class="btn btn-sm btn-primary" id="ExpedienteU">
                                                 <i class="fa fa-search fa-lg"></i>
                                                 .::Expediente::.
                                             </a>
