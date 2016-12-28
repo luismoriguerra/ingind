@@ -13,14 +13,3 @@
         </div>
     </div>
 </template>
-
-<script type="text/javascript">
-    new Vue({
-      el: '#message',
-      methods: {
-        say: function (message) {
-          alert(message)
-        }
-      }    
-    })  
-</script>
