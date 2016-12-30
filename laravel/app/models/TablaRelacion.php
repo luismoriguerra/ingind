@@ -163,4 +163,67 @@ class TablaRelacion extends Eloquent
 
         return $tr;
     }
+
+    public static function getTramitesCount( $array )
+    {   
+        $sSql=" 
+                SELECT COUNT(tr.id) cant 
+                FROM tablas_relacion tr 
+                INNER JOIN personas p ON tr.usuario_created_at=p.id AND p.estado=1
+                WHERE tr.estado=1";
+
+        $sSql.= $array['where'];
+                //echo $sSql;
+        $oData = DB::select($sSql);
+        return $oData[0]->cant;
+    }
+
+    public static function getTramites( $array )
+    {
+        $sSql=" SELECT tr.id,id_union,fecha_tramite,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) usuario 
+                FROM tablas_relacion tr 
+                INNER JOIN personas p ON tr.usuario_created_at=p.id AND p.estado=1
+                WHERE tr.estado=1";
+
+        $sSql.= $array['where'].
+                $array['order'].
+                $array['limit'];
+
+        $oData = DB::select($sSql);
+        return $oData;
+    }
+
+     public static function getTramitesUserCount( $array )
+    {   
+        $sSql=" 
+                SELECT COUNT(tr.id) cant 
+                FROM tablas_relacion tr 
+                INNER JOIN personas p ON tr.usuario_created_at=p.id AND p.estado=1 
+                INNER JOIN rutas r ON tr.id=r.tabla_relacion_id AND r.estado=1
+                INNER JOIN rutas_detalle rd ON r.id=rd.ruta_id AND rd.estado=1 AND rd.norden=1 AND rd.dtiempo_final IS NULL AND rd.area_id='".Auth::user()->area_id."'
+                WHERE tr.estado=1";
+
+        $sSql.= $array['where'];
+                //echo $sSql;
+        $oData = DB::select($sSql);
+        return $oData[0]->cant;
+    }
+
+    public static function getTramitesUser( $array )
+    {
+        $sSql="SELECT tr.id,id_union,fecha_tramite,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) usuario 
+                FROM tablas_relacion tr 
+                INNER JOIN personas p ON tr.usuario_created_at=p.id AND p.estado=1 
+                INNER JOIN rutas r ON tr.id=r.tabla_relacion_id AND r.estado=1
+                INNER JOIN rutas_detalle rd ON r.id=rd.ruta_id AND rd.estado=1 AND rd.norden=1 AND rd.dtiempo_final IS NULL AND rd.area_id='".Auth::user()->area_id."'
+                WHERE tr.estado=1";
+
+        $sSql.= $array['where'].
+                $array['order'].
+                $array['limit'];
+
+        $oData = DB::select($sSql);
+        return $oData;
+    }
+
 }
