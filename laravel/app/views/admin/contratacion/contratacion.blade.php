@@ -72,11 +72,13 @@
                                         <th>Fecha Inicio</th>
                                         <th>Fecha Fin</th>
                                         <th>Fecha Aviso</th>
-                                        <th>Fecha Conformidad</th>
                                         <th>Monto</th>
                                         <th>Tipo</th>
                                         <th>Programación Aviso</th>
+                                        <th>Fecha Conformidad</th>
                                         <th>Nro Doc</th>
+                                        <th>[]</th>
+                                        <th>[]</th>
                                         <th>[]</th>
                                         <th>[]</th>
                                     </tr>

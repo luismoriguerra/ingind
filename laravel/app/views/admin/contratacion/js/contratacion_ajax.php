@@ -134,8 +134,9 @@ var Contrataciones={
     },
     AgregarEditarDetalleContratacion:function(AE){
         var datos = $("#form_detalle_contrataciones_modal").serialize().split("txt_").join("").split("slct_").join("");
+        var id=$("#form_detalle_contrataciones_modal #txt_contratacion_id").val();
         var accion = (AE==1) ? "contratacion/editardetalle" : "contratacion/creardetalle";
-
+        
         $.ajax({
             url         : accion,
             type        : 'POST',
@@ -148,7 +149,7 @@ var Contrataciones={
             success : function(obj) {
                 $(".overlay, .loading-img").remove();
                 if(obj.rst==1){
-                    CargarDetalleContratacion(263);
+                    CargarDetalleContratacion(id);
                     msjG.mensaje('success',obj.msj,4000);
                     $('#contrataciondetalleModal .modal-footer [data-dismiss="modal"]').click();
 
@@ -174,6 +175,7 @@ var Contrataciones={
         CambiarEstadoDetalleContrataciones: function(id, AD){
         $("#form_detalle_contrataciones_modal").append("<input type='hidden' value='"+id+"' name='id'>");
         $("#form_detalle_contrataciones_modal").append("<input type='hidden' value='"+AD+"' name='estado'>");
+        var id=$("#form_detalle_contrataciones_modal #txt_contratacion_id").val();
         var datos = $("#form_detalle_contrataciones_modal").serialize().split("txt_").join("").split("slct_").join("");
         $.ajax({
             url         : 'contratacion/cambiarestadodetalle',
@@ -188,7 +190,7 @@ var Contrataciones={
                 $(".overlay, .loading-img").remove();
 
                 if (obj.rst==1) {
-                    CargarDetalleContratacion(263);
+                    CargarDetalleContratacion(id);
                     msjG.mensaje('success',obj.msj,4000);
                     $('#contrataciondetalleModal .modal-footer [data-dismiss="modal"]').click();
                 } else {
