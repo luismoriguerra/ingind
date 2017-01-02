@@ -37,13 +37,13 @@
                         <div class="col-sm-4">
                            {{--  <div class="col-sm-5"> --}}
                                 <label class="control-label">Rango de Fechas:</label>
-                                <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha" onfocus="blur()"/>
+                                <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha" onfocus="blur()" onChange="GeneraHref()"/>
                            {{--  </div> --}}
                         </div>
                         <div class="col-sm-4">
                         {{--     <div class="col-sm-5"> --}}
                                 <label class="control-label">Área:</label>
-                                <select class="form-control" name="slct_area_id" id="slct_area_id" multiple>
+                                <select class="form-control" name="slct_area_id" id="slct_area_id" onChange="GeneraHref()" multiple>
                                 </select>
                            {{--  </div> --}}
                         </div>
