@@ -227,6 +227,7 @@ mostrarHTML=function(datos){
     $.each(datos,function(index,data){
         pos++;
         html+="<tr>"+
+             "<td>"+pos+"</td>"+
             "<td>"+data.texto+"</td>"+
             "<td>"+data.fecha_inicio+"</td>"+
             "<td>"+data.fecha_fin+"</td>"+
@@ -235,11 +236,33 @@ mostrarHTML=function(datos){
             "<td>"+data.tipo+"</td>"+
             "<td>"+data.programacion_aviso+"</td>"+
             "<td>"+data.fecha_conformidad+"</td>"+
-            "<td>"+data.nro_doc+"</td>"+
-            "<td align='center'><a class='form-control btn btn-primary' data-toggle='modal' data-target='#contrataciondetalleModal' data-titulo='Editar' onclick='BtnEditarDetalle(this,"+data.id+")'><i class='fa fa-lg fa-edit'></i></a></td>"+
-            '<td align="center"><span id="'+data.id+'" onClick="tacho('+data.id+')" data-estado="'+data.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i></span></td>'+
-            '<td align="center"><span id="'+data.id+'" onClick="confirmar('+data.id+')" data-estado="'+data.estado+'" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></span></td>'+
-            '<td align="center"><span id="'+data.id+'" onClick="denegar('+data.id+')" data-estado="'+data.estado+'" class="btn btn-warning"><i class="	glyphicon glyphicon-remove"></i></span></td>';
+            "<td>"+data.nro_doc+"</td>";
+    
+        if(data.fecha_conformidad==='' && data.nro_doc===''){
+        html+="<td align='center'><a class='form-control btn btn-primary' data-toggle='modal' data-target='#contrataciondetalleModal' data-titulo='Editar' onclick='BtnEditarDetalle(this,"+data.id+")'><i class='fa fa-lg fa-edit'></i></a></td>";
+        html+='<td align="center"><span id="'+data.id+'" onClick="tacho('+data.id+')" data-estado="'+data.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i></span></td>';
+        html+='<td align="center"></td>';
+        html+='<td align="center"></td>';
+        }
+        if(data.fecha_conformidad==='' && data.nro_doc!==''){
+        html+="<td align='center'><a class='form-control btn btn-primary' data-toggle='modal' data-target='#contrataciondetalleModal' data-titulo='Editar' onclick='BtnEditarDetalle(this,"+data.id+")'><i class='fa fa-lg fa-edit'></i></a></td>";
+        html+='<td align="center"><span id="'+data.id+'" onClick="tacho('+data.id+')" data-estado="'+data.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i></span></td>';
+        html+='<td align="center"><span id="'+data.id+'" onClick="confirmar('+data.id+')"  class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></span></td>';
+        html+='<td align="center"><span id="'+data.id+'" onClick="denegar('+data.id+')"  class="btn btn-warning"><i class="	glyphicon glyphicon-remove"></i></span></td>';    
+        }
+        if(data.fecha_conformidad!=='' && data.nro_doc!=='') {
+        html+="<td align='center'></td>";
+        html+='<td align="center"></td>';
+        html+='<td align="center"></td>';
+        html+='<td align="center"></td>';
+        }
+        if(data.fecha_conformidad!=='' && data.nro_doc==='') {
+        html+="<td align='center'><a class='form-control btn btn-primary' data-toggle='modal' data-target='#contrataciondetalleModal' data-titulo='Editar' onclick='BtnEditarDetalle(this,"+data.id+")'><i class='fa fa-lg fa-edit'></i></a></td>";
+        html+='<td align="center"><span id="'+data.id+'" onClick="tacho('+data.id+')" data-estado="'+data.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i></span></td>';
+        html+='<td align="center"></td>';
+        html+='<td align="center"></td>';
+        }
+        
         html+="</tr>";
     });
     $("#tb_detalle_contrataciones").html(html);
@@ -286,6 +309,21 @@ AgregarDetalle = function(){
 };
 
 tacho = function(id){
-    Contrataciones.CambiarEstadoDetalleContrataciones(id, 0);
+    c=confirm("¡Está seguro de Eliminar este registro?");
+    if(c){
+    Contrataciones.CambiarEstadoDetalleContrataciones(id, 0);}
 };
+
+confirmar = function(id){
+    c=confirm("¡Está seguro de brindar la confirmidad?");
+    if(c){
+    Contrataciones.Confirmar(id);}
+};
+
+denegar = function(id){
+    c=confirm("¡Está seguro de Denegar este registro?");
+    if(c){
+    Contrataciones.Denegar(id);}
+};
+
 </script>

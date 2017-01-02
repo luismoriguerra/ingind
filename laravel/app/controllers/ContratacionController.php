@@ -263,6 +263,46 @@ class ContratacionController extends \BaseController
         }
     }
     
+    public function postConfirmar()
+    {
+
+        if ( Request::ajax() ) {
+
+            $detallecontratacion = DetalleContratacion::find(Input::get('id'));
+            $detallecontratacion->usuario_updated_at = Auth::user()->id;
+            $detallecontratacion->fecha_conformidad =date('Y-m-d');
+            $detallecontratacion->save();
+            
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro actualizado correctamente',
+                )
+            );    
+
+        }
+    }
+    
+    public function postDenegar()
+    {
+
+        if ( Request::ajax() ) {
+
+            $detallecontratacion = DetalleContratacion::find(Input::get('id'));
+            $detallecontratacion->usuario_updated_at = Auth::user()->id;
+            $detallecontratacion->nro_doc = Input::get('');
+            $detallecontratacion->save();
+           
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro actualizado correctamente',
+                )
+            );    
+
+        }
+    }
+    
     public function postCambiarestadodetalle()
     {
 
