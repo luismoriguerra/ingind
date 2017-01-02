@@ -49,27 +49,18 @@ $(document).ready(function() {
     data = {estado:1};
     slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);
 
-
-    $(document).on('click', '#btnexport', function(event) {
-        var fecha=$("#fecha").val();
+    $("#btnexport").click(function (){
+       var fecha=$("#fecha").val();
         if ( fecha!=="" && $("#slct_area_id").val().length()>0 ) {
             data = {fecha:fecha,area_id:$("#slct_area_id").val().join(',')};
-            $(this).attr('href','reporte/exportdocplataforma'+'?fecha='+data.fecha+'&areaexport='+data.area_id);
+            window.location='reporte/exportdocplataforma'+'?fecha='+data.fecha+'&areaexport='+data.area_id;
         }
         else if ( fecha!=="" ) {
             data = {fecha:fecha,area_id:$("#slct_area_id").val().join(',')};
-            $(this).attr('href','reporte/exportdocplataforma'+'?fecha='+data.fecha);
+            window.location='reporte/exportdocplataforma'+'?fecha='+data.fecha;
         } else {
             alert("Seleccione Fecha");
         }
-
-
-    /*    var data = DataToFilter();
-        if(data.length > 0){
-            $(this).attr('href','reporte/exportdocplataforma'+'?fecha='+data[0]['fecha']+'&area_id='+data[0]['area_id']);            
-        }else{
-            event.preventDefault();
-        }*/
     });
 
 });
