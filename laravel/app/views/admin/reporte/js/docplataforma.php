@@ -30,7 +30,7 @@ $(document).ready(function() {
         }
         return data;
     }
-
+    $("#btnexport").click(GeneraHref);
 
     $("#generar").click(function (){
        /* var data = DataToFilter();            
@@ -49,26 +49,22 @@ $(document).ready(function() {
     data = {estado:1};
     slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);
 
-
-    $(document).on('click', '#btnexport', function(event) {
-        var fecha=$("#fecha").val();
-        if ( fecha!=="") {
-            data = {fecha:fecha,area_id:$("#slct_area_id").val().join(',')};
-            $(this).attr('href','reporte/exportdocplataforma'+'?fecha='+data.fecha+'&areaexport='+data.area_id);
-        } else {
-            alert("Seleccione Fecha");
-        }
-
-
-    /*    var data = DataToFilter();
-        if(data.length > 0){
-            $(this).attr('href','reporte/exportdocplataforma'+'?fecha='+data[0]['fecha']+'&area_id='+data[0]['area_id']);            
-        }else{
-            event.preventDefault();
-        }*/
-    });
-
 });
+
+GeneraHref=function(){
+    var fecha=$("#fecha").val();
+            data = {fecha:fecha,area_id:$("#slct_area_id").val().join(',')};
+            $("#btnexport").removeAttr('href');
+        if ( fecha!=="" && $("#slct_area_id").val().length()>0 ) {
+            alert(fecha+'111');
+            window.location='reporte/exportdocplataforma'+'?nro='+$.rand(1000)+'&fecha='+data.fecha+'&areaexport='+data.area_id);
+        }
+        else if ( fecha!=="" ) {
+            alert(fecha+'222');
+            window.location='reporte/exportdocplataforma'+'?nro='+$.rand(1000)+'&fecha='+data.fecha);
+        } 
+}
+
 HTMLreporte=function(datos){
     var html="";
     

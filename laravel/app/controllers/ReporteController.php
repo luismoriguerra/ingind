@@ -1661,8 +1661,9 @@ class ReporteController extends BaseController
     }
 
     public function getExportdocplataforma(){
+        set_time_limit(900);
+        ini_set('memory_limit','1024M');
         $rst=Reporte::Docplataforma(); 
-        
 
         $propiedades = array(
           'creador'=>'Gerencia Modernizacion',
