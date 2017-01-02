@@ -52,7 +52,7 @@
                             <input type="button" class="form-control btn btn-primary" id="generar" name="generar" value="Mostrar">
                         </div>
                         <div class="col-md-1 col-sm-2" style="padding:24px">
-                            <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Export</i></a>
+                            <a class='btn btn-success btn-md' id="btnexport" name="btnexport"><i class="glyphicon glyphicon-download-alt"></i> Export</i></a>
                         </div>
                     </div>
                 </fieldset>
