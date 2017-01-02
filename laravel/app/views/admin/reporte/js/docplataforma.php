@@ -53,15 +53,14 @@ $(document).ready(function() {
 
 GeneraHref=function(){
     var fecha=$("#fecha").val();
-            data = {fecha:fecha,area_id:$("#slct_area_id").val().join(',')};
             $("#btnexport").removeAttr('href');
-        if ( fecha!=="" && $("#slct_area_id").val().length()>0 ) {
-            alert(fecha+'111');
-            window.location='reporte/exportdocplataforma'+'?nro='+$.rand(1000)+'&fecha='+data.fecha+'&areaexport='+data.area_id);
+        if ( fecha!=="" && $.trim($("#slct_area_id").val())!='' ) {
+            data = {fecha:fecha,area_id:$("#slct_area_id").val().join(',')};
+            window.location='reporte/exportdocplataforma'+'?nro='+Math.random(1000)+'&fecha='+data.fecha+'&areaexport='+data.area_id;
         }
         else if ( fecha!=="" ) {
-            alert(fecha+'222');
-            window.location='reporte/exportdocplataforma'+'?nro='+$.rand(1000)+'&fecha='+data.fecha);
+            data = {fecha:fecha};
+            window.location='reporte/exportdocplataforma'+'?nro='+Math.random(1000)+'&fecha='+data.fecha;
         } 
 }
 
