@@ -510,6 +510,17 @@ class ReporteFinalController extends BaseController
       $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
 
       foreach ($r as $key => $value) {
+
+        $alerta=explode("|",$value->alerta);
+        $texto="";
+        $tipo=0;
+
+        if( ($value->rol_id==8 OR $value->rol_id==9) AND ($value->responsable!=$value->jefe) ){
+          $value->responsable=$value->jefe;
+          $value->email_mdi=$value->email_jefe;
+          $alerta[1]='';
+        }
+
         $html.="<tr>";
         $html.="<td>".$value->tipo_tarea."</td>";
         $html.="<td>".$value->descripcion."</td>";
@@ -524,9 +535,6 @@ class ReporteFinalController extends BaseController
         $html.="<td>".$value->fecha_inicio."</td>";
         $html.="</tr>";
 
-        $alerta=explode("|",$value->alerta);
-        $texto="";
-        $tipo=0;
         DB::beginTransaction();
         if($alerta[1]==''){
           $tipo=1;
@@ -582,7 +590,7 @@ class ReporteFinalController extends BaseController
                   if( $value->email_mdi!=$value->email_jefe ){
                     array_push($emailseguimiento, $value->email_jefe);
                   }
-                    Mail::send('notreirel', $parametros , 
+                    Mail::queue('notreirel', $parametros , 
                         function($message) use( $email,$emailseguimiento,$texto ) {
                             $message
                             ->to($email)

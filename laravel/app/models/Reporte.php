@@ -312,7 +312,7 @@ class Reporte extends Eloquent
                 f.nombre proceso,
                 ta.nombre tipo_tarea, cd.actividad descripcion, a.nemonico, 
                 CONCAT(p.paterno,' ',p.materno,', ',p.nombre) responsable, cd.recursos,
-                p.email_mdi,p.email,
+                p.email_mdi,p.email,p.rol_id,
                 IFNULL(
                 (   SELECT CONCAT(a.fecha,'|',a.tipo)
                     FROM alertas a
