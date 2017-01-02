@@ -55,7 +55,7 @@ GeneraHref=function(){
     var fecha=$("#fecha").val();
             data = {fecha:fecha,area_id:$("#slct_area_id").val().join(',')};
             $("#btnexport").removeAttr('href');
-        if ( fecha!=="" && $("#slct_area_id").val().length()>0 ) {
+        if ( fecha!=="" && $("#slct_area_id").val().length>0 ) {
             alert(fecha+'111');
             window.location='reporte/exportdocplataforma'+'?nro='+$.rand(1000)+'&fecha='+data.fecha+'&areaexport='+data.area_id);
         }
