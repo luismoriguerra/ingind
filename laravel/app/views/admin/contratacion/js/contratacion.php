@@ -84,6 +84,45 @@ $(document).ready(function() {
      //   var modal = $(this);
        // modal.find('.modal-body input').val('');
     });
+    
+     $('#contrataciondetalleModal').on('show.bs.modal', function (event) { 
+        
+      var button = $(event.relatedTarget); // captura al boton
+      var titulo = button.data('titulo'); // extrae del atributo data-
+
+      var modal = $(this); //captura el modal
+      modal.find('.modal-title').text(titulo+' Detalle de Contratación');
+      $('#form_detalle_contrataciones_modal [data-toggle="tooltip"]').css("display","none");
+      $("#form_detalle_contrataciones_modal input[type='hidden']").remove();
+ 
+        if(titulo=='Nuevo'){
+            $("#form_detalle_contrataciones_modal").append("<input type='hidden' value='263' name='txt_contratacion_id'>");
+            modal.find('.modal-footer .btn-primary').text('Guardar');
+            modal.find('.modal-footer .btn-primary').attr('onClick','AgregarDetalle();');
+            $('#form_detalle_contrataciones_modal #slct_estado').val(1);
+            $('#form_detalle_contrataciones_modal #txt_texto').focus();
+           
+        } else {
+            modal.find('.modal-footer .btn-primary').text('Actualizar');
+            modal.find('.modal-footer .btn-primary').attr('onClick','EditarDetalle();');
+
+            $('#form_detalle_contrataciones_modal #txt_titulo').val( ContratacionDetalleG.titulo );
+            $('#form_detalle_contrataciones_modal #txt_monto_total').val( ContratacionDetalleG.monto_total );
+            $('#form_detalle_contrataciones_modal #txt_objeto').val( ContratacionDetalleG.objeto );
+            $('#form_detalle_contrataciones_modal #txt_justificacion').val( ContratacionDetalleG.justificacion );
+            $('#form_detalle_contrataciones_modal #txt_actividades').val( ContratacionDetalleG.actividades );
+            $('#form_detalle_contrataciones_modal #fecha_conformidad').val( ContratacionDetalleG.fecha_conformidad );
+            $('#form_detalle_contrataciones_modal #fecha_inicio').val( ContratacionDetalleG.fecha_inicio );
+            $('#form_detalle_contrataciones_modal #fecha_fin').val( ContratacionDetalleG.fecha_fin );
+            $('#form_detalle_contrataciones_modal #fecha_aviso').val( ContratacionDetalleG.fecha_aviso );
+            $('#form_detalle_contrataciones_modal #txt_programacion_aviso').val( ContratacionDetalleG.programacion_aviso );
+            $('#form_detalle_contrataciones_modal #slct_estado').val( ContratacionDetalleG.estado );
+            $("#form_detalle_contrataciones_modal").append("<input type='hidden' value='"+ContratacionDetalleG.id+"' name='id'>");
+            
+          
+        }
+             $('#form_contrataciones_modal select').multiselect('refresh');
+    });
 });
 
 BtnEditar=function(btn,id){
@@ -99,7 +138,7 @@ BtnEditar=function(btn,id){
     ContratacionG.fecha_fin=$(tr).find("td:eq(7)").text();
     ContratacionG.fecha_aviso=$(tr).find("td:eq(8)").text();
     ContratacionG.programacion_aviso=$(tr).find("td:eq(9)").text();
-    ContratacionG.area=$(tr).find("td:eq(10) input[name='txt_area']").val();alert(ContratacionG.area);
+    ContratacionG.area=$(tr).find("td:eq(10) input[name='txt_area']").val();
     ContratacionG.estado=$(tr).find("td:eq(11)>span").attr("data-estado");
     $("#BtnEditar").click();
 };
@@ -125,6 +164,8 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
         if(row.estado==1){
             estadohtml='<span id="'+row.id+'" onClick="desactivar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-success">Activo</span>';
         }
+        estadohtml+='&nbsp;';
+        estadohtml+='<span id="'+row.id+'" onClick="CargarDetalleContratacion(\''+row.id+'\',\''+row.titulo+'\')" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-eye-open"></i></span>';
         return estadohtml;
     }
 }
@@ -157,5 +198,81 @@ validaContrataciones = function(){
         r=false;
     }
     return r;
+};
+
+CargarDetalleContratacion=function(id,titulo){
+//    $("#txt_ruta_flujo_id_modal").remove();
+//    $("#form_ruta_flujo").append('<input type="hidden" id="txt_ruta_flujo_id_modal" value="'+ruta_flujo_id+'">');
+    $("#form_detalle_contrataciones #txt_titulo").text(titulo);
+//    $("#texto_fecha_creacion").text("Fecha Vista:");
+
+    $("#form_detalle_contrataciones .form-group").css("display","");
+    data={id:id};
+    Contrataciones.CargarDetalleContrataciones(data);
+};
+
+mostrarHTML=function(datos){
+  var html="";
+    var alerta_tipo= '';
+    $('#t_detalle_contrataciones').dataTable().fnDestroy();
+    pos=0;
+    $.each(datos,function(index,data){
+        pos++;
+        html+="<tr>"+
+            "<td>"+data.texto+"</td>"+
+            "<td>"+data.fecha_inicio+"</td>"+
+            "<td>"+data.fecha_fin+"</td>"+
+            "<td>"+data.fecha_aviso+"</td>"+
+            "<td>"+data.fecha_conformidad+"</td>"+
+            "<td>"+data.monto+"</td>"+
+            "<td>"+data.tipo+"</td>"+
+            "<td>"+data.programacion_aviso+"</td>"+
+            "<td>"+data.nro_doc+"</td>"+
+            "<td align='center'><a class='form-control btn btn-primary' onclick='BtnEditarDetalle(this,"+data.id+")'><i class='fa fa-lg fa-edit'></i></a></td>"+
+            '<td align="center"><span id="'+data.id+'" onClick="tacho('+data.id+')" data-estado="'+data.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i></span></td>';
+        html+="</tr>";
+    });
+    $("#tb_detalle_contrataciones").html(html);
+    $("#t_detalle_contrataciones").dataTable(
+    ); 
+
+
+};
+eventoSlctGlobalSimple=function(){
+};
+
+BtnEditarDetalle=function(btn,id){
+    var tr = btn.parentNode.parentNode; // Intocable
+    ContratacionG.id=id;
+    ContratacionG.texto=$(tr).find("td:eq(0)").text();
+    ContratacionG.monto_total=$(tr).find("td:eq(1)").text();
+    ContratacionG.objeto=$(tr).find("td:eq(2)").text();
+    ContratacionG.justificacion=$(tr).find("td:eq(3)").text();
+    ContratacionG.actividades=$(tr).find("td:eq(4)").text();
+    ContratacionG.fecha_conformidad=$(tr).find("td:eq(5)").text();
+    ContratacionG.fecha_inicio=$(tr).find("td:eq(6)").text();
+    ContratacionG.fecha_fin=$(tr).find("td:eq(7)").text();
+    ContratacionG.fecha_aviso=$(tr).find("td:eq(8)").text();
+    ContratacionG.programacion_aviso=$(tr).find("td:eq(9)").text();
+    $("#BtnEditar").click();
+};
+
+validaDetalleContrataciones = function(){
+    var r=true;
+    if( $("#form_detalle_contrataciones_modal #txt_texto").val()=='' ){
+        alert("Ingrese Texto");
+        r=false;
+    }
+    return r;
+};
+EditarDetalle = function(){
+    if(validaDetalleContrataciones()){
+        Contrataciones.AgregarEditarDetalleContratacion(1);
+    }
+};
+AgregarDetalle = function(){
+    if(validaDetalleContrataciones()){
+        Contrataciones.AgregarEditarDetalleContratacion(0);
+    }
 };
 </script>

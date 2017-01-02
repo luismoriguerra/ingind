@@ -116,9 +116,9 @@ var Contrataciones={
                 $(".overlay, .loading-img").remove();
 
                 if (obj.rst==1) {
-                    MostrarAjax('contrataciones');
+                    CargarDetalleContratacion(263);
                     msjG.mensaje('success',obj.msj,4000);
-                    $('#contratacionModal .modal-footer [data-dismiss="modal"]').click();
+                    $('#contrataciondetalleModal .modal-footer [data-dismiss="modal"]').click();
                 } else {
                     $.each(obj.msj, function(index, datos) {
                         $("#error_"+index).attr("data-original-title",datos);
@@ -133,7 +133,7 @@ var Contrataciones={
         });
     },
     AgregarEditarDetalleContratacion:function(AE){
-        var datos = $("#form_contrataciones_modal").serialize().split("txt_").join("").split("slct_").join("");
+        var datos = $("#form_detalle_contrataciones_modal").serialize().split("txt_").join("").split("slct_").join("");
         var accion = (AE==1) ? "contratacion/editardetalle" : "contratacion/creardetalle";
 
         $.ajax({

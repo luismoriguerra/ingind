@@ -75,7 +75,7 @@
           <div class="form-group">
                   <label class="control-label">Area:
                   </label>
-                  <select class="form-control" name="slct_area" id="slct_area">
+                  <select class="form-control" name="slct_area" id="slct_area" readonly="">
                   </select>
                 </div>
              </div>
