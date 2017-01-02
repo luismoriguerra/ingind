@@ -53,7 +53,7 @@
             <input type="text" class="form-control" placeholder="Programación Aviso" name="txt_programacion_aviso" id="txt_programacion_aviso">
           </div>
              </div>
-              <div class="col-sm-4">
+              <div class="col-sm-12">
           <div class="form-group">
             <label class="control-label">Nro Doc:</label>
             <input type="text" class="form-control" placeholder="Nro Doc" name="nro_doc" id="nro_doc">
