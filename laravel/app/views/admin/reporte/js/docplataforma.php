@@ -57,11 +57,11 @@ GeneraHref=function(){
             $("#btnexport").removeAttr('href');
         if ( fecha!=="" && $("#slct_area_id").val().length>0 ) {
             alert(fecha+'111');
-            window.location='reporte/exportdocplataforma'+'?nro='+$.rand(1000)+'&fecha='+data.fecha+'&areaexport='+data.area_id);
+            window.location='reporte/exportdocplataforma'+'?nro='+$.rand(1000)+'&fecha='+data.fecha+'&areaexport='+data.area_id;
         }
         else if ( fecha!=="" ) {
             alert(fecha+'222');
-            window.location='reporte/exportdocplataforma'+'?nro='+$.rand(1000)+'&fecha='+data.fecha);
+            window.location='reporte/exportdocplataforma'+'?nro='+$.rand(1000)+'&fecha='+data.fecha;
         } 
 }
 
