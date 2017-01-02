@@ -64,19 +64,23 @@
                         <br>
                        <form id="form_detalle_contrataciones" name="form_detalle_contrataciones" method="POST" action="">
                            <div class="form-group" style="display: none">
+                               <div class="box-header table-responsive"><center><h2 type="text" id="txt_titulo"></h2></center></div>
                         <div class="box-body table-responsive">
                             <table id="t_detalle_contrataciones" class="table table-bordered">
                                 <thead>
                                     <tr>
+                                        <th>N°</th>
                                         <th>Texto</th>
                                         <th>Fecha Inicio</th>
                                         <th>Fecha Fin</th>
                                         <th>Fecha Aviso</th>
-                                        <th>Fecha Conformidad</th>
                                         <th>Monto</th>
                                         <th>Tipo</th>
                                         <th>Programación Aviso</th>
+                                        <th>Fecha Conformidad</th>
                                         <th>Nro Doc</th>
+                                        <th>[]</th>
+                                        <th>[]</th>
                                         <th>[]</th>
                                         <th>[]</th>
                                     </tr>

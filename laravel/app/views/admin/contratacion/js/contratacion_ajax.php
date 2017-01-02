@@ -134,8 +134,9 @@ var Contrataciones={
     },
     AgregarEditarDetalleContratacion:function(AE){
         var datos = $("#form_detalle_contrataciones_modal").serialize().split("txt_").join("").split("slct_").join("");
+        var id_contratacion=$("#form_detalle_contrataciones_modal #txt_contratacion_id").val();
         var accion = (AE==1) ? "contratacion/editardetalle" : "contratacion/creardetalle";
-
+        
         $.ajax({
             url         : accion,
             type        : 'POST',
@@ -148,7 +149,7 @@ var Contrataciones={
             success : function(obj) {
                 $(".overlay, .loading-img").remove();
                 if(obj.rst==1){
-                    CargarDetalleContratacion(263);
+                    CargarDetalleContratacion(id_contratacion);
                     msjG.mensaje('success',obj.msj,4000);
                     $('#contrataciondetalleModal .modal-footer [data-dismiss="modal"]').click();
 
@@ -171,9 +172,9 @@ var Contrataciones={
         });
 
     },
-        CambiarEstadoDetalleContrataciones: function(id, AD){
+    CambiarEstadoDetalleContrataciones: function(id){
         $("#form_detalle_contrataciones_modal").append("<input type='hidden' value='"+id+"' name='id'>");
-        $("#form_detalle_contrataciones_modal").append("<input type='hidden' value='"+AD+"' name='estado'>");
+        var id=$("#form_detalle_contrataciones_modal #txt_contratacion_id").val();
         var datos = $("#form_detalle_contrataciones_modal").serialize().split("txt_").join("").split("slct_").join("");
         $.ajax({
             url         : 'contratacion/cambiarestadodetalle',
@@ -188,7 +189,7 @@ var Contrataciones={
                 $(".overlay, .loading-img").remove();
 
                 if (obj.rst==1) {
-                    CargarDetalleContratacion(263);
+                    CargarDetalleContratacion(id);
                     msjG.mensaje('success',obj.msj,4000);
                     $('#contrataciondetalleModal .modal-footer [data-dismiss="modal"]').click();
                 } else {
@@ -203,6 +204,72 @@ var Contrataciones={
                 msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
             }
         });
-    }
+    },
+    Confirmar: function(id){
+        $("#form_detalle_contrataciones_modal").append("<input type='hidden' value='"+id+"' name='id'>");
+        var id_contratacion=$("#form_detalle_contrataciones_modal #txt_contratacion_id").val();
+        var datos = $("#form_detalle_contrataciones_modal").serialize().split("txt_").join("").split("slct_").join("");
+        $.ajax({
+            url         : 'contratacion/confirmar',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : datos,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay, .loading-img").remove();
+
+                if (obj.rst==1) {
+                    CargarDetalleContratacion(id_contratacion);
+                    msjG.mensaje('success',obj.msj,4000);
+                    $('#contrataciondetalleModal .modal-footer [data-dismiss="modal"]').click();
+                } else {
+                    $.each(obj.msj, function(index, datos) {
+                        $("#error_"+index).attr("data-original-title",datos);
+                        $('#error_'+index).css('display','');
+                    });
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
+            }
+        });
+    },
+    Denegar: function(id){
+        $("#form_detalle_contrataciones_modal").append("<input type='hidden' value='"+id+"' name='id'>");
+        var id_contratacion=$("#form_detalle_contrataciones_modal #txt_contratacion_id").val();
+        var datos = $("#form_detalle_contrataciones_modal").serialize().split("txt_").join("").split("slct_").join("");
+        $.ajax({
+            url         : 'contratacion/denegar',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : datos,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay, .loading-img").remove();
+
+                if (obj.rst==1) {
+                    CargarDetalleContratacion(id_contratacion);
+                    msjG.mensaje('success',obj.msj,4000);
+                    $('#contrataciondetalleModal .modal-footer [data-dismiss="modal"]').click();
+                } else {
+                    $.each(obj.msj, function(index, datos) {
+                        $("#error_"+index).attr("data-original-title",datos);
+                        $('#error_'+index).css('display','');
+                    });
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
+            }
+        });
+    },
 };
 </script>

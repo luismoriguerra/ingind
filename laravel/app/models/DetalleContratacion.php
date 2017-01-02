@@ -18,7 +18,7 @@ class DetalleContratacion extends Base
 
     public static function getCargar($array )
     {
-        $sSql=" SELECT cr.id, cr.contratacion_id,cr.fecha_inicio,cr.fecha_fin,cr.fecha_aviso,cr.monto,cr.fecha_conformidad,cr.tipo,cr.texto,cr.programacion_aviso,cr.nro_doc
+        $sSql=" SELECT cr.id, cr.contratacion_id,cr.fecha_inicio,cr.fecha_fin,cr.fecha_aviso,cr.monto, case cr.fecha_conformidad  when '0000-00-00' then ''  else cr.fecha_conformidad end as fecha_conformidad,cr.tipo,cr.texto,cr.programacion_aviso,cr.nro_doc,cr.estado
                 FROM contra_reque cr
                 WHERE cr.estado=1 ";
         $sSql.= $array['where'];
