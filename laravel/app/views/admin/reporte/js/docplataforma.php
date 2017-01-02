@@ -53,6 +53,7 @@ $(document).ready(function() {
 
 GeneraHref=function(){
     var fecha=$("#fecha").val();
+    alert(fecha);
         if ( fecha!=="" && $("#slct_area_id").val().length()>0 ) {
             data = {fecha:fecha,area_id:$("#slct_area_id").val().join(',')};
             $("#btnexport").attr('href','reporte/exportdocplataforma'+'?fecha='+data.fecha+'&areaexport='+data.area_id);
