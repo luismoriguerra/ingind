@@ -52,9 +52,13 @@ $(document).ready(function() {
 
     $(document).on('click', '#btnexport', function(event) {
         var fecha=$("#fecha").val();
-        if ( fecha!=="") {
+        if ( fecha!=="" && $("#slct_area_id").val().length()>0 ) {
             data = {fecha:fecha,area_id:$("#slct_area_id").val().join(',')};
             $(this).attr('href','reporte/exportdocplataforma'+'?fecha='+data.fecha+'&areaexport='+data.area_id);
+        }
+        else if ( fecha!=="" ) {
+            data = {fecha:fecha,area_id:$("#slct_area_id").val().join(',')};
+            $(this).attr('href','reporte/exportdocplataforma'+'?fecha='+data.fecha);
         } else {
             alert("Seleccione Fecha");
         }
