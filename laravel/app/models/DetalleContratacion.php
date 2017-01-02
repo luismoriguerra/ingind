@@ -3,8 +3,8 @@
 class DetalleContratacion extends Base
 {
     public $table = "contra_reque";
-    public static $where =['id', 'contratacion_id','fecha_inicio','fecha_fin','fecha_aviso','monto','fecha_conformidad','tipo','texto','programacion_aviso','nro_doc'];
-    public static $selec =['id', 'contratacion_id','fecha_inicio','fecha_fin','fecha_aviso','monto','fecha_conformidad','tipo','texto','programacion_aviso','nro_doc'];
+    public static $where =['id', 'contratacion_id','fecha_inicio','fecha_fin','fecha_aviso','monto','fecha_conformidad','tipo','texto','programacion_aviso','nro_doc','estado'];
+    public static $selec =['id', 'contratacion_id','fecha_inicio','fecha_fin','fecha_aviso','monto','fecha_conformidad','tipo','texto','programacion_aviso','nro_doc','estado'];
     
     public static function getCargarCount( $array )
     {
@@ -20,7 +20,7 @@ class DetalleContratacion extends Base
     {
         $sSql=" SELECT cr.id, cr.contratacion_id,cr.fecha_inicio,cr.fecha_fin,cr.fecha_aviso,cr.monto,cr.fecha_conformidad,cr.tipo,cr.texto,cr.programacion_aviso,cr.nro_doc
                 FROM contra_reque cr
-                WHERE 1=1 ";
+                WHERE cr.estado=1 ";
         $sSql.= $array['where'];
         $oData = DB::select($sSql);
         return $oData;

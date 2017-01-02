@@ -56,7 +56,7 @@
               <div class="col-sm-12">
           <div class="form-group">
             <label class="control-label">Nro Doc:</label>
-            <input type="text" class="form-control" placeholder="Nro Doc" name="nro_doc" id="nro_doc">
+            <input type="text" class="form-control" placeholder="Nro Doc" name="txt_nro_doc" id="txt_nro_doc">
           </div>
               </div>
           <div class="form-group">

@@ -116,7 +116,7 @@ var Contrataciones={
                 $(".overlay, .loading-img").remove();
 
                 if (obj.rst==1) {
-                    CargarDetalleContratacion(263);
+                     MostrarAjax('contrataciones');
                     msjG.mensaje('success',obj.msj,4000);
                     $('#contrataciondetalleModal .modal-footer [data-dismiss="modal"]').click();
                 } else {
@@ -148,9 +148,9 @@ var Contrataciones={
             success : function(obj) {
                 $(".overlay, .loading-img").remove();
                 if(obj.rst==1){
-                    MostrarAjax('contrataciones');
+                    CargarDetalleContratacion(263);
                     msjG.mensaje('success',obj.msj,4000);
-                    $('#contratacionModal .modal-footer [data-dismiss="modal"]').click();
+                    $('#contrataciondetalleModal .modal-footer [data-dismiss="modal"]').click();
 
                 } else {
                     var cont = 0;
@@ -171,5 +171,38 @@ var Contrataciones={
         });
 
     },
+        CambiarEstadoDetalleContrataciones: function(id, AD){
+        $("#form_detalle_contrataciones_modal").append("<input type='hidden' value='"+id+"' name='id'>");
+        $("#form_detalle_contrataciones_modal").append("<input type='hidden' value='"+AD+"' name='estado'>");
+        var datos = $("#form_detalle_contrataciones_modal").serialize().split("txt_").join("").split("slct_").join("");
+        $.ajax({
+            url         : 'contratacion/cambiarestadodetalle',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : datos,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay, .loading-img").remove();
+
+                if (obj.rst==1) {
+                    CargarDetalleContratacion(263);
+                    msjG.mensaje('success',obj.msj,4000);
+                    $('#contrataciondetalleModal .modal-footer [data-dismiss="modal"]').click();
+                } else {
+                    $.each(obj.msj, function(index, datos) {
+                        $("#error_"+index).attr("data-original-title",datos);
+                        $('#error_'+index).css('display','');
+                    });
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
+            }
+        });
+    }
 };
 </script>

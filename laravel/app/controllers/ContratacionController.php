@@ -263,6 +263,26 @@ class ContratacionController extends \BaseController
         }
     }
     
+    public function postCambiarestadodetalle()
+    {
+
+        if ( Request::ajax() ) {
+
+            $detallecontratacion = DetalleContratacion::find(Input::get('id'));
+            $detallecontratacion->usuario_created_at = Auth::user()->id;
+            $detallecontratacion->estado = Input::get('estado');
+            $detallecontratacion->save();
+           
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro actualizado correctamente',
+                )
+            );    
+
+        }
+    }
+    
         public function postCreardetalle()
     {
         if ( Request::ajax() ) {
@@ -326,23 +346,18 @@ class ContratacionController extends \BaseController
                 return Response::json( array('rst'=>2, 'msj'=>$validator->messages()) );
             }
 
-            $contratacionId = Input::get('id');
-            $contratacion = Contratacion::find($contratacionId);
-            $contratacion->titulo = Input::get('titulo');
-            $contratacion->monto_total = Input::get('monto_total');
-            $contratacion->objeto = Input::get('objeto');
-            $contratacion->justificacion = Input::get('justificacion');
-            $contratacion->actividades = Input::get('actividades');
-            $contratacion->fecha_conformidad = Input::get('fecha_conformidad');
-            $contratacion->fecha_inicio = Input::get('fecha_inicio');
-            $contratacion->fecha_fin = Input::get('fecha_fin');
-            $contratacion->fecha_aviso = Input::get('fecha_aviso');
-            $contratacion->programacion_aviso = Input::get('programacion_aviso');
-            $contratacion->nro_doc = Input::get('nro_doc');
-            $contratacion->area_id = Input::get('area');
-            $contratacion->estado = Input::get('estado');
-            $contratacion->usuario_updated_at = Auth::user()->id;
-            $contratacion->save();
+            $DetallecontratacionId = Input::get('id');
+            $Detallecontratacion = DetalleContratacion::find($DetallecontratacionId);
+            $Detallecontratacion->texto = Input::get('texto');
+            $Detallecontratacion->monto = Input::get('monto');
+            $Detallecontratacion->fecha_conformidad = Input::get('fecha_conformidad');
+            $Detallecontratacion->fecha_inicio = Input::get('fecha_inicio');
+            $Detallecontratacion->fecha_fin = Input::get('fecha_fin');
+            $Detallecontratacion->fecha_aviso = Input::get('fecha_aviso');
+            $Detallecontratacion->programacion_aviso = Input::get('programacion_aviso');
+            $Detallecontratacion->nro_doc = Input::get('nro_doc');
+            $Detallecontratacion->usuario_updated_at = Auth::user()->id;
+            $Detallecontratacion->save();
 
             return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
         }

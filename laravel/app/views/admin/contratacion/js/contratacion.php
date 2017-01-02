@@ -108,17 +108,14 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','EditarDetalle();');
 
-            $('#form_detalle_contrataciones_modal #txt_titulo').val( ContratacionDetalleG.titulo );
-            $('#form_detalle_contrataciones_modal #txt_monto_total').val( ContratacionDetalleG.monto_total );
-            $('#form_detalle_contrataciones_modal #txt_objeto').val( ContratacionDetalleG.objeto );
-            $('#form_detalle_contrataciones_modal #txt_justificacion').val( ContratacionDetalleG.justificacion );
-            $('#form_detalle_contrataciones_modal #txt_actividades').val( ContratacionDetalleG.actividades );
+            $('#form_detalle_contrataciones_modal #txt_texto').val( ContratacionDetalleG.texto );
+            $('#form_detalle_contrataciones_modal #txt_monto').val( ContratacionDetalleG.monto );
             $('#form_detalle_contrataciones_modal #fecha_conformidad').val( ContratacionDetalleG.fecha_conformidad );
             $('#form_detalle_contrataciones_modal #fecha_inicio').val( ContratacionDetalleG.fecha_inicio );
             $('#form_detalle_contrataciones_modal #fecha_fin').val( ContratacionDetalleG.fecha_fin );
             $('#form_detalle_contrataciones_modal #fecha_aviso').val( ContratacionDetalleG.fecha_aviso );
             $('#form_detalle_contrataciones_modal #txt_programacion_aviso').val( ContratacionDetalleG.programacion_aviso );
-            $('#form_detalle_contrataciones_modal #slct_estado').val( ContratacionDetalleG.estado );
+            $('#form_detalle_contrataciones_modal #txt_nro_doc').val( ContratacionDetalleG.nro_doc );
             $("#form_detalle_contrataciones_modal").append("<input type='hidden' value='"+ContratacionDetalleG.id+"' name='id'>");
             
           
@@ -237,7 +234,7 @@ mostrarHTML=function(datos){
             "<td>"+data.tipo+"</td>"+
             "<td>"+data.programacion_aviso+"</td>"+
             "<td>"+data.nro_doc+"</td>"+
-            "<td align='center'><a class='form-control btn btn-primary' onclick='BtnEditarDetalle(this,"+data.id+")'><i class='fa fa-lg fa-edit'></i></a></td>"+
+            "<td align='center'><a class='form-control btn btn-primary' data-toggle='modal' data-target='#contrataciondetalleModal' data-titulo='Editar' onclick='BtnEditarDetalle(this,"+data.id+")'><i class='fa fa-lg fa-edit'></i></a></td>"+
             '<td align="center"><span id="'+data.id+'" onClick="tacho('+data.id+')" data-estado="'+data.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i></span></td>';
         html+="</tr>";
     });
@@ -262,7 +259,7 @@ BtnEditarDetalle=function(btn,id){
     ContratacionDetalleG.tipo=$(tr).find("td:eq(6)").text();
     ContratacionDetalleG.programacion_aviso=$(tr).find("td:eq(7)").text();
     ContratacionDetalleG.nro_doc=$(tr).find("td:eq(8)").text();
-    $("#BtnEditar").click();
+//    $("#BtnEditar").click();
 };
 
 validaDetalleContrataciones = function(){
@@ -282,5 +279,9 @@ AgregarDetalle = function(){
     if(validaDetalleContrataciones()){
         Contrataciones.AgregarEditarDetalleContratacion(0);
     }
+};
+
+tacho = function(id){
+    Contrataciones.CambiarEstadoDetalleContrataciones(id, 0);
 };
 </script>
