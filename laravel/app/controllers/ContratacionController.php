@@ -263,7 +263,7 @@ class ContratacionController extends \BaseController
         }
     }
     
-    public function postConfirmar()
+    public function postConfirmardetalle()
     {
 
         if ( Request::ajax() ) {
@@ -283,7 +283,7 @@ class ContratacionController extends \BaseController
         }
     }
     
-    public function postDenegar()
+    public function postDenegardetalle()
     {
 
         if ( Request::ajax() ) {
@@ -292,6 +292,46 @@ class ContratacionController extends \BaseController
             $detallecontratacion->usuario_updated_at = Auth::user()->id;
             $detallecontratacion->nro_doc = Input::get('');
             $detallecontratacion->save();
+           
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro actualizado correctamente',
+                )
+            );    
+
+        }
+    }
+    
+    public function postConfirmar()
+    {
+
+        if ( Request::ajax() ) {
+
+            $contratacion = Contratacion::find(Input::get('id'));
+            $contratacion->usuario_updated_at = Auth::user()->id;
+            $contratacion->fecha_conformidad =date('Y-m-d');
+            $contratacion->save();
+            
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro actualizado correctamente',
+                )
+            );    
+
+        }
+    }
+    
+    public function postDenegar()
+    {
+
+        if ( Request::ajax() ) {
+
+            $contratacion = Contratacion::find(Input::get('id'));
+            $contratacion->usuario_updated_at = Auth::user()->id;
+            $contratacion->nro_doc = Input::get('');
+            $contratacion->save();
            
             return Response::json(
                 array(

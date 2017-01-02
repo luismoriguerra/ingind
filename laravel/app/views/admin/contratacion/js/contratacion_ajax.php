@@ -205,12 +205,12 @@ var Contrataciones={
             }
         });
     },
-    Confirmar: function(id){
+    Confirmardetalle: function(id){
         $("#form_detalle_contrataciones_modal").append("<input type='hidden' value='"+id+"' name='id'>");
         var id_contratacion=$("#form_detalle_contrataciones_modal #txt_contratacion_id").val();
         var datos = $("#form_detalle_contrataciones_modal").serialize().split("txt_").join("").split("slct_").join("");
         $.ajax({
-            url         : 'contratacion/confirmar',
+            url         : 'contratacion/confirmardetalle',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -238,12 +238,13 @@ var Contrataciones={
             }
         });
     },
-    Denegar: function(id){
+            
+    Denegardetalle: function(id){
         $("#form_detalle_contrataciones_modal").append("<input type='hidden' value='"+id+"' name='id'>");
         var id_contratacion=$("#form_detalle_contrataciones_modal #txt_contratacion_id").val();
         var datos = $("#form_detalle_contrataciones_modal").serialize().split("txt_").join("").split("slct_").join("");
         $.ajax({
-            url         : 'contratacion/denegar',
+            url         : 'contratacion/denegardetalle',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -258,6 +259,71 @@ var Contrataciones={
                     CargarDetalleContratacion(id_contratacion);
                     msjG.mensaje('success',obj.msj,4000);
                     $('#contrataciondetalleModal .modal-footer [data-dismiss="modal"]').click();
+                } else {
+                    $.each(obj.msj, function(index, datos) {
+                        $("#error_"+index).attr("data-original-title",datos);
+                        $('#error_'+index).css('display','');
+                    });
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
+            }
+        });
+    },
+            
+    Confirmar: function(id){
+        $("#form_contrataciones_modal").append("<input type='hidden' value='"+id+"' name='id'>");
+        var datos = $("#form_contrataciones_modal").serialize().split("txt_").join("").split("slct_").join("");
+        $.ajax({
+            url         : 'contratacion/confirmar',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : datos,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay, .loading-img").remove();
+
+                if (obj.rst==1) {
+                    MostrarAjax("contrataciones");
+                    msjG.mensaje('success',obj.msj,4000);
+                    $('#contratacionModal .modal-footer [data-dismiss="modal"]').click();
+                } else {
+                    $.each(obj.msj, function(index, datos) {
+                        $("#error_"+index).attr("data-original-title",datos);
+                        $('#error_'+index).css('display','');
+                    });
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
+            }
+        });
+    },
+    Denegar: function(id){
+        $("#form_contrataciones_modal").append("<input type='hidden' value='"+id+"' name='id'>");
+        var datos = $("#form_contrataciones_modal").serialize().split("txt_").join("").split("slct_").join("");
+        $.ajax({
+            url         : 'contratacion/denegar',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : datos,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay, .loading-img").remove();
+
+                if (obj.rst==1) {
+                    MostrarAjax("contrataciones");
+                    msjG.mensaje('success',obj.msj,4000);
+                    $('#contratacionModal .modal-footer [data-dismiss="modal"]').click();
                 } else {
                     $.each(obj.msj, function(index, datos) {
                         $("#error_"+index).attr("data-original-title",datos);

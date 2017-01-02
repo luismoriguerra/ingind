@@ -35,7 +35,7 @@
             <input type="text" class="form-control" placeholder="Ingrese Monto" name="txt_monto_total" id="txt_monto_total">
           </div>
                 </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4" hidden="">
                <div class="form-group">
             <label class="control-label">Fecha Conformidad:</label>
             <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="fecha_conformidad" name="fecha_conformidad" onfocus="blur()"/>
@@ -65,10 +65,10 @@
             <input type="text" class="form-control" placeholder="Programación Aviso" name="txt_programacion_aviso" id="txt_programacion_aviso">
           </div>
              </div>
-              <div class="col-sm-4">
+            <div class="col-sm-4" hidden="">
           <div class="form-group">
             <label class="control-label">Nro Doc:</label>
-            <input type="text" class="form-control" placeholder="Nro Doc" name="nro_doc" id="nro_doc">
+            <input type="text" class="form-control" placeholder="Nro Doc" name="txt_nro_doc" id="txt_nro_doc">
           </div>
               </div>
             <div class="col-sm-8">
@@ -83,7 +83,7 @@
 
          
 
-
+            
           <div class="form-group">
             <label class="control-label">Estado:
             </label>
