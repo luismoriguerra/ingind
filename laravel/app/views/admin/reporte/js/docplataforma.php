@@ -53,12 +53,13 @@ $(document).ready(function() {
 
 GeneraHref=function(){
     var fecha=$("#fecha").val();
-            data = {fecha:fecha,area_id:$("#slct_area_id").val().join(',')};
             $("#btnexport").removeAttr('href');
         if ( fecha!=="" && $("#slct_area_id").val().length>0 ) {
+            data = {fecha:fecha,area_id:$("#slct_area_id").val().join(',')};
             window.location='reporte/exportdocplataforma'+'?nro='+Math.random(1000)+'&fecha='+data.fecha+'&areaexport='+data.area_id;
         }
         else if ( fecha!=="" ) {
+            data = {fecha:fecha};
             window.location='reporte/exportdocplataforma'+'?nro='+Math.random(1000)+'&fecha='+data.fecha;
         } 
 }
