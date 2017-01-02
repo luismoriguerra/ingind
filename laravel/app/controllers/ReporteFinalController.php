@@ -514,11 +514,17 @@ class ReporteFinalController extends BaseController
         $alerta=explode("|",$value->alerta);
         $texto="";
         $tipo=0;
-
+        
+        DB::beginTransaction();
         if( ($value->rol_id==8 OR $value->rol_id==9) AND ($value->responsable!=$value->jefe) ){
           $value->responsable=$value->jefe;
           $value->email_mdi=$value->email_jefe;
+          $value->email='';
           $alerta[1]='';
+          $cd=CartaDesglose::where('ruta_detalle_id',$value->ruta_detalle_id)->first();
+          $cartaDesglose=CartaDesglose::find($cd->id);
+          $cartaDesglose->persona_id=$value->jefe_id;
+          $cartaDesglose->save();
         }
 
         $html.="<tr>";
@@ -535,7 +541,6 @@ class ReporteFinalController extends BaseController
         $html.="<td>".$value->fecha_inicio."</td>";
         $html.="</tr>";
 
-        DB::beginTransaction();
         if($alerta[1]==''){
           $tipo=1;
           $texto=".::Notificación::.";
