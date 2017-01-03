@@ -72,6 +72,7 @@ $(document).ready(function() {
             $("#upload_idc").val(AreasG.id);
             $("#upload_idp").val(AreasG.id);
         }
+        $('#form_areas_modal select').multiselect('rebuild');
         $("#upload_imagen").on('change',function() {
             CargarImagen(this, 'imagen_');
         });
@@ -101,7 +102,7 @@ BtnEditar=function(btn,id){
     AreasG.id=id;
     AreasG.nombre=$(tr).find("td:eq(0)").text();
     AreasG.nemonico=$(tr).find("td:eq(0)").text();
-    AreasG.estado=$(tr).find("td:eq(1)>span").attr("data-estado");
+    AreasG.estado=$(tr).find("td:eq(2)>span").attr("data-estado");
     $("#BtnEditar").click();
 };
 

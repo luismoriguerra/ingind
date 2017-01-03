@@ -169,17 +169,21 @@ var slctGlobal={
 
 var dataTableG={
     CargarCab:function(cab){
-        var r=[];
+        var r=[];var clase='';var option=''; var visible=true;
         $.each(cab, 
             function(id, val) {
                 var rand=Math.floor((Math.random() * 100) + 1);
-                var clase='';var option='';
-                if(typeof(val.split("|")[3])!=undefined){
+                clase=''; option='';  visible=true;
+                if(typeof(val.split("|")[3])!='undefined' && val.split("|")[3]!=''){
                     clase=val.split("|")[3];
                 }
 
-                if(typeof(val.split("|")[4])!=undefined){
+                if(typeof(val.split("|")[4])!='undefined' && val.split("|")[4]!=''){
                     option=val.split("|")[4];
+                }
+                
+                if(typeof(val.split("|")[5])!='undefined' && val.split("|")[5]!=''){
+                    visible=false;
                 }
                 r.push({
                     'id'    : id,
@@ -189,6 +193,7 @@ var dataTableG={
                     'color' : val.split("|")[2],
                     'clase' : clase,
                     'option' : option,
+                    'visible': visible,
                 });
             }
         );
@@ -207,14 +212,16 @@ var dataTableG={
                             return GeneraFn(row,meta);
                         },
                         "defaultContent": '',
-                        "name": cab[i].id
+                        "name": cab[i].id,
+                        "visible": cab[i].visible
                     });
             }
             else{
             col.push({
                         "targets": tar,
                         "data": cab[i].id,
-                        "name": cab[i].id
+                        "name": cab[i].id,
+                        "visible": cab[i].visible
                     });
             }
 
