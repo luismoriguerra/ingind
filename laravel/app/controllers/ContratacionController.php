@@ -439,6 +439,7 @@ class ContratacionController extends \BaseController
             $contratacion->programacion_aviso = Input::get('programacion_aviso');
             $contratacion->nro_doc = Input::get('nro_doc');
             $contratacion->fecha_conformidad = Input::get('fecha_conformidad');
+            $contratacion->tipo = Input::get('tipo');
             $contratacion->usuario_created_at = Auth::user()->id;
             $contratacion->save();
 
@@ -482,6 +483,7 @@ class ContratacionController extends \BaseController
             $Detallecontratacion->fecha_aviso = Input::get('fecha_aviso');
             $Detallecontratacion->programacion_aviso = Input::get('programacion_aviso');
             $Detallecontratacion->nro_doc = Input::get('nro_doc');
+            $Detallecontratacion->tipo = Input::get('tipo');
             $Detallecontratacion->usuario_updated_at = Auth::user()->id;
             $Detallecontratacion->save();
 
