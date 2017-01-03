@@ -29,49 +29,49 @@
             <label class="control-label">Actividades:</label>
             <textarea type="text" class="form-control" placeholder="Ingrese Actividades" name="txt_actividades" id="txt_actividades"></textarea>
           </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
           <div class="form-group">
             <label class="control-label">Monto Total:</label>
             <input type="text" class="form-control" placeholder="Ingrese Monto" name="txt_monto_total" id="txt_monto_total">
           </div>
                 </div>
-            <div class="col-sm-4" hidden="">
+            <div class="col-sm-3" hidden="">
                <div class="form-group">
             <label class="control-label">Fecha Conformidad:</label>
             <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="fecha_conformidad" name="fecha_conformidad" onfocus="blur()"/>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
           <div class="form-group">
             <label class="control-label">Fecha Inicio:</label>
             <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="fecha_inicio" name="fecha_inicio" onfocus="blur()"/>
           </div>
               </div>
-            <div class="col-sm-4">  
+            <div class="col-sm-3">  
           <div class="form-group">
             <label class="control-label">Fecha Fin:</label>
             <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="fecha_fin" name="fecha_fin" onfocus="blur()"/>
           </div>
                  </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
           <div class="form-group">
             <label class="control-label">Fecha Aviso:</label>
             <input type="text" class="form-control fecha" placeholder="AAAA-MM-DD" id="fecha_aviso" name="fecha_aviso" onfocus="blur()"/>
           </div>
              </div>
-              <div class="col-sm-4">
+              <div class="col-sm-3">
           <div class="form-group">
-            <label class="control-label">Programación Aviso:</label>
+            <label class="control-label">Pro. Aviso:</label>
             <input type="text" class="form-control" placeholder="Programación Aviso" name="txt_programacion_aviso" id="txt_programacion_aviso">
           </div>
              </div>
-            <div class="col-sm-4" hidden="">
+            <div class="col-sm-3" hidden="">
           <div class="form-group">
             <label class="control-label">Nro Doc:</label>
             <input type="text" class="form-control" placeholder="Nro Doc" name="txt_nro_doc" id="txt_nro_doc">
           </div>
               </div>
-            <div class="col-sm-8">
+            <div class="col-sm-9">
           <div class="form-group">
                   <label class="control-label">Area:
                   </label>

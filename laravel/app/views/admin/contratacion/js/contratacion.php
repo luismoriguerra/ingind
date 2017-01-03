@@ -10,23 +10,25 @@ $(document).ready(function() {
         2: Descripción de cabecera
         3: Color Cabecera
     */
+   $("[data-toggle='offcanvas']").click();
     var datos={estado:1};
     slctGlobal.listarSlct('area','slct_area','simple',null,datos);
     slctGlobalHtml('slct_estado','simple');
     slctGlobalHtml('slct_tipo','simple');
-    var idG={    titulo        :'onBlur|Titulo Contratación|#DCE6F1', //#DCE6F1
+    var idG={   titulo        :'onBlur|Titulo Contratación|#DCE6F1', //#DCE6F1
                 monto_total        :'onBlur|Monto Contratación|#DCE6F1', //#DCE6F1
                 objeto        :'onBlur|Objeto Contratación|#DCE6F1', //#DCE6F1
                 justificacion        :'onBlur|Justificación Contratación|#DCE6F1', //#DCE6F1
                 actividades        :'onBlur|Actividades Contratación|#DCE6F1', //#DCE6F1
-                fecha_conformidad        :'onBlur|Fecha Conformidad|#DCE6F1', //#DCE6F1
                 fecha_inicio        :'onBlur|Fecha Inicio|#DCE6F1', //#DCE6F1
                 fecha_fin        :'onBlur|Fecha Fin|#DCE6F1', //#DCE6F1
                 fecha_aviso        :'onBlur|Fecha Aviso|#DCE6F1', //#DCE6F1
                 programacion_aviso        :'onBlur|Programación Aviso|#DCE6F1', //#DCE6F1
                 area          :'3|Área |#DCE6F1',
-                nro_doc       :'onBlur|Número de Documento|#DCE6F1', //#DCE6F1  
-                estado        :'2|Estado|#DCE6F1', //#DCE6F1
+                fecha_conformidad        :'onBlur|Fecha Conformidad|#DCE6F1', //#DCE6F1
+                nro_doc       :'3|Número de Documento|#DCE6F1', //#DCE6F1  
+                estado        :'1|Estado|#DCE6F1', //#DCE6F1
+                Grupo          :'1|  |#DCE6F1',
              };
 
     var resG=dataTableG.CargarCab(idG);
@@ -34,9 +36,9 @@ $(document).ready(function() {
     var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,1,'contrataciones','t_contrataciones');
     columnDefsG=resG[0]; // registra las columnas del datatable
     targetsG=resG[1]; // registra los contadores
-    var resG=dataTableG.CargarBtn(columnDefsG,targetsG,1,'BtnEditar','t_contrataciones','fa-edit');
-    columnDefsG=resG[0]; // registra la colunmna adiciona con boton
-    targetsG=resG[1]; // registra el contador actualizado
+//    var resG=dataTableG.CargarBtn(columnDefsG,targetsG,1,'BtnEditar','t_contrataciones','fa-edit');
+//    columnDefsG=resG[0]; // registra la colunmna adiciona con boton
+//    targetsG=resG[1]; // registra el contador actualizado
     MostrarAjax('contrataciones');
      $('.fecha').daterangepicker({
             format: 'YYYY-MM-DD',
@@ -142,12 +144,12 @@ BtnEditar=function(btn,id){
     ContratacionG.objeto=$(tr).find("td:eq(2)").text();
     ContratacionG.justificacion=$(tr).find("td:eq(3)").text();
     ContratacionG.actividades=$(tr).find("td:eq(4)").text();
-    ContratacionG.fecha_conformidad=$(tr).find("td:eq(5)").text();
-    ContratacionG.fecha_inicio=$(tr).find("td:eq(6)").text();
-    ContratacionG.fecha_fin=$(tr).find("td:eq(7)").text();
-    ContratacionG.fecha_aviso=$(tr).find("td:eq(8)").text();
-    ContratacionG.programacion_aviso=$(tr).find("td:eq(9)").text();
-    ContratacionG.area=$(tr).find("td:eq(10) input[name='txt_area']").val();
+    ContratacionG.fecha_inicio=$(tr).find("td:eq(5)").text();
+    ContratacionG.fecha_fin=$(tr).find("td:eq(6)").text();
+    ContratacionG.fecha_aviso=$(tr).find("td:eq(7)").text();
+    ContratacionG.programacion_aviso=$(tr).find("td:eq(8)").text();
+    ContratacionG.area=$(tr).find("td:eq(9) input[name='txt_area']").val();
+    ContratacionG.fecha_conformidad=$(tr).find("td:eq(10)").text();
     ContratacionG.nro_doc=$(tr).find("td:eq(11)").text();
     ContratacionG.estado=$(tr).find("td:eq(12)>span").attr("data-estado");
     $("#BtnEditar").click();
@@ -165,39 +167,31 @@ MostrarAjax=function(t){
 }
 
 GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
-      if(typeof(fn)!='undefined' && fn.col==10){
+      if(typeof(fn)!='undefined' && fn.col==9){
         return row.area+"<input type='hidden'name='txt_area' value='"+row.area_id+"'>";
     }
-    
+    if(typeof(fn)!='undefined' && fn.col==13){
+        var grupo='';
+        if(row.fecha_conformidad==='' || row.nro_doc===''){
+        grupo+= '<a class="form-control btn btn-primary" onclick="BtnEditar(this,'+row.id+')"><i class="fa fa-lg fa-edit"></i></a><br>';
+        }
+        grupo+= '<span id="'+row.id+'" onClick="CargarDetalleContratacion(\''+row.id+'\',\''+row.titulo+'\')" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-eye-open"></i></span>';
+        return grupo;
+   }
+    if(typeof(fn)!='undefined' && fn.col==11){
+        var nro_doc='';
+         nro_doc+=row.nro_doc;
+         if(row.fecha_conformidad==='' && row.nro_doc!==''){
+         nro_doc+='&nbsp;&nbsp;<span id="'+row.id+'" onClick="confirmar('+row.id+')"  class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></span>&nbsp;';
+         nro_doc+='<span id="'+row.id+'" onClick="denegar('+row.id+')"  class="btn btn-warning"><i class="	glyphicon glyphicon-remove"></i></span>';
+         }
+        return nro_doc;     
+    }
     if(typeof(fn)!='undefined' && fn.col==12){
-        var estadohtml='';
-        estadohtml='<span id="'+row.id+'" onClick="activar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-danger">Inactivo</span>';
-        if(row.estado==1){
-            estadohtml='<span id="'+row.id+'" onClick="desactivar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-success">Activo</span>';
-        }
-        if(row.fecha_conformidad==='' && row.nro_doc===''){
-        estadohtml+='&nbsp;';
-        estadohtml+='<span id="'+row.id+'" onClick="CargarDetalleContratacion(\''+row.id+'\',\''+row.titulo+'\')" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-eye-open"></i></span>';
-        }
-        if(row.fecha_conformidad==='' && row.nro_doc!==''){
-        estadohtml+='&nbsp;';
-        estadohtml+='<span id="'+row.id+'" onClick="CargarDetalleContratacion(\''+row.id+'\',\''+row.titulo+'\')" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-eye-open"></i></span>';
-        estadohtml+='&nbsp;';
-        estadohtml+='<span id="'+row.id+'" onClick="confirmar('+row.id+')"  class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></span>';
-        estadohtml+='&nbsp;';
-        estadohtml+='<span id="'+row.id+'" onClick="denegar('+row.id+')"  class="btn btn-warning"><i class="	glyphicon glyphicon-remove"></i></span>';   
-        }
-        if(row.fecha_conformidad!=='' && row.nro_doc!=='') {
-        estadohtml+='&nbsp;';
-        estadohtml+='<span id="'+row.id+'" onClick="CargarDetalleContratacion(\''+row.id+'\',\''+row.titulo+'\')" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-eye-open"></i></span>';
-       }
-        if(row.fecha_conformidad!=='' && row.nro_doc==='') {
-        estadohtml+='&nbsp;';
-        estadohtml+='<span id="'+row.id+'" onClick="CargarDetalleContratacion(\''+row.id+'\',\''+row.titulo+'\')" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-eye-open"></i></span>';
-        
-       }
-         
-
+        var estadohtml='<div style="color:blue"><b>Activo</b></div>';
+         if(row.fecha_conformidad===''){
+            estadohtml+='<span id="'+row.id+'" onClick="desactivar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></span>';
+            }
         return estadohtml;
     }
 };
@@ -206,27 +200,43 @@ activarTabla=function(){
     $("#t_contrataciones").dataTable(); // inicializo el datatable    
 };
 
-activar = function(id){
-    Contrataciones.CambiarEstadoContrataciones(id, 1);
-};
+//activar = function(id){
+//    var c=confirm("¡Está seguro de Inactivar la Contratación. No se mostrará?")
+//    if(c){
+//        Contrataciones.CambiarEstadoContrataciones(id, 1);
+//    }
+//    
+//};
 desactivar = function(id){
-    Contrataciones.CambiarEstadoContrataciones(id, 0);
+    var c=confirm("¿Está seguro de Eliminar la Contratación? No se mostrará");
+    if(c){
+      Contrataciones.CambiarEstadoContrataciones(id, 0);
+      $("#form_detalle_contrataciones .form-group").css("display","none");
+    }
 };
 Editar = function(){
     if(validaContrataciones()){
         Contrataciones.AgregarEditarContratacion(1);
+        $("#form_detalle_contrataciones .form-group").css("display","none");
     }
 };
 Agregar = function(){
     if(validaContrataciones()){
        Contrataciones.AgregarEditarContratacion(0);
+       $("#form_detalle_contrataciones .form-group").css("display","none");
     }
 };
 
 validaContrataciones = function(){
     var r=true;
-    if( $("#form_contrataciones_modal #txt_titulo").val()=='' ){
-        alert("Ingrese Titulo de Contratacion");
+    var c=confirm("¿Confirma los datos registrados?");
+    if(c){
+        if( $("#form_contrataciones_modal #txt_titulo").val()=='' ){
+            alert("Ingrese Titulo de Contratacion");
+            r=false;
+        }
+    }
+    else {
         r=false;
     }
     return r;
@@ -334,31 +344,31 @@ AgregarDetalle = function(){
 };
 
 tacho = function(id){
-    c=confirm("¡Está seguro de Eliminar este registro?");
+    c=confirm("¿Está seguro de Eliminar este registro?");
     if(c){
     Contrataciones.CambiarEstadoDetalleContrataciones(id, 0);}
 };
 
 confirmardetalle = function(id){
-    c=confirm("¡Está seguro de brindar la conformidad?");
+    c=confirm("¿Está seguro de brindar la conformidad?");
     if(c){
     Contrataciones.Confirmardetalle(id);}
 };
 
 denegardetalle = function(id){
-    c=confirm("¡Está seguro de Denegar este registro?");
+    c=confirm("¿Está seguro de Denegar este registro?");
     if(c){
     Contrataciones.Denegardetalle(id);}
 };
 
 confirmar = function(id){
-    c=confirm("¡Está seguro de brindar la conformidad a la contratación?");
+    c=confirm("¿Está seguro de brindar la conformidad a la contratación?");
     if(c){
     Contrataciones.Confirmar(id);}
 };
 
 denegar = function(id){
-    c=confirm("¡Está seguro de Denegar la contratación?");
+    c=confirm("¿Está seguro de Denegar la contratación?");
     if(c){
     Contrataciones.Denegar(id);}
 };
