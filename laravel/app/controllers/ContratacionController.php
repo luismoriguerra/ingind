@@ -104,6 +104,12 @@ class ContratacionController extends \BaseController
                     $array['where'].=" AND c.estado='".$estado."' ";
                 }
             }
+            
+            if( Input::has("area_usuario") ){
+                $area_usuario=Auth::user()->area_id;
+                    $array['where'].=" AND a.id=".$area_usuario;
+          
+            }
 
             $array['order']=" ORDER BY c.titulo ";
 
@@ -290,7 +296,7 @@ class ContratacionController extends \BaseController
 
             $detallecontratacion = DetalleContratacion::find(Input::get('id'));
             $detallecontratacion->usuario_updated_at = Auth::user()->id;
-            $detallecontratacion->nro_doc = Input::get('');
+            $detallecontratacion->nro_doc = '';
             $detallecontratacion->save();
            
             return Response::json(
@@ -323,6 +329,46 @@ class ContratacionController extends \BaseController
         }
     }
     
+     public function postEditarnrodoc()
+    {
+
+        if ( Request::ajax() ) {
+
+            $contratacion = Contratacion::find(Input::get('id'));
+            $contratacion->usuario_updated_at = Auth::user()->id;
+            $contratacion->nro_doc =Input::get('nro_doc');
+            $contratacion->save();
+            
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro actualizado correctamente',
+                )
+            );    
+
+        }
+    }
+     public function postEditarnrodocdetalle()
+    {
+
+        if ( Request::ajax() ) {
+
+            $detallecontratacion = DetalleContratacion::find(Input::get('id'));
+            
+            $detallecontratacion->usuario_updated_at = Auth::user()->id;
+            $detallecontratacion->nro_doc =Input::get('nro_doc');
+            $detallecontratacion->save();
+            
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro actualizado correctamente',
+                )
+            );    
+
+        }
+    }
+    
     public function postDenegar()
     {
 
@@ -330,7 +376,7 @@ class ContratacionController extends \BaseController
 
             $contratacion = Contratacion::find(Input::get('id'));
             $contratacion->usuario_updated_at = Auth::user()->id;
-            $contratacion->nro_doc = Input::get('');
+            $contratacion->nro_doc ='';
             $contratacion->save();
            
             return Response::json(
