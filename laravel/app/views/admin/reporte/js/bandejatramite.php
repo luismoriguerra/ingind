@@ -192,6 +192,18 @@ mostrarDetalleHTML=function(datos){
     Bandeja.poblarCombo('rol','cboRoles',filtro,HTMLCombo);*/
     /*add new ruta detalle verbo*/
 
+    /*puede regresar al paso anterior*/
+    var hora_fin_mayor =  new Date(datos.hora_fin_mayor);
+    var hora_fin_menor =  new Date(datos.hora_fin_menor);
+    var hora_actual = new Date(datos.fecha_actual);
+    var hora_fecha_inicio = new Date(datos.fecha_inicio);
+    if((hora_fecha_inicio.getHours() < 13 && hora_fin_menor < hora_actual) || (hora_fecha_inicio.getHours() >= 13 && hora_fin_mayor < hora_actual)){
+        $("#RetornarP").removeClass('hidden');
+    }else{
+        $("#RetornarP").addClass('hidden');
+    }
+    /*fin puede regresar al paso anterior*/
+
     if( RolIdG==8 || RolIdG==9 ){
         $("#slct_persona").attr("data-id",datos.carta_deglose_id);
         $("#slct_persona").val('');
@@ -609,4 +621,18 @@ function HTMLExpedienteUnico(data){
         alert('no hay expediente unico');
     }
 }
+
+    /*return to last order*/
+    retornar = function(){
+        var r = confirm("¿Esta Seguro de retornar al paso anterior?");
+        if(r == true){
+            var rd_id=document.querySelector("#ruta_detalle_id").value;
+            var ruta_id=document.querySelector("#ruta_id").value;
+            var nroden=document.querySelector("#txt_orden").value;
+            Bandeja.retornarPaso({'ruta_detalle_id':rd_id,'ruta_id':ruta_id,'orden':nroden});            
+        }else{
+            alert('No es posible retornar al paso anterior');
+        }
+    }
+    /*end return to last order*/
 </script>

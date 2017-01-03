@@ -190,6 +190,66 @@ class RutaDetalleController extends \BaseController
         }
     }
 
+    public function postRetornarpaso()
+    {
+        if ( Request::ajax() ) {
+            if(Input::has('ruta_detalle_id')){
+                /*creating new norden to actual rd */
+                DB::beginTransaction();
+                for($i = 0; $i < 2; $i++){                    
+                    if($i==1){ //paso anterios
+                        $rd = RutaDetalle::where('ruta_id',Input::get('ruta_id'))->where('norden',Input::get('orden') - 1)->get()[0];
+                        $rd->condicion=3;
+                        $rd->save();
+                    }else{ //paso actual == 0
+                        $rd = RutaDetalle::find(Input::get('ruta_detalle_id'));
+                        $rd->estado = 0;
+                        $rd->save();
+                    }
+
+                    $rdetalle = new RutaDetalle;
+                    $rdetalle['ruta_id'] = $rd->ruta_id;
+                    $rdetalle['area_id'] = $rd->area_id;
+                    $rdetalle['tiempo_id'] = $rd->tiempo_id;
+                    $rdetalle['dtiempo'] = $rd->dtiempo;
+                    $rdetalle['norden'] = $rd->norden;
+                    $rdetalle['fecha_inicio'] =  ($i==1) ? date("Y-m-d H:i:s") : ''; 
+                    $rdetalle['estado_ruta'] = 1;
+                    $rdetalle['created_at'] =  date("Y-m-d H:i:s");  
+                    $rdetalle['usuario_created_at'] = Auth::user()->id;
+                    $rdetalle->save();
+                    
+                    $rdverbo = RutaDetalleVerbo::where('ruta_detalle_id',$rd->id)->get();
+                    foreach($rdverbo as $value){
+                        if($i==0){ //paso anterios
+                            $value->estado=0;
+                            $value->save();                      
+                        }
+                        
+                        $rdv = new RutaDetalleVerbo;
+                        $rdv['ruta_detalle_id'] = $rdetalle->id;
+                        $rdv['nombre'] = $value->nombre;
+                        $rdv['documento_id'] = $value->documento_id;
+                        $rdv['condicion'] = $value->condicion;
+                        $rdv['rol_id'] = $value->rol_id;
+                        $rdv['verbo_id'] = $value->verbo_id;
+                        $rdv['orden'] = $value->orden;
+                        $rdv['created_at'] = date("Y-m-d H:i:s");  
+                        $rdv['usuario_created_at'] = Auth::user()->id;
+                        $rdv->save();
+                    }
+                    /*end creating new norden to actual rd */
+                }
+                 DB::commit();
+            }
+            return Response::json(array(
+                'rst'=>'1',
+                'msj'=>'Se realizó con éxito'
+                )
+            );
+        }
+    }
+
     public function postDeleterdv(){
         if ( Request::ajax() ) {
             $datos = json_decode(Input::get('datos'));
