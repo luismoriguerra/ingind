@@ -159,6 +159,7 @@ MostrarAjax=function(t){
     if( t=="contrataciones" ){
         if( columnDefsG.length>0 ){
             dataTableG.CargarDatos(t,'contratacion','cargar',columnDefsG);
+            $("#form_detalle_contrataciones .form-group").css("display","none");
         }
         else{
             alert('Faltas datos');
@@ -235,6 +236,10 @@ validaContrataciones = function(){
             alert("Ingrese Titulo de Contratacion");
             r=false;
         }
+        if( $("#form_contrataciones_modal #slct_area").val()=='' ){
+            alert("Seleccione Área");
+            r=false;
+        }
     }
     else {
         r=false;
@@ -272,26 +277,26 @@ mostrarHTML=function(datos){
             "<td>"+data.programacion_aviso+"</td>"+
             "<td>"+data.fecha_conformidad+"</td>"+
             "<td>"+data.nro_doc+"</td>";
-    
-        if(data.fecha_conformidad==='' && data.nro_doc===''){
+        var nro_doc=$.trim(data.nro_doc);      
+        if(data.fecha_conformidad==='' && nro_doc===''){
         html+="<td align='center'><a class='form-control btn btn-primary' data-toggle='modal' data-target='#contrataciondetalleModal' data-titulo='Editar' onclick='BtnEditarDetalle(this,"+data.id+")'><i class='fa fa-lg fa-edit'></i></a></td>";
         html+='<td align="center"><span id="'+data.id+'" onClick="tacho('+data.id+')" data-estado="'+data.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i></span></td>';
         html+='<td align="center"></td>';
         html+='<td align="center"></td>';
         }
-        if(data.fecha_conformidad==='' && data.nro_doc!==''){
+        if(data.fecha_conformidad==='' && nro_doc!==''){
         html+="<td align='center'><a class='form-control btn btn-primary' data-toggle='modal' data-target='#contrataciondetalleModal' data-titulo='Editar' onclick='BtnEditarDetalle(this,"+data.id+")'><i class='fa fa-lg fa-edit'></i></a></td>";
         html+='<td align="center"><span id="'+data.id+'" onClick="tacho('+data.id+')" data-estado="'+data.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i></span></td>';
         html+='<td align="center"><span id="'+data.id+'" onClick="confirmardetalle('+data.id+')"  class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></span></td>';
         html+='<td align="center"><span id="'+data.id+'" onClick="denegardetalle('+data.id+')"  class="btn btn-warning"><i class="	glyphicon glyphicon-remove"></i></span></td>';    
         }
-        if(data.fecha_conformidad!=='' && data.nro_doc!=='') {
+        if(data.fecha_conformidad!=='' && nro_doc!=='') {
         html+="<td align='center'></td>";
         html+='<td align="center"></td>';
         html+='<td align="center"></td>';
         html+='<td align="center"></td>';
         }
-        if(data.fecha_conformidad!=='' && data.nro_doc==='') {
+        if(data.fecha_conformidad!=='' && nro_doc==='') {
         html+="<td align='center'><a class='form-control btn btn-primary' data-toggle='modal' data-target='#contrataciondetalleModal' data-titulo='Editar' onclick='BtnEditarDetalle(this,"+data.id+")'><i class='fa fa-lg fa-edit'></i></a></td>";
         html+='<td align="center"><span id="'+data.id+'" onClick="tacho('+data.id+')" data-estado="'+data.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i></span></td>';
         html+='<td align="center"></td>';
