@@ -197,10 +197,10 @@ mostrarDetalleHTML=function(datos){
     var hora_fin_menor =  new Date(datos.hora_fin_menor);
     var hora_actual = new Date(datos.fecha_actual);
     var hora_fecha_inicio = new Date(datos.fecha_inicio);
-    if((hora_fecha_inicio.getHours() < 13 && hora_fin_menor < hora_actual) || (hora_fecha_inicio.getHours() >= 13 && hora_fin_mayor < hora_actual)){
-        $("#RetornarP").removeClass('hidden');
+    if((hora_fecha_inicio.getHours() <= 13 && hora_fin_menor < hora_actual) || (hora_fecha_inicio.getHours() > 13 && hora_fin_mayor < hora_actual)){
+       /* $("#RetornarP").removeClass('hidden');*/
     }else{
-        $("#RetornarP").addClass('hidden');
+       /* $("#RetornarP").addClass('hidden');*/
     }
     /*fin puede regresar al paso anterior*/
 
