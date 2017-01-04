@@ -159,6 +159,7 @@ MostrarAjax=function(t){
     if( t=="contrataciones" ){
         if( columnDefsG.length>0 ){
             dataTableG.CargarDatos(t,'contratacion','cargar',columnDefsG);
+            $("#form_detalle_contrataciones .form-group").css("display","none");
         }
         else{
             alert('Faltas datos');
@@ -208,10 +209,10 @@ desactivar = function(id){
     }
 };
 Editar = function(){
-    
+     if(validaContrataciones()){
         Contrataciones.AgregarEditarContratacion(1);
         $("#form_detalle_contrataciones .form-group").css("display","none");
-    
+     }
 };
 Agregar = function(){
     if(validaContrataciones()){
