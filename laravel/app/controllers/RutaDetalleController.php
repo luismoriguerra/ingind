@@ -213,7 +213,7 @@ class RutaDetalleController extends \BaseController
                     $rdetalle['tiempo_id'] = $rd->tiempo_id;
                     $rdetalle['dtiempo'] = $rd->dtiempo;
                     $rdetalle['norden'] = $rd->norden;
-                    $rdetalle['fecha_inicio'] =  ($i==1) ? date("Y-m-d H:i:s") : ''; 
+                    $rdetalle['fecha_inicio'] =  ($i==1) ? date("Y-m-d H:i:s") : NULL; 
                     $rdetalle['estado_ruta'] = 1;
                     $rdetalle['created_at'] =  date("Y-m-d H:i:s");  
                     $rdetalle['usuario_created_at'] = Auth::user()->id;
@@ -272,6 +272,7 @@ class RutaDetalleController extends \BaseController
             DB::beginTransaction();
 
             $rdid=Input::get('ruta_detalle_id');
+            $verbo_r = Input::get('vreferido');
             $rd = RutaDetalle::find($rdid);
 
             $r=Ruta::find($rd->ruta_id);
@@ -325,17 +326,8 @@ class RutaDetalleController extends \BaseController
                             $referidoid=$refid->id;
                         }
 
-                        $rv=array((object)array('cant'=>1));
-                        if($rdv->orden!=0){
-                        $sqlvalida= "SELECT count(id) cant
-                                     FROM rutas_detalle_verbo
-                                     WHERE verbo_id=1
-                                     AND ruta_detalle_id=".$rd->id."
-                                     AND id>".$rdv->id;
-                        $rv = DB::select($sqlvalida);
-                        }
-
-                        if( $rv[0]->cant>0 ){
+                   
+                        if( $rdv->id != $verbo_r){
                             $sustento=new Sustento;
                             $sustento['referido_id']=$referidoid;
                             $sustento['ruta_detalle_id']=$rd->id;

@@ -637,7 +637,7 @@ class ReporteFinalController extends BaseController
     {
       $array=array();
       $array['usuario']=Auth::user()->id;
-    
+      
       $retorno=array(
                   'rst'=>1
                );
@@ -664,10 +664,15 @@ class ReporteFinalController extends BaseController
       $html="";
       $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
       
-      
       $n=1;
+      $fecha=date("Y-m-d"); 
+      $dias= 1; 
+      $fecha_inicio=date("Y-m").'-01';
+      $fecha_fin=date("Y-m-d", strtotime("$fecha -$dias day"));  
       foreach ($r["faltas"] as $rr) {
+          
         
+          
         $html.="<tr>";
         $html.="<td>".$n."</td>";
         $html.="<td>".$rr["Persona"]."</td>";
@@ -677,30 +682,52 @@ class ReporteFinalController extends BaseController
         $html.="<td>".$rr["faltas"]."</td>";
         $html.="</tr>";
         
-        $email=$rr["Email"];
-        $plantilla=Plantilla::where('tipo','=','1')->first();
-        $buscar=array('persona:','dia:','mes:','año:','paso:','tramite:','area:');
-        $reemplazar=array($rr["Persona"],date('d'),$meses[date('n')],date("Y"),$rr["faltas"],$rr["Persona"],$rr["Persona"]);
+        $faltas_dia=floor($rr["faltas"]/3);
+        $email=trim($rr["Email"]);
+        
+        $plantilla=Plantilla::where('tipo','=','4')->first();
+        $buscar=array('persona:','dia:','mes:','año:','inasistencias:','fechainicial:','fechafinal:','faltas:');
+        $reemplazar=array($rr["Persona"],date('d'),$meses[date('n')],date("Y"),$rr["faltas"],$fecha_inicio,$fecha_fin,$faltas_dia);
         $parametros=array(
           'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
         );
         
-        if($email!=" "){
+        $Ssql='SELECT COUNT(aasc.id) as count
+                     FROM alertas_seguridad_ciudadana aasc
+                     WHERE aasc.idpersona='.$rr["idpersona"].' AND aasc.nro_inasistencias='.$rr["faltas"];
+                     $r= DB::select($Ssql);
+                     
+        if($email!='')  {$email='rcapchab@gmail.com';} // Comentar para enviar correos a los Agentes
+        if($email=='')  {$email='consultas.gmgm@gmail.com';} //colocar correo de gerente seguridad ciudadana 
+        
+        $email_copia = ['rcapchab@gmail.com', 'consultas.gmgm@gmail.com']; // colocar los correos con copia
+        
+        if( $email!='' AND $r[0]->count==0 AND $rr["faltas"]>=3){
+          
+            DB::beginTransaction();   
+            $update='update alertas_seguridad_ciudadana set ultimo_registro=0
+                    where idpersona='.$rr["idpersona"];
+                    DB::update($update); 
+        
+            $insert='INSERT INTO alertas_seguridad_ciudadana (idpersona,persona,nro_faltas,nro_inasistencias,fecha_notificacion) 
+                     VALUES ('.$rr["idpersona"].',"'.$rr["Persona"].'","'.$faltas_dia.'","'.$rr["faltas"].'","'.date("Y-m-d h:m:s").'")';
+                     DB::insert($insert); 
+                                    
         try{
             Mail::send('notreirel', $parametros , 
-                function($message) use ($email){
+                function($message) use ($email,$email_copia){
                     $message
-                    ->to('consultas.gmgm@gmail.com')
-                    ->cc('rrr@gmail.com')
+                    ->to($email)
+                    ->cc($email_copia)
                     ->subject('.::Notificación::.');
                 }
             );
        }
         catch(Exception $e){
             //echo $qem[$k]->email."<br>";
-            
+             DB::rollback();
         }
-        
+        DB::commit();
         }
         $n++;
       }
