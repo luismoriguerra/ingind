@@ -237,5 +237,5 @@ td, th{
      @include( 'admin.ruta.form.estadoTramite' )
      @include( 'admin.ruta.form.estadoAnexo' )
      @include( 'admin.ruta.form.agregarAnexo' )
-     ç@include( 'admin.ruta.form.voucheranexo' )
+     @include( 'admin.ruta.form.voucheranexo' )
 @stop

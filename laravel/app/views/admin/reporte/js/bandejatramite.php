@@ -197,10 +197,10 @@ mostrarDetalleHTML=function(datos){
     var hora_fin_menor =  new Date(datos.hora_fin_menor);
     var hora_actual = new Date(datos.fecha_actual);
     var hora_fecha_inicio = new Date(datos.fecha_inicio);
-    if((hora_fecha_inicio.getHours() < 13 && hora_fin_menor < hora_actual) || (hora_fecha_inicio.getHours() >= 13 && hora_fin_mayor < hora_actual)){
-        $("#RetornarP").removeClass('hidden');
+    if((hora_fecha_inicio.getHours() <= 13 && hora_fin_menor < hora_actual) || (hora_fecha_inicio.getHours() > 13 && hora_fin_mayor < hora_actual)){
+       /* $("#RetornarP").removeClass('hidden');*/
     }else{
-        $("#RetornarP").addClass('hidden');
+       /* $("#RetornarP").addClass('hidden');*/
     }
     /*fin puede regresar al paso anterior*/
 
@@ -249,6 +249,7 @@ mostrarDetalleHTML=function(datos){
         if ( datos.verbo!='' ) {
             detalle=datos.verbo.split("|");
             html="";
+            referidos = 0;
             for (var i = 0; i < detalle.length; i++) {
 
                 imagen = "<i class='fa fa-check fa-lg'></i>";
@@ -258,6 +259,7 @@ mostrarDetalleHTML=function(datos){
                 rol = detalle[i].split("=>")[6];
                 verbo = detalle[i].split("=>")[7];
                 documento = detalle[i].split("=>")[8];
+                rol_id= detalle[i].split("=>")[14];
 
                 if(detalle[i].split("=>")[13] == 1 && detalle[i].split("=>")[2]=="Pendiente" && (RolIdG==8 || RolIdG==9)){
                     orden = '<span id="btnDelete" name="btnDelete" class="btn btn-danger  btn-xs btnDelete" onclick="eliminardv('+detalle[i].split("=>")[0]+')"><i class="glyphicon glyphicon-trash"></i></span>';
@@ -315,25 +317,41 @@ mostrarDetalleHTML=function(datos){
                     }
                 }
 
-                html=  "<tr>"+
-                            "<td style='vertical-align : middle;'>"+orden+"</td>"+
-                            "<td style='vertical-align : middle;'>"+detalle[i].split("=>")[3]+"</td>"+
-                            "<td style='vertical-align : middle;'>"+rol+"</td>"+
-                            "<td style='vertical-align : middle;'>"+verbo+"</td>"+
-                            "<td style='vertical-align : middle;'>"+documento+"</td>"+
-                            "<td style='vertical-align : middle;'>"+detalle[i].split("=>")[1]+"</td>"+
-                            "<td style='vertical-align : middle;' id='td_"+detalle[i].split("=>")[0]+"'>"+imagenadd+"</td>"+
-                            "<td style='vertical-align : middle;'>"+obs+"</td>"+
+
+                if(verbo=="Generar"){
+                    referidos+=1;
+                    html+= "<tr class='referidos' count="+referidos+">";
+                }else{
+                    html+= "<tr>";
+                }
+
+                html+=    "<td style='vertical-align : middle;'>"+orden+"</td>";
+                html+=    "<td style='vertical-align : middle;'>"+detalle[i].split("=>")[3]+"</td>";
+                html+=    "<td style='vertical-align : middle;'>"+rol+"</td>";
+                html+=    "<td style='vertical-align : middle;'>"+verbo+"</td>";
+                html+=    "<td style='vertical-align : middle;'>"+documento+"</td>";
+                html+=    "<td style='vertical-align : middle;'>"+detalle[i].split("=>")[1]+"</td>";
+                html+=    "<td style='vertical-align : middle;' id='td_"+detalle[i].split("=>")[0]+"'>"+imagenadd+"</td>";
+                html+=    "<td style='vertical-align : middle;'>"+obs+"</td>";
                             //"<td>"+archivo+"</td>"+
-                            "<td style='vertical-align : middle;'>"+persona+"</td>"+
-                            "<td style='vertical-align : middle;'>"+fecha+"</td>"+
-                            "<td style='vertical-align : middle;'>"+imagen+"</td>"+
-                        "</tr>";
-                $("#t_detalle_verbo").append(html);
+                html+=    "<td style='vertical-align : middle;'>"+persona+"</td>";
+                html+=    "<td style='vertical-align : middle;'>"+fecha+"</td>";
+                html+=    "<td style='vertical-align : middle;'>"+imagen+"</td>";
+                html+= "</tr>";
+                $("#t_detalle_verbo").html(html);
                 if( $.trim( detalle[i].split("=>")[12] )!='' && (RolIdG==8 || RolIdG==9) ){
                     $("#t_detalle_verbo select[data-id='"+detalle[i].split("=>")[0]+"'] option[value='"+detalle[i].split("=>")[12]+"']").attr("selected",true);
                 }
             }
+
+            /*last referido*/
+            last_ref =0;
+            $('#t_detalle_verbo tr[class=referidos]').each(function () {
+                 last_ref=$(this).attr('count');
+            });
+            $('#t_detalle_verbo .referidos[count='+last_ref+']').addClass('danger');
+            $('#t_detalle_verbo .referidos[count='+last_ref+']').addClass('referidoSelect');
+            /*end last referido */
         }
 
 }
@@ -386,6 +404,10 @@ guardarTodo=function(){
 
     if(conttotalcheck>0){
         verboaux=verboaux.substr(1);
+        var r_verbo = $(".referidoSelect").find('.check0').val();
+        $("#form_ruta_detalle>#vreferido").remove();
+        $("#form_ruta_detalle").append("<input type='hidden' id='vreferido' name='vreferido' value='"+r_verbo+"'>");
+
         $("#form_ruta_detalle>#verbog").remove();
         $("#form_ruta_detalle").append("<input type='hidden' id='verbog' name='verbog' value='"+verboaux+"'>");
         codaux=codaux.substr(1);

@@ -264,7 +264,7 @@ tr.shown td.details-control {
                                         <br>
                                         <div class="col-sm-12" style="margin-top:20px;margin-bottom: 20px">
                                             <div class="table-responsive">
-                                            <table class="table table-bordered table-striped" id="tbldetalleverbo">
+                                            <table class="table table-bordered" id="tbldetalleverbo">
                                                 <thead>
                                                     <tr>
                                                         <th style="text-align:center" rowspan="2">Nro</th>

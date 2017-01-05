@@ -39,9 +39,42 @@ a {
 	overflow: auto;
 	padding-bottom: 96px;
 }
+
 /**********************************************************************/
 /************************** LOGIN CONTAINER **************************/
 /********************************************************************/
+#btnIniciar {
+	height: auto;
+	width: 100%;
+}
+
+.animate .olvidaste {
+    text-align: left;
+    font-size: 10px;
+    float: left;
+    color: #016db8;
+}
+
+.animate .registrarse {
+    color: #f00;
+    font-size: 10px;
+    float: right;
+}
+
+.titulo {
+	font-size: 24px;
+    color: #fff;
+    letter-spacing: -1.2px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.logoPersonaje {
+	margin: 0 auto;
+    display: block;
+    width: 40%;
+    margin-bottom: 5%;
+}
 
 #loggit {
 	background: url(../../img/login/flogin.png);
