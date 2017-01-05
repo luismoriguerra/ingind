@@ -155,7 +155,7 @@ tpersona=function(valor){//1->natural,2->juridica,3->a.i. y 4->org social
 
 hora=function(){
 Asignar.FechaActual("");
-tiempo = setTimeout('hora()',5000);
+tiempo = setTimeout('hora()',60000);
 }
 
 eventoFG=function(evento){
