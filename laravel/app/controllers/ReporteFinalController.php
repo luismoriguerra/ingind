@@ -668,11 +668,20 @@ class ReporteFinalController extends BaseController
       $fecha=date("Y-m-d"); 
       $dias= 1; 
       $fecha_inicio=date("Y-m").'-01';
-      $fecha_fin=date("Y-m-d", strtotime("$fecha -$dias day"));  
+      $fecha_fin=date("Y-m-d", strtotime("$fecha -$dias day")); 
+      
+      $Ssql='select area_id,id,email, email_mdi
+             from personas
+             where area_id in (31,19)
+             and rol_id in (9,8)
+             and estado=1
+             order by area_id;';
+      $e= DB::select($Ssql);
+
+      $email_copia = [$e[0]->email, $e[0]->email_mdi,$e[1]->email, $e[1]->email_mdi];
+       
       foreach ($r["faltas"] as $rr) {
-          
-        
-          
+   
         $html.="<tr>";
         $html.="<td>".$n."</td>";
         $html.="<td>".$rr["Persona"]."</td>";
@@ -697,10 +706,7 @@ class ReporteFinalController extends BaseController
                      WHERE aasc.idpersona='.$rr["idpersona"].' AND aasc.nro_inasistencias='.$rr["faltas"];
                      $r= DB::select($Ssql);
                      
-        if($email!='')  {$email='rcapchab@gmail.com';} // Comentar para enviar correos a los Agentes
-        if($email=='')  {$email='consultas.gmgm@gmail.com';} //colocar correo de gerente seguridad ciudadana 
-        
-        $email_copia = ['rcapchab@gmail.com', 'consultas.gmgm@gmail.com']; // colocar los correos con copia
+        if($email=='')  {$email=$e[0]->email;} //colocar correo de gerente seguridad ciudadana 
         
         if( $email!='' AND $r[0]->count==0 AND $rr["faltas"]>=3){
           
