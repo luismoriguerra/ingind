@@ -12,3 +12,4 @@
 */
 
 Artisan::add(new MailEnvioAlertasCommand);
+Artisan::add(new MailEnvioGSCCommand);
