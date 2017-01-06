@@ -17,13 +17,13 @@ $(document).ready(function() {
     */
 
     slctGlobalHtml('slct_estado','simple');
-    var idG={   proceso        :'0|Proceso|#DCE6F1', //#DCE6F1
+    var idG={   
+                proceso        :'0|Proceso|#DCE6F1', //#DCE6F1
                 area        :'0|Área|#DCE6F1', //#DCE6F1
                 tarea        :'0|Tarea|#DCE6F1', //#DCE6F1
                 verbo        :'0|Verbo|#DCE6F1', //#DCE6F1
                 documento        :'0|Documento Generado|#DCE6F1', //#DCE6F1
                 observacion        :'0|Observación|#DCE6F1', //#DCE6F1
-                nroacti        :'0|N° de Actividad|#DCE6F1', //#DCE6F1
                 updated_at        :'0|Fecha|#DCE6F1' //#DCE6F1
              };
 
@@ -58,29 +58,31 @@ $(document).ready(function() {
     var data = {estado:1};
     var ids = [];
     slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);
-    $("#generar_area").click(function (){
-        area_id = $('#slct_area_id').val();
-        if ($.trim(area_id)!=='') {
-            data = {area_id:area_id};
-            Usuario.mostrar(data);
-        } else {
-            alert("Seleccione Área");
-        }
-    });
+//    $("#generar").click(function (){
+//        area_id = $('#slct_area_id').val();
+//        if ($.trim(area_id)!=='') {
+//            data = {area_id:area_id};
+//             Usuario.CargarProduccion(data);
+//        } else {
+//            alert("Seleccione Área");
+//        }
+//    });
     
     
       $("#generar").click(function (){
-        usuario_id = $('#usuario_id').val();
+        area_id = $('#slct_area_id').val();
+        $('#area_id').val(area_id);
         var fecha=$("#fecha").val();
+        if($.trim(area_id)!==''){
         if ( fecha!=="") {
-                dataG = {usuario_id:usuario_id,fecha:fecha};
+                dataG = {area_id:area_id,fecha:fecha};
                 Usuario.CargarProduccion(dataG);
-                Usuario.CargarProduccionArea(dataG);
-                Usuario.CargarProduccionTramiteAsignado(dataG);
-                Usuario.CargarProduccionTramiteAsignadoTotal(dataG);
+                MostrarProduccion();
+
         } else {
             alert("Seleccione Fecha");
-        }
+        }}
+        else {  alert("Seleccione Área"); }
     });
    
  
@@ -92,7 +94,7 @@ MostrarAjax=function(t){
        
         if( columnDefsG.length>0 ){
             
-            dataTableG.CargarDatos(t,'reporte','detalleproduccion',columnDefsG);
+            dataTableG.CargarDatos(t,'reporte','producciontrpersonalxareadetalle',columnDefsG);
         }
        
         else{
@@ -116,53 +118,63 @@ MostrarAjax1=function(t){
   
 };
 
-HTMLreporte=function(datos){
-    var html="";
-    
-    var alerta_tipo= '';
-    $('#t_reporte').dataTable().fnDestroy();
-    pos=0;
-    $.each(datos,function(index,data){
-        pos++;
-        html+="<tr id="+data.norden+">"+
-            "<td>"+data.paterno+"</td>"+
-            "<td>"+data.materno+"</td>"+
-            "<td>"+data.nombre+"</td>"+
-            "<td>"+data.email+"</td>"+
-            "<td>"+data.dni+"</td>"+
-            "<td>"+data.fecha_nacimiento+"</td>"+
-            "<td>"+data.sexo+"</td>"+
-            "<td>"+data.area+"</td>"+
-            "<td>"+data.cargo+"</td>"+
-            "<td><span onClick='MostrarUsuario("+data.norden+");' class='btn btn-success'>Productividad</span></td>";
-        html+="</tr>";
-    });
-    $("#tb_reporte").html(html);
-    $("#t_reporte").dataTable(
-        {
-            "order": [[ 0, "asc" ],[1, "asc"],[2, "asc"]],
-        }
-    ); 
-    $("#reporte").show();
-};
+//HTMLreporte=function(datos){
+//    var html="";
+//    
+//    var alerta_tipo= '';
+//    $('#t_reporte').dataTable().fnDestroy();
+//    pos=0;
+//    $.each(datos,function(index,data){
+//        pos++;
+//        html+="<tr id="+data.norden+">"+
+//            "<td>"+data.paterno+"</td>"+
+//            "<td>"+data.materno+"</td>"+
+//            "<td>"+data.nombre+"</td>"+
+//            "<td>"+data.email+"</td>"+
+//            "<td>"+data.dni+"</td>"+
+//            "<td>"+data.fecha_nacimiento+"</td>"+
+//            "<td>"+data.sexo+"</td>"+
+//            "<td>"+data.area+"</td>"+
+//            "<td>"+data.cargo+"</td>"+
+//            "<td><span onClick='MostrarUsuario("+data.norden+");' class='btn btn-success'>Productividad</span></td>";
+//        html+="</tr>";
+//    });
+//    $("#tb_reporte").html(html);
+//    $("#t_reporte").dataTable(
+//        {
+//            "order": [[ 0, "asc" ],[1, "asc"],[2, "asc"]],
+//        }
+//    ); 
+//    $("#reporte").show();
+//};
 
-HTMLproxarea=function(datos){
+HTMLproducciontrpersonalxarea=function(datos){
   var html="";
     
     var alerta_tipo= '';
     $('#t_produccion').dataTable().fnDestroy();
     pos=0;
     $.each(datos,function(index,data){
+        var nombre=data.nombre; var area=data.area;
+        var c='';var ca='';
+        if(data.area_id!==null && data.id===null){nombre='Sub Total:'; c='<b>'; ca='<b>';}
+        if(data.area_id===null && data.id===null){nombre='Total:'; c='<b>'; ca='<b>';}
+        if(data.area_id===null && data.id===null){area='';}
         pos++;
         html+="<tr>"+
-            "<td>"+data.nombre+"</td>"+
-            "<td>"+data.tareas+"</td>"+
-            "<td align='center'><span data-toggle='modal' onClick='MostrarDetalle("+data.id+");' data-id='' data-target='#produccionusuModal' class='btn btn-info'>Detalle</span></td>"+
-            "<td align='center'><a class='btn btn-success btn-md' onClick='ExportDetalle("+data.id+");' id='btnexport_"+data.id+"' name='btnexport' href='' target=''><i class='glyphicon glyphicon-download-alt'></i> Export</i></a></td>";
+            "<td>"+pos+'<input type="hidden" name="area_id" value="'+data.area_id+'"></td>'+
+            "<td>"+c+area+ca+"</td>"+
+            "<td>"+c+nombre+ca+"</td>"+
+            "<td>"+c+data.tareas+ca+"</td>"+
+            "<td align='center'><span data-toggle='modal' onClick='DetalleProducciontrpersonalxarea("+data.id+","+data.area_id+");' data-id='' data-target='#produccionperxareaModal' class='btn btn-info'>Detalle</span></td>"+
+            "<td align='center'><a class='btn btn-success btn-md' onClick='ExportDetalle("+data.id+","+data.area_id+");' id='btnexport_"+data.id+"' name='btnexport' href='' target=''><i class='glyphicon glyphicon-download-alt'></i> Export</i></a></td>";
         html+="</tr>";
     });
     $("#tb_produccion").html(html);
     $("#t_produccion").dataTable(
+             {
+            "order": [[ 0, "asc" ],[1, "asc"]],
+        }
     ); 
     $(".nav-tabs-custom").show();
 
@@ -175,7 +187,7 @@ HTMLproduccion=function(datos){
     });
     
     $("#div_total_produccion").html(html);
-  
+    
 };
 
 HTMLprotramiteasignado=function(datos){
@@ -211,27 +223,28 @@ HTMLprotramiteasignadototal=function(datos){
 };
 
 
-MostrarUsuario=function(id){
+MostrarProduccion=function(){
 
-
-    $('#reporte').hide();
-    $('fieldset').hide();
+    $(".nav-tabs-custom").show();
     $('#bandeja_detalle').show();
-    var app = document.getElementById(id).getElementsByTagName('td')[0].innerHTML;
-    var apm = document.getElementById(id).getElementsByTagName('td')[1].innerHTML;
-    var nombre = document.getElementById(id).getElementsByTagName('td')[2].innerHTML;
-    $("#txt_persona").attr("value",app+" "+apm +" "+ nombre);
-    $("#usuario_id").attr("value",id);
+
     
 };
 
-MostrarDetalle=function(id){
-     usuario_id = $('#usuario_id').val();
+DetalleProducciontrpersonalxarea=function(id,area_id){
+//     area_id = $('#area_id').val();
+     area_id_ = $('#slct_area_id').val();
      var fecha=$("#fecha").val();
-     $("#form_detalles #txt_usuario_id").attr("value",'');
+     $("#form_detalles #txt_area_id").attr("value",'');
      $("#form_detalles #txt_proceso_id").attr("value",'');
      $("#form_detalles #txt_fecha").attr("value",'');
-     $("#form_detalles #txt_usuario_id").attr("value",usuario_id);
+     $("#form_detalles #txt_array_area_id").attr("value",'');
+     if(area_id!==null){
+     $("#form_detalles #txt_area_id").attr("value",area_id);    
+     }else {
+       $("#form_detalles #txt_array_area_id").attr("value",area_id_);      
+     }
+     
      $("#form_detalles #txt_proceso_id").attr("value",id);
      $("#form_detalles #txt_fecha").attr("value",fecha);
 //    dataG = {usuario_id:usuario_id,fecha:fecha,proceso_id:id};

@@ -1,5 +1,5 @@
 <!-- /.modal -->
-<div class="modal fade" id="produccionusuModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="produccionperxareaModal" tabindex="-1" role="dialog" aria-hidden="true">
 <!-- <div class="modal fade" id="areaModal" tabindex="-1" role="dialog" aria-hidden="true"> -->
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -19,7 +19,8 @@
                     </div><!-- /.box-header -->
                     <div class="box-body table-responsive">
                         <form id="form_detalles" name="form_detalles" method="POST" action="">
-                            <input type="hidden" id="txt_usuario_id" name="txt_usuario_id" value="">
+                            <input type="hidden" id="txt_array_area_id" name="txt_array_area_id" value="">
+                            <input type="hidden" id="txt_area_id" name="txt_area_id" value="">
                             <input type="hidden" id="txt_proceso_id" name="txt_proceso_id" value="">
                             <input type="hidden" id="txt_fecha" name="txt_fecha" value="">
                             <table id="t_detalles" class="table table-bordered table-hover">
@@ -35,7 +36,7 @@
                             </table>
                         </form>
                         <form id="form_detalles_tramite" name="form_detalles_tramite" method="POST" action="">
-                            <input type="hidden" id="txt_usuario_id" name="txt_usuario_id" value="">
+                            <input type="hidden" id="txt_area_id" name="txt_area_id" value="">
                             <input type="hidden" id="txt_proceso_id" name="txt_proceso_id" value="">
                             <input type="hidden" id="txt_fecha" name="txt_fecha" value="">
                             <table id="t_detalles_tramite" class="table table-bordered table-hover">
