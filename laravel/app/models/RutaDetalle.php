@@ -140,7 +140,7 @@ class RutaDetalle extends Eloquent
             LEFT JOIN documentos do ON do.id=rdv.documento_id'.
             $adicional;
         $rd = DB::select($query);
-        echo $query;
+        //echo $query;
         if ( Input::get('ruta_detalle_id') ) {
             return $rd[0];
         }
