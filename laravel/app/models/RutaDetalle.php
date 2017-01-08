@@ -12,6 +12,7 @@ class RutaDetalle extends Eloquent
 
         if( Input::has('tramite') AND Input::get('tramite')!='' ){
             $tramite=explode(" ",trim(Input::get('tramite')));
+            $tramitef='';
             for($i=0; $i<count($tramite); $i++){
               $tramitef.=" AND tr.id_union LIKE '%".$tramite[$i]."%' ";
             }
