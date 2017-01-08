@@ -10,12 +10,15 @@ class RutaDetalle extends Eloquent
         $ruta_detalle_id="";
         $adicional="";
 
-        if ( Input::get('tramite') ) {
-            $tramite=Input::get('tramite');
+        if( Input::has('tramite') AND Input::get('tramite')!='' ){
+            $tramite=explode(" ",trim(Input::get('tramite')));
+            $tramitef='';
+            for($i=0; $i<count($tramite); $i++){
+              $tramitef.=" AND tr.id_union LIKE '%".$tramite[$i]."%' ";
+            }
 
             $adicional=
-            ' WHERE tr.id_union like "'.$tramite.'%"
-            AND FIND_IN_SET( rd.area_id, (
+            ' WHERE FIND_IN_SET( rd.area_id, (
                     SELECT a.id
                     FROM area_cargo_persona acp
                     INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
@@ -23,6 +26,7 @@ class RutaDetalle extends Eloquent
                     WHERE acp.estado=1
                     AND cp.persona_id='.Auth::user()->id.'
                     ) )>0
+            '.$tramitef.'
             AND rd.condicion=0
             AND rd.estado=1
             GROUP BY rd.id
