@@ -167,7 +167,7 @@ HTMLproducciontrpersonalxarea=function(datos){
             "<td>"+c+nombre+ca+"</td>"+
             "<td>"+c+data.tareas+ca+"</td>"+
             "<td align='center'><span data-toggle='modal' onClick='DetalleProducciontrpersonalxarea("+data.id+","+data.area_id+");' data-id='' data-target='#produccionperxareaModal' class='btn btn-info'>Detalle</span></td>"+
-            "<td align='center'><a class='btn btn-success btn-md' onClick='ExportDetalle("+data.id+","+data.area_id+");' id='btnexport_"+data.id+"' name='btnexport' href='' target=''><i class='glyphicon glyphicon-download-alt'></i> Export</i></a></td>";
+            "<td align='center'><a class='btn btn-success btn-md' onClick='ExportProducciontrpersonalxarea("+data.id+","+data.area_id+");' id='btnexport_"+data.id+"' name='btnexport' href='' target=''><i class='glyphicon glyphicon-download-alt'></i> Export</i></a></td>";
         html+="</tr>";
     });
     $("#tb_produccion").html(html);
@@ -243,8 +243,7 @@ DetalleProducciontrpersonalxarea=function(id,area_id){
      $("#form_detalles #txt_area_id").attr("value",area_id);    
      }else {
        $("#form_detalles #txt_array_area_id").attr("value",area_id_);      
-     }
-     
+     }  
      $("#form_detalles #txt_proceso_id").attr("value",id);
      $("#form_detalles #txt_fecha").attr("value",fecha);
 //    dataG = {usuario_id:usuario_id,fecha:fecha,proceso_id:id};
@@ -273,10 +272,13 @@ MostrarDetalleTramite=function(id){
      MostrarAjax1('detalles_tramite'); 
 };
 
-ExportDetalle=function(id){
-     usuario_id = $('#usuario_id').val();
+ExportProducciontrpersonalxarea=function(id,area_id){
+     if(area_id===null){
+       area_id = $('#slct_area_id').val();
+//       $("#form_detalles #txt_array_area_id").attr("value",area_id);      
+     }
      var fecha=$("#fecha").val();
-     $("#btnexport_"+id+"").attr('href','reporte/exportdetalleproduccion'+'?fecha='+fecha+'&proceso_id='+id+'&usuario_id='+usuario_id);   
+     $("#btnexport_"+id+"").attr('href','reporte/exportproducciontrpersonalxareadetalle'+'?fecha='+fecha+'&proceso_id='+id+'&area_id='+area_id);   
 };
 
 ExportDetalleTotal=function(){
