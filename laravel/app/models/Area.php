@@ -66,7 +66,7 @@ class Area extends Base
                         if ( Input::has('areapersona') ){
                             $query->whereRaw('  FIND_IN_SET( id, 
                                                     (
-                                                    SELECT acp.area_id
+                                                    SELECT GROUP_CONCAT(acp.area_id)
                                                     FROM area_cargo_persona acp
                                                     INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
                                                     WHERE acp.estado=1

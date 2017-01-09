@@ -19,7 +19,7 @@ class RutaDetalle extends Eloquent
 
             $adicional=
             ' WHERE FIND_IN_SET( rd.area_id, (
-                    SELECT a.id
+                    SELECT GROUP_CONCAT(a.id)
                     FROM area_cargo_persona acp
                     INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
                     INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
