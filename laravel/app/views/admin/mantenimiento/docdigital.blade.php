@@ -20,7 +20,7 @@
     <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Plantillas para Documentos
+                Generar Documentos
                 <small> </small>
             </h1>
             <ol class="breadcrumb">
