@@ -15,6 +15,9 @@
         <meta name="token" id="token" value="{{ csrf_token() }}">
         {{ HTML::style('lib/font-awesome-4.2.0/css/font-awesome.min.css') }}
         {{ HTML::style('lib/bootstrap-3.3.1/css/bootstrap.min.css') }}
+        {{ HTML::style('lib/customCheckbox/skins/minimal/grey.css') }}
+        {{ HTML::style('lib/customCheckbox/skins/minimal/green.css') }}
+
         {{ HTML::script('lib/jquery-2.1.3.min.js') }}
         {{ HTML::script('lib/jquery-ui-1.11.2/jquery-ui.min.js') }}
         {{ HTML::script('http://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.js') }}
@@ -25,13 +28,62 @@
         {{ HTML::style('css/login/login.css') }}
         {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js') }}
         {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.2/vue-resource.min.js') }}
+        {{ HTML::script('lib/icheck.js') }}
         <script src='https://www.google.com/recaptcha/api.js'></script>
+
+        <style type="text/css">
+            .padding-10{
+                padding: 15px;
+            }
+
+            .btnEnviar {
+                max-width: 182px;
+                margin: -20px auto 0px auto;
+                font-size: 17px;
+                position: relative;
+                height: 38px;
+                background-color: #0a6dc6;
+                text-align: center;
+                color: #fff;
+                display: block;
+                width: 100%;
+            }
+
+            .g-recaptcha{
+                float: right;
+            }
+
+            .radio{
+                margin-left:-18px;
+            }
+
+            .titulo {
+                font-size: 24px;
+                color: #fff;
+                letter-spacing: -1.2px;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .form-control{
+                height: 38px;
+            }
+
+            legend{
+                padding: 15px;
+            }
+
+            .control-label{
+                font-size:12px;
+            }
+        </style>
     </head>
 
     <body id="registerUser" bgcolor="#FFF">
         <div id="mainWrap">
             <div id="register" class="col-md-8 col-md-offset-2">
-                <h1 style="text-align: center;"><i class="fa fa-lock"></i> MUN.INDEP. </h1>
+                <h2 class="titulo">{{-- <i class="fa fa-lock"></i> --}} MUNICIPALIDAD DE INDEPENDENCIA</h2>
+                {{-- <h1 style="text-align: center;"><i class="fa fa-lock"></i> MUN.INDEP. </h1> --}}
                 <h3 id="mensaje_msj"  class="label-success">
                 <?= Session::get('msj'); ?>
                 </h3>
@@ -46,131 +98,109 @@
                     </ul>
                 </h3>
 
-                <h3 style="text-align: center;" id="mensaje_inicio">Por Favor <strong>registrese</strong></h3>
+             {{--    <h3 class="titulo" style="text-align: center;" id="mensaje_inicio">Por Favor <strong>registrese</strong></h3> --}}
 
 
                 <form v-on:submit.prevent='RegisterUser(this)' autocomplete="off" id="registerForm">
                     <fieldset>
                         <legend style="color:#e5e5e5">Datos personales</legend>
-                        <div class="row form-group form-inline">
-                            <div class="col-xs-6">
-                                <div class="control-group">
-                                    <label class="control-label">NOMBRE:</label>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group padding-10">
+                                    <label class="control-label">Nombre:</label>
                                     <input type="text" name='nombre' v-model='user.nombre' maxlength="80" class="form-control pull-right" placeholder="Nombre:" autocomplete="off">
                                 </div>
-                            </div>
-                            <div class="col-xs-6">
-                                <div class="control-group">
-                                    <label class="control-label">SEXO:</label>
-                                    <select v-model='user.sexo' name='sexo' class="form-control  pull-right" placeholder="Seleccione" autocomplete="off">
-                                        <option value="">.:: Seleccione genero ::.</option>
-                                        <option value="M">MASCULINO</option>
-                                        <option value="F">FEMENINO</option>
-                                    </select>
+                                <div class="form-group padding-10">
+                                    <label class="control-label">Apellido Paterno:</label>
+                                    <input type="text" name='paterno' v-model='user.paterno' maxlength="50" class="form-control  pull-right" placeholder="Apellido Paterno" autocomplete="off">
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row form-group form-inline">
-                            <div class="col-xs-6">
-                                <div class="control-group">
-                                    <label class="control-label">APELLIDO PATERNO:</label>
-                                    <input type="text" name='paterno' v-model='user.paterno' maxlength="50" class="form-control  pull-right" placeholder="APELLIDO PATERNO" autocomplete="off">
+                                <div class="form-group padding-10">
+                                    <label class="control-label">Apellido Materno:</label>
+                                    <input type="text" name='materno' v-model='user.materno' maxlength="50" class="form-control  pull-right" placeholder="Apellido Materno" autocomplete="off">
                                 </div>
-                            </div>
-                            <div class="col-xs-6">
-                                <div class="control-group"  style="color:#e5e5e5">
-                                    <label class="control-label">FECHA NACIMIENTO:</label>
-                                    <input type="text" id='fecha_nacimiento' name='fecha_nacimiento' v-model='user.fecha_nacimiento' class="form-control  pull-right" placeholder="AAAA-MM-DD" onfocus="blur()" autocomplete="off">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row form-group form-inline">
-                            <div class="col-xs-6">
-                                <div class="control-group">
-                                    <label class="control-label">APELLIDO MATERNO:</label>
-                                    <input type="text" name='materno' v-model='user.materno' maxlength="50" class="form-control  pull-right" placeholder="APELLIDO MATERNO" autocomplete="off">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row form-group form-inline">
-                            <div class="col-xs-6">
-                                <div class="control-group">
-                                    <label class="control-label">DNI:</label>
+                                <div class="form-group padding-10">
+                                    <label class="control-label">Dni:</label>
                                     <input type="text" name='dni' v-model='user.dni' maxlength="8" class="form-control  pull-right" placeholder="DNI" autocomplete="off">
                                 </div>
                             </div>
-                        </div>
-                    </fieldset>
-                        <div class="row form-group form-inline">
-                            <div class="col-xs-6">
-                                <div class="control-group">
-                                    <label class="control-label">EMAIL:</label>
-                                    <input type="email" name='email' v-model='user.email' maxlength="150" class="form-control  pull-right" placeholder="EMAIL" autocomplete="off">
+                            <div class="col-md-4">
+                                <div class="form-group padding-10">
+                                    <label class="control-label">Email:</label>
+                                    <input type="email" name='email' v-model='user.email' maxlength="150" class="form-control  pull-right" placeholder="Email" autocomplete="off">
+                                </div>
+                                <div class="form-group padding-10">
+                                    <label class="control-label">Password:</label>
+                                    <input type="password" name='password' v-model='user.password' minlength="6" class="form-control  pull-right" placeholder="Password" autocomplete="off">
+                                </div>
+                                <div class="form-group padding-10">
+                                    <label class="control-label">Confirmar Password:</label>
+                                    <input type="password" name='password_confirmation' v-model='user.password_confirmation' minlength="6" class="form-control  pull-right" placeholder="Confirmar Password" autocomplete="off">
+                                </div>
+                                <div class="form-group padding-10">
+                                    <label class="control-label">Direccion:</label>
+                                    <input type="text" name='direccion' v-model='user.direccion' maxlength="150" class="form-control  pull-right" placeholder="Direccion" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group padding-10">
+                                    <label class="control-label">Sexo:</label>
+                                    <select v-model='user.sexo' name='sexo' class="form-control  pull-right" placeholder="Sexo" autocomplete="off">
+                                        <option value="" selected="selected">.:: Seleccione genero ::.</option>
+                                        <option value="M">Masculino</option>
+                                        <option value="F">Femenino</option>
+                                    </select>
+                                </div>
+                                <div class="form-group padding-10">
+                                    <label class="control-label">Fecha Nacimiento:</label>
+                                    <input type="text" id='fecha_nacimiento' name='fecha_nacimiento' v-model='user.fecha_nacimiento' class="form-control  pull-right" placeholder="AAAA-MM-DD" onfocus="blur()" autocomplete="off" placeholder="Fecha de Nacimiento">
+                                </div>
+                                <div class="form-group padding-10">
+                                    <label class="control-label">Telefono:</label>
+                                    <input type="text" name='telefono' v-model='user.telefono' maxlength="12" class="form-control  pull-right" placeholder="Telefono" autocomplete="off">
+                                </div>
+                                <div class="form-group padding-10">
+                                    <label class="control-label">Celular:</label>
+                                    <input type="text" name='celular' v-model='user.celular' maxlength="12" class="form-control  pull-right" placeholder="Celular" autocomplete="off">
                                 </div>
                             </div>
                         </div>
-                        <div class="row form-group form-inline">
-                            <div class="col-xs-6">
-                                <div class="control-group">
-                                    <label class="control-label">PASSWORD:</label>
-                                    <input type="password" name='password' v-model='user.password' minlength="6" class="form-control  pull-right" placeholder="PASSWORD" autocomplete="off">
+                        <div class="row form-group padding-10">
+                            <div class="col-md-6">
+                              {{--   <div class="radio checkbox">
+                                    <label class="clsRepeat">
+                                        <input class="chkbx" type="checkbox" v-model='terminos' name='terminos' autocomplete="off"> Acepto los terminos &amp; condiciones
+                                    </label>
+                                </div> --}}
+                                <div class="checkbox">
+                                    <label>
+                                        <input class="chkbx" type="checkbox" v-model='terminos' name='terminos' autocomplete="off"> Acepto los terminos &amp; condiciones
+                                    </label>
                                 </div>
                             </div>
-                        </div>
+                           {{--  <div class="col-md-6">
+                                <div class="g-recaptcha" name='recaptcha' data-sitekey="{{Config::get('recaptcha.site')}}"></div>
 
-                        <div class="row form-group form-inline">
-                            <div class="col-xs-6">
-                                <div class="control-group">
-                                    <label class="control-label">CONFIRMAR PASSWORD:</label>
-                                    <input type="password" name='password_confirmation' v-model='user.password_confirmation' minlength="6" class="form-control  pull-right" placeholder="CONFIRMAR PASSWORD" autocomplete="off">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row form-group form-inline">
-                            <div class="col-xs-6">
-                                <div class="control-group">
-                                    <label class="control-label">DIRECCION:</label>
-                                    <input type="text" name='direccion' v-model='user.direccion' maxlength="150" class="form-control  pull-right" placeholder="DIRECCION" autocomplete="off">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row form-group form-inline">
-                            <div class="col-xs-6">
-                                <div class="control-group">
-                                    <label class="control-label">TELEFONO:</label>
-                                    <input type="text" name='telefono' v-model='user.telefono' maxlength="12" class="form-control  pull-right" placeholder="TELEFONO" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col-xs-6">
-                                <div class="control-group">
-                                    <label class="control-label">CELULAR:</label>
-                                    <input type="text" name='celular' v-model='user.celular' maxlength="12" class="form-control  pull-right" placeholder="CELULAR" autocomplete="off">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row form-group form-inline">
+                            </div> --}}
                             <div class="col-xs-6">
                                 <div class="g-recaptcha" name='recaptcha' data-sitekey="{{Config::get('recaptcha.site')}}"></div>
 
                             </div>
+                        </div>  
+                        {{-- <button type="submit" class="btn btnEnviar">Enviar<img src="http://www.e-quipu.pe/static/img/trabaja-con-nosotros/check.png"></button> --}}
+                        <div class="submitWrap">
+                            <!-- <a href="#">RegÃ&shy;strate</a> -->
+                            {{ Form::submit('Regístrate', array('class' => 'btn btn-primary btnEnviar')) }}
+{{--                             <button class="btn btn-primary btnEnviar" id="btnRegistrar" type="submit" style="" disabled="disabled">Regístrate </button> --}}
                         </div>
 
 
-                        <div class="row form-group form-inline formSubmit">
-                            <div class="col-sm-7">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" v-model='terminos' name='terminos' autocomplete="off"> Acepto los terminos &amp; condiciones
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-5 submitWrap" v-if="terminos">
-                                {{ Form::submit('Registrar', array('class' => 'btn btn-primary btn-lg')) }}
-                            </div>
-                        </div>
-                        
 
+
+                      
+                      
+                    
+                    </fieldset>
                 </form>
                 <a href="{{ url('/') }}" class="text-center">Ya tengo un usuario</a>
             </div>
@@ -178,6 +208,12 @@
     </body>
 
 <script>
+  /*  $(".chkbx").iCheck({
+        checkboxClass: 'icheckbox_minimal-green',
+        increaseArea: '20%' ,
+        indeterminateClass: 'indeterminate',
+    });*/
+
     var vm = new Vue({
         http: {
             root: '/login',
