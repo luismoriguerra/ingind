@@ -148,7 +148,7 @@ class DocumentoDigitalController extends \BaseController {
                 'asunto' => $DocumentoDigital->asunto,
                 'conCabecera' => 1,
                 'contenido' => $DocumentoDigital->cuerpo,
-                'fecha' => 'Lima,'.date('d').' de '.$meses[date('m')].' del '.date('Y'),
+                'fecha' => 'Lima,'.date('d').' de '.$meses[date('m')*1].' del '.date('Y'),
                 'remitente' => $remitente,
                 'destinatario' => $destinatarios,
                 'copias' => $copias,
