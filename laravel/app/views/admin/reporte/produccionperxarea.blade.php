@@ -65,12 +65,12 @@
                         Tareas Realizadas
                     </a>
                 </li>
-<!--                <li class="logo tab_2">
+                <li class="logo tab_2">
                     <a href="#tab_2" data-toggle="tab">
                         <button class="btn btn-primary btn-sm"><i class="fa fa-cloud fa-lg"></i> </button>
                         Trámites Asignados
                     </a>
-                </li>-->
+                </li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1" onclick="ActPest(1);">
@@ -112,7 +112,7 @@
                         <div class="box-body table-responsive">
                             <table id="t_tramite_asignado" class="table table-bordered">
                                 <thead>
-                                    <tr>
+                                    <tr><th>N°</th> <th>Area</th>
                                         <th>Nombre del Proceso</th>
                                         <th>Cantidad de Trámites Asignados</th>
                                         <th>[]</th>

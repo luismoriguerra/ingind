@@ -1893,4 +1893,146 @@ class ReporteController extends BaseController
         );
         $this->exportExcel($propiedades,'',$cabecera,$rst);
     }
+    
+    public function postProducciontapersonalxarea(){
+        $fecha = '';
+        $id_area = '';
+          if(Input::get('fecha')){
+            $fecha = Input::get('fecha');
+          }
+          if(Input::get('area_id')){
+             $id_area=implode("','",Input::get('area_id'));
+          }
+
+        $r= Persona::ProduccionTAPersonalxArea($fecha,$id_area);
+            return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$r 
+            )
+        );
+    }
+    
+     public function postProducciontapersonalxareadetalle(){
+        
+        if ( Request::ajax() ) {
+            /*********************FIJO*****************************/
+            $array=array();
+            $array['where']='';
+            $array['limit']='';$array['order']='';
+            
+            if (Input::has('draw')) {
+                if (Input::has('order')) {
+                    $inorder=Input::get('order');
+                    $incolumns=Input::get('columns');
+                    $array['order']=  ' ORDER BY '.
+                                      $incolumns[ $inorder[0]['column'] ]['name'].' '.
+                                      $inorder[0]['dir'];
+                }
+
+                $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
+                $aParametro["draw"]=Input::get('draw');
+            }
+            /************************************************************/
+            
+            if( Input::has("area_id") ){
+                $id_area=Input::get("area_id");
+                if($id_area != ''){
+                    $array['where'].=" AND tr.area_id IN ('$id_area') ";
+                }
+            }
+            
+            if( Input::has("array_area_id") ){
+            $id_array_area=Input::get("array_area_id");
+                $id_array_area=str_replace("%2C", ",", $id_array_area);
+                if($id_array_area != ''){
+                    $array['where'].=" AND tr.area_id IN ($id_array_area) ";
+                }
+            }
+            
+            if( Input::has("proceso_id") ){
+                $id_proceso=Input::get("proceso_id");
+                if($id_proceso != ''){
+                    $array['where'].=" AND f.id=$id_proceso ";
+                }
+            }
+
+            if( Input::has("fecha") ){
+                $fecha=Input::get("fecha");
+                    list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+                    $array['where'].=" AND date(tr.created_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+            }
+            
+            $array['order']=" ORDER BY a.nombre ";
+
+            $cant  = Persona::getPTAPxACount( $array );
+            $aData = Persona::getProduccionTAPersonalxAreaDetalle( $array );
+
+            $aParametro['rst'] = 1;
+            $aParametro["recordsTotal"]=$cant;
+            $aParametro["recordsFiltered"]=$cant;
+            $aParametro['data'] = $aData;
+            $aParametro['msj'] = "No hay registros aún";
+            return Response::json($aParametro);
+
+        }
+
+    }
+    
+        public function getExportproducciontapersonalxareadetalle(){
+         $array=array();
+            $array['where']='';
+            $array['limit']='';$array['order']='';
+         
+         if( Input::has("area_id") ){
+                $id_area=Input::get("area_id");
+                if($id_area != ''){
+                    $array['where'].=" AND tr.area_id IN ('$id_area') ";
+                }
+            }
+            
+            if( Input::has("array_area_id") ){
+            $id_array_area=Input::get("array_area_id");
+//                $id_array_area=str_replace("%2C", ",", $id_array_area);
+                if($id_array_area != ''){
+                    $array['where'].=" AND tr.area_id IN ($id_array_area) ";
+                }
+            }
+            
+            if( Input::has("proceso_id") ){
+                $id_proceso=Input::get("proceso_id");
+                if($id_proceso != ''){
+                    $array['where'].=" AND f.id=$id_proceso ";
+                }
+            }
+
+            if( Input::has("fecha") ){
+                $fecha=Input::get("fecha");
+                    list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+                    $array['where'].=" AND date(tr.created_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+            }
+
+            $array['order']=" ORDER BY a.nombre ";
+            
+        $rst=Persona::getProduccionTAPersonalxAreaDetalle($array); 
+//        var_dump($rst);exit();
+
+        $propiedades = array(
+          'creador'=>'Gerencia Modernizacion',
+          'subject'=>'Detalle de Tareas',
+          'tittle'=>'Plataforma',
+          'font-name'=>'Bookman Old Style',
+          'font-size'=>8,
+        );
+
+        $cabecera = array(
+          'AREA',
+          'PERSONA',
+          'PROCESO',
+          'ID_UNION',
+          'SUMILLA',
+          'FECHA',
+        );
+        $this->exportExcel($propiedades,'',$cabecera,$rst);
+    }
 }

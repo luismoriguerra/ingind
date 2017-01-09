@@ -585,6 +585,63 @@ class Persona extends Base implements UserInterface, RemindableInterface
 
         return $oData[0]->cant;
     }
+    
+        public static function ProduccionTAPersonalxArea($fecha,$id_area)
+    {     $query = '';
+    
+          $query.="SELECT a.nombre as area,tr.area_id,f.id,f.nombre,COUNT(tr.id) as tareas
+                    FROM tablas_relacion tr 
+                    INNER JOIN areas a on tr.area_id=a.id
+                    INNER JOIN rutas r on tr.id=r.tabla_relacion_id AND r.estado=1
+                    INNER JOIN flujos f on r.flujo_id=f.id
+                    WHERE tr.estado=1 
+                   AND tr.area_id IN ('$id_area')
+                   ";
+           if($fecha != ''){
+            list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+            $query.=' AND date(tr.created_at) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
+         }
+         $query.='GROUP BY tr.area_id,f.id WITH ROLLUP ';
+         
+        $r= DB::select($query);
+
+        return $r;
+    }
+    
+      public static function getProduccionTAPersonalxAreaDetalle($array)
+    {     
+  
+        $sSql= "SELECT a.nombre as area,CONCAT(p.paterno,' ',p.materno,' ',p.nombre) as persona,f.nombre as proceso,tr.id_union,tr.sumilla,tr.created_at as fecha
+                FROM tablas_relacion tr 
+                INNER JOIN personas p on tr.usuario_created_at=p.id
+                INNER JOIN rutas r on tr.id=r.tabla_relacion_id AND r.estado=1
+                INNER JOIN flujos f on r.flujo_id=f.id
+                INNER JOIN areas a on tr.area_id=a.id
+                WHERE tr.estado=1";
+        $sSql.= $array['where'].
+                $array['order'].
+                $array['limit'];
+        $oData= DB::select($sSql);
+
+        return $oData;
+    }
+    
+     public static function getPTAPxACount($array)
+    {     
+  
+        $sSql= "SELECT COUNT(tr.id) cant
+                FROM tablas_relacion tr 
+                INNER JOIN personas p on tr.usuario_created_at=p.id
+                INNER JOIN rutas r on tr.id=r.tabla_relacion_id AND r.estado=1
+                INNER JOIN flujos f on r.flujo_id=f.id
+                INNER JOIN areas a on tr.area_id=a.id
+                WHERE tr.estado=1";
+        $sSql.=$array['where'];
+
+        $oData= DB::select($sSql);
+
+        return $oData[0]->cant;
+    }
 }
 
 

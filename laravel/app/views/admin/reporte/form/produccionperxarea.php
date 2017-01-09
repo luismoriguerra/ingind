@@ -36,6 +36,7 @@
                             </table>
                         </form>
                         <form id="form_detalles_tramite" name="form_detalles_tramite" method="POST" action="">
+                             <input type="hidden" id="txt_array_area_id" name="txt_array_area_id" value="">
                             <input type="hidden" id="txt_area_id" name="txt_area_id" value="">
                             <input type="hidden" id="txt_proceso_id" name="txt_proceso_id" value="">
                             <input type="hidden" id="txt_fecha" name="txt_fecha" value="">

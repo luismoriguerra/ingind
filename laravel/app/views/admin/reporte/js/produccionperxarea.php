@@ -37,6 +37,7 @@ $(document).ready(function() {
     slctGlobalHtml('slct_estado','simple');
     var idG1={   proceso        :'0|Proceso|#DCE6F1', //#DCE6F1
                 area        :'0|Área|#DCE6F1', //#DCE6F1
+                persona        :'0|Persona|#DCE6F1', //#DCE6F1
                 id_union        :'0|Nombre|#DCE6F1', //#DCE6F1
                 sumilla        :'0|Sumilla|#DCE6F1', //#DCE6F1
                 fecha        :'0|Fecha|#DCE6F1'
@@ -77,7 +78,8 @@ $(document).ready(function() {
         if($.trim(area_id)!==''){
         if ( fecha!=="") {
                 dataG = {area_id:area_id,fecha:fecha};
-                Usuario.CargarProduccion(dataG);
+                Usuario.CargarProduccionTR(dataG);
+                Usuario.CargarProduccionTA(dataG);
                 MostrarProduccion();
 
         } else {
@@ -110,7 +112,7 @@ MostrarAjax1=function(t){
    
         if( columnDefsG1.length>0 ){
             
-            dataTableG.CargarDatos(t,'reporte','producciontramiteasignadodetalle',columnDefsG1);
+            dataTableG.CargarDatos(t,'reporte','producciontapersonalxareadetalle',columnDefsG1);
         }
         else{
             alert('Faltan datos');
@@ -181,15 +183,37 @@ HTMLproducciontrpersonalxarea=function(datos){
     $(".nav-tabs-custom").show();
 
 };
-
-HTMLproduccion=function(datos){
-    var html="";
+HTMLproducciontapersonalxarea=function(datos){
+  var html="";
+    
+    var alerta_tipo= '';
+    $('#t_tramite_asignado').dataTable().fnDestroy();
+    pos=0;
     $.each(datos,function(index,data){
-      html+="<table class='table table-bordered'><tr><td><b>Total de Tareas Realizadas</b></td><td>"+data.tareas+"</td><td align='center'><span data-toggle='modal' onClick='MostrarDetalle();' data-id='' data-target='#produccionusuModal' class='btn btn-info'>Detalle Total</span></td><td align='center'><a class='btn btn-success btn-md' onClick='ExportDetalleTotal();' id='btnexport_'  href='' target=''><i class='glyphicon glyphicon-download-alt'></i> Export</i></a></td></tr>";
+        var nombre=data.nombre; var area=data.area;
+        var c='';var ca='';
+        if(data.area_id!==null && data.id===null){nombre='Sub Total:'; c='<b>'; ca='<b>';}
+        if(data.area_id===null && data.id===null){nombre='Total:'; c='<b>'; ca='<b>';}
+        if(data.area_id===null && data.id===null){area='';}
+        pos++;
+        html+="<tr>"+
+            "<td>"+pos+'<input type="hidden" name="area_id" value="'+data.area_id+'"></td>'+
+            "<td>"+c+area+ca+"</td>"+
+            "<td>"+c+nombre+ca+"</td>"+
+            "<td>"+c+data.tareas+ca+"</td>"+
+            "<td align='center'><span data-toggle='modal' onClick='DetalleProducciontapersonalxarea("+data.id+","+data.area_id+");' data-id='' data-target='#produccionperxareaModal' class='btn btn-info'>Detalle</span></td>"+
+            "<td align='center'><a class='btn btn-success btn-md' onClick='ExportProducciontapersonalxarea("+data.id+","+data.area_id+");' id='btnexport_"+data.area_id+"' name='btnexport'><i class='glyphicon glyphicon-download-alt'></i> Export</i></a></td>";
+        html+="</tr>";
     });
-    
-    $("#div_total_produccion").html(html);
-    
+    $("#tb_tramite_asignado").html(html);
+    $("#t_tramite_asignado").dataTable(
+             {
+            "order": [[ 0, "asc" ],[1, "asc"]],
+            "pageLength": 100,
+        }
+    ); 
+    $(".nav-tabs-custom").show();
+
 };
 
 HTMLprotramiteasignado=function(datos){
@@ -212,16 +236,6 @@ HTMLprotramiteasignado=function(datos){
     ); 
     $(".nav-tabs-custom").show();
 
-};
-
-HTMLprotramiteasignadototal=function(datos){
-    var html="";
-    $.each(datos,function(index,data){
-      html+="<table class='table table-bordered'><tr><td><b>Total de Trámites asignados</b></td><td>"+data.tareas+"</td><td align='center'><span data-toggle='modal' onClick='MostrarDetalleTramite();' data-id='' data-target='#produccionusuModal' class='btn btn-info'>Detalle Total</span></td><td align='center'><a class='btn btn-success btn-md' onClick='ExportDetalleTramiteTotal();' id='btnexport1_'  href='' target=''><i class='glyphicon glyphicon-download-alt'></i> Export</i></a></td></tr>";
-    });
-    
-    $("#div_total_tramite_asignado").html(html);
-  
 };
 
 
@@ -256,22 +270,28 @@ DetalleProducciontrpersonalxarea=function(id,area_id){
      MostrarAjax('detalles'); 
 };
 
-MostrarDetalleTramite=function(id){
-     usuario_id = $('#usuario_id').val();
+DetalleProducciontapersonalxarea=function(id,area_id){
+    //     area_id = $('#area_id').val();
+     area_id_ = $('#slct_area_id').val();
      var fecha=$("#fecha").val();
-     $("#form_detalles_tramite #txt_usuario_id").attr("value",'');
+     $("#form_detalles_tramite #txt_area_id").attr("value",'');
      $("#form_detalles_tramite #txt_proceso_id").attr("value",'');
      $("#form_detalles_tramite #txt_fecha").attr("value",'');
-     $("#form_detalles_tramite #txt_usuario_id").attr("value",usuario_id);
+     $("#form_detalles_tramite #txt_array_area_id").attr("value",'');
+     if(area_id!==null){
+     $("#form_detalles_tramite #txt_area_id").attr("value",area_id);    
+     }else {
+       $("#form_detalles_tramite #txt_array_area_id").attr("value",area_id_);      
+     }  
      $("#form_detalles_tramite #txt_proceso_id").attr("value",id);
      $("#form_detalles_tramite #txt_fecha").attr("value",fecha);
 //    dataG = {usuario_id:usuario_id,fecha:fecha,proceso_id:id};
     $("#t_detalles_tramite").dataTable(); 
     
-    $('#form_detalles_tramite').show();
     $('#form_detalles').hide();
-    
+    $('#form_detalles_tramite').show();
      MostrarAjax1('detalles_tramite'); 
+ 
 };
 
 ExportProducciontrpersonalxarea=function(id,area_id_){
@@ -292,16 +312,23 @@ ExportProducciontrpersonalxarea=function(id,area_id_){
      window.location='reporte/exportproducciontrpersonalxareadetalle'+'?fecha='+fecha+''+proceso_id+''+area_id;   
 };
 
-ExportDetalleTotal=function(){
-     usuario_id = $('#usuario_id').val();
-     var fecha=$("#fecha").val();
-     $("#btnexport_").attr('href','reporte/exportdetalleproduccion'+'?fecha='+fecha+'&usuario_id='+usuario_id);   
-};
 
-ExportDetalleTramite=function(id){
-     usuario_id = $('#usuario_id').val();
+ExportProducciontapersonalxarea=function(id,area_id_){
+     area_id=''; 
+     area_id_array = $('#slct_area_id').val();    
+
+     if(area_id_!==null){
+       area_id='&area_id='+area_id_;} 
+     else {
+       area_id='&array_area_id='+area_id_array;    
+     }  
      var fecha=$("#fecha").val();
-     $("#btnexport1_"+id+"").attr('href','reporte/exportproducciontramiteasignadodetalle'+'?fecha='+fecha+'&proceso_id='+id+'&usuario_id='+usuario_id);   
+    
+     proceso_id='';
+     if(id!==null){
+     proceso_id='&proceso_id='+id;}
+
+     window.location='reporte/exportproducciontapersonalxareadetalle'+'?fecha='+fecha+''+proceso_id+''+area_id;   
 };
 ExportDetalleTramiteTotal=function(){
      usuario_id = $('#usuario_id').val();
