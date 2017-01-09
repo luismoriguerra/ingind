@@ -19,7 +19,15 @@ class DocumentoDigital extends Base {
                             if ( Input::get('id') ) {
                                 $query->where('dd.id','=',Input::get('id'));
                             }
-                            $query->where('dd.persona_id','=',Auth::user()->id);
+                            $sql="  SELECT count(id) cant
+                                    FROM cargo_persona
+                                    WHERE estado=1
+                                    AND cargo_id=12
+                                    AND persona_id=".Auth::user()->id;
+                            $csql=DB::select($sql);
+                            if( $csql[0]->cant==0 ){
+                            $query->where('dd.area_id','=',Auth::user()->area_id);
+                            }
                             $query->where('dda.estado','=',1);
                         }
                     )
@@ -31,10 +39,15 @@ class DocumentoDigital extends Base {
                     ->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla')
                    	->where( 
                         function($query){
-                        	if ( Input::get('id') ) {
-                                $query->where('dd.id','=',Input::get('id'));
+                            $sql="  SELECT count(id) cant
+                                    FROM cargo_persona
+                                    WHERE estado=1
+                                    AND cargo_id=12
+                                    AND persona_id=".Auth::user()->id;
+                            $csql=DB::select($sql);
+                            if( $csql[0]->cant==0 ){
+                                $query->where('dd.area_id','=',Auth::user()->area_id);
                             }
-                            $query->where('dd.persona_id','=',Auth::user()->id);
                         }
                     )
                     ->orderBy('dd.id')
