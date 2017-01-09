@@ -69,7 +69,7 @@ hr {
 }
 .qr {
   position: absolute;
-  top:  8px; 
+  top:  -15px; 
   left: 550px;
 }
 </style>
