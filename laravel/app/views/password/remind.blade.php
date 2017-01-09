@@ -20,12 +20,22 @@
         {{ HTML::style('css/login/login.css') }}
         {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js') }}
         {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.2/vue-resource.min.js') }}
+
+        <style type="text/css">
+            .titulo {
+                font-size: 24px;
+                color: #fff;
+                letter-spacing: -1.2px;
+                text-align: center;
+                margin-bottom: 25px;
+            }
+        </style>
     </head>
 
     <body id="sendEmail" bgcolor="#FFF">
         <div id="mainWrap">
             <div id="loggit">
-                <h1><i class="fa fa-lock"></i> MUN.INDEP. </h1>
+                <h2 class="titulo">{{-- <i class="fa fa-lock"></i>  --}}MUN. INDEPENDENCIA </h2>
                 
                 <h3 v-if="mensaje_ok" id="mensaje_ok" class="label-success">
                     @{{ mensaje_ok }}
@@ -35,10 +45,12 @@
                 </h3>
 
                 <h3 id="mensaje_inicio">Por Favor <strong>Ingresa su email</strong></h3>
-                <form v-on:submit.prevent='sendMessage(this)'>
-                    <input v-model="email" @keyup.prevent="handleKeypress" class="form-control input-lg"  required placeholder="email" name="email" id="email" type="email">
-                    {{ Form::submit('Enviar', array('class' => 'btn btn-primary btn-lg')) }}
+                <form v-on:submit.prevent='sendMessage(this)' style="text-align: center">
+                    <input v-model="email" @keyup.prevent="handleKeypress" class="form-control input-md"  required placeholder="email" name="email" id="email" type="email">
+                    <br>
+                    {{ Form::submit('Enviar', array('class' => 'btn btn-primary btn-md')) }}
                 </form>
+                <br>
                 <a href="{{ url('/') }}" class="text-center">Ya tengo un usuario</a>
         </div>
     </div>

@@ -117,7 +117,7 @@ class DocumentoDigitalController extends \BaseController {
         	/*get remitente data*/
         	$persona = Persona::find($DocumentoDigital->persona_id);
         	$area = Area::find($DocumentoDigital->area_id);
-        	$remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." (".$area->nombre.")";
+        	$remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." <br>".$area->nombre;
         	/*end get remitente data */
 
         	/*get destinatario data*/
@@ -130,9 +130,9 @@ class DocumentoDigitalController extends \BaseController {
         		$persona2 = Persona::find($value->persona_id);
         		$area2 = Area::find($value->area_id);
                 if($value->tipo ==1){
-        		  $destinatarios.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' ('.$area2->nombre.')</li>';                    
+        		  $destinatarios.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' <br>'.$area2->nombre.'</li>';
                 }else{
-                    $copias.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' ('.$area2->nombre.')</li>';
+                    $copias.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' <br>'.$area2->nombre.'</li>';
                 }        
         	}
             $destinatarios.= '</ul>';    
@@ -141,13 +141,14 @@ class DocumentoDigitalController extends \BaseController {
             $png = QrCode::format('png')->size(150)->generate("http://procesos.munindependencia.pe/documentodig/vistaprevia/".$id);
             $png = base64_encode($png);
             $png= "<img src='data:image/png;base64," . $png . "'>";
+            $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
             
             $params = [
                 'titulo' => $DocumentoDigital->titulo,
                 'asunto' => $DocumentoDigital->asunto,
                 'conCabecera' => 1,
                 'contenido' => $DocumentoDigital->cuerpo,
-                'fecha' => 'Lima,'.date('d').' de '.date('F').' del '.date('Y'),
+                'fecha' => 'Lima,'.date('d').' de '.$meses[date('m')*1].' del '.date('Y'),
                 'remitente' => $remitente,
                 'destinatario' => $destinatarios,
                 'copias' => $copias,

@@ -3,6 +3,19 @@
 class MessageController extends \BaseController {
 
     /**
+     * obtener los mensajes paginados y ordenados por fecha de creacion
+     * messages?conversation=Mql9ABmiZZ6kbYHAsReqexxceaDn2L&page=1
+     * messages?conversation=Mql9ABmiZZ6kbYHAsReqexxceaDn2L&page=2
+     * messages?conversation=Mql9ABmiZZ6kbYHAsReqexxceaDn2L&page=3
+     */
+    public function index() {
+        $conversation = Conversation::where('name', Input::get('conversation'))->first();
+        $messages       = Message::where('conversation_id', $conversation->id)
+        ->orderBy('created_at')
+        ->paginate(15);
+        return $messages;
+    }
+    /**
      * Store a newly created message in storage.
      *
      * @return Response
