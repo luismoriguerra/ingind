@@ -741,5 +741,29 @@ class ReporteFinalController extends BaseController
 //
 //      return Response::json( $retorno );
     }
+    
+     public function postGenerarqr()
+    { 
+         
+     $html="";
+      $qrcode = new QRcode();
+      
+      $email="rcapchab@gmail.com";
+      $subject="Test qr";
+      $body = "Comprobación del test qr";
+      $codigo="mailto:".$email."?subject=".urlencode($subject)."&body=".urlencode($body);
+ 
+// --- skype
+//$codigo = "skype:".urlencode("usuarioSkype")."?call";
+ 
 
+        // --- generar imagen
+        $qrcode->QRcode::png($codigo,"temp/01.png",QR_ECLEVEL_L,2,1);
+        $html.='<tr>';
+        $html.='<td>1</td><td><img src="temp/01.png"/></td>';
+        $html.='</tr>';
+       $retorno["data"]=$html;
+
+       return Response::json( $retorno );
+    }
 }
