@@ -10,7 +10,7 @@ var targetsG1=-1; // Posiciones de las columnas del datatable
 var DetalleG1={id:0,proceso:"",area:"",id_union:"",sumilla:"",fecha:""}; // Datos Globales
 
 $(document).ready(function() {
-    
+
      /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
         2: Descripción de cabecera
         3: Color Cabecera
@@ -20,6 +20,7 @@ $(document).ready(function() {
     var idG={   
                 proceso        :'0|Proceso|#DCE6F1', //#DCE6F1
                 area        :'0|Área|#DCE6F1', //#DCE6F1
+                persona        :'0|Persona|#DCE6F1', //#DCE6F1
                 tarea        :'0|Tarea|#DCE6F1', //#DCE6F1
                 verbo        :'0|Verbo|#DCE6F1', //#DCE6F1
                 documento        :'0|Documento Generado|#DCE6F1', //#DCE6F1
@@ -167,13 +168,14 @@ HTMLproducciontrpersonalxarea=function(datos){
             "<td>"+c+nombre+ca+"</td>"+
             "<td>"+c+data.tareas+ca+"</td>"+
             "<td align='center'><span data-toggle='modal' onClick='DetalleProducciontrpersonalxarea("+data.id+","+data.area_id+");' data-id='' data-target='#produccionperxareaModal' class='btn btn-info'>Detalle</span></td>"+
-            "<td align='center'><a class='btn btn-success btn-md' onClick='ExportProducciontrpersonalxarea("+data.id+","+data.area_id+");' id='btnexport_"+data.id+"' name='btnexport' href='' target=''><i class='glyphicon glyphicon-download-alt'></i> Export</i></a></td>";
+            "<td align='center'><a class='btn btn-success btn-md' onClick='ExportProducciontrpersonalxarea("+data.id+","+data.area_id+");' id='btnexport_"+data.area_id+"' name='btnexport'><i class='glyphicon glyphicon-download-alt'></i> Export</i></a></td>";
         html+="</tr>";
     });
     $("#tb_produccion").html(html);
     $("#t_produccion").dataTable(
              {
             "order": [[ 0, "asc" ],[1, "asc"]],
+            "pageLength": 100,
         }
     ); 
     $(".nav-tabs-custom").show();
@@ -272,13 +274,22 @@ MostrarDetalleTramite=function(id){
      MostrarAjax1('detalles_tramite'); 
 };
 
-ExportProducciontrpersonalxarea=function(id,area_id){
-     if(area_id===null){
-       area_id = $('#slct_area_id').val();
-//       $("#form_detalles #txt_array_area_id").attr("value",area_id);      
-     }
+ExportProducciontrpersonalxarea=function(id,area_id_){
+     area_id=''; 
+     area_id_array = $('#slct_area_id').val();    
+
+     if(area_id_!==null){
+       area_id='&area_id='+area_id_;} 
+     else {
+       area_id='&array_area_id='+area_id_array;    
+     }  
      var fecha=$("#fecha").val();
-     $("#btnexport_"+id+"").attr('href','reporte/exportproducciontrpersonalxareadetalle'+'?fecha='+fecha+'&proceso_id='+id+'&area_id='+area_id);   
+    
+     proceso_id='';
+     if(id!==null){
+     proceso_id='&proceso_id='+id;}
+
+     window.location='reporte/exportproducciontrpersonalxareadetalle'+'?fecha='+fecha+''+proceso_id+''+area_id;   
 };
 
 ExportDetalleTotal=function(){

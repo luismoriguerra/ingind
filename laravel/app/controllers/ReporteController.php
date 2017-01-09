@@ -1818,7 +1818,7 @@ class ReporteController extends BaseController
                     $array['where'].=" AND date(rdv.updated_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
             }
             
-            $array['order']=" ORDER BY f.nombre ";
+            $array['order']=" ORDER BY a.nombre ";
 
             $cant  = Persona::getPTRPxACount( $array );
             $aData = Persona::getProduccionTRPersonalxAreaDetalle( $array );
@@ -1846,6 +1846,14 @@ class ReporteController extends BaseController
                 }
             }
             
+            if( Input::has("array_area_id") ){
+            $id_array_area=Input::get("array_area_id");
+//                $id_array_area=str_replace("%2C", ",", $id_array_area);
+                if($id_array_area != ''){
+                    $array['where'].=" AND rd.area_id IN ($id_array_area) ";
+                }
+            }
+            
             if( Input::has("proceso_id") ){
                 $id_proceso=Input::get("proceso_id");
                 if($id_proceso != ''){
@@ -1859,10 +1867,10 @@ class ReporteController extends BaseController
                     $array['where'].=" AND date(rdv.updated_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
             }
 
-            $array['order']=" ORDER BY f.nombre ";
+            $array['order']=" ORDER BY a.nombre ";
             
         $rst=Persona::getProduccionTRPersonalxAreaDetalle($array); 
-        
+//        var_dump($rst);exit();
 
         $propiedades = array(
           'creador'=>'Gerencia Modernizacion',
@@ -1875,6 +1883,7 @@ class ReporteController extends BaseController
         $cabecera = array(
           'PROCESO',
           'AREA',
+          'PERSONA',
           'TAREA',
           'VERBO',
           'DOCUMENTO GENERADO',
