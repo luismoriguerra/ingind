@@ -548,10 +548,11 @@ class Persona extends Base implements UserInterface, RemindableInterface
         public static function getProduccionTRPersonalxAreaDetalle($array)
     {     
   
-        $sSql= "select f.nombre as proceso,a.nombre as area,rdv.nombre  as tarea,
+        $sSql= "select f.nombre as proceso,a.nombre as area,CONCAT(p.paterno,' ', p.materno,' ',p.nombre) as persona,rdv.nombre  as tarea,
                 v.nombre as verbo,rdv.documento,rdv.observacion,rd.norden,rdv.updated_at
                 from rutas_detalle_verbo rdv 
                 INNER JOIN verbos v on rdv.verbo_id=v.id
+                INNER JOIN personas p on rdv.usuario_updated_at=p.id
                 INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1
                 INNER JOIN areas a on rd.area_id=a.id						 
                 INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
@@ -561,7 +562,6 @@ class Persona extends Base implements UserInterface, RemindableInterface
         $sSql.= $array['where'].
                 $array['order'].
                 $array['limit'];
-        
         $oData= DB::select($sSql);
 
         return $oData;

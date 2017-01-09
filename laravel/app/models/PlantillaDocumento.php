@@ -16,8 +16,19 @@ class PlantillaDocumento extends Base {
                     	if ( Input::get('id') ) {
                             $query->where('pd.id','=',Input::get('id'));
                         }
-                        if ( Input::get('area') ) {
-                            /*$query->where('pd.area_id','=',Input::get('area'));*/
+
+                        $sql="  SELECT count(id) cant
+                                FROM cargo_persona
+                                WHERE estado=1
+                                AND cargo_id=12
+                                AND persona_id=".Auth::user()->id;
+                        $csql=DB::select($sql);
+                        if( $csql[0]->cant==0 ){
+                            $query->where('pd.area_id','=',Auth::user()->area_id);
+                        }
+
+
+                        /*if ( Input::get('area') ) {
                             $sql = "SELECT a.id idarea FROM areas a 
                                     INNER JOIN area_cargo_persona acp ON acp.area_id=a.id AND acp.estado=1
                                     INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1 AND cp.cargo_id IN (5,12)
@@ -29,7 +40,7 @@ class PlantillaDocumento extends Base {
                                         $areas_id.= ($key == 0) ? $value->idarea : ','.$value->idarea; 
                                     }
                                     $query->whereRaw('FIND_IN_SET( pd.area_id,"'.$areas_id.'")>0 ');
-                        }
+                        }*/
 /*                        $query->where('pd.estado','=','1');*/
                     }
                 )
