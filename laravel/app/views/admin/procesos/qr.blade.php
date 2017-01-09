@@ -43,19 +43,9 @@
                     </div>
                 </fieldset>
             </div><!-- /.box -->
-            <div class="box-body">
+            <div class="box-body"> 
                 <div class="col-sm-12">
-                    <table id="t_reporte" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>N°</th>
-                                <th>QR</th>
-                             
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                    <div id="qr"></div>
                 </div>
             </div><!-- /.box -->
             <!-- Finaliza contenido -->

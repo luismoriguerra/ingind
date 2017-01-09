@@ -746,22 +746,17 @@ class ReporteFinalController extends BaseController
     { 
          
      $html="";
-      $qrcode = new QRcode();
-      
-      $email="rcapchab@gmail.com";
-      $subject="Test qr";
-      $body = "Comprobación del test qr";
-      $codigo="mailto:".$email."?subject=".urlencode($subject)."&body=".urlencode($body);
- 
-// --- skype
-//$codigo = "skype:".urlencode("usuarioSkype")."?call";
- 
 
-        // --- generar imagen
-        $qrcode->QRcode::png($codigo,"temp/01.png",QR_ECLEVEL_L,2,1);
-        $html.='<tr>';
-        $html.='<td>1</td><td><img src="temp/01.png"/></td>';
-        $html.='</tr>';
+        $retorno=array(
+                  'rst'=>1
+               );
+
+        $png = QrCode::format('png')->size(100)->generate("procesos.munindependencia.gob.pe");
+        $png = base64_encode($png);
+        $png= "<img src='data:image/png;base64," . $png . "'>";
+        
+        $html.='<div>'.$png.'</div>';
+
        $retorno["data"]=$html;
 
        return Response::json( $retorno );
