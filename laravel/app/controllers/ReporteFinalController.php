@@ -634,79 +634,131 @@ class ReporteFinalController extends BaseController
     }
     
      public function postSeguridadciudadanaalertas()
-    {
-      $array=array();
-      $array['usuario']=Auth::user()->id;
+    { echo date("Y-m-d");
+//      $array=array();
+//      $array['usuario']=Auth::user()->id;
+//      
+//      $retorno=array(
+//                  'rst'=>1
+//               );
+//
+//      $url ='http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=faltas';
+//      $curl_options = array(
+//                    //reemplazar url 
+//                    CURLOPT_URL => $url,
+//                    CURLOPT_HEADER => 0,
+//                    CURLOPT_RETURNTRANSFER => TRUE,
+//                    CURLOPT_TIMEOUT => 0,
+//                    CURLOPT_SSL_VERIFYPEER => 0,
+//                    CURLOPT_FOLLOWLOCATION => TRUE,
+//                    CURLOPT_ENCODING => 'gzip,deflate',
+//            );
+// 
+//            $ch = curl_init();
+//            curl_setopt_array( $ch, $curl_options );
+//            $output = curl_exec( $ch );
+//            curl_close($ch);
+//
+//      $r = json_decode(utf8_encode($output),true);
+//      
+//      $html="";
+//      $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
+//      
+//      $n=1;
+//      $fecha=date("Y-m-d"); 
+//      $dias= 1; 
+//      $fecha_inicio=date("Y-m").'-01';
+//      $fecha_fin=date("Y-m-d", strtotime("$fecha -$dias day")); 
+//      
+//      $Ssql='select area_id,id,email, email_mdi
+//             from personas
+//             where area_id in (31,19)
+//             and rol_id in (9,8)
+//             and estado=1
+//             order by area_id;';
+//      $e= DB::select($Ssql);
+//
+//      $email_copia = [$e[0]->email, $e[0]->email_mdi,$e[1]->email, $e[1]->email_mdi];
+//       
+//      foreach ($r["faltas"] as $rr) {
+//   
+//        $html.="<tr>";
+//        $html.="<td>".$n."</td>";
+//        $html.="<td>".$rr["Persona"]."</td>";
+//        $html.="<td>".$rr["Dni"]."</td>";
+//        $html.="<td>".$rr["Email"]."</td>";
+//        $html.="<td>".$rr["Area"]."</td>";
+//        $html.="<td>".$rr["faltas"]."</td>";
+//        $html.="</tr>";
+//        
+//        $faltas_dia=floor($rr["faltas"]/3);
+//        $email=trim($rr["Email"]);
+//        
+//        $plantilla=Plantilla::where('tipo','=','4')->first();
+//        $buscar=array('persona:','dia:','mes:','año:','inasistencias:','fechainicial:','fechafinal:','faltas:');
+//        $reemplazar=array($rr["Persona"],date('d'),$meses[date('n')],date("Y"),$rr["faltas"],$fecha_inicio,$fecha_fin,$faltas_dia);
+//        $parametros=array(
+//          'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
+//        );
+//        
+//        $Ssql='SELECT COUNT(aasc.id) as count
+//                     FROM alertas_seguridad_ciudadana aasc
+//                     WHERE aasc.idpersona='.$rr["idpersona"].' AND aasc.nro_inasistencias='.$rr["faltas"];
+//                     $r= DB::select($Ssql);
+//                     
+//        if($email=='')  {$email=$e[0]->email;} //colocar correo de gerente seguridad ciudadana 
+//        
+//        if( $email!='' AND $r[0]->count==0 AND $rr["faltas"]>=3){
+//          
+//            DB::beginTransaction();   
+//            $update='update alertas_seguridad_ciudadana set ultimo_registro=0
+//                    where idpersona='.$rr["idpersona"];
+//                    DB::update($update); 
+//        
+//            $insert='INSERT INTO alertas_seguridad_ciudadana (idpersona,persona,nro_faltas,nro_inasistencias,fecha_notificacion) 
+//                     VALUES ('.$rr["idpersona"].',"'.$rr["Persona"].'","'.$faltas_dia.'","'.$rr["faltas"].'","'.date("Y-m-d h:m:s").'")';
+//                     DB::insert($insert); 
+//                                    
+//        try{
+//            Mail::send('notreirel', $parametros , 
+//                function($message) use ($email,$email_copia){
+//                    $message
+//                    ->to($email)
+//                    ->cc($email_copia)
+//                    ->subject('.::Notificación::.');
+//                }
+//            );
+//       }
+//        catch(Exception $e){
+//            //echo $qem[$k]->email."<br>";
+//             DB::rollback();
+//        }
+//        DB::commit();
+//        }
+//        $n++;
+//      }
+//      $retorno["data"]=$html;
+//
+//      return Response::json( $retorno );
+    }
     
-      $retorno=array(
+     public function postGenerarqr()
+    { 
+         
+     $html="";
+
+        $retorno=array(
                   'rst'=>1
                );
 
-      $url ='http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=faltas';
-      $curl_options = array(
-                    //reemplazar url 
-                    CURLOPT_URL => $url,
-                    CURLOPT_HEADER => 0,
-                    CURLOPT_RETURNTRANSFER => TRUE,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_SSL_VERIFYPEER => 0,
-                    CURLOPT_FOLLOWLOCATION => TRUE,
-                    CURLOPT_ENCODING => 'gzip,deflate',
-            );
- 
-            $ch = curl_init();
-            curl_setopt_array( $ch, $curl_options );
-            $output = curl_exec( $ch );
-            curl_close($ch);
+        $png = QrCode::format('png')->size(100)->generate("procesos.munindependencia.gob.pe");
+        $png = base64_encode($png);
+        $png= "<img src='data:image/png;base64," . $png . "'>";
+        
+        $html.='<div>'.$png.'</div>';
 
-      $r = json_decode(utf8_encode($output),true);
-      
-      $html="";
-      $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
-      
-      
-      $n=1;
-      foreach ($r["faltas"] as $rr) {
-        
-        $html.="<tr>";
-        $html.="<td>".$n."</td>";
-        $html.="<td>".$rr["Persona"]."</td>";
-        $html.="<td>".$rr["Dni"]."</td>";
-        $html.="<td>".$rr["Email"]."</td>";
-        $html.="<td>".$rr["Area"]."</td>";
-        $html.="<td>".$rr["faltas"]."</td>";
-        $html.="</tr>";
-        
-        $email=$rr["Email"];
-        $plantilla=Plantilla::where('tipo','=','1')->first();
-        $buscar=array('persona:','dia:','mes:','año:','paso:','tramite:','area:');
-        $reemplazar=array($rr["Persona"],date('d'),$meses[date('n')],date("Y"),$rr["faltas"],$rr["Persona"],$rr["Persona"]);
-        $parametros=array(
-          'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
-        );
-        
-        if($email!=" "){
-        try{
-            Mail::send('notreirel', $parametros , 
-                function($message) use ($email){
-                    $message
-                    ->to('consultas.gmgm@gmail.com')
-                    ->cc('rrr@gmail.com')
-                    ->subject('.::Notificación::.');
-                }
-            );
-       }
-        catch(Exception $e){
-            //echo $qem[$k]->email."<br>";
-            
-        }
-        
-        }
-        $n++;
-      }
-      $retorno["data"]=$html;
+       $retorno["data"]=$html;
 
-      return Response::json( $retorno );
+       return Response::json( $retorno );
     }
-
 }

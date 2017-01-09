@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'debug' => false,// false por default
+	'debug' => true,// false por default
 
 	/*
 	|--------------------------------------------------------------------------
@@ -123,7 +123,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Way\Generators\GeneratorsServiceProvider',
 		'Thujohn\Pdf\PdfServiceProvider',
-
+                'SimpleSoftwareIO\QrCode\QrCodeServiceProvider',
 	),
 
 	/*
@@ -191,7 +191,7 @@ return array(
 		'Validator'         => 'Illuminate\Support\Facades\Validator',
 		'View'              => 'Illuminate\Support\Facades\View',
 		'PDF'				=> 'Thujohn\Pdf\PdfFacade',
-
+                'QrCode' => 'SimpleSoftwareIO\QrCode\Facades\QrCode',
 	),
 
 );

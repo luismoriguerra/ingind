@@ -520,7 +520,71 @@ class Persona extends Base implements UserInterface, RemindableInterface
                         ->get();
         return $query;
     }*/
+    
+    public static function ProduccionTRPersonalxArea($fecha,$id_area)
+    {     $query = '';
+    
+          $query.="select a.nombre as area,rdv.usuario_updated_at,rd.area_id,f.id,f.nombre ,COUNT(rdv.id) AS tareas
+                   from rutas_detalle_verbo rdv 
+                   INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1
+                   INNER JOIN areas a on rd.area_id=a.id
+                   INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
+                   INNER JOIN flujos f on r.flujo_id=f.id
+                   WHERE rdv.estado=1 
+                   AND rdv.finalizo=1 
+                   AND rd.area_id IN ('$id_area')
+                   ";
+           if($fecha != ''){
+            list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+            $query.=' AND date(rdv.updated_at) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
+         }
+         $query.='GROUP BY rd.area_id,f.id WITH ROLLUP ';
+         
+        $r= DB::select($query);
 
+        return $r;
+    }
+    
+        public static function getProduccionTRPersonalxAreaDetalle($array)
+    {     
+  
+        $sSql= "select f.nombre as proceso,a.nombre as area,rdv.nombre  as tarea,
+                v.nombre as verbo,rdv.documento,rdv.observacion,rd.norden,rdv.updated_at
+                from rutas_detalle_verbo rdv 
+                INNER JOIN verbos v on rdv.verbo_id=v.id
+                INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1
+                INNER JOIN areas a on rd.area_id=a.id						 
+                INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
+                INNER JOIN flujos f on r.flujo_id=f.id
+                WHERE rdv.estado=1 
+                AND rdv.finalizo=1";
+        $sSql.= $array['where'].
+                $array['order'].
+                $array['limit'];
+        
+        $oData= DB::select($sSql);
+
+        return $oData;
+    }
+    
+     public static function getPTRPxACount($array)
+    {     
+  
+        $sSql= "select COUNT(rdv.id) cant
+                from rutas_detalle_verbo rdv 
+                INNER JOIN verbos v on rdv.verbo_id=v.id
+                INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1
+                INNER JOIN areas a on rd.area_id=a.id						 
+                INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
+                INNER JOIN flujos f on r.flujo_id=f.id
+                WHERE rdv.estado=1 
+                AND rdv.finalizo=1";
+        $sSql.=$array['where'];
+
+        $oData= DB::select($sSql);
+
+        return $oData[0]->cant;
+    }
 }
 
 
