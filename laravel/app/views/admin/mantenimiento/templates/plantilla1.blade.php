@@ -67,6 +67,11 @@ hr {
     border: none;
     padding: 5px;
 }
+.qr {
+  position: absolute;
+  top:  8px; 
+  left: 550px;
+}
 </style>
 
 </head>
@@ -77,9 +82,10 @@ hr {
         <div>
             <div class="logo">
                 <img src="img/logo_muni.jpg">
-            </div>
+            </div> <div class="qr">{{ $imagen }}</div>
             <h3 class="nombre-municipio">MUNICIPALIDAD DISTRITAL DE INDEPENDECIA</h3>
             <h4 class="nombre-anio">“Año de la consolidación del Mar de Grau”</h4>
+           
         </div>
 
         <h3 class="nombre-documento">{{ $titulo }}</h3>

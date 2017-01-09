@@ -138,7 +138,10 @@ class DocumentoDigitalController extends \BaseController {
             $destinatarios.= '</ul>';    
         	$copias.= '</ul>';        	
         	/*end get destinatario data*/
-
+            $png = QrCode::format('png')->size(150)->generate("http://procesos.munindependencia.pe/documentodig/vistaprevia/".$id);
+            $png = base64_encode($png);
+            $png= "<img src='data:image/png;base64," . $png . "'>";
+            
             $params = [
                 'titulo' => $DocumentoDigital->titulo,
                 'asunto' => $DocumentoDigital->asunto,
@@ -148,9 +151,10 @@ class DocumentoDigitalController extends \BaseController {
                 'remitente' => $remitente,
                 'destinatario' => $destinatarios,
                 'copias' => $copias,
+                'imagen'=>$png,
             ];
             $params = $params;
-
+            
             $view = \View::make('admin.mantenimiento.templates.plantilla1', $params);
             $html = $view->render();
 
