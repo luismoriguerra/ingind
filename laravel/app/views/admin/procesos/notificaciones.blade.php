@@ -18,13 +18,13 @@
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            ENVIO DE NOTIFICACIONES SEGURIDAD CIUDADANA
+            ENVIO DE NOTIFICACIONES CONTRATACIONES
             <small> </small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
             <li><a href="#">Reporte</a></li>
-            <li class="active">Notificaciones Seguridad Ciudadana</li>
+            <li class="active">Notificaciones Contrataciones</li>
         </ol>
     </section>
 
@@ -41,7 +41,7 @@
                             </div>
                         </div>
                     </div>
-                </fieldset>
+                </fieldset>         
             </div><!-- /.box -->
             <div class="box-body">
                 <div class="col-sm-12">
@@ -49,11 +49,11 @@
                         <thead>
                             <tr>
                                 <th>N°</th>
+                                <th>Titulo</th>
+                                <th>Area</th>
                                 <th>Persona</th>
-                                <th>DNI</th>
                                 <th>Email</th>
-                                <th>Área</th>
-                                <th>Faltas</th>
+                                <th>Email mdi</th>
                              
                             </tr>
                         </thead>
