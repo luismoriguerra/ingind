@@ -41,7 +41,8 @@ class TramiteController extends BaseController {
 		$data = $rst[0];
 		/*end get data*/
 
-		$html = "<html><meta charset=\"UTF-8\">";
+		$html = "<html>";
+		$html.= "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />";
 		$html.="
 				<body>
 				<style>

@@ -133,7 +133,8 @@ class AnexoController extends BaseController {
 		$data = $rst[0];
 		/*end get data*/
 
-		$html = "<html><meta charset=\"UTF-8\">";
+		$html = "<html>";
+		$html.= "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />";
 		$html.="
 				<body>
 				<style>
@@ -149,7 +150,7 @@ class AnexoController extends BaseController {
 				padding: 5px;
 				}
 				</style>";
-		$html.="<h3>VOCHER ANEXO</h3>";
+		$html.="<h3>VOuCHER ANEXO</h3>";
 		$html.="
 				<table>
 					<tr>
