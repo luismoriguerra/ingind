@@ -14,6 +14,7 @@ $(document).ready(function() {
       var button = $(event.relatedTarget); // captura al boton
       textoIdG= button.data('texto');
       documentoIdIG= button.data('id');
+      console.log($(event.relatedTarget).parent().parent());
       $("#"+textoIdG).removeAttr("readonly");
       $("#"+textoIdG).attr("readonly",'true');
       $("#"+textoIdG).val("");

@@ -6,7 +6,7 @@
                 <img class="media-object img-circle" width="30" height="30" :src="message.img">
             </a>
             <div class="media-body">
-                <span class="media-heading" v-bind:fecha="{ message.created_at }" {{-- fecha="message.created_at" --}} style="font-size: 11px;font-weight: bold;">@{{ message.user.nombre + " " + message.user.paterno + " "  + message.user.materno}}</span>
+                <span class="media-heading" style="font-size: 11px;font-weight: bold;">@{{ message.user.nombre + " " + message.user.paterno + " "  + message.user.materno}}</span>
                 <br>
                 <small>@{{ message.body }}</small>
             </div>

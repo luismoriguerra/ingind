@@ -11,6 +11,40 @@ var tiempoG=[];
 var verboG=[];
 var posicionDetalleVerboG=0;
 $(document).ready(function() {
+                slctGlobal.listarSlct('area','areasTodas','multiple',null,{estado:1,areagestion:1});
+    $( "#tabs" ).tabs();
+
+    $('.chk').on('ifChanged', function(event){
+        if(event.target.value == 'tareas'){
+            if(event.target.checked == true){
+                $("#txt_numareas").prop('disabled',true);
+                $("#txt_numareas").val('');
+                $(".tablaSelecAreaTiempo").addClass('hidden');
+
+                $('#areasTodas option').prop('selected', true);
+                $('#areasTodas').multiselect('refresh');
+            }else{
+                $('#areasTodas option').prop('selected', false);
+                $('#areasTodas').multiselect('refresh');
+                $("#txt_numareas").prop('disabled',false);
+            }
+        }
+        if(event.target.value == 'etiempo'){
+            if(event.target.checked == true){
+                $("#txt_tiempo").prop('disabled',false);
+            }else{
+                $("#txt_tiempo").prop('disabled',true);
+            }
+        }
+       /* var state = event.target.checked;
+        if(state == true){
+            $('.cancelation').removeClass('hidden');
+        }else{
+            $('.cancelation').addClass('hidden');
+
+        }*/
+    });
+
     //$("[data-toggle='offcanvas']").click();
     $("#btn_guardar_tiempo,#btn_guardar_verbo").remove();
     $("#btn_close").click(Close);
@@ -20,7 +54,9 @@ $(document).ready(function() {
     data = {estado:1};
     slctGlobal.listarSlct('software','slct_software_id_modal','simple',ids,data);
     slctGlobal.listarSlct('tiposolicitante','slct_tipo_persona','simple',ids,data);
+    slctGlobal.listarSlct('tiposolicitante','slct_tipo_persona2','simple',ids,data);
     slctGlobal.listarSlct('area','slct_area2_id,#slct_area_p_id','simple',ids,data);
+    slctGlobal.listarSlct('area','slct_area2_id,#slct_area_p_id2','simple',ids,data);
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
     slctGlobal.listarSlct2('documento','slct_documento_modal',data);
@@ -121,6 +157,7 @@ $(document).ready(function() {
     });
 
     $("#btn_guardar_todo").click(guardarTodo);
+    $("#btn_guardar_todo2").click(guardarProcesoGestion);
     hora();
     //$("#areasasignacion").DataTable();
 });
@@ -684,4 +721,79 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
     }
  
 };
+
+cargarTabla = function(){
+    var cantidad = document.querySelector("#txt_numareas").value;
+    if(cantidad){
+        html = '';
+        for(var i=0 ; i<cantidad ; i++){
+            html+= "<tr>";
+            html+= "    <td>";
+            html+= "        <select class='form-control' id='select_area"+i+"' name='select_area'></select>";
+            html+="     </td>";
+            html+= "    <td>";
+            html+= "        <input class='form-control' type='text' name='txt_dias' id='txt_dias' value='1' placeholder='Cantidad dias'/>";
+            html+="    </td>";
+            html+= "</tr>";
+            slctGlobal.listarSlct('area','select_area'+i+'','simple',null,{estado:1,areagestion:1});
+        }
+        $("#tb_numareas").html(html);
+        $(".tablaSelecAreaTiempo").removeClass('hidden');
+    }else{
+        alert('Ingrese la cantidad de areas');
+         $(".tablaSelecAreaTiempo").addClass('hidden');
+    }
+}
+
+cargarTiempo = function(object){
+    $("#tb_numareas tr td input[type=text]").each(function() {
+        $(this).val(object.value);
+    });
+}
+
+guardarProcesoGestion = function(){
+    if( $("#slct_flujo2_id").val()=='' ){
+        alert("Seleccione un Tipo Flujo");
+    }
+    else if( $.trim($("#txt_codigo2").val())==''){
+        alert("Ingrese Nro Trámite");
+    }
+    else if( $.trim($("#txt_referente2").val())!='' && $("#txt_referente2").val().length>50 ){
+        alert("Referencia supera el maximo de 50 caracteres, Revisar e ingresar solo el documento a referirse.");
+    }
+    else if( $("#slct_tipo_persona2").val()=='' ){
+        alert("Seleccione Tipo Persona");
+    }
+    else if( $("#slct_tipo_persona2").val()=='2' && $("#txt_ruc2").val()=='' ){
+        alert("Ingrese RUC");
+    }
+    else if( $("#slct_tipo_persona2").val()=='2' && $("#txt_razon_social2").val()==''){
+        alert("Ingrese Razon Social");
+    }
+    else if( ($("#slct_tipo_persona2").val()=='1' || $("#slct_tipo_persona2").val()=='6') && $("#txt_paterno2").val()=='' ){
+        alert("Ingrese Paterno");
+    }
+    else if( ($("#slct_tipo_persona2").val()=='1' || $("#slct_tipo_persona2").val()=='6') && $("#txt_materno2").val()=='' ){
+        alert("Ingrese Materno")
+    }
+    else if( ($("#slct_tipo_persona2").val()=='1' || $("#slct_tipo_persona2").val()=='6') && $("#txt_nombre2").val()=='' ){
+        alert("Ingrese Nombre");
+    }
+    else if( $("#slct_tipo_persona2").val()=='3' && $("#slct_area_p_id2").val()=='' ){
+        alert("Seleccione Area Interna");
+    }
+    else if( ($("#slct_tipo_persona2").val()=='4' || $("#slct_tipo_persona2").val()=='5') && $("#txt_razon_socia2l").val()=='' ){
+        alert("Ingrese Razon Social");
+    }
+    else if( $("#txt_sumilla2").val()=='' ){
+        alert("Ingrese Sumilla");
+    }
+  /*  else if( !$("#txt_ruta_flujo_id").val() || $("#txt_ruta_flujo_id").val()=='' ){
+        alert("Seleccione una combinacion donde almeno exita 1 registro");
+    }*/
+    else{
+        Asignar.guardarAsignacionGestion();
+    }
+}
+
 </script>
