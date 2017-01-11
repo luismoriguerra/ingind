@@ -183,3 +183,4 @@ Route::controller('indedocs', 'IndedocsController');
 Route::controller('referido', 'ReferidoController');
 Route::controller('docs', 'DocsController');
 Route::controller('contratacion', 'ContratacionController');
+Route::controller('envioautomatico', 'EnvioAutomaticoController');

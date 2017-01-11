@@ -2,7 +2,7 @@
 var Accion={
     mostrar:function( data ){
         $.ajax({
-            url         : 'reportef/seguridadciudadanaalertas',
+            url         : 'envioautomatico/contratacionesalertas',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
