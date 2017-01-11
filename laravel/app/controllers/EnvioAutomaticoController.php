@@ -22,8 +22,8 @@ class EnvioAutomaticoController extends \BaseController {
       
       $n=1;
       
-         $Ssql="SELECT c.id,c.area_id,c.titulo,a.nombre as area,CONCAT(p.paterno,' ',p.materno,' ',p.nombre) as persona,p.id persona_id,1 as tipo,
-                p.email,p.email_mdi,c.fecha_aviso,c.programacion_aviso
+         $Ssql="SELECT c.id,c.area_id,1 as titulo,c.titulo as descripcion,a.nombre as area,CONCAT(p.paterno,' ',p.materno,' ',p.nombre) as persona,p.id persona_id,1 as tipo,
+                p.email,p.email_mdi,c.fecha_aviso,c.programacion_aviso,c.fecha_inicio,c.fecha_fin
                 FROM contratacion c
                 INNER JOIN areas a on c.area_id=a.id
                 INNER JOIN personas p on p.area_id=a.id and rol_id in (9,8) 
@@ -36,8 +36,8 @@ class EnvioAutomaticoController extends \BaseController {
 
                 UNION
 
-                SELECT cr.id,c.area_id,cr.texto,a.nombre as area,CONCAT(p.paterno,' ',p.materno,' ',p.nombre) as persona,p.id persona_id,2 as tipo,
-                p.email,p.email_mdi,cr.fecha_aviso,cr.programacion_aviso
+                SELECT cr.id,c.area_id,c.titulo,cr.texto,a.nombre as area,CONCAT(p.paterno,' ',p.materno,' ',p.nombre) as persona,p.id persona_id,2 as tipo,
+                p.email,p.email_mdi,cr.fecha_aviso,cr.programacion_aviso,cr.fecha_inicio,cr.fecha_fin
                 FROM contra_reque cr
                 INNER JOIN contratacion c on cr.contratacion_id=c.id
                 INNER JOIN areas a on c.area_id=a.id
@@ -55,27 +55,31 @@ class EnvioAutomaticoController extends \BaseController {
   
         $html.="<tr>";
         $html.="<td>".$n."</td>";
-        $html.="<td>".$value->titulo."</td>";
+        $html.="<td>".$value->descripcion."</td>";
         $html.="<td>".$value->area."</td>";
         $html.="<td>".$value->persona."</td>";
         $html.="<td>".$value->email."</td>";
         $html.="<td>".$value->email_mdi."</td>";
         $html.="</tr>";
+        if ($value->tipo==1){
+            $contratacion='Contratación: '.$value->descripcion;
+            $descripcion='Contratación con el titulo; '.$value->descripcion; 'mencionado arriba.';
+        }
+        if ($value->tipo==2){
+            $contratacion='Detalle de Contratación: '.$value->descripcion;
+            $descripcion='Detalle de Contratación: '.$value->descripcion. ' de la contratación: '.$value->titulo;
+        }
         
         $plantilla=Plantilla::where('tipo','=','5')->first();
-        $buscar=array('persona:','dia:','mes:','año:','titulo:','contratacion:');
-        $reemplazar=array($value->persona,date('d'),$meses[date('n')],date("Y"),$value->titulo,$value->titulo);
+        $buscar=array('persona:','dia:','mes:','año:','contratacion:','descripcion:','fechainicio:','fechafinal:');
+        $reemplazar=array($value->persona,date('d'),$meses[date('n')],date("Y"),$contratacion,$descripcion,$value->fecha_inicio,$value->fecha_fin);
         $parametros=array(
           'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
         );
         
-//        $Ssql='SELECT COUNT(aasc.id) as count
-//                     FROM alertas_seguridad_ciudadana aasc
-//                     WHERE aasc.idpersona='.$rr["idpersona"].' AND aasc.nro_inasistencias='.$rr["faltas"];
-//                    $r= DB::select($Ssql);
-//                     $r[0]->count==0 
-        $email=$value->email;
-        $email_copia='consultfas.gmgm@gmail.com';
+
+        $email='consultas.gmgm@gmail.com';
+        $email_copia='rcapchab@gmail.com';
         if( $email!=''  ){
           
             DB::beginTransaction();   

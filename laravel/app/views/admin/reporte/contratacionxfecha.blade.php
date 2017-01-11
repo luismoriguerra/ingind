@@ -10,21 +10,21 @@
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-    @include( 'admin.reporte.js.produccionperxarea_ajax' )
-    @include( 'admin.reporte.js.produccionperxarea' )
+    @include( 'admin.reporte.js.contratacionxfecha_ajax' )
+    @include( 'admin.reporte.js.contratacionxfecha' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Producciòn de Personal por Área
+            Contrataciones y Detalles Filtrado por Fechas
             <small> </small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
             <li><a href="#">Reporte</a></li>
-            <li class="active">Usuarios</li>
+            <li class="active">Contrataciones</li>
         </ol>
     </section>
 
@@ -35,18 +35,27 @@
                 <fieldset>
                     <div class="row form-group" >
                         <div class="col-sm-12">
-                            <div class="col-sm-4"><input type="hidden" id="area_id" name="area_id">
-                                <label class="control-label">Area:</label>
-                                <select class="form-control" name="slct_area_id" id="slct_area_id" multiple>
+                            <div class="col-sm-4">
+                                <label class="control-label">Contratación:</label>
+                                <select class="form-control" name="slct_contratacion" id="slct_contratacion" onchange="MostrarSelect(this.value)">
+                                    <option value="" selected>.:Seleccione:.</option>
+                                <option value='1'>Contratación</option>
+                                <option value='2'>Conttratación (Con detalle Incluido)</option>
                                 </select>
                             </div>
-                             <div class="col-md-4 col-sm-4">
+                            <div class="col-sm-3">
+                                <label class="control-label">Tipo de Fecha:</label>
+                                <select class="form-control " name="slct_fecha" id="slct_fecha">
+                                <option value='' selected>.:Seleccione:.</option>
+                                </select>
+                            </div>
+                             <div class="col-md-3 col-sm-3">
                                                 <label class="control-label">Rango de Fechas:</label>
                                                 <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha" onfocus="blur()"/>
                             </div>
                                              <div class="col-md-1 col-sm-1">                            
                                                 <label class="control-label" style="color: white">aaaaa</label>
-                                                <input type="button" class="btn btn-info" id="generar" name="generar" value="Productividad">
+                                                <a type="button" class="btn btn-success btn-md" id="generar" name="generar" value="Productividad"><i class='glyphicon glyphicon-download-alt'></i>Exportar</a>
                                              </div>
 <!--                            <div class="col-sm-2">
                                 <label class="control-label"></label>
@@ -145,6 +154,6 @@
     
 
 @stop
-@section('formulario')
+<!--@section('formulario')
      @include( 'admin.reporte.form.produccionperxarea' )
-@stop
+@stop-->

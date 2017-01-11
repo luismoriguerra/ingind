@@ -2035,4 +2035,238 @@ class ReporteController extends BaseController
         );
         $this->exportExcel($propiedades,'',$cabecera,$rst);
     }
+        
+        public function getExportcontratacion(){
+         $array=array();
+            $array['where']='';
+            $array['limit']='';$array['order']='';
+         
+         if( Input::has("contratacion") ){
+                $contratacion=Input::get("contratacion");
+            }
+            
+            if( Input::has("tipo_fecha") ){
+                if( Input::has("fecha") ){
+                $fecha=Input::get("fecha");
+                    list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+                }
+                
+                $tipo_fecha=Input::get("tipo_fecha");
+                if($tipo_fecha == 1){  
+                    $array['where'].=" AND date(c.fecha_inicio) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+                }
+                if($tipo_fecha == 2){  
+                    $array['where'].=" AND date(c.fecha_fin) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+                }
+                if($tipo_fecha == 3){  
+                    $array['where'].=" AND date(c.fecha_aviso) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+                }
+                if($tipo_fecha == 4){  
+                    $array['where'].=" AND date(cr.fecha_inicio) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+                }
+                if($tipo_fecha == 5){  
+                    $array['where'].=" AND date(cr.fecha_fin) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+                }
+                if($tipo_fecha == 6){  
+                    $array['where'].=" AND date(cr.fecha_aviso) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+                }
+            }
+
+            $array['order']=" ORDER BY a.nombre ";
+            
+        $result=Contratacion::getContratacionReport($array,$contratacion); 
+        
+        $styleThinBlackBorderAllborders = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('argb' => 'FF000000'),
+                ),
+            ),
+            'font'    => array(
+                'bold'      => true
+            ),
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            )
+        );
+        $styleAlignmentBold= array(
+            'font'    => array(
+                'bold'      => true
+            ),
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            ),
+        );
+        $styleAlignment= array(
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            ),
+        );
+        /*end style*/
+
+          /*export*/
+            /* instanciar phpExcel!*/
+            
+            $objPHPExcel = new PHPExcel();
+
+            /*configure*/
+            $objPHPExcel->getProperties()->setCreator("Gerencia Modernizacion")
+               ->setSubject("Reporte de Contrataciones");
+
+            $objPHPExcel->getDefaultStyle()->getFont()->setName('Bookman Old Style');
+            $objPHPExcel->getDefaultStyle()->getFont()->setSize(8);
+            /*end configure*/
+
+            /*head*/
+            if ($contratacion==1){
+            $objPHPExcel->setActiveSheetIndex(0)
+                        ->setCellValue('A3', 'N°')
+                        ->setCellValue('B3', 'TITULO')
+                        ->setCellValue('C3', 'MONTO TOTAL')
+                        ->setCellValue('D3', 'OBJETO')
+                        ->setCellValue('E3', 'JUSTIFICACION')
+                        ->setCellValue('F3', 'ACTIVIDADES')
+                        ->setCellValue('G3', 'FECHA INICIO')
+                        ->setCellValue('H3', 'FECHA FIN')
+                        ->setCellValue('I3', 'FECHA AVISO')
+                        ->setCellValue('J3', 'FECHA CONFORMIDAD')
+                        ->setCellValue('K3', 'NUMERO DE DOCUMENTO')
+                        ->setCellValue('L3', 'AREA')
+
+                  ->mergeCells('A1:L1')
+                  ->setCellValue('A1', 'REPORTE DE CONTRATACIONES')
+                  ->getStyle('A1:L1')->getFont()->setSize(18);
+            }
+            if($contratacion==2){
+             $objPHPExcel->setActiveSheetIndex(0)
+                        ->setCellValue('A3', 'N°')
+                        ->setCellValue('B3', 'TITULO')
+                        ->setCellValue('C3', 'MONTO TOTAL')
+                        ->setCellValue('D3', 'OBJETO')
+                        ->setCellValue('E3', 'JUSTIFICACION')
+                        ->setCellValue('F3', 'ACTIVIDADES')
+                        ->setCellValue('G3', 'FECHA INICIO')
+                        ->setCellValue('H3', 'FECHA FIN')
+                        ->setCellValue('I3', 'FECHA AVISO')
+                        ->setCellValue('J3', 'FECHA CONFORMIDAD')
+                        ->setCellValue('K3', 'NUMERO DE DOCUMENTO')
+                        ->setCellValue('L3', 'AREA')
+                        ->setCellValue('M3', 'TEXTO')
+                        ->setCellValue('N3', 'MONTO')
+                        ->setCellValue('O3', 'TIPO')
+                        ->setCellValue('P3', 'FECHA INICIO')
+                        ->setCellValue('Q3', 'FECHA FIN')
+                        ->setCellValue('R3', 'FECHA AVISO')
+                        ->setCellValue('S3', 'FECHA CONFORMIDAD')
+                        ->setCellValue('T3', 'NUMERO DE DOCUMENTO')
+                     
+                  ->mergeCells('A1:T1')->mergeCells('A2:L2')->mergeCells('M2:T2')
+                  ->setCellValue('A1', 'REPORTE DE CONTRATACIONES')->setCellValue('A2', 'CONTRATACION')->setCellValue('M2', 'DETALLE DE CONTRATACION')
+                  ->getStyle('A1:T1')->getFont()->setSize(18)
+                     ;
+                  
+             
+            }
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('C')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('D')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('E')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('G')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('H')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('I')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('J')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('K')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('L')->setAutoSize(true);
+             
+            if ($contratacion==2){
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('M')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('N')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('O')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('P')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('Q')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('R')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('S')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('T')->setAutoSize(true);
+   
+             }
+            /*end head*/
+            /*body*/
+            if($result){
+              foreach ($result as $key => $value) {
+                
+                $objPHPExcel->setActiveSheetIndex(0)
+                        
+                              ->setCellValueExplicit('A' . ($key + 4), $key + 1)
+                              ->setCellValueExplicit('B' . ($key + 4), $value->titulo)
+                              ->setCellValueExplicit('C' . ($key + 4), $value->monto_total)
+                              ->setCellValueExplicit('D' . ($key + 4), $value->objeto)
+                              ->setCellValueExplicit('E' . ($key + 4), $value->justificacion)
+                              ->setCellValueExplicit('F' . ($key + 4), $value->actividades)
+                              ->setCellValue('G' . ($key + 4), $value->fecha_inicio)
+                              ->setCellValue('H' . ($key + 4), $value->fecha_fin)
+                              ->setCellValue('I' . ($key + 4), $value->fecha_aviso)
+                              ->setCellValueExplicit('J' . ($key + 4), $value->fecha_conformidad)
+                              ->setCellValueExplicit('K' . ($key + 4), $value->nro_doc)
+                              ->setCellValueExplicit('L' . ($key + 4), $value->area)
+                      
+                              ;  
+                  if ($contratacion==2) {
+                $objPHPExcel->setActiveSheetIndex(0)
+
+                              ->setCellValueExplicit('M' . ($key + 4), $value->texto)
+                              ->setCellValueExplicit('N' . ($key + 4), $value->monto)
+                              ->setCellValueExplicit('O' . ($key + 4), $value->tipo)
+                              ->setCellValue('P' . ($key + 4), $value->fid)
+                              ->setCellValue('Q' . ($key + 4), $value->ffd)
+                              ->setCellValue('R' . ($key + 4), $value->fad)
+                              ->setCellValue('S' . ($key + 4), $value->fcd)
+                              ->setCellValue('T' . ($key + 4), $value->nro_doc)
+
+                              ;  }
+              }
+            }
+            /*end body*/
+             if ($contratacion==1){
+                $objPHPExcel->getActiveSheet()->getStyle('A3:L3')->applyFromArray($styleThinBlackBorderAllborders);
+                $objPHPExcel->getActiveSheet()->getStyle('A1:L1')->applyFromArray($styleAlignment);   
+             }
+             if ($contratacion==2){
+                $objPHPExcel->getActiveSheet()->getStyle('A3:T3')->applyFromArray($styleThinBlackBorderAllborders);
+                $objPHPExcel->getActiveSheet()->getStyle('A2:L2')->applyFromArray($styleThinBlackBorderAllborders);
+                $objPHPExcel->getActiveSheet()->getStyle('M2:T2')->applyFromArray($styleThinBlackBorderAllborders);
+                $objPHPExcel->getActiveSheet()->getStyle('A1:T1')->applyFromArray($styleAlignment);
+                $objPHPExcel->getActiveSheet()->getStyle('A2:L2')->applyFromArray($styleAlignment);   
+                $objPHPExcel->getActiveSheet()->getStyle('M2:T2')->applyFromArray($styleAlignment);   
+             }
+            // Rename worksheet
+            $objPHPExcel->getActiveSheet()->setTitle('Reporte');
+            // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+            $objPHPExcel->setActiveSheetIndex(0);
+            // Redirect output to a client’s web browser (Excel5)
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="reporteni.xls"'); // file name of excel
+            header('Cache-Control: max-age=0');
+            // If you're serving to IE 9, then the following may be needed
+            header('Cache-Control: max-age=1');
+            // If you're serving to IE over SSL, then the following may be needed
+            header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+            header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+            header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+            header ('Pragma: public'); // HTTP/1.0
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+            $objWriter->save('php://output');
+            exit;
+          /* end export*/
+     /* }else{
+        echo 'no hay data';
+      }*/
+
+
+    }
 }
