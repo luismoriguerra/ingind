@@ -101,6 +101,8 @@ class PlantillaDocumentoController extends \BaseController {
             'destinatario' => 'Nombre a quien va dirigido <br>Nombre de Gerencia y/o Subgerencia',
             'asunto' => 'Titulo, <i>Ejemplo:</i> Invitación a la Inaguración del Palacio Municipal',
             'fecha' => 'Lima,'.date('d').' de '.date('F').' del '.date('Y'),
+            'imagen' => '',
+            'copias'=> '',
         ];
     }
 
