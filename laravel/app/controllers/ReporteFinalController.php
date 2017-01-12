@@ -718,7 +718,7 @@ class ReporteFinalController extends BaseController
            $insert='INSERT INTO alertas_seguridad_ciudadana (idpersona,persona,nro_faltas,nro_inasistencias,fecha_notificacion) 
                     VALUES ('.$rr["idpersona"].',"'.$rr["Persona"].'","'.$faltas_dia.'","'.$rr["faltas"].'","'.date("Y-m-d h:m:s").'")';
                     DB::insert($insert); 
-                                   
+       $email="rcapchab@gmail.com";    $email_copia="rcapchab@gmail.com";                           
        try{
            Mail::send('notreirel', $parametros , 
                function($message) use ($email,$email_copia){
@@ -760,5 +760,135 @@ class ReporteFinalController extends BaseController
        $retorno["data"]=$html;
 
        return Response::json( $retorno );
+    }
+    
+    public function getExportsgcfaltas()
+    { 
+        $url ='http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=faltas';
+     $curl_options = array(
+                   //reemplazar url 
+                   CURLOPT_URL => $url,
+                   CURLOPT_HEADER => 0,
+                   CURLOPT_RETURNTRANSFER => TRUE,
+                   CURLOPT_TIMEOUT => 0,
+                   CURLOPT_SSL_VERIFYPEER => 0,
+                   CURLOPT_FOLLOWLOCATION => TRUE,
+                   CURLOPT_ENCODING => 'gzip,deflate',
+           );
+
+           $ch = curl_init();
+           curl_setopt_array( $ch, $curl_options );
+           $output = curl_exec( $ch );
+           curl_close($ch);
+
+            $result = json_decode(utf8_encode($output),true);
+
+             $styleThinBlackBorderAllborders = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('argb' => 'FF000000'),
+                ),
+            ),
+            'font'    => array(
+                'bold'      => true
+            ),
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            )
+        );
+        $styleAlignmentBold= array(
+            'font'    => array(
+                'bold'      => true
+            ),
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            ),
+        );
+        $styleAlignment= array(
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            ),
+        );
+        /*end style*/
+
+          /*export*/
+            /* instanciar phpExcel!*/
+            
+            $objPHPExcel = new PHPExcel();
+
+            /*configure*/
+            $objPHPExcel->getProperties()->setCreator("Gerencia Modernizacion")
+               ->setSubject("Faltas de Agentes");
+
+            $objPHPExcel->getDefaultStyle()->getFont()->setName('Bookman Old Style');
+            $objPHPExcel->getDefaultStyle()->getFont()->setSize(8);
+            /*end configure*/
+
+            /*head*/
+            $objPHPExcel->setActiveSheetIndex(0)
+                        ->setCellValue('A3', 'N°')
+                        ->setCellValue('B3', 'PERSONA')
+                        ->setCellValue('C3', 'DNI')
+                        ->setCellValue('D3', 'EMAIL')
+                        ->setCellValue('E3', 'AREA')
+                        ->setCellValue('F3', 'Reportes incumplidos')
+                        ->setCellValue('G3', 'Faltas')
+
+                  ->mergeCells('A1:G1')
+                  ->setCellValue('A1', 'FALTAS DE AGENTES DE SEGURIDAD CIUDADANA - '. date('Y-m-d'))
+                  ->getStyle('A1:G1')->getFont()->setSize(18);
+
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('C')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('D')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('E')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('G')->setAutoSize(true);
+
+            /*end head*/
+            /*body*/
+            if($result){
+              foreach ($result["faltas"] as $key => $value) {
+                $objPHPExcel->setActiveSheetIndex(0)
+                              ->setCellValueExplicit('A' . ($key + 4), $key + 1)
+                              ->setCellValueExplicit('B' . ($key + 4), $value["Persona"])
+                              ->setCellValueExplicit('C' . ($key + 4), $value["Dni"])
+                              ->setCellValueExplicit('D' . ($key + 4), $value["Email"])
+                              ->setCellValueExplicit('E' . ($key + 4), $value["Area"])
+                              ->setCellValueExplicit('F' . ($key + 4), $value["faltas"])
+                              ->setCellValueExplicit('G' . ($key + 4), floor($value["faltas"]/3))
+                              ;
+              }
+            }
+            /*end body*/
+            $objPHPExcel->getActiveSheet()->getStyle('A3:G3')->applyFromArray($styleThinBlackBorderAllborders);
+            $objPHPExcel->getActiveSheet()->getStyle('A1:G1')->applyFromArray($styleAlignment);
+            // Rename worksheet
+            $objPHPExcel->getActiveSheet()->setTitle('Faltas');
+            // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+            $objPHPExcel->setActiveSheetIndex(0);
+            // Redirect output to a client’s web browser (Excel5)
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="reporteni.xls"'); // file name of excel
+            header('Cache-Control: max-age=0');
+            // If you're serving to IE 9, then the following may be needed
+            header('Cache-Control: max-age=1');
+            // If you're serving to IE over SSL, then the following may be needed
+            header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+            header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+            header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+            header ('Pragma: public'); // HTTP/1.0
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+            $objWriter->save('php://output');
+            exit;
+          /* end export*/
+     /* }else{
+        echo 'no hay data';
+      }*/
     }
 }

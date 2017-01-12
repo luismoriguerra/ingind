@@ -10,14 +10,15 @@
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-    @include( 'admin.reporte.js.contratacionxfecha' )
+
+    @include( 'admin.reporte.js.notificacionsgcfaltas' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Contrataciones y Detalles Filtrado por Fechas
+            Faltas e Inasistencias Seguridad Ciudadana
             <small> </small>
         </h1>
         <ol class="breadcrumb">
@@ -34,32 +35,15 @@
                 <fieldset>
                     <div class="row form-group" >
                         <div class="col-sm-12">
-                            <div class="col-sm-4">
-                                <label class="control-label">Contratación:</label>
-                                <select class="form-control" name="slct_contratacion" id="slct_contratacion" onchange="MostrarSelect(this.value)">
-                                    <option value="" selected>.:Seleccione:.</option>
-                                <option value='1'>Contratación</option>
-                                <option value='2'>Conttratación (Con detalle Incluido)</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-3">
-                                <label class="control-label">Tipo de Fecha:</label>
-                                <select class="form-control " name="slct_fecha" id="slct_fecha">
-                                <option value='' selected>.:Seleccione:.</option>
-                                </select>
-                            </div>
-                             <div class="col-md-3 col-sm-3">
-                                                <label class="control-label">Rango de Fechas:</label>
-                                                <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha" onfocus="blur()"/>
-                            </div>
+
                                              <div class="col-md-1 col-sm-1">                            
                                                 <label class="control-label" style="color: white">aaaaa</label>
                                                 <a type="button" class="btn btn-success btn-md" id="generar" name="generar" value="Productividad"><i class='glyphicon glyphicon-download-alt'></i>Exportar</a>
                                              </div>
 <!--                            <div class="col-sm-2">
-                                <label class="control-label"></label>
-                                <input type="button" class="form-control btn btn-primary" id="generar_area" name="generar_area" value="Mostrar">
-                            </div>-->
+                    <label class="control-label"></label>
+                    <input type="button" class="form-control btn btn-primary" id="generar_area" name="generar_area" value="Mostrar">
+                </div>-->
                         </div>
                     </div>
                 </fieldset>

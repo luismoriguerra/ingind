@@ -2121,8 +2121,7 @@ class ReporteController extends BaseController
             $objPHPExcel->getDefaultStyle()->getFont()->setSize(8);
             /*end configure*/
 
-            /*head*/
-            if ($contratacion==1){
+            /*head*/       
             $objPHPExcel->setActiveSheetIndex(0)
                         ->setCellValue('A3', 'N°')
                         ->setCellValue('B3', 'TITULO')
@@ -2135,26 +2134,17 @@ class ReporteController extends BaseController
                         ->setCellValue('I3', 'FECHA AVISO')
                         ->setCellValue('J3', 'FECHA CONFORMIDAD')
                         ->setCellValue('K3', 'NUMERO DE DOCUMENTO')
-                        ->setCellValue('L3', 'AREA')
-
-                  ->mergeCells('A1:L1')
+                        ->setCellValue('L3', 'AREA');
+            
+            if ($contratacion==1){
+                  $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A1:L1')
                   ->setCellValue('A1', 'REPORTE DE CONTRATACIONES')
                   ->getStyle('A1:L1')->getFont()->setSize(18);
             }
+            
             if($contratacion==2){
              $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('A3', 'N°')
-                        ->setCellValue('B3', 'TITULO')
-                        ->setCellValue('C3', 'MONTO TOTAL')
-                        ->setCellValue('D3', 'OBJETO')
-                        ->setCellValue('E3', 'JUSTIFICACION')
-                        ->setCellValue('F3', 'ACTIVIDADES')
-                        ->setCellValue('G3', 'FECHA INICIO')
-                        ->setCellValue('H3', 'FECHA FIN')
-                        ->setCellValue('I3', 'FECHA AVISO')
-                        ->setCellValue('J3', 'FECHA CONFORMIDAD')
-                        ->setCellValue('K3', 'NUMERO DE DOCUMENTO')
-                        ->setCellValue('L3', 'AREA')
+
                         ->setCellValue('M3', 'TEXTO')
                         ->setCellValue('N3', 'MONTO')
                         ->setCellValue('O3', 'TIPO')
@@ -2166,10 +2156,8 @@ class ReporteController extends BaseController
                      
                   ->mergeCells('A1:T1')->mergeCells('A2:L2')->mergeCells('M2:T2')
                   ->setCellValue('A1', 'REPORTE DE CONTRATACIONES')->setCellValue('A2', 'CONTRATACION')->setCellValue('M2', 'DETALLE DE CONTRATACION')
-                  ->getStyle('A1:T1')->getFont()->setSize(18)
-                     ;
+                  ->getStyle('A1:T1')->getFont()->setSize(18);
                   
-             
             }
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
