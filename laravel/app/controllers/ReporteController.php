@@ -2257,4 +2257,39 @@ class ReporteController extends BaseController
 
 
     }
+    
+            public function getExportenviosgcfaltas(){
+         $array=array();
+            $array['where']='';
+            $array['limit']='';$array['order']='';
+
+
+            if( Input::has("fecha") ){
+                $fecha=Input::get("fecha");
+                    list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+                    $array['where'].=" AND date(acs.fecha_notificacion) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+            }
+
+            $array['order']=" ORDER BY a.nombre ";
+            
+        $rst=Persona::getEnviosSGCFaltas($array); 
+
+
+        $propiedades = array(
+          'creador'=>'Gerencia Modernizacion',
+          'subject'=>'Detalle de Tareas',
+          'tittle'=>'Plataforma',
+          'font-name'=>'Bookman Old Style',
+          'font-size'=>8,
+        );
+
+        $cabecera = array(
+          'PERSONA',
+          'NÚMERO DE FALTAS',
+          'NÚMERO DE INASISTENCIAS',
+          'FECHA DE NOTIFICACIÓN',
+          'ÚLTIMO',
+        );
+        $this->exportExcel($propiedades,'',$cabecera,$rst);
+    }
 }
