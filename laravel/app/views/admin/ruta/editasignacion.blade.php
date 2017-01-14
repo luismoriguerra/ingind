@@ -15,7 +15,10 @@
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-
+    
+    @include( 'admin.ruta.js.indedocs' )
+    @include( 'admin.ruta.js.indedocs_ajax' )
+    
     @include( 'admin.ruta.js.editasignacion_ajax' )
     @include( 'admin.ruta.js.editasignacion' )
 @stop
@@ -71,4 +74,5 @@
 
 @section('formulario')
      @include( 'admin.ruta.form.editasignado' )
+     @include( 'admin.ruta.form.indedocs' )
 @stop

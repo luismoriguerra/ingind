@@ -77,4 +77,11 @@ validaDocumentos = function(){
     }
     return r;
 };
+
+Liberar=function(txt,id){
+    $("#"+txt).removeAttr("readonly");
+    $("#"+txt).val('');
+    $("#"+id).val('');
+    $("#"+txt).focus();
+}
 </script>
