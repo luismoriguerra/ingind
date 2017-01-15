@@ -211,4 +211,48 @@ class Flujo extends Base
         return $oData;
     }
 
+     public static function getProdporprocesoCount( $array )
+    {
+        $sSql=" SELECT  COUNT(f.id) as cant from flujos f 
+                inner join rutas_flujo rf on rf.flujo_id =f.id and rf.estado in (1,2)
+                inner join rutas_flujo_detalle rfd on rf.id=rfd.ruta_flujo_id and rfd.norden=1 and rfd.estado=1
+                inner join areas a on rfd.area_id=a.id and a.estado=1 
+                left join rutas r on r.flujo_id=f.id
+                left join tablas_relacion tr on r.tabla_relacion_id=tr.id and tr.estado=1
+                where f.estado=1 
+                group by f.id  ";
+        $sSql.= $array['where'];
+        $oData = DB::select($sSql);
+        return $oData[0]->cant;
+    }
+
+    public static function getProdporproceso()
+    {
+        $sSql= "";
+        $sSql.=" SELECT  f.id norden,f.nombre proceso ,a.nombre area, COUNT(r.id) cantidad from flujos f 
+                inner join rutas_flujo rf on rf.flujo_id =f.id and rf.estado in (1,2)
+                inner join rutas_flujo_detalle rfd on rf.id=rfd.ruta_flujo_id and rfd.norden=1 and rfd.estado=1
+                inner join areas a on rfd.area_id=a.id and a.estado=1 
+                left join rutas r on r.flujo_id=f.id
+                left join tablas_relacion tr on r.tabla_relacion_id=tr.id and tr.estado=1
+                where f.estado=1";
+
+         if(Input::has('fecha')){
+            list($fechaIni,$fechaFin) = explode(" - ", Input::get('fecha'));
+            $sSql.=' AND date(r.created_at) BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
+          }
+          if(Input::has('area_id')){
+            $sSql.=' AND rfd.area_id IN ('.Input::get('area_id').') ';
+          }
+
+          $sSql.=" group by f.id";
+/*
+        $sSql.= $array['where'].
+                $array['order'].
+                $array['limit'];*/
+
+        $oData = DB::select($sSql);
+        return $oData;
+    }
+
 }

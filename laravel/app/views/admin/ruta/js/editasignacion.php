@@ -4,24 +4,24 @@ var columnDefsG=[]; // Columnas de la BD del datatable
 var targetsG=-1; // Posiciones de las columnas del datatable
 var DocumentosG={id:0,nombre:"",estado:1}; // Datos Globales
 $(document).ready(function() {
-    /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
-        2: Descripción de cabecera
-        3: Color Cabecera
-    */
-    var idG={   id_union        :'onBlur|Nombre del Documento|#DCE6F1', //#DCE6F1
-                fecha_tramite        :'onBlur|Fecha Tramite|#DCE6F1', //#DCE6F1
-                usuario        :'onBlur|Usuario|#DCE6F1',
-             };
+        /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
+            2: Descripción de cabecera
+            3: Color Cabecera
+        */
+        var idG={   id_union        :'onBlur|Nombre del Documento|#DCE6F1', //#DCE6F1
+                    fecha_tramite        :'onBlur|Fecha Tramite|#DCE6F1', //#DCE6F1
+                    usuario        :'onBlur|Usuario|#DCE6F1',
+                 };
 
-    var resG=dataTableG.CargarCab(idG);
-    cabeceraG=resG; // registra la cabecera
-    var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,1,'documentos','t_documentos');
-    columnDefsG=resG[0]; // registra las columnas del datatable
-    targetsG=resG[1]; // registra los contadores
-    var resG=dataTableG.CargarBtn(columnDefsG,targetsG,1,'BtnEditar','t_documentos','fa-edit');
-    columnDefsG=resG[0]; // registra la colunmna adiciona con boton
-    targetsG=resG[1]; // registra el contador actualizado
-    MostrarAjax('documentos');
+        var resG=dataTableG.CargarCab(idG);
+        cabeceraG=resG; // registra la cabecera
+        var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,1,'documentos','t_documentos');
+        columnDefsG=resG[0]; // registra las columnas del datatable
+        targetsG=resG[1]; // registra los contadores
+        var resG=dataTableG.CargarBtn(columnDefsG,targetsG,1,'BtnEditar','t_documentos','fa-edit');
+        columnDefsG=resG[0]; // registra la colunmna adiciona con boton
+        targetsG=resG[1]; // registra el contador actualizado
+        MostrarAjax('documentos');
 });
 
 BtnEditar=function(btn,id){
