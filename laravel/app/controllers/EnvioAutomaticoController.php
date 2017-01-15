@@ -77,9 +77,11 @@ class EnvioAutomaticoController extends \BaseController {
           'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
         );
         
-
-        $email='consultas.gmgm@gmail.com';
-        $email_copia='rcapchab@gmail.com';
+        $email=$value->email;
+        $email_copia=$value->email_mdi;
+        
+//        $email='rcapchab@gmail.com';
+//        $email_copia='kirklanescorpio@gmail.com';
         if( $email!=''  ){
           
             DB::beginTransaction();   

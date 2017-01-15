@@ -718,9 +718,9 @@ class ReporteFinalController extends BaseController
            $insert='INSERT INTO alertas_seguridad_ciudadana (idpersona,persona,nro_faltas,nro_inasistencias,fecha_notificacion) 
                     VALUES ('.$rr["idpersona"].',"'.$rr["Persona"].'","'.$faltas_dia.'","'.$rr["faltas"].'","'.date("Y-m-d h:m:s").'")';
                     DB::insert($insert); 
-       $email="rcapchab@gmail.com";    $email_copia="rcapchab@gmail.com";                           
+//       $email="rcapchab@gmail.com";    $email_copia="rcapchab@gmail.com";                           
        try{
-           Mail::send('notreirel', $parametros , 
+           Mail::queue('notreirel', $parametros , 
                function($message) use ($email,$email_copia){
                    $message
                    ->to($email)
