@@ -634,112 +634,112 @@ class ReporteFinalController extends BaseController
     }
     
      public function postSeguridadciudadanaalertas()
-    { 
-     $array=array();
-     $array['usuario']=Auth::user()->id;
-     
-     $retorno=array(
-                 'rst'=>1
-              );
-
-     $url ='http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=faltas';
-     $curl_options = array(
-                   //reemplazar url 
-                   CURLOPT_URL => $url,
-                   CURLOPT_HEADER => 0,
-                   CURLOPT_RETURNTRANSFER => TRUE,
-                   CURLOPT_TIMEOUT => 0,
-                   CURLOPT_SSL_VERIFYPEER => 0,
-                   CURLOPT_FOLLOWLOCATION => TRUE,
-                   CURLOPT_ENCODING => 'gzip,deflate',
-           );
-
-           $ch = curl_init();
-           curl_setopt_array( $ch, $curl_options );
-           $output = curl_exec( $ch );
-           curl_close($ch);
-
-     $r = json_decode(utf8_encode($output),true);
-     
-     $html="";
-     $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
-     
-     $n=1;
-     $fecha=date("Y-m-d"); 
-     $dias= 1; 
-     $fecha_inicio=date("Y-m").'-01';
-     $fecha_fin=date("Y-m-d", strtotime("$fecha -$dias day")); 
-     
-     $Ssql='select area_id,id,email, email_mdi
-            from personas
-            where area_id in (31,19)
-            and rol_id in (9,8)
-            and estado=1
-            order by area_id;';
-     $e= DB::select($Ssql);
-
-     $email_copia = [$e[0]->email, $e[0]->email_mdi,$e[1]->email, $e[1]->email_mdi];
-      
-     foreach ($r["faltas"] as $rr) {
-  
-       $html.="<tr>";
-       $html.="<td>".$n."</td>";
-       $html.="<td>".$rr["Persona"]."</td>";
-       $html.="<td>".$rr["Dni"]."</td>";
-       $html.="<td>".$rr["Email"]."</td>";
-       $html.="<td>".$rr["Area"]."</td>";
-       $html.="<td>".$rr["faltas"]."</td>";
-       $html.="</tr>";
-       
-       $faltas_dia=floor($rr["faltas"]/3);
-       $email=trim($rr["Email"]);
-       
-       $plantilla=Plantilla::where('tipo','=','4')->first();
-       $buscar=array('persona:','dia:','mes:','año:','inasistencias:','fechainicial:','fechafinal:','faltas:');
-       $reemplazar=array($rr["Persona"],date('d'),$meses[date('n')],date("Y"),$rr["faltas"],$fecha_inicio,$fecha_fin,$faltas_dia);
-       $parametros=array(
-         'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
-       );
-       
-       $Ssql='SELECT COUNT(aasc.id) as count
-                    FROM alertas_seguridad_ciudadana aasc
-                    WHERE aasc.idpersona='.$rr["idpersona"].' AND aasc.nro_inasistencias='.$rr["faltas"];
-                    $r= DB::select($Ssql);
-                    
-       if($email=='')  {$email=$e[0]->email;} //colocar correo de gerente seguridad ciudadana 
-       
-       if( $email!='' AND $r[0]->count==0 AND $rr["faltas"]>=3){
-         
-           DB::beginTransaction();   
-           $update='update alertas_seguridad_ciudadana set ultimo_registro=0
-                   where idpersona='.$rr["idpersona"];
-                   DB::update($update); 
-       
-           $insert='INSERT INTO alertas_seguridad_ciudadana (idpersona,persona,nro_faltas,nro_inasistencias,fecha_notificacion) 
-                    VALUES ('.$rr["idpersona"].',"'.$rr["Persona"].'","'.$faltas_dia.'","'.$rr["faltas"].'","'.date("Y-m-d h:m:s").'")';
-                    DB::insert($insert); 
-                                   
-       try{
-           Mail::send('notreirel', $parametros , 
-               function($message) use ($email,$email_copia){
-                   $message
-                   ->to($email)
-                   ->cc($email_copia)
-                   ->subject('.::Notificación::.');
-               }
-           );
-      }
-       catch(Exception $e){
-           //echo $qem[$k]->email."<br>";
-            DB::rollback();
-       }
-       DB::commit();
-       }
-       $n++;
-     }
-     $retorno["data"]=$html;
-
-     return Response::json( $retorno );
+    {         date("Y-m-d");
+//     $array=array();
+//     $array['usuario']=Auth::user()->id;
+//     
+//     $retorno=array(
+//                 'rst'=>1
+//              );
+//
+//     $url ='http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=faltas';
+//     $curl_options = array(
+//                   //reemplazar url 
+//                   CURLOPT_URL => $url,
+//                   CURLOPT_HEADER => 0,
+//                   CURLOPT_RETURNTRANSFER => TRUE,
+//                   CURLOPT_TIMEOUT => 0,
+//                   CURLOPT_SSL_VERIFYPEER => 0,
+//                   CURLOPT_FOLLOWLOCATION => TRUE,
+//                   CURLOPT_ENCODING => 'gzip,deflate',
+//           );
+//
+//           $ch = curl_init();
+//           curl_setopt_array( $ch, $curl_options );
+//           $output = curl_exec( $ch );
+//           curl_close($ch);
+//
+//     $r = json_decode(utf8_encode($output),true);
+//     
+//     $html="";
+//     $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
+//     
+//     $n=1;
+//     $fecha=date("Y-m-d"); 
+//     $dias= 1; 
+//     $fecha_inicio=date("Y-m").'-01';
+//     $fecha_fin=date("Y-m-d", strtotime("$fecha -$dias day")); 
+//     
+//     $Ssql='select area_id,id,email, email_mdi
+//            from personas
+//            where area_id in (31,19)
+//            and rol_id in (9,8)
+//            and estado=1
+//            order by area_id;';
+//     $e= DB::select($Ssql);
+//
+//     $email_copia = [$e[0]->email, $e[0]->email_mdi,$e[1]->email, $e[1]->email_mdi];
+//      
+//     foreach ($r["faltas"] as $rr) {
+//  
+//       $html.="<tr>";
+//       $html.="<td>".$n."</td>";
+//       $html.="<td>".$rr["Persona"]."</td>";
+//       $html.="<td>".$rr["Dni"]."</td>";
+//       $html.="<td>".$rr["Email"]."</td>";
+//       $html.="<td>".$rr["Area"]."</td>";
+//       $html.="<td>".$rr["faltas"]."</td>";
+//       $html.="</tr>";
+//       
+//       $faltas_dia=floor($rr["faltas"]/3);
+//       $email=trim($rr["Email"]);
+//       
+//       $plantilla=Plantilla::where('tipo','=','4')->first();
+//       $buscar=array('persona:','dia:','mes:','año:','inasistencias:','fechainicial:','fechafinal:','faltas:');
+//       $reemplazar=array($rr["Persona"],date('d'),$meses[date('n')],date("Y"),$rr["faltas"],$fecha_inicio,$fecha_fin,$faltas_dia);
+//       $parametros=array(
+//         'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
+//       );
+//       
+//       $Ssql='SELECT COUNT(aasc.id) as count
+//                    FROM alertas_seguridad_ciudadana aasc
+//                    WHERE aasc.idpersona='.$rr["idpersona"].' AND aasc.nro_inasistencias='.$rr["faltas"];
+//                    $r= DB::select($Ssql);
+//                    
+//       if($email=='')  {$email=$e[0]->email;} //colocar correo de gerente seguridad ciudadana 
+//       
+//       if( $email!='' AND $r[0]->count==0 AND $rr["faltas"]>=3){
+//         
+//           DB::beginTransaction();   
+//           $update='update alertas_seguridad_ciudadana set ultimo_registro=0
+//                   where idpersona='.$rr["idpersona"];
+//                   DB::update($update); 
+//       
+//           $insert='INSERT INTO alertas_seguridad_ciudadana (idpersona,persona,nro_faltas,nro_inasistencias,fecha_notificacion) 
+//                    VALUES ('.$rr["idpersona"].',"'.$rr["Persona"].'","'.$faltas_dia.'","'.$rr["faltas"].'","'.date("Y-m-d h:m:s").'")';
+//                    DB::insert($insert); 
+//       $email="rcapchab@gmail.com";    $email_copia="rcapchab@gmail.com";                           
+//       try{
+//           Mail::send('notreirel', $parametros , 
+//               function($message) use ($email,$email_copia){
+//                   $message
+//                   ->to($email)
+//                   ->cc($email_copia)
+//                   ->subject('.::Notificación::.');
+//               }
+//           );
+//      }
+//       catch(Exception $e){
+//           //echo $qem[$k]->email."<br>";
+//            DB::rollback();
+//       }
+//       DB::commit();
+//       }
+//       $n++;
+//     }
+//     $retorno["data"]=$html;
+//
+//     return Response::json( $retorno );
     }
     
      public function postGenerarqr()
@@ -760,5 +760,135 @@ class ReporteFinalController extends BaseController
        $retorno["data"]=$html;
 
        return Response::json( $retorno );
+    }
+    
+    public function getExportsgcfaltas()
+    { 
+        $url ='http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=faltas';
+     $curl_options = array(
+                   //reemplazar url 
+                   CURLOPT_URL => $url,
+                   CURLOPT_HEADER => 0,
+                   CURLOPT_RETURNTRANSFER => TRUE,
+                   CURLOPT_TIMEOUT => 0,
+                   CURLOPT_SSL_VERIFYPEER => 0,
+                   CURLOPT_FOLLOWLOCATION => TRUE,
+                   CURLOPT_ENCODING => 'gzip,deflate',
+           );
+
+           $ch = curl_init();
+           curl_setopt_array( $ch, $curl_options );
+           $output = curl_exec( $ch );
+           curl_close($ch);
+
+            $result = json_decode(utf8_encode($output),true);
+
+             $styleThinBlackBorderAllborders = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('argb' => 'FF000000'),
+                ),
+            ),
+            'font'    => array(
+                'bold'      => true
+            ),
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            )
+        );
+        $styleAlignmentBold= array(
+            'font'    => array(
+                'bold'      => true
+            ),
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            ),
+        );
+        $styleAlignment= array(
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            ),
+        );
+        /*end style*/
+
+          /*export*/
+            /* instanciar phpExcel!*/
+            
+            $objPHPExcel = new PHPExcel();
+
+            /*configure*/
+            $objPHPExcel->getProperties()->setCreator("Gerencia Modernizacion")
+               ->setSubject("Faltas de Agentes");
+
+            $objPHPExcel->getDefaultStyle()->getFont()->setName('Bookman Old Style');
+            $objPHPExcel->getDefaultStyle()->getFont()->setSize(8);
+            /*end configure*/
+
+            /*head*/
+            $objPHPExcel->setActiveSheetIndex(0)
+                        ->setCellValue('A3', 'N°')
+                        ->setCellValue('B3', 'PERSONA')
+                        ->setCellValue('C3', 'DNI')
+                        ->setCellValue('D3', 'EMAIL')
+                        ->setCellValue('E3', 'AREA')
+                        ->setCellValue('F3', 'Reportes incumplidos')
+                        ->setCellValue('G3', 'Faltas')
+
+                  ->mergeCells('A1:G1')
+                  ->setCellValue('A1', 'FALTAS DE AGENTES DE SEGURIDAD CIUDADANA - '. date('Y-m-d'))
+                  ->getStyle('A1:G1')->getFont()->setSize(18);
+
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('C')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('D')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('E')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('G')->setAutoSize(true);
+
+            /*end head*/
+            /*body*/
+            if($result){
+              foreach ($result["faltas"] as $key => $value) {
+                $objPHPExcel->setActiveSheetIndex(0)
+                              ->setCellValueExplicit('A' . ($key + 4), $key + 1)
+                              ->setCellValueExplicit('B' . ($key + 4), $value["Persona"])
+                              ->setCellValueExplicit('C' . ($key + 4), $value["Dni"])
+                              ->setCellValueExplicit('D' . ($key + 4), $value["Email"])
+                              ->setCellValueExplicit('E' . ($key + 4), $value["Area"])
+                              ->setCellValueExplicit('F' . ($key + 4), $value["faltas"])
+                              ->setCellValueExplicit('G' . ($key + 4), floor($value["faltas"]/3))
+                              ;
+              }
+            }
+            /*end body*/
+            $objPHPExcel->getActiveSheet()->getStyle('A3:G3')->applyFromArray($styleThinBlackBorderAllborders);
+            $objPHPExcel->getActiveSheet()->getStyle('A1:G1')->applyFromArray($styleAlignment);
+            // Rename worksheet
+            $objPHPExcel->getActiveSheet()->setTitle('Faltas');
+            // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+            $objPHPExcel->setActiveSheetIndex(0);
+            // Redirect output to a client’s web browser (Excel5)
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="reporteni.xls"'); // file name of excel
+            header('Cache-Control: max-age=0');
+            // If you're serving to IE 9, then the following may be needed
+            header('Cache-Control: max-age=1');
+            // If you're serving to IE over SSL, then the following may be needed
+            header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+            header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+            header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+            header ('Pragma: public'); // HTTP/1.0
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+            $objWriter->save('php://output');
+            exit;
+          /* end export*/
+     /* }else{
+        echo 'no hay data';
+      }*/
     }
 }

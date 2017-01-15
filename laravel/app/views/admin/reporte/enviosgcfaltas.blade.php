@@ -10,20 +10,20 @@
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-    @include( 'admin.reporte.js.contratacionxfecha' )
+    @include( 'admin.reporte.js.enviosgcfaltas' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Contrataciones y Detalles Filtrado por Fechas
+            Envíos de Faltas Seguridad Ciudadana
             <small> </small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
             <li><a href="#">Reporte</a></li>
-            <li class="active">Contrataciones</li>
+            <li class="active">Seguridad Ciudadana</li>
         </ol>
     </section>
 
@@ -34,21 +34,8 @@
                 <fieldset>
                     <div class="row form-group" >
                         <div class="col-sm-12">
-                            <div class="col-sm-4">
-                                <label class="control-label">Contratación:</label>
-                                <select class="form-control" name="slct_contratacion" id="slct_contratacion" onchange="MostrarSelect(this.value)">
-                                    <option value="" selected>.:Seleccione:.</option>
-                                <option value='1'>Contratación</option>
-                                <option value='2'>Conttratación (Con detalle Incluido)</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-3">
-                                <label class="control-label">Tipo de Fecha:</label>
-                                <select class="form-control " name="slct_fecha" id="slct_fecha">
-                                <option value='' selected>.:Seleccione:.</option>
-                                </select>
-                            </div>
-                             <div class="col-md-3 col-sm-3">
+
+                             <div class="col-md-3 col-sm-4">
                                                 <label class="control-label">Rango de Fechas:</label>
                                                 <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha" onfocus="blur()"/>
                             </div>

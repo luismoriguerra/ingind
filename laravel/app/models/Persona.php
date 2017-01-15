@@ -642,6 +642,20 @@ class Persona extends Base implements UserInterface, RemindableInterface
 
         return $oData[0]->cant;
     }
+    
+         public static function getEnviosSGCFaltas($array)
+    {     
+  
+        $sSql= "SELECT acs.persona,acs.nro_faltas,acs.nro_inasistencias,acs.fecha_notificacion,
+                CASE acs.ultimo_registro WHEN 1 THEN 'X' WHEN 0 THEN '' ELSE acs.ultimo_registro END AS ultimo
+                FROM alertas_seguridad_ciudadana acs
+                WHERE 1=1";
+        $sSql.=$array['where'];
+
+        $oData= DB::select($sSql);
+
+        return $oData;
+    }
 }
 
 
