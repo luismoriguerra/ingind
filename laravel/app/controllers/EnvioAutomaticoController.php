@@ -49,7 +49,14 @@ class EnvioAutomaticoController extends \BaseController {
                 )";
       
       $contratacion= DB::select($Ssql);
-
+      
+           $sql='select area_id,id,email, email_mdi
+            from personas
+            where area_id in (29)
+            and rol_id in (9,8)
+            and estado=1
+            order by area_id;';
+            $e= DB::select($sql);
        
       foreach ($contratacion as $value) {
   
@@ -78,10 +85,10 @@ class EnvioAutomaticoController extends \BaseController {
         );
         
         $email=$value->email;
-        $email_copia=$value->email_mdi;
+        $email_copia = [$e[0]->email, $e[0]->email_mdi];
         
-//        $email='rcapchab@gmail.com';
-//        $email_copia='kirklanescorpio@gmail.com';
+        $email='rcapchab@gmail.com';
+        $email_copia='kirklanescorpio@gmail.com';
         if( $email!=''  ){
           
             DB::beginTransaction();   
