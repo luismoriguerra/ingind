@@ -347,14 +347,11 @@ HTMLRequisitos = function(data,tramite){
     $("#tb_requisitos").html('');
     if(data){
         var html ='';
-        var cont = 0;
         $.each(data,function(index, el) {
-            cont = index + 1;
-            html+='<tr>';
-            html+='<td>'+cont+'</td>';
-            html+='<td>'+el.nombre+'</td>';
+            html+='<tr><ul>';
+            html+='<td style="text-align: left;"><li>'+el.nombre+'</li></td>';
             html+='<td>'+el.cantidad+'</td>';
-            html+='</tr>';
+            html+='<ul></tr>';
         });
         $("#tb_requisitos").html(html);
         $("#nombtramite").text(tramite);
