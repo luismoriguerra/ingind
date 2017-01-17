@@ -10,7 +10,7 @@
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-    @include( 'admin.reporte.js.contratacionxfecha' )
+    @include( 'admin.contratacion.js.contratacionxfecha' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
