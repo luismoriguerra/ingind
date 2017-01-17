@@ -54,7 +54,7 @@
                                 <div id="tabs">
                                     <ul>
                                         <li><a href="#tabs-1">Asignación Proceso</a></li>
-                                       {{--  <li><a href="#tabs-2">Asignación Gestión</a></li> --}}
+                                        <li><a href="#tabs-2">Asignación Gestión</a></li>
                                     </ul>
                                     <div id="tabs-1">
                                         <form name="form_asignar" id="form_asignar" method="POST" action="">
@@ -243,7 +243,7 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <div id="tabs-2" class="hidden">
+                                    <div id="tabs-2" class="">
                                         <form name="form_asignarGestion" id="form_asignarGestion" method="POST" action="">
                                             <div class="row form-group" >
                                                 <div class="col-sm-12 form-group">
