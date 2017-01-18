@@ -491,7 +491,7 @@ class Ruta extends Eloquent
                 $rutaDetalle = new RutaDetalle;
                 $rutaDetalle['ruta_id']=$ruta->id;
                 $rutaDetalle['area_id']=$val;
-                $rutaDetalle['tiempo_id']=1;         
+                $rutaDetalle['tiempo_id']=2;         
 
                 if (is_array($tiempo)){
                     $rutaDetalle['dtiempo']=$tiempo[$index];                    
