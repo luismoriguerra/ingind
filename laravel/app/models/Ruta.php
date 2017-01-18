@@ -357,7 +357,7 @@ class Ruta extends Eloquent
                             'tr.id','=','r.tabla_relacion_id'
                         )
                         ->where('tr.id_union', '=', $codigounico)
-                        ->where('r.ruta_flujo_id', '=', 3620)
+                        ->where('r.ruta_flujo_id', '=', 3282)
                         ->where('tr.estado', '=', '1')
                         ->where('r.estado', '=', '1')
                         ->get();
@@ -491,7 +491,7 @@ class Ruta extends Eloquent
                 $rutaDetalle = new RutaDetalle;
                 $rutaDetalle['ruta_id']=$ruta->id;
                 $rutaDetalle['area_id']=$val;
-                $rutaDetalle['tiempo_id']=1;         
+                $rutaDetalle['tiempo_id']=2;         
 
                 if (is_array($tiempo)){
                     $rutaDetalle['dtiempo']=$tiempo[$index];                    
