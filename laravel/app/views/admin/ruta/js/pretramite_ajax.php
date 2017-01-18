@@ -193,6 +193,7 @@ var Bandeja={
                     var result = obj.datos;
                     if(result.length > 1){
                         $(".rowArea").removeClass('hidden');
+                         $("#buscartramite #reporte").hide();
                         slctGlobal.listarSlct('pretramite','slcAreasct','simple',null,data);
                         document.querySelector('#txt_clasificador_id').value=info.id;
                         document.querySelector('#txt_clasificador_nomb').value=info.nombre;

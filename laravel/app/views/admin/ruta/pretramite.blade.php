@@ -162,25 +162,25 @@ td, th{
                       </select>
                     </div>
                   </div>
+                  <div class="col-md-2">
+                    <span class="btn btn-primary btn-sm" onclick="consultar()">CONSULTAR PRE TRAMITE</span>
+                  </div>
                   <div class="col-md-5">
-                    <div class="col-md-4" style="padding-top: 5px;">
+                    <div class="col-md-3" style="padding-top: 5px;">
                       <span>TIPO DOCUMENTO: </span>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                       <select class="form-control" id="cbo_tipodoc" name="cbo_tipodoc">
                           <option value="-1">Selecciona</option>
                       </select>
                     </div>
-                  </div>
-                  <div class="col-md-2">
-                    <span class="btn btn-primary btn-sm" onclick="consultar()">CONSULTAR PRE TRAMITE</span>
                   </div>
                 </div>
 
                 <div class="col-md-12" style="padding: 0% 4% 1% 4%;">
                   <fieldset style="max-width: 100% !important;border: 3px solid #ddd;padding: 15px;">
                     <div class="col-md-12 form-group">
-                      <div class="col-md-6">
+                      <div class="col-md-7">
                         <div class="col-md-4">
                           <span>NOMBRE TRAMITE: </span>
                         </div>
@@ -192,7 +192,7 @@ td, th{
                       </div>
                     </div>
                     <div class="col-md-12">
-                      <div class="col-md-6  form-group">
+                      <div class="col-md-7  form-group">
                         <div class="col-md-5">
                           <span>NUMERO DE FOLIO: </span>
                         </div>
@@ -200,7 +200,7 @@ td, th{
                           <input type="text" name="txt_numfolio" id="txt_numfolio" class="form-control">
                         </div>
                       </div>
-                      <div class="col-md-6  form-group">
+                      <div class="col-md-5  form-group">
                         <div class="col-md-5">
                           <span>NUMERO TIPO DOCUMENTO: </span>
                         </div>

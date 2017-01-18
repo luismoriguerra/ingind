@@ -143,7 +143,6 @@ Voucherpret = function(obj){
 poblarVoucher = function(data){
     var result = data[0];
     document.querySelector('#spanvfecha').innerHTML=result.fregistro;
-    document.querySelector('#spanvncomprobante').innerHTML=result.pretramite;
     document.querySelector('#spanvcodpretramite').innerHTML=result.pretramite;
     document.querySelector('#spantArea').innerHTML=result.area;
     document.querySelector('#spanImprimir').setAttribute('idpretramite',result.pretramite);
@@ -320,6 +319,8 @@ selectCA = function(obj){
     var data ={'id':cla_id,'nombre':cla_nomb,'area':area_nomb[0].textContent,'areaid':areaid};
     poblateData('tramite',data);
     $('#buscartramite').modal('hide');
+    $('#buscartramite #slcAreasct').multiselect('rebuild');
+     $("#buscartramite #reporte").show();
 }
 /*
 confirmInfo = function(data,tipo){
