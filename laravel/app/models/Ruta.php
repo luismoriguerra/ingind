@@ -357,7 +357,7 @@ class Ruta extends Eloquent
                             'tr.id','=','r.tabla_relacion_id'
                         )
                         ->where('tr.id_union', '=', $codigounico)
-                        ->where('r.ruta_flujo_id', '=', 3282)
+                        ->where('r.ruta_flujo_id', '=', 3620)
                         ->where('tr.estado', '=', '1')
                         ->where('r.estado', '=', '1')
                         ->get();
