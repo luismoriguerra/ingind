@@ -11,7 +11,7 @@ class Tramite extends Eloquent {
 			where t.estado=1";
 
 		if(Input::get('buscar')){
-			$sql.=" and t.id='".Input::get('buscar')."' or ct.nombre_clasificador_tramite='".Input::get('buscar')."'";
+			$sql.=" and t.id='".Input::get('buscar')."' or ct.nombre_clasificador_tramite LIKE '%".Input::get('buscar')."%'";
 		}
 
 		if(Input::get('persona')){

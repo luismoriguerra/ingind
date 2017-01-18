@@ -291,8 +291,8 @@ HTMLClasificadores = function(data){
             html+='<tr>';
             html+='<td>'+el.id+'</td>';
             html+='<td>'+el.nombre_clasificador_tramite+'</td>';
-            html+='<td><span class="btn btn-primary btn-sm" id="'+el.id+'" nombre="'+el.nombre_clasificador_tramite+'" onClick="getRequisitos(this)">View</span></td>';
-            html+='<td><span class="btn btn-primary btn-sm" id="'+el.id+'" nombre="'+el.nombre_clasificador_tramite+'" onclick="selectClaTramite(this)">Select</span></td>';
+            html+='<td><span class="btn btn-primary btn-sm" id="'+el.id+'" nombre="'+el.nombre_clasificador_tramite+'" onClick="getRequisitos(this)">Ver</span></td>';
+            html+='<td><span class="btn btn-primary btn-sm" id="'+el.id+'" nombre="'+el.nombre_clasificador_tramite+'" onclick="selectClaTramite(this)">Seleccionar</span></td>';
             html+='</tr>';        
         });
         $("#tb_clasificador").html(html);
@@ -347,14 +347,11 @@ HTMLRequisitos = function(data,tramite){
     $("#tb_requisitos").html('');
     if(data){
         var html ='';
-        var cont = 0;
         $.each(data,function(index, el) {
-            cont = index + 1;
-            html+='<tr>';
-            html+='<td>'+cont+'</td>';
-            html+='<td>'+el.nombre+'</td>';
+            html+='<tr><ul>';
+            html+='<td style="text-align: left;"><li>'+el.nombre+'</li></td>';
             html+='<td>'+el.cantidad+'</td>';
-            html+='</tr>';
+            html+='<ul></tr>';
         });
         $("#tb_requisitos").html(html);
         $("#nombtramite").text(tramite);

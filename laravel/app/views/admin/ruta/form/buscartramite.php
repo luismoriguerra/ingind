@@ -97,10 +97,9 @@
                             <table id="t_requisitos" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <td colspan="3" id="nombtramite"></td>
+                                        <td colspan="2" id="nombtramite"></td>
                                     </tr>
                                     <tr>
-                                        <th>ORDEN</th>
                                         <th>REQUISITO</th>
                                         <th>CANTIDAD</th>
                                     </tr>
