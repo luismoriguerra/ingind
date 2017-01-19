@@ -158,7 +158,7 @@ class AnexoController extends BaseController {
 						<td>".$data->fechaanexo."</td>
 					</tr>
 					<tr>
-						<th>Nº COMPROBANTE: </th>
+						<th>COD ANEXO: </th>
 						<td>".$data->codanexo."</td>
 					</tr>
 					<tr>

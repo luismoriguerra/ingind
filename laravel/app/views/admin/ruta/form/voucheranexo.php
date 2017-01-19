@@ -147,7 +147,7 @@
               <label>AREA: </label>
             </div>
             <div class="col-md-8">
-              <span id="spanArea"></span>
+              <span id="spanAreaa"></span>
             </div>
           </div>
         </div>
