@@ -347,9 +347,9 @@ class Ruta extends Eloquent
         if( Input::has('documento_id2') ){
             $id_documento=Input::get('documento_id2');
         }
-        $ruta_id= Input::get('ruta_id');
-        $rutadetalle_id= Input::get('rutadetalle_id');
-        $tablarelacion_id= Input::get('tablarelacion_id');
+        $ruta_id= Input::get('ruta_id2');
+        $rutadetalle_id= Input::get('rutadetalle_id2');
+        $tablarelacion_id= Input::get('tablarelacion_id2');
 
         $tablaRelacion=DB::table('tablas_relacion as tr')
                         ->join(
