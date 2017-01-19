@@ -18,7 +18,7 @@ $(document).ready(function() {
             var reader = new FileReader();
             reader.onload = function(e) {
                 if (tipo == 'file') {                 
-                    $('#btnImage').text('SUCCESS');
+                    $('#btnImage').text('IMAGEN CARGADA');
                     $('#btnImage').addClass('btn btn-success');
                     $('.img-tramite').attr('src',e.target.result);
                 }
@@ -176,6 +176,7 @@ getCTramites  = function(){
 
 HTMLClasificadores = function(data){
     if(data){
+        $('#t_clasificador').dataTable().fnDestroy();
         var html = '';
         $.each(data,function(index, el) {
             html+='<tr>';
@@ -186,6 +187,11 @@ HTMLClasificadores = function(data){
             html+='</tr>';        
         });
         $("#tb_clasificador").html(html);
+        $("#t_clasificador").dataTable(
+        {
+            "order": [[ 0, "asc" ]],
+        }
+    ); 
         $("#buscartramite").modal('show');
     }else{
         alert('sin data');
@@ -201,14 +207,11 @@ HTMLRequisitos = function(data,tramite){
     $("#tb_requisitos").html('');
     if(data){
         var html ='';
-        var cont = 0;
         $.each(data,function(index, el) {
-            cont = index + 1;
-            html+='<tr>';
-            html+='<td>'+cont+'</td>';
-            html+='<td>'+el.nombre+'</td>';
+            html+='<tr><ul>';
+            html+='<td style="text-align: left;"><li>'+el.nombre+'</li></td>';
             html+='<td>'+el.cantidad+'</td>';
-            html+='</tr>';
+            html+='<ul></tr>';
         });
         $("#tb_requisitos").html(html);
         $("#nombtramite").text(tramite);

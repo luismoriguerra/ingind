@@ -139,10 +139,6 @@ class PretramiteController extends BaseController {
 						<td>".$data->fregistro."</td>
 					</tr>
 					<tr>
-						<th>Nº COMPROBANTE: </th>
-						<td>".$data->pretramite."</td>
-					</tr>
-					<tr>
 						<th>COD PRE TRAMITE: </th>
 						<td>".$data->pretramite."</td>
 					</tr>";

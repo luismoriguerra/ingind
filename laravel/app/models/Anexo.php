@@ -16,7 +16,7 @@ class Anexo extends Base {
         }
 
         if(Input::get('buscar')){
-            $sql.=" and ta.id='".Input::get('buscar')."' or ta.nombre='".Input::get('buscar')."'";
+            $sql.=" and (ta.id='".Input::get('buscar')."' or ta.nombre LIKE '%".Input::get('buscar')."%')";
         }
 
         $r= DB::select($sql);

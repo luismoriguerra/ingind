@@ -66,10 +66,6 @@ class TramiteController extends BaseController {
 						<td>".$data->tipotramite."</td>
 					</tr>
 					<tr>
-						<th>Nº COMPROBANTE: </th>
-						<td>".$data->tramiteid."</td>
-					</tr>
-					<tr>
 						<th>COD TRAMITE: </th>
 						<td>".$data->tramiteid."</td>
 					</tr>";

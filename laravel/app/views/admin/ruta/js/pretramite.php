@@ -23,7 +23,13 @@ $(document).ready(function() {
         slctGlobal.listarSlct('tipotramite','cbo_tipotramite','simple',null,data);  
         window.scrollTo(0,document.body.scrollHeight);
     });
-
+    
+     $('#buscartramite').on('hide.bs.modal', function (event) {
+//      var modal = $(this); //captura el modal
+//      $("#form_ruta_tiempo input[type='hidden']").remove();
+//      $("#form_ruta_verbo input[type='hidden']").remove();
+      $("#buscartramite #reporte").show();
+    });
      /*validaciones*/
     $('#FormCrearPreTramite').bootstrapValidator({
         feedbackIcons: {
@@ -143,7 +149,6 @@ Voucherpret = function(obj){
 poblarVoucher = function(data){
     var result = data[0];
     document.querySelector('#spanvfecha').innerHTML=result.fregistro;
-    document.querySelector('#spanvncomprobante').innerHTML=result.pretramite;
     document.querySelector('#spanvcodpretramite').innerHTML=result.pretramite;
     document.querySelector('#spantArea').innerHTML=result.area;
     document.querySelector('#spanImprimir').setAttribute('idpretramite',result.pretramite);
@@ -320,6 +325,7 @@ selectCA = function(obj){
     var data ={'id':cla_id,'nombre':cla_nomb,'area':area_nomb[0].textContent,'areaid':areaid};
     poblateData('tramite',data);
     $('#buscartramite').modal('hide');
+
 }
 /*
 confirmInfo = function(data,tipo){
