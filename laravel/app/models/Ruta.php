@@ -124,7 +124,7 @@ class Ruta extends Eloquent
         $referido['ruta_id']=$ruta->id;
         $referido['tabla_relacion_id']=$tablaRelacion->id;
         if($tablarelacion_id!=''){
-            $referido['tabla_relacion_id']=$/*tablarelacion_id*/;
+            $referido['tabla_relacion_id']=$tablarelacion_id;
         }
         $referido['tipo']=0;
         $referido['ruta_detalle_verbo_id']=0;
