@@ -450,7 +450,8 @@ tr.shown td.details-control {
     </section><!-- /.content -->
 @stop
 @section('formulario')
-     @include( 'admin.reporte.form.bandejatramite' )
-     @include( 'admin.reporte.form.expediente' )
-     @include( 'admin.ruta.form.indedocs' )
+    @include( 'admin.reporte.form.bandejatramite' )
+    @include( 'admin.reporte.form.expediente' )
+    @include( 'admin.ruta.form.indedocs' )
+    @include( 'admin.ruta.form.ruta' )
 @stop

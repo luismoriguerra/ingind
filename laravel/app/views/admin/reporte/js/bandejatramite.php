@@ -17,6 +17,92 @@ var UsuarioId='';
 var fechaAux="";
 $(document).ready(function() {
 
+    slctGlobal.listarSlct2('rol','slct_rol_modal',data);
+    slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
+    slctGlobal.listarSlct2('documento','slct_documento_modal',data);
+
+
+    $('#rutaModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget); // captura al boton
+      var text = $.trim( button.data('text') );
+      var id= $.trim( button.data('id') );
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this); //captura el modal
+      $("#form_ruta_tiempo #txt_nombre").val(text);
+      $("#form_ruta_tiempo").append('<input type="hidden" value="'+id+'" id="txt_area_id_modal">');
+      /*alert(id);
+      for(i=0; i<areasGId.length; i++){
+        alert(areasGId[i]+"=="+id);
+        if(areasGId[i]==id){
+            alert("encontrado "+areasGId[i]);
+        }
+      }*/
+      var position=tiempoGId.indexOf(id);
+      var posicioninicial=areasGId.indexOf(id);
+      //alert("tiempo= "+position +" | areapos="+posicioninicial);
+      var tid=0;
+      var validapos=0;
+      var detalle=""; var detalle2="";
+
+      if(position>=0){
+        tid=position;
+        //alert("actualizando");
+        detalle=tiempoG[tid][0].split("_");
+        detalle[0]=posicioninicial;
+        tiempoG[tid][0]=detalle.join("_");
+
+        detalle2=verboG[tid][0].split("_");
+        detalle2[0]=posicioninicial;
+        verboG[tid][0]=detalle2.join("_");
+      }
+      else{
+        //alert("registrando");
+        tiempoGId.push(id);
+        tiempoG.push([]);
+        tid=tiempoG.length-1;
+        tiempoG[tid].push(posicioninicial+"__");
+
+        verboG.push([]);
+        verboG[tid].push(posicioninicial+"______");
+      }
+
+      var posicioninicialf=posicioninicial;
+        for(var i=1; i<tbodyArea[posicioninicial].length; i++){
+            posicioninicialf++;
+            validapos=areasGId.indexOf(id,posicioninicialf);
+            posicioninicialf=validapos;
+            if( i>=tiempoG[tid].length ){
+                tiempoG[tid].push(validapos+"__");
+
+                verboG[tid].push(validapos+"______");
+            }
+            else{
+                detalle=tiempoG[tid][i].split("_");
+                detalle[0]=validapos;
+                tiempoG[tid][i]=detalle.join("_");
+
+                detalle2=verboG[tid][i].split("_");
+                detalle2[0]=validapos;
+                verboG[tid][i]=detalle2.join("_");
+            }
+        }
+
+      pintarTiempoG(tid);
+
+
+
+      $("#form_ruta_verbo #txt_nombre").val(text);
+      $("#form_ruta_verbo").append('<input type="hidden" value="'+id+'" id="txt_area_id_modal">');
+    });
+
+    $('#rutaModal').on('hide.bs.modal', function (event) {
+      var modal = $(this); //captura el modal
+      $("#form_ruta_tiempo input[type='hidden']").remove();
+      $("#form_ruta_verbo input[type='hidden']").remove();
+      modal.find('.modal-body input').val(''); // busca un input para copiarle texto
+    });
+
     $(document).on('click', '#ExpedienteU', function(event) {
         event.preventDefault();
         $("#expedienteModal").modal('show');
@@ -900,4 +986,110 @@ pintarAreasG=function(permiso){
     $("#areasasignacion>thead>tr.head").append('<th class="eliminadetalleg" style="min-width:1000px important!;">[]</th>'); // aqui para darle el area global
     $("#tb_rutaflujodetalleAreas").html(htm);
     }
+
+
+
+
+    pintarTiempoG=function(tid){
+    var htm="";var detalle="";var detalle2="";
+    $("#tb_tiempo").html(htm);
+    $("#tb_verbo").html(htm);
+
+    posicionDetalleVerboG=0; // Inicializando posicion del detalle al pintar
+
+    var subdetalle1="";var subdetalle2="";var subdetalle3="";var subdetalle4="";var subdetalle5="";var subdetalle6="";var imagen="";
+
+    for(var i=0;i<tiempoG[tid].length;i++){
+        // tiempo //
+        detalle=tiempoG[tid][i].split("_");
+
+        htm=   '<tr>'+
+                    '<td>'+(detalle[0]*1+1)+'</td>'+
+                    '<td>'+
+                        '<select disabled class="form-control" id="slct_tipo_tiempo_'+detalle[0]+'_modal">'+
+                            $('#slct_tipo_tiempo_modal').html()+
+                        '</select>'+
+                    '</td>'+
+                    '<td>'+
+                        '<input readonly class="form-control" type="number" id="txt_tiempo_'+detalle[0]+'_modal" value="'+detalle[2]+'">'+
+                    '</td>'+
+                '</tr>';
+        $("#tb_tiempo").append(htm);
+
+        $('#slct_tipo_tiempo_'+detalle[0]+'_modal').val(detalle[1]);
+        //fin tiempo
+
+        //verbo
+        
+        detalle2=verboG[tid][i].split("_");
+
+        subdetalle1=detalle2[1].split('|');
+        subdetalle2=detalle2[2].split('|');
+        subdetalle3=detalle2[3].split('|');
+        subdetalle4=detalle2[4].split('|');
+        subdetalle5=detalle2[5].split('|');
+        subdetalle6=detalle2[6].split('|');
+
+        selectestado='';
+        for(var j=0; j<subdetalle1.length; j++){
+            posicionDetalleVerboG++;
+            imagen="";
+            
+            
+            if( (j+1)==subdetalle1.length ){
+                selectestado='<br><select disabled id="slct_paralelo_'+detalle2[0]+'_modal">'+
+                             '<option value="1">Normal</option>'+
+                             '<option value="2">Paralelo</option>'+
+                             '</select>';
+            }
+
+            htm=   '<tr id="tr_detalle_verbo_'+posicionDetalleVerboG+'">'+
+                        '<td>'+(detalle2[0]*1+1)+selectestado+'</td>'+
+                        '<td>'+
+                            '<input readonly type="number" class="form-control txt_orden_'+detalle2[0]+'_modal" placeholder="Ing. Orden" value="'+subdetalle6[j]+'">'+
+                        '</td>'+
+                        '<td>'+
+                            '<select disabled class="form-control slct_rol_'+detalle2[0]+'_modal">'+
+                                $('#slct_rol_modal').html()+
+                            '</select>'+
+                        '</td>'+
+                        '<td>'+
+                            '<select disabled class="form-control slct_verbo_'+detalle2[0]+'_modal">'+
+                                $('#slct_verbo_modal').html()+
+                            '</select>'+
+                        '</td>'+
+                        '<td>'+
+                            '<select disabled class="form-control slct_documento_'+detalle2[0]+'_modal">'+
+                                $('#slct_documento_modal').html()+
+                            '</select>'+
+                        '</td>'+
+                        '<td>'+
+                            '<textarea disabled class="form-control txt_verbo_'+detalle2[0]+'_modal" placeholder="Ing. Acción">'+subdetalle1[j]+'</textarea>'+
+                        '</td>'+
+                        '<td>'+
+                            '<select disabled class="form-control slct_condicion_'+detalle2[0]+'_modal">'+
+                                $('#slct_condicion_modal').html()+
+                            '</select>'+
+                        '</td>'+
+                        '<td>'+imagen+'</td>'+
+                    '</tr>';
+            $("#tb_verbo").append(htm);
+
+            if( (j+1)==subdetalle1.length ){
+                $("#slct_paralelo_"+detalle2[0]+"_modal").val(estadoG[detalle2[0]]);
+            }
+
+            if(subdetalle2[j]==""){ // En caso no tenga valores se inicializa
+                subdetalle2[j]="0";
+            }
+            //alert(subdetalle2[j]);
+            $(".slct_condicion_"+detalle2[0]+"_modal:eq("+j+")").val(subdetalle2[j]);
+            $(".slct_rol_"+detalle2[0]+"_modal:eq("+j+")").val(subdetalle3[j]);
+            $(".slct_verbo_"+detalle2[0]+"_modal:eq("+j+")").val(subdetalle4[j]);
+            $(".slct_documento_"+detalle2[0]+"_modal:eq("+j+")").val(subdetalle5[j]);
+        }
+        //fin verbo
+    }
+}
+
 </script>
