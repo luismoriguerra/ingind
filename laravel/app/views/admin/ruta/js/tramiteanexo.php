@@ -410,7 +410,7 @@ HTMLVoucherAnexo = function(data){
 
     document.querySelector('#spanvnombtramite').innerHTML=result.nombretramite;
     document.querySelector('#spanFechaTramite').innerHTML=result.fechatramite;
-    document.querySelector('#spanArea').innerHTML=result.area;
+    document.querySelector('#spanAreaa').innerHTML=result.area;
 }
 
 exportPDF = function(obj){
