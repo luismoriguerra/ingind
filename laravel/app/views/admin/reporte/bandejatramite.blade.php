@@ -201,7 +201,7 @@ tr.shown td.details-control {
                                                 <i class="fa fa-search fa-lg"></i>
                                                 .::Expediente::.
                                             </a>
-                                            <a class="btn btn-sm btn-primary  hidden" id="RetornarP" onclick="retornar()">
+                                            <a class="btn btn-sm btn-primary" id="RetornarP" onclick="retornar()">
                                                 <i class="glyphicon glyphicon-repeat"></i>
                                                 Retornar Paso
                                             </a>
