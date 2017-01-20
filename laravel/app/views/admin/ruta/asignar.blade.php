@@ -362,7 +362,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12 tablaSelecAreaTiempo hidden">
-                                                    <div class="box-body table-responsive">
+                                                    <div>
                                                         <table id="t_numareas" class="table table-bordered table-striped">
                                                             <thead>
                                                                 <tr>

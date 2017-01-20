@@ -639,8 +639,36 @@ class Ruta extends Eloquent
                             $rutaDetalleVerbo->save();
                         }
                     }*/
-                    if( Input::get('select_tipoenvio')==1 ){ //con retorno
-                        $array_verbos = [2,14,5,4];
+                    if($index==0){
+                        $array_verbos = [1,5,4];
+                        foreach ($array_verbos as $key => $value) {
+                            $verbo = Verbo::find($value);
+
+                            $rutaDetalleVerbo = new RutaDetalleVerbo;
+                            $rutaDetalleVerbo['ruta_detalle_id']= $rutaDetalle->id;
+                            $rutaDetalleVerbo['nombre']= $verbo->nombre;
+                            $rutaDetalleVerbo['condicion']= 0;
+
+                            if($value == 5){
+                                $Area = Area::find($val);
+                                if($Area->area_gestion == 1){
+                                    $rutaDetalleVerbo['rol_id']= 8;     
+                                }elseif($Area->area_gestion == 2){
+                                    $rutaDetalleVerbo['rol_id']= 9;                                    
+                                }
+                            }else{
+                                $rutaDetalleVerbo['rol_id']= 1;                                
+                            }
+
+                            $rutaDetalleVerbo['verbo_id']= $value;
+                             $rutaDetalleVerbo['documento_id']= '';
+                            $rutaDetalleVerbo['orden']= $key + 1;
+                            $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
+                            $rutaDetalleVerbo->save();                           
+                        }
+                    }
+                   elseif( Input::get('select_tipoenvio')==1 ){ //con retorno
+                        $array_verbos = [2,1,5,4];
                         foreach ($array_verbos as $key => $value) {
                             $verbo = Verbo::find($value);
 

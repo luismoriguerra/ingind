@@ -724,8 +724,17 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
 
 cargarTabla = function(){
     var cantidad = document.querySelector("#txt_numareas").value;
-    if(cantidad){
+    if(cantidad && cantidad>0){
         html = '';
+        html+= "<tr>";
+        html+= "    <td>";
+        html+= "        <input class='form-control' type='hidden' id='select_area' name='select_area' value='<?php echo Auth::user()->area_id; ?>' readOnly=''>";
+        html+= "        <input class='form-control' id='nombre_area' name='nombre_area' value='<?php echo Auth::user()->areas->nombre; ?>' readOnly=''>";
+        html+="     </td>";
+        html+= "    <td>";
+        html+= "        <input class='form-control' type='text' name='txt_dias' id='txt_dias' value='1' placeholder='Cantidad dias' readOnly=''/>";
+        html+="    </td>";
+        html+= "</tr>";        
         for(var i=0 ; i<cantidad ; i++){
             html+= "<tr>";
             html+= "    <td>";
