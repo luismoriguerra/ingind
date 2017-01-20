@@ -130,7 +130,7 @@ var Asignar={
             datos+="&areasTodas="+JSON.stringify(areasTodas);
         }else{
             var diasTiempo = $("input[name='txt_dias']").map(function(){return $(this).val();}).get();
-            var select_area = $("select[name='select_area']").map(function(){return $(this).val();}).get();
+            var select_area = $("[name='select_area']").map(function(){return $(this).val();}).get();
             datos+="&areasSelect="+JSON.stringify(select_area)+"&diasTiempo="+JSON.stringify(diasTiempo);
         }
 
