@@ -335,7 +335,7 @@
                                                 <div class="col-sm-12 form-group">
                                                     <div class="col-sm-3">
                                                         <label class="control-label"> Nº de Areas:</label>
-                                                        <input class="form-control" type="text" id="txt_numareas" name="txt_numareas" placeholder='Numero Areas' onkeyup="cargarTabla()">
+                                                        <input class="form-control" type="text" id="txt_numareas" name="txt_numareas" placeholder='Numero Areas' onkeyup="cargarTabla()" maxlength="2" onkeypress="return validaNumeros(event);">
                                                     </div>
                                                     <div class="col-sm-3">
                                                         <div class="radio">
@@ -350,7 +350,7 @@
                                                         <div class="Allareas hidden">
                                                             <select id="areasTodas" name="areasTodas" multiple></select>                                                           
                                                         </div>
-                                                        <input class="form-control" type="text" id="txt_tiempo" name="txt_tiempo" placeholder='Cantidad Dias' value="1" disabled style="margin-top:-5px" onkeyup="cargarTiempo(this)">
+                                                        <input class="form-control" type="text" id="txt_tiempo" name="txt_tiempo" placeholder='Cantidad Dias' value="1" disabled style="margin-top:-5px" onkeyup="cargarTiempo(this)" onkeypress="return validaNumeros(event)';>
                                                     </div>                                                    
                                                     <div class="col-sm-6">
                                                         <label class="control-label">Tipo Envio:</label>

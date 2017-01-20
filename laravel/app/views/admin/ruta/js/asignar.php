@@ -805,4 +805,12 @@ guardarProcesoGestion = function(){
     }
 }
 
+validaNumeros=function(e) { // 1
+        tecla = (document.all) ? e.keyCode : e.which; // 2
+        if (tecla==8 || tecla==0 || tecla==46) return true;//8 barra, 0 flechas desplaz
+        patron = /\d/; // Solo acepta números
+        te = String.fromCharCode(tecla); // 5
+        return patron.test(te); // 6
+}
+
 </script>
