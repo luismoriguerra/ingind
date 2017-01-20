@@ -17,14 +17,6 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-9 right">
-            <label>Nº COMPROBANTE: </label>                        
-          </div>
-          <div class="col-md-3">
-            <span id="spanvncomprobante">156</span>            
-          </div>
-        </div>
-        <div class="row">
           <div class="col-md-4 right">
             <label>COD. PRE TRAMITE: </label>
           </div>

@@ -70,7 +70,7 @@ class Pretramite extends Eloquent {
                     function($query){
                     	if ( Input::get('buscar') ) {
                             $query->where('id','=',Input::get('buscar'));
-                            $query->orWhere('nombre_clasificador_tramite','=',Input::get('buscar'));
+                            $query->orWhere('nombre_clasificador_tramite','LIKE','%'.Input::get('buscar').'%');
                         }
                         if ( Input::get('tipotra') ) {
                             $query->where('tipo_tramite_id','=',Input::get('tipotra'));

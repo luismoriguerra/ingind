@@ -26,31 +26,6 @@
                 </fieldset>
             </div><!-- /.box -->
 
-            <div class="row rowArea hidden">
-              <div class="col-sm-12">
-                <div class="box-body table-responsive">
-                  <table id="tblAreasCT" class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <td >(*) Seleccione area que tomara el tramite</td>                    
-                      </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                          <td>
-                            <select class="form-control" id="slcAreasct" name="slcAreasct" onchange="selectCA(this)">
-                              <!-- <option value="-1">Seleccione</option> -->
-                            </select>
-                            <input type="hidden" id="txt_clasificador_id" name="txt_clasificador_id">
-                            <input type="hidden" id="txt_clasificador_nomb" name="txt_clasificador_nomb">
-                          </td>
-                        </tr>
-                    </tbody>                 
-                  </table>
-                </div>
-              </div>              
-            </div>
-
             <div class="box-body table-responsive">
                 <div class="row form-group" id="reporte">
                     <div class="col-sm-12">
@@ -70,6 +45,30 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            <div class="row rowArea hidden" style="height:120px;">
+              <div class="col-sm-12">
+                  <table id="tblAreasCT" class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <td >(*) Seleccione area que tomara el tramite</td>                    
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                          <td>
+                            <select class="form-control" id="slcAreasct" name="slcAreasct" onchange="selectCA(this)">
+                              <!-- <option value="-1">Seleccione</option> -->
+                            </select>
+                            <input type="hidden" id="txt_clasificador_id" name="txt_clasificador_id">
+                            <input type="hidden" id="txt_clasificador_nomb" name="txt_clasificador_nomb">
+                          </td>
+                        </tr>
+                    </tbody>                 
+                  </table>
+
+              </div>              
             </div>
       </div>
       <div class="modal-footer" style="padding: 0px">
@@ -97,10 +96,9 @@
                             <table id="t_requisitos" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <td colspan="3" id="nombtramite"></td>
+                                        <td colspan="2" id="nombtramite"></td>
                                     </tr>
                                     <tr>
-                                        <th>ORDEN</th>
                                         <th>REQUISITO</th>
                                         <th>CANTIDAD</th>
                                     </tr>

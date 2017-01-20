@@ -201,7 +201,7 @@ tr.shown td.details-control {
                                                 <i class="fa fa-search fa-lg"></i>
                                                 .::Expediente::.
                                             </a>
-                                            <a class="btn btn-sm btn-primary  hidden" id="RetornarP" onclick="retornar()">
+                                            <a class="btn btn-sm btn-primary" id="RetornarP" onclick="retornar()">
                                                 <i class="glyphicon glyphicon-repeat"></i>
                                                 Retornar Paso
                                             </a>
@@ -450,7 +450,8 @@ tr.shown td.details-control {
     </section><!-- /.content -->
 @stop
 @section('formulario')
-     @include( 'admin.reporte.form.bandejatramite' )
-     @include( 'admin.reporte.form.expediente' )
-     @include( 'admin.ruta.form.indedocs' )
+    @include( 'admin.reporte.form.bandejatramite' )
+    @include( 'admin.reporte.form.expediente' )
+    @include( 'admin.ruta.form.indedocs' )
+    @include( 'admin.ruta.form.ruta' )
 @stop

@@ -11,7 +11,7 @@ class Tramite extends Eloquent {
 			where t.estado=1";
 
 		if(Input::get('buscar')){
-			$sql.=" and t.id='".Input::get('buscar')."' or ct.nombre_clasificador_tramite='".Input::get('buscar')."'";
+			$sql.=" and t.id='".Input::get('buscar')."' or ct.nombre_clasificador_tramite LIKE '%".Input::get('buscar')."%'";
 		}
 
 		if(Input::get('persona')){
@@ -24,7 +24,7 @@ class Tramite extends Eloquent {
 
 	public static function getTramiteById(){
 		$sql = "select t.id tramiteid,a.nombre as area,t.persona_id personaid,t.tipo_documento_id tdocid,t.clasificador_tramite_id ctid,t.tipo_solicitante_id tsid,t.area_id areaid,t.fecha_tramite fregistro,p.dni dniU,p.nombre nombusuario,p.paterno apepusuario,p.materno apemusuario,
-				t.empresa_id empresaid,e.ruc ruc,e.tipo_id tipoempresa,e.razon_social as empresa,e.nombre_comercial nomcomercial,e.direccion_fiscal edireccion,
+				t.empresa_id empresaid,e.ruc ruc,CASE e.tipo_id when 1 then 'Natural' when 2 then 'Jurídica' when 3 then 'Organización Social' else e.tipo_id end as tipoempresa,e.razon_social as empresa,e.razon_social as empresa,e.nombre_comercial nomcomercial,e.direccion_fiscal edireccion,
 				e.telefono etelf,e.fecha_vigencia efvigencia,CONCAT_WS(' ',p2.nombre,p2.paterno,p2.materno) as reprelegal,
 				p2.dni repredni,
 				ts.nombre solicitante,tt.nombre_tipo_tramite tipotramite,d.nombre tipodoc,ct.nombre_clasificador_tramite as tramite,

@@ -105,7 +105,7 @@
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <br>
-                                                        <span class="btn btn-primary" data-toggle="modal" data-target="#referenteModal" data-texto="txt_referente" data-idreferido="txt_referido_id2" data-idruta="txt_ruta_id2" data-idtablarelacion="txt_tablarelacion_id2" data-idrutadetalle="txt_rutadetalle_id" id="btn_buscar_referente">
+                                                        <span class="btn btn-primary" data-toggle="modal" data-target="#referenteModal" data-texto="txt_referente" data-idreferido="txt_referido_id" data-idruta="txt_ruta_id" data-idtablarelacion="txt_tablarelacion_id" data-idrutadetalle="txt_rutadetalle_id" id="btn_buscar_referente">
                                                             <i class="fa fa-search fa-lg"></i>
                                                         </span>
 

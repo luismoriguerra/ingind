@@ -347,10 +347,10 @@ class Ruta extends Eloquent
         if( Input::has('documento_id2') ){
             $id_documento=Input::get('documento_id2');
         }
-/*        $ruta_id= Input::get('ruta_id');
-        $rutadetalle_id= Input::get('rutadetalle_id');
-        $tablarelacion_id= Input::get('tablarelacion_id');
-*/
+        $ruta_id= Input::get('ruta_id2');
+        $rutadetalle_id= Input::get('rutadetalle_id2');
+        $tablarelacion_id= Input::get('tablarelacion_id2');
+
         $tablaRelacion=DB::table('tablas_relacion as tr')
                         ->join(
                             'rutas as r',
@@ -399,8 +399,8 @@ class Ruta extends Eloquent
         }
 
 
-        if( Input::has('referente') AND trim(Input::get('referente'))!='' ){
-            $tablaRelacion['referente']=Input::get('referente');
+        if( Input::has('referente2') AND trim(Input::get('referente2'))!='' ){
+            $tablaRelacion['referente']=Input::get('referente2');
         }
 
         if( Input::has('responsable') AND trim(Input::get('responsable'))!='' ){
@@ -456,9 +456,9 @@ class Ruta extends Eloquent
         $referido=new Referido;
         $referido['ruta_id']=$ruta->id;
         $referido['tabla_relacion_id']=$tablaRelacion->id;
-        /*if($tablarelacion_id!=''){
+        if($tablarelacion_id!=''){
             $referido['tabla_relacion_id']=$tablarelacion_id;
-        }*/
+        }
         $referido['tipo']=0;
         $referido['ruta_detalle_verbo_id']=0;
         $referido['referido']=$tablaRelacion->id_union;
@@ -491,7 +491,7 @@ class Ruta extends Eloquent
                 $rutaDetalle = new RutaDetalle;
                 $rutaDetalle['ruta_id']=$ruta->id;
                 $rutaDetalle['area_id']=$val;
-                $rutaDetalle['tiempo_id']=1;         
+                $rutaDetalle['tiempo_id']=2;         
 
                 if (is_array($tiempo)){
                     $rutaDetalle['dtiempo']=$tiempo[$index];                    
