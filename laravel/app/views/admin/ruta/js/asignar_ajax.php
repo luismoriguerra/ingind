@@ -126,11 +126,13 @@ var Asignar={
 
         var checked = $('#chk_todasareas').iCheck('update')[0].checked;
         if(checked == true){
-            var areasTodas = $("#areasTodas").val();
+            var areasTodas = [];
+            areasTodas.push(<?php  echo Auth::user()->area_id; ?>);
+                    $("#areasTodas option").map(function(){return areasTodas.push($(this).val());});
             datos+="&areasTodas="+JSON.stringify(areasTodas);
         }else{
             var diasTiempo = $("input[name='txt_dias']").map(function(){return $(this).val();}).get();
-            var select_area = $("select[name='select_area']").map(function(){return $(this).val();}).get();
+            var select_area = $("[name='select_area']").map(function(){return $(this).val();}).get();
             datos+="&areasSelect="+JSON.stringify(select_area)+"&diasTiempo="+JSON.stringify(diasTiempo);
         }
 

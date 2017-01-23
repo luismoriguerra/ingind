@@ -74,7 +74,8 @@ class Area extends Base
                                                     )       )>0 ');
                         }
                         if ( Input::has('areagestion') ){
-                            $query->where('area_gestion','>','0');
+                            $query->where('area_gestion','>','0')
+                            ->whereRaw('id!='.Auth::user()->area_id);
                         }
 
                     }

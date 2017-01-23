@@ -160,7 +160,7 @@ class ContratacionController extends \BaseController
             $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
             $required = 'required';
             $reglas = array(
-                'titulo' => $required.'|'.$regex,
+                'titulo' => $required,
             );
 
             $mensaje= array(
@@ -207,7 +207,7 @@ class ContratacionController extends \BaseController
             $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
             $required = 'required';
             $reglas = array(
-                'titulo' => $required.'|'.$regex,
+                'titulo' => $required,
             );
 
             $mensaje= array(

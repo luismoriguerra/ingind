@@ -11,14 +11,16 @@ class ProduccionController extends \BaseController
         if( Input::has('fecha_inicio') && Input::has('fecha_final') ){
         $sql="  SELECT p.dni,COUNT(r.id) cant
                 FROM rutas r
-                INNER JOIN personas p ON p.id=r.usuario_created_at
+                INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1
+                INNER JOIN personas p ON p.id=tr.usuario_created_at
                 WHERE date(r.fecha_inicio) BETWEEN '".$fecha_ini."' AND '".$fecha_fin."'
                 GROUP BY p.id";
 
         $sql2=" SELECT p.dni, count(rdv.id) cant
                 FROM rutas_detalle_verbo rdv
                 INNER JOIN personas p ON p.id=rdv.usuario_updated_at
-                WHERE date(rdv.updated_at) BETWEEN '".$fecha_ini."' AND '".$fecha_fin."'
+                WHERE rdv.estado=1
+                AND date(rdv.updated_at) BETWEEN '".$fecha_ini."' AND '".$fecha_fin."'
                 GROUP BY p.id";
 
         $r=DB::select($sql);
