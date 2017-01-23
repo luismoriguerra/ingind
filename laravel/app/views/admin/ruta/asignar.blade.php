@@ -336,21 +336,22 @@
                                                     <div class="col-sm-3">
                                                         <label class="control-label"> Nº de Areas:</label>
                                                         <input class="form-control" type="text" id="txt_numareas" name="txt_numareas" placeholder='Numero Areas' onkeyup="cargarTabla()" maxlength="2" onkeypress="return validaNumeros(event);">
-                                                    </div>
-                                                    <div class="col-sm-3">
                                                         <div class="radio">
                                                             <label style="margin-left:-12px">
                                                                 <input class="chk form-control" type="checkbox" name="chk_todasareas" id="chk_todasareas" value="tareas"> Todas Las Areas                                                                
                                                             </label>
-                                                            <label>
-                                                                <input class="chk form-control" type="checkbox" name="chk_etiempo" id="chk_etiempo" value="etiempo"> Edit Tiempo                                                                
-                                                            </label>
-                                                            
                                                         </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
                                                         <div class="Allareas hidden">
                                                             <select id="areasTodas" name="areasTodas" multiple></select>                                                           
                                                         </div>
-                                                        <input class="form-control" type="text" id="txt_tiempo" name="txt_tiempo" placeholder='Cantidad Dias' value="1" disabled style="margin-top:-5px" onkeyup="cargarTiempo(this)" onkeypress="return validaNumeros(event)';>
+                                                        <label class="control-label"> Nº de Días:</label>
+                                                        <input class="form-control" type="text" id="txt_tiempo" name="txt_tiempo" placeholder='Cantidad Dias' value="1" disabled onkeyup="cargarTiempo(this)" onkeypress="return validaNumeros(event);">                                                                                                             <div class="radio">
+                                                            <label>
+                                                                <input class="chk form-control" type="checkbox" name="chk_etiempo" id="chk_etiempo" value="etiempo"> Edit Tiempo                                                                
+                                                            </label>
+                                                        </div>
                                                     </div>                                                    
                                                     <div class="col-sm-6">
                                                         <label class="control-label">Tipo Envio:</label>
