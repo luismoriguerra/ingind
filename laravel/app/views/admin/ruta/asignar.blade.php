@@ -347,7 +347,7 @@
                                                             <select id="areasTodas" name="areasTodas" multiple></select>                                                           
                                                         </div>
                                                         <label class="control-label"> Nº de Días:</label>
-                                                        <input class="form-control" type="text" id="txt_tiempo" name="txt_tiempo" placeholder='Cantidad Dias' value="1" disabled onkeyup="cargarTiempo(this)" onkeypress="return validaNumeros(event);">                                                                                                             <div class="radio">
+                                                        <input class="form-control" type="text" id="txt_tiempo" name="txt_tiempo" placeholder='Cantidad Dias' value="1" disabled onkeyup="cargarTiempo(this)" onkeypress="return validaNumeros(event);" maxlength="1">                                                                                                             <div class="radio">
                                                             <label>
                                                                 <input class="chk form-control" type="checkbox" name="chk_etiempo" id="chk_etiempo" value="etiempo"> Edit Tiempo                                                                
                                                             </label>
@@ -356,7 +356,7 @@
                                                     <div class="col-sm-6">
                                                         <label class="control-label">Tipo Envio:</label>
                                                         <select class="form-control" id="select_tipoenvio" name="select_tipoenvio">
-                                                            <option value="-1">Seleccione Tipo Envio</option>
+                                                            <option value="">.:Seleccione:.</option>
                                                             <option value="1">Con Retorno</option>
                                                             <option value="2">Sin Retorno</option>
                                                         </select>

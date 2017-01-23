@@ -12,6 +12,7 @@ var verboG=[];
 var posicionDetalleVerboG=0;
 $(document).ready(function() {
                 slctGlobal.listarSlct('area','areasTodas','multiple',null,{estado:1,areagestion:1});
+                slctGlobalHtml('select_tipoenvio','simple');
     $( "#tabs" ).tabs();
 
     $('.chk').on('ifChanged', function(event){
@@ -724,7 +725,8 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
 
 cargarTabla = function(){
     var cantidad = document.querySelector("#txt_numareas").value;
-    if(cantidad && cantidad>0){
+    if(cantidad>0 && cantidad<31){
+    if(cantidad){
         html = '';
         html+= "<tr>";
         html+= "    <td>";
@@ -749,18 +751,25 @@ cargarTabla = function(){
         $("#tb_numareas").html(html);
         $(".tablaSelecAreaTiempo").removeClass('hidden');
     }else{
-        alert('Ingrese la cantidad de areas');
+         alert('Ingrese la cantidad de areas');
          $(".tablaSelecAreaTiempo").addClass('hidden');
+    }}
+    else {
+        alert('Ingrese la cantidad correcta de áreas');
+        $("#txt_numareas").val('');
+        $(".tablaSelecAreaTiempo").addClass('hidden');
+        $("#tb_numareas").html('');
     }
 }
 
 cargarTiempo = function(object){
-    $("#tb_numareas tr td input[type=text]").each(function() {
+    $("#tb_numareas tr td input[type=text]").not(':input[readonly]').each(function() {
         $(this).val(object.value);
     });
 }
 
 guardarProcesoGestion = function(){
+    var checked = $('#chk_todasareas').iCheck('update')[0].checked;
     if( $("#slct_flujo2_id").val()=='' ){
         alert("Seleccione un Tipo Flujo");
     }
@@ -797,11 +806,24 @@ guardarProcesoGestion = function(){
     else if( $("#txt_sumilla2").val()=='' ){
         alert("Ingrese Sumilla");
     }
-  /*  else if( !$("#txt_ruta_flujo_id").val() || $("#txt_ruta_flujo_id").val()=='' ){
-        alert("Seleccione una combinacion donde almeno exita 1 registro");
-    }*/
+    else if( $.trim($("#txt_numareas").val())==='' && checked ==false){
+        alert("Ingrese Nº de Areas");
+    }
+    else if( $.trim($("#txt_tiempo").val())==='' || $.trim($("#txt_tiempo").val())==='0'){
+        alert("Ingrese Nº de Días");
+    }
+        else if( $.trim($("#select_tipoenvio").val())===''){
+        alert("Seleccionar Tipo de Envio");
+    }
+
+
     else{
-        Asignar.guardarAsignacionGestion();
+            var combo=$("#txt_numareas").val(); var count=0;
+            for($i=0;$i<=combo;$i++){
+            if($("#select_area"+$i).val()===''){count++;alert("Seleccionar área del Combo N°: "+($i+1));;}
+            }
+        if(count>0){}    
+        else {Asignar.guardarAsignacionGestion();}
     }
 }
 

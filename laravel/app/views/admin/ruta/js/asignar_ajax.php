@@ -152,7 +152,7 @@ var Asignar={
                     $(".natural, .juridica, .area").css("display","none");
                     $("#form_asignarGestion input[type='hidden'],#form_asignarGestion input[type='text'],#form_asignarGestion select,#form_asignarGestion textarea").val("");
                     $(".tablaSelecAreaTiempo").addClass('hidden');
-                    $('#form_asignarGestion select').multiselect('refresh');  
+                    $('#form_asignarGestion select').multiselect('rebuild');   
                     hora();
                     msjG.mensaje('success',obj.msj,4000);
                 }
