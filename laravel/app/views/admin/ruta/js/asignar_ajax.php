@@ -150,7 +150,7 @@ var Asignar={
                 if(obj.rst==1){
                     $("#tb_ruta_flujo").html("");
                     $(".natural, .juridica, .area").css("display","none");
-                    $("#form_asignarGestion input[type='hidden'],#form_asignarGestion input[type='text'],#form_asignarGestion select,#form_asignarGestion textarea").val("");
+                    $("#form_asignarGestion input[type='hidden'],#form_asignarGestion input[type='text'],#form_asignarGestion select,#form_asignarGestion textarea").not('.mant').val("");
                     $(".tablaSelecAreaTiempo").addClass('hidden');
                     $('#form_asignarGestion select').multiselect('rebuild');   
                     hora();

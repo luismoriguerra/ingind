@@ -249,14 +249,16 @@
                                                 <div class="col-sm-12 form-group">
                                                     <div class="col-sm-6">
                                                         <label class="control-label">Fecha Inicio de la Gestión:</label>
-                                                        <input type="text" class="form-control" name="txt_fecha_inicio2" id="txt_fecha_inicio2" readOnly>
+                                                        <input type="text" class="form-control" name="txt_fecha_inicio2" id="txt_fecha_inicio2">
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <label class="control-label">Tipo Solicitante:</label>
-                                                        <select class="form-control" name="slct_tipo_persona2" id="slct_tipo_persona2" onchange="tpersona(this.value);">
-                                                        </select>
+                                                        <input class='form-control mant' type="hidden" name="slct_tipo_persona2" id="slct_tipo_persona2" value="3">
+                                                                <label class="control-label"> Area Interna:</label>
+                                                                <input class='form-control mant' type='hidden' id="slct_area_p_id2" name="slct_area_p_id2" value='<?php echo Auth::user()->area_id; ?>'>
+                                                                <input class='form-control' id='nombre_area_usuario' name='nombre_area_usuario' value='<?php echo Auth::user()->areas->nombre; ?>' readOnly=''>
+
                                                     </div>
-                                                        <div class="col-sm-3 juridica" style="display:none">
+<!--                                                        <div class="col-sm-3 juridica" style="display:none">
                                                             <label class="control-label"> RUC:</label>
                                                             <input class="form-control" type="text" id="placeholder" name="txt_ruc2" placeholder='RUC'>
                                                         </div>
@@ -286,7 +288,7 @@
                                                                 <option value="">.:Seleccione:.</option>
                                                                 </select>
                                                             </div>
-                                                        </div>
+                                                        </div>-->
                                                 </div>
                                                 <div class="col-sm-12 form-group">
                                                     <div class="col-sm-4">
@@ -347,7 +349,7 @@
                                                             <select id="areasTodas" name="areasTodas" multiple></select>                                                           
                                                         </div>
                                                         <label class="control-label"> Nº de Días:</label>
-                                                        <input class="form-control" type="text" id="txt_tiempo" name="txt_tiempo" placeholder='Cantidad Dias' value="1" disabled onkeyup="cargarTiempo(this)" onkeypress="return validaNumeros(event);" maxlength="1">                                                                                                             <div class="radio">
+                                                        <input class="form-control mant" type="text" id="txt_tiempo" name="txt_tiempo" placeholder='Cantidad Dias' value="1" disabled onkeyup="cargarTiempo(this)" onkeypress="return validaNumeros(event);" maxlength="1">                                                                                                             <div class="radio">
                                                             <label>
                                                                 <input class="chk form-control" type="checkbox" name="chk_etiempo" id="chk_etiempo" value="etiempo"> Edit Tiempo                                                                
                                                             </label>

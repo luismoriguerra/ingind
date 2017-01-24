@@ -55,9 +55,7 @@ $(document).ready(function() {
     data = {estado:1};
     slctGlobal.listarSlct('software','slct_software_id_modal','simple',ids,data);
     slctGlobal.listarSlct('tiposolicitante','slct_tipo_persona','simple',ids,data);
-    slctGlobal.listarSlct('tiposolicitante','slct_tipo_persona2','simple',ids,data);
     slctGlobal.listarSlct('area','slct_area2_id,#slct_area_p_id','simple',ids,data);
-    slctGlobal.listarSlct('area','slct_area2_id,#slct_area_p_id2','simple',ids,data);
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
     slctGlobal.listarSlct2('documento','slct_documento_modal',data);
@@ -755,7 +753,6 @@ cargarTabla = function(){
          $(".tablaSelecAreaTiempo").addClass('hidden');
     }}
     else {
-        alert('Ingrese la cantidad correcta de áreas');
         $("#txt_numareas").val('');
         $(".tablaSelecAreaTiempo").addClass('hidden');
         $("#tb_numareas").html('');
@@ -782,27 +779,27 @@ guardarProcesoGestion = function(){
     else if( $("#slct_tipo_persona2").val()=='' ){
         alert("Seleccione Tipo Persona");
     }
-    else if( $("#slct_tipo_persona2").val()=='2' && $("#txt_ruc2").val()=='' ){
-        alert("Ingrese RUC");
-    }
-    else if( $("#slct_tipo_persona2").val()=='2' && $("#txt_razon_social2").val()==''){
-        alert("Ingrese Razon Social");
-    }
-    else if( ($("#slct_tipo_persona2").val()=='1' || $("#slct_tipo_persona2").val()=='6') && $("#txt_paterno2").val()=='' ){
-        alert("Ingrese Paterno");
-    }
-    else if( ($("#slct_tipo_persona2").val()=='1' || $("#slct_tipo_persona2").val()=='6') && $("#txt_materno2").val()=='' ){
-        alert("Ingrese Materno")
-    }
-    else if( ($("#slct_tipo_persona2").val()=='1' || $("#slct_tipo_persona2").val()=='6') && $("#txt_nombre2").val()=='' ){
-        alert("Ingrese Nombre");
-    }
+//    else if( $("#slct_tipo_persona2").val()=='2' && $("#txt_ruc2").val()=='' ){
+//        alert("Ingrese RUC");
+//    }
+//    else if( $("#slct_tipo_persona2").val()=='2' && $("#txt_razon_social2").val()==''){
+//        alert("Ingrese Razon Social");
+//    }
+//    else if( ($("#slct_tipo_persona2").val()=='1' || $("#slct_tipo_persona2").val()=='6') && $("#txt_paterno2").val()=='' ){
+//        alert("Ingrese Paterno");
+//    }
+//    else if( ($("#slct_tipo_persona2").val()=='1' || $("#slct_tipo_persona2").val()=='6') && $("#txt_materno2").val()=='' ){
+//        alert("Ingrese Materno")
+//    }
+//    else if( ($("#slct_tipo_persona2").val()=='1' || $("#slct_tipo_persona2").val()=='6') && $("#txt_nombre2").val()=='' ){
+//        alert("Ingrese Nombre");
+//    }
     else if( $("#slct_tipo_persona2").val()=='3' && $("#slct_area_p_id2").val()=='' ){
         alert("Seleccione Area Interna");
     }
-    else if( ($("#slct_tipo_persona2").val()=='4' || $("#slct_tipo_persona2").val()=='5') && $("#txt_razon_socia2l").val()=='' ){
-        alert("Ingrese Razon Social");
-    }
+//    else if( ($("#slct_tipo_persona2").val()=='4' || $("#slct_tipo_persona2").val()=='5') && $("#txt_razon_socia2l").val()=='' ){
+//        alert("Ingrese Razon Social");
+//    }
     else if( $("#txt_sumilla2").val()=='' ){
         alert("Ingrese Sumilla");
     }
