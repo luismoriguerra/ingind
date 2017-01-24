@@ -21,7 +21,7 @@ $(document).ready(function() {
                 $("#txt_numareas").prop('disabled',true);
                 $("#txt_numareas").val('');
                 $(".tablaSelecAreaTiempo").addClass('hidden');
-
+                $("#tb_numareas").html(''); 
                 $('#areasTodas option').prop('selected', true);
                 $('#areasTodas').multiselect('refresh');
             }else{
