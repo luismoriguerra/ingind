@@ -349,7 +349,7 @@
                                                             <select id="areasTodas" name="areasTodas" multiple></select>                                                           
                                                         </div>
                                                         <label class="control-label"> Nº de Días:</label>
-                                                        <input class="form-control mant" type="text" id="txt_tiempo" name="txt_tiempo" placeholder='Cantidad Dias' value="1" disabled onkeyup="cargarTiempo(this)" onkeypress="return validaNumeros(event);" maxlength="1">                                                                                                             <div class="radio">
+                                                        <input class="form-control mant" type="text" id="txt_tiempo" name="txt_tiempo" placeholder='Cantidad Dias' value="1" disabled onkeyup="cargarTiempo(this)" onkeypress="return validaNumeros(event);" maxlength="2">                                                                                                             <div class="radio">
                                                             <label>
                                                                 <input class="chk form-control" type="checkbox" name="chk_etiempo" id="chk_etiempo" value="etiempo"> Edit Tiempo                                                                
                                                             </label>

@@ -741,7 +741,7 @@ cargarTabla = function(){
             html+= "        <select class='form-control' id='select_area"+i+"' name='select_area'></select>";
             html+="     </td>";
             html+= "    <td>";
-            html+= "        <input class='form-control' type='text' name='txt_dias' id='txt_dias' value='1' placeholder='Cantidad dias'/>";
+            html+= "        <input class='form-control' type='text' name='txt_dias' id='txt_dias' value='1' placeholder='Cantidad dias' maxlength='2' onkeypress='return validaNumeros(event);'/>";
             html+="    </td>";
             html+= "</tr>";
             slctGlobal.listarSlct('area','select_area'+i+'','simple',null,{estado:1,areagestion:1});
