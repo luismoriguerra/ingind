@@ -102,7 +102,7 @@ var Asignar={
                 if(obj.rst==1){
                     $("#tb_ruta_flujo").html("");
                     $(".natural, .juridica, .area").css("display","none");
-                    $("#form_asignar input[type='hidden'],#form_asignar input[type='text'],#form_asignar select,#form_asignar textarea").val("");
+                    $("#form_asignar input[type='hidden'],#form_asignar input[type='text'],#form_asignar select,#form_asignar textarea").not('.mant').val("");
                     $('#form_asignar select').multiselect('refresh');  
                     hora();
                     msjG.mensaje('success',obj.msj,4000);
