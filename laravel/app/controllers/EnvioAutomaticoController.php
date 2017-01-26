@@ -71,15 +71,17 @@ class EnvioAutomaticoController extends \BaseController {
         if ($value->tipo==1){
             $contratacion='Contratación: '.$value->descripcion;
             $descripcion='Contratación con el titulo; '.$value->descripcion; 'mencionado arriba.';
+            $fechafin=$value->fecha_fin;
         }
         if ($value->tipo==2){
             $contratacion='Detalle de Contratación: '.$value->descripcion;
-            $descripcion='Detalle de Contratación: '.$value->descripcion. ' de la contratación: '.$value->titulo;
+            $descripcion='Detalle de Contratación: '.$value->descripcion;
+            $fechafin=$value->fecha_fin.', correspondiente a la Contratación: '.$value->titulo;
         }
         
         $plantilla=Plantilla::where('tipo','=','5')->first();
         $buscar=array('persona:','dia:','mes:','año:','contratacion:','descripcion:','fechainicio:','fechafinal:');
-        $reemplazar=array($value->persona,date('d'),$meses[date('n')],date("Y"),$contratacion,$descripcion,$value->fecha_inicio,$value->fecha_fin);
+        $reemplazar=array($value->persona,date('d'),$meses[date('n')],date("Y"),$contratacion,$descripcion,$value->fecha_inicio,$fechafin);
         $parametros=array(
           'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
         );
