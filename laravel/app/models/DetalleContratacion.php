@@ -9,7 +9,7 @@ class DetalleContratacion extends Base
 
     public static function getCargar($array )
     {
-        $sSql=" SELECT cr.id, cr.contratacion_id,cr.fecha_inicio,cr.fecha_fin,cr.fecha_aviso,cr.monto, IFNULL(CR.fecha_conformidad,'') as fecha_conformidad,
+        $sSql=" SELECT cr.id, cr.contratacion_id,cr.fecha_inicio,cr.fecha_fin,cr.fecha_aviso,cr.monto, IFNULL(cr.fecha_conformidad,'') as fecha_conformidad,
                CASE cr.tipo
                 WHEN 1 THEN 'Bienes'
                 WHEN 2 THEN 'Servicios'
