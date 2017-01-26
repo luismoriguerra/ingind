@@ -173,7 +173,7 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
     }
     if(typeof(fn)!='undefined' && fn.col==13){
         var grupo='';
-        if(row.fecha_conformidad==='' || row.nro_doc===''){
+        if(row.fecha_conformidad===null || row.nro_doc===''){
         grupo+= '<a class="form-control btn btn-primary" onclick="BtnEditar(this,'+row.id+')"><i class="fa fa-lg fa-edit"></i></a><br>';
         }
         grupo+= '<span id="'+row.id+'" onClick="CargarDetalleContratacion(\''+row.id+'\',\''+row.titulo+'\')" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-eye-open"></i></span>';
@@ -262,7 +262,7 @@ mostrarHTML=function(datos){
             "<td>"+data.fecha_fin+"</td>"+
             "<td>"+data.fecha_aviso+"</td>"+
             "<td>"+data.monto+"</td>"+
-            "<td>"+data.tipo+"</td>"+
+           "<td>"+data.tipo_nombre+"<input type='hidden'name='txt_tipo' value='"+data.tipo+"'></td>"+
             "<td>"+data.programacion_aviso+"</td>"+
             "<td>"+data.fecha_conformidad+"</td>"+
             "<td>"+data.nro_doc+"</td>";
@@ -303,7 +303,7 @@ BtnEditarDetalle=function(btn,id){
     ContratacionDetalleG.fecha_fin=$(tr).find("td:eq(3)").text();
     ContratacionDetalleG.fecha_aviso=$(tr).find("td:eq(4)").text();
     ContratacionDetalleG.monto=$(tr).find("td:eq(5)").text();
-    ContratacionDetalleG.tipo=$(tr).find("td:eq(6)").text();
+    ContratacionDetalleG.tipo=$(tr).find("td:eq(6) input[name='txt_tipo']").val();
     ContratacionDetalleG.programacion_aviso=$(tr).find("td:eq(7)").text();
     ContratacionDetalleG.fecha_conformidad=$(tr).find("td:eq(8)").text();
     ContratacionDetalleG.nro_doc=$(tr).find("td:eq(9)").text();

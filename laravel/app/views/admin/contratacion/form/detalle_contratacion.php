@@ -63,8 +63,8 @@
             <label class="control-label">Tipo:
             </label>
             <select class="form-control" name="slct_tipo" id="slct_tipo">
-                <option value='0'>Bienes</option>
-                <option value='1' selected>Servicios</option>
+                <option value='1'>Bienes</option>
+                <option value='2' selected>Servicios</option>
             </select>
           </div>
 

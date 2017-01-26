@@ -32,7 +32,7 @@ class EnvioAutomaticoController extends \BaseController {
                 AND 
                 (c.fecha_aviso=curdate() OR
                 ADDDATE(ac.fecha_alerta,INTERVAL c.programacion_aviso day)=curdate()
-                )
+                ) AND  ISNULL(c.fecha_conformidad)
 
                 UNION
 
@@ -46,7 +46,7 @@ class EnvioAutomaticoController extends \BaseController {
                 WHERE  cr.estado=1 AND 
                 (cr.fecha_aviso=curdate() OR
                 ADDDATE(ac.fecha_alerta,INTERVAL cr.programacion_aviso day)=curdate()
-                )";
+                ) AND  ISNULL(cr.fecha_conformidad)";
       
       $contratacion= DB::select($Ssql);
       
