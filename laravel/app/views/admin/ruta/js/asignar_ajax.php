@@ -104,10 +104,16 @@ var Asignar={
                 if(obj.rst==1){
                     $("#tb_ruta_flujo").html("");
                     $(".natural, .juridica, .area").css("display","none");
-                    $("#form_asignar input[type='hidden'],#form_asignar input[type='text'],#form_asignar select,#form_asignar textarea").val("");
+                    $("#form_asignar input[type='hidden'],#form_asignar input[type='text'],#form_asignar select,#form_asignar textarea").not('.mant').val("");
                     $('#form_asignar select').multiselect('refresh');  
                     hora();
-                    msjG.mensaje('success',obj.msj,4000);
+                        $("#msj").html('<div class="alert alert-dismissable alert-success">' +
+                        '<i class="fa fa-ban"></i>' +
+                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>' +
+                        '<b>' + obj.msj + '</b>' +
+                        '</div>');
+                        $("#msj").effect('shake');
+ //                       $("#msj").fadeOut(4000);
                 }
                 else{
                     alert(obj.msj);
@@ -151,11 +157,17 @@ var Asignar={
                 if(obj.rst==1){
                     $("#tb_ruta_flujo").html("");
                     $(".natural, .juridica, .area").css("display","none");
-                    $("#form_asignarGestion input[type='hidden'],#form_asignarGestion input[type='text'],#form_asignarGestion select,#form_asignarGestion textarea").val("");
+                    $("#form_asignarGestion input[type='hidden'],#form_asignarGestion input[type='text'],#form_asignarGestion select,#form_asignarGestion textarea").not('.mant').val("");
                     $(".tablaSelecAreaTiempo").addClass('hidden');
-                    $('#form_asignarGestion select').multiselect('refresh');  
+                    $('#form_asignarGestion select').multiselect('rebuild');   
                     hora();
-                    msjG.mensaje('success',obj.msj,4000);
+                    $("#msj").html('<div class="alert alert-dismissable alert-success">' +
+                        '<i class="fa fa-ban"></i>' +
+                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>' +
+                        '<b>' + obj.msj + '</b>' +
+                        '</div>');
+                        $("#msj").effect('shake');
+//                        $("#msj").fadeOut(tiempo);
                 }
                 else{
                     alert(obj.msj);

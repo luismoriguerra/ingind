@@ -33,16 +33,17 @@ hr {
 }
 
 .logo {
-    text-align: center;
+     left: -40px;position: absolute;
 }
 .logo img {
     height: 100px;
 }
 .nombre-municipio {
-    text-align: center;
-    font-size: 15px;
-    padding: 0px;
-    margin: 10px;
+ position: absolute;
+  top:  0px; 
+  left: 120px;
+  font-style: italic;
+   font-size: 15px;
 }
 .nombre-anio {
     text-align: center;
@@ -50,6 +51,13 @@ hr {
     font-size: 15px;
     padding: 0px;
     margin: 10px;
+}
+.gerencia {
+     position: absolute;
+    top:  25px; 
+    left: 150px;
+    font-style: italic;
+    font-size: 15px;
 }
 .nombre-documento {
     text-align: center;
@@ -81,11 +89,12 @@ hr {
 
         <div>
             <div class="logo">
-                <img src="img/logo_muni.jpg">
-            </div> <div class="qr">{{ $imagen }}</div>
-            <h3 class="nombre-municipio">MUNICIPALIDAD DISTRITAL DE INDEPENDECIA</h3>
-            <h4 class="nombre-anio">“Año de la consolidación del Mar de Grau”</h4>
-           
+                <img align="left" src="img/logo_muni.jpg">
+            </div> 
+            <h4 class="nombre-municipio">MUNICIPALIDAD DISTRITAL DE INDEPENDECIA</h4>
+            <!--            <h4 class="gerencia">Gerencia x</h4>--><br><br><br><br><br>
+            <h4 class="nombre-anio">“Año del Buen Servicio al Ciudadano”</h4>
+           <div class="qr">{{ $imagen }}</div>
         </div>
 
         <h3 class="nombre-documento">{{ $titulo }}</h3>

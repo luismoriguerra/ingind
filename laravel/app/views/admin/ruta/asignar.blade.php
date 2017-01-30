@@ -123,48 +123,20 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12">
-                                                      <div class="col-sm-3">
-                                                        <label class="control-label">Tipo Solicitante:</label>
-                                                        <select class="form-control" name="slct_tipo_persona" id="slct_tipo_persona" onchange="tpersona(this.value);">
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-sm-3 juridica" style="display:none">
-                                                        <label class="control-label"> RUC:</label>
-                                                        <input class="form-control" type="text" id="txt_ruc" name="txt_ruc" placeholder='RUC'>
-                                                    </div>
-                                                    <div class="col-sm-3 juridica org" style="display:none">
-                                                        <label class="control-label"> Razon social:</label>
-                                                        <input class="form-control" type="text" id="txt_razon_social" name="txt_razon_social" placeholder='Razon Social'>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12 natural" style="display:none">
-                                                    <div class="col-sm-3">
-                                                        <label class="control-label"> Paterno:</label>
-                                                        <input class="form-control" type="text" id="txt_paterno" name="txt_paterno" placeholder='Paterno'>
-                                                    </div>
-                                                    <div class="col-sm-3">
-                                                        <label class="control-label"> Materno:</label>
-                                                        <input class="form-control" type="text" id="txt_materno" name="txt_materno" placeholder='Materno'>
-                                                    </div>
-                                                    <div class="col-sm-3">
-                                                        <label class="control-label"> Nombre:</label>
-                                                        <input class="form-control" type="text" id="txt_nombre" name="txt_nombre" placeholder='Nombre'>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12 area" style="display:none">
-                                                    <div class="col-sm-3">
+                                                      <div class="col-sm-6">
+                                                        <input class='form-control mant' type="hidden" name="slct_tipo_persona" id="slct_tipo_persona" value="3">
+                                                        <input class='form-control mant' type="hidden" name="slct_area_p_id" id="slct_area_p_id" value="<?php echo Auth::user()->area_id; ?>">
                                                         <label class="control-label"> Area Interna:</label>
-                                                        <select class="form-control" type="text" id="slct_area_p_id" name="slct_area_p_id">
-                                                        <option value="">.:Seleccione:.</option>
-                                                        </select>
+                                                        <input class='form-control' id='nombre_area_usuario' name='nombre_area_usuario' value='<?php echo Auth::user()->areas->nombre; ?>' readOnly=''>
+                          
                                                     </div>
-                                                </div>
-                                                <div class="col-sm-12">
                                                     <div class="col-sm-6">
                                                         <label class="control-label"> Ingresar Sumilla:</label>
                                                         <textarea class="form-control" id="txt_sumilla" name="txt_sumilla"></textarea>
                                                     </div>
+                                                   
                                                 </div>
+                                               
                                             </div>
 
                                             
@@ -249,14 +221,16 @@
                                                 <div class="col-sm-12 form-group">
                                                     <div class="col-sm-6">
                                                         <label class="control-label">Fecha Inicio de la Gestión:</label>
-                                                        <input type="text" class="form-control" name="txt_fecha_inicio2" id="txt_fecha_inicio2" readOnly>
+                                                        <input type="text" class="form-control" name="txt_fecha_inicio2" id="txt_fecha_inicio2" readonly="">
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <label class="control-label">Tipo Solicitante:</label>
-                                                        <select class="form-control" name="slct_tipo_persona2" id="slct_tipo_persona2" onchange="tpersona(this.value);">
-                                                        </select>
+                                                        <input class='form-control mant' type="hidden" name="slct_tipo_persona2" id="slct_tipo_persona2" value="3">
+                                                                <label class="control-label"> Area Interna:</label>
+                                                                <input class='form-control mant' type='hidden' id="slct_area_p_id2" name="slct_area_p_id2" value='<?php echo Auth::user()->area_id; ?>'>
+                                                                <input class='form-control' id='nombre_area_usuario2' name='nombre_area_usuario2' value='<?php echo Auth::user()->areas->nombre; ?>' readOnly=''>
+
                                                     </div>
-                                                        <div class="col-sm-3 juridica" style="display:none">
+<!--                                                        <div class="col-sm-3 juridica" style="display:none">
                                                             <label class="control-label"> RUC:</label>
                                                             <input class="form-control" type="text" id="placeholder" name="txt_ruc2" placeholder='RUC'>
                                                         </div>
@@ -286,7 +260,7 @@
                                                                 <option value="">.:Seleccione:.</option>
                                                                 </select>
                                                             </div>
-                                                        </div>
+                                                        </div>-->
                                                 </div>
                                                 <div class="col-sm-12 form-group">
                                                     <div class="col-sm-4">
@@ -347,7 +321,7 @@
                                                             <select id="areasTodas" name="areasTodas" multiple></select>                                                           
                                                         </div>
                                                         <label class="control-label"> Nº de Días:</label>
-                                                        <input class="form-control" type="text" id="txt_tiempo" name="txt_tiempo" placeholder='Cantidad Dias' value="1" disabled onkeyup="cargarTiempo(this)" onkeypress="return validaNumeros(event);">                                                                                                             <div class="radio">
+                                                        <input class="form-control mant" type="text" id="txt_tiempo" name="txt_tiempo" placeholder='Cantidad Dias' value="1" disabled onkeyup="cargarTiempo(this)" onkeypress="return validaNumeros(event);" maxlength="2">                                                                                                             <div class="radio">
                                                             <label>
                                                                 <input class="chk form-control" type="checkbox" name="chk_etiempo" id="chk_etiempo" value="etiempo"> Edit Tiempo                                                                
                                                             </label>
@@ -356,7 +330,7 @@
                                                     <div class="col-sm-6">
                                                         <label class="control-label">Tipo Envio:</label>
                                                         <select class="form-control" id="select_tipoenvio" name="select_tipoenvio">
-                                                            <option value="-1">Seleccione Tipo Envio</option>
+                                                            <option value="">.:Seleccione:.</option>
                                                             <option value="1">Con Retorno</option>
                                                             <option value="2">Sin Retorno</option>
                                                         </select>

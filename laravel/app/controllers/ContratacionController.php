@@ -27,7 +27,7 @@ class ContratacionController extends \BaseController
              if( Input::has("id") ){
                 $contratacion_id=Input::get("id");
                 if( trim( $contratacion_id )!='' ){
-                    $array['where'].=" AND cr.contratacion_id LIKE '%".$contratacion_id."%' ";
+                    $array['where'].=" AND cr.contratacion_id=".$contratacion_id;
                 }
             }
             $a      = new DetalleContratacion;
@@ -88,6 +88,20 @@ class ContratacionController extends \BaseController
                 $fecha_aviso=Input::get("fecha_aviso");
                 if( trim( $fecha_aviso )!='' ){
                     $array['where'].=" AND c.fecha_aviso LIKE '%".$fecha_aviso."%' ";
+                }
+            }
+            
+            if( Input::has("fecha_inicio") ){
+                $fecha_inicio=Input::get("fecha_inicio");
+                if( trim( $fecha_inicio )!='' ){
+                    $array['where'].=" AND c.fecha_inicio LIKE '%".$fecha_inicio."%' ";
+                }
+            }
+            
+            if( Input::has("fecha_fin") ){
+                $fecha_fin=Input::get("fecha_fin");
+                if( trim( $fecha_fin )!='' ){
+                    $array['where'].=" AND c.fecha_fin LIKE '%".$fecha_fin."%' ";
                 }
             }
             
@@ -180,7 +194,6 @@ class ContratacionController extends \BaseController
             $contratacion->objeto = Input::get('objeto');
             $contratacion->justificacion = Input::get('justificacion');
             $contratacion->actividades = Input::get('actividades');
-            $contratacion->fecha_conformidad = Input::get('fecha_conformidad');
             $contratacion->fecha_inicio = Input::get('fecha_inicio');
             $contratacion->fecha_fin = Input::get('fecha_fin');
             $contratacion->fecha_aviso = Input::get('fecha_aviso');
@@ -228,7 +241,6 @@ class ContratacionController extends \BaseController
             $contratacion->objeto = Input::get('objeto');
             $contratacion->justificacion = Input::get('justificacion');
             $contratacion->actividades = Input::get('actividades');
-            $contratacion->fecha_conformidad = Input::get('fecha_conformidad');
             $contratacion->fecha_inicio = Input::get('fecha_inicio');
             $contratacion->fecha_fin = Input::get('fecha_fin');
             $contratacion->fecha_aviso = Input::get('fecha_aviso');
@@ -438,7 +450,6 @@ class ContratacionController extends \BaseController
             $contratacion->monto = Input::get('monto');
             $contratacion->programacion_aviso = Input::get('programacion_aviso');
             $contratacion->nro_doc = '';
-            $contratacion->fecha_conformidad = Input::get('fecha_conformidad');
             $contratacion->tipo = Input::get('tipo');
             $contratacion->usuario_created_at = Auth::user()->id;
             $contratacion->save();
@@ -477,7 +488,6 @@ class ContratacionController extends \BaseController
             $Detallecontratacion = DetalleContratacion::find($DetallecontratacionId);
             $Detallecontratacion->texto = Input::get('texto');
             $Detallecontratacion->monto = Input::get('monto');
-            $Detallecontratacion->fecha_conformidad = Input::get('fecha_conformidad');
             $Detallecontratacion->fecha_inicio = Input::get('fecha_inicio');
             $Detallecontratacion->fecha_fin = Input::get('fecha_fin');
             $Detallecontratacion->fecha_aviso = Input::get('fecha_aviso');

@@ -20,12 +20,12 @@ $(document).ready(function() {
                 objeto        :'onBlur|Objeto Contratación|#DCE6F1', //#DCE6F1
                 justificacion        :'onBlur|Justificación Contratación|#DCE6F1', //#DCE6F1
                 actividades        :'onBlur|Actividades Contratación|#DCE6F1', //#DCE6F1
-                fecha_inicio        :'onBlur|Fecha Inicio|#DCE6F1', //#DCE6F1
-                fecha_fin        :'onBlur|Fecha Fin|#DCE6F1', //#DCE6F1
-                fecha_aviso        :'onBlur|Fecha Aviso|#DCE6F1', //#DCE6F1
+                fecha_inicio        :'onChange|Fecha Inicio|#DCE6F1|fechaG', //#DCE6F1
+                fecha_fin        :'onChange|Fecha Fin|#DCE6F1|fechaG', //#DCE6F1
+                fecha_aviso        :'onChange|Fecha Aviso|#DCE6F1|fechaG', //#DCE6F1
                 programacion_aviso        :'onBlur|Programación Aviso|#DCE6F1', //#DCE6F1
                 area          :'3|Área |#DCE6F1',
-                fecha_conformidad        :'onBlur|Fecha Conformidad|#DCE6F1', //#DCE6F1
+                fecha_conformidad        :'onChange|Fecha Conformidad|#DCE6F1|fechaG', //#DCE6F1
                 nro_doc       :'3|Número de Documento|#DCE6F1', //#DCE6F1  
                 estado        :'1|Estado|#DCE6F1', //#DCE6F1
                 Grupo          :'1|  |#DCE6F1',
@@ -41,6 +41,12 @@ $(document).ready(function() {
 //    targetsG=resG[1]; // registra el contador actualizado
     MostrarAjax('contrataciones');
      $('.fecha').daterangepicker({
+            format: 'YYYY-MM-DD',
+            singleDatePicker: true,
+            showDropdowns: true
+        });
+        
+      $('.fechaG').daterangepicker({
             format: 'YYYY-MM-DD',
             singleDatePicker: true,
             showDropdowns: true
@@ -167,13 +173,13 @@ MostrarAjax=function(t){
     }
 }
 
-GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
+GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn 
       if(typeof(fn)!='undefined' && fn.col==9){
         return row.area+"<input type='hidden'name='txt_area' value='"+row.area_id+"'>";
     }
     if(typeof(fn)!='undefined' && fn.col==13){
         var grupo='';
-        if(row.fecha_conformidad==='' || row.nro_doc===''){
+        if(row.fecha_conformidad===null || row.nro_doc===''){
         grupo+= '<a class="form-control btn btn-primary" onclick="BtnEditar(this,'+row.id+')"><i class="fa fa-lg fa-edit"></i></a><br>';
         }
         grupo+= '<span id="'+row.id+'" onClick="CargarDetalleContratacion(\''+row.id+'\',\''+row.titulo+'\')" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-eye-open"></i></span>';
@@ -182,7 +188,7 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
     if(typeof(fn)!='undefined' && fn.col==11){
         var nro_doc='';
          nro_doc+=row.nro_doc;
-         if(row.fecha_conformidad==='' && row.nro_doc!==''){
+         if(row.fecha_conformidad===null && row.nro_doc!==''){
          nro_doc+='&nbsp;&nbsp;<span id="'+row.id+'" onClick="confirmar('+row.id+')"  class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></span>&nbsp;';
          nro_doc+='<span id="'+row.id+'" onClick="denegar('+row.id+')"  class="btn btn-warning"><i class="	glyphicon glyphicon-remove"></i></span>';
          }
@@ -190,7 +196,7 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
     }
     if(typeof(fn)!='undefined' && fn.col==12){
         var estadohtml='<div style="color:blue"><b>Activo</b></div>';
-         if(row.fecha_conformidad===''){
+         if(row.fecha_conformidad===null){
             estadohtml+='<span id="'+row.id+'" onClick="desactivar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></span>';
             }
         return estadohtml;
@@ -201,13 +207,6 @@ activarTabla=function(){
     $("#t_contrataciones").dataTable(); // inicializo el datatable    
 };
 
-//activar = function(id){
-//    var c=confirm("¡Está seguro de Inactivar la Contratación. No se mostrará?")
-//    if(c){
-//        Contrataciones.CambiarEstadoContrataciones(id, 1);
-//    }
-//    
-//};
 desactivar = function(id){
     var c=confirm("¿Está seguro de Eliminar la Contratación? No se mostrará");
     if(c){
@@ -249,12 +248,9 @@ validaContrataciones = function(){
 
 CargarDetalleContratacion=function(id,titulo){
     $("#form_detalle_contrataciones_modal #txt_contratacion_id").val(id);
-//    $("#txt_ruta_flujo_id_modal").remove();
-//    $("#form_ruta_flujo").append('<input type="hidden" id="txt_ruta_flujo_id_modal" value="'+ruta_flujo_id+'">');
     $("#form_detalle_contrataciones #txt_titulo").text(titulo);
-//    $("#texto_fecha_creacion").text("Fecha Vista:");
-
     $("#form_detalle_contrataciones .form-group").css("display","");
+    
     data={id:id};
     Contrataciones.CargarDetalleContrataciones(data);
 };
@@ -273,7 +269,7 @@ mostrarHTML=function(datos){
             "<td>"+data.fecha_fin+"</td>"+
             "<td>"+data.fecha_aviso+"</td>"+
             "<td>"+data.monto+"</td>"+
-            "<td>"+data.tipo+"</td>"+
+            "<td>"+data.tipo_nombre+"<input type='hidden'name='txt_tipo' value='"+data.tipo+"'></td>"+
             "<td>"+data.programacion_aviso+"</td>"+
             "<td>"+data.fecha_conformidad+"</td>"+
             "<td>"+data.nro_doc+"</td>";
@@ -322,7 +318,7 @@ BtnEditarDetalle=function(btn,id){
     ContratacionDetalleG.fecha_fin=$(tr).find("td:eq(3)").text();
     ContratacionDetalleG.fecha_aviso=$(tr).find("td:eq(4)").text();
     ContratacionDetalleG.monto=$(tr).find("td:eq(5)").text();
-    ContratacionDetalleG.tipo=$(tr).find("td:eq(6)").text();
+    ContratacionDetalleG.tipo=$(tr).find("td:eq(6) input[name='txt_tipo']").val();
     ContratacionDetalleG.programacion_aviso=$(tr).find("td:eq(7)").text();
     ContratacionDetalleG.fecha_conformidad=$(tr).find("td:eq(8)").text();
     ContratacionDetalleG.nro_doc=$(tr).find("td:eq(9)").text();

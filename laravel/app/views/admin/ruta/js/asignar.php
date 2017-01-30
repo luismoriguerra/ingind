@@ -12,6 +12,7 @@ var verboG=[];
 var posicionDetalleVerboG=0;
 $(document).ready(function() {
                 slctGlobal.listarSlct('area','areasTodas','multiple',null,{estado:1,areagestion:1});
+                slctGlobalHtml('select_tipoenvio','simple');
     $( "#tabs" ).tabs();
 
     $('.chk').on('ifChanged', function(event){
@@ -20,7 +21,7 @@ $(document).ready(function() {
                 $("#txt_numareas").prop('disabled',true);
                 $("#txt_numareas").val('');
                 $(".tablaSelecAreaTiempo").addClass('hidden');
-
+                $("#tb_numareas").html(''); 
                 $('#areasTodas option').prop('selected', true);
                 $('#areasTodas').multiselect('refresh');
             }else{
@@ -53,12 +54,6 @@ $(document).ready(function() {
 
     data = {estado:1};
     slctGlobal.listarSlct('software','slct_software_id_modal','simple',ids,data);
-    slctGlobal.listarSlct('tiposolicitante','slct_tipo_persona','simple',ids,data);
-    slctGlobal.listarSlct('tiposolicitante','slct_tipo_persona2','simple',ids,data);
-    slctGlobal.listarSlct('tiposolicitante','slct_tipo_persona3','simple',ids,data);
-    slctGlobal.listarSlct('area','slct_area2_id,#slct_area_p_id','simple',ids,data);
-    slctGlobal.listarSlct('area','slct_area2_id,#slct_area_p_id2','simple',ids,data);
-     slctGlobal.listarSlct('area','slct_area2_id,#slct_area_p_id3','simple',ids,data);
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
     slctGlobal.listarSlct2('documento','slct_documento_modal',data);
@@ -726,43 +721,50 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
 
 cargarTabla = function(){
     var cantidad = document.querySelector("#txt_numareas").value;
-    if(cantidad && cantidad>0){
-        html = '';
-        html+= "<tr>";
-        html+= "    <td>";
-        html+= "        <input class='form-control' type='hidden' id='select_area' name='select_area' value='<?php echo Auth::user()->area_id; ?>' readOnly=''>";
-        html+= "        <input class='form-control' id='nombre_area' name='nombre_area' value='<?php echo Auth::user()->areas->nombre; ?>' readOnly=''>";
-        html+="     </td>";
-        html+= "    <td>";
-        html+= "        <input class='form-control' type='text' name='txt_dias' id='txt_dias' value='1' placeholder='Cantidad dias' readOnly=''/>";
-        html+="    </td>";
-        html+= "</tr>";        
-        for(var i=0 ; i<cantidad ; i++){
+    if(cantidad>0 && cantidad<31){
+        if(cantidad){
+            html = '';
             html+= "<tr>";
             html+= "    <td>";
-            html+= "        <select class='form-control' id='select_area"+i+"' name='select_area'></select>";
+            html+= "        <input class='form-control' type='hidden' id='select_area' name='select_area' value='<?php echo Auth::user()->area_id; ?>' readOnly=''>";
+            html+= "        <input class='form-control' id='nombre_area' name='nombre_area' value='<?php echo Auth::user()->areas->nombre; ?>' readOnly=''>";
             html+="     </td>";
             html+= "    <td>";
-            html+= "        <input class='form-control' type='text' name='txt_dias' id='txt_dias' value='1' placeholder='Cantidad dias'/>";
+            html+= "        <input class='form-control' type='text' name='txt_dias' id='txt_dias' value='1' placeholder='Cantidad dias' readOnly=''/>";
             html+="    </td>";
-            html+= "</tr>";
-            slctGlobal.listarSlct('area','select_area'+i+'','simple',null,{estado:1,areagestion:1});
+            html+= "</tr>";        
+            for(var i=0 ; i<cantidad ; i++){
+                html+= "<tr>";
+                html+= "    <td>";
+                html+= "        <select class='form-control' id='select_area"+i+"' name='select_area'></select>";
+                html+="     </td>";
+                html+= "    <td>";
+                html+= "        <input class='form-control' type='text' name='txt_dias' id='txt_dias' value='1' placeholder='Cantidad dias' maxlength='2' onkeypress='return validaNumeros(event);'/>";
+                html+="    </td>";
+                html+= "</tr>";
+                slctGlobal.listarSlct('area','select_area'+i+'','simple',null,{estado:1,areagestion:1});
+            }
+            $("#tb_numareas").html(html);
+            $(".tablaSelecAreaTiempo").removeClass('hidden');
+        }else{
+             alert('Ingrese la cantidad de areas');
+             $(".tablaSelecAreaTiempo").addClass('hidden');
         }
-        $("#tb_numareas").html(html);
-        $(".tablaSelecAreaTiempo").removeClass('hidden');
-    }else{
-        alert('Ingrese la cantidad de areas');
-         $(".tablaSelecAreaTiempo").addClass('hidden');
+    }else {
+        $("#txt_numareas").val('');
+        $(".tablaSelecAreaTiempo").addClass('hidden');
+        $("#tb_numareas").html('');
     }
 }
 
 cargarTiempo = function(object){
-    $("#tb_numareas tr td input[type=text]").each(function() {
+    $("#tb_numareas tr td input[type=text]").not(':input[readonly]').each(function() {
         $(this).val(object.value);
     });
 }
 
 guardarProcesoGestion = function(){
+    var checked = $('#chk_todasareas').iCheck('update')[0].checked;
     if( $("#slct_flujo2_id").val()=='' ){
         alert("Seleccione un Tipo Flujo");
     }
@@ -775,35 +777,48 @@ guardarProcesoGestion = function(){
     else if( $("#slct_tipo_persona2").val()=='' ){
         alert("Seleccione Tipo Persona");
     }
-    else if( $("#slct_tipo_persona2").val()=='2' && $("#txt_ruc2").val()=='' ){
-        alert("Ingrese RUC");
-    }
-    else if( $("#slct_tipo_persona2").val()=='2' && $("#txt_razon_social2").val()==''){
-        alert("Ingrese Razon Social");
-    }
-    else if( ($("#slct_tipo_persona2").val()=='1' || $("#slct_tipo_persona2").val()=='6') && $("#txt_paterno2").val()=='' ){
-        alert("Ingrese Paterno");
-    }
-    else if( ($("#slct_tipo_persona2").val()=='1' || $("#slct_tipo_persona2").val()=='6') && $("#txt_materno2").val()=='' ){
-        alert("Ingrese Materno")
-    }
-    else if( ($("#slct_tipo_persona2").val()=='1' || $("#slct_tipo_persona2").val()=='6') && $("#txt_nombre2").val()=='' ){
-        alert("Ingrese Nombre");
-    }
+//    else if( $("#slct_tipo_persona2").val()=='2' && $("#txt_ruc2").val()=='' ){
+//        alert("Ingrese RUC");
+//    }
+//    else if( $("#slct_tipo_persona2").val()=='2' && $("#txt_razon_social2").val()==''){
+//        alert("Ingrese Razon Social");
+//    }
+//    else if( ($("#slct_tipo_persona2").val()=='1' || $("#slct_tipo_persona2").val()=='6') && $("#txt_paterno2").val()=='' ){
+//        alert("Ingrese Paterno");
+//    }
+//    else if( ($("#slct_tipo_persona2").val()=='1' || $("#slct_tipo_persona2").val()=='6') && $("#txt_materno2").val()=='' ){
+//        alert("Ingrese Materno")
+//    }
+//    else if( ($("#slct_tipo_persona2").val()=='1' || $("#slct_tipo_persona2").val()=='6') && $("#txt_nombre2").val()=='' ){
+//        alert("Ingrese Nombre");
+//    }
     else if( $("#slct_tipo_persona2").val()=='3' && $("#slct_area_p_id2").val()=='' ){
         alert("Seleccione Area Interna");
     }
-    else if( ($("#slct_tipo_persona2").val()=='4' || $("#slct_tipo_persona2").val()=='5') && $("#txt_razon_socia2l").val()=='' ){
-        alert("Ingrese Razon Social");
-    }
+//    else if( ($("#slct_tipo_persona2").val()=='4' || $("#slct_tipo_persona2").val()=='5') && $("#txt_razon_socia2l").val()=='' ){
+//        alert("Ingrese Razon Social");
+//    }
     else if( $("#txt_sumilla2").val()=='' ){
         alert("Ingrese Sumilla");
     }
-  /*  else if( !$("#txt_ruta_flujo_id").val() || $("#txt_ruta_flujo_id").val()=='' ){
-        alert("Seleccione una combinacion donde almeno exita 1 registro");
-    }*/
+    else if( $.trim($("#txt_numareas").val())==='' && checked ==false){
+        alert("Ingrese Nº de Areas");
+    }
+    else if( $.trim($("#txt_tiempo").val())==='' || $.trim($("#txt_tiempo").val())==='0'){
+        alert("Ingrese Nº de Días");
+    }
+        else if( $.trim($("#select_tipoenvio").val())===''){
+        alert("Seleccionar Tipo de Envio");
+    }
+
+
     else{
-        Asignar.guardarAsignacionGestion();
+            var combo=$("#txt_numareas").val(); var count=0;
+            for($i=0;$i<=combo;$i++){
+            if($("#select_area"+$i).val()===''){count++;alert("Seleccionar área del Combo N°: "+($i+1));;}
+            }
+        if(count>0){}    
+        else {Asignar.guardarAsignacionGestion();}
     }
 }
 
