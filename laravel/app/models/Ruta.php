@@ -721,5 +721,257 @@ class Ruta extends Eloquent
         }
     }
 
+
+
+     public function crearOrdenTrabajo(){
+
+        DB::beginTransaction();
+        if(Input::has('info')){
+            $info = Input::get('info');
+            if(count($info) > 0){
+                $persona_id=Auth::user()->id;
+                /*si crea para otra persona*/
+                if($info[0]['persona']){
+                    $persona_id = $info[0]['persona'];
+                }
+                /*fin si crea para otra persona*/
+               
+                $correlativo = $this->Correlativo($persona_id);
+                $codigounico="OT-".$correlativo->correlativo."-".$persona_id."-".date("Y");
+                $tablaRelacion=DB::table('tablas_relacion as tr')
+                                ->join(
+                                    'rutas as r',
+                                    'tr.id','=','r.tabla_relacion_id'
+                                )
+                                ->where('tr.id_union', '=', $codigounico)
+                                ->where('r.ruta_flujo_id', '=', 3283)
+                                ->where('tr.estado', '=', '1')
+                                ->where('r.estado', '=', '1')
+                                ->get();
+
+                if(count($tablaRelacion)>0){
+                    DB::rollback();
+                    return  array(
+                            'rst'=>2,
+                            'msj'=>'El trámite ya fue registrado anteriormente'
+                        );
+                }
+                else{
+
+                $tablaRelacion=new TablaRelacion;
+                $tablaRelacion['software_id']=1;
+
+                $tablaRelacion['id_union']=$codigounico;
+                
+                $tablaRelacion['fecha_tramite']= date("Y-m-d"); //Input::get('fecha_tramite');
+                $tablaRelacion['tipo_persona']= 1;
+
+                if( Input::has('paterno3') AND Input::has('materno3') AND Input::has('nombre3') ){
+                    $tablaRelacion['paterno']=Input::get('paterno3');
+                    $tablaRelacion['materno']=Input::get('materno3');
+                    $tablaRelacion['nombre']=Input::get('nombre3');
+                }
+                elseif( Input::has('razon_social3') AND Input::has('ruc3') ){
+                    $tablaRelacion['razon_social']=Input::get('razon_social3');
+                    $tablaRelacion['ruc']=Input::get('ruc2');
+                }
+                elseif( Input::has('area_p_id3') ){
+                    $tablaRelacion['area_id']=Input::get('area_p_id3');
+                }
+                elseif( Input::has('carta_id') ){ // Este caso solo es para asignar carta inicio
+                    $tablaRelacion['area_id']=Auth::user()->area_id;
+                }
+                elseif( Input::has('razon_social3') ){
+                    $tablaRelacion['razon_social']=Input::get('razon_social3');
+                }
+
+
+                if( Input::has('referente3') AND trim(Input::get('referente3'))!='' ){
+                    $tablaRelacion['referente']=Input::get('referente2');
+                }
+
+                if( Input::has('responsable') AND trim(Input::get('responsable'))!='' ){
+                    $tablaRelacion['responsable']=Input::get('responsable');
+                }
+                $tablaRelacion['sumilla']='';
+
+                $tablaRelacion['persona_autoriza_id']=Auth::user()->id;
+                $tablaRelacion['persona_responsable_id']=Auth::user()->id;
+
+                $tablaRelacion['area_id']=Auth::user()->area_id;
+                $tablaRelacion['usuario_created_at']=Auth::user()->id;
+                $tablaRelacion->save();
+
+                $rutaFlujo=RutaFlujo::find(3283);
+                $Persona = Persona::find($persona_id);
+
+                $ruta= new Ruta;
+                $ruta['tabla_relacion_id']=$tablaRelacion->id;
+                $ruta['fecha_inicio']= date("Y-m-d");
+                $ruta['ruta_flujo_id']=$rutaFlujo->id;
+                $ruta['flujo_id']=$rutaFlujo->flujo_id;
+                $ruta['persona_id']=$Persona->id;
+                $ruta['area_id']=$Persona->area_id;
+                $ruta['usuario_created_at']= Auth::user()->id;
+                $ruta->save();
+                /**************CARTA *************************************************/
+                $carta=array();
+                if( Input::has('carta_id') ){
+                    $carta= Carta::find(Input::get('carta_id'));
+                }
+                else{
+                    $carta= new Carta;
+                    $carta['flujo_id']=$ruta->flujo_id;
+                    $carta['correlativo']=0;
+                    $carta['nro_carta']=$codigounico;
+                    $carta['objetivo']="";
+                    $carta['entregable']="";
+                    $carta['alcance']="MDI";
+                    $carta['flujo_id']=$ruta->flujo_id;
+
+                    if( trim(Auth::user()->area_id)!='' ){
+                        $carta['area_id']=Auth::user()->area_id;
+                    }
+                    else{
+                        $carta['area_id']=$ruta->area_id;
+                    }
+                }
+                    $carta['union']=1;
+                    $carta['usuario_updated_at']=Auth::user()->id;
+                    $carta['ruta_id']=$ruta->id;
+                    $carta->save();
+
+                $qrutaDetalle=DB::table('rutas_flujo_detalle')
+                    ->where('ruta_flujo_id', '=', 3283)
+                    ->where('estado', '=', '1')
+                    ->orderBy('norden','ASC')
+                    ->get();
+
+                     foreach ($info as $key => $value) {
+
+                        $ttranscurrido = $value['ttranscurrido'];
+                        $minTrascurrido = explode(':', $ttranscurrido)[0] * 60 + explode(':', $ttranscurrido)[1];
+
+                        $rutaDetalle = new RutaDetalle;
+                        $rutaDetalle['ruta_id']=$ruta->id;
+                        $rutaDetalle['area_id']=$Persona->area_id;
+                        $rutaDetalle['tiempo_id']=2;         
+                        $rutaDetalle['dtiempo'] = 1;
+                        $rutaDetalle['fecha_inicio']= date("Y-m-d", strtotime($value['finicio']))." ".explode(' ',$value['hinicio'])[0];
+                        $rutaDetalle['dtiempo_final']= date("Y-m-d", strtotime($value['ffin']))." ".explode(' ',$value['hfin'])[0];
+                        $rutaDetalle['estado_ruta']=1;
+                        $rutaDetalle['ot_tiempo_transcurrido']=$minTrascurrido;
+                        $rutaDetalle['actividad']=$value['actividad'];
+                        $rutaDetalle['norden']=$key + 1;
+                        $rutaDetalle['usuario_created_at']= Auth::user()->id;
+                        $rutaDetalle->save();
+
+                        /**************CARTA DESGLOSE*********************************/
+/*                        $cartaDesglose=array();
+                        $array = [];
+                        if( Input::has('carta_id') ){
+                            $carta_id=Input::get('carta_id');
+                            $sql="  SELECT id
+                                    FROM carta_desglose
+                                    WHERE carta_id='$carta_id'
+                                    AND estado=1
+                                    ORDER BY id
+                                    LIMIT $conteo,1";
+                            $cd=DB::select($sql);
+                            $conteo++;
+                            $cartaDesglose=CartaDesglose::find($cd[0]->id);
+                        }
+                        else{
+                            $sql="  SELECT id
+                                    FROM personas
+                                    WHERE estado=1
+                                    AND rol_id IN (8,9,70)
+                                    AND area_id='".$rutaDetalle->area_id."'";
+                            $person=DB::select($sql);*/
+                                /***********MEDIR LOS TIEMPOS**************************/
+/*                                $cantmin=0;
+                                if( $rutaDetalle->tiempo_id==1 ){
+                                    $cantmin=60;
+                                }
+                                elseif( $rutaDetalle->tiempo_id==2 ){
+                                    $cantmin=1440;
+                                }
+
+                                if( $array['fecha']=='' ){
+                                    $array['fecha']= Input::get('fecha_inicio');
+                                }
+                                $array['tiempo']=($rutaDetalle->dtiempo*$cantmin);
+                                $array['area']=$rutaDetalle->area_id;
+                                $ff=Carta::CalcularFechaFin($array);
+                                $fi=$array['fecha'];
+                                $array['fecha']=$ff;
+
+                            $cartaDesglose= new CartaDesglose;
+                            $cartaDesglose['carta_id']=$carta->id;
+                            $cartaDesglose['tipo_actividad_id']=19;
+                            $cartaDesglose['actividad']="Actividad";
+                                if( isset($person[0]->id) ){
+                                $cartaDesglose['persona_id']=$person[0]->id;
+                                }
+                            $cartaDesglose['area_id']=$rutaDetalle->area_id;
+                            $cartaDesglose['recursos']="";
+                            $cartaDesglose['fecha_inicio']=$fi;
+                            $cartaDesglose['fecha_fin']=$ff;
+                            $cartaDesglose['hora_inicio']="08:00";
+                            $cartaDesglose['hora_fin']="17:30";
+                            $cartaDesglose['fecha_alerta']=$ff;
+                        }
+                        $cartaDesglose['ruta_detalle_id']=$rutaDetalle->id;
+                        $cartaDesglose->save();*/
+                        /*************************************************************/
+
+           /*                     $array_verbos = [1];
+                                foreach ($array_verbos as $key => $value) {*/
+                                    $verbo = Verbo::find(6);
+
+                                    $rutaDetalleVerbo = new RutaDetalleVerbo;
+                                    $rutaDetalleVerbo['ruta_detalle_id']= $rutaDetalle->id;
+                                    $rutaDetalleVerbo['nombre']= $verbo->nombre;
+                                    $rutaDetalleVerbo['condicion']= 0;
+                                    $rutaDetalleVerbo['finalizo']= 1;                                  
+                                    $rutaDetalleVerbo['rol_id']= $Persona->rol_id;;     
+                                    $rutaDetalleVerbo['verbo_id']= 6;
+                                    $rutaDetalleVerbo['documento_id']= 28;
+                                    $rutaDetalleVerbo['orden']= $key + 1    ;
+                                    $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
+                                    $rutaDetalleVerbo['usuario_updated_at']= Auth::user()->id;
+                                    $rutaDetalleVerbo->save();                           
+                             /*   }*/
+
+
+
+
+                            }
+
+                }
+
+                    DB::commit();
+                    return  array(
+                            'rst'=>1,
+                            'msj'=>'Registro realizado con éxito'
+                    );
+                }
+            }
+    }
+
+
+    public static function Correlativo($persona){
+        $año= date("Y");
+        $r2=array(array('correlativo'=>'000001','ano'=>$año));
+        /*$sql = "SELECT LPAD(id+1,6,'0') as correlativo,'$año' ano FROM doc_digital ORDER BY id DESC LIMIT 1";*/
+        $sql = "select LPAD(count(tr.id)+1,6,'0') as correlativo from tablas_relacion tr 
+                inner join rutas r on r.tabla_relacion_id=tr.id and r.ruta_flujo_id=3283 and r.persona_id=".$persona."
+                where tr.estado=1";
+        $r= DB::select($sql);
+        return (isset($r[0])) ? $r[0] : $r2[0];
+    }
+    
+    
+
 }
 ?>

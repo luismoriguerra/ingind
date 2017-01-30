@@ -78,6 +78,7 @@ $(document).ready(function() {
                 Usuario.CargarProduccionArea(dataG);
                 Usuario.CargarProduccionTramiteAsignado(dataG);
                 Usuario.CargarProduccionTramiteAsignadoTotal(dataG);
+                Usuario.OrdenesTrabajo(dataG);
         } else {
             alert("Seleccione Fecha");
         }
@@ -208,6 +209,29 @@ HTMLprotramiteasignadototal=function(datos){
     
     $("#div_total_tramite_asignado").html(html);
   
+};
+
+
+HTMLOrdenesTrabajo=function(datos){
+  console.log(datos);
+  if(datos.length > 0){
+    var alerta_tipo= '';
+    $('#t_ordenest').dataTable().fnDestroy();
+    pos=0;
+    var html ='';
+    $.each(datos,function(index,data){
+        pos++;
+        html+="<tr>"+
+            "<td>"+data.actividad+"</td>"+
+            "<td>"+data.fecha_inicio+"</td>"+
+            "<td>"+data.dtiempo_final+"</td>"+
+            "<td>"+data.ot_tiempo_transcurrido + " min"+"</td>";
+        html+="</tr>";
+    });
+    $("#tb_ordenest").html(html);
+    $("#t_ordenest").dataTable(
+    );  
+  }
 };
 
 

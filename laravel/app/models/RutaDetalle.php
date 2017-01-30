@@ -93,7 +93,9 @@ class RutaDetalle extends Eloquent
                      "=>",
                     IFNULL(rdv.adicional,""),
                      "=>",
-                    IFNULL(ro.id,"")
+                    IFNULL(ro.id,""),
+                     "=>",
+                    IFNULL(p2.id,"")
                 )
                 ORDER BY rdv.orden ASC
             SEPARATOR "|"),"") AS verbo,

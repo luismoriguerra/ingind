@@ -366,8 +366,8 @@ mostrarDetalleHTML=function(datos){
                 if( detalle[i].split("=>")[2]!="Pendiente" ){
                     fecha=detalle[i].split("=>")[11];
                 }
-                else if( RolIdG==8 || RolIdG==9 ){
-                    persona="<select data-id='"+detalle[i].split("=>")[0]+"' onChange='ActualizarPersona(this);'>"+$("#slct_persona").html()+"</select>";
+                else if( detalle[i].split("=>")[2]=="Pendiente" && (RolIdG==8 || RolIdG==9)){
+                    persona="<select data-id='"+detalle[i].split("=>")[0]+"' onChange='ActualizarPersona(this);'>"+$("#slct_persona").html()+"</select>";                
                 }
 
                 if(detalle[i].split("=>")[2]=="Pendiente"){

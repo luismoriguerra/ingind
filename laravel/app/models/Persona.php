@@ -656,6 +656,19 @@ class Persona extends Base implements UserInterface, RemindableInterface
 
         return $oData;
     }
+
+
+    public static function OrdenTrabjbyPersona()
+    {     
+        $sSql= "SELECT rd.actividad,rd.fecha_inicio,rd.dtiempo_final,rd.ot_tiempo_transcurrido FROM  tablas_relacion tr 
+                INNER JOIN rutas r ON r.tabla_relacion_id=tr.id AND r.estado=1 AND r.persona_id=8 
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1
+                WHERE tr.estado=1 and tr.id_union like 'OT%'";
+
+        $oData= DB::select($sSql);
+
+        return $oData;
+    }
 }
 
 

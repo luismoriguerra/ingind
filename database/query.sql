@@ -1,3 +1,14 @@
+ALTER TABLE `rutas_detalle`
+ADD COLUMN `actividad`  varchar(255) NULL AFTER `ot_tiempo_transcurrido`;
+
+
+
+ALTER TABLE `rutas_detalle`
+ADD COLUMN `ot_tiempo_transcurrido`  int(9) NOT NULL AFTER `dtiempo_final`;
+
+
+
+
 --08-12-2016 documentos digitales
 ALTER TABLE `doc_digital`
 ADD COLUMN `tipo_envio`  int(11) NULL DEFAULT 0 COMMENT '1:persona/2:gerencia' AFTER `persona_id`;

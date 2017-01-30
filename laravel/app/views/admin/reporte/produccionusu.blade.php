@@ -129,6 +129,12 @@
                         Trámites Asignados
                     </a>
                 </li>
+                <li class="Ordenes de Trabajo">
+                    <a href="#tab_3" data-toggle="tab">
+                        <button class="btn btn-primary btn-sm"><i class="fa fa-cloud fa-lg"></i> </button>
+                        Ordenes de Trabajo
+                    </a>
+                </li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1" onclick="ActPest(1);">
@@ -188,6 +194,50 @@
                     <div id="div_total_tramite_asignado" >
                     
                 </div>
+                </div>
+                  
+                </div>
+                    </form>
+                </div>
+
+                <!--TAB 3-->
+                <div class="tab-pane" id="tab_3" onclick="ActPest(3);">
+                    <form id="form_2" name="form_2" method="post">
+                        <div class="row form-group" id="tramite_asignado" >
+                            <div class="col-sm-12 hidden">
+                                <div class="box-body table-responsive">
+                                    <table id="t_tramite_asignado" class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre del Proceso</th>
+                                                <th>Cantidad de Trámites Asignados</th>
+                                                <th>[]</th>
+                                                <th>[]</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tb_tramite_asignado">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                   <div class="col-sm-12">
+                    <br>
+                </div>
+                <div class="col-sm-12">
+                  <div class="box-body table-responsive">
+                     <table id="t_ordenest" class="table table-bordered">
+                        <thead>
+                             <tr>
+                                 <th>Actividad</th>
+                                 <th>Fecha Inicio</th>
+                                 <th>Fecha Fin</th>
+                                 <th>Tiempo Transcurrido</th>
+                             </tr>
+                        </thead>
+                        <tbody id="tb_ordenest">
+                        </tbody>
+                     </table>
+                    </div>
                 </div>
                   
                 </div>

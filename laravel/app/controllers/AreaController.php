@@ -59,6 +59,7 @@ class AreaController extends \BaseController
         $response=['users'=>$usuarios,'consesion'=>$user];
         return Response::json($response);
     }
+
      /**
      * cargar areas, mantenimiento
      * POST /area/cargar

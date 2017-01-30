@@ -168,6 +168,38 @@ var Asignar={
             }
         });
     },
+    guardarOrdenTrabajo:function(data){
+        $.ajax({
+            url         : 'ruta/ordentrabajo',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : {
+                            'info' : data
+                          },
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                if(obj.rst==1){
+                    $(".ordenesT input[type='hidden'],.ordenesT input[type='text'],.ordenesT select,.ordenesT textarea").val("");
+                    $('.ordenesT select').multiselect('refresh');  
+                    $(".filtros input[type='hidden'],.filtros input[type='text'],.filtros select,.filtros textarea").val("");
+                    $('.filtros select').multiselect('refresh');  
+                    msjG.mensaje('success','Registrado',4000);
+                    $(".overlay,.loading-img").remove();
+                }
+                else{
+                    alert('Fallo');
+                }
+                $(".overlay,.loading-img").remove();
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
+            }
+        });
+    },
     Plataforma:function(evento){
         $.ajax({
             url         : 'tabla_relacion/plataforma',

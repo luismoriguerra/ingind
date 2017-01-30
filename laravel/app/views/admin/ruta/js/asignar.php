@@ -55,8 +55,10 @@ $(document).ready(function() {
     slctGlobal.listarSlct('software','slct_software_id_modal','simple',ids,data);
     slctGlobal.listarSlct('tiposolicitante','slct_tipo_persona','simple',ids,data);
     slctGlobal.listarSlct('tiposolicitante','slct_tipo_persona2','simple',ids,data);
+    slctGlobal.listarSlct('tiposolicitante','slct_tipo_persona3','simple',ids,data);
     slctGlobal.listarSlct('area','slct_area2_id,#slct_area_p_id','simple',ids,data);
     slctGlobal.listarSlct('area','slct_area2_id,#slct_area_p_id2','simple',ids,data);
+     slctGlobal.listarSlct('area','slct_area2_id,#slct_area_p_id3','simple',ids,data);
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
     slctGlobal.listarSlct2('documento','slct_documento_modal',data);
@@ -812,5 +814,4 @@ validaNumeros=function(e) { // 1
         te = String.fromCharCode(tecla); // 5
         return patron.test(te); // 6
 }
-
 </script>

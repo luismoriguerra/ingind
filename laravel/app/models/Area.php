@@ -139,9 +139,16 @@ class Area extends Base
 
     public static function getPersonasFromArea(){
         if(Input::get('area_id')){
-            $sql = "SELECT acp.area_id areaid,p.id,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) nombre FROM personas p 
+            $sql = "";
+            $sql.= "SELECT acp.area_id areaid,p.id,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) nombre FROM personas p 
                     INNER JOIN cargo_persona cp ON cp.persona_id=p.id AND p.estado=1 
-                    INNER JOIN area_cargo_persona acp ON acp.cargo_persona_id=cp.id AND acp.estado=1 AND acp.area_id='".Input::get('area_id')."' GROUP BY cp.persona_id";
+                    INNER JOIN area_cargo_persona acp ON acp.cargo_persona_id=cp.id AND acp.estado=1 AND acp.area_id=".Input::get('area_id');
+
+            if(Input::get('persona')){
+                $sql.=" WHERE p.id <>".Input::get('persona');
+            }
+
+            $sql.=" GROUP BY cp.persona_id";
             $result = DB::select($sql);
             return ($result) ? $result : false;
         }else{
