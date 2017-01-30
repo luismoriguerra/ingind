@@ -89,8 +89,8 @@ class EnvioAutomaticoController extends \BaseController {
         $email=$value->email;
         $email_copia = [$e[0]->email, $e[0]->email_mdi];
         
-        $email='rcapchab@gmail.com';
-        $email_copia='consultas.gmgm@gmail.com';
+//        $email='rcapchab@gmail.com';
+//        $email_copia='consultas.gmgm@gmail.com';
         if( $email!=''  ){
           
             DB::beginTransaction();   
