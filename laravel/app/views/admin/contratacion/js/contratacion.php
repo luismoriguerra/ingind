@@ -20,12 +20,12 @@ $(document).ready(function() {
                 objeto        :'onBlur|Objeto Contratación|#DCE6F1', //#DCE6F1
                 justificacion        :'onBlur|Justificación Contratación|#DCE6F1', //#DCE6F1
                 actividades        :'onBlur|Actividades Contratación|#DCE6F1', //#DCE6F1
-                fecha_inicio        :'onBlur|Fecha Inicio|#DCE6F1', //#DCE6F1
-                fecha_fin        :'onBlur|Fecha Fin|#DCE6F1', //#DCE6F1
-                fecha_aviso        :'onBlur|Fecha Aviso|#DCE6F1', //#DCE6F1
+                fecha_inicio        :'onChange|Fecha Inicio|#DCE6F1|fechaG', //#DCE6F1
+                fecha_fin        :'onChange|Fecha Fin|#DCE6F1|fechaG', //#DCE6F1
+                fecha_aviso        :'onChange|Fecha Aviso|#DCE6F1|fechaG', //#DCE6F1
                 programacion_aviso        :'onBlur|Programación Aviso|#DCE6F1', //#DCE6F1
                 area          :'3|Área |#DCE6F1',
-                fecha_conformidad        :'onBlur|Fecha Conformidad|#DCE6F1', //#DCE6F1
+                fecha_conformidad        :'onChange|Fecha Conformidad|#DCE6F1|fechaG', //#DCE6F1
                 nro_doc       :'3|Número de Documento|#DCE6F1', //#DCE6F1  
                 estado        :'1|Estado|#DCE6F1', //#DCE6F1
                 Grupo          :'1|  |#DCE6F1',
@@ -41,6 +41,12 @@ $(document).ready(function() {
 //    targetsG=resG[1]; // registra el contador actualizado
     MostrarAjax('contrataciones');
      $('.fecha').daterangepicker({
+            format: 'YYYY-MM-DD',
+            singleDatePicker: true,
+            showDropdowns: true
+        });
+        
+      $('.fechaG').daterangepicker({
             format: 'YYYY-MM-DD',
             singleDatePicker: true,
             showDropdowns: true

@@ -91,6 +91,20 @@ class ContratacionController extends \BaseController
                 }
             }
             
+            if( Input::has("fecha_inicio") ){
+                $fecha_inicio=Input::get("fecha_inicio");
+                if( trim( $fecha_inicio )!='' ){
+                    $array['where'].=" AND c.fecha_inicio LIKE '%".$fecha_inicio."%' ";
+                }
+            }
+            
+            if( Input::has("fecha_fin") ){
+                $fecha_fin=Input::get("fecha_fin");
+                if( trim( $fecha_fin )!='' ){
+                    $array['where'].=" AND c.fecha_fin LIKE '%".$fecha_fin."%' ";
+                }
+            }
+            
             if( Input::has("area") ){
                 $area=Input::get("area");
                 if( trim( $area )!='' ){
