@@ -1,6 +1,6 @@
 <!-- /.modal -->
 <div class="modal fade" id="rutaModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg" style="width:1100px;">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
         <!-- Custom Tabs -->
         <div class="nav-tabs-custom">
@@ -44,7 +44,7 @@
                         </select>
                       </div>
                       <div class="form-group">
-                        <div class="box-body table-responsive">
+                        <div class="table-responsive">
                         <table class="table table-bordered table-striped">
                           <thead>
                             <tr>
@@ -92,7 +92,7 @@
                         </select>
                       </div>
                       <div class="form-group">
-                        <div class="box-body table-responsive">
+                        <div class="table-responsive">
                         <table class="table table-bordered table-striped">
                           <thead>
                             <tr>

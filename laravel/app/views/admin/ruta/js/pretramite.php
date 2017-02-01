@@ -9,8 +9,9 @@ $(document).ready(function() {
     /*end Inicializar tramites*/
 
     /*inicializate selects*/
-    slctGlobal.listarSlct('documento','cbo_tipodoc','simple',null,data);        
-    slctGlobal.listarSlct('tiposolicitante','cbo_tiposolicitante','simple',null,data);
+    slctGlobal.listarSlct('documento','cbo_tipodoc','simple',null,data); 
+    slctGlobal.listarSlct('tipotramite','cbo_tipotramite','simple',null,data);  
+    slctGlobal.listarSlctFuncion('tiposolicitante','listar?pretramite=1','cbo_tiposolicitante','simple',null,data);
     /*end inicializate selects*/
 
     $(document).on('change', '#cbo_tiposolicitante', function(event) {
@@ -20,7 +21,7 @@ $(document).ready(function() {
 
     $(document).on('click', '#btnnuevo', function(event) {
         $(".crearPreTramite").removeClass('hidden');
-        slctGlobal.listarSlct('tipotramite','cbo_tipotramite','simple',null,data);  
+        
         window.scrollTo(0,document.body.scrollHeight);
     });
     

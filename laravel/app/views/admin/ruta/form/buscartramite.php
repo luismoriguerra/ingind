@@ -5,7 +5,7 @@
     <div class="modal-content">
       <div class="modal-header logo">
          <button type="button" class="close btn-xs" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title">Buscar Tramite</h4>
+        <h4 class="modal-title">Buscar Tipo de Trámite</h4>
       </div>
       <div class="modal-body">
             <div class="box">
