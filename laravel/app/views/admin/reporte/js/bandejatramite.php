@@ -367,7 +367,7 @@ mostrarDetalleHTML=function(datos){
                     fecha=detalle[i].split("=>")[11];
                 }
                 else if( detalle[i].split("=>")[2]=="Pendiente" && (RolIdG==8 || RolIdG==9)){
-                    persona="<select data-id='"+detalle[i].split("=>")[0]+"' onChange='ActualizarPersona(this);'>"+$("#slct_persona").html()+"</select>";                
+                    persona="<select class='slcPersona' data-id='"+detalle[i].split("=>")[0]+"' onChange='ActualizarPersona(this);'>"+$("#slct_persona").html()+"</select>";
                 }
 
                 if(detalle[i].split("=>")[2]=="Pendiente"){
@@ -430,8 +430,14 @@ mostrarDetalleHTML=function(datos){
                 html+=    "<td style='vertical-align : middle;'>"+imagen+"</td>";
                 html+= "</tr>";
                 $("#t_detalle_verbo").html(html);
-                if( $.trim( detalle[i].split("=>")[12] )!='' && (RolIdG==8 || RolIdG==9) ){
+               /* if( $.trim( detalle[i].split("=>")[12] )!='' && (RolIdG==8 || RolIdG==9) ){
                     $("#t_detalle_verbo select[data-id='"+detalle[i].split("=>")[0]+"'] option[value='"+detalle[i].split("=>")[12]+"']").attr("selected",true);
+                }*/
+                if($.trim( detalle[i].split("=>")[15] )!='' && (RolIdG==8 || RolIdG==9)){
+                    $("#t_detalle_verbo select[data-id='"+detalle[i].split("=>")[0]+"'] option[value='"+detalle[i].split("=>")[15]+"']").attr('selected',true);
+                    console.log($("#t_detalle_verbo select[data-id='"+detalle[i].split("=>")[0]+"'] option[value='"+detalle[i].split("=>")[15]+"']").html());
+                    console.log(detalle[i].split("=>")[0]);
+                    console.log('hola2');                   
                 }
             }
 
