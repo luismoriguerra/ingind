@@ -296,7 +296,7 @@ HTMLClasificadores = function(data){
         $.each(data,function(index, el) {
             html+='<tr>';
             html+='<td>'+el.id+'</td>';
-            html+='<td>'+el.nombre_clasificador_tramite+'</td>';
+            html+='<td style="text-align: left">'+el.nombre_clasificador_tramite+'</td>';
             html+='<td><span class="btn btn-primary btn-sm" id="'+el.id+'" nombre="'+el.nombre_clasificador_tramite+'" onClick="getRequisitos(this)">Ver</span></td>';
             html+='<td><span class="btn btn-primary btn-sm" id="'+el.id+'" nombre="'+el.nombre_clasificador_tramite+'" onclick="selectClaTramite(this)">Seleccionar</span></td>';
             html+='</tr>';        
