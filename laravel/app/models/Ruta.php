@@ -738,6 +738,8 @@ class Ruta extends Eloquent
                
                 $correlativo = $this->Correlativo($persona_id);
                 $codigounico="OT-".$correlativo->correlativo."-".$persona_id."-".date("Y");
+                var_dump($codigounico);
+                exit();
                 $tablaRelacion=DB::table('tablas_relacion as tr')
                                 ->join(
                                     'rutas as r',
