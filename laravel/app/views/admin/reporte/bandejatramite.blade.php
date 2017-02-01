@@ -395,11 +395,11 @@ tr.shown td.details-control {
                                             </div>
                                             <div class="col-sm-4">
                                                 <label class="control-label">Area del Dueño del Proceso:</label>
-                                                <input class="form-control" type="text" id="txt_area" name="txt_area" readonly>
+                                                <input class="form-control" type="text" id="txt_area_1" name="txt_area_1" readonly>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row form-group" style="">
+                                    <div class="row form-group" style="display:none" >
                                         <div class="col-sm-12">
                                             <div class="box-body table-responsive">
                                                 <table id="areasasignacion" class="table table-bordered" style="min-height:300px">

@@ -20,7 +20,7 @@ $(document).ready(function() {
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
     slctGlobal.listarSlct2('documento','slct_documento_modal',data);
-
+    $("#btn_close").click(Close_ruta);
 
     $('#rutaModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
@@ -182,6 +182,9 @@ Close=function(todo){
     if ( typeof(todo)!='undefined' ){
         $("#txt_id_ant,#txt_id_union").val("");
     }
+}
+Close_ruta=function(){
+    $("#form_ruta_flujo .form-group").css("display","none");
 }
 
 Limpiar=function(text){
@@ -788,7 +791,7 @@ function HTMLExpedienteUnico(data){
             if(validandoconteo==1){
                 $("#txt_persona").val(data.persona);
                 $("#txt_proceso_1").val(data.flujo);
-                $("#txt_area").val(data.area);
+                $("#txt_area_1").val(data.area);
             }
             adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta);
         });

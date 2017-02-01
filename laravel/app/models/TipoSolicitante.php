@@ -40,6 +40,10 @@ class TipoSolicitante extends Base
                 if ( Input::get('id') ) {
                     $query->where('id','=', Input::get('id') );
                 }
+                if ( Input::get('pretramite') ) {
+                    $query->where('id','!=', '3');
+                    $query->where('id','!=', '6' );
+                }
             }
             )
         ->orderBy('nombre')

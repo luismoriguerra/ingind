@@ -9,8 +9,9 @@ $(document).ready(function() {
     /*end Inicializar tramites*/
 
     /*inicializate selects*/
-    slctGlobal.listarSlct('documento','cbo_tipodoc','simple',null,data);        
-    slctGlobal.listarSlct('tiposolicitante','cbo_tiposolicitante','simple',null,data);
+    slctGlobal.listarSlct('documento','cbo_tipodoc','simple',null,data); 
+    slctGlobal.listarSlct('tipotramite','cbo_tipotramite','simple',null,data);  
+    slctGlobal.listarSlctFuncion('tiposolicitante','listar?pretramite=1','cbo_tiposolicitante','simple',null,data);
     /*end inicializate selects*/
 
     $(document).on('change', '#cbo_tiposolicitante', function(event) {
@@ -20,7 +21,7 @@ $(document).ready(function() {
 
     $(document).on('click', '#btnnuevo', function(event) {
         $(".crearPreTramite").removeClass('hidden');
-        slctGlobal.listarSlct('tipotramite','cbo_tipotramite','simple',null,data);  
+        
         window.scrollTo(0,document.body.scrollHeight);
     });
     
@@ -295,7 +296,7 @@ HTMLClasificadores = function(data){
         $.each(data,function(index, el) {
             html+='<tr>';
             html+='<td>'+el.id+'</td>';
-            html+='<td>'+el.nombre_clasificador_tramite+'</td>';
+            html+='<td style="text-align: left">'+el.nombre_clasificador_tramite+'</td>';
             html+='<td><span class="btn btn-primary btn-sm" id="'+el.id+'" nombre="'+el.nombre_clasificador_tramite+'" onClick="getRequisitos(this)">Ver</span></td>';
             html+='<td><span class="btn btn-primary btn-sm" id="'+el.id+'" nombre="'+el.nombre_clasificador_tramite+'" onclick="selectClaTramite(this)">Seleccionar</span></td>';
             html+='</tr>';        
