@@ -432,7 +432,8 @@ mostrarDetalleHTML=function(datos){
                 html+=    "<td style='vertical-align : middle;'>"+fecha+"</td>";
                 html+=    "<td style='vertical-align : middle;'>"+imagen+"</td>";
                 html+= "</tr>";
-                $("#t_detalle_verbo").html(html);
+                $("#t_detalle_verbo").append(html);
+                html = "";
                /* if( $.trim( detalle[i].split("=>")[12] )!='' && (RolIdG==8 || RolIdG==9) ){
                     $("#t_detalle_verbo select[data-id='"+detalle[i].split("=>")[0]+"'] option[value='"+detalle[i].split("=>")[12]+"']").attr("selected",true);
                 }*/

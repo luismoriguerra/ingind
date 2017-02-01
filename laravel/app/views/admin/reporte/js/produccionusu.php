@@ -213,7 +213,6 @@ HTMLprotramiteasignadototal=function(datos){
 
 
 HTMLOrdenesTrabajo=function(datos){
-  console.log(datos);
   if(datos.length > 0){
     var alerta_tipo= '';
     $('#t_ordenest').dataTable().fnDestroy();
@@ -231,6 +230,9 @@ HTMLOrdenesTrabajo=function(datos){
     $("#tb_ordenest").html(html);
     $("#t_ordenest").dataTable(
     );  
+  }else{
+    $("#tb_ordenest").html('');
+    alert('no hay nada');
   }
 };
 
