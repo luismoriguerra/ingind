@@ -738,8 +738,6 @@ class Ruta extends Eloquent
                
                 $correlativo = $this->Correlativo($persona_id);
                 $codigounico="OT-".$correlativo->correlativo."-".$persona_id."-".date("Y");
-                var_dump($codigounico);
-                exit();
                 $tablaRelacion=DB::table('tablas_relacion as tr')
                                 ->join(
                                     'rutas as r',
@@ -967,7 +965,7 @@ class Ruta extends Eloquent
         $r2=array(array('correlativo'=>'000001','ano'=>$año));
         /*$sql = "SELECT LPAD(id+1,6,'0') as correlativo,'$año' ano FROM doc_digital ORDER BY id DESC LIMIT 1";*/
         $sql = "select LPAD(count(tr.id)+1,6,'0') as correlativo from tablas_relacion tr 
-                inner join rutas r on r.tabla_relacion_id=tr.id and r.ruta_flujo_id=3283 and r.persona_id=".$persona."
+                inner join rutas r on r.tabla_relacion_id=tr.id and r.ruta_flujo_id=3720 and r.persona_id=".$persona."
                 where tr.estado=1";
         $r= DB::select($sql);
         return (isset($r[0])) ? $r[0] : $r2[0];
