@@ -441,7 +441,7 @@ class AreaController extends \BaseController
 
     public function postPersonaarea(){
         if ( Request::ajax() ) {
-            $datos = Area::getPersonasFromArea();
+            $datos = Area::getAllPersonsFromArea();
             return Response::json(
                 array(
                 'rst'=>1,

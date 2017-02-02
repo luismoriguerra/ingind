@@ -63,12 +63,17 @@
                                     <input type="text" class="form-control" id="txt_ttotal" name="txt_ttotal" readonly="readonly">                                            
                                 </div>
                                 <div class="col-md-3 col-xs-4 col-sm-4">
-                                    <span class="btn btn-primary btn-success" onclick="guardarTodo()">Guardar  <i class="glyphicon glyphicon-plus"></i></span>                                            
+                                    <span class="btn btn-primary btn-success" id="btnGuardar" onclick="guardarTodo()">Guardar  <i class="glyphicon glyphicon-plus"></i></span>                                            
                                 </div>
-                                <div class="col-md-3 col-xs-4 col-sm-4 selectbyPerson hidden">
-                                   <select class="form-control" id="slct_personasA" name="slct_personasA">
-                                       
-                                   </select>                                            
+                                <div class="col-md-5 col-xs-5 col-sm-5 selectbyPerson hidden">
+                                    <div class="col-md-4">
+                                         <label>Seleccionar Personal:</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                       <select class="form-control" id="slct_personasA" name="slct_personasA">
+                                           
+                                       </select>                                                                                
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -93,7 +98,8 @@
                                         <div class="row">
                                             <div class="col-md-3 form-group">
                                                 <label>Actividad:</label>
-                                                <input type="text" class="form-control" id="txt_actividad" name="txt_actividad">
+                                                <textarea class="form-control" id="txt_actividad" name="txt_actividad" rows="2"> </textarea>
+                                               {{--  <input type="text" class="form-control" id="txt_actividad" name="txt_actividad"> --}}
                                             </div>
                                             <div class="col-md-3 form-group">
                                                 <label>Fecha Inicio:</label>
@@ -128,7 +134,8 @@
                                         <div class="row">
                                             <div class="col-md-3 form-group">
                                                 <label>Actividad:</label>
-                                                <input type="text" class="form-control" id="txt_actividad" name="txt_actividad">
+                                                <textarea class="form-control" id="txt_actividad" name="txt_actividad" rows="2"></textarea>
+                                               {{--  <input type="text" class="form-control" id="txt_actividad" name="txt_actividad"> --}}
                                             </div>
                                             <div class="col-md-3 form-group">
                                                 <label>Fecha Inicio:</label>

@@ -73,7 +73,7 @@ $(document).ready(function() {
         usuario_id = $('#usuario_id').val();
         var fecha=$("#fecha").val();
         if ( fecha!=="") {
-                dataG = {usuario_id:usuario_id,fecha:fecha};
+                dataG = {usuario_id:usuario_id,fecha:fecha,area_id:$('#slct_area_id').val()};
                 Usuario.CargarProduccion(dataG);
                 Usuario.CargarProduccionArea(dataG);
                 Usuario.CargarProduccionTramiteAsignado(dataG);
@@ -220,19 +220,23 @@ HTMLOrdenesTrabajo=function(datos){
     var html ='';
     $.each(datos,function(index,data){
         pos++;
+
+        var horas = Math.floor( data.ot_tiempo_transcurrido / 60);
+        var min = data.ot_tiempo_transcurrido % 60;
+
         html+="<tr>"+
             "<td>"+data.actividad+"</td>"+
             "<td>"+data.fecha_inicio+"</td>"+
             "<td>"+data.dtiempo_final+"</td>"+
-            "<td>"+data.ot_tiempo_transcurrido + " min"+"</td>";
+            "<td>"+data.ot_tiempo_transcurrido + " min"+"</td>"+
+            "<td>"+horas + ":" + min +"</td>";
         html+="</tr>";
     });
     $("#tb_ordenest").html(html);
     $("#t_ordenest").dataTable(
     );  
   }else{
-    $("#tb_ordenest").html('');
-    alert('no hay nada');
+    $("#tb_ordenest").html('');   
   }
 };
 

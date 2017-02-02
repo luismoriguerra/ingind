@@ -334,7 +334,7 @@ HTMLOrdenesTrabajo=function(datos){
             "<td>"+data.persona+"</td>"+
             "<td>"+data.cantidad+"</td>"+
             "<td>"+data.total + " min"+"</td>"+
-            "<td>"+horas + ":" + min + " min"+"</td>";
+            "<td>"+horas + ":" + min +"</td>";
         html+="</tr>";
     });
     $("#tb_ordenest").html(html);

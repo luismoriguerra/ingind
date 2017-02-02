@@ -232,6 +232,7 @@
                                  <th>Fecha Inicio</th>
                                  <th>Fecha Fin</th>
                                  <th>Tiempo Transcurrido</th>
+                                 <th>Formato</th>
                              </tr>
                         </thead>
                         <tbody id="tb_ordenest">

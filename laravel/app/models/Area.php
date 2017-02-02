@@ -154,7 +154,24 @@ class Area extends Base
         }else{
             return false;
         }
+    }
 
+    public static function getAllPersonsFromArea(){
+         if(Input::get('area_id')){
+            $sql = "";
+            $sql.= "SELECT p.area_id areaid,p.id,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) nombre FROM personas p 
+                    WHERE p.estado=1 AND p.area_id=".Input::get('area_id');
+
+            if(Input::get('persona')){
+                $sql.=" AND p.id <>".Input::get('persona');
+            }
+
+            $sql.=" GROUP BY p.id";
+            $result = DB::select($sql);
+            return ($result) ? $result : false;
+        }else{
+            return false;
+        }
     }
 
 

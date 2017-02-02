@@ -174,7 +174,7 @@
                                      <th>Persona</th>
                                      <th>Cantidad</th>
                                      <th>Total Min</th>
-                                     <th>Minutos</th>
+                                     <th>Formato</th>
                                  </tr>
                             </thead>
                             <tbody id="tb_ordenest">
