@@ -59,7 +59,7 @@ $(document).ready(function() {
     var dataG = {estado:1};
     var data = {estado:1};
     var ids = [];
-    slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);
+    slctGlobal.listarSlct('area','slct_area_id','simple',ids,data);
 
       $("#generar").click(function (){
         area_id = $('#slct_area_id').val();
@@ -342,7 +342,6 @@ HTMLOrdenesTrabajo=function(datos){
     );  
   }else{
     $("#tb_ordenest").html('');
-    alert('no hay nada');
   }
 };
 
