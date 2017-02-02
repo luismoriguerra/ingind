@@ -14,23 +14,23 @@ $(document).ready(function() {
 
      var today = new Date();
                 function initDatePicker(){
-                    $('.valido .datepicker').datepicker({
+                    $('.fechaInicio').datepicker({
                         format: 'yyyy-mm-dd',
                         language: 'es',
                         multidate: 1,
                         todayHighlight:true,
-                        startDate: today,
                         daysOfWeekDisabled: '06',//bloqueo domingos
                         onSelect: function (date, el) {
-                            var row = el.input[0].parentNode.parentNode.parentNode.parentNode;
+/*                            console.log(el);*/
+/*                            var row = el.input[0].parentNode.parentNode.parentNode.parentNode;
                             var FechaInicio = $(row).find('.fechaInicio');
                             var FechaFin = $(row).find('.fechaFin');
                             if(FechaInicio[0].value !== FechaFin[0].value){
                                 alert('Las Fechas deben ser del mismo dia');
-                            }
+                            }*/
                         }
                     })
-                    $(".datepicker").datepicker().datepicker("setDate", new Date());
+            /*        $(".datepicker").datepicker().datepicker("setDate", new Date());*/
                 }
                  initDatePicker();
 
@@ -62,6 +62,12 @@ $(document).ready(function() {
 
 });
 
+fecha = function(obj){
+    var valor =obj.value;
+    var row = obj.parentNode.parentNode.parentNode.parentNode;
+    $(row).find('.fechaFin').val(valor);
+}
+
 /*add new verb to generate*/
 Addtr = function(e){
     e.preventDefault();
@@ -77,6 +83,7 @@ Deletetr = function(object){
     object.parentNode.parentNode.parentNode.remove();
     initDatePicker();
     initClockPicker();
+    CalcGlobalH();
 }
 /*end delete tr*/
 var calcTotal = 0;

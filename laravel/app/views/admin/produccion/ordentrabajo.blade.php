@@ -5,8 +5,18 @@
     @parent
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
-    {{ HTML::style('lib/bootstrap-timepicker/compiled/timepicker.css') }}
+
+    {{ HTML::style('lib/datepicker.css') }}
     {{ HTML::script('lib/bootstrap-timepicker/js/bootstrap-timepicker.js') }}
+
+
+    {{ HTML::style('lib/bootstrap-timepicker/compiled/timepicker.css') }}
+    {{ HTML::script('lib/bootstrap-datepicker.js') }}
+
+{{--     {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
+    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
+    {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
+    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }} --}}
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
@@ -105,7 +115,7 @@
                                                 <label>Fecha Inicio:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class="datepicker form-control fechaInicio" id="txt_fechaInicio" name="txt_fechaInicio">
+                                                        <input type="text" class="datepicker form-control fechaInicio" id="txt_fechaInicio" name="txt_fechaInicio" onchange="fecha(this)">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
                                                         <input type="text" class="timepicker form-control horaInicio" id="txt_horaInicio" name="txt_horaInicio" onchange="CalcularHrs(this)">
@@ -141,7 +151,7 @@
                                                 <label>Fecha Inicio:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class="datepicker form-control fechaInicio" id="txt_fechaInicio" name="txt_fechaInicio">
+                                                        <input type="text" class="datepicker form-control fechaInicio" id="txt_fechaInicio" name="txt_fechaInicio" onchange="fecha(this)">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
                                                         <input type="text" class="timepicker form-control horaInicio" id="txt_horaInicio" name="txt_horaInicio" onchange="CalcularHrs(this)">
