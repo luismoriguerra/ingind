@@ -36,8 +36,7 @@ $(document).ready(function() {
 
                 function initClockPicker(){
                     $('.timepicker').datetimepicker({
-                      language: 'en',
-                      pick12HourFormat: true
+                      pickDate: false
                     });
                 }
                 initClockPicker();
