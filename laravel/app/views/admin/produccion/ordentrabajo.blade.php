@@ -5,7 +5,7 @@
     @parent
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
-    {{ HTML::style('lib/bootstrap-timepicker/compiled/timepicker.css') }}
+    {{ HTML::style('lib/bootstrap-timepicker/bootstrap-timepicker.css') }}
     {{ HTML::script('lib/bootstrap-timepicker/js/bootstrap-timepicker.js') }}
 
     @include( 'admin.js.slct_global_ajax' )
