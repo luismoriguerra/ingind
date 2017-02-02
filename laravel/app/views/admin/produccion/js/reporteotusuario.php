@@ -12,8 +12,8 @@ var DetalleG1={id:0,proceso:"",area:"",id_union:"",sumilla:"",fecha:""}; // Dato
 $(document).ready(function() {
 
     nombre = '<?php echo Auth::user()->nombre; ?>';
-    paterno = '<?php echo Auth::user()->nombre; ?>';
-    materno = '<?php echo Auth::user()->nombre; ?>';
+    paterno = '<?php echo Auth::user()->paterno; ?>';
+    materno = '<?php echo Auth::user()->materno; ?>';
     $("#txt_persona").val(nombre + " " +paterno + " " + materno);
 
     persona_id = '<?php echo Auth::user()->id; ?>';
