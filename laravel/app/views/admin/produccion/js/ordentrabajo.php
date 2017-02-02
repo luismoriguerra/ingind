@@ -35,10 +35,11 @@ $(document).ready(function() {
                  initDatePicker();
 
                 function initClockPicker(){
-                    $(".timepicker").timepicker({
-                      showInputs: false
+                    $('.timepicker').datetimepicker({
+                      language: 'en',
+                      pick12HourFormat: true
                     });
-                }               
+                }
                 initClockPicker();
 
     $(document).on('change','.clockpicker', function(event) {
