@@ -126,7 +126,7 @@
                                                 <label>Fecha Final:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class="datepicker form-control fechaFin" id="txt_fechaFin" name="txt_fechaFin">
+                                                        <input type="text" class="datepicker form-control fechaFin" id="txt_fechaFin" name="txt_fechaFin"  disabled="disabled">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
                                                         <input type="text" class="timepicker form-control horaFin" id="txt_horaFin" name="txt_horaFin" onchange="CalcularHrs(this)">
@@ -162,7 +162,7 @@
                                                 <label>Fecha Final:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class="datepicker form-control fechaFin" id="txt_fechaFin" name="txt_fechaFin">
+                                                        <input type="text" class="datepicker form-control fechaFin" id="txt_fechaFin" name="txt_fechaFin" disabled="disabled">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
                                                         <input type="text" class="timepicker form-control horaFin" id="txt_horaFin" name="txt_horaFin" onchange="CalcularHrs(this)">

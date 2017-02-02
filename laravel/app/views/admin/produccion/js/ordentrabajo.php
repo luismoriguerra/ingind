@@ -126,6 +126,7 @@ CalcGlobalH = function(){
 
 guardarTodo = function(){
     var calcG = CalcGlobalH();
+    $("#txt_ttotal").val(CalcGlobalH());
     var r = confirm("Usted a generado" + calcG.split(':')[0] + "hora(s) con" + calcG.split(':')[1] + "minuto(s),Desea Guardar?");
     if (r == true) {
         var actividades = $(".valido textarea[id='txt_actividad']").map(function(){return $(this).val();}).get();
