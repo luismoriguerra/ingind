@@ -14,7 +14,7 @@ $(document).ready(function() {
 
      var today = new Date();
                 function initDatePicker(){
-                    $('.datepicker').datepicker({
+                    $('.valido .datepicker').datepicker({
                         format: 'yyyy-mm-dd',
                         language: 'es',
                         multidate: 1,
@@ -37,6 +37,7 @@ $(document).ready(function() {
                 function initClockPicker(){
                     $(".timepicker").timepicker({
                       showInputs: true,
+                      minuteStep: 10,
                     });
                 }
                 initClockPicker();
@@ -48,14 +49,17 @@ $(document).ready(function() {
     // $('.clockpicker').change(function(e){
     //     console.log($(this));
     // });
-                
+    
     $(document).on('click', '#btnAdd', function(event) {
         event.preventDefault();
         var template = $(".ordenesT").find('.template-orden').clone().removeClass('template-orden').removeClass('hidden').addClass('valido');
         $(".ordenesT").append(template);
         initDatePicker();
         initClockPicker();
+        $("#txt_ttotal").val(CalcGlobalH());
     }); 
+
+
 });
 
 /*add new verb to generate*/
@@ -90,42 +94,63 @@ CalcularHrs = function(object){
         $(row).find('.ttranscurrido').val(hours + ":" + min);
 
 
-        var hoursT = ((Math.floor(calcTotal/1000/60/60))%24);
-        var minT = ((Math.floor(calcTotal/1000/60))%60);
-        $("#txt_ttotal").val(hoursT + ':' + minT);
+     /*   var hoursT = Math.floor(calcTotal/1000/60/60)%24;
+        var minT = Math.floor(calcTotal/1000/60)%60;
+        console.log(hoursT);
+        $("#txt_ttotal").val(hoursT + ':' + minT);*/
+
     }
 }
 
+CalcGlobalH = function(){
+    var calcGlobal=0;
+    $(".valido .ttranscurrido").each(function(index, el) {
+        var valor = $(el).val();
+        if(valor){
+            var minutos = parseInt(valor.split(':')[0] * 60) + parseInt(valor.split(':')[1]);
+            calcGlobal+=minutos;
+        }
+    });
+
+    var horas = Math.floor( calcGlobal / 60);
+    var min = calcGlobal % 60;
+    return horas + ':' + min;
+}
+
 guardarTodo = function(){
-    var actividades = $(".valido textarea[id='txt_actividad']").map(function(){return $(this).val();}).get();
-    var finicio = $(".valido input[id='txt_fechaInicio']").map(function(){return $(this).val();}).get();
-    var ffin = $(".valido input[id='txt_fechaFin']").map(function(){return $(this).val();}).get();
-    var hinicio = $(".valido input[id='txt_horaInicio']").map(function(){return $(this).val();}).get();
-    var hfin = $(".valido input[id='txt_horaFin']").map(function(){return $(this).val();}).get();
-    var ttranscurrido = $(".valido input[id='txt_ttranscurrido']").map(function(){return $(this).val();}).get();
-    var persona = document.querySelector("#slct_personasA").value;
+    var calcG = CalcGlobalH();
+    var r = confirm("Usted a generado" + calcG.split(':')[0] + "hora(s) con" + calcG.split(':')[1] + "minuto(s),Desea Guardar?");
+    if (r == true) {
+        var actividades = $(".valido textarea[id='txt_actividad']").map(function(){return $(this).val();}).get();
+        var finicio = $(".valido input[id='txt_fechaInicio']").map(function(){return $(this).val();}).get();
+        var ffin = $(".valido input[id='txt_fechaFin']").map(function(){return $(this).val();}).get();
+        var hinicio = $(".valido input[id='txt_horaInicio']").map(function(){return $(this).val();}).get();
+        var hfin = $(".valido input[id='txt_horaFin']").map(function(){return $(this).val();}).get();
+        var ttranscurrido = $(".valido input[id='txt_ttranscurrido']").map(function(){return $(this).val();}).get();
+        var persona = document.querySelector("#slct_personasA").value;
 
-    if(actividades.length > 0){
-        var data = [];
-        var personaid = '';
-        if(persona){
-            personaid=persona;
-        }
+        if(actividades.length > 0){
+            var data = [];
+            var personaid = '';
+            if(persona){
+                personaid=persona;
+            }
 
-        for(var i=0; i < actividades.length;i++){
-            data.push({
-                'actividad' : actividades[i],
-                'finicio' : finicio[i],
-                'ffin' : ffin[i],
-                'hinicio' : hinicio[i],
-                'hfin' : hfin[i],
-                'ttranscurrido' : ttranscurrido[i],
-                'persona':personaid
-            });
+            for(var i=0; i < actividades.length;i++){
+                data.push({
+                    'actividad' : actividades[i],
+                    'finicio' : finicio[i],
+                    'ffin' : ffin[i],
+                    'hinicio' : hinicio[i],
+                    'hfin' : hfin[i],
+                    'ttranscurrido' : ttranscurrido[i],
+                    'persona':personaid
+                });
+            }
+            Asignar.guardarOrdenTrabajo(data);
+        }else{
+            alert('complete todos los campos porfavor');
         }
-        Asignar.guardarOrdenTrabajo(data);
-    }else{
-        alert('complete todos los campos porfavor');
     }
 }
 
