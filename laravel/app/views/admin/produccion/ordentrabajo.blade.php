@@ -5,8 +5,8 @@
     @parent
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
-    {{ HTML::style('lib/bootstrap-clockpicker/bootstrap-clockpicker.min.css') }}
-    {{ HTML::script('lib/bootstrap-clockpicker/bootstrap-clockpicker.min.js') }}
+    {{ HTML::style('lib/bootstrap-timepicker/bootstrap-timepicker.min.css') }}
+    {{ HTML::script('lib/bootstrap-timepicker/bootstrap-timepicker.min.js') }}
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
@@ -108,7 +108,7 @@
                                                         <input type="text" class="datepicker form-control fechaInicio" id="txt_fechaInicio" name="txt_fechaInicio">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class="clockpicker form-control horaInicio" id="txt_horaInicio" name="txt_horaInicio" onchange="CalcularHrs(this)">
+                                                        <input type="text" class="timepicker form-control horaInicio" id="txt_horaInicio" name="txt_horaInicio" onchange="CalcularHrs(this)">
                                                     </div>                                                    
                                                 </div>
                                             </div>
@@ -119,7 +119,7 @@
                                                         <input type="text" class="datepicker form-control fechaFin" id="txt_fechaFin" name="txt_fechaFin">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class="clockpicker form-control horaFin" id="txt_horaFin" name="txt_horaFin" onchange="CalcularHrs(this)">
+                                                        <input type="text" class="timepicker form-control horaFin" id="txt_horaFin" name="txt_horaFin" onchange="CalcularHrs(this)">
                                                     </div>                                                    
                                                 </div>
                                             </div>
@@ -144,7 +144,7 @@
                                                         <input type="text" class="datepicker form-control fechaInicio" id="txt_fechaInicio" name="txt_fechaInicio">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class="clockpicker form-control horaInicio" id="txt_horaInicio" name="txt_horaInicio" onchange="CalcularHrs(this)">
+                                                        <input type="text" class="timepicker form-control horaInicio" id="txt_horaInicio" name="txt_horaInicio" onchange="CalcularHrs(this)">
                                                     </div>                                                      
                                                 </div>
                                             </div>
@@ -155,7 +155,7 @@
                                                         <input type="text" class="datepicker form-control fechaFin" id="txt_fechaFin" name="txt_fechaFin">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class="clockpicker form-control horaFin" id="txt_horaFin" name="txt_horaFin" onchange="CalcularHrs(this)">
+                                                        <input type="text" class="timepicker form-control horaFin" id="txt_horaFin" name="txt_horaFin" onchange="CalcularHrs(this)">
                                                     </div>                                                      
                                                 </div>
                                             </div>

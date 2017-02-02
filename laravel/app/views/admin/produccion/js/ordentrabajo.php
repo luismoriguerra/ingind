@@ -35,10 +35,8 @@ $(document).ready(function() {
                  initDatePicker();
 
                 function initClockPicker(){
-                    $(".clockpicker").clockpicker({ 
-                        autoclose: true,
-                        twelvehour: true,
-                        donetext: 'Aceptar',
+                    $(".timepicker").timepicker({
+                      showInputs: false
                     });
                 }               
                 initClockPicker();
