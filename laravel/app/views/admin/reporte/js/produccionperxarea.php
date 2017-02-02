@@ -70,6 +70,7 @@ $(document).ready(function() {
                 dataG = {area_id:area_id,fecha:fecha};
                 Usuario.CargarProduccionTR(dataG);
                 Usuario.CargarProduccionTA(dataG);
+                Usuario.OrdenesTrabajo(dataG);
                 MostrarProduccion();
 
         } else {
@@ -313,4 +314,37 @@ activarTabla=function(){
 };
 eventoSlctGlobalSimple=function(slct,valores){
 };
+
+
+
+HTMLOrdenesTrabajo=function(datos){
+  if(datos.length > 0){
+    var alerta_tipo= '';
+    $('#t_ordenest').dataTable().fnDestroy();
+    pos=0;
+    var html ='';
+    $.each(datos,function(index,data){
+        pos++;
+
+        var horas = Math.floor( data.total / 60);
+        var min = data.total % 60;
+
+        html+="<tr>"+
+            "<td>"+data.area+"</td>"+
+            "<td>"+data.persona+"</td>"+
+            "<td>"+data.cantidad+"</td>"+
+            "<td>"+data.total + " min"+"</td>"+
+            "<td>"+horas + ":" + min + " min"+"</td>";
+        html+="</tr>";
+    });
+    $("#tb_ordenest").html(html);
+    $("#t_ordenest").dataTable(
+    );  
+  }else{
+    $("#tb_ordenest").html('');
+    alert('no hay nada');
+  }
+};
+
+
 </script>

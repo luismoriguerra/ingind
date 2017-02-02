@@ -149,6 +149,17 @@ class ReporteController extends BaseController
             )
         );
    }
+
+  public function postReportetrabajoarea()
+   {
+        $rst=Area::OrdenTrabjbyArea();
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$rst
+            )
+        );
+   }
    /**
    * bandeja de tramite, devuelve la consulta de tramites que se asignan 
    * a una determinada area que pertenece el usuario

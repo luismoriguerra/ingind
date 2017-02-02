@@ -71,6 +71,12 @@
                         Trámites Asignados
                     </a>
                 </li>
+                 <li class="logo tab_3">
+                    <a href="#tab_3" data-toggle="tab">
+                        <button class="btn btn-primary btn-sm"><i class="fa fa-cloud fa-lg"></i> </button>
+                        Ordenes de Trabajo
+                    </a>
+                </li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1" onclick="ActPest(1);">
@@ -136,6 +142,51 @@
                 </div>
                     </form>
                 </div>
+
+                <div class="tab-pane" id="tab_3" onclick="ActPest(3);">
+                    <form id="form_3" name="form_3" method="post">
+                        <div class="row form-group" id="tramite_asignado" >
+                            <div class="col-sm-12 hidden">
+                                <div class="box-body table-responsive">
+                                    <table id="t_tramite_asignado" class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre del Proceso</th>
+                                                <th>Cantidad de Trámites Asignados</th>
+                                                <th>[]</th>
+                                                <th>[]</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tb_tramite_asignado">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                    <div class="col-sm-12">
+                    <br>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="box-body table-responsive">
+                         <table id="t_ordenest" class="table table-bordered">
+                            <thead>
+                                 <tr>
+                                     <th>Area</th>
+                                     <th>Persona</th>
+                                     <th>Cantidad</th>
+                                     <th>Total Min</th>
+                                     <th>Minutos</th>
+                                 </tr>
+                            </thead>
+                            <tbody id="tb_ordenest">
+                            </tbody>
+                         </table>
+                        </div>
+                    </div>
+                  
+                </div>
+                    </form>
+                </div>
+
              
             </div><!-- /.tab-content -->
         </div><!-- nav-tabs-custom --> 
