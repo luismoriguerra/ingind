@@ -38,7 +38,7 @@ $(document).ready(function() {
                     $(".timepicker").timepicker({
                       showInputs: true,
                     });
-                }               
+                }
                 initClockPicker();
 
     $(document).on('change','.clockpicker', function(event) {
