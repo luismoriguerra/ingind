@@ -37,7 +37,7 @@
                         <div class="col-sm-12">
                             <div class="col-sm-4"><input type="hidden" id="area_id" name="area_id">
                                 <label class="control-label">Area:</label>
-                                <select class="form-control" name="slct_area_id" id="slct_area_id" multiple>
+                                <select class="form-control" name="slct_area_id[]" id="slct_area_id" multiple>
                                 </select>
                             </div>
                              <div class="col-md-4 col-sm-4">
