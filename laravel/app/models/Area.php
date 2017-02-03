@@ -78,6 +78,10 @@ class Area extends Base
                             ->whereRaw('id!='.Auth::user()->area_id);
                         }
 
+                        if ( Input::has('areagestionall') ){
+                            $query->where('area_gestion','>','0');
+                        }
+
                     }
                 )
                 ->orderBy('nombre')
