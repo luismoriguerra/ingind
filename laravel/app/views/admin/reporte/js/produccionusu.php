@@ -135,7 +135,7 @@ HTMLreporte=function(datos){
             "<td>"+data.fecha_nacimiento+"</td>"+
             "<td>"+data.sexo+"</td>"+
             "<td>"+data.area+"</td>"+
-            "<td>"+data.cargo+"</td>"+
+            "<td>"+data.rol+"</td>"+
             "<td><span onClick='MostrarUsuario("+data.norden+");' class='btn btn-success'>Productividad</span></td>";
         html+="</tr>";
     });

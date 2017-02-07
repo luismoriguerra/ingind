@@ -97,8 +97,8 @@
                                         <th>Fecha Nacimiento</th>
                                         <th>Sexo</th>
                                         <th>Area</th>
-                                        <th>Cargo</th>
-                                        <th>Cargo</th>
+                                        <th>Rol</th>
+                                        <th>[]</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_reporte">
