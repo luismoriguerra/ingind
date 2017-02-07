@@ -174,10 +174,10 @@
                                                 <input type="text" class="form-control ttranscurrido" id="txt_ttranscurrido" name="txt_ttranscurrido" readonly="readonly">
                                             </div>
                                             <div class="col-md-1 form-group visible-lg visible-md">
-                                                <span id="btnDelete" name="btnDelete" class="btn btn-danger  btn-sm btnDelete" onclick="Deletetr(this)" style="margin-top: 36%;"><i class="glyphicon glyphicon-remove"></i></span>
+                                                <span id="btnDelete" name="btnDelete" class="btn btn-danger  btn-sm btnDelete" style="margin-top: 36%;"><i class="glyphicon glyphicon-remove"></i></span>
                                             </div>
                                             <div class="col-md-1 col-sm-12 col-xs-12 form-group visible-sm visible-xs">
-                                                <span id="btnDelete" name="btnDelete" class="btn btn-danger  btn-sm btnDelete" onclick="Deletetr(this)" style="width: 100%">Eliminar</span>
+                                                <span id="btnDelete" name="btnDelete" class="btn btn-danger  btn-sm btnDelete" style="width: 100%">Eliminar</span>
                                             </div>                                                            
                                         </div>
                                     </fieldset>

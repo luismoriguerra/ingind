@@ -59,6 +59,13 @@ $(document).ready(function() {
         $("#txt_ttotal").val(CalcGlobalH());
     }); 
 
+    $(document).on('click', '.btnDelete', function(event) {
+        $(this).parent().parent().parent().remove();
+        initDatePicker();
+        initClockPicker();
+        $("#txt_ttotal").val(CalcGlobalH());
+    }); 
+
 
 });
 
@@ -79,12 +86,12 @@ Addtr = function(e){
 /*end add new verb to generate*/
 
 /*delete tr*/
-Deletetr = function(object){
+/*Deletetr = function(object){
     object.parentNode.parentNode.parentNode.remove();
     initDatePicker();
     initClockPicker();
     CalcGlobalH();
-}
+}*/
 /*end delete tr*/
 var calcTotal = 0;
 CalcularHrs = function(object){

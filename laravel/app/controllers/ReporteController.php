@@ -150,6 +150,30 @@ class ReporteController extends BaseController
         );
    }
 
+    public function getExportordentbyperson(){
+        $rst=Persona::OrdenTrabjbyPersona(); 
+//        var_dump($rst);exit();
+
+        $propiedades = array(
+          'creador'=>'Gerencia Modernizacion',
+          'subject'=>'Mis Actividades',
+          'tittle'=>'Mis Actividades',
+          'font-name'=>'Bookman Old Style',
+          'font-size'=>8,
+        );
+
+        $cabecera = array(
+          'Nº',
+          'AREA',
+          'FECHA INICIO',
+          'FECHA FIN',
+          'TIEMPO TRANSCURRIDO',
+          'FORMATO'
+        );
+        $this->exportExcel($propiedades,'',$cabecera,$rst);
+    }
+
+
   public function postReportetrabajoarea()
    {
         $rst=Area::OrdenTrabjbyArea();
@@ -160,6 +184,29 @@ class ReporteController extends BaseController
             )
         );
    }
+
+  public function getExportordentbyarea(){
+        $rst=Area::OrdenTrabjbyArea(); 
+//        var_dump($rst);exit();
+
+        $propiedades = array(
+          'creador'=>'Gerencia Modernizacion',
+          'subject'=>'Actividades Area',
+          'tittle'=>'Actividades Area',
+          'font-name'=>'Bookman Old Style',
+          'font-size'=>8,
+        );
+
+        $cabecera = array(
+          'Nº',
+          'AREA',
+          'PERSONA',
+          'CANTIDAD',
+          'TOTAL MIN',
+          'FORMATO'
+        );
+        $this->exportExcel($propiedades,'',$cabecera,$rst);
+    }
    /**
    * bandeja de tramite, devuelve la consulta de tramites que se asignan 
    * a una determinada area que pertenece el usuario

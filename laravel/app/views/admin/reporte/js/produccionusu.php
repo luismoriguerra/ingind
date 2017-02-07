@@ -85,9 +85,25 @@ $(document).ready(function() {
         }
     });
    
+    $("#btnexport").click(GeneraHref);
  
 
 });
+
+GeneraHref=function(){
+    var fecha=$("#fecha").val();
+        $("#btnexport").removeAttr('href');
+        if ( fecha!=="") {
+            data = {fecha:fecha,usuario_id:$("#usuario_id").val()};
+            window.location='reporte/exportordentbyperson?fecha='+data.fecha+'&usuario_id='+data.usuario_id;
+        }else{
+            alert('selecciona un rango de fechas');
+        }
+    /*    else if ( fecha!=="" ) {
+            data = {fecha:fecha};
+            window.location='reporte/exportdocplataforma'+'?nro='+Math.random(1000)+'&fecha='+data.fecha;
+        } */
+}
 
 MostrarAjax=function(t){ 
     if( t=="detalles" ){
