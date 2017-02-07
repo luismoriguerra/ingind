@@ -318,7 +318,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
                 INNER JOIN areas a on p.area_id=a.id
 		INNER JOIN roles r on p.rol_id=r.id
                 WHERE a.id IN ('$areaId') AND p.estado=1
-                GROUP BY p.paterno";
+                ORDER BY p.paterno";
 
         $r= DB::select($sql);
 
