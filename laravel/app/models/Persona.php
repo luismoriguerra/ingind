@@ -313,14 +313,12 @@ class Persona extends Base implements UserInterface, RemindableInterface
                 WHEN 1 THEN 'Activo'
                 WHEN 0 THEN 'Inactivo'
                 END estado,
-                a.nombre area,c.nombre cargo
+                a.nombre area,r.nombre rol
                 FROM personas p
-                INNER JOIN cargo_persona cp ON cp.persona_id=p.id AND cp.estado=1
-                INNER JOIN area_cargo_persona acp ON acp.cargo_persona_id=cp.id AND acp.estado=1
-                INNER JOIN cargos c ON c.id=cp.cargo_id AND c.estado=1
-                INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                INNER JOIN areas a on p.area_id=a.id
+		INNER JOIN roles r on p.rol_id=r.id
                 WHERE a.id IN ('$areaId') AND p.estado=1
-                GROUP BY acp.area_id,acp.cargo_persona_id";
+                ORDER BY p.paterno";
 
         $r= DB::select($sql);
 

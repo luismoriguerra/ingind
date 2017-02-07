@@ -37,7 +37,7 @@
                         <div class="col-sm-12">
                             <div class="col-sm-4"><input type="hidden" id="area_id" name="area_id">
                                 <label class="control-label">Area:</label>
-                                <select class="form-control" name="slct_area_id" id="slct_area_id" multiple>
+                                <select class="form-control" name="slct_area_id[]" id="slct_area_id" multiple>
                                 </select>
                             </div>
                              <div class="col-md-4 col-sm-4">
@@ -77,7 +77,7 @@
                  <li class="logo tab_3">
                     <a href="#tab_3" data-toggle="tab">
                         <button class="btn btn-primary btn-sm"><i class="fa fa-cloud fa-lg"></i> </button>
-                        Ordenes de Trabajo
+                        Actividades Personales
                     </a>
                 </li>
             </ul>

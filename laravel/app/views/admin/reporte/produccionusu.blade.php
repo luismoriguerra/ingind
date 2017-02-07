@@ -37,7 +37,7 @@
                         <div class="col-sm-12">
                             <div class="col-sm-4">
                                 <label class="control-label">Area:</label>
-                                <select class="form-control" name="slct_area_id" id="slct_area_id" multiple>
+                                <select class="form-control" name="slct_area_id[]" id="slct_area_id" multiple>
                                 </select>
                             </div>
                             <div class="col-sm-2">
@@ -100,8 +100,8 @@
                                         <th>Fecha Nacimiento</th>
                                         <th>Sexo</th>
                                         <th>Area</th>
-                                        <th>Cargo</th>
-                                        <th>Cargo</th>
+                                        <th>Rol</th>
+                                        <th>[]</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_reporte">
@@ -135,7 +135,7 @@
                 <li class="Ordenes de Trabajo">
                     <a href="#tab_3" data-toggle="tab">
                         <button class="btn btn-primary btn-sm"><i class="fa fa-cloud fa-lg"></i> </button>
-                        Ordenes de Trabajo
+                        Actividades Personales
                     </a>
                 </li>
             </ul>
