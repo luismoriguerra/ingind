@@ -80,9 +80,24 @@ $(document).ready(function() {
         else {  alert("Seleccione Área"); }
     });
    
- 
+    $("#btnexport").click(GeneraHref);
 
 });
+
+GeneraHref=function(){
+    var fecha=$("#fecha").val();
+        $("#btnexport").removeAttr('href');
+        if ( fecha!=="") {
+            data = {fecha:fecha,area_id:$("#slct_area_id").val().join(',')};
+            window.location='reporte/exportordentbyarea?fecha='+data.fecha+'&area_id='+data.area_id;
+        }else{
+            alert('selecciona un rango de fechas');
+        }
+    /*    else if ( fecha!=="" ) {
+            data = {fecha:fecha};
+            window.location='reporte/exportdocplataforma'+'?nro='+Math.random(1000)+'&fecha='+data.fecha;
+        } */
+}
 
 MostrarAjax=function(t){ 
     if( t=="detalles" ){

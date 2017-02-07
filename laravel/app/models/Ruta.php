@@ -744,7 +744,7 @@ class Ruta extends Eloquent
                                     'tr.id','=','r.tabla_relacion_id'
                                 )
                                 ->where('tr.id_union', '=', $codigounico)
-                                ->where('r.ruta_flujo_id', '=', 3720)
+                                ->where('r.ruta_flujo_id', '=', 3283)
                                 ->where('tr.estado', '=', '1')
                                 ->where('r.estado', '=', '1')
                                 ->get();
@@ -802,7 +802,7 @@ class Ruta extends Eloquent
                 $tablaRelacion['usuario_created_at']=Auth::user()->id;
                 $tablaRelacion->save();
 
-                $rutaFlujo=RutaFlujo::find(3720); //3283
+                $rutaFlujo=RutaFlujo::find(3283); //3720
                 $Persona = Persona::find($persona_id);
 
                 $ruta= new Ruta;
@@ -842,7 +842,7 @@ class Ruta extends Eloquent
                     $carta->save();
 
                 $qrutaDetalle=DB::table('rutas_flujo_detalle')
-                    ->where('ruta_flujo_id', '=', 3720)
+                    ->where('ruta_flujo_id', '=', 3283)
                     ->where('estado', '=', '1')
                     ->orderBy('norden','ASC')
                     ->get();
@@ -965,7 +965,7 @@ class Ruta extends Eloquent
         $r2=array(array('correlativo'=>'000001','ano'=>$año));
         /*$sql = "SELECT LPAD(id+1,6,'0') as correlativo,'$año' ano FROM doc_digital ORDER BY id DESC LIMIT 1";*/
         $sql = "select LPAD(count(tr.id)+1,6,'0') as correlativo from tablas_relacion tr 
-                inner join rutas r on r.tabla_relacion_id=tr.id and r.ruta_flujo_id=3720 and r.persona_id=".$persona."
+                inner join rutas r on r.tabla_relacion_id=tr.id and r.ruta_flujo_id=3283 and r.persona_id=".$persona."
                 where tr.estado=1";
         $r= DB::select($sql);
         return (isset($r[0])) ? $r[0] : $r2[0];

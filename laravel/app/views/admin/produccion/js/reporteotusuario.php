@@ -76,7 +76,7 @@ $(document).ready(function() {
             alert("Seleccione Área");
         }
     });
-    
+    $("#btnexport").click(GeneraHref);
     
       $("#generar").click(function (){
         usuario_id = $('#usuario_id').val();
@@ -92,6 +92,22 @@ $(document).ready(function() {
  
 
 });
+
+GeneraHref=function(){
+    var fecha=$("#fecha").val();
+        $("#btnexport").removeAttr('href');
+        if ( fecha!=="") {
+            data = {fecha:fecha,usuario_id:persona_id};
+            window.location='reporte/exportordentbyperson?fecha='+data.fecha+'&usuario_id='+data.usuario_id;
+        }else{
+            alert('selecciona un rango de fechas');
+        }
+    /*    else if ( fecha!=="" ) {
+            data = {fecha:fecha};
+            window.location='reporte/exportdocplataforma'+'?nro='+Math.random(1000)+'&fecha='+data.fecha;
+        } */
+}
+
 
 MostrarAjax=function(t){ 
     if( t=="detalles" ){
