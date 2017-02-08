@@ -184,3 +184,4 @@ Route::controller('referido', 'ReferidoController');
 Route::controller('docs', 'DocsController');
 Route::controller('contratacion', 'ContratacionController');
 Route::controller('envioautomatico', 'EnvioAutomaticoController');
+Route::controller('empresa', 'EmpresaController');
