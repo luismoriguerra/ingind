@@ -239,8 +239,10 @@ HTMLOrdenesTrabajo=function(datos){
     $('#t_ordenest').dataTable().fnDestroy();
     pos=0;
     var html ='';
+    var totalh = 0;
     $.each(datos,function(index,data){
         pos++;
+        totalh+=parseInt(data.ot_tiempo_transcurrido);
 
         var horas = Math.floor( data.ot_tiempo_transcurrido / 60);
         var min = data.ot_tiempo_transcurrido % 60;
@@ -256,6 +258,10 @@ HTMLOrdenesTrabajo=function(datos){
     $("#tb_ordenest").html(html);
     $("#t_ordenest").dataTable(
     );  
+
+    var horastotal = Math.floor( totalh / 60);
+    var mintotal = totalh % 60;
+    $("#txt_totalh").val(horastotal + " : " + mintotal);
   }else{
     $("#tb_ordenest").html('');
     alert('no hay registros');  

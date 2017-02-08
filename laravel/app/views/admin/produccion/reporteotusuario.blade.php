@@ -33,7 +33,7 @@
     .yellow-fieldset{
         max-width: 100% !important;
         border: 3px solid #999;
-        padding:10px 20px 2px 20px;
+        padding:10px 50px 10px 9px;
         border-radius: 10px; 
     }
 
@@ -63,7 +63,7 @@
                         <div class="box-body">
                             <form name="form_persona_detalle" id="form_persona_detalle" method="POST" action="">
                                     <div id="bandeja_detalle" class="row form-group">
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-12 hidden">
                                             <div class="col-md-12 col-sm-12">
                                             <h3><span id="txt_titulo2">Usuario</span>
                                             <small>
@@ -74,6 +74,16 @@
                                                 </div>
                                         </div>
                                         <div class="col-sm-12">
+                                             <fieldset class="yellow-fieldset">
+                                                <div class="col-sm-2" style="padding-top: 5px">
+                                                    <span>Tiempo Total: </span>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <input type="text" class="form-control" id="txt_totalh" name="txt_totalh" readonly="readonly">
+                                                </div>                                                
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-sm-12 margin-top-10">
                                             <input type="hidden" id="usuario_id" name="usuario_id">
                                             <div class="col-md-4 col-sm-4">
                                                 <label class="control-label">Nombre:</label>

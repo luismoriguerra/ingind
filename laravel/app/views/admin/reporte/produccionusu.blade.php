@@ -224,6 +224,13 @@
                                 </div>
                             </div>
                    <div class="col-sm-12">
+                        <div class="col-sm-2" style="padding-top: 5px">
+                            <span>Tiempo Total: </span>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="txt_totalh" name="txt_totalh" readonly="readonly">
+                        </div>
+                    <br>
                     <br>
                 </div>
                 <div class="col-sm-12">
