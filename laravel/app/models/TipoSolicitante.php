@@ -44,6 +44,10 @@ class TipoSolicitante extends Base
                     $query->where('id','!=', '3');
                     $query->where('id','!=', '6' );
                 }
+
+                if ( Input::get('validado') ) {
+                    $query->where('validado','=', '1');
+                }
             }
             )
         ->orderBy('nombre')

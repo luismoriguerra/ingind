@@ -71,6 +71,22 @@ class Empresa extends Base
    {
         return $query->where('persona_id','=',Auth::id());
    }
+
+    public static function getListar(){
+        $empresa=DB::table('empresas')
+                ->select('id','nombre_comercial as nombre')
+                ->where( 
+                    function($query){
+                        if ( Input::get('estado') ) {
+                            $query->where('estado','=','1');
+                        }
+                    }
+                )
+                ->orderBy('nombre_comercial')
+                ->get();
+                
+        return $empresa;
+    }
 }
 
 

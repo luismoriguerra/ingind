@@ -35,6 +35,22 @@ class EmpresaController extends BaseController
 
         return Response::json($query->paginate($perPage));
     }
+
+    
+    public function postListar(){
+        if ( Request::ajax() ) {
+            $a      = new Empresa;
+            $listar = Array();
+            $listar = $a->getListar();
+         
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $listar
+                )
+            );
+        }
+    }
     /**
      * muestra combo para crear
      *
@@ -94,6 +110,7 @@ class EmpresaController extends BaseController
     {
         return Empresa::findOrFail($id);
     }
+
     /**
      * actualizar empresa
      *

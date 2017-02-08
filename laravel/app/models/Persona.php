@@ -219,7 +219,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
         }
         $sql="  SELECT $select
                 FROM personas p
-                INNER JOIN areas a ON a.id=p.area_id 
+                LEFT JOIN areas a ON a.id=p.area_id 
                 WHERE p.estado=1
                 $where
                 GROUP BY p.id,a.id
