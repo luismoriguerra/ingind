@@ -530,7 +530,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
                    INNER JOIN flujos f on r.flujo_id=f.id
                    WHERE rdv.estado=1 
                    AND rdv.finalizo=1 
-                   AND rd.area_id IN ('$id_area')
+                   AND rd.area_id IN ($id_area)
                    ";
            if($fecha != ''){
             list($fechaIni,$fechaFin) = explode(" - ", $fecha);
@@ -593,7 +593,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
                     INNER JOIN rutas r on tr.id=r.tabla_relacion_id AND r.estado=1
                     INNER JOIN flujos f on r.flujo_id=f.id
                     WHERE tr.estado=1 
-                   AND tr.area_id IN ('$id_area')
+                   AND tr.area_id IN ($id_area)
                    ";
            if($fecha != ''){
             list($fechaIni,$fechaFin) = explode(" - ", $fecha);
