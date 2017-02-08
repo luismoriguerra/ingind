@@ -7,12 +7,19 @@ $(document).ready(function() {
     var data={'persona':UsuarioId,'estado':1};
     Bandeja.MostrarPreTramites(data,HTMLPreTramite);
     /*end Inicializar tramites*/
-
+    
     /*inicializate selects*/
     slctGlobal.listarSlct('documento','cbo_tipodoc','simple',null,data); 
     slctGlobal.listarSlct('tipotramite','cbo_tipotramite','simple',null,data);  
     slctGlobal.listarSlctFuncion('tiposolicitante','listar?pretramite=1','cbo_tiposolicitante','simple',null,data);
     /*end inicializate selects*/
+    
+    data = {estado:1};
+    var ids = [];
+    slctGlobal.listarSlct('software','slct_software_id_modal','simple',ids,data);
+    slctGlobal.listarSlct2('rol','slct_rol_modal',data);
+    slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
+    slctGlobal.listarSlct2('documento','slct_documento_modal',data);
     
     $(document).on('change', '#cbo_tiposolicitante', function(event) {
         var data={'id':$(this).val(),'estado':1};
@@ -380,7 +387,7 @@ HTMLClasificadores = function(data){
             html+='<td style="text-align: left">'+el.nombre_clasificador_tramite+'</td>';
             html+='<td><span class="btn btn-primary btn-sm" id="'+el.id+'" nombre="'+el.nombre_clasificador_tramite+'" onClick="getRequisitos(this)">Ver</span></td>';
             html+='<td><span class="btn btn-primary btn-sm" id="'+el.id+'" nombre="'+el.nombre_clasificador_tramite+'" onclick="selectClaTramite(this)">Seleccionar</span></td>';
-            html+='<td><span class="btn btn-primary btn-sm" id="'+el.id+'" nombre="'+el.nombre_clasificador_tramite+'" onclick="cargarRutaId(2500,2)">Ver Ruta</span></td>';
+            html+='<td><span class="btn btn-primary btn-sm" id="'+el.id+'" nombre="'+el.nombre_clasificador_tramite+'" onclick="cargarRutaId('+el.ruta_flujo_id+',2)">Ver Ruta</span></td>';
             html+='</tr>';        
         });
         $("#tb_clasificador").html(html);

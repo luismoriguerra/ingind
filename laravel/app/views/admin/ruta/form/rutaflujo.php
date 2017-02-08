@@ -6,7 +6,7 @@
         <button class="btn btn-sm btn-default pull-right" data-dismiss="modal">
             <i class="fa fa-close"></i>
         </button>
-        <h4 class="modal-title">New message</h4>
+        <h4 class="modal-title">Ruta</h4>
       </div>
       <div class="modal-body">
             <form name="form_ruta_flujo" id="form_ruta_flujo" method="POST" action="">
