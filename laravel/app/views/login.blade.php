@@ -79,9 +79,9 @@
 					 <a class="olvidaste recuperar_pass" style="cursor:pointer;" href="{{ url('password/remind') }}">Olvidé mi contraseña</a><br>
 				</div>
 				<div class="col-md-6 col-sm-6 col-xs-6 "> 
-					<div class="row btn-registrate">
+<!--					<div class="row btn-registrate">
 						<a class="registrarse" href="{{ url('login/register') }}" class="text-center">Registrar Nuevo</a>
-					</div>
+					</div>-->
 				</div>
 			</div>
 		    {{-- <a href="{{ url('password/remind') }}">Olvidé mi contraseña</a><br>
