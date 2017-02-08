@@ -37,6 +37,7 @@
                                         <th>NOMBRE DEL TRAMITE</th>
                                         <th>REQUISITOS</th>
                                         <th>SELECCIONAR</th>
+                                        <th>RUTA</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_clasificador">
