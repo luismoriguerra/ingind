@@ -242,7 +242,7 @@ HTMLOrdenesTrabajo=function(datos){
     var totalh = 0;
     $.each(datos,function(index,data){
         pos++;
-        totalh+=parseInt(data.ot_tiempo_transcurrido);
+        totalh+=parseInt(Math.abs(data.ot_tiempo_transcurrido));
 
         var horas = Math.floor( data.ot_tiempo_transcurrido / 60);
         var min = data.ot_tiempo_transcurrido % 60;
@@ -251,7 +251,7 @@ HTMLOrdenesTrabajo=function(datos){
             "<td>"+data.actividad+"</td>"+
             "<td>"+data.fecha_inicio+"</td>"+
             "<td>"+data.dtiempo_final+"</td>"+
-            "<td>"+data.ot_tiempo_transcurrido + " min"+"</td>"+
+            "<td>"+Math.abs(data.ot_tiempo_transcurrido)+ " min"+"</td>"+
             "<td>"+horas + ":" + min +"</td>";
         html+="</tr>";
     });

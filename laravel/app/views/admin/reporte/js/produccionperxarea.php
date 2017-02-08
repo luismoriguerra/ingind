@@ -342,7 +342,7 @@ HTMLOrdenesTrabajo=function(datos){
     var totalh = 0;
     $.each(datos,function(index,data){
         pos++;
-        totalh+=parseInt(data.total);
+        totalh+=parseInt(Math.abs(data.total));
         var horas = Math.floor( data.total / 60);
         var min = data.total % 60;
 
@@ -350,7 +350,7 @@ HTMLOrdenesTrabajo=function(datos){
             "<td>"+data.area+"</td>"+
             "<td>"+data.persona+"</td>"+
             "<td>"+data.cantidad+"</td>"+
-            "<td>"+data.total + " min"+"</td>"+
+            "<td>"+Math.abs(data.total) + " min"+"</td>"+
             "<td>"+horas + ":" + min +"</td>";
         html+="</tr>";
     });
