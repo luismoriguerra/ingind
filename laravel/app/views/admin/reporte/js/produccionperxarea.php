@@ -68,7 +68,7 @@ $(document).ready(function() {
         var fecha=$("#fecha").val();
         if($.trim(area_id)!==''){
         if ( fecha!=="") {
-                dataG = {area_id:area_id,fecha:fecha};
+                dataG = {area_id:area_id.join(','),fecha:fecha};
                 Usuario.CargarProduccionTR(dataG);
                 Usuario.CargarProduccionTA(dataG);
                 Usuario.OrdenesTrabajo(dataG);

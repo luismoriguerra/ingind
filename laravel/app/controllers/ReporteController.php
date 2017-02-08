@@ -1825,7 +1825,7 @@ class ReporteController extends BaseController
             $fecha = Input::get('fecha');
           }
           if(Input::get('area_id')){
-             $id_area=implode("','",Input::get('area_id'));
+             $id_area=Input::get('area_id');
           }
 
         $r= Persona::ProduccionTRPersonalxArea($fecha,$id_area);
@@ -1970,7 +1970,7 @@ class ReporteController extends BaseController
             $fecha = Input::get('fecha');
           }
           if(Input::get('area_id')){
-             $id_area=implode("','",Input::get('area_id'));
+             $id_area=Input::get('area_id');
           }
 
         $r= Persona::ProduccionTAPersonalxArea($fecha,$id_area);
