@@ -179,6 +179,39 @@
                                 </div>
                                 <button id="btnAdd" class="btn btn-yellow" style="width: 100%;margin-top:10px" type="button"><span class="glyphicon glyphicon-plus"></span> AGREGAR </button>
                             </div>
+                        
+                        <div class="col-md-12">
+                            <br><br><br>
+                        </div>            
+
+                    <div class="col-md-12">
+                        <div class="box-header table-responsive">
+                            <center><h3><b>Mis actividades registradas el día de hoy: <?php echo date('Y-m-d') ?> </b></h3></center>
+                        </div>
+                        <div class="box-body table-responsive">
+                             <form id="form_produccion" name="form_produccion" method="post">
+                            <table id="t_produccion" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>N°</th> 
+                                        <th>Actividad</th>
+                                        <th>Fecha Inicio</th>
+                                        <th>Hora Inicio</th>
+                                        <th>Fecha Fin</th>
+                                        <th>Hora Fin</th>
+                                        <th>Tiempo Transcurrido</th>
+                                        <th>[]</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tb_produccion">
+                                </tbody>
+                            </table>
+                             </form>
+                        </div>
+                    </div>
+
+              
+                    
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->
