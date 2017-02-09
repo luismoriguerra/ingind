@@ -36,8 +36,12 @@ $(document).ready(function() {
 
                 function initClockPicker(){
                     $(".timepicker").timepicker({
-                      showInputs: true,
-                      minuteStep: 10,
+                        showInputs: true,
+                        minuteStep: 10,
+                        showMeridian:false,
+                        template:false,
+                        explicitMode :true,
+                        defaultTime: false,
                     });
                 }
                 initClockPicker();
@@ -98,16 +102,16 @@ CalcularHrs = function(object){
     var row = object.parentNode.parentNode.parentNode.parentNode;
     var HoraInicio = $(row).find('.horaInicio')[0].value;
     var HoraFin = $(row).find('.horaFin')[0].value;
+
     if(HoraInicio != '' && HoraFin != ''){
         var hi = new Date (new Date().toDateString() + ' ' + HoraInicio);
         var hf = new Date (new Date().toDateString() + ' ' + HoraFin);
-        var interval = hf.getTime() - hi.getTime();
-        calcTotal = calcTotal + interval;
-        var hours = ((Math.floor(interval/1000/60/60))%24);
-        var min = ((Math.floor(interval/1000/60))%60);
-        $(row).find('.ttranscurrido').val(hours + ":" + min);
 
-
+            var interval = hf.getTime() - hi.getTime();
+            calcTotal = calcTotal + interval;
+            var hours = ((Math.floor(interval/1000/60/60))%24);
+            var min = ((Math.floor(interval/1000/60))%60);
+            $(row).find('.ttranscurrido').val(hours + ":" + min);            
      /*   var hoursT = Math.floor(calcTotal/1000/60/60)%24;
         var minT = Math.floor(calcTotal/1000/60)%60;
         console.log(hoursT);
