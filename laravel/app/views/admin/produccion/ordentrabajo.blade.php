@@ -7,16 +7,11 @@
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
 
     {{ HTML::style('lib/datepicker.css') }}
-    {{ HTML::script('lib/bootstrap-timepicker/js/bootstrap-timepicker.js') }}
-
-
-    {{ HTML::style('lib/bootstrap-timepicker/compiled/timepicker.css') }}
     {{ HTML::script('lib/bootstrap-datepicker.js') }}
 
-{{--     {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
-    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
-    {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
-    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }} --}}
+    {{ HTML::script('lib/input-mask/js/jquery.inputmask.js') }}
+    {{ HTML::script('lib/input-mask/js/jquery.inputmask.date.extensions.js') }}
+
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
@@ -112,24 +107,24 @@
                                                {{--  <input type="text" class="form-control" id="txt_actividad" name="txt_actividad"> --}}
                                             </div>
                                             <div class="col-md-3 form-group">
-                                                <label>Fecha Inicio:</label>
+                                                <label>Fecha Inicio / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
                                                         <input type="text" class="datepicker form-control fechaInicio" id="txt_fechaInicio" name="txt_fechaInicio" onchange="fecha(this)">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class="timepicker form-control horaInicio" id="txt_horaInicio" name="txt_horaInicio" onchange="CalcularHrs(this)">
+                                                        <input type="numeric" class="form-control horaInicio" id="txt_horaInicio" name="txt_horaInicio" onchange="CalcularHrs(this)" data-mask>
                                                     </div>                                                    
                                                 </div>
                                             </div>
                                             <div class="col-md-3 form-group">
-                                                <label>Fecha Final:</label>
+                                                <label>Fecha Final / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
                                                         <input type="text" class="datepicker form-control fechaFin" id="txt_fechaFin" name="txt_fechaFin"  disabled="disabled">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class="timepicker form-control horaFin" id="txt_horaFin" name="txt_horaFin" onchange="CalcularHrs(this)">
+                                                        <input type="numeric" class="form-control horaFin" id="txt_horaFin" name="txt_horaFin" onchange="CalcularHrs(this)" data-mask>
                                                     </div>                                                    
                                                 </div>
                                             </div>
@@ -148,24 +143,24 @@
                                                {{--  <input type="text" class="form-control" id="txt_actividad" name="txt_actividad"> --}}
                                             </div>
                                             <div class="col-md-3 form-group">
-                                                <label>Fecha Inicio:</label>
+                                                <label>Fecha Inicio / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
                                                         <input type="text" class="datepicker form-control fechaInicio" id="txt_fechaInicio" name="txt_fechaInicio" onchange="fecha(this)">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class="timepicker form-control horaInicio" id="txt_horaInicio" name="txt_horaInicio" onchange="CalcularHrs(this)">
+                                                        <input type="numeric" class="form-control horaInicio" id="txt_horaInicio" name="txt_horaInicio" onchange="CalcularHrs(this)" data-mask>
                                                     </div>                                                      
                                                 </div>
                                             </div>
                                             <div class="col-md-3 form-group">
-                                                <label>Fecha Final:</label>
+                                                <label>Fecha Final / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
                                                         <input type="text" class="datepicker form-control fechaFin" id="txt_fechaFin" name="txt_fechaFin" disabled="disabled">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class="timepicker form-control horaFin" id="txt_horaFin" name="txt_horaFin" onchange="CalcularHrs(this)">
+                                                        <input type="numeric" class="form-control horaFin" id="txt_horaFin" name="txt_horaFin" onchange="CalcularHrs(this)" data-mask>
                                                     </div>                                                      
                                                 </div>
                                             </div>

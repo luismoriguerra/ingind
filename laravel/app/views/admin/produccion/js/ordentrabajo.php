@@ -35,14 +35,13 @@ $(document).ready(function() {
                  initDatePicker();
 
                 function initClockPicker(){
-                    $(".timepicker").timepicker({
-                        showInputs: true,
-                        minuteStep: 10,
-                        showMeridian:false,
-                        template:false,
-                        explicitMode :true,
-                        defaultTime: false,
-                    });
+                    $('[data-mask]').inputmask("hh:mm", {
+                        placeholder: "HH:MM", 
+                        insertMode: false, 
+                        showMaskOnHover: false,
+                        hourFormat: 24
+                      }
+                   );
                 }
                 initClockPicker();
 
