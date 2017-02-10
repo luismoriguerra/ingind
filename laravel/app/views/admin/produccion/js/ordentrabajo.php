@@ -175,6 +175,7 @@ HTMLcargarordentrabajodia=function(datos){
         var dtiempo_final = data.dtiempo_final.split(' ');
         var hinicio = fecha_inicio[1].substring(0, 5);
         var hfin = dtiempo_final[1].substring(0, 5);
+        var formato = data.formato.substring(0, 5);
         pos++;
         html+="<tr id="+data.norden+">"+
             "<td>"+pos+'</td>'+
@@ -183,7 +184,7 @@ HTMLcargarordentrabajodia=function(datos){
             "<td><input type='numeric' class='form-control horaInicio' id='txt_horaInicio' name='txt_horaInicio' onchange='CalcularHrs(this,2)' value='"+hinicio+"' data-mask></td>"+
             "<td>"+dtiempo_final[0]+"</td>"+
             "<td><input type='numeric' class='form-control horaFin' id='txt_horaFin' name='txt_horaFin' onchange='CalcularHrs(this,2)' value='"+hfin+"' data-mask></td>"+
-            "<td><input type='text' class='form-control ttranscurrido' id='txt_ttranscurrido' name='txt_ttranscurrido' value='"+data.formato+"' readonly='readonly'></td>"+
+            "<td><input type='text' class='form-control ttranscurrido' id='txt_ttranscurrido' name='txt_ttranscurrido' value='"+formato+"' readonly='readonly'></td>"+
             "<td align='center'><span class='btn btn-success btn-md' onClick='EditarActividad("+data.norden+","+pos+")' > Editar</a></td>";
         html+="</tr>";
     });
