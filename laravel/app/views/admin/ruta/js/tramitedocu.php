@@ -10,7 +10,7 @@ $(document).ready(function() {
 
     UsuarioId='<?php echo Auth::user()->id; ?>';
     DataUser = '<?php echo Auth::user(); ?>';
-/*    poblateData('x',DataUser);*/
+    poblateData('x',DataUser);
     /*Inicializar tramites*/
     var data={'persona':UsuarioId,'estado':1};
     Bandeja.MostrarPreTramites(data,HTMLPreTramite);
@@ -247,11 +247,11 @@ selectUser = function(obj){
    
 poblateData = function(tipo,data){
 /*    if(tipo == 'usuario'){*/
-      /*  var result = JSON.parse(DataUser);
-        document.querySelector('#txt_userdni').value=result.dni;
-        document.querySelector('#txt_usernomb').value=result.nombre;
-        document.querySelector('#txt_userapepat').value=result.paterno;
-        document.querySelector('#txt_userapemat').value=result.materno;*/
+     /*   var result = JSON.parse(DataUser);*/
+        document.querySelector('#txt_userdni').value=  '<?php echo Auth::user()->dni; ?>';
+        document.querySelector('#txt_usernomb').value='<?php echo Auth::user()->nombre; ?>';
+        document.querySelector('#txt_userapepat').value='<?php echo Auth::user()->paterno; ?>';
+        document.querySelector('#txt_userapemat').value='<?php echo Auth::user()->materno; ?>';
     /*    user_telf.value=data.;
         user_direc.value=data.;*/
     /*  */
