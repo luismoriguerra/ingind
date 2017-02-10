@@ -87,6 +87,13 @@ class Empresa extends Base
                 
         return $empresa;
     }
+
+
+    public static function getEmpresa(){
+        $sql="SELECT * FROM empresas e INNER JOIN empresa_persona ep ON ep.empresa_id=e.id AND ep.estado=1 WHERE e.id='".Input::get('id')."'";
+        $empresa = DB::select($sql);
+        return $empresa;
+    }
 }
 
 

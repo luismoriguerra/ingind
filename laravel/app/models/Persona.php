@@ -673,6 +673,15 @@ class Persona extends Base implements UserInterface, RemindableInterface
         $oData= DB::select($sSql);
         return $oData;
     }
+
+     public static function getPersonById()
+    {     
+        $sSql = '';
+        $sSql.= "SELECT * FROM personas WHERE id='".Input::get('persona_id')."'";
+
+        $oData= DB::select($sSql);
+        return $oData;
+    }
 }
 
 

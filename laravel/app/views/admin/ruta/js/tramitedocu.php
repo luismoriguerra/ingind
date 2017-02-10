@@ -1,187 +1,16 @@
 <script type="text/javascript">
-  /*  $(".chkbx").iCheck({
-        checkboxClass: 'icheckbox_minimal-green',
-        increaseArea: '20%' ,
-        indeterminateClass: 'indeterminate',
-    });*/
+$(document).ready(function() {
 
-    var vm = new Vue({
-        http: {
-            root: '/login',
-            headers: {
-                'csrftoken': document.querySelector('#token').getAttribute('value')
-            }
-        },
-        el: '#registerUser',
-        data: {
-            mensaje_ok:false,
-            mensaje_error:false,
-
-            newUser:{
-                paterno:'',
-                materno:'',
-                nombre:'',
-                usuario:'',
-                dni:'',
-                email:'',
-                direccion:'',
-                telefono:'',
-                celular:'',
-                password:'',
-                password_confirmation:'',
-                recaptcha:'',
-                sexo:'',
-                fecha_nacimiento:'',
-            },
-
-            errores:[],
-        },
-        ready: function () {
-            $('#fecha_nacimiento').daterangepicker({
+     $('#fecha_nacimiento').daterangepicker({
                 format: 'YYYY-MM-DD',
                 singleDatePicker: true,
                 showDropdowns: true
-            });
-            jQuery.extend(jQuery.validator.messages, {
-                required: "Este campo es requerido.",
-                remote: "Por favor corrige este campo.",
-                email: "Por favor, introduce una dirección de correo electrónico válida.",
-                url: "Por favor introduzca una URL válido.",
-                date: "Por favor introduzca una fecha valida.",
-                dateISO: "Ingrese una fecha válida (ISO).",
-                number: "Por favor ingrese un número valido.",
-                digits: "Por favor ingrese solo dígitos.",
-                creditcard: "Please enter a valid credit card number.",
-                equalTo: "Por favor, introduzca un número de tarjeta de crédito válida",
-                accept: "Introduzca un valor con una extensión válida.",
-                maxlength: jQuery.validator.format("Por favor, introduzca no más de {0} caracteres."),
-                minlength: jQuery.validator.format("¡Se requieren al menos {0} caracteres!"),
-                rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
-                range: jQuery.validator.format("Please enter a value between {0} and {1}."),
-                max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
-                min: jQuery.validator.format("Please enter a value greater than or equal to {0}.")
-            });
-            jQuery.validator.addMethod("soloLetra", function(value, element) {
-                return this.optional(element) || /^[a-záéóóúàèìòùäëïöüñ\s]+$/i.test(value);
-            }, "Solo letras");
-
-            $('#registerForm').validate( {
-                rules: {
-                    nombre: {
-                        maxlength: 80,
-                        required: true,
-                        soloLetra: true,
-                    },
-                    sexo: {
-                        required: true 
-                    },
-                    paterno: {
-                        maxlength: 50,
-                        required: true,
-                        soloLetra: true,
-                    },
-                    fecha_nacimiento: {
-                        required: true
-                    },
-                    materno: {
-                        maxlength: 50,
-                        required: true,
-                        soloLetra: true,
-                    },
-                    dni: {
-                        maxlength: 8,
-                        required: true,
-                        digits: true
-                    },
-                    email: {
-                        maxlength: 150,
-                        required: true,
-                        email: true
-                    },
-                    password: {
-                        minlength: 6,
-                        required: true
-                    },
-                    password_confirmation: {
-                        minlength: 6,
-                        required: true
-                    },
-                    direccion: {
-                        maxlength: 150,
-                        required: true
-                    },
-                    telefono: {
-                        maxlength: 12,
-                        required: true,
-                        digits: true
-                    },
-                    celular: {
-                        maxlength: 12,
-                        required: true,
-                        digits: true
-                    },
-                    recaptcha: {
-                        required: true
-                    },
-                    terminos: {
-                        required: true
-                    }
-                },
-                highlight: function(element) {
-                    $(element).closest('.control-group').removeClass('success').addClass('error');
-                },
-                success: function(element) {
-                    //element.text('OK!').addClass('valid').closest('.control-group').removeClass('error').addClass('success');
-                },
-                errorClass: "my-error-class"
-            });
-        },
-        methods: {
-            handleKeypress: function(event) {
-                if (event.keyCode == 13 && event.shiftKey) {
-                } else if (event.keyCode == 13){
-                    return;
-                }
-            },
-            RegisterUser: function() {
-                var isValid = $("#registerForm").valid();
-                if(isValid){
-                    this.user.usuario=this.user.dni;
-                    this.user.area_id=107; //vecino
-                    this.user.recaptcha=grecaptcha.getResponse();
-                    //var jnk=grecaptcha.getResponse();
-                    this.$http.post("create",this.user,function(data) {
-                        $(".load").hide();
-                        
-                        if(data.rst==1){
-                            this.errores='';
-                            this.mensaje_ok=data.msj;
-                            this.user= this.newUser;
-                        }
-                        else if(data.rst==1){
-                            this.mensaje_ok='';
-                            this.errores=data.msj;
-                            this.mensaje_error = data.error
-                        }
-                        else if(data.rst==2){
-                            this.mensaje_ok='';
-                            this.errores=data.msj;
-                            this.mensaje_error = data.error
-                        }
-                        this.handle = setInterval( ( ) => {
-                            this.mensaje_ok=false;
-                            this.mensaje_error=false;
-                        },5000);
-                    });
-                }
-            },
-        }
     });
 
-$(document).ready(function() {
 
     UsuarioId='<?php echo Auth::user()->id; ?>';
     DataUser = '<?php echo Auth::user(); ?>';
+    poblateData('x',DataUser);
     /*Inicializar tramites*/
     var data={'persona':UsuarioId,'estado':1};
     Bandeja.MostrarPreTramites(data,HTMLPreTramite);
@@ -198,13 +27,11 @@ $(document).ready(function() {
     $(document).on('change', '#cbo_tiposolicitante', function(event) {
         if($(this).val() == 1){
             $('.persona').removeClass('hidden');
-            $('.empresa').addClass('hidden');
+            $('.emp').addClass('hidden');
         }else if($(this).val() == 2){
             $('.persona').addClass('hidden');
-            $('.empresa').removeClass('hidden');
+            $('.emp').removeClass('hidden');
         }
-       /* var data={'id':$(this).val(),'estado':1};
-        Bandeja.GetTipoSolicitante(data,Mostrar);*/
     });
 
     $(document).on('click', '#btnnuevo', function(event) {
@@ -220,35 +47,11 @@ $(document).ready(function() {
       $("#buscartramite #reporte").show();
     });
      /*validaciones*/
-    $('#FormCrearPreTramite').bootstrapValidator({
-        feedbackIcons: {
-            valid: 'glyphicon glyphicon-ok',
-            invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh',
-        },
-        excluded: ':disabled',
-        fields: {
-            txt_numfolio: {
-                validators: {
-                    notEmpty: {
-                        message: 'campo requerido'
-                    },
-                    digits:{
-                        message: 'dato numerico'
-                    }
-                }
-            },
-            txt_tipodoc: {
-                validators: {
-                    notEmpty: {
-                        message: 'campo requerido'
-                    },
-                    digits:{
-                        message: 'dato numerico'
-                    }
-                }
-            }
-        }
+
+
+
+    $(document).on('click', '.btnEnviar', function(event) {
+        generarUsuario();
     });
 });
 
@@ -415,8 +218,13 @@ ValidacionEmpresa = function(data){
 }
 
 selectEmpresa = function(obj){
-    var idempresa = obj.parentNode.parentNode.getAttribute('id');
-    var td = document.querySelectorAll("#t_empresa tr[id='"+idempresa+"'] td");
+    var idempresa = obj.value;
+    if(idempresa){
+        Bandeja.GetEmpresabyId({id:idempresa});
+    }else{
+        alert('Seleccione empresa');
+    }
+/*    var td = document.querySelectorAll("#t_empresa tr[id='"+idempresa+"'] td");
     var data = '{';
     for (var i = 0; i < td.length; i++) {
         if(td[i].getAttribute('name')){
@@ -425,7 +233,16 @@ selectEmpresa = function(obj){
     }
     data+='","id":'+idempresa+'}';
     poblateData('empresa',JSON.parse(data));
-    $('#empresasbyuser').modal('hide');
+    $('#empresasbyuser').modal('hide');*/
+}
+
+selectUser = function(obj){
+    var iduser = obj.value;
+    if(iduser){
+        Bandeja.GetPersonabyId({persona_id:iduser});
+    }else{
+        alert('Seleccione persona');
+    }
 }
    
 poblateData = function(tipo,data){
@@ -450,7 +267,19 @@ poblateData = function(tipo,data){
         document.querySelector('#txt_empfechav').value=data.fecha_vigencia;
         document.querySelector('#txt_reprelegal').value=data.representante;
         document.querySelector('#txt_repredni').value=data.dnirepre;
+        $('.empresa').removeClass('hidden');
+        $('.usuarioSeleccionado').addClass('hidden');
     }
+
+    if(tipo== 'persona'){
+        document.querySelector('#txt_userdni2').value=data.dni;
+        document.querySelector('#txt_usernomb2').value=data.nombre;
+        document.querySelector('#txt_userapepat2').value=data.paterno;
+        document.querySelector('#txt_userapemat2').value=data.materno;
+        $('.usuarioSeleccionado').removeClass('hidden');
+        $('.empresa').addClass('hidden');
+    }
+
 
     if(tipo== 'tramite'){
         document.querySelector('#txt_nombretramite').value=data.nombre;
@@ -564,10 +393,26 @@ generarPreTramite = function(){
             data+=(i == 0) ? '"'+elemento[0]+'":"'+elemento[1] : '","' + elemento[0]+'":"'+elemento[1];   
         }
         data+='"}';
-        Bandeja.GuardarPreTramite(data,CargarPreTramites);
+        Bandeja.GuardarPreTramite(data);
         
     }else{
         alert('complete data');
+    }
+}
+
+generarUsuario = function(){
+    if($("#nombre").val() == ''){
+        alert('Digite su nombre');
+    }else if($("#paterno").val() == ''){
+        alert('Digite su apellido paterno');
+    }else if($("#materno").val() == ''){
+        alert('Digite su apellido materno');
+    }else if($("#dni").val() == ''){
+        alert('Digite su dni');
+    }else if($("#email").val() == ''){
+        alert('Digite su email');
+    }else{
+        Bandeja.guardarUsuario();        
     }
 }
 
