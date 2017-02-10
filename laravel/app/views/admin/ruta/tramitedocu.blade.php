@@ -459,7 +459,7 @@ td, th{
     </section><!-- /.content -->
 @stop
 @section('formulario')
-  @include( 'admin.ruta.form.CrearUsuario' )
+  @include( 'admin.ruta.form.crearUsuario' )
   @include( 'admin.ruta.form.voucherpretramite' )
   @include( 'admin.ruta.form.buscartramite' )
   @include( 'admin.ruta.form.empresasbyuser' )
