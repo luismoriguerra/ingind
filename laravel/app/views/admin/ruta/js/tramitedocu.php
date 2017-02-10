@@ -247,11 +247,11 @@ selectUser = function(obj){
    
 poblateData = function(tipo,data){
 /*    if(tipo == 'usuario'){*/
-        var result = JSON.parse(DataUser);
+      /*  var result = JSON.parse(DataUser);
         document.querySelector('#txt_userdni').value=result.dni;
         document.querySelector('#txt_usernomb').value=result.nombre;
         document.querySelector('#txt_userapepat').value=result.paterno;
-        document.querySelector('#txt_userapemat').value=result.materno;
+        document.querySelector('#txt_userapemat').value=result.materno;*/
     /*    user_telf.value=data.;
         user_direc.value=data.;*/
     /*  */
