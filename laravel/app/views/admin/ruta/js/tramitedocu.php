@@ -10,7 +10,7 @@ $(document).ready(function() {
 
     UsuarioId='<?php echo Auth::user()->id; ?>';
     DataUser = '<?php echo Auth::user(); ?>';
-    poblateData('x',DataUser);
+/*    poblateData('x',DataUser);*/
     /*Inicializar tramites*/
     var data={'persona':UsuarioId,'estado':1};
     Bandeja.MostrarPreTramites(data,HTMLPreTramite);
