@@ -10,41 +10,14 @@ $(document).ready(function() {
     }else{
         $(".selectbyPerson").addClass('hidden');
     }
-
-
-     var today = new Date();
-                function initDatePicker(){
-                    $('.fechaInicio').datepicker({
-                        format: 'yyyy-mm-dd',
-                        language: 'es',
-                        multidate: 1,
-                        todayHighlight:true,
-                        daysOfWeekDisabled: '06',//bloqueo domingos
-                        onSelect: function (date, el) {
-/*                            console.log(el);*/
-/*                            var row = el.input[0].parentNode.parentNode.parentNode.parentNode;
-                            var FechaInicio = $(row).find('.fechaInicio');
-                            var FechaFin = $(row).find('.fechaFin');
-                            if(FechaInicio[0].value !== FechaFin[0].value){
-                                alert('Las Fechas deben ser del mismo dia');
-                            }*/
-                        }
-                    })
-            /*        $(".datepicker").datepicker().datepicker("setDate", new Date());*/
-                }
-                 initDatePicker();
-
-                function initClockPicker(){
-                    $(".timepicker").timepicker({
-                        showInputs: true,
-                        minuteStep: 10,
-                        showMeridian:false,
-                        template:false,
-                        explicitMode :true,
-                        defaultTime: false,
-                    });
-                }
-                initClockPicker();
+     var dataG = [];
+     dataG = {fecha:'<?php echo date("Y-m-d") ?>'};
+     Asignar.CargarOrdenTrabajoDia(dataG);  
+     
+    var today = new Date();
+                
+    initDatePicker();
+    initClockPicker();
 
     $(document).on('change','.clockpicker', function(event) {
         console.log('change');
@@ -73,6 +46,27 @@ $(document).ready(function() {
 
 });
 
+function initClockPicker(){
+    $('[data-mask]').inputmask("hh:mm", {
+        placeholder: "HH:MM", 
+        insertMode: false, 
+        showMaskOnHover: false,
+        hourFormat: 24
+      }
+   );
+}
+
+function initDatePicker(){
+    $('.fechaInicio').datepicker({
+        format: 'yyyy-mm-dd',
+        language: 'es',
+        multidate: 1,
+        todayHighlight:true,
+        onSelect: function (date, el) {
+        }
+    })
+}
+
 fecha = function(obj){
     var valor =obj.value;
     var row = obj.parentNode.parentNode.parentNode.parentNode;
@@ -89,17 +83,14 @@ Addtr = function(e){
 }
 /*end add new verb to generate*/
 
-/*delete tr*/
-/*Deletetr = function(object){
-    object.parentNode.parentNode.parentNode.remove();
-    initDatePicker();
-    initClockPicker();
-    CalcGlobalH();
-}*/
 /*end delete tr*/
 var calcTotal = 0;
-CalcularHrs = function(object){
+CalcularHrs = function(object,tipo){
+    if(typeof (tipo)!='undefined'){
+        var row = object.parentNode.parentNode;
+    }else {
     var row = object.parentNode.parentNode.parentNode.parentNode;
+    }
     var HoraInicio = $(row).find('.horaInicio')[0].value;
     var HoraFin = $(row).find('.horaFin')[0].value;
 
@@ -171,6 +162,55 @@ guardarTodo = function(){
             alert('complete todos los campos porfavor');
         }
     }
-}
+};
+
+HTMLcargarordentrabajodia=function(datos){
+  var html="";
+    
+    var alerta_tipo= '';
+    $('#t_produccion').dataTable().fnDestroy();
+    pos=0;
+    $.each(datos,function(index,data){
+        var fecha_inicio = data.fecha_inicio.split(' ');
+        var dtiempo_final = data.dtiempo_final.split(' ');
+        var hinicio = fecha_inicio[1].substring(0, 5);
+        var hfin = dtiempo_final[1].substring(0, 5);
+        var formato = data.formato.substring(0, 5);
+        pos++;
+        html+="<tr id="+data.norden+">"+
+            "<td>"+pos+'</td>'+
+            "<td>"+data.actividad+"</td>"+
+            "<td>"+fecha_inicio[0]+"</td>"+
+            "<td><input type='numeric' class='form-control horaInicio' id='txt_horaInicio' name='txt_horaInicio' onchange='CalcularHrs(this,2)' value='"+hinicio+"' data-mask></td>"+
+            "<td>"+dtiempo_final[0]+"</td>"+
+            "<td><input type='numeric' class='form-control horaFin' id='txt_horaFin' name='txt_horaFin' onchange='CalcularHrs(this,2)' value='"+hfin+"' data-mask></td>"+
+            "<td><input type='text' class='form-control ttranscurrido' id='txt_ttranscurrido' name='txt_ttranscurrido' value='"+formato+"' readonly='readonly'></td>"+
+            "<td align='center'><span class='btn btn-success btn-md' onClick='EditarActividad("+data.norden+","+pos+")' > Editar</a></td>";
+        html+="</tr>";
+    });
+    $("#tb_produccion").html(html);
+    initClockPicker();
+    $("#t_produccion").dataTable(
+             {
+            "order": [[ 0, "asc" ],[1, "asc"]],
+            "pageLength": 100,
+        }
+    ); 
+  };  
+
+EditarActividad=function(id,pos){
+        
+     var finicio = document.getElementById(id).getElementsByTagName('td')[2].innerHTML;
+     var ffin = document.getElementById(id).getElementsByTagName('td')[4].innerHTML;
+     hinicio=$('#'+id).find("input:eq(0)").val();     
+     hfin=$('#'+id).find("input:eq(1)").val();
+     ttranscurrido=$('#'+id).find("input:eq(2)").val();
+     var dataG = [];
+     dataG = {id:id,finicio:finicio,hinicio:hinicio,ffin:ffin,hfin:hfin,ttranscurrido:ttranscurrido};
+     Asignar.EditarActividad(dataG,pos);  
+    
+};
+
+
 
 </script>
