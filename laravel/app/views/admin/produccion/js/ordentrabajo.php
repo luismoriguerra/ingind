@@ -204,7 +204,7 @@ EditarActividad=function(id,pos){
      var ffin = document.getElementById(id).getElementsByTagName('td')[4].innerHTML;
      hinicio=$('#'+id).find("input:eq(0)").val();     
      hfin=$('#'+id).find("input:eq(1)").val();
-     ttranscurrido=$('#'+id).find("input:eq(2)").val();alert(ttranscurrido);
+     ttranscurrido=$('#'+id).find("input:eq(2)").val();
      var dataG = [];
      dataG = {id:id,finicio:finicio,hinicio:hinicio,ffin:ffin,hfin:hfin,ttranscurrido:ttranscurrido};
      Asignar.EditarActividad(dataG,pos);  
