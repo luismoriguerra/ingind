@@ -974,14 +974,15 @@ class Ruta extends Eloquent
         public static function OrdenTrabajoDia()
     {     
         $sSql = '';
-        $sSql.= "SELECT rd.id norden,rd.actividad,rd.fecha_inicio,rd.dtiempo_final,ABS(rd.ot_tiempo_transcurrido) ot_tiempo_transcurrido ,SEC_TO_TIME(ABS(rd.ot_tiempo_transcurrido) * 60) formato FROM  tablas_relacion tr 
+        $sSql.= "SELECT rd.id norden,rd.actividad,rd.fecha_inicio,rd.dtiempo_final,ABS(rd.ot_tiempo_transcurrido) ot_tiempo_transcurrido ,SEC_TO_TIME(ABS(rd.ot_tiempo_transcurrido) * 60) formato 
+                FROM  tablas_relacion tr 
                 INNER JOIN rutas r ON r.tabla_relacion_id=tr.id AND r.estado=1 AND r.persona_id=".Auth::user()->id."
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1
                 WHERE tr.estado=1 AND tr.id_union like 'OT%'";
 
         if(Input::has('fecha') && Input::get('fecha')){
             $fecha = Input::get('fecha');
-            $sSql.= " AND tr.created_at like'".$fecha."%'";
+            $sSql.= " AND DATE(tr.created_at)='".$fecha."'";
         }
         
         $oData= DB::select($sSql);

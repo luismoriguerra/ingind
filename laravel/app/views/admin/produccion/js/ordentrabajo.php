@@ -14,38 +14,10 @@ $(document).ready(function() {
      dataG = {fecha:'<?php echo date("Y-m-d") ?>'};
      Asignar.CargarOrdenTrabajoDia(dataG);  
      
-     var today = new Date();
-                function initDatePicker(){
-                    $('.fechaInicio').datepicker({
-                        format: 'yyyy-mm-dd',
-                        language: 'es',
-                        multidate: 1,
-                        todayHighlight:true,
-                        daysOfWeekDisabled: '06',//bloqueo domingos
-                        onSelect: function (date, el) {
-/*                            console.log(el);*/
-/*                            var row = el.input[0].parentNode.parentNode.parentNode.parentNode;
-                            var FechaInicio = $(row).find('.fechaInicio');
-                            var FechaFin = $(row).find('.fechaFin');
-                            if(FechaInicio[0].value !== FechaFin[0].value){
-                                alert('Las Fechas deben ser del mismo dia');
-                            }*/
-                        }
-                    })
-            /*        $(".datepicker").datepicker().datepicker("setDate", new Date());*/
-                }
-                 initDatePicker();
-
-                function initClockPicker(){
-                    $('[data-mask]').inputmask("hh:mm", {
-                        placeholder: "HH:MM", 
-                        insertMode: false, 
-                        showMaskOnHover: false,
-                        hourFormat: 24
-                      }
-                   );
-                }
-                initClockPicker();
+    var today = new Date();
+                
+    initDatePicker();
+    initClockPicker();
 
     $(document).on('change','.clockpicker', function(event) {
         console.log('change');
@@ -74,6 +46,27 @@ $(document).ready(function() {
 
 });
 
+function initClockPicker(){
+    $('[data-mask]').inputmask("hh:mm", {
+        placeholder: "HH:MM", 
+        insertMode: false, 
+        showMaskOnHover: false,
+        hourFormat: 24
+      }
+   );
+}
+
+function initDatePicker(){
+    $('.fechaInicio').datepicker({
+        format: 'yyyy-mm-dd',
+        language: 'es',
+        multidate: 1,
+        todayHighlight:true,
+        onSelect: function (date, el) {
+        }
+    })
+}
+
 fecha = function(obj){
     var valor =obj.value;
     var row = obj.parentNode.parentNode.parentNode.parentNode;
@@ -90,13 +83,6 @@ Addtr = function(e){
 }
 /*end add new verb to generate*/
 
-/*delete tr*/
-/*Deletetr = function(object){
-    object.parentNode.parentNode.parentNode.remove();
-    initDatePicker();
-    initClockPicker();
-    CalcGlobalH();
-}*/
 /*end delete tr*/
 var calcTotal = 0;
 CalcularHrs = function(object,tipo){
@@ -202,7 +188,7 @@ HTMLcargarordentrabajodia=function(datos){
         html+="</tr>";
     });
     $("#tb_produccion").html(html);
-    
+    initClockPicker();
     $("#t_produccion").dataTable(
              {
             "order": [[ 0, "asc" ],[1, "asc"]],
