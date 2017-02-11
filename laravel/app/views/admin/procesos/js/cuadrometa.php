@@ -41,7 +41,8 @@ HTMLreporte=function(datos){
             "<td>"+data.fecha_nacimiento+"</td>"+
             "<td>"+data.sexo+"</td>"+
             "<td>"+data.estado+"</td>"+
-            "<td>"+data.area+"</td>";
+            "<td>"+data.area+"</td>"+
+            "<td>"+data.cargo+"</td>";
         html+="</tr>";
     });
     $("#tb_reporte").html(html);

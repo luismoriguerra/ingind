@@ -170,7 +170,7 @@ var Asignar={
     },
     guardarOrdenTrabajo:function(data){
         $.ajax({
-            url         : 'ruta/ordentrabajo',
+            url         : 'ruta/actividadpersonalcreate',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',

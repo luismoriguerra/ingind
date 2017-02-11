@@ -959,7 +959,7 @@ class Ruta extends Eloquent
             }
     }
 
-
+    
     public static function Correlativo($persona){
         $año= date("Y");
         $r2=array(array('correlativo'=>'000001','ano'=>$año));
@@ -983,6 +983,22 @@ class Ruta extends Eloquent
         if(Input::has('fecha') && Input::get('fecha')){
             $fecha = Input::get('fecha');
             $sSql.= " AND DATE(tr.created_at)='".$fecha."'";
+        }
+        
+        $oData= DB::select($sSql);
+        return $oData;
+    }
+    
+            public static function ActividadDia()
+    {     
+        $sSql = '';
+        $sSql.= "SELECT at.id norden,at.actividad,at.fecha_inicio,at.dtiempo_final,ABS(at.ot_tiempo_transcurrido) ot_tiempo_transcurrido ,SEC_TO_TIME(ABS(at.ot_tiempo_transcurrido) * 60) formato 
+                FROM  actividad_personal at 
+                WHERE at.estado=1 and at.persona_id=".Auth::user()->id;
+
+        if(Input::has('fecha') && Input::get('fecha')){
+            $fecha = Input::get('fecha');
+            $sSql.= " AND DATE(at.created_at)='".$fecha."'";
         }
         
         $oData= DB::select($sSql);
