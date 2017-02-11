@@ -9,19 +9,23 @@
 
     {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
-   {{ HTML::script('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js') }}
+    {{ HTML::script('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js') }}
+
+    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
+    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
+    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
 
 
-        <meta name="token" id="token" value="{{ csrf_token() }}">
+{{--         <meta name="token" id="token" value="{{ csrf_token() }}"> --}}
         {{ HTML::script('http://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.js') }}
-        {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js') }}
-        {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.2/vue-resource.min.js') }}
+{{--         {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js') }}
+        {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.2/vue-resource.min.js') }} --}}
         <script src='https://www.google.com/recaptcha/api.js'></script>
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-    @include( 'admin.ruta.js.ruta_ajax' )
-    @include( 'admin.ruta.js.validar_ajax' )
+{{--     @include( 'admin.ruta.js.ruta_ajax' )
+    @include( 'admin.ruta.js.validar_ajax' ) --}}
     @include( 'admin.ruta.js.tramitedocu_ajax' )
     @include( 'admin.ruta.js.tramitedocu' )
 @stop
@@ -97,6 +101,17 @@ td, th{
     font-weight: bold;
 }
 
+    fieldset{
+        max-width: 100% !important;
+        border: 3px solid #999;
+        padding:10px 20px 2px 20px;
+        border-radius: 10px; 
+    }
+
+    .margin-top-10{
+         margin-top: 10px;   
+    }
+
 
 
 @media screen and (max-width: 767px) {
@@ -137,7 +152,7 @@ td, th{
                         <span>SELECCIONE PERSONA:</span>
                       </div>
                       <div class="col-md-3">
-                        <select class="form-control" id="cbo_persona" name="cbo_persona">
+                        <select class="form-control" id="cbo_persona" name="cbo_persona" onchange="selectUser(this)">
                               <option value="-1">Selecciona</option>
                         </select>
                       </div>
@@ -145,18 +160,18 @@ td, th{
                         <span class="btn btn-success btn-sm" data-toggle="modal" data-target="#CrearUsuario">Agregar Persona <i class="glyphicon glyphicon-plus"></i></span>
                       </div>
                     </div>
-                    <div class="empresa hidden">
+                    <div class="emp hidden">
                       <div class="col-md-2">
                         <span>SELECCIONE EMPRESA:</span>
                       </div>
                       <div class="col-md-3">
-                        <select class="form-control" id="cbo_empresa" name="cbo_empresa">
+                        <select class="form-control" id="cbo_empresa" name="cbo_empresa" onchange="selectEmpresa(this)">
                               <option value="-1">Selecciona</option>
                         </select>
                       </div>
-                      <div class="col-md-1">
+                      {{-- <div class="col-md-1">
                         <span class="btn btn-success btn-sm">Agregar Empresa <i class="glyphicon glyphicon-plus"></i></span>
-                      </div>
+                      </div> --}}
                     </div>
                 </div>
 
@@ -222,6 +237,7 @@ td, th{
 
                  <div class="col-md-12 empresa hidden" style="padding: 2% 6% 1% 4%;">
                   <fieldset style="max-width: 100% !important;border: 3px solid #ddd;padding: 15px;">
+                    <legend style="width: 8%">Empresa</legend>
                     <div class="col-md-12 form-group">
                       <div class="col-md-6">
                         <div class="col-md-4">
@@ -306,8 +322,9 @@ td, th{
                   </fieldset>
                 </div>
 
-                <div class="col-md-12 usuario hidden" style="padding: 2% 4% 2% 4%;">
+                <div class="col-md-12 usuario" style="padding: 2% 4% 2% 4%;">
                   <fieldset style="max-width: 100% !important;border: 3px solid #ddd;padding: 15px;">
+                    <legend style="width: 8%">Operador</legend>
                     <div class="col-md-12 form-group">
                       <div class="col-md-6">
                         <div class="col-md-4">
@@ -365,6 +382,68 @@ td, th{
                   </fieldset>
                 </div>
 
+
+                <div class="col-md-12 usuarioSeleccionado hidden" style="padding: 2% 4% 2% 4%;">
+                  <fieldset style="max-width: 100% !important;border: 3px solid #ddd;padding: 15px;">
+                     <legend style="width: 7%">Usuario</legend>
+                    <div class="col-md-12 form-group">
+                      <div class="col-md-6">
+                        <div class="col-md-4">
+                          <span>DNI: </span>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="text" name="txt_userdni2" id="txt_userdni2" class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="col-md-4">
+                          <span>NOMBRE: </span>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="text" name="txt_usernomb2" id="txt_usernomb2" class="form-control" disabled>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 form-group">
+                      <div class="col-md-6">
+                        <div class="col-md-4">
+                          <span>APELLIDO PATERNO: </span>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="text" name="txt_userapepat2" id="txt_userapepat2" class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="col-md-4">
+                          <span>APELLIDO MATERNO: </span>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="text" name="txt_userapemat2" id="txt_userapemat2" class="form-control" disabled>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 form-group">
+                      <div class="col-md-6">
+                        <div class="col-md-4">
+                          <span>TELEFONO: </span>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="text" name="txt_usertelf2" id="txt_usertelf2" class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="col-md-4">
+                          <span>DIRECCION: </span>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="text" name="txt_userdirec2" id="txt_userdirec2" class="form-control" disabled>
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+
+
                 <div class="col-md-12 form-group" style="text-align: right;padding-right: 4%;">                  
                   <span class="btn btn-primary btn-sm" onclick="generarPreTramite()">GENERAR</span>
                 {{--   <input type="submit" class="btn btn-primary btn-sm btnAction" id="" value="Guardar" onclick="generarPreTramite()"> --}}
@@ -380,7 +459,7 @@ td, th{
     </section><!-- /.content -->
 @stop
 @section('formulario')
-  @include( 'admin.ruta.form.crearUser' )
+  @include( 'admin.ruta.form.crearUsuario' )
   @include( 'admin.ruta.form.voucherpretramite' )
   @include( 'admin.ruta.form.buscartramite' )
   @include( 'admin.ruta.form.empresasbyuser' )

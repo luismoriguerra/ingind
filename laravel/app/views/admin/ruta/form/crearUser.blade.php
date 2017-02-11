@@ -7,7 +7,8 @@
       </div>
       <div class="modal-body">
 
-          <form v-on:submit.prevent='RegisterUser(this)' autocomplete="off" id="registerForm">
+          {{-- <form v-on:submit.prevent='RegisterUser(this)' autocomplete="off" id="registerForm"> --}}
+          <form class="FrmCrearUsuario" id="FrmCrearUsuario" method="post" action="">
                     <fieldset>
 
                         <div class="row">
@@ -88,15 +89,16 @@
 
                             </div> --}}
                             <div class="col-xs-6">
-                                <div class="g-recaptcha" name='recaptcha' data-sitekey="{{Config::get('recaptcha.site')}}"></div>
+                                {{-- <div class="g-recaptcha" name='recaptcha' data-sitekey="{{Config::get('recaptcha.site')}}"></div> --}}
 
                             </div>
                         </div>  
                         {{-- <button type="submit" class="btn btnEnviar">Enviar<img src="http://www.e-quipu.pe/static/img/trabaja-con-nosotros/check.png"></button> --}}
                         <div class="submitWrap">
                             <!-- <a href="#">RegÃ&shy;strate</a> -->
-                            {{ Form::submit('Regístrate', array('class' => 'btn btn-primary btnEnviar')) }}
-{{--                             <button class="btn btn-primary btnEnviar" id="btnRegistrar" type="submit" style="" disabled="disabled">Regístrate </button> --}}
+                            {{-- {{ Form::submit('Regístrate', array('class' => 'btn btn-primary btnEnviar')) }} --}}
+                             <span class="btn btn-primary btn-sm btnEnviar" id="btnRegistrar">Regístrate</span>
+                {{--             <button class="btn btn-primary btnEnviar" id="btnRegistrar" type="submit" style="">Regístrate </button> --}}
                         </div>
 
 

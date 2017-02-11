@@ -51,6 +51,20 @@ class EmpresaController extends BaseController
             );
         }
     }
+
+    public function postGetempresa(){
+        if ( Request::ajax() ) {
+            $a      = new Empresa;
+            $data = $a->getEmpresa();
+         
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $data
+                )
+            );
+        }
+    }
     /**
      * muestra combo para crear
      *

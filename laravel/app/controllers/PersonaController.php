@@ -198,6 +198,22 @@ class PersonaController extends BaseController
             return Response::json(array('rst'=>1,'datos'=>$personas));
         }
     }
+
+     public function postGetuserbyid()
+    {
+        //si la peticion es ajax
+       if ( Request::ajax() ) {
+            $a      = new Persona;
+            $data = $a->getPersonById();
+         
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $data
+                )
+            );
+        }
+    }
     /**
      * Store a newly created resource in storage.
      * POST /persona/cargarareas
