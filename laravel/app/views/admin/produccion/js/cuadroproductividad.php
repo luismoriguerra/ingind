@@ -67,7 +67,7 @@ HTMLCPActividad=function(datos,cabecera){
        html_cabecera+="<th colspan='2'>"+cabecera+"</th>";
        n++;
     });
-    
+    html_cabecera+="<th colspan='2'>TOTAL</th>";
     html_cabecera+="</tr>";
     
      html_cabecera+="<tr>"+
@@ -81,7 +81,8 @@ HTMLCPActividad=function(datos,cabecera){
        html_cabecera+="<th >T. Horas</th>";
        n++;
     });
-    
+    html_cabecera+="<th>N° Acti. Total</th>"+
+                    "<th>Total de Horas</th>";
     html_cabecera+="</tr>";
     
     $.each(datos,function(index,data){
@@ -91,10 +92,17 @@ HTMLCPActividad=function(datos,cabecera){
             "<td>"+data.area+"</td>"+
             "<td>"+data.persona+"</td>";
         var i;
-        for(i=1;i<=n;i++){
-        html+="<td>"+$.trim(data['f'+i])+"</td>"+
-            "<td>"+$.trim(data['h'+i])+"</td>";
+        for(i=1;i<=n;i++){ 
+        var hora = data['h'+i];
+        if(data['h'+i]!=null){
+        var hora = data['h'+i].substring(0,5);
         }
+        html+="<td>"+$.trim(data['f'+i])+"</td>"+
+            "<td>"+$.trim(hora)+"</td>";
+        }
+        var h_total = data.h_total.substring(0,5);
+        html+="<td>"+data.f_total+"</td>";
+        html+="<td>"+h_total+"</td>";
 
     });
 
