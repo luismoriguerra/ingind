@@ -724,7 +724,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
         }
         
         $sSql.= "GROUP BY ap.area_id, ap.persona_id";
-        echo $sSql;
+
 
         $oData['cabecera']=$cabecera;
 
