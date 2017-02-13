@@ -67,6 +67,7 @@
                                         <th>Sexo</th>
                                         <th>Estado</th>
                                         <th>Area</th>
+                                        <th>Cargo</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_reporte">

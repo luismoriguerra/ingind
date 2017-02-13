@@ -182,7 +182,7 @@ class Area extends Base
     public static function OrdenTrabjbyArea()
     {     
 
-        $area_id=Input::get('area_id');
+//        $area_id=Input::get('area_id');
 /*        if(is_array(Input::get('area_id'))){
             $area_id = Input::get('area_id')[0];
         }else{
@@ -191,20 +191,23 @@ class Area extends Base
 
         //3199
         $sSql = '';
-        $sSql.= "SELECT rd.id norden,a.nombre area,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) persona,COUNT(rd.id) as cantidad,SUM(ABS(rd.ot_tiempo_transcurrido)) as total,SEC_TO_TIME(SUM(ABS(rd.ot_tiempo_transcurrido)) * 60) formato FROM  tablas_relacion tr 
-                INNER JOIN rutas r ON r.tabla_relacion_id=tr.id AND r.estado=1 AND r.area_id IN ($area_id) AND r.flujo_id=3636
-                INNER JOIN areas a ON a.id=r.area_id AND a.estado=1
-                INNER JOIN personas p ON p.id=r.persona_id AND p.estado=1
-                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 
-                WHERE tr.estado=1";
+        $sSql.= "SELECT ap.id norden,a.nombre area,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) persona,COUNT(ap.id) as cantidad,SUM(ABS(ap.ot_tiempo_transcurrido)) as total,SEC_TO_TIME(SUM(ABS(ap.ot_tiempo_transcurrido)) * 60) formato 
+                FROM  actividad_personal ap 
+                INNER JOIN areas a ON a.id=ap.area_id AND a.estado=1
+                INNER JOIN personas p ON p.id=ap.persona_id AND p.estado=1
+                WHERE ap.estado=1";
 
         if(Input::has('fecha') && Input::get('fecha')){
             $fecha = Input::get('fecha');
             list($fechaIni,$fechaFin) = explode(" - ", $fecha);
-            $sSql.= " AND DATE(rd.fecha_inicio) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+            $sSql.= " AND DATE(ap.fecha_inicio) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+        }
+         if(Input::has('area_id') && Input::get('area_id')){
+            $area_id=Input::get('area_id');
+            $sSql.= " AND ap.area_id IN ($area_id) ";
         }
         
-        $sSql.="  GROUP BY r.area_id,r.persona_id";
+        $sSql.="  GROUP BY ap.area_id,ap.persona_id";
 
         $oData= DB::select($sSql);
         return $oData;
