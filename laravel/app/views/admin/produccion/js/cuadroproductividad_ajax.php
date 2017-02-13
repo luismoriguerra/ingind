@@ -2,9 +2,9 @@
 var Consulta, ConsultaDetalle, ConsultaDetalle2;
 var Usuario={
 
-    CargarProduccionTR:function( dataG){
+    CuadroProductividadActividad:function( dataG){
         $.ajax({
-            url         : 'reporte/producciontrpersonalxarea',
+            url         : 'reporte/cuadroproductividadactividad',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -15,7 +15,7 @@ var Usuario={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){  
-                    HTMLproducciontrpersonalxarea(obj.datos);
+                    HTMLCPActividad(obj.datos,obj.cabecera);
                     
                 }
             },

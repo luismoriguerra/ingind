@@ -149,6 +149,18 @@ class ReporteController extends BaseController
             )
         );
    }
+   
+     public function postCuadroproductividadactividad()
+   {
+        $oData=Persona::CuadroProductividadActividad();
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$oData['data'],
+                'cabecera'=>$oData['cabecera']
+            )
+        );
+   }
 
     public function getExportordentbyperson(){
         $rst=Persona::OrdenTrabjbyPersona(); 
