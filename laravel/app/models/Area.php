@@ -200,7 +200,7 @@ class Area extends Base
         if(Input::has('fecha') && Input::get('fecha')){
             $fecha = Input::get('fecha');
             list($fechaIni,$fechaFin) = explode(" - ", $fecha);
-            $sSql.= " AND DATE(ap.created_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+            $sSql.= " AND DATE(ap.fecha_inicio) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
         }
          if(Input::has('area_id') && Input::get('area_id')){
             $area_id=Input::get('area_id');
