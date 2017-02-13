@@ -67,7 +67,7 @@ HTMLCPActividad=function(datos,cabecera){
        html_cabecera+="<th colspan='2'>"+cabecera+"</th>";
        n++;
     });
-    
+    html_cabecera+="<th colspan='2'>TOTAL</th>";
     html_cabecera+="</tr>";
     
      html_cabecera+="<tr>"+
@@ -81,7 +81,8 @@ HTMLCPActividad=function(datos,cabecera){
        html_cabecera+="<th >T. Horas</th>";
        n++;
     });
-    
+    html_cabecera+="<th>N° Acti. Total</th>"+
+                    "<th>Total de Horas</th>";
     html_cabecera+="</tr>";
     
     $.each(datos,function(index,data){
@@ -99,6 +100,9 @@ HTMLCPActividad=function(datos,cabecera){
         html+="<td>"+$.trim(data['f'+i])+"</td>"+
             "<td>"+$.trim(hora)+"</td>";
         }
+        var h_total = data.h_total.substring(0,5);
+        html+="<td>"+data.f_total+"</td>";
+        html+="<td>"+h_total+"</td>";
 
     });
 

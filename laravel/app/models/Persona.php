@@ -711,6 +711,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
         
         $sSql.= "SELECT a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona";
         $sSql.=$cl;
+        $sSql.= ",COUNT(ap.id) AS f_total,SEC_TO_TIME(ABS(SUM(ap.ot_tiempo_transcurrido)) * 60)  h_total";
         $sSql.= " FROM actividad_personal ap
                  INNER JOIN areas a on ap.area_id=a.id
                  INNER JOIN personas p on ap.persona_id=p.id ";
