@@ -103,6 +103,7 @@ class RutaController extends \BaseController
     
          public function postActividadpersonalcreate()
     {   
+         DB::beginTransaction();
         if ( Input::has('info') ) {
             $info = Input::get('info');
             if(count($info) > 0){
@@ -131,7 +132,7 @@ class RutaController extends \BaseController
                     $acti_personal->save();
             
             }
-            
+             DB::commit();
             return  array(
                             'rst'=>1,
                             'msj'=>'Registro realizado con éxito'

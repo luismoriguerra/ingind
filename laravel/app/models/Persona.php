@@ -687,41 +687,48 @@ class Persona extends Base implements UserInterface, RemindableInterface
     }
     
         public static function CuadroProductividadActividad()
-    {     
+    {   
+        $sSql = '';$cl='';$left='';  ;$f_fecha='';$cabecera=[];
+        
         if(Input::has('fecha') && Input::get('fecha')){
             $fecha = Input::get('fecha');
             list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+            $f_fecha.= " AND DATE(ap.fecha_inicio) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
         }
-        $fechaIni=strtotime($fechaIni);
-        $fechaFin=strtotime($fechaFin);
         
-        $sSql = '';
+        $fechaIni_=strtotime($fechaIni);
+        $fechaFin_=strtotime($fechaFin);
+        $fecha = date_create($fechaIni);
+        $n=1; for($i=$fechaIni_; $i<=$fechaFin_; $i+=86400){   
+        $cl.= ",COUNT(ap$n.id) AS f$n,SEC_TO_TIME(ABS(ap$n.ot_tiempo_transcurrido) * 60)  h$n";
+        $left.= "LEFT JOIN actividad_personal ap$n on ap$n.id=ap.id AND  DATE(ap.fecha_inicio) = STR_TO_DATE('".date("d-m-Y", $i)."','%d-%m-%Y')";
+        $n++;
+        
+        array_push($cabecera, date_format($fecha, 'Y-m-d'));
+        date_add($fecha, date_interval_create_from_date_string('1 days'));
+        
+        }
+        
         $sSql.= "SELECT a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona";
-        $n=1;
-        
-        for($i=$fechaIni; $i<=$fechaFin; $i+=86400){   
-        $sSql.= ",COUNT(ap$n.id) AS f$n,SUM(ap$n.ot_tiempo_transcurrido) as h$n";
-        $n++;}
-        
+        $sSql.=$cl;
         $sSql.= " FROM actividad_personal ap
                  INNER JOIN areas a on ap.area_id=a.id
                  INNER JOIN personas p on ap.persona_id=p.id ";
-        $n=1;
-        for($i=$fechaIni; $i<=$fechaFin; $i+=86400){
-        $sSql.= "LEFT JOIN actividad_personal ap$n on ap$n.id=ap.id AND  DATE(ap.fecha_inicio) = STR_TO_DATE('".date("d-m-Y", $i)."','%d-%m-%Y')";
-        $n++;}
+        $sSql.=$left;
         $sSql.= " WHERE ap.estado=1";
+        $sSql.=$f_fecha;
         
-        if(Input::has('fecha') && Input::get('fecha')){
-            $fecha = Input::get('fecha');
-            list($fechaIni,$fechaFin) = explode(" - ", $fecha);
-            $sSql.= " AND DATE(ap.fecha_inicio) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+        if(Input::has('area_id') && Input::get('area_id')){
+            $id_area = Input::get('area_id');
+            $sSql.= " AND ap.area_id IN ($id_area)";
         }
+        
         $sSql.= "GROUP BY ap.area_id, ap.persona_id";
 
-   
 
-        $oData= DB::select($sSql);
+        $oData['cabecera']=$cabecera;
+
+        $oData['data']= DB::select($sSql);
         return $oData;
     }
 }

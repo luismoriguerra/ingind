@@ -106,9 +106,8 @@ CalcularHrs = function(object,tipo){
                 var min = ((Math.floor(interval/1000/60))%60);
                 $(row).find('.ttranscurrido').val(hours + ":" + min);
         }else{
-            $(row).find('.horaInicio')[0].value = '';
             $(row).find('.horaFin')[0].value = '';
-           alert('La hora Inicial no puede ser mayor que la final!, siga el formato hh:mm'); 
+           alert('La hora Inicial ' + HoraInicio +' no puede ser mayor que la final! '+ HoraFin + ', siga el formato hh:mm'); 
         }
     }else{
        

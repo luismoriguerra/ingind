@@ -28,6 +28,7 @@
     @include( 'admin.ruta.js.validar_ajax' ) --}}
     @include( 'admin.ruta.js.tramitedocu_ajax' )
     @include( 'admin.ruta.js.tramitedocu' )
+    @include( 'admin.ruta.js.ruta_ajax' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -468,4 +469,6 @@ td, th{
   @include( 'admin.ruta.form.selectPersona' )
   @include( 'admin.ruta.form.buscartramite' )
   @include( 'admin.ruta.form.empresasbyuser' )
+  @include( 'admin.ruta.form.rutaflujo' )
+  @include( 'admin.ruta.form.ruta' )
 @stop
