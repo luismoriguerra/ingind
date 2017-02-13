@@ -26,11 +26,13 @@ $(document).ready(function() {
 
     $(document).on('change', '#cbo_tiposolicitante', function(event) {
         if($(this).val() == 1){
-            $('.persona').removeClass('hidden');
-            $('.emp').addClass('hidden');
+            Bandeja.GetPersons({'apellido_nombre':1},HTMLPersonas);
+/*            $('.persona').removeClass('hidden');
+            $('.emp').addClass('hidden');*/
         }else if($(this).val() == 2){
-            $('.persona').addClass('hidden');
-            $('.emp').removeClass('hidden');
+            Bandeja.getEmpresasByPersona({'estado':1},ValidacionEmpresa);
+       /*     $('.persona').addClass('hidden');
+            $('.emp').removeClass('hidden');*/
         }
     });
 
@@ -190,6 +192,7 @@ Mostrar = function(data){
 }
 
 ValidacionEmpresa = function(data){
+     $('#t_empresa').dataTable().fnDestroy();
     if(data.length > 1){
         var html = '';
         $.each(data,function(index, el) {
@@ -208,6 +211,7 @@ ValidacionEmpresa = function(data){
             html+='</tr>';
         });
         $('#tb_empresa').html(html);
+         $("#t_empresa").dataTable(); 
         $('#empresasbyuser').modal('show');
     }else if(data.length == 1){
         poblateData('empresa',data[0]);
@@ -218,9 +222,10 @@ ValidacionEmpresa = function(data){
 }
 
 selectEmpresa = function(obj){
-    var idempresa = obj.value;
-    if(idempresa){
+    var idempresa = obj.getAttribute('id-empresa');
+    if(idempresa != ''){
         Bandeja.GetEmpresabyId({id:idempresa});
+        $('#empresasbyuser').modal('hide');
     }else{
         alert('Seleccione empresa');
     }
@@ -236,10 +241,35 @@ selectEmpresa = function(obj){
     $('#empresasbyuser').modal('hide');*/
 }
 
+HTMLPersonas = function(data){
+     $('#t_persona').dataTable().fnDestroy();
+    if(data.length > 1){
+        var html = '';
+        $.each(data,function(index, el) {
+            html+='<tr id='+el.id+'>';
+            html+='<td name="ruc">'+el.name+'</td>';
+            html+='<td name="tipo_id">'+el.paterno+'</td>';
+            html+='<td name="razon_social">'+el.materno+'</td>';
+            html+='<td name="nombre_comercial">'+el.dni+'</td>';
+            html+='<td name="direccion_fiscal">'+el.email+'</td>';
+           /* html+='<td name="telefono">'+el.telefono+'</td>';*/
+            html+='<td><span class="btn btn-primary btn-sm" id-user='+el.id+' onClick="selectUser(this)">Seleccionar</span></td>';
+            html+='</tr>';
+        });
+        $('#tb_persona').html(html);
+        $("#t_persona").dataTable(); 
+        $('#selectPersona').modal('show'); 
+    }else{
+        $(".empresa").addClass('hidden');
+        alert('Error');
+    }
+}
+
 selectUser = function(obj){
-    var iduser = obj.value;
+    var iduser = obj.getAttribute('id-user');
     if(iduser){
         Bandeja.GetPersonabyId({persona_id:iduser});
+        $('#selectPersona').modal('hide');
     }else{
         alert('Seleccione persona');
     }

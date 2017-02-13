@@ -70,21 +70,8 @@
                                     <input type="text" name='celular' maxlength="12" class="form-control  pull-right" placeholder="Celular" autocomplete="off">
                                 </div>
                             </div>
-                        </div>
-                        <div class="row form-group padding-10">
-                            <div class="col-md-6">
-                                <div class="checkbox">
-                                    <label>
-                                        <input class="chkbx" type="checkbox" name='terminos' autocomplete="off"> Acepto los terminos &amp; condiciones
-                                    </label>
-                                </div>
-                            </div>
-                            <!-- <div class="col-xs-6">
-                                <div class="g-recaptcha" name='recaptcha' data-sitekey="{{Config::get('recaptcha.site')}}"></div>
-
-                            </div> -->
                         </div>  
-                        <div class="submitWrap">
+                        <div class="submitWrap" style="margin-top:10px">
                              <span class="btn btn-primary btn-sm btnEnviar" id="btnRegistrar">Regístrate</span>
                         </div>
 
