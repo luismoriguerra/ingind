@@ -232,7 +232,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
     public static function getApellidoNombre()
     {
         $sql="  SELECT p.id id,
-                    CONCAT_WS(' ',p.paterno,p.materno,p.nombre) nombre,p.dni
+                    CONCAT_WS(' ',p.paterno,p.materno,p.nombre) nombre,p.nombre name,p.paterno,p.materno,p.email,p.dni
                 FROM personas p
                 WHERE p.estado=1
                 ORDER BY p.paterno,p.materno,p.nombre";

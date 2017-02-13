@@ -165,7 +165,7 @@ td, th{
                         <span>SELECCIONE EMPRESA:</span>
                       </div>
                       <div class="col-md-3">
-                        <select class="form-control" id="cbo_empresa" name="cbo_empresa" onchange="selectEmpresa(this)">
+                        <select class="form-control" id="cbo_empresa" name="cbo_empresa" onchange="">
                               <option value="-1">Selecciona</option>
                         </select>
                       </div>
@@ -460,7 +460,7 @@ td, th{
 @stop
 @section('formulario')
   @include( 'admin.ruta.form.crearUsuario' )
-  @include( 'admin.ruta.form.voucherpretramite' )
+  @include( 'admin.ruta.form.selectPersona' )
   @include( 'admin.ruta.form.buscartramite' )
   @include( 'admin.ruta.form.empresasbyuser' )
 @stop
