@@ -106,7 +106,6 @@ Route::group(['before' => 'auth'], function() {
 });
 Route::get(
     '/{ruta}', array('before' => 'auth', function ($ruta) {
-        return Redirect::to('/salir');
         if (Session::has('accesos')) {
             $accesos = Session::get('accesos');
             $menus = Session::get('menus');
