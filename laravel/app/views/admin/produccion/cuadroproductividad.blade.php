@@ -18,7 +18,7 @@
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Cuadro de Productividad (Semáforo)
+            reporte diario de actividades
             <small> </small>
         </h1>
         <ol class="breadcrumb">

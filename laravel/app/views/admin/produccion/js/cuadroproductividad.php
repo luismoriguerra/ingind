@@ -91,9 +91,13 @@ HTMLCPActividad=function(datos,cabecera){
             "<td>"+data.area+"</td>"+
             "<td>"+data.persona+"</td>";
         var i;
-        for(i=1;i<=n;i++){
+        for(i=1;i<=n;i++){ 
+        var hora = data['h'+i];
+        if(data['h'+i]!=null){
+        var hora = data['h'+i].substring(0,5);
+        }
         html+="<td>"+$.trim(data['f'+i])+"</td>"+
-            "<td>"+$.trim(data['h'+i])+"</td>";
+            "<td>"+$.trim(hora)+"</td>";
         }
 
     });
