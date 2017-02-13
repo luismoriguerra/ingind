@@ -191,7 +191,7 @@ class Area extends Base
 
         //3199
         $sSql = '';
-        $sSql.= "SELECT ap.id norden,a.nombre area,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) persona,COUNT(ap.id) as cantidad,SUM(ABS(ap.ot_tiempo_transcurrido)) as total,SEC_TO_TIME(SUM(ABS(ap.ot_tiempo_transcurrido)) * 60) formato 
+        $sSql.= "SELECT ap.id norden,a.nombre area,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) persona,COUNT(ap.id) as cantidad,ABS(SUM(ap.ot_tiempo_transcurrido)) as total,SEC_TO_TIME(ABS(SUM(ap.ot_tiempo_transcurrido)) * 60) formato 
                 FROM  actividad_personal ap 
                 INNER JOIN areas a ON a.id=ap.area_id AND a.estado=1
                 INNER JOIN personas p ON p.id=ap.persona_id AND p.estado=1
