@@ -24,16 +24,23 @@ $(document).ready(function() {
     slctGlobal.listarSlctFuncion('tiposolicitante','listar?pretramite=1','cbo_tiposolicitante','simple',null,{'estado':1,'validado':1});
     /*end inicializate selects*/
 
-    $(document).on('change', '#cbo_tiposolicitante', function(event) {
-        if($(this).val() == 1){
+    $(document).on('click', '#btnTipoSolicitante', function(event) {
+        var tiposolicitante = $("#cbo_tiposolicitante").val();
+        if(tiposolicitante == 1){
             Bandeja.GetPersons({'apellido_nombre':1},HTMLPersonas);
 /*            $('.persona').removeClass('hidden');
             $('.emp').addClass('hidden');*/
-        }else if($(this).val() == 2){
+        }else if(tiposolicitante == 2){
             Bandeja.getEmpresasByPersona({'estado':1},ValidacionEmpresa);
        /*     $('.persona').addClass('hidden');
             $('.emp').removeClass('hidden');*/
         }
+    });
+
+    $(document).on('click', '#btnAgregarP', function(event) {
+        $("#selectPersona").modal('hide');
+        $("#CrearUsuario").modal('show');
+        /* Act on the event */
     });
 
     $(document).on('click', '#btnnuevo', function(event) {
@@ -428,6 +435,10 @@ generarPreTramite = function(){
     }else{
         alert('complete data');
     }
+}
+
+consultarTipoSolicitante = function(){
+
 }
 
 generarUsuario = function(){

@@ -5,7 +5,7 @@
     <div class="modal-content">
       <div class="modal-header logo">
          <button type="button" class="close btn-xs" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title">Buscar Tramite</h4>
+        <h4 class="modal-title">Buscar Persona</h4>
       </div>
       <div class="modal-body">
             <div class="box-body table-responsive">
@@ -32,7 +32,8 @@
                 </div>
             </div>
       </div>
-      <div class="modal-footer" style="padding: 0px">
+      <div class="modal-footer">
+           <span class="btn btn-success btn-sm" id="btnAgregarP">Agregar Persona <i class="glyphicon glyphicon-plus"></i></span>
         <!--  <span id="btnAgregarAnexo" class="btn btn-primary btn-sm" onclick="updateTiempo(this)"><i class="glyphicon glyphicon-plus"></i> AGREGAR ANEXO</span> -->
       </div>
     </div>

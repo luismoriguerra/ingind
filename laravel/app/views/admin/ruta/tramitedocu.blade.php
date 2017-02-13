@@ -146,6 +146,9 @@ td, th{
                               <option value="-1">Selecciona</option>
                         </select>
                     </div>
+                    <div class="col-md-3">
+                        <span class="btn btn-primary btn-sm" id="btnTipoSolicitante">BUSCAR TIPO SOLICITANTE</span>
+                    </div>
 
                     <div class="persona hidden">
                       <div class="col-md-2">
@@ -157,7 +160,7 @@ td, th{
                         </select>
                       </div>
                       <div class="col-md-1">
-                        <span class="btn btn-success btn-sm" data-toggle="modal" data-target="#CrearUsuario">Agregar Persona <i class="glyphicon glyphicon-plus"></i></span>
+                        <span class="btn btn-success btn-sm">Agregar Persona <i class="glyphicon glyphicon-plus"></i></span>
                       </div>
                     </div>
                     <div class="emp hidden">
@@ -322,6 +325,67 @@ td, th{
                   </fieldset>
                 </div>
 
+                 <div class="col-md-12 usuarioSeleccionado hidden" style="padding: 2% 4% 2% 4%;">
+                  <fieldset style="max-width: 100% !important;border: 3px solid #ddd;padding: 15px;">
+                     <legend style="width: 7%">Usuario</legend>
+                    <div class="col-md-12 form-group">
+                      <div class="col-md-6">
+                        <div class="col-md-4">
+                          <span>DNI: </span>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="text" name="txt_userdni2" id="txt_userdni2" class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="col-md-4">
+                          <span>NOMBRE: </span>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="text" name="txt_usernomb2" id="txt_usernomb2" class="form-control" disabled>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 form-group">
+                      <div class="col-md-6">
+                        <div class="col-md-4">
+                          <span>APELLIDO PATERNO: </span>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="text" name="txt_userapepat2" id="txt_userapepat2" class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="col-md-4">
+                          <span>APELLIDO MATERNO: </span>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="text" name="txt_userapemat2" id="txt_userapemat2" class="form-control" disabled>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 form-group">
+                      <div class="col-md-6">
+                        <div class="col-md-4">
+                          <span>TELEFONO: </span>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="text" name="txt_usertelf2" id="txt_usertelf2" class="form-control" disabled>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="col-md-4">
+                          <span>DIRECCION: </span>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="text" name="txt_userdirec2" id="txt_userdirec2" class="form-control" disabled>
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+
+
                 <div class="col-md-12 usuario" style="padding: 2% 4% 2% 4%;">
                   <fieldset style="max-width: 100% !important;border: 3px solid #ddd;padding: 15px;">
                     <legend style="width: 8%">Operador</legend>
@@ -383,66 +447,7 @@ td, th{
                 </div>
 
 
-                <div class="col-md-12 usuarioSeleccionado hidden" style="padding: 2% 4% 2% 4%;">
-                  <fieldset style="max-width: 100% !important;border: 3px solid #ddd;padding: 15px;">
-                     <legend style="width: 7%">Usuario</legend>
-                    <div class="col-md-12 form-group">
-                      <div class="col-md-6">
-                        <div class="col-md-4">
-                          <span>DNI: </span>
-                        </div>
-                        <div class="col-md-8">
-                          <input type="text" name="txt_userdni2" id="txt_userdni2" class="form-control" disabled>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="col-md-4">
-                          <span>NOMBRE: </span>
-                        </div>
-                        <div class="col-md-8">
-                          <input type="text" name="txt_usernomb2" id="txt_usernomb2" class="form-control" disabled>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-12 form-group">
-                      <div class="col-md-6">
-                        <div class="col-md-4">
-                          <span>APELLIDO PATERNO: </span>
-                        </div>
-                        <div class="col-md-8">
-                          <input type="text" name="txt_userapepat2" id="txt_userapepat2" class="form-control" disabled>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="col-md-4">
-                          <span>APELLIDO MATERNO: </span>
-                        </div>
-                        <div class="col-md-8">
-                          <input type="text" name="txt_userapemat2" id="txt_userapemat2" class="form-control" disabled>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-12 form-group">
-                      <div class="col-md-6">
-                        <div class="col-md-4">
-                          <span>TELEFONO: </span>
-                        </div>
-                        <div class="col-md-8">
-                          <input type="text" name="txt_usertelf2" id="txt_usertelf2" class="form-control" disabled>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="col-md-4">
-                          <span>DIRECCION: </span>
-                        </div>
-                        <div class="col-md-8">
-                          <input type="text" name="txt_userdirec2" id="txt_userdirec2" class="form-control" disabled>
-                        </div>
-                      </div>
-                    </div>
-                  </fieldset>
-                </div>
-
+               
 
                 <div class="col-md-12 form-group" style="text-align: right;padding-right: 4%;">                  
                   <span class="btn btn-primary btn-sm" onclick="generarPreTramite()">GENERAR</span>

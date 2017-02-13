@@ -94,20 +94,24 @@ CalcularHrs = function(object,tipo){
     var HoraInicio = $(row).find('.horaInicio')[0].value;
     var HoraFin = $(row).find('.horaFin')[0].value;
 
+
     if(HoraInicio != '' && HoraFin != ''){
-        var hi = new Date (new Date().toDateString() + ' ' + HoraInicio);
-        var hf = new Date (new Date().toDateString() + ' ' + HoraFin);
+        if(HoraInicio.split(':')[0] < HoraFin.split(':')[0]){
+            var hi = new Date (new Date().toDateString() + ' ' + HoraInicio);
+            var hf = new Date (new Date().toDateString() + ' ' + HoraFin);
 
-            var interval = hf.getTime() - hi.getTime();
-            calcTotal = calcTotal + interval;
-            var hours = ((Math.floor(interval/1000/60/60))%24);
-            var min = ((Math.floor(interval/1000/60))%60);
-            $(row).find('.ttranscurrido').val(hours + ":" + min);            
-     /*   var hoursT = Math.floor(calcTotal/1000/60/60)%24;
-        var minT = Math.floor(calcTotal/1000/60)%60;
-        console.log(hoursT);
-        $("#txt_ttotal").val(hoursT + ':' + minT);*/
-
+                var interval = hf.getTime() - hi.getTime();
+                calcTotal = calcTotal + interval;
+                var hours = ((Math.floor(interval/1000/60/60))%24);
+                var min = ((Math.floor(interval/1000/60))%60);
+                $(row).find('.ttranscurrido').val(hours + ":" + min);
+        }else{
+            $(row).find('.horaInicio')[0].value = '';
+            $(row).find('.horaFin')[0].value = '';
+           alert('La hora Inicial no puede ser mayor que la final!, siga el formato hh:mm'); 
+        }
+    }else{
+       
     }
 }
 
@@ -147,15 +151,17 @@ guardarTodo = function(){
             }
 
             for(var i=0; i < actividades.length;i++){
-                data.push({
-                    'actividad' : actividades[i],
-                    'finicio' : finicio[i],
-                    'ffin' : ffin[i],
-                    'hinicio' : hinicio[i],
-                    'hfin' : hfin[i],
-                    'ttranscurrido' : ttranscurrido[i],
-                    'persona':personaid
-                });
+                if(actividades[i] != '' && finicio[i] != '' && ffin[i] != '' && hfin[i]!='' && hinicio[i]!=''){
+                    data.push({
+                        'actividad' : actividades[i],
+                        'finicio' : finicio[i],
+                        'ffin' : ffin[i],
+                        'hinicio' : hinicio[i],
+                        'hfin' : hfin[i],
+                        'ttranscurrido' : ttranscurrido[i],
+                        'persona':personaid
+                    });                    
+                }
             }
             Asignar.guardarOrdenTrabajo(data);
         }else{
