@@ -994,7 +994,7 @@ class Ruta extends Eloquent
         $persona=" AND at.persona_id=".Auth::user()->id;
         
         if(Input::has('tipopersona') && Input::get('tipopersona')){
-            $persona= " AND at.usuario_created_at=".Auth::user()->id;
+            $persona= " AND at.usuario_created_at=".Auth::user()->id." AND at.persona_id!=".Auth::user()->id;
         }
         
         $sSql = '';
