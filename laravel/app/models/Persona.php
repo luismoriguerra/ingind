@@ -729,7 +729,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
                  INNER JOIN areas a on ap.area_id=a.id
                  INNER JOIN personas p on ap.persona_id=p.id ";
         $sSql.=$left;
-        $sSql.= " WHERE ap.estado=1";
+        $sSql.= " WHERE ap.estado=1 AND ap.usuario_createt_at!=ap.persona_id";
         $sSql.=$f_fecha;
         
         if(Input::has('area_id') && Input::get('area_id')){
