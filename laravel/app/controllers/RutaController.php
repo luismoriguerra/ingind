@@ -103,6 +103,7 @@ class RutaController extends \BaseController
     
          public function postActividadpersonalcreate()
     {   
+
         if ( Input::has('info') ) {
             $info = Input::get('info');
             if(count($info) > 0){
@@ -115,7 +116,7 @@ class RutaController extends \BaseController
                 /*fin si crea para otra persona*/
                 $Persona = Persona::find($persona_id);
              foreach ($info as $key => $value) {
-                 
+                    DB::beginTransaction();
                     $ttranscurrido = $value['ttranscurrido'];
                     $minTrascurrido = explode(':', $ttranscurrido)[0] * 60 + explode(':', $ttranscurrido)[1];
 
@@ -129,9 +130,10 @@ class RutaController extends \BaseController
                     $acti_personal->usuario_created_at = Auth::user()->id;
 
                     $acti_personal->save();
+                      DB::commit();
             
             }
-            
+           
             return  array(
                             'rst'=>1,
                             'msj'=>'Registro realizado con éxito'

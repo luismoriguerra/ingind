@@ -97,9 +97,6 @@ $(document).ready(function() {
         }
 
       pintarTiempoG(tid);
-
-
-
       $("#form_ruta_verbo #txt_nombre").val(text);
       $("#form_ruta_verbo").append('<input type="hidden" value="'+id+'" id="txt_area_id_modal">');
     });
@@ -110,16 +107,21 @@ $(document).ready(function() {
       $("#form_ruta_verbo input[type='hidden']").remove();
       modal.find('.modal-body input').val(''); // busca un input para copiarle texto
     });
-    $(document).on('change', '#cbo_tiposolicitante', function(event) {
-        if($(this).val() == 1){
+
+
+      $(document).on('click', '#btnTipoSolicitante', function(event) {
+        var tiposolicitante = $("#cbo_tiposolicitante").val();
+        if(tiposolicitante == 1){
             Bandeja.GetPersons({'apellido_nombre':1},HTMLPersonas);
-/*            $('.persona').removeClass('hidden');
-            $('.emp').addClass('hidden');*/
-        }else if($(this).val() == 2){
+        }else if(tiposolicitante == 2){
             Bandeja.getEmpresasByPersona({'estado':1},ValidacionEmpresa);
-       /*     $('.persona').addClass('hidden');
-            $('.emp').removeClass('hidden');*/
         }
+    });
+
+    $(document).on('click', '#btnAgregarP', function(event) {
+        $("#selectPersona").modal('hide');
+        $("#CrearUsuario").modal('show');
+        /* Act on the event */
     });
 
     $(document).on('click', '#btnnuevo', function(event) {
