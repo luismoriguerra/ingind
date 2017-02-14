@@ -6,11 +6,9 @@ $(document).ready(function() {
     slctGlobal.listarSlctFuncion('area','personaarea','slct_personasA','simple',null,{area_id:Area_id,persona:id});
  
 
-        $(".selectbyPerson").addClass('hidden');
+        $(".selectbyPerson").removeClass('hidden');       
 
-     var dataG = [];
-     dataG = {fecha:'<?php echo date("Y-m-d") ?>'};
-     Asignar.CargarOrdenTrabajoDia(dataG);  
+    CargarOrden();    
      
     var today = new Date();
                 
@@ -44,6 +42,11 @@ $(document).ready(function() {
 
 });
 
+function CargarOrden(){
+     var dataG = [];
+     dataG = {fecha:'<?php echo date("Y-m-d") ?>',tipopersona:'|'};
+     Asignar.CargarOrdenTrabajoDia(dataG); 
+}
 function initClockPicker(){
     $('[data-mask]').inputmask("hh:mm", {
         placeholder: "HH:MM", 
@@ -74,6 +77,17 @@ fecha = function(obj,tipo){
     var valor =obj.value;
 
     $(row).find('.fechaFin').val(valor);
+    }
+    
+hora = function(obj,tipo){
+    if(typeof (tipo)!='undefined'){
+        var row = obj.parentNode.parentNode;
+    }else {
+      var row = obj.parentNode.parentNode.parentNode.parentNode;  
+    }
+    var valor =obj.value;
+
+    $(row).find('.horaFin').val(valor);
     }
 
 /*add new verb to generate*/
@@ -157,15 +171,19 @@ guardarTodo = function(){
                     data.push({
                         'actividad' : actividades[i],
                         'finicio' : finicio[i],
-                        'ffin' : ffin[i],
+                        'ffin' : finicio[i],
                         'hinicio' : hinicio[i],
-                        'hfin' : hfin[i],
-                        'ttranscurrido' : ttranscurrido[i],
+                        'hfin' : hinicio[i],
+                        'ttranscurrido' : '00:00',
                         'persona':personaid
                     });                    
                 }
             }
+            if(persona!=''){
             Asignar.guardarOrdenTrabajo(data);
+            }else {
+                alert("Seleccione al trabajador que se le asignará la(s) actividad(es)");
+            }
         }else{
             alert('complete todos los campos porfavor');
         }
@@ -187,19 +205,12 @@ HTMLcargarordentrabajodia=function(datos){
         pos++;
         html+="<tr id="+data.norden+">"+
             "<td>"+pos+'</td>'+
+            "<td>"+data.persona+"</td>"+
             "<td>"+data.actividad+"</td>"+
             "<td><input type='text' class='datepicker form-control fechaInicio' id='txt_fechaInicio' name='txt_fechaInicio' onchange='fecha(this,2)' value='"+fecha_inicio[0]+"'></td>"+
             "<td><input type='numeric' class='form-control horaInicio' id='txt_horaInicio' name='txt_horaInicio' onchange='CalcularHrs(this,2)' value='"+hinicio+"' data-mask></td>"+
-            "<td><input type='text' class='datepicker form-control fechaFin' id='txt_fechaFin' name='txt_fechaFin'  disabled='disabled' value='"+dtiempo_final[0]+"'></td>"+
-            "<td><input type='numeric' class='form-control horaFin' id='txt_horaFin' name='txt_horaFin' onchange='CalcularHrs(this,2)' value='"+hfin+"' data-mask></td>"+
-            "<td><input type='text' class='form-control ttranscurrido' id='txt_ttranscurrido' name='txt_ttranscurrido' value='"+formato+"' readonly='readonly'></td>";
-       if(data.usuario_created_at==data.persona_id){
-        html+="<td align='center'><span class='btn btn-success btn-md' onClick='EditarActividad("+data.norden+","+pos+")' > Editar</a></td>";
-       }
-       else {
-        html+="<td align='center'></td>";   
-       }
-       html+="</tr>";
+            "<td align='center'><span class='btn btn-success btn-md' onClick='EditarActividad("+data.norden+","+pos+")' > Editar</a></td>";
+        html+="</tr>";
     });
     $("#tb_produccion").html(html);
     initClockPicker();
@@ -217,12 +228,12 @@ EditarActividad=function(id,pos){
 //     var finicio = document.getElementById(id).getElementsByTagName('td')[2].innerHTML;
 //     var ffin = document.getElementById(id).getElementsByTagName('td')[4].innerHTML;
      var finicio = $('#'+id).find("input:eq(0)").val();     
-     var ffin = $('#'+id).find("input:eq(2)").val();     
+//     var ffin = $('#'+id).find("input:eq(2)").val();     
      hinicio=$('#'+id).find("input:eq(1)").val();     
-     hfin=$('#'+id).find("input:eq(3)").val();
-     ttranscurrido=$('#'+id).find("input:eq(4)").val();
+//     hfin=$('#'+id).find("input:eq(3)").val();
+//     ttranscurrido=$('#'+id).find("input:eq(4)").val();
      var dataG = [];
-     dataG = {id:id,finicio:finicio,hinicio:hinicio,ffin:ffin,hfin:hfin,ttranscurrido:ttranscurrido};
+     dataG = {id:id,finicio:finicio,hinicio:hinicio,ffin:finicio,hfin:hinicio,ttranscurrido:'00:00'};
      Asignar.EditarActividad(dataG,pos);  
     
 };
