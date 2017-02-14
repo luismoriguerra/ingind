@@ -2,14 +2,15 @@
 $(document).ready(function() {
     var data = {estado:1};
     var ids = [];
-    slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);
+//    slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);
+    slctGlobalHtml('slct_area_id','simple');
     $("#generar").click(function (){
         area_id = $('#slct_area_id').val();
-        if ($.trim(area_id)!=='') {
+        if ($.trim(area_id)!=='0') {
             data = {area_id:area_id};
             Usuario.mostrar(data);
         } else {
-            alert("Seleccione Área");
+            alert("Seleccione Año");
         }
     });
 });
@@ -41,8 +42,7 @@ HTMLreporte=function(datos){
             "<td>"+data.fecha_nacimiento+"</td>"+
             "<td>"+data.sexo+"</td>"+
             "<td>"+data.estado+"</td>"+
-            "<td>"+data.area+"</td>"+
-            "<td>"+data.cargo+"</td>";
+            "<td>"+data.area+"</td>";
         html+="</tr>";
     });
     $("#tb_reporte").html(html);
