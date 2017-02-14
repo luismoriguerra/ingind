@@ -394,8 +394,14 @@ class Reporte extends Eloquent
       if(Input::get('areaexport')!=''){
         $area_filtro= " AND FIND_IN_SET(rd2.area_id,'".Input::get('areaexport')."')>0 ";
       }
-
-      list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+      if( Input::get('fecha')!='' ){
+        list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+      }else {
+       $fechaFin= date('Y-m-d');
+       $fechaIni = strtotime ( '-15 day' , strtotime ( $fechaFin ) ) ;
+       $fechaIni = date ( 'Y-m-d' , $fechaIni );
+      }
+     list($fechaIni,$fechaFin) = explode(" - ", $fecha);
       $sql="SELECT tr2.id_union norden,f.nombre proceso_pla, a.nombre area,tr.id_union plataforma,r.fecha_inicio,rd2.dtiempo_final
             ,f2.nombre proceso,r2.fecha_inicio fecha_inicio_gestion, rd2f.norden ult_paso
             ,IFNULL(rd3f.norden,rd2f.norden) act_paso, 
