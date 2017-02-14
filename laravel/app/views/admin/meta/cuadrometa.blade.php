@@ -11,8 +11,8 @@
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-    @include( 'admin.procesos.js.cuadrometa_ajax' )
-    @include( 'admin.procesos.js.cuadrometa' )
+    @include( 'admin.meta.js.cuadrometa_ajax' )
+    @include( 'admin.meta.js.cuadrometa' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
