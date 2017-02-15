@@ -142,7 +142,7 @@ class EnvioAutomaticoController extends \BaseController {
       $rst=Reporte::Docplataformaalertaenvio();
        
     foreach ($rst as $key => $value) {
-
+        
         $alerta=explode("|",$value->alerta);
         $texto="";
         $tipo=0;
@@ -177,8 +177,8 @@ class EnvioAutomaticoController extends \BaseController {
         if( trim($alerta[0])=='' OR $alerta[0]!=DATE("Y-m-d") ){
           $retorno['retorno']=$alerta[0];
             $plantilla=Plantilla::where('tipo','=',$tipo_plat)->first();
-            $buscar=array('persona:','dia:','mes:','año:','area:');
-            $reemplazar=array($value->persona,date('d'),$meses[date('n')],date("Y"),$value->area);
+            $buscar=array('persona:','dia:','mes:','año:','tramite:','area:');
+            $reemplazar=array($value->persona,date('d'),$meses[date('n')],date("Y"),$value->plataforma,$value->area);
             $parametros=array(
               'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
             );
@@ -195,7 +195,7 @@ class EnvioAutomaticoController extends \BaseController {
               array_push($email, $value->email);
             }
             $emailseguimiento=explode(",",$value->email_seguimiento);
-            try{
+            //try{
                 if(count($email)>0){
 
                     Mail::queue('notreirel', $parametros , 
@@ -205,7 +205,7 @@ class EnvioAutomaticoController extends \BaseController {
                             ->cc($emailseguimiento)
                             ->subject($texto);
                         }
-                    );
+                    );                    
                   $alerta=new Alerta;
                   $alerta['ruta_id']=$value->ruta_id;
                   $alerta['ruta_detalle_id']=$value->ruta_detalle_id;
@@ -216,19 +216,19 @@ class EnvioAutomaticoController extends \BaseController {
                   $alerta->save();
                   $retorno['persona_id'][]=$value->persona_id;
                   
-                }
+                /*}
                 else{
-                  /*$FaltaEmail=new FaltaEmail;
+                  $FaltaEmail=new FaltaEmail;
                   $FaltaEmail['persona_id']=$value->persona_id;
                   $FaltaEmail['ruta_detalle_id']=$value->ruta_detalle_id;
-                  $FaltaEmail->save();*/
-                }
+                  $FaltaEmail->save();
+                }*/
             }
-            catch(Exception $e){
-              DB::rollback();
-              $retorno['id_union'][]=$value->plataforma;
-                //echo $qem[$k]->email."<br>";
-            }
+//            catch(Exception $e){
+//              DB::rollback();
+//              $retorno['id_union'][]=$value->plataforma;
+//                //echo $qem[$k]->email."<br>";
+//            }
             DB::commit();
         }
       }
