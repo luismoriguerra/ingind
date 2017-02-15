@@ -59,7 +59,7 @@
                     </div>
                 </fieldset>
             
-               <div class="box-body table-responsive">
+               <div class="box-body">
                 <div class="row form-group" id="reporte" >
                     <div class="col-sm-12">
                         <div class="box-body table-responsive">
