@@ -496,7 +496,7 @@ class Reporte extends Eloquent
 
        
       }
-      $sql="SELECT CONCAT_WS('',p.paterno,p.materno,p.nombre) persona,p.email_mdi,p.email, a.nombre area,tr.id_union plataforma,
+      $sql="SELECT CONCAT_WS('',p.paterno,p.materno,p.nombre) persona,p.email_mdi,p.email, a.nombre area,tr.id_union plataforma,r.id ruta_id,rd2.id ruta_detalle_id,p.id persona_id,
                         IFNULL(
                 (   SELECT CONCAT(a.fecha,'|',a.tipo)
                     FROM alertas a
@@ -516,8 +516,7 @@ class Reporte extends Eloquent
             LEFT JOIN rutas r2 ON r2.tabla_relacion_id=tr2.id AND r2.estado=1
             WHERE r.estado=1
             $fecha_filtro
-            $area_filtro
-            ";
+            $area_filtro";
             $r=DB::select($sql);
             return $r;
     }
