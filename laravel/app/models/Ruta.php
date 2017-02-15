@@ -668,9 +668,6 @@ class Ruta extends Eloquent
                         }
                     }
                    elseif( Input::get('select_tipoenvio')==1 ){ //con retorno
-
-                    var_dump('con retorno');
-                    exit();
                         $array_verbos = [2,1,5,4];
                         foreach ($array_verbos as $key => $value) {
                             $verbo = Verbo::find($value);
