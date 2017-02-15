@@ -217,12 +217,7 @@ class EnvioAutomaticoController extends \BaseController {
                   $retorno['persona_id'][]=$value->persona_id;
                   
                 }
-                else{
-                  /*$FaltaEmail=new FaltaEmail;
-                  $FaltaEmail['persona_id']=$value->persona_id;
-                  $FaltaEmail['ruta_detalle_id']=$value->ruta_detalle_id;
-                  $FaltaEmail->save();*/
-                }
+
             }
             catch(Exception $e){
               DB::rollback();
