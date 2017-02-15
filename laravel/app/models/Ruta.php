@@ -357,7 +357,7 @@ class Ruta extends Eloquent
                             'tr.id','=','r.tabla_relacion_id'
                         )
                         ->where('tr.id_union', '=', $codigounico)
-                        ->where('r.ruta_flujo_id', '=', 3282)
+                        ->where('r.ruta_flujo_id', '=', 3620)
                         ->where('tr.estado', '=', '1')
                         ->where('r.estado', '=', '1')
                         ->get();
@@ -414,7 +414,7 @@ class Ruta extends Eloquent
         $tablaRelacion['usuario_created_at']=Auth::user()->id;
         $tablaRelacion->save();
 
-        $rutaFlujo=RutaFlujo::find(3282);//3620
+        $rutaFlujo=RutaFlujo::find(3620);//3620
 
         $ruta= new Ruta;
         $ruta['tabla_relacion_id']=$tablaRelacion->id;
@@ -469,7 +469,7 @@ class Ruta extends Eloquent
         /**********************************************/
 
         $qrutaDetalle=DB::table('rutas_flujo_detalle')
-            ->where('ruta_flujo_id', '=', 3282)
+            ->where('ruta_flujo_id', '=', 3620)
             ->where('estado', '=', '1')
             ->orderBy('norden','ASC')
             ->get();
