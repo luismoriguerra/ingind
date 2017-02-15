@@ -480,20 +480,17 @@ class Ruta extends Eloquent
         $tiempo = [];
         $areas = [];
         if(Input::has('areasSelect') && Input::has('diasTiempo')){
-            var_dump(Input::get('areasSelect'));
-            var_dump(Input::get('diasTiempo'));
-            exit();
             $tiempo = json_decode(Input::get('diasTiempo'));
             $areas = json_decode(Input::get('areasSelect'));
         }elseif(Input::has('areasTodas') && Input::has('tiempo')){
-            var_dump(Input::get('areasTodas'));
-            var_dump(Input::get('tiempo'));
-            exit();
             $tiempo = Input::get('tiempo');
             $areas = json_decode(Input::get('areasTodas'));
         }
 
             foreach ($areas as $index => $val) {
+
+                var_dump($val);
+                exit();
                 $rutaDetalle = new RutaDetalle;
                 $rutaDetalle['ruta_id']=$ruta->id;
                 $rutaDetalle['area_id']=$val;
