@@ -414,7 +414,7 @@ class Ruta extends Eloquent
         $tablaRelacion['usuario_created_at']=Auth::user()->id;
         $tablaRelacion->save();
 
-        $rutaFlujo=RutaFlujo::find(3620);
+        $rutaFlujo=RutaFlujo::find(3282);//3620
 
         $ruta= new Ruta;
         $ruta['tabla_relacion_id']=$tablaRelacion->id;
@@ -469,7 +469,7 @@ class Ruta extends Eloquent
         /**********************************************/
 
         $qrutaDetalle=DB::table('rutas_flujo_detalle')
-            ->where('ruta_flujo_id', '=', 3281)
+            ->where('ruta_flujo_id', '=', 3282)
             ->where('estado', '=', '1')
             ->orderBy('norden','ASC')
             ->get();
@@ -480,9 +480,15 @@ class Ruta extends Eloquent
         $tiempo = [];
         $areas = [];
         if(Input::has('areasSelect') && Input::has('diasTiempo')){
+            var_dump(Input::get('areasSelect'));
+            var_dump(Input::get('diasTiempo'));
+            exit();
             $tiempo = json_decode(Input::get('diasTiempo'));
             $areas = json_decode(Input::get('areasSelect'));
         }elseif(Input::has('areasTodas') && Input::has('tiempo')){
+            var_dump(Input::get('areasTodas'));
+            var_dump(Input::get('tiempo'));
+            exit();
             $tiempo = Input::get('tiempo');
             $areas = json_decode(Input::get('areasTodas'));
         }
