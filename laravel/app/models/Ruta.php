@@ -990,16 +990,24 @@ class Ruta extends Eloquent
     }
     
             public static function ActividadDia()
-    {     
+    {   
+        $persona=" AND at.persona_id=".Auth::user()->id;
+        
+        if(Input::has('tipopersona') && Input::get('tipopersona')){
+            $persona= " AND at.usuario_created_at=".Auth::user()->id." AND at.persona_id!=".Auth::user()->id;
+        }
+        
         $sSql = '';
-        $sSql.= "SELECT at.id norden,at.actividad,at.fecha_inicio,at.dtiempo_final,ABS(at.ot_tiempo_transcurrido) ot_tiempo_transcurrido ,SEC_TO_TIME(ABS(at.ot_tiempo_transcurrido) * 60) formato 
+        $sSql.= "SELECT CONCAT_WS(' ',p.nombre,p.paterno,p.materno) as persona,at.id norden,at.actividad,at.fecha_inicio,at.dtiempo_final,ABS(at.ot_tiempo_transcurrido) ot_tiempo_transcurrido ,SEC_TO_TIME(ABS(at.ot_tiempo_transcurrido) * 60) formato,at.usuario_created_at,at.persona_id 
                 FROM  actividad_personal at 
-                WHERE at.estado=1 and at.persona_id=".Auth::user()->id;
+                INNER JOIN personas p on at.persona_id=p.id
+                WHERE at.estado=1";
 
         if(Input::has('fecha') && Input::get('fecha')){
             $fecha = Input::get('fecha');
             $sSql.= " AND DATE(at.created_at)='".$fecha."'";
         }
+        $sSql.=$persona;
         
         $oData= DB::select($sSql);
         return $oData;

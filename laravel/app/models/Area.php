@@ -191,10 +191,13 @@ class Area extends Base
 
         //3199
         $sSql = '';
-        $sSql.= "SELECT ap.id norden,a.nombre area,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) persona,COUNT(ap.id) as cantidad,SUM(ABS(ap.ot_tiempo_transcurrido)) as total,SEC_TO_TIME(SUM(ABS(ap.ot_tiempo_transcurrido)) * 60) formato 
+
+        $sSql.= "SELECT CONCAT_WS(' ',p1.nombre,p1.paterno,p1.materno) as asignador,ap.id norden,a.nombre area,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) persona,COUNT(ap.id) as cantidad,ABS(SUM(ap.ot_tiempo_transcurrido)) as total,SEC_TO_TIME(ABS(SUM(ap.ot_tiempo_transcurrido)) * 60) formato 
+
                 FROM  actividad_personal ap 
                 INNER JOIN areas a ON a.id=ap.area_id AND a.estado=1
                 INNER JOIN personas p ON p.id=ap.persona_id AND p.estado=1
+                INNER JOIN personas p1 on ap.usuario_created_at=p1.id AND p1.estado=1
                 WHERE ap.estado=1";
 
         if(Input::has('fecha') && Input::get('fecha')){
@@ -205,6 +208,11 @@ class Area extends Base
          if(Input::has('area_id') && Input::get('area_id')){
             $area_id=Input::get('area_id');
             $sSql.= " AND ap.area_id IN ($area_id) ";
+        }
+        
+        if(Input::has('distinto') && Input::get('distinto')){
+           
+            $sSql.= " AND ap.persona_id != ap.usuario_created_at ";
         }
         
         $sSql.="  GROUP BY ap.area_id,ap.persona_id";

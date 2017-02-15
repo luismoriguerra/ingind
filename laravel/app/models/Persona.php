@@ -659,8 +659,11 @@ class Persona extends Base implements UserInterface, RemindableInterface
     public static function OrdenTrabjbyPersona()
     {     
         $sSql = '';
-        $sSql.= "SELECT ap.id norden,ap.actividad,ap.fecha_inicio,ap.dtiempo_final,ABS(ap.ot_tiempo_transcurrido) ot_tiempo_transcurrido ,SEC_TO_TIME(ABS(ap.ot_tiempo_transcurrido) * 60) formato 
+        $sSql.= "SELECT a.nombre area,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) persona,CONCAT_WS(' ',p1.nombre,p1.paterno,p1.materno) as asignador,ap.id norden,ap.actividad,ap.fecha_inicio,ap.dtiempo_final,ABS(ap.ot_tiempo_transcurrido) ot_tiempo_transcurrido ,SEC_TO_TIME(ABS(ap.ot_tiempo_transcurrido) * 60) formato 
                 FROM  actividad_personal ap 
+                INNER JOIN areas a ON a.id=ap.area_id AND a.estado=1
+                INNER JOIN personas p ON p.id=ap.persona_id AND p.estado=1
+                INNER JOIN personas p1 on ap.usuario_created_at=p1.id AND p1.estado=1
                 WHERE ap.estado=1";
 
         if(Input::has('fecha') && Input::get('fecha')){
@@ -671,6 +674,16 @@ class Persona extends Base implements UserInterface, RemindableInterface
         
         if(Input::has('usuario_id') && Input::get('usuario_id')){
             $sSql.= " AND ap.persona_id='".Input::get('usuario_id')."'  ";
+        }
+        
+        if(Input::has('distinto') && Input::get('distinto')){
+           
+            $sSql.= " AND ap.persona_id != ap.usuario_created_at ";
+            
+            if(Input::has('area_id') && Input::get('area_id')){
+            $area_id=Input::get('area_id');
+            $sSql.= " AND ap.area_id IN ($area_id) ";
+        }
         }
 
         $oData= DB::select($sSql);
@@ -700,7 +713,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
         $fechaFin_=strtotime($fechaFin);
         $fecha = date_create($fechaIni);
         $n=1; for($i=$fechaIni_; $i<=$fechaFin_; $i+=86400){   
-        $cl.= ",COUNT(ap$n.id) AS f$n,SEC_TO_TIME(ABS(SUM(ap$n.ot_tiempo_transcurrido)) * 60)  h$n";
+        $cl.= ",COUNT(ap$n.id) AS f$n,SEC_TO_TIME(ABS(SUM(ap$n.ot_tiempo_transcurrido)) * 60)  h$n,IFNULL(GROUP_CONCAT(ap$n.id),'0') id$n";
         $left.= "LEFT JOIN actividad_personal ap$n on ap$n.id=ap.id AND  DATE(ap.fecha_inicio) = STR_TO_DATE('".date("d-m-Y", $i)."','%d-%m-%Y')";
         $n++;
         
@@ -711,12 +724,12 @@ class Persona extends Base implements UserInterface, RemindableInterface
         
         $sSql.= "SELECT a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona";
         $sSql.=$cl;
-        $sSql.= ",COUNT(ap.id) AS f_total,SEC_TO_TIME(ABS(SUM(ap.ot_tiempo_transcurrido)) * 60)  h_total";
+        $sSql.= ",COUNT(ap.id) AS f_total,SEC_TO_TIME(ABS(SUM(ap.ot_tiempo_transcurrido)) * 60)  h_total,IFNULL(GROUP_CONCAT(ap.id),'0') id_total";
         $sSql.= " FROM actividad_personal ap
                  INNER JOIN areas a on ap.area_id=a.id
                  INNER JOIN personas p on ap.persona_id=p.id ";
         $sSql.=$left;
-        $sSql.= " WHERE ap.estado=1";
+        $sSql.= " WHERE ap.estado=1 AND ap.usuario_created_at=ap.persona_id";
         $sSql.=$f_fecha;
         
         if(Input::has('area_id') && Input::get('area_id')){
@@ -730,6 +743,16 @@ class Persona extends Base implements UserInterface, RemindableInterface
         $oData['cabecera']=$cabecera;
 
         $oData['data']= DB::select($sSql);
+        return $oData;
+    }
+    
+         public static function CargarActividad()
+    {   $id_actividad = Input::get('id');  
+        $sSql = '';
+        $sSql.= "SELECT ap.id norden,ap.actividad,ap.fecha_inicio,ap.dtiempo_final,ABS(ap.ot_tiempo_transcurrido) ot_tiempo_transcurrido ,SEC_TO_TIME(ABS(ap.ot_tiempo_transcurrido) * 60) formato "
+                . "FROM actividad_personal ap WHERE ap.id IN ($id_actividad)";
+
+        $oData= DB::select($sSql);
         return $oData;
     }
 }

@@ -10,21 +10,21 @@
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-    @include( 'admin.produccion.js.cuadroproductividad_ajax' )
-    @include( 'admin.produccion.js.cuadroproductividad' )
+    @include( 'admin.reporte.js.actiasignada_ajax' )
+    @include( 'admin.reporte.js.actiasignada' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            reporte diario de actividades
+            Actividades Asignadas
             <small> </small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
             <li><a href="#">Reporte</a></li>
-            <li class="active">Usuarios</li>
+            <li class="active">Actividades Asignadas</li>
         </ol>
     </section>
 
@@ -35,7 +35,7 @@
                 <fieldset>
                     <div class="row form-group" >
                         <div class="col-sm-12">
-                            <div class="col-sm-4"><input type="hidden" id="area_id" name="area_id">
+                            <div class="col-sm-4"><input type="hidden" id="area_id" name="area_id"> 
                                 <label class="control-label">Area:</label>
                                 <select class="form-control" name="slct_area_id[]" id="slct_area_id" multiple>
                                 </select>
@@ -59,24 +59,51 @@
                     </div>
                 </fieldset>
             
-               <div class="box-body">
-                <div class="row form-group" id="reporte" >
+             
+
+
+
+
+
+
+
+                    <form id="form_3" name="form_3" method="post">
+                        <div class="row form-group" id="tramite_asignado" >
+
                     <div class="col-sm-12">
-                        <div class="box-body table-responsive">
-                            <table id="t_produccion" class="table table-bordered">
-                                <thead id="tt_produccion">
-                                    <tr>
-                                        <th>Cuadro de Productividad</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tb_produccion">
-                                </tbody>
-                            </table>
+                        <div class="col-sm-2" style="padding-top: 5px">
+                            <span>Tiempo Total: </span>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="txt_totalh" name="txt_totalh" readonly="readonly">
+                        </div>
+                    <br>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="box-body table-responsive">
+                         <table id="t_ordenest" class="table table-bordered">
+                            <thead>
+                                 <tr>
+                                     <th>Área</th>
+                                     <th>Persona</th>
+                                 <th>Actividad</th>
+                                 <th>Fecha Inicio</th>
+                                 <th>Fecha Fin</th>
+                                 <th>Tiempo Transcurrido</th>
+                                 <th>Formato</th>
+                                 <th>Jefe(a)</th>
+                                 </tr>
+                            </thead>
+                            <tbody id="tb_ordenest">
+                            </tbody>
+                         </table>
                         </div>
                     </div>
-                </div>
-                
-            </div><!-- /.box -->
+                  
+
+   
+
+             
 
             <!-- Finaliza contenido -->
         </div>
@@ -85,5 +112,5 @@
 
 @stop
 @section('formulario')
-     @include( 'admin.produccion.form.actividades' )
+     @include( 'admin.reporte.form.produccionperxarea' )
 @stop
