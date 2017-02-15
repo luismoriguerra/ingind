@@ -125,6 +125,122 @@ class EnvioAutomaticoController extends \BaseController {
       return Response::json( $retorno );
     }
     
+                 public function postNotidocplataformaalertas()
+    { 
+      $array=array();
+      $array['usuario']=Auth::user()->id;
+      $array['limit']='';$array['order']='';
+      $array['id_union']='';$array['id_ant']='';
+      $array['referido']=' LEFT ';
+      $array['solicitante']='';$array['areas']='';
+      $array['proceso']='';$array['tiempo_final']='';
+      
+      $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
+      
+      $n=1;
+      
+      $rst=Reporte::Docplataformaalertaenvio();
+       
+    foreach ($rst as $key => $value) {
+
+        $alerta=explode("|",$value->alerta);
+        $texto="";
+        $tipo=0;
+        $tipo_plat=0;
+        
+        DB::beginTransaction();
+
+        if($alerta[1]==''){
+          $tipo=1;
+          $tipo_plat=6;
+          $texto=".::Notificación::.";
+        }
+        elseif($alerta[1]!='' AND $alerta[1]==1){
+          $tipo=$alerta[1]+1;
+          $tipo_plat=7;
+          $texto=".::Reiterativo::.";
+        }
+        elseif($alerta[1]!='' AND $alerta[1]==2){
+          $tipo=$alerta[1]+1;
+          $texto=".::Relevo::.";
+          $tipo_plat=8;
+        }
+        elseif($alerta[1]!='' AND $alerta[1]==3){
+          $tipo=1;
+          $texto=".::Notificación::.";
+          $tipo_plat=6;
+        }
+
+        $retorno['texto'][]=$texto;
+        $retorno['tipo'][]=$tipo;
+
+        if( trim($alerta[0])=='' OR $alerta[0]!=DATE("Y-m-d") ){
+          $retorno['retorno']=$alerta[0];
+            $plantilla=Plantilla::where('tipo','=',$tipo_plat)->first();
+            $buscar=array('persona:','dia:','mes:','año:','area:');
+            $reemplazar=array($value->persona,date('d'),$meses[date('n')],date("Y"),$value->area);
+            $parametros=array(
+              'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
+            );
+            
+            $value->email_mdi='jorgeshevchenk1988@gmail.com';
+            $value->email='rcapchab@gmail.com';
+            $value->email_seguimiento='jorgeshevchenk@gmail.com,jorgesalced0@gmail.com';
+
+            $email=array();
+            if(trim($value->email_mdi)!=''){
+              array_push($email, $value->email_mdi);
+            }
+            if(trim($value->email)!=''){
+              array_push($email, $value->email);
+            }
+            $emailseguimiento=explode(",",$value->email_seguimiento);
+            try{
+                if(count($email)>0){
+
+                    Mail::queue('notreirel', $parametros , 
+                        function($message) use( $email,$emailseguimiento,$texto ) {
+                            $message
+                            ->to($email)
+                            ->cc($emailseguimiento)
+                            ->subject($texto);
+                        }
+                    );
+                  $alerta=new Alerta;
+                  $alerta['ruta_id']=$value->ruta_id;
+                  $alerta['ruta_detalle_id']=$value->ruta_detalle_id;
+                  $alerta['persona_id']=$value->persona_id;
+                  $alerta['tipo']=$tipo;
+                  $alerta['fecha']=DATE("Y-m-d");
+                  $alerta['clasificador']=2;
+                  $alerta->save();
+                  $retorno['persona_id'][]=$value->persona_id;
+                  
+                }
+                else{
+                  /*$FaltaEmail=new FaltaEmail;
+                  $FaltaEmail['persona_id']=$value->persona_id;
+                  $FaltaEmail['ruta_detalle_id']=$value->ruta_detalle_id;
+                  $FaltaEmail->save();*/
+                }
+            }
+            catch(Exception $e){
+              DB::rollback();
+              $retorno['id_union'][]=$value->plataforma;
+                //echo $qem[$k]->email."<br>";
+            }
+            DB::commit();
+        }
+      }
+      
+            return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$rst
+            )
+        );      
+    }
+    
 	public function index()
 	{
 		//
