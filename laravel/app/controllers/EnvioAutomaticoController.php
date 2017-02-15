@@ -183,9 +183,9 @@ class EnvioAutomaticoController extends \BaseController {
               'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
             );
             
-            $value->email_mdi='jorgeshevchenk1988@gmail.com';
-            $value->email='rcapchab@gmail.com';
-            $value->email_seguimiento='jorgeshevchenk@gmail.com,jorgesalced0@gmail.com';
+//            $value->email_mdi='jorgeshevchenk1988@gmail.com';
+//            $value->email='rcapchab@gmail.com';
+//            $value->email_seguimiento='jorgeshevchenk@gmail.com,jorgesalced0@gmail.com';
 
             $email=array();
             if(trim($value->email_mdi)!=''){

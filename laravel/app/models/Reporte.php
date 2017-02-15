@@ -516,7 +516,7 @@ class Reporte extends Eloquent
             LEFT JOIN rutas r2 ON r2.tabla_relacion_id=tr2.id AND r2.estado=1
             WHERE r.estado=1
             $fecha_filtro
-            $area_filtro LIMIT 0,15";
+            $area_filtro";
             $r=DB::select($sql);
             return $r;
     }
