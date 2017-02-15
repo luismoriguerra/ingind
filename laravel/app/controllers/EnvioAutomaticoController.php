@@ -195,7 +195,7 @@ class EnvioAutomaticoController extends \BaseController {
               array_push($email, $value->email);
             }
             $emailseguimiento=explode(",",$value->email_seguimiento);
-            //try{
+            try{
                 if(count($email)>0){
 
                     Mail::queue('notreirel', $parametros , 
@@ -216,19 +216,19 @@ class EnvioAutomaticoController extends \BaseController {
                   $alerta->save();
                   $retorno['persona_id'][]=$value->persona_id;
                   
-                /*}
+                }
                 else{
-                  $FaltaEmail=new FaltaEmail;
+                  /*$FaltaEmail=new FaltaEmail;
                   $FaltaEmail['persona_id']=$value->persona_id;
                   $FaltaEmail['ruta_detalle_id']=$value->ruta_detalle_id;
-                  $FaltaEmail->save();
-                }*/
+                  $FaltaEmail->save();*/
+                }
             }
-//            catch(Exception $e){
-//              DB::rollback();
-//              $retorno['id_union'][]=$value->plataforma;
-//                //echo $qem[$k]->email."<br>";
-//            }
+            catch(Exception $e){
+              DB::rollback();
+              $retorno['id_union'][]=$value->plataforma;
+                //echo $qem[$k]->email."<br>";
+            }
             DB::commit();
         }
       }
