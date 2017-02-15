@@ -1508,7 +1508,8 @@ class ReporteController extends BaseController
    /*   if( Request::ajax() ){*/
         $fecha = Input::get('fecha');
         $area=Input::get('area_id');
-        $result = $this->notificacionIncum($fecha,$area);
+        $tipo=Input::get('tipo_id');
+        $result = $this->notificacionIncum($fecha,$area,$tipo);
 
         /*style*/
         $styleThinBlackBorderAllborders = array(
