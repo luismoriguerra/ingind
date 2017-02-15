@@ -161,6 +161,17 @@ class ReporteController extends BaseController
             )
         );
    }
+   
+        public function postCargaractividad()
+   {
+        $oData=Persona::CargarActividad();
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$oData,
+            )
+        );
+   }
 
     public function getExportordentbyperson(){
         $rst=Persona::OrdenTrabjbyPersona(); 

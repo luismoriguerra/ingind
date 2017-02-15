@@ -86,5 +86,5 @@
 
 @stop
 @section('formulario')
-     @include( 'admin.reporte.form.produccionperxarea' )
+     @include( 'admin.produccion.form.actividades' )
 @stop
