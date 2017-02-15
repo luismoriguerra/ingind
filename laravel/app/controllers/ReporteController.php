@@ -1201,7 +1201,7 @@ class ReporteController extends BaseController
             $area=implode('","',Input::get('area_id'));
           }
           if(Input::get('tipo_id')){
-            $tipo=Input::get('tipo');
+            $tipo=Input::get('tipo_id');
           }
 
         $result = $this->notificacionIncum($fecha,$area,$tipo);
