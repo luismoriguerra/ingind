@@ -3,7 +3,7 @@ var Consulta, ConsultaDetalle, ConsultaDetalle2;
 var Accion={
     mostrar:function(){
         $.ajax({
-            url         : 'reporte/docplataforma',
+            url         : 'envioautomatico/notidocplataformaalertas',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
