@@ -66,8 +66,7 @@
                             <table id="t_produccion" class="table table-bordered">
                                 <thead id="tt_produccion">
                                     <tr>
-                                        <th>Área</th>
-                                        <th>Persona</th>
+                                        <th>Cuadro de Productividad</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_produccion">

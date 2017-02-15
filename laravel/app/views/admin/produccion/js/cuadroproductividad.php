@@ -90,12 +90,12 @@ HTMLCPActividad=function(datos,cabecera){
         if(data['h'+i]!=null){
          hora = data['h'+i].substring(0,5);
         } 
-        html+='<td onclick="Detalle(\''+$.trim(data['id'+i])+'\')">'+$.trim(data['f'+i])+'</td>'+
-            '<td onclick="Detalle(\''+$.trim(data['id'+i])+'\')">'+$.trim(hora)+"</td>";
+        html+='<td style="cursor:pointer" onclick="Detalle(\''+$.trim(data['id'+i])+'\')">'+$.trim(data['f'+i])+'</td>'+
+            '<td style="cursor:pointer" onclick="Detalle(\''+$.trim(data['id'+i])+'\')">'+$.trim(hora)+"</td>";
         }
         var h_total = data.h_total.substring(0,5);
-        html+='<td onclick="Detalle(\''+$.trim(data.id_total)+'\')">'+data.f_total+"</td>";
-        html+='<td onclick="Detalle(\''+$.trim(data.id_total)+'\')">'+h_total+"</td>";
+        html+='<td style="cursor:pointer" onclick="Detalle(\''+$.trim(data.id_total)+'\')">'+data.f_total+"</td>";
+        html+='<td style="cursor:pointer" onclick="Detalle(\''+$.trim(data.id_total)+'\')">'+h_total+"</td>";
 
     });
 
