@@ -462,12 +462,66 @@ class Reporte extends Eloquent
             WHERE r.estado=1
             $fecha_filtro
             $area_filtro
-            order by proceso DESC,rd.dtiempo_final"
-              . " LIMIT 15";
+            order by proceso DESC,rd.dtiempo_final";
             $r=DB::select($sql);
             return $r;
     }
+    
+    public static function Docplataformaalertaenvio(){
+    $fecha = Input::get('fecha');
+      $area_filtro="";$fecha_filtro="";
+      if( Input::get('area_id')!='' ){
+        $areaId = implode(",",Input::get('area_id'));
+        $area_filtro= " AND FIND_IN_SET(rd2.area_id,'".$areaId."')>0 ";
+      }
 
+      if(Input::get('areaexport')!=''){
+        $area_filtro= " AND FIND_IN_SET(rd2.area_id,'".Input::get('areaexport')."')>0 ";
+      }
+      if( Input::get('fecha')!='' ){
+        list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+        $fecha_filtro="AND r.fecha_inicio BETWEEN '$fechaIni' AND '$fechaFin'";
+      }else {
+          
+      $estadofinal="<CURRENT_TIMESTAMP()";
+      $datehoy=date("Y-m-d");
+      $datesp=date("Y-m-d",strtotime("-15 days")); 
+      $fecha_filtro="  AND CalcularFechaFinal(
+                                rd2.fecha_inicio, 
+                                (1440+ IF(TIME(rd.fecha_inicio)>'14:00:00',1110,240)),
+                                rd2.area_id 
+                                )$estadofinal 
+                                AND DATE(rd2.fecha_inicio) BETWEEN '$datesp' AND '$datehoy' 
+                                AND ValidaDiaLaborable('$datehoy',rd2.area_id)=0 AND ISNULL(r2.id)";
+
+       
+      }
+      $sql="SELECT CONCAT_WS('',p.paterno,p.materno,p.nombre) persona,p.email_mdi,p.email, a.nombre area,tr.id_union plataforma,
+                        IFNULL(
+                (   SELECT CONCAT(a.fecha,'|',a.tipo)
+                    FROM alertas a
+                    WHERE a.ruta_detalle_id=rd2.id
+                    AND a.persona_id=p.id
+                    AND a.estado=1 
+                    ORDER BY a.id DESC
+                    LIMIT 0,1
+                ),'|' ) alerta
+            FROM rutas r
+            INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.norden=1 AND rd.area_id=52
+            INNER JOIN rutas_detalle rd2 ON rd2.ruta_id=r.id AND rd2.estado=1 AND rd2.norden=2
+            INNER JOIN personas p ON rd2.area_id=p.area_id AND p.rol_id IN (8,9) AND p.estado=1
+            INNER JOIN areas a ON a.id=rd2.area_id
+            INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1 AND tr.usuario_created_at!=1272
+            LEFT JOIN tablas_relacion tr2 ON tr2.id_union=tr.id_union AND tr2.estado=1 AND tr2.id>tr.id
+            LEFT JOIN rutas r2 ON r2.tabla_relacion_id=tr2.id AND r2.estado=1
+            WHERE r.estado=1
+            $fecha_filtro
+            $area_filtro
+            ";
+            $r=DB::select($sql);
+            return $r;
+    }
+    
     public static function getExpedienteUnico(){
             $referido=Referido::where('ruta_id', '=', Input::get('ruta_id'))->firstOrFail();
       /*  if(Input::get('ruta_detalle_id')){*/

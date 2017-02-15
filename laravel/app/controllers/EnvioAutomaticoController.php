@@ -134,13 +134,12 @@ class EnvioAutomaticoController extends \BaseController {
       $array['referido']=' LEFT ';
       $array['solicitante']='';$array['areas']='';
       $array['proceso']='';$array['tiempo_final']='';
-      $html="";
       
       $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
       
       $n=1;
       
-      $rst=Reporte::Docplataforma();
+      $rst=Reporte::Docplataformaalertaenvio();
        
     foreach ($rst as $key => $value) {
 
@@ -178,8 +177,8 @@ class EnvioAutomaticoController extends \BaseController {
         if( trim($alerta[0])=='' OR $alerta[0]!=DATE("Y-m-d") ){
           $retorno['retorno']=$alerta[0];
             $plantilla=Plantilla::where('tipo','=',$tipo_plat)->first();
-            $buscar=array('persona:','dia:','mes:','año:','tramite:','area:');
-            $reemplazar=array($value->persona,date('d'),$meses[date('n')],date("Y"),$value->plataforma,$value->plataforma);
+            $buscar=array('persona:','dia:','mes:','año:','area:');
+            $reemplazar=array($value->persona,date('d'),$meses[date('n')],date("Y"),$value->area);
             $parametros=array(
               'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
             );
