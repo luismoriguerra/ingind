@@ -36,7 +36,8 @@
                 </div>
             </div>
       </div>
-      <div class="modal-footer" style="padding: 0px">
+      <div class="modal-footer">
+        <span class="btn btn-success btn-sm" id="btnAgregarEmpresa">Agregar Empresa <i class="glyphicon glyphicon-plus"></i></span>
         <!--  <span id="btnAgregarAnexo" class="btn btn-primary btn-sm" onclick="updateTiempo(this)"><i class="glyphicon glyphicon-plus"></i> AGREGAR ANEXO</span> -->
       </div>
     </div>

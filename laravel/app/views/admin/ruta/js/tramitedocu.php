@@ -124,6 +124,12 @@ $(document).ready(function() {
         /* Act on the event */
     });
 
+     $(document).on('click', '#btnAgregarEmpresa', function(event) {
+        $("#empresasbyuser").modal('hide');
+        $("#crearEmpresa").modal('show');
+        /* Act on the event */
+    });
+
     $(document).on('click', '#btnnuevo', function(event) {
         $(".crearPreTramite").removeClass('hidden');
         
@@ -545,6 +551,23 @@ generarUsuario = function(){
         Bandeja.guardarUsuario();        
     }
 }
+
+generarEmpresa = function(){
+    if($("#txt_ruc2").val() == ''){
+        alert('Digite su ruc');
+    }else if($("#txt_razonsocial2").val() == ''){
+        alert('Digite su razon social');
+    }else if($("#txt_nombcomer").val() == ''){
+        alert('Digite su nombre comercial');
+    }else if($("#txt_direcfiscal").val() == ''){
+        alert('Digite su direccion fiscal');
+    }else if($("#cbo_tipoempresa").val() == ''){
+        alert('Seleccione un tipo de empresa');
+    }else{
+        Bandeja.guardarEmpresa();        
+    }
+}
+
 
 CargarDetalleRutaHTML=function(permiso,datos){
 areasG="";  areasG=[]; // texto area

@@ -466,6 +466,7 @@ td, th{
 @stop
 @section('formulario')
   @include( 'admin.ruta.form.crearUsuario' )
+  @include( 'admin.ruta.form.crearEmpresa' )
   @include( 'admin.ruta.form.selectPersona' )
   @include( 'admin.ruta.form.buscartramite' )
   @include( 'admin.ruta.form.empresasbyuser' )

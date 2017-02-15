@@ -303,6 +303,39 @@ var Bandeja={
             }
         });
     },
+    guardarEmpresa:function(){
+        var datos=$("#FrmCrearEmpresa").serialize().split("txt_").join("").split("slct_").join("").split("_modal").join("");
+/*        datos+="&estado=1&area=107&rol=94";*/
+        $.ajax({
+            url         : 'empresa/creatempresa',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : datos,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                if(obj.rst==1){
+                    $(".overlay,.loading-img").remove();
+                    msjG.mensaje('success','<b>Registrado',4000);
+                    $('#FrmCrearEmpresa').find('input[type="text"],input[type="email"],textarea,select').val('');
+                    $('#crearEmpresa').modal('hide');
+                    GetEmpresabyId({id:obj.data});
+/*                    $("#cbo_persona").multiselect('destroy');
+                    slctGlobal.listarSlct('persona','cbo_persona','simple',null,{estado_persona:1});*/
+                }
+                else{
+                     msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
+                }
+                $(".overlay,.loading-img").remove();
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
+            }
+        });
+    },
 
 };
 </script>

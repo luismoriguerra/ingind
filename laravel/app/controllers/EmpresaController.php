@@ -36,6 +36,27 @@ class EmpresaController extends BaseController
         return Response::json($query->paginate($perPage));
     }
 
+    public function postCreatempresa(){
+        if ( Request::ajax() ) {
+
+            $empresa      = new Empresa;
+            $empresa['ruc'] = Input::get('ruc2');
+            $empresa['razon_social'] = Input::get('razonsocial2');
+            $empresa['nombre_comercial'] = Input::get('nombcomer');
+            $empresa['direccion_fiscal'] = Input::get('direcfiscal');
+            $empresa['tipo_id'] = Input::get('cbo_tipoempresa');
+            $empresa->save();
+
+
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'data' => $empresa->id,
+                )
+            );
+        }
+    }
+
     
     public function postListar(){
         if ( Request::ajax() ) {
