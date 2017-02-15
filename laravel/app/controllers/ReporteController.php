@@ -1147,7 +1147,7 @@ class ReporteController extends BaseController
         );
     }
 
-    public function notificacionIncum($fecha='',$area=''){
+    public function notificacionIncum($fecha='',$area='',$tipo=''){
         $query = '';
 
        $query.="SELECT t.id_union as documento,rd.norden as paso,rd.fecha_inicio as fechaAsignada,
@@ -1180,6 +1180,9 @@ class ReporteController extends BaseController
           if($area != ''){
             $query.=' AND rd.area_id IN ("'.$area.'") ';
           }
+          if($tipo != ''){
+            $query.=' AND al.clasificador='.$tipo;
+          }
 
           $query.=" ORDER BY a.nombre,f.nombre ";
           $result= DB::Select($query);
@@ -1190,14 +1193,18 @@ class ReporteController extends BaseController
     public function postNotificacionincumplimiento(){
         $fecha = '';
         $area = '';
+        $tipo = '';
           if(Input::get('fecha')){
             $fecha = Input::get('fecha');
           }
           if(Input::get('area_id')){
             $area=implode('","',Input::get('area_id'));
           }
+          if(Input::get('tipo_id')){
+            $tipo=Input::get('tipo');
+          }
 
-        $result = $this->notificacionIncum($fecha,$area);
+        $result = $this->notificacionIncum($fecha,$area,$tipo);
         return Response::json(
             array(
                 'rst'=>1,

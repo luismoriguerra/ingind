@@ -35,20 +35,27 @@
                 <fieldset>
                     <div class="row form-group" >
                         <div class="col-sm-12">
-                            <div class="col-md-4 col-sm-4">
+                            <div class="col-sm-3">
                                 <label class="control-label">Area:</label>
                                 <select class="form-control" name="slct_area_id" id="slct_area_id" multiple>
                                 </select>
                             </div>
-                            <div class="col-md-4 col-sm-4">
+                            <div class="col-sm-2">
                                 <label class="control-label">Rango de Fechas:</label>
                                 <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha" onfocus="blur()"/>
                             </div>
-                            <div class="col-md-1 col-sm-2" style="padding:24px">
+                             <div class="col-sm-3">
+                                    <label class="control-label">Tipo:</label>
+                             <select class="form-control" name="slct_tipo_id" id="slct_tipo_id">
+                                <option value='1' selected>Incuplimiento de Gestión del Trámite</option>
+                                <option value='2' >Incuplimiento de Asignación del Trámite</option>
+                            </select>
+                            </div>
+                            <div class="col-sm-2" style="padding:24px">
                                 <span class="btn btn-primary btn-md" id="generar" name="generar"><i class="glyphicon glyphicon-search"></i> Buscar</span>
                                 {{-- <input type="button" class="form-control btn btn-primary" id="generar" name="generar" value="mostrar"> --}}
                             </div>
-                            <div class="col-md-1 col-sm-2" style="padding:24px">
+                            <div class="col-sm-2" style="padding:24px">
                                 {{-- <span class="btn btn-success btn-md" id="btnexport" name="btnexport"><i class="glyphicon glyphicon-download-alt"></i> Export</span> --}}
                                 <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Export</i></a>
                                 {{-- <input type="button" class="form-control btn btn-primary" id="generar" name="generar" value="mostrar"> --}}

@@ -10,11 +10,12 @@ $(document).ready(function() {
 
     function DataToFilter(){
         area_id = $('#slct_area_id').val();
+        tipo_id = $('#slct_tipo_id').val();
         var fecha=$("#fecha").val();
         var data = [];
         if ( fecha!=="") {
             if ($.trim(area_id)!=='') {
-                data.push({area_id:area_id,fecha:fecha});
+                data.push({area_id:area_id,fecha:fecha,tipo_id:tipo_id});
             } else {
                 alert("Seleccione Área");
             }
@@ -25,6 +26,7 @@ $(document).ready(function() {
     }
 
     slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);
+    slctGlobalHtml('slct_tipo_id','simple');
     $("#generar").click(function (){
         var data = DataToFilter();            
         if(data.length > 0){
