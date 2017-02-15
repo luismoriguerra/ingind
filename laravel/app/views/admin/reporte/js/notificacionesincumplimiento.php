@@ -37,8 +37,9 @@ $(document).ready(function() {
     $(document).on('click', '#btnexport', function(event) {
         var data = DataToFilter();
         if(data.length > 0){
+            tipo_id = $('#slct_tipo_id').val();
             var area = data[0]['area_id'].join('","');
-            $(this).attr('href','reporte/exportnotincumplimiento'+'?fecha='+data[0]['fecha']+'&area_id='+area);            
+            $(this).attr('href','reporte/exportnotincumplimiento'+'?fecha='+data[0]['fecha']+'&area_id='+area+'&tipo_id='+tipo_id);            
         }else{
             event.preventDefault();
         }
