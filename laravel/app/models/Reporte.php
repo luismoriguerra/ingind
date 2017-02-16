@@ -487,7 +487,7 @@ class Reporte extends Eloquent
 
        
       }
-      $sql="SELECT CONCAT_WS('',p.paterno,p.materno,p.nombre) persona,p.email_mdi,p.email, a.nombre area,tr.id_union plataforma,r.id ruta_id,rd2.id ruta_detalle_id,p.id persona_id,
+      $sql="SELECT CONCAT_WS(' ',p.paterno,p.materno,p.nombre) persona,p.email_mdi,p.email, a.nombre area,tr.id_union plataforma,r.id ruta_id,rd2.id ruta_detalle_id,p.id persona_id,
                         IFNULL(
                 (   SELECT CONCAT(a.fecha,'|',a.tipo)
                     FROM alertas a
