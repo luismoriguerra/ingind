@@ -505,7 +505,16 @@ class Reporte extends Eloquent
                     AND a.estado=1 
                     ORDER BY a.id DESC
                     LIMIT 0,1
-                ),'|' ) alerta
+                ),'|' ) alerta,
+                
+                (
+                    SELECT CONCAT(email,',',email_mdi)
+                    FROM personas 
+                    WHERE area_id=31
+                    AND rol_id=8
+                    AND estado=1
+                    LIMIT 0,1
+                ) email_seguimiento
             FROM rutas r
             INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.norden=1 AND rd.area_id=52
             INNER JOIN rutas_detalle rd2 ON rd2.ruta_id=r.id AND rd2.estado=1 AND rd2.norden=2
