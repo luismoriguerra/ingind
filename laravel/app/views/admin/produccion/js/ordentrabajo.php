@@ -67,12 +67,17 @@ function initDatePicker(){
     })
 }
 
-fecha = function(obj){
+fecha = function(obj,tipo){
+    if(typeof (tipo)!='undefined'){
+        var row = obj.parentNode.parentNode;
+    }else {
+      var row = obj.parentNode.parentNode.parentNode.parentNode;  
+    }
     var valor =obj.value;
-    var row = obj.parentNode.parentNode.parentNode.parentNode;
-    $(row).find('.fechaFin').val(valor);
-}
 
+    $(row).find('.fechaFin').val(valor);
+    }
+    
 /*add new verb to generate*/
 Addtr = function(e){
     e.preventDefault();
@@ -191,16 +196,22 @@ HTMLcargarordentrabajodia=function(datos){
         html+="<tr id="+data.norden+">"+
             "<td>"+pos+'</td>'+
             "<td>"+data.actividad+"</td>"+
-            "<td>"+fecha_inicio[0]+"</td>"+
+            "<td><input type='text' class='datepicker form-control fechaInicio' id='txt_fechaInicio' name='txt_fechaInicio' onchange='fecha(this,2)' value='"+fecha_inicio[0]+"'></td>"+
             "<td><input type='numeric' class='form-control horaInicio' id='txt_horaInicio' name='txt_horaInicio' onchange='CalcularHrs(this,2)' value='"+hinicio+"' data-mask></td>"+
-            "<td>"+dtiempo_final[0]+"</td>"+
+            "<td><input type='text' class='datepicker form-control fechaFin' id='txt_fechaFin' name='txt_fechaFin'  disabled='disabled' value='"+dtiempo_final[0]+"'></td>"+
             "<td><input type='numeric' class='form-control horaFin' id='txt_horaFin' name='txt_horaFin' onchange='CalcularHrs(this,2)' value='"+hfin+"' data-mask></td>"+
-            "<td><input type='text' class='form-control ttranscurrido' id='txt_ttranscurrido' name='txt_ttranscurrido' value='"+formato+"' readonly='readonly'></td>"+
-            "<td align='center'><span class='btn btn-success btn-md' onClick='EditarActividad("+data.norden+","+pos+")' > Editar</a></td>";
-        html+="</tr>";
+            "<td><input type='text' class='form-control ttranscurrido' id='txt_ttranscurrido' name='txt_ttranscurrido' value='"+formato+"' readonly='readonly'></td>";
+       if(data.usuario_created_at==data.persona_id){
+        html+="<td align='center'><span class='btn btn-success btn-md' onClick='EditarActividad("+data.norden+","+pos+")' > Editar</a></td>";
+       }
+       else {
+        html+="<td align='center'></td>";   
+       }
+       html+="</tr>";
     });
     $("#tb_produccion").html(html);
     initClockPicker();
+    initDatePicker();
     $("#t_produccion").dataTable(
              {
             "order": [[ 0, "asc" ],[1, "asc"]],
@@ -211,11 +222,13 @@ HTMLcargarordentrabajodia=function(datos){
 
 EditarActividad=function(id,pos){
         
-     var finicio = document.getElementById(id).getElementsByTagName('td')[2].innerHTML;
-     var ffin = document.getElementById(id).getElementsByTagName('td')[4].innerHTML;
-     hinicio=$('#'+id).find("input:eq(0)").val();     
-     hfin=$('#'+id).find("input:eq(1)").val();
-     ttranscurrido=$('#'+id).find("input:eq(2)").val();
+//     var finicio = document.getElementById(id).getElementsByTagName('td')[2].innerHTML;
+//     var ffin = document.getElementById(id).getElementsByTagName('td')[4].innerHTML;
+     var finicio = $('#'+id).find("input:eq(0)").val();     
+     var ffin = $('#'+id).find("input:eq(2)").val();     
+     hinicio=$('#'+id).find("input:eq(1)").val();     
+     hfin=$('#'+id).find("input:eq(3)").val();
+     ttranscurrido=$('#'+id).find("input:eq(4)").val();
      var dataG = [];
      dataG = {id:id,finicio:finicio,hinicio:hinicio,ffin:ffin,hfin:hfin,ttranscurrido:ttranscurrido};
      Asignar.EditarActividad(dataG,pos);  
