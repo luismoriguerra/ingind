@@ -193,6 +193,7 @@ HTMLcargarordentrabajodia=function(datos){
         var hfin = dtiempo_final[1].substring(0, 5);
         var formato = data.formato.substring(0, 5);
         pos++;
+        
         html+="<tr id="+data.norden+">"+
             "<td>"+pos+'</td>'+
             "<td>"+data.actividad+"</td>"+
