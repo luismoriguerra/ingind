@@ -454,6 +454,10 @@ class RutaDetalleController extends \BaseController
                                         }
                                     }
                                     else{
+                                        var_dump($validaSiguiente);
+                                        var_dump($i);
+                                        var_dump($j);
+                                        exit();
                                         $idinvalido= $validaSiguiente[($i+$j)]->id;
                                         $rdinv= RutaDetalle::find($idinvalido);
                                         $rdinv['condicion']=1;
