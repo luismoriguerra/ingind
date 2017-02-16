@@ -396,7 +396,7 @@ class Reporte extends Eloquent
       }
       if( Input::get('fecha')!='' ){
         list($fechaIni,$fechaFin) = explode(" - ", $fecha);
-        $fecha_filtro="AND r.fecha_inicio BETWEEN '$fechaIni' AND '$fechaFin'";
+        $fecha_filtro="AND DATE(r.fecha_inicio) BETWEEN '$fechaIni' AND '$fechaFin'";
       }else {
           
       $estadofinal="<CURRENT_TIMESTAMP()";
