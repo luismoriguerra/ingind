@@ -197,10 +197,10 @@ var Bandeja={
                     if(result.length > 1){
                         $(".rowArea").removeClass('hidden');
                          $("#buscartramite #reporte").hide();
-                         $("#tblAreasCT").text(info.nombre);
                         slctGlobal.listarSlct('pretramite','slcAreasct','simple',null,data);
                         document.querySelector('#txt_clasificador_id').value=info.id;
                         document.querySelector('#txt_clasificador_nomb').value=info.nombre;
+                        $("#clasificarSelect").text(info.nombre);
                     }else{
                         info.area = result[0].nombre;
                         info.areaid = result[0].id;

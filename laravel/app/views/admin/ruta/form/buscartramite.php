@@ -53,7 +53,7 @@
                   <table id="tblAreasCT" class="table table-bordered">
                     <thead>
                       <tr>
-                        <td id="clasificarSelect"></td>
+                        <label id="clasificarSelect"></label>
                         <td >(*) Seleccione area que tomara el tramite</td>                    
                       </tr>
                     </thead>
