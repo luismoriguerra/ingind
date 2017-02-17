@@ -412,7 +412,8 @@ class Reporte extends Eloquent
 
        
       }
-      $sql="SELECT CONCAT_WS('',p.paterno,p.materno,p.nombre) persona,p.email_mdi,tr2.id_union norden,f.nombre proceso_pla, a.nombre area,tr.id_union plataforma,r.fecha_inicio,rd2.dtiempo_final
+      $sql = "";
+      $sql.="SELECT CONCAT_WS('',p.paterno,p.materno,p.nombre) persona,p.email_mdi,tr2.id_union norden,f.nombre proceso_pla, a.nombre area,tr.id_union plataforma,r.fecha_inicio,rd2.dtiempo_final
             ,f2.nombre proceso,r2.fecha_inicio fecha_inicio_gestion, rd2f.norden ult_paso
             ,IFNULL(rd3f.norden,rd2f.norden) act_paso, 
             IFNULL(DATE_ADD(r2.fecha_inicio, INTERVAL t.totalminutos MINUTE),DATE_ADD(r2.fecha_inicio, INTERVAL t2.totalminutos MINUTE)) fecha_fin
@@ -461,8 +462,17 @@ class Reporte extends Eloquent
             LEFT JOIN tiempos t2 ON t2.id=rd2f.tiempo_id
             WHERE r.estado=1
             $fecha_filtro
-            $area_filtro
-            order by proceso DESC,rd.dtiempo_final";
+            $area_filtro";
+
+            if(Input::has('tipo_tramite')){
+                if(Input::get('tipo_tramite') == 1){ //con gestion
+                    $sql.=" AND tr2.id_union IS NOT NULL";
+                }elseif(Input::get('tipo_tramite') == 2){ //sin gestion
+                    $sql.=" AND tr2.id_union IS NULL";
+                }
+            }
+            $sql.=" order by proceso DESC,rd.dtiempo_final";
+
             $r=DB::select($sql);
             return $r;
     }
