@@ -40,17 +40,20 @@
                                 <select class="form-control" name="slct_area_id[]" id="slct_area_id" multiple>
                                 </select>
                             </div>
-                             <div class="col-md-4 col-sm-4">
+                             <div class="col-sm-4">
                                                 <label class="control-label">Rango de Fechas:</label>
                                                 <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha" onfocus="blur()"/>
                             </div>
-                                             <div class="col-md-1 col-sm-1">                            
+                             <div class="col-sm-3">
+                                             <div class="col-sm-6">                            
                                                 <label class="control-label" style="color: white">aaaaa</label>
                                                 <input type="button" class="btn btn-info" id="generar" name="generar" value="Productividad">
                                              </div>
-<!--                                            <div class="col-md-1 col-sm-2" style="padding:24px">
-                                                <a class='btn btn-success btn-md' id="btnexport" name="btnexport"><i class="glyphicon glyphicon-download-alt"></i> Export Actividades</i></a>
-                                            </div>-->
+                                            <div class="col-sm-6" >
+                                                <label class="control-label" style="color: white">aaaaa</label>
+                                                <a class='btn btn-success' id="btnexport" name="btnexport"><i class="glyphicon glyphicon-download-alt">Exportar</i></a>
+                                            </div>
+                                </div>
 <!--                            <div class="col-sm-2">
                                 <label class="control-label"></label>
                                 <input type="button" class="form-control btn btn-primary" id="generar_area" name="generar_area" value="Mostrar">

@@ -33,18 +33,18 @@ $(document).ready(function() {
 });
 
 GeneraHref=function(){
-    var fecha=$("#fecha").val();
+        area_id = $('#slct_area_id').val();
+        $('#area_id').val(area_id);
+        var fecha=$("#fecha").val();
+        if($.trim(area_id)!==''){
         $("#btnexport").removeAttr('href');
         if ( fecha!=="") {
             data = {fecha:fecha,area_id:$("#slct_area_id").val().join(',')};
-            window.location='reporte/exportordentbyarea?fecha='+data.fecha+'&area_id='+data.area_id;
-        }else{
-            alert('selecciona un rango de fechas');
-        }
-    /*    else if ( fecha!=="" ) {
-            data = {fecha:fecha};
-            window.location='reporte/exportdocplataforma'+'?nro='+Math.random(1000)+'&fecha='+data.fecha;
-        } */
+            window.location='reporte/exportdiarioactividades?fecha='+data.fecha+'&area_id='+data.area_id;
+        } else {
+            alert("Seleccione Fecha");
+        }}
+        else {  alert("Seleccione Área"); }
 }
 
 HTMLCPActividad=function(datos,cabecera){
