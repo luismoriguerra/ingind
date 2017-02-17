@@ -212,8 +212,8 @@ poblarDetalle = function(data){
         document.querySelector('#spanDomiFiscal').innerHTML = result.edireccion;
         document.querySelector('#spanTelefonoE').innerHTML = result.etelf;
         document.querySelector('#spanFechavE').innerHTML = result.efvigencia;
-        document.querySelector('#spanRepreL').innerHTML = result.reprelegal;
-        document.querySelector('#spanDniRL').innerHTML = result.repredni;
+/*        document.querySelector('#spanRepreL').innerHTML = result.representante_legal;
+        document.querySelector('#spanDniRL').innerHTML = result.repredni;*/
         $('.empresadetalle').removeClass('hidden');        
     }else{
         $('.empresadetalle').addClass('hidden');
@@ -406,7 +406,8 @@ poblateData = function(tipo,data){
 
 
     if(tipo== 'tramite'){
-        document.querySelector('#txt_nombretramite').value=data.nombre;
+        console.log(data);
+        document.querySelector('#txt_nombretramite').value=data.nombre + ' ('+data.area+')';
         document.querySelector('#txt_idclasitramite').value=data.id;
         document.querySelector('#txt_idarea').value=data.areaid;
     }
