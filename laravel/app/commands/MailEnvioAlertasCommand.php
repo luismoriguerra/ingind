@@ -40,6 +40,8 @@ class MailEnvioAlertasCommand extends Command {
         $url='reportef/bandejatramiteenvioalertas';
         Auth::loginUsingId(697);
         echo Helpers::ruta($url, 'POST', [] );
+        $url2='envioautomatico/notidocplataformaalertas';
+        echo Helpers::ruta($url2, 'POST', [] );
         Auth::logout();
     }
 
