@@ -389,8 +389,8 @@ poblateData = function(tipo,data){
         document.querySelector('#txt_domiciliofiscal').value=data.direccion_fiscal;
         document.querySelector('#txt_emptelefono').value=data.telefono;
         document.querySelector('#txt_empfechav').value=data.fecha_vigencia;
-        document.querySelector('#txt_reprelegal').value=data.representante;
-        document.querySelector('#txt_repredni').value=data.dnirepre;
+/*        document.querySelector('#txt_reprelegal').value=data.representante;
+        document.querySelector('#txt_repredni').value=data.dnirepre;*/
         $('.empresa').removeClass('hidden');
         $('.usuarioSeleccionado').addClass('hidden');
     }
