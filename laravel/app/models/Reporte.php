@@ -452,8 +452,17 @@ class Reporte extends Eloquent
             LEFT JOIN tiempos t2 ON t2.id=rd2f.tiempo_id
             WHERE r.estado=1
             $fecha_filtro
-            $area_filtro
-            order by proceso DESC,rd.dtiempo_final";
+            $area_filtro";
+
+            if(Input::has('tipo_tramite')){
+                if(Input::get('tipo_tramite') == 1){ //con gestion
+                    $sql.=" AND tr2.id_union IS NOT NULL";
+                }elseif(Input::get('tipo_tramite') == 2){ //sin gestion
+                    $sql.=" AND tr2.id_union IS NULL";
+                }
+            }
+            $sql.=" order by proceso DESC,rd.dtiempo_final";
+
             $r=DB::select($sql);
             return $r;
     }

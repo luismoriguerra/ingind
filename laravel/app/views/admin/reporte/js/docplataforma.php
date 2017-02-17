@@ -39,7 +39,14 @@ $(document).ready(function() {
         }*/
         var fecha=$("#fecha").val();
         if ( fecha!=="") {
-            data = {fecha:fecha,area_id:$("#slct_area_id").val()};
+            data = {};
+            data.fecha = fecha;
+            data.area_id = $("#slct_area_id").val();
+
+            if($("#slct_tipo").val() != ""){
+                data.tipo_tramite = $("#slct_tipo").val();
+            }
+
             Accion.mostrar(data);
         } else {
             alert("Seleccione Fecha");
@@ -48,20 +55,25 @@ $(document).ready(function() {
 
     data = {estado:1};
     slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);
+    slctGlobalHtml('slct_tipo','simple');
 
 });
 
 GeneraHref=function(){
     var fecha=$("#fecha").val();
             $("#btnexport").removeAttr('href');
-        if ( fecha!=="" && $.trim($("#slct_area_id").val())!='' ) {
+        if(fecha!=="" && $.trim($("#slct_area_id").val())!='' && $.trim($("#slct_tipo").val()) !=''){
+            data = {fecha:fecha,area_id:$("#slct_area_id").val().join(','),tipo_tramite:$("#slct_tipo").val()};
+            window.location='reporte/exportdocplataforma'+'?nro='+Math.random(1000)+'&fecha='+data.fecha+'&areaexport='+data.area_id+'&tipo_tramite='+data.tipo_tramite;
+        }
+        else if ( fecha!=="" && $.trim($("#slct_area_id").val())!='' ) {
             data = {fecha:fecha,area_id:$("#slct_area_id").val().join(',')};
             window.location='reporte/exportdocplataforma'+'?nro='+Math.random(1000)+'&fecha='+data.fecha+'&areaexport='+data.area_id;
         }
         else if ( fecha!=="" ) {
             data = {fecha:fecha};
             window.location='reporte/exportdocplataforma'+'?nro='+Math.random(1000)+'&fecha='+data.fecha;
-        } 
+        }
 }
 
 HTMLreporte=function(datos){
