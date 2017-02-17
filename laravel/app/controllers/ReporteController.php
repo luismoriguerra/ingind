@@ -2392,4 +2392,123 @@ class ReporteController extends BaseController
         );
         $this->exportExcel($propiedades,'',$cabecera,$rst);
     }
+    
+    public function getExportdiarioactividades(){
+         $array=array();
+            $array['where']='';
+            $array['limit']='';$array['order']='';
+        
+         $rst=Persona::ExportCuadroProductividadActividad();
+        $propiedades = array(
+          'creador'=>'Gerencia Modernizacion',
+          'subject'=>'Diario actividades',
+          'tittle'=>'Reporte',
+          'font-name'=>'Bookman Old Style',
+          'font-size'=>8,
+        );
+        array_unshift($rst['cabecera'],'','','');
+        array_push($rst['cabecera'],'Total','Total');
+        array_unshift($rst['cabecera1'],'N°','Área','Persona');
+        array_push($rst['cabecera1'],'N° de Actividades Total','Total de Horas');
+        
+        $this->exportExcelCuadroProductividad($propiedades,'',$rst['cabecera'],$rst['cabecera1'],$rst['data']); 
+
+    }
+    
+    public function exportExcelCuadroProductividad($propiedades,$estilos,$cabecera,$cabecera1,$data){
+        /*style*/
+        $styleThinBlackBorderAllborders = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => array('argb' => 'FF000000'),
+                ),
+            ),
+            'font'    => array(
+                'bold'      => true
+            ),
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            )
+        );
+        $styleAlignmentBold= array(
+            'font'    => array(
+                'bold'      => true
+            ),
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            ),
+        );
+        $styleAlignment= array(
+            'alignment' => array(
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            ),
+        );
+        /*end style*/
+
+      $head=array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AW','AX','AY','AZ','BA','BB','BC','BD','BE','BF','BG','BH','BI','BJ','BK','BL','BM','BN','BO','BP','BQ','BR','BS','BT','BU','BV','BW','BX','BY','BZ','CA','CB','CC','CD','CE','CF','CG','CH','CI','CJ','CK','CL','CM','CN','CO','CP','CQ','CR','CS','CT','CU','CV','CW','CX','CY','CZ','DA','DB','DC','DD','DE','DF','DG','DH','DI','DJ','DK','DL','DM','DN','DO','DP','DQ','DR','DS','DT','DU','DV','DW','DX','DY','DZ');
+
+      /*instanciar phpExcel*/            
+      $objPHPExcel = new PHPExcel();
+      /*end instanciar phpExcel*/
+
+      /*configure*/
+      $objPHPExcel->getProperties()->setCreator($propiedades['creador'])
+                                  ->setSubject($propiedades['subject']);
+
+      $objPHPExcel->getDefaultStyle()->getFont()->setName($propiedades['font-name']);
+      $objPHPExcel->getDefaultStyle()->getFont()->setSize($propiedades['font-size']);
+      $objPHPExcel->getActiveSheet()->setTitle($propiedades['tittle']);
+      /*end configure*/
+
+      /*set up structure*/
+
+        
+      array_unshift($data,(object) $cabecera1);
+      array_unshift($data,(object) $cabecera);
+      
+     
+      foreach($data as $key => $value){
+        $cont = 0;
+
+        if($key == 0){ // set style to header
+          end($value);       
+          $objPHPExcel->getActiveSheet()->getStyle('A1:'.$head[key($value)].'1')->applyFromArray($styleThinBlackBorderAllborders);
+          $objPHPExcel->getActiveSheet()->getStyle('A2:'.$head[key($value)].'2')->applyFromArray($styleThinBlackBorderAllborders);
+          
+        }
+
+        foreach($value as $index => $val){
+          $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($head[$cont])->setAutoSize(true);
+            
+          if($index == 'norden' && $key > 1){ //set orden in excel
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($head[$cont].($key + 1), $key-1);                
+          }else{ //poblate info
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($head[$cont].($key + 1), $val);
+          }
+
+          $cont++;
+        }          
+      }
+      /*end set up structure*/
+
+      $objPHPExcel->setActiveSheetIndex(0);
+      // Redirect output to a client’s web browser (Excel5)
+      header('Content-Type: application/vnd.ms-excel');
+      header('Content-Disposition: attachment;filename="reporte.xls"'); // file name of excel
+      header('Cache-Control: max-age=0');
+      // If you're serving to IE 9, then the following may be needed
+      header('Cache-Control: max-age=1');
+      // If you're serving to IE over SSL, then the following may be needed
+      header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+      header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+      header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+      header ('Pragma: public'); // HTTP/1.0
+      $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+      $objWriter->save('php://output');
+      exit;
+    }
 }

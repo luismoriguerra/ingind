@@ -755,6 +755,56 @@ class Persona extends Base implements UserInterface, RemindableInterface
         $oData= DB::select($sSql);
         return $oData;
     }
+    
+            public static function ExportCuadroProductividadActividad()
+    {   
+        $sSql = '';$cl='';$left='';  ;$f_fecha='';$cabecera=[];$cabecera1=[];
+        
+        if(Input::has('fecha') && Input::get('fecha')){
+            $fecha = Input::get('fecha');
+            list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+            $f_fecha.= " AND DATE(ap.fecha_inicio) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+        }
+        
+        $fechaIni_=strtotime($fechaIni);
+        $fechaFin_=strtotime($fechaFin);
+        $fecha = date_create($fechaIni);
+        $n=1; for($i=$fechaIni_; $i<=$fechaFin_; $i+=86400){   
+        $cl.= ",COUNT(ap$n.id) AS f$n,SEC_TO_TIME(ABS(SUM(ap$n.ot_tiempo_transcurrido)) * 60)  h$n";
+        $left.= "LEFT JOIN actividad_personal ap$n on ap$n.id=ap.id AND  DATE(ap.fecha_inicio) = STR_TO_DATE('".date("d-m-Y", $i)."','%d-%m-%Y')";
+        $n++;
+        
+        array_push($cabecera, date_format($fecha, 'Y-m-d'));
+        array_push($cabecera, date_format($fecha, 'Y-m-d'));
+        array_push($cabecera1, 'N° de Acti');
+        array_push($cabecera1, 'T. Horas');
+        date_add($fecha, date_interval_create_from_date_string('1 days'));
+        
+        }
+        
+        $sSql.= "SELECT 1 as norden,a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona";
+        $sSql.=$cl;
+        $sSql.= ",COUNT(ap.id) AS f_total,SEC_TO_TIME(ABS(SUM(ap.ot_tiempo_transcurrido)) * 60)  h_total";
+        $sSql.= " FROM actividad_personal ap
+                 INNER JOIN areas a on ap.area_id=a.id
+                 INNER JOIN personas p on ap.persona_id=p.id ";
+        $sSql.=$left;
+        $sSql.= " WHERE ap.estado=1 AND ap.usuario_created_at=ap.persona_id";
+        $sSql.=$f_fecha;
+        
+        if(Input::has('area_id') && Input::get('area_id')){
+            $id_area = Input::get('area_id');
+            $sSql.= " AND ap.area_id IN ($id_area)";
+        }
+        
+        $sSql.= "GROUP BY ap.area_id, ap.persona_id";
+
+
+        $oData['cabecera']=$cabecera;
+        $oData['cabecera1']=$cabecera1;
+        $oData['data']= DB::select($sSql);
+        return $oData;
+    }
 }
 
 
