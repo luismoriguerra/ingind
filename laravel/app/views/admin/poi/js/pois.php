@@ -32,8 +32,9 @@ $(document).ready(function() {
                 area          :'3|Área |#DCE6F1',
                 estado        :'1|Estado|#DCE6F1', //#DCE6F1
                 Grupo          :'1|  |#DCE6F1',
-                G          :'1|  |#DCE6F1',
                 a          :'1|  |#DCE6F1',
+                b          :'1|  |#DCE6F1',
+                c          :'1|  |#DCE6F1',
              };
 
     var resG=dataTableG.CargarCab(idG);
@@ -130,8 +131,8 @@ $(document).ready(function() {
     });
     
     $('#costopersonalModal').on('hide.bs.modal', function (event) {
-       $('#contrataciondetalleModal :visible').val('');
-       $('#contrataciondetalleModal textarea').val('');
+       $('#costopersonalModal :visible').val('');
+       $('#costopersonalModal textarea').val('');
         $('#costopersonalModal select').val('');
      //   var modal = $(this);
        // modal.find('.modal-body input').val('');
@@ -227,6 +228,12 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
         grupo+= '<span id="'+row.id+'" onClick="CargarEstratPei(\''+row.id+'\',\''+row.objetivo_general+'\',this)" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-ok"></i></span>';
         return grupo;
    }
+   
+      if(typeof(fn)!='undefined' && fn.col==14){
+        var grupo='';
+        grupo+= '<span id="'+row.id+'" onClick="CargarEstratPei(\''+row.id+'\',\''+row.objetivo_general+'\',this)" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-ok"></i></span>';
+        return grupo;
+   }
 
     if(typeof(fn)!='undefined' && fn.col==10){
          var estadohtml='';
@@ -274,13 +281,13 @@ activarEstratPei = function(id){
 
 Editar = function(){
     if(validaContrataciones()){
-        Pois.AgregarEditarContratacion(1);
+        Pois.AgregarEditarPois(1);
         $("#form_costo_personal .form-group").css("display","none");
     }
 };
 Agregar = function(){
     if(validaContrataciones()){
-       Pois.AgregarEditarContratacion(0);
+       Pois.AgregarEditarPois(0);
        $("#form_costo_personal .form-group").css("display","none");
     }
 };
@@ -325,7 +332,7 @@ CargarEstratPei=function(id,titulo,boton){
         trs[i].style.backgroundColor="#f9f9f9";
     tr.style.backgroundColor = "#9CD9DE";
     
-    $("#form_estrat_pei #txt_poi_id").val(id);
+    $("#form_estrat_pei_modal #txt_poi_id").val(id);
     $("#form_estrat_pei #txt_titulo").text(titulo);
     $("#form_estrat_pei .form-group").css("display","");
     $("#form_costo_personal .form-group").css("display","none");

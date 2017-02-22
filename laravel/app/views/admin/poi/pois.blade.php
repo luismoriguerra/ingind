@@ -96,7 +96,7 @@
                         </div><!-- /.box-body -->
                            </div>
                         </form>
-                       <hr>
+        
                        <form id="form_estrat_pei" name="form_estrat_pei" method="POST" action="">
                            <div class="form-group" style="display: none">
                                <div class="box-header table-responsive"><center><h3>Objetivo General: <label type="text" id="txt_titulo"></label></h3></h3></center></div>

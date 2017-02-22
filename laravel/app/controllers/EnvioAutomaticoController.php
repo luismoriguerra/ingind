@@ -8,6 +8,117 @@ class EnvioAutomaticoController extends \BaseController {
 	 *
 	 * @return Response
 	 */
+    
+            public function postActividadesdiariasalertas()
+    { 
+      $array=array();
+      $array['usuario']=Auth::user()->id;
+      
+      $retorno=array(
+                  'rst'=>1
+               );
+
+      $html="";
+      $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
+      
+      $n=1;
+         $hoy = date('Y-m-j');
+         $ayer = strtotime ( '-1 day' , strtotime ( $hoy ) ) ;
+         $ayer = date ( 'Y-m-j' , $ayer );   
+         $Ssql="SELECT ap.persona_id,p.area_id,a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona, p.email,p.email_mdi,
+                COUNT(total.id) AS 'actividad',IFNULL(SUM(total.ot_tiempo_transcurrido),0) as 'minuto',
+                IF(COUNT(total.id)>=5,1,0) as val_acti,IF(IFNULL(SUM(total.ot_tiempo_transcurrido),0)>=360,1,0) as val_minu,
+                 (SELECT CONCAT(email,',',email_mdi)
+                     FROM personas 
+                                 where area_id in (53)
+                     and rol_id in (9,8)
+                     and estado=1
+                     order by area_id
+                     LIMIT 0,1) email_personal
+                FROM actividad_personal ap
+                INNER JOIN areas a on ap.area_id=a.id AND a.area_gestion=1
+                INNER JOIN personas p on ap.persona_id=p.id
+                LEFT JOIN actividad_personal total on total.id=ap.id AND DATE(ap.fecha_inicio) BETWEEN '$ayer' AND '$ayer'
+                WHERE ap.estado=1 
+                AND ap.usuario_created_at=ap.persona_id 
+                GROUP BY ap.area_id, ap.persona_id
+                HAVING val_acti=0 or val_minu=0 LIMIT 0,1";
+            
+           $actividades= DB::select($Ssql);
+           
+       
+      foreach ($actividades as $value) {
+  
+        $html.="<tr>";
+        $html.="<td>".$n."</td>";
+        $html.="<td>".$value->area."</td>";
+        $html.="<td>".$value->persona."</td>";
+        $html.="<td>".$value->actividad."</td>";
+        $html.="<td>".$value->minuto."</td>";
+        $html.="<td>".$value->email_mdi."</td>";
+        $html.="</tr>";
+        
+        
+        if ($value->val_acti==1 or $value->val_minu==0){
+            $texto='la cantidad mínima de minutos ';
+
+        }
+        if ($value->val_acti==0 or $value->val_minu==1){
+            $texto='la cantidad mínima de actividades ';
+
+        }
+        if ($value->val_acti==0 or $value->val_minu==0) {
+            $texto='la cantidad mínima de actividades y minutos ';
+        }
+        
+        $plantilla=Plantilla::where('tipo','=','9')->first();
+        $buscar=array('persona:','dia:','mes:','año:','persona:','fechaayer:','actividades:');
+        $reemplazar=array($value->persona,date('d'),$meses[date('n')],date("Y"),$value->persona,$ayer,$texto);
+        $parametros=array(
+          'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
+        );
+        
+        $email=array();
+            if(trim($value->email_mdi)!=''){
+              array_push($email, $value->email_mdi);
+            }
+            if(trim($value->email)!=''){
+              array_push($email, $value->email);
+            }
+            $emailpersonal=explode(",",$value->email_personal);
+        
+        $email='rcapchab@gmail.com';
+        $emailpersonal='rcapchab@gmail.com';
+        if( $email!=''  ){
+          
+            DB::beginTransaction();   
+            $insert='INSERT INTO alertas_actividad (persona_id,area_id,fecha_alerta) 
+                     VALUES ('.$value->persona_id.','.$value->area_id.',"'.date("Y-m-d").'")';
+                     DB::insert($insert); 
+                                    
+        try{
+            Mail::send('notreirel', $parametros , 
+                function($message) use ($email,$emailpersonal){
+                    $message
+                    ->to($email)
+                    ->cc($emailpersonal)
+                    ->subject('.::Notificación::.');
+                }
+            );
+       }
+        catch(Exception $e){
+            //echo $qem[$k]->email."<br>";
+             DB::rollback();
+        }
+        DB::commit();
+        }
+        $n++;
+      }
+      $retorno["data"]=$html;
+
+      return Response::json( $retorno );
+    }
+    
              public function postContratacionesalertas()
     { 
       $array=array();

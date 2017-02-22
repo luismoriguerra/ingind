@@ -425,7 +425,7 @@ class PoiController extends \BaseController
             $estratpei->usuario_created_at = Auth::user()->id;
             $estratpei->save();
 
-            return Response::json(array('rst'=>1, 'msj'=>'Registro realizado correctamente', 'costo_personal_id'=>$costopersonal->id));
+            return Response::json(array('rst'=>1, 'msj'=>'Registro realizado correctamente', 'estrat_pei_id'=>$estratpei->id));
         }
     }
 
