@@ -123,6 +123,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Way\Generators\GeneratorsServiceProvider',
 		'Thujohn\Packagist\PackagistServiceProvider',
+		'Thujohn\Pdf\PdfServiceProvider',
         'SimpleSoftwareIO\QrCode\QrCodeServiceProvider',
 	),
 
@@ -190,7 +191,8 @@ return array(
 		'URL'               => 'Illuminate\Support\Facades\URL',
 		'Validator'         => 'Illuminate\Support\Facades\Validator',
 		'View'              => 'Illuminate\Support\Facades\View',
-		'PDF'			=> 'Thujohn\Packagist\PackagistFacade',
+		'Packagist'			=> 'Thujohn\Packagist\PackagistFacade',
+		'PDF' => 'Thujohn\Pdf\PdfFacade',
         'QrCode' => 'SimpleSoftwareIO\QrCode\Facades\QrCode',
 	),
 
