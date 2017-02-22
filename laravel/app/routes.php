@@ -185,3 +185,6 @@ Route::controller('docs', 'DocsController');
 Route::controller('contratacion', 'ContratacionController');
 Route::controller('envioautomatico', 'EnvioAutomaticoController');
 Route::controller('empresa', 'EmpresaController');
+Route::controller('poitipo', 'PoiTipoController');
+Route::controller('poisubtipo', 'PoiSubtipoController');
+Route::controller('poi', 'PoiController');
