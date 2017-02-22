@@ -212,8 +212,8 @@ poblarDetalle = function(data){
         document.querySelector('#spanDomiFiscal').innerHTML = result.edireccion;
         document.querySelector('#spanTelefonoE').innerHTML = result.etelf;
         document.querySelector('#spanFechavE').innerHTML = result.efvigencia;
-        document.querySelector('#spanRepreL').innerHTML = result.reprelegal;
-        document.querySelector('#spanDniRL').innerHTML = result.repredni;
+/*        document.querySelector('#spanRepreL').innerHTML = result.representante_legal;
+        document.querySelector('#spanDniRL').innerHTML = result.repredni;*/
         $('.empresadetalle').removeClass('hidden');        
     }else{
         $('.empresadetalle').addClass('hidden');
@@ -389,8 +389,8 @@ poblateData = function(tipo,data){
         document.querySelector('#txt_domiciliofiscal').value=data.direccion_fiscal;
         document.querySelector('#txt_emptelefono').value=data.telefono;
         document.querySelector('#txt_empfechav').value=data.fecha_vigencia;
-        document.querySelector('#txt_reprelegal').value=data.representante;
-        document.querySelector('#txt_repredni').value=data.dnirepre;
+/*        document.querySelector('#txt_reprelegal').value=data.representante;
+        document.querySelector('#txt_repredni').value=data.dnirepre;*/
         $('.empresa').removeClass('hidden');
         $('.usuarioSeleccionado').addClass('hidden');
     }
@@ -406,7 +406,8 @@ poblateData = function(tipo,data){
 
 
     if(tipo== 'tramite'){
-        document.querySelector('#txt_nombretramite').value=data.nombre;
+        console.log(data);
+        document.querySelector('#txt_nombretramite').value=data.nombre + ' ('+data.area+')';
         document.querySelector('#txt_idclasitramite').value=data.id;
         document.querySelector('#txt_idarea').value=data.areaid;
     }
