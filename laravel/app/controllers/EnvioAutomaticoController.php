@@ -42,7 +42,7 @@ class EnvioAutomaticoController extends \BaseController {
                 WHERE ap.estado=1 
                 AND ap.usuario_created_at=ap.persona_id 
                 GROUP BY ap.area_id, ap.persona_id
-                HAVING val_acti=0 or val_minu=0 LIMIT 0,1";
+                HAVING val_acti=0 or val_minu=0 LIMIT 0,10";
             
            $actividades= DB::select($Ssql);
            
@@ -57,7 +57,7 @@ class EnvioAutomaticoController extends \BaseController {
         $html.="<td>".$value->minuto."</td>";
         $html.="<td>".$value->email_mdi."</td>";
         $html.="</tr>";
-        
+        $texto='';
         
         if ($value->val_acti==1 AND $value->val_minu==0){
             $texto='la cantidad mínima de minutos ';
