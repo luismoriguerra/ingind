@@ -124,6 +124,7 @@ return array(
 		'Way\Generators\GeneratorsServiceProvider',
 		'Thujohn\Packagist\PackagistServiceProvider',
         'SimpleSoftwareIO\QrCode\QrCodeServiceProvider',
+        'Thujohn\Pdf\PdfServiceProvider',
 	),
 
 	/*
@@ -192,6 +193,7 @@ return array(
 		'View'              => 'Illuminate\Support\Facades\View',
 		'Packagist'			=> 'Thujohn\Packagist\PackagistFacade',
         'QrCode' => 'SimpleSoftwareIO\QrCode\Facades\QrCode',
+        'PDF' => 'Thujohn\Pdf\PdfFacade',
 	),
 
 );
