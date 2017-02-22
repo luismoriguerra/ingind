@@ -42,7 +42,7 @@ class EnvioAutomaticoController extends \BaseController {
                 WHERE ap.estado=1 
                 AND ap.usuario_created_at=ap.persona_id 
                 GROUP BY ap.area_id, ap.persona_id
-                HAVING val_acti=0 or val_minu=0 LIMIT 0,10";
+                HAVING val_acti=0 or val_minu=0";
             
            $actividades= DB::select($Ssql);
            
