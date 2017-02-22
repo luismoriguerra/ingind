@@ -59,15 +59,15 @@ class EnvioAutomaticoController extends \BaseController {
         $html.="</tr>";
         
         
-        if ($value->val_acti==1 or $value->val_minu==0){
+        if ($value->val_acti==1 AND $value->val_minu==0){
             $texto='la cantidad mínima de minutos ';
 
         }
-        if ($value->val_acti==0 or $value->val_minu==1){
+        if ($value->val_acti==0 AND $value->val_minu==1){
             $texto='la cantidad mínima de actividades ';
 
         }
-        if ($value->val_acti==0 or $value->val_minu==0) {
+        if ($value->val_acti==0 AND $value->val_minu==0) {
             $texto='la cantidad mínima de actividades y minutos ';
         }
         
