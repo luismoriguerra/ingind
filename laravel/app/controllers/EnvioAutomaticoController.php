@@ -24,7 +24,7 @@ class EnvioAutomaticoController extends \BaseController {
       $n=1;
          $hoy = date('Y-m-j');
          $ayer = strtotime ( '-1 day' , strtotime ( $hoy ) ) ;
-         $ayer = date ( 'Y-m-j' , $ayer );   
+         $ayer = date ( 'Y-m-j' , $ayer );  
          $Ssql="SELECT ap.persona_id,p.area_id,a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona, p.email,p.email_mdi,
                 COUNT(total.id) AS 'actividad',IFNULL(SUM(total.ot_tiempo_transcurrido),0) as 'minuto',
                 IF(COUNT(total.id)>=5,1,0) as val_acti,IF(IFNULL(SUM(total.ot_tiempo_transcurrido),0)>=360,1,0) as val_minu,
@@ -42,11 +42,12 @@ class EnvioAutomaticoController extends \BaseController {
                 WHERE ap.estado=1 
                 AND ap.usuario_created_at=ap.persona_id 
                 GROUP BY ap.area_id, ap.persona_id
-                HAVING val_acti=0 or val_minu=0";
+                HAVING val_acti=0 or val_minu=0 LIMIT 0,10";
             
            $actividades= DB::select($Ssql);
            
-       
+     $dia_validar=date('w',strtotime($ayer));       
+     if( $dia_validar==1 OR $dia_validar==2 OR $dia_validar==3 OR $dia_validar==4 OR $dia_validar==5){   
       foreach ($actividades as $value) {
   
         $html.="<tr>";
@@ -89,7 +90,7 @@ class EnvioAutomaticoController extends \BaseController {
         
         $email='rcapchab@gmail.com';
         $emailpersonal='rcapchab@gmail.com';
-        if( $email!=''  ){
+       
           
             DB::beginTransaction();   
             $insert='INSERT INTO alertas_actividad (persona_id,area_id,fecha_alerta) 
@@ -97,7 +98,7 @@ class EnvioAutomaticoController extends \BaseController {
                      DB::insert($insert); 
                                     
         try{
-            Mail::send('notreirel', $parametros , 
+            Mail::queue('notreirel', $parametros , 
                 function($message) use ($email,$emailpersonal){
                     $message
                     ->to($email)
@@ -111,9 +112,9 @@ class EnvioAutomaticoController extends \BaseController {
              DB::rollback();
         }
         DB::commit();
-        }
+    
         $n++;
-      }
+      }    }
       $retorno["data"]=$html;
 
       return Response::json( $retorno );
