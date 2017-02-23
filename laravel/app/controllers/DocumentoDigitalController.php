@@ -27,6 +27,21 @@ class DocumentoDigitalController extends \BaseController {
             return Response::json(
                 array(
                     'rst' => 1,
+                    'msj' => 'Registro inhabilitado correctamente',
+                )
+            );
+        }
+    }
+
+    public function postCambiarestadodoc()
+    {
+        if (Request::ajax() && Input::has('id') && Input::has('estado')) {
+            $DocDigital = DocumentoDigital::find(Input::get('id'));
+            $DocDigital->estado = Input::get('estado');
+            $DocDigital->save();
+            return Response::json(
+                array(
+                    'rst' => 1,
                     'msj' => 'Registro actualizado correctamente',
                 )
             );
@@ -88,7 +103,7 @@ class DocumentoDigitalController extends \BaseController {
             $DocDigital->plantilla_doc_id = Input::get('plantilla');
             $DocDigital->area_id = Input::get('area_plantilla');
             $DocDigital->tipo_envio = Input::get('tipoenvio');
-            $DocDigital->persona_id = Auth::user()->id;;
+            $DocDigital->persona_id = Auth::user()->id;
             $DocDigital->usuario_created_at = Auth::user()->id;
             $DocDigital->save();
 
@@ -104,7 +119,7 @@ class DocumentoDigitalController extends \BaseController {
             		$DocDigitalArea->save();
             	}
             }
-            return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
+            return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente','nombre'=>$DocDigital->titulo,'iddocdigital'=>$DocDigital->id));
         }
     }
 

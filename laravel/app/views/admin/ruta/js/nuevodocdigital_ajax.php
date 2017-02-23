@@ -1,10 +1,9 @@
 <script type="text/javascript">
-var plantilla_id, PlantillaObj;
-var Plantillas={
-    AgregarEditar:function(areas,event){
+var docdigital={
+       AgregarEditar:function(areas,event,poblate = 0){
         $("#formNuevoDocDigital input[name='word']").remove();
         $("#formNuevoDocDigital").append("<input type='hidden' value='"+CKEDITOR.instances.plantillaWord.getData()+"' name='word'>");
-        $("#txt_titulofinal").val($("#lblDocumento").text()+$("#txt_titulo").val()+$("#lblArea").text());
+        $("#txt_titulofinal").val($("#lblDocumento").text()+$(".txttittle").val()+$("#lblArea").text());
         var datos=$("#formNuevoDocDigital").serialize().split("txt_").join("").split("slct_").join("");
         datos+="&areasselect="+JSON.stringify(areas);
         var accion="documentodig/crear";
@@ -24,10 +23,13 @@ var Plantillas={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                    $('#t_plantilla').dataTable().fnDestroy();
-                    Plantillas.Cargar(HTMLCargar);
                     alertBootstrap('success', obj.msj, 6);
                     $("#NuevoDocDigital").modal('hide');
+
+                    if(poblate != 0){
+                        $("#txt_codigo").val(obj.nombre);
+                        $("#txt_doc_digital_id").val(obj.iddocdigital);
+                    }
                 }
                 else{
                     $.each(obj.msj,function(index,datos){
@@ -227,5 +229,5 @@ var Plantillas={
             }
         });
     },
-};
+}
 </script>

@@ -185,3 +185,8 @@ Route::controller('docs', 'DocsController');
 Route::controller('contratacion', 'ContratacionController');
 Route::controller('envioautomatico', 'EnvioAutomaticoController');
 Route::controller('empresa', 'EmpresaController');
+Route::controller('local', 'LocalController');
+Route::controller('inmueble', 'InmuebleController');
+Route::controller('apertura', 'AperturaController');
+
+

@@ -36,7 +36,7 @@ class DocumentoDigital extends Base {
         }else{
             return DB::table('doc_digital as dd')
             		->join('plantilla_doc as pd', 'dd.plantilla_doc_id', '=', 'pd.id')
-                    ->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla')
+                    ->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla','dd.estado')
                    	->where( 
                         function($query){
                             $sql="  SELECT count(id) cant
