@@ -98,12 +98,16 @@ class EnvioAutomaticoController extends \BaseController {
                 $emailpersonal = explode(",", $value->email_personal);
                 $emailjefe = explode(",", $value->email_jefe);
                 $email = 'rcapchab@gmail.com';
-                $emailpersonal = 'consultasgmgm@gmail.com';
-                $emailjefe='kirklanescorpio@gmail.com';
+                $emailpersonal = 'rcapchab@gmail.com';
+                $emailjefe='rcapchab@gmail.com';
 
                 DB::beginTransaction();
+                
+                $update = 'update alertas_actividad set ultimo_registro=0 where persona_id=' . $value->persona_id;
+                DB::update($update);
+                
                 $insert = 'INSERT INTO alertas_actividad (persona_id,area_id,actividad, minuto, fecha_alerta) 
-                     VALUES (' . $value->persona_id . ',' . $value->area_id . ',' . $value->actividad . ',' . $value->minuto . ',"' . date("Y-m-d") . '")';
+                     VALUES (' . $value->persona_id . ',' . $value->area_id . ',' . $value->actividad . ',' . $value->minuto . ',"' . date("Y-m-d h:m:s") . '")';
                 DB::insert($insert);
 
                 try {
