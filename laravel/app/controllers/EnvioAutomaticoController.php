@@ -2,30 +2,36 @@
 
 class EnvioAutomaticoController extends \BaseController {
 
-	/**
-	 * Display a listing of the resource.
-	 * GET /prueba
-	 *
-	 * @return Response
-	 */
-    
-            public function postActividadesdiariasalertas()
-    { 
-      $array=array();
-      $array['usuario']=Auth::user()->id;
-      
-      $retorno=array(
-                  'rst'=>1
-               );
+    /**
+     * Display a listing of the resource.
+     * GET /prueba
+     *
+     * @return Response
+     */
+    public function postActividadesdiariasalertas() {
+        $array = array();
+        $array['usuario'] = Auth::user()->id;
 
-      $html="";
-      $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
-      
-      $n=1;
-         $hoy = date('Y-m-j');
-         $ayer = strtotime ( '-1 day' , strtotime ( $hoy ) ) ;
-         $ayer = date ( 'Y-m-j' , $ayer );  
-         $Ssql="SELECT ap.persona_id,p.area_id,a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona, p.email,p.email_mdi,
+        $retorno = array(
+            'rst' => 1
+        );
+
+        $html = "";
+        $meses = array('', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre');
+
+        $n = 1;
+        $hoy = date('Y-m-d');
+        $ayer = strtotime('-1 day', strtotime($hoy));
+        $ayer = date('Y-m-d', $ayer);
+
+        $dia_validar = date('w', strtotime($hoy));
+        if ($dia_validar == 1 OR $dia_validar == 2 OR $dia_validar == 3 OR $dia_validar == 4 OR $dia_validar == 5) {
+          
+            if ($dia_validar == 1 ){
+                $ayer = strtotime('-3 day', strtotime($hoy));
+                $ayer = date('Y-m-d', $ayer);
+            }
+            $Ssql = "SELECT ap.persona_id,p.area_id,a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona, p.email,p.email_mdi,
                 COUNT(total.id) AS 'actividad',IFNULL(SUM(total.ot_tiempo_transcurrido),0) as 'minuto',
                 IF(COUNT(total.id)>=5,1,0) as val_acti,IF(IFNULL(SUM(total.ot_tiempo_transcurrido),0)>=360,1,0) as val_minu,
                  (SELECT CONCAT(email,',',email_mdi)
@@ -37,104 +43,98 @@ class EnvioAutomaticoController extends \BaseController {
                      LIMIT 0,1) email_personal
                 FROM actividad_personal ap
                 INNER JOIN areas a on ap.area_id=a.id AND a.area_gestion=1
-                INNER JOIN personas p on ap.persona_id=p.id
-                LEFT JOIN actividad_personal total on total.id=ap.id AND DATE(ap.fecha_inicio) BETWEEN '$ayer' AND '$ayer'
+                INNER JOIN personas p on ap.persona_id=p.id AND p.estado=1 AND p.rol_id NOT IN (8,9)
+                LEFT JOIN actividad_personal total on total.id=ap.id AND DATE(ap.fecha_inicio)= '$ayer'
                 WHERE ap.estado=1 
                 AND ap.usuario_created_at=ap.persona_id 
                 GROUP BY ap.area_id, ap.persona_id
-                HAVING val_acti=0 or val_minu=0 LIMIT 0,10";
-            
-           $actividades= DB::select($Ssql);
-           
-     $dia_validar=date('w',strtotime($ayer));       
-     if( $dia_validar==1 OR $dia_validar==2 OR $dia_validar==3 OR $dia_validar==4 OR $dia_validar==5){   
-      foreach ($actividades as $value) {
-  
-        $html.="<tr>";
-        $html.="<td>".$n."</td>";
-        $html.="<td>".$value->area."</td>";
-        $html.="<td>".$value->persona."</td>";
-        $html.="<td>".$value->actividad."</td>";
-        $html.="<td>".$value->minuto."</td>";
-        $html.="<td>".$value->email_mdi."</td>";
-        $html.="</tr>";
-        $texto='';
-        
-        if ($value->val_acti==1 AND $value->val_minu==0){
-            $texto='la cantidad mínima de minutos ';
+                HAVING val_acti=0 or val_minu=0";
 
-        }
-        if ($value->val_acti==0 AND $value->val_minu==1){
-            $texto='la cantidad mínima de actividades ';
+            $actividades = DB::select($Ssql);
 
-        }
-        if ($value->val_acti==0 AND $value->val_minu==0) {
-            $texto='la cantidad mínima de actividades y minutos ';
-        }
-        
-        $plantilla=Plantilla::where('tipo','=','9')->first();
-        $buscar=array('persona:','dia:','mes:','año:','persona:','fechaayer:','actividades:');
-        $reemplazar=array($value->persona,date('d'),$meses[date('n')],date("Y"),$value->persona,$ayer,$texto);
-        $parametros=array(
-          'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
-        );
-        
-        $email=array();
-            if(trim($value->email_mdi)!=''){
-              array_push($email, $value->email_mdi);
-            }
-            if(trim($value->email)!=''){
-              array_push($email, $value->email);
-            }
-            $emailpersonal=explode(",",$value->email_personal);
-        
-        $email='rcapchab@gmail.com';
-        $emailpersonal='rcapchab@gmail.com';
-       
-          
-            DB::beginTransaction();   
-            $insert='INSERT INTO alertas_actividad (persona_id,area_id,fecha_alerta) 
-                     VALUES ('.$value->persona_id.','.$value->area_id.',"'.date("Y-m-d").'")';
-                     DB::insert($insert); 
-                                    
-        try{
-            Mail::queue('notreirel', $parametros , 
-                function($message) use ($email,$emailpersonal){
-                    $message
-                    ->to($email)
-                    ->cc($emailpersonal)
-                    ->subject('.::Notificación::.');
+            foreach ($actividades as $value) {
+
+                $html .= "<tr>";
+                $html .= "<td>" . $n . "</td>";
+                $html .= "<td>" . $value->area . "</td>";
+                $html .= "<td>" . $value->persona . "</td>";
+                $html .= "<td>" . $value->actividad . "</td>";
+                $html .= "<td>" . $value->minuto . "</td>";
+                $html .= "<td>" . $value->email_mdi . "</td>";
+                $html .= "</tr>";
+                $texto = '';
+
+                if ($value->val_acti == 1 AND $value->val_minu == 0) {
+                    $texto = 'la cantidad mínima de minutos ';
                 }
-            );
-       }
-        catch(Exception $e){
-            //echo $qem[$k]->email."<br>";
-             DB::rollback();
+                if ($value->val_acti == 0 AND $value->val_minu == 1) {
+                    $texto = 'la cantidad mínima de actividades ';
+                }
+                if ($value->val_acti == 0 AND $value->val_minu == 0) {
+                    $texto = 'la cantidad mínima de actividades y minutos ';
+                }
+
+                $plantilla = Plantilla::where('tipo', '=', '9')->first();
+                $buscar = array('persona:', 'dia:', 'mes:', 'año:', 'persona:', 'fechaayer:', 'actividades:');
+                $reemplazar = array($value->persona, date('d'), $meses[date('n')], date("Y"), $value->persona, $ayer, $texto);
+                $parametros = array(
+                    'cuerpo' => str_replace($buscar, $reemplazar, $plantilla->cuerpo)
+                );
+
+                $email = array();
+                if (trim($value->email_mdi) != '') {
+                    array_push($email, $value->email_mdi);
+                }
+                if (trim($value->email) != '') {
+                    array_push($email, $value->email);
+                }
+                $emailpersonal = explode(",", $value->email_personal);
+
+                $email = 'rcapchab@gmail.com';
+                $emailpersonal = 'rcapchab@gmail.com';
+
+
+                DB::beginTransaction();
+                $insert = 'INSERT INTO alertas_actividad (persona_id,area_id,actividad, minuto, fecha_alerta) 
+                     VALUES (' . $value->persona_id . ',' . $value->area_id . ',' . $value->actividad . ',' . $value->minuto . ',"' . date("Y-m-d") . '")';
+                DB::insert($insert);
+
+                try {
+                    Mail::send('notreirel', $parametros, function($message) use ($email, $emailpersonal) {
+                        $message
+                                ->to($email)
+                                ->cc($emailpersonal)
+                                ->subject('.::Notificación::.');
+                    }
+                    );
+                } catch (Exception $e) {
+                    //echo $qem[$k]->email."<br>";
+                    DB::rollback();
+                }
+                DB::commit();
+
+                $n++;
+            }
         }
-        DB::commit();
-    
-        $n++;
-      }    }
-      $retorno["data"]=$html;
+        $retorno["data"] = $html;
 
-      return Response::json( $retorno );
+        return Response::json($retorno);
     }
-    
-             public function postContratacionesalertas()
-    { 
-      $array=array();
-      $array['usuario']=Auth::user()->id;
-      
-      $retorno=array(
-                  'rst'=>1
-               );
 
-      $html="";
-      $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
-      
-      $n=1;
-      
-         $Ssql="SELECT c.id,c.area_id,1 as titulo,c.titulo as descripcion,a.nombre as area,CONCAT(p.paterno,' ',p.materno,' ',p.nombre) as persona,p.id persona_id,1 as tipo,
+    public function postContratacionesalertas() {
+        $array = array();
+        $array['usuario'] = Auth::user()->id;
+
+        $retorno = array(
+            'rst' => 1
+        );
+
+        $html = "";
+        $meses = array('', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre');
+
+        $n = 1;
+
+        $Ssql = "SELECT c.id,c.area_id,1 as titulo,c.titulo as descripcion,a.nombre as area,CONCAT(p.paterno,' ',p.materno,' ',p.nombre) as persona,p.id persona_id,1 as tipo,
                 p.email,p.email_mdi,c.fecha_aviso,c.programacion_aviso,c.fecha_inicio,c.fecha_fin
                 FROM contratacion c
                 INNER JOIN areas a on c.area_id=a.id
@@ -159,268 +159,256 @@ class EnvioAutomaticoController extends \BaseController {
                 (cr.fecha_aviso=curdate() OR
                 ADDDATE(ac.fecha_alerta,INTERVAL cr.programacion_aviso day)=curdate()
                 ) AND  ISNULL(cr.fecha_conformidad)";
-      
-      $contratacion= DB::select($Ssql);
-      
-           $sql='select area_id,id,email, email_mdi
+
+        $contratacion = DB::select($Ssql);
+
+        $sql = 'select area_id,id,email, email_mdi
             from personas
             where area_id in (29)
             and rol_id in (9,8)
             and estado=1
             order by area_id;';
-            $e= DB::select($sql);
-       
-      foreach ($contratacion as $value) {
-  
-        $html.="<tr>";
-        $html.="<td>".$n."</td>";
-        $html.="<td>".$value->descripcion."</td>";
-        $html.="<td>".$value->area."</td>";
-        $html.="<td>".$value->persona."</td>";
-        $html.="<td>".$value->email."</td>";
-        $html.="<td>".$value->email_mdi."</td>";
-        $html.="</tr>";
-        if ($value->tipo==1){
-            $contratacion='Contratación: '.$value->descripcion;
-            $descripcion='Contratación con el titulo; '.$value->descripcion; 'mencionado arriba.';
-            $fechafin=$value->fecha_fin;
-        }
-        if ($value->tipo==2){
-            $contratacion='Detalle de Contratación: '.$value->descripcion;
-            $descripcion='Detalle de Contratación: '.$value->descripcion;
-            $fechafin=$value->fecha_fin.', correspondiente a la Contratación: '.$value->titulo;
-        }
-        
-        $plantilla=Plantilla::where('tipo','=','5')->first();
-        $buscar=array('persona:','dia:','mes:','año:','contratacion:','descripcion:','fechainicio:','fechafinal:');
-        $reemplazar=array($value->persona,date('d'),$meses[date('n')],date("Y"),$contratacion,$descripcion,$value->fecha_inicio,$fechafin);
-        $parametros=array(
-          'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
-        );
-        
-        $email=$value->email;
-        $email_copia = [$e[0]->email, $e[0]->email_mdi];
-        
+        $e = DB::select($sql);
+
+        foreach ($contratacion as $value) {
+
+            $html .= "<tr>";
+            $html .= "<td>" . $n . "</td>";
+            $html .= "<td>" . $value->descripcion . "</td>";
+            $html .= "<td>" . $value->area . "</td>";
+            $html .= "<td>" . $value->persona . "</td>";
+            $html .= "<td>" . $value->email . "</td>";
+            $html .= "<td>" . $value->email_mdi . "</td>";
+            $html .= "</tr>";
+            if ($value->tipo == 1) {
+                $contratacion = 'Contratación: ' . $value->descripcion;
+                $descripcion = 'Contratación con el titulo; ' . $value->descripcion;
+                'mencionado arriba.';
+                $fechafin = $value->fecha_fin;
+            }
+            if ($value->tipo == 2) {
+                $contratacion = 'Detalle de Contratación: ' . $value->descripcion;
+                $descripcion = 'Detalle de Contratación: ' . $value->descripcion;
+                $fechafin = $value->fecha_fin . ', correspondiente a la Contratación: ' . $value->titulo;
+            }
+
+            $plantilla = Plantilla::where('tipo', '=', '5')->first();
+            $buscar = array('persona:', 'dia:', 'mes:', 'año:', 'contratacion:', 'descripcion:', 'fechainicio:', 'fechafinal:');
+            $reemplazar = array($value->persona, date('d'), $meses[date('n')], date("Y"), $contratacion, $descripcion, $value->fecha_inicio, $fechafin);
+            $parametros = array(
+                'cuerpo' => str_replace($buscar, $reemplazar, $plantilla->cuerpo)
+            );
+
+            $email = $value->email;
+            $email_copia = [$e[0]->email, $e[0]->email_mdi];
+
 //        $email='rcapchab@gmail.com';
 //        $email_copia='consultas.gmgm@gmail.com';
-        if( $email!=''  ){
-          
-            DB::beginTransaction();   
-            $update='update alertas_contratacion set ultimo_registro=0
-                     where general_id='.$value->id.' and tipo_id='.$value->tipo;
-                     DB::update($update); 
-        
-            $insert='INSERT INTO alertas_contratacion (persona_id,area_id,tipo_id,general_id,fecha_alerta) 
-                     VALUES ('.$value->persona_id.','.$value->area_id.','.$value->tipo.','.$value->id.',"'.date("Y-m-d").'")';
-                     DB::insert($insert); 
-                                    
-        try{
-            Mail::send('notreirel', $parametros , 
-                function($message) use ($email,$email_copia){
-                    $message
-                    ->to($email)
-                    ->cc($email_copia)
-                    ->subject('.::Notificación::.');
+            if ($email != '') {
+
+                DB::beginTransaction();
+                $update = 'update alertas_contratacion set ultimo_registro=0
+                     where general_id=' . $value->id . ' and tipo_id=' . $value->tipo;
+                DB::update($update);
+
+                $insert = 'INSERT INTO alertas_contratacion (persona_id,area_id,tipo_id,general_id,fecha_alerta) 
+                     VALUES (' . $value->persona_id . ',' . $value->area_id . ',' . $value->tipo . ',' . $value->id . ',"' . date("Y-m-d") . '")';
+                DB::insert($insert);
+
+                try {
+                    Mail::send('notreirel', $parametros, function($message) use ($email, $email_copia) {
+                        $message
+                                ->to($email)
+                                ->cc($email_copia)
+                                ->subject('.::Notificación::.');
+                    }
+                    );
+                } catch (Exception $e) {
+                    //echo $qem[$k]->email."<br>";
+                    DB::rollback();
                 }
-            );
-       }
-        catch(Exception $e){
-            //echo $qem[$k]->email."<br>";
-             DB::rollback();
+                DB::commit();
+            }
+            $n++;
         }
-        DB::commit();
-        }
-        $n++;
-      }
-      $retorno["data"]=$html;
+        $retorno["data"] = $html;
 
-      return Response::json( $retorno );
+        return Response::json($retorno);
     }
-    
-                 public function postNotidocplataformaalertas()
-    { 
-      $array=array();
-      $array['usuario']=Auth::user()->id;
-      $array['limit']='';$array['order']='';
-      $array['id_union']='';$array['id_ant']='';
-      $array['referido']=' LEFT ';
-      $array['solicitante']='';$array['areas']='';
-      $array['proceso']='';$array['tiempo_final']='';
-      
-      $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
-      
-      $n=1;
-      
-      $rst=Reporte::Docplataformaalertaenvio();
-       
-    foreach ($rst as $key => $value) {
-        
-        $alerta=explode("|",$value->alerta);
-        $texto="";
-        $tipo=0;
-        $tipo_plat=0;
-        
-        DB::beginTransaction();
 
-        if($alerta[1]==''){
-          $tipo=1;
-          $tipo_plat=6;
-          $texto=".::Notificación::.";
-        }
-        elseif($alerta[1]!='' AND $alerta[1]==1){
-          $tipo=$alerta[1]+1;
-          $tipo_plat=7;
-          $texto=".::Reiterativo::.";
-        }
-        elseif($alerta[1]!='' AND $alerta[1]==2){
-          $tipo=$alerta[1]+1;
-          $texto=".::Relevo::.";
-          $tipo_plat=8;
-        }
-        elseif($alerta[1]!='' AND $alerta[1]==3){
-          $tipo=1;
-          $texto=".::Notificación::.";
-          $tipo_plat=6;
-        }
+    public function postNotidocplataformaalertas() {
+        $array = array();
+        $array['usuario'] = Auth::user()->id;
+        $array['limit'] = '';
+        $array['order'] = '';
+        $array['id_union'] = '';
+        $array['id_ant'] = '';
+        $array['referido'] = ' LEFT ';
+        $array['solicitante'] = '';
+        $array['areas'] = '';
+        $array['proceso'] = '';
+        $array['tiempo_final'] = '';
 
-        $retorno['texto'][]=$texto;
-        $retorno['tipo'][]=$tipo;
+        $meses = array('', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre');
 
-        if( trim($alerta[0])=='' OR $alerta[0]!=DATE("Y-m-d") ){
-          $retorno['retorno']=$alerta[0];
-            $plantilla=Plantilla::where('tipo','=',$tipo_plat)->first();
-            $buscar=array('persona:','dia:','mes:','año:','tramite:','area:');
-            $reemplazar=array($value->persona,date('d'),$meses[date('n')],date("Y"),$value->plataforma,$value->area);
-            $parametros=array(
-              'cuerpo'=>str_replace($buscar,$reemplazar,$plantilla->cuerpo)
-            );
-            
+        $n = 1;
+
+        $rst = Reporte::Docplataformaalertaenvio();
+
+        foreach ($rst as $key => $value) {
+
+            $alerta = explode("|", $value->alerta);
+            $texto = "";
+            $tipo = 0;
+            $tipo_plat = 0;
+
+            DB::beginTransaction();
+
+            if ($alerta[1] == '') {
+                $tipo = 1;
+                $tipo_plat = 6;
+                $texto = ".::Notificación::.";
+            } elseif ($alerta[1] != '' AND $alerta[1] == 1) {
+                $tipo = $alerta[1] + 1;
+                $tipo_plat = 7;
+                $texto = ".::Reiterativo::.";
+            } elseif ($alerta[1] != '' AND $alerta[1] == 2) {
+                $tipo = $alerta[1] + 1;
+                $texto = ".::Relevo::.";
+                $tipo_plat = 8;
+            } elseif ($alerta[1] != '' AND $alerta[1] == 3) {
+                $tipo = 1;
+                $texto = ".::Notificación::.";
+                $tipo_plat = 6;
+            }
+
+            $retorno['texto'][] = $texto;
+            $retorno['tipo'][] = $tipo;
+
+            if (trim($alerta[0]) == '' OR $alerta[0] != DATE("Y-m-d")) {
+                $retorno['retorno'] = $alerta[0];
+                $plantilla = Plantilla::where('tipo', '=', $tipo_plat)->first();
+                $buscar = array('persona:', 'dia:', 'mes:', 'año:', 'tramite:', 'area:');
+                $reemplazar = array($value->persona, date('d'), $meses[date('n')], date("Y"), $value->plataforma, $value->area);
+                $parametros = array(
+                    'cuerpo' => str_replace($buscar, $reemplazar, $plantilla->cuerpo)
+                );
+
 //            $value->email_mdi='jorgeshevchenk1988@gmail.com';
 //            $value->email='rcapchab@gmail.com';
 //            $value->email_seguimiento='jorgeshevchenk@gmail.com,jorgesalced0@gmail.com';
 
-            $email=array();
-            if(trim($value->email_mdi)!=''){
-              array_push($email, $value->email_mdi);
-            }
-            if(trim($value->email)!=''){
-              array_push($email, $value->email);
-            }
-            $emailseguimiento=explode(",",$value->email_seguimiento);
-            try{
-                if(count($email)>0){
-
-                    Mail::queue('notreirel', $parametros , 
-                        function($message) use( $email,$emailseguimiento,$texto ) {
-                            $message
-                            ->to($email)
-                            ->cc($emailseguimiento)
-                            ->subject($texto);
-                        }
-                    );                    
-                  $alerta=new Alerta;
-                  $alerta['ruta_id']=$value->ruta_id;
-                  $alerta['ruta_detalle_id']=$value->ruta_detalle_id;
-                  $alerta['persona_id']=$value->persona_id;
-                  $alerta['tipo']=$tipo;
-                  $alerta['fecha']=DATE("Y-m-d");
-                  $alerta['clasificador']=2;
-                  $alerta->save();
-                  $retorno['persona_id'][]=$value->persona_id;
-                  
+                $email = array();
+                if (trim($value->email_mdi) != '') {
+                    array_push($email, $value->email_mdi);
                 }
+                if (trim($value->email) != '') {
+                    array_push($email, $value->email);
+                }
+                $emailseguimiento = explode(",", $value->email_seguimiento);
+                try {
+                    if (count($email) > 0) {
 
+                        Mail::queue('notreirel', $parametros, function($message) use( $email, $emailseguimiento, $texto ) {
+                            $message
+                                    ->to($email)
+                                    ->cc($emailseguimiento)
+                                    ->subject($texto);
+                        }
+                        );
+                        $alerta = new Alerta;
+                        $alerta['ruta_id'] = $value->ruta_id;
+                        $alerta['ruta_detalle_id'] = $value->ruta_detalle_id;
+                        $alerta['persona_id'] = $value->persona_id;
+                        $alerta['tipo'] = $tipo;
+                        $alerta['fecha'] = DATE("Y-m-d");
+                        $alerta['clasificador'] = 2;
+                        $alerta->save();
+                        $retorno['persona_id'][] = $value->persona_id;
+                    }
+                } catch (Exception $e) {
+                    DB::rollback();
+                    $retorno['id_union'][] = $value->plataforma;
+                    //echo $qem[$k]->email."<br>";
+                }
+                DB::commit();
             }
-            catch(Exception $e){
-              DB::rollback();
-              $retorno['id_union'][]=$value->plataforma;
-                //echo $qem[$k]->email."<br>";
-            }
-            DB::commit();
         }
-      }
-      
-            return Response::json(
-            array(
-                'rst'=>1,
-                'datos'=>$rst
-            )
-        );      
+
+        return Response::json(
+                        array(
+                            'rst' => 1,
+                            'datos' => $rst
+                        )
+        );
     }
-    
-	public function index()
-	{
-		//
-	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 * GET /prueba/create
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
+    public function index() {
+        //
+    }
 
-	/**
-	 * Store a newly created resource in storage.
-	 * POST /prueba
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
+    /**
+     * Show the form for creating a new resource.
+     * GET /prueba/create
+     *
+     * @return Response
+     */
+    public function create() {
+        //
+    }
 
-	/**
-	 * Display the specified resource.
-	 * GET /prueba/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
+    /**
+     * Store a newly created resource in storage.
+     * POST /prueba
+     *
+     * @return Response
+     */
+    public function store() {
+        //
+    }
 
-	/**
-	 * Show the form for editing the specified resource.
-	 * GET /prueba/{id}/edit
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
+    /**
+     * Display the specified resource.
+     * GET /prueba/{id}
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id) {
+        //
+    }
 
-	/**
-	 * Update the specified resource in storage.
-	 * PUT /prueba/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
+    /**
+     * Show the form for editing the specified resource.
+     * GET /prueba/{id}/edit
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id) {
+        //
+    }
 
-	/**
-	 * Remove the specified resource from storage.
-	 * DELETE /prueba/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
+    /**
+     * Update the specified resource in storage.
+     * PUT /prueba/{id}
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function update($id) {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     * DELETE /prueba/{id}
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id) {
+        //
+    }
 
 }
