@@ -21,7 +21,6 @@ class EnvioAutomaticoController extends \BaseController {
 
         $n = 1;
         $hoy = date('Y-m-d');
-        $hoy='2017-02-13';
         $ayer = strtotime('-1 day', strtotime($hoy));
         $ayer = date('Y-m-d', $ayer);
 
