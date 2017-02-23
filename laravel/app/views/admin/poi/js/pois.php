@@ -265,19 +265,19 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
    
    if(typeof(fn)!='undefined' && fn.col==12){
         var grupo='';
-        grupo+= '<span id="'+row.id+'" onClick="CargarCostoPersonal(\''+row.id+'\',\''+row.objetivo_general+'\',this)" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-user"></i></span>';
+        grupo+= '<span id="'+row.id+'" title="Costo Personal" onClick="CargarCostoPersonal(\''+row.id+'\',\''+row.objetivo_general+'\',this)" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-user"></i></span>';
         return grupo;
    }
    
    if(typeof(fn)!='undefined' && fn.col==13){
         var grupo='';
-        grupo+= '<span id="'+row.id+'" onClick="CargarEstratPei(\''+row.id+'\',\''+row.objetivo_general+'\',this)" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-ok"></i></span>';
+        grupo+= '<span id="'+row.id+'" title="Estrategia PEI" onClick="CargarEstratPei(\''+row.id+'\',\''+row.objetivo_general+'\',this)" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-ok"></i></span>';
         return grupo;
    }
    
       if(typeof(fn)!='undefined' && fn.col==14){
         var grupo='';
-        grupo+= '<span id="'+row.id+'" onClick="CargarActividad(\''+row.id+'\',\''+row.objetivo_general+'\',this)" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-ok"></i></span>';
+        grupo+= '<span id="'+row.id+'" title="Actividad" onClick="CargarActividad(\''+row.id+'\',\''+row.objetivo_general+'\',this)" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-list-alt"></i></span>';
         return grupo;
    }
 
