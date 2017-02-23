@@ -16,5 +16,21 @@ class PoiEstratpei extends Base
         $oData = DB::select($sSql);
         return $oData;
     }
+    
+    public static function getEstratpei(){
+        $r=DB::table('poi_estrat_pei')
+                ->select('id','descripcion as nombre','estado')
+                ->where( 
+                    function($query){
+                        if ( Input::get('estado') ) {
+                            $query->where('estado','=','1');
+                        }
+                    }
+                )
+                ->orderBy('descripcion')
+                ->get();
+                
+        return $r;
+    }
 
 }

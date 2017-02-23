@@ -43,7 +43,7 @@ class PoiController extends \BaseController
         }
     }
     
-           public function postListarestratpei()
+       public function postListarestratpei()
     {
         if ( Request::ajax() ) {
             $array=array();
@@ -68,7 +68,32 @@ class PoiController extends \BaseController
         }
     }
     
-    public function postCargar()
+       public function postListaractividad()
+    {
+        if ( Request::ajax() ) {
+            $array=array();
+            $array['where']='';
+            
+             if( Input::has("id") ){
+                $poi_id=Input::get("id");
+                if( trim( $poi_id )!='' ){
+                    $array['where'].=" AND pa.poi_id=".$poi_id;
+                }
+            }
+            $a      = new PoiActividad;
+            $listar = Array();
+            $listar = $a->getCargar($array);
+
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $listar
+                )
+            );
+        }
+    }
+    
+       public function postCargar()
     {
         if ( Request::ajax() ) {
             /*********************FIJO*****************************/
@@ -137,12 +162,12 @@ class PoiController extends \BaseController
      *
      * @return Response
      */
-   public function postListar()
+       public function postListarsestratpei()
     {
         if ( Request::ajax() ) {
-            $a      = new Contratacion;
+            $a      = new PoiEstratpei;
             $listar = Array();
-            $listar = $a->getContratacion();
+            $listar = $a->getEstratpei();
 
             return Response::json(
                 array(
@@ -461,6 +486,102 @@ class PoiController extends \BaseController
             $estratpei->estado = Input::get('estado');
             $estratpei->usuario_updated_at = Auth::user()->id;
             $estratpei->save();
+
+            return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
+        }
+    }
+    
+            public function postCambiarestadoactividad()
+    {
+
+        if ( Request::ajax() ) {
+
+            $actividad = PoiActividad::find(Input::get('id'));
+            $actividad->usuario_created_at = Auth::user()->id;
+            $actividad->estado = Input::get('estado');
+            $actividad->save();
+           
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro actualizado correctamente',
+                )
+            );    
+
+        }
+    }
+    
+        public function postCrearactividad()
+    {
+        if ( Request::ajax() ) {
+            $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
+            $required = 'required';
+            $reglas = array(
+                'actividad' => $required.'|'.$regex,
+            );
+
+            $mensaje= array(
+                'required' => ':attribute Es requerido',
+                'regex'    => ':attribute Solo debe ser Texto',
+            );
+
+            $validator = Validator::make(Input::all(), $reglas, $mensaje);
+
+            if ( $validator->fails() ) {
+                return Response::json( array('rst'=>2, 'msj'=>$validator->messages()) );
+            }
+
+            $actividad = new PoiActividad;
+            $actividad->poi_id = Input::get('poi_id');
+            $actividad->poi_estrat_pei_id = Input::get('poi_estrat_pei');
+            $actividad->orden = Input::get('orden');
+            $actividad->actividad = Input::get('actividad');
+            $actividad->unidad_medida = Input::get('unidad_medida');
+            $actividad->indicador_cumplimiento = Input::get('indicador_cumplimiento');
+            $actividad->estado = Input::get('estado');
+            $actividad->usuario_created_at = Auth::user()->id;
+            $actividad->save();
+
+            return Response::json(array('rst'=>1, 'msj'=>'Registro realizado correctamente', 'actividad_id'=>$actividad->id));
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     * POST /rol/editar
+     *
+     * @return Response
+     */
+   public function postEditaractividad()
+    {
+        if ( Request::ajax() ) {
+            $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
+            $required = 'required';
+            $reglas = array(
+                'actividad' => $required.'|'.$regex,
+            );
+
+            $mensaje= array(
+                'required' => ':attribute Es requerido',
+                'regex'    => ':attribute Solo debe ser Texto',
+            );
+
+            $validator = Validator::make(Input::all(), $reglas, $mensaje);
+
+            if ( $validator->fails() ) {
+                return Response::json( array('rst'=>2, 'msj'=>$validator->messages()) );
+            }
+
+            $actividadId = Input::get('id');
+            $actividad = PoiActividad::find($actividadId);
+            $actividad->poi_estrat_pei_id = Input::get('poi_estrat_pei');
+            $actividad->orden = Input::get('orden');
+            $actividad->actividad = Input::get('actividad');
+            $actividad->unidad_medida = Input::get('unidad_medida');
+            $actividad->indicador_cumplimiento = Input::get('indicador_cumplimiento');
+            $actividad->estado = Input::get('estado');
+            $actividad->usuario_updated_at = Auth::user()->id;
+            $actividad->save();
 
             return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
         }

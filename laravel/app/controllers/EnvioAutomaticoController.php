@@ -21,6 +21,7 @@ class EnvioAutomaticoController extends \BaseController {
 
         $n = 1;
         $hoy = date('Y-m-d');
+        $hoy='2017-02-13';
         $ayer = strtotime('-1 day', strtotime($hoy));
         $ayer = date('Y-m-d', $ayer);
 
@@ -40,7 +41,13 @@ class EnvioAutomaticoController extends \BaseController {
                      and rol_id in (9,8)
                      and estado=1
                      order by area_id
-                     LIMIT 0,1) email_personal
+                     LIMIT 0,1) email_personal,
+                   (SELECT CONCAT(email,',',email_mdi)
+                     FROM personas 
+                     where area_id=p.area_id
+                     and rol_id in (9,8)
+                     and estado=1
+                     LIMIT 0,1) email_jefe
                 FROM actividad_personal ap
                 INNER JOIN areas a on ap.area_id=a.id AND a.area_gestion=1
                 INNER JOIN personas p on ap.persona_id=p.id AND p.estado=1 AND p.rol_id NOT IN (8,9)
@@ -48,7 +55,7 @@ class EnvioAutomaticoController extends \BaseController {
                 WHERE ap.estado=1 
                 AND ap.usuario_created_at=ap.persona_id 
                 GROUP BY ap.area_id, ap.persona_id
-                HAVING val_acti=0 or val_minu=0";
+                HAVING val_acti=0 or val_minu=0 LIMIT 0,20";
 
             $actividades = DB::select($Ssql);
 
@@ -65,13 +72,14 @@ class EnvioAutomaticoController extends \BaseController {
                 $texto = '';
 
                 if ($value->val_acti == 1 AND $value->val_minu == 0) {
-                    $texto = 'la cantidad mínima de minutos ';
+                    $texto = 'la cantidad mínima de minutos la cual es: 360 minutos por día (6 horas). Usted ha registrado: '.$value->minuto.' minuto(s).';
                 }
                 if ($value->val_acti == 0 AND $value->val_minu == 1) {
-                    $texto = 'la cantidad mínima de actividades ';
+                    $texto = 'la cantidad mínima de actividades la cual es 5 actividades por día. Usted ha registrado: '.$value->actividad.' actividad(es).';
                 }
                 if ($value->val_acti == 0 AND $value->val_minu == 0) {
-                    $texto = 'la cantidad mínima de actividades y minutos ';
+                    $texto = 'la cantidad mínima de actividades y minutos la cual es: 360 minutos por día (6 horas) y 5 actividades por día.'
+                            . ' Usted ha registrado: '.$value->minuto.' minuto(s) y '.$value->actividad.' actividad(es).';
                 }
 
                 $plantilla = Plantilla::where('tipo', '=', '9')->first();
@@ -89,10 +97,10 @@ class EnvioAutomaticoController extends \BaseController {
                     array_push($email, $value->email);
                 }
                 $emailpersonal = explode(",", $value->email_personal);
-
+                $emailjefe = explode(",", $value->email_jefe);
                 $email = 'rcapchab@gmail.com';
-                $emailpersonal = 'rcapchab@gmail.com';
-
+                $emailpersonal = 'consultasgmgm@gmail.com';
+                $emailjefe='kirklanescorpio@gmail.com';
 
                 DB::beginTransaction();
                 $insert = 'INSERT INTO alertas_actividad (persona_id,area_id,actividad, minuto, fecha_alerta) 
@@ -100,10 +108,10 @@ class EnvioAutomaticoController extends \BaseController {
                 DB::insert($insert);
 
                 try {
-                    Mail::send('notreirel', $parametros, function($message) use ($email, $emailpersonal) {
+                    Mail::send('notreirel', $parametros, function($message) use ($email, $emailpersonal,$emailjefe) {
                         $message
                                 ->to($email)
-                                ->cc($emailpersonal)
+                                ->cc($emailpersonal,$emailjefe)
                                 ->subject('.::Notificación::.');
                     }
                     );
