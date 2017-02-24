@@ -40,7 +40,7 @@ class CargarController extends BaseController
             //$file=file('C:\\wamp\\www\\ingind\\public\\txt\\asignacion\\'.$archivoNuevo);
             //$file=file('/home/m1ndepen/public_html/procesosmuni/public/txt/asignacion/'.$archivoNuevo);
             
-            $file=file('/var/www/ingind/public/txt/asignacion/'.$archivoNuevo);
+            $file=file('/var/www/html/ingind/public/txt/asignacion/'.$archivoNuevo);
 
             $tipoTramite['01']='EN TRAMITE';
             $tipoTramite['02']='ANULADO';
