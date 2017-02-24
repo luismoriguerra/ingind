@@ -28,7 +28,7 @@
                   <div class="col-sm-12"><br></div>
                   <div class="col-sm-12">
                   <div class="box-body table-responsive">
-                      <table id="t_doc_digital" class="table table-bordered table-striped">
+                      <table id="t_doc_digital" class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th style="width: 30%">Titulo</th>

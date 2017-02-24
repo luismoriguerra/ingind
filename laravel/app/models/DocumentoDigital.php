@@ -15,6 +15,7 @@ class DocumentoDigital extends Base {
                     ->join('personas as p','dda.persona_id', '=', 'p.id')
                     ->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla', 'dd.plantilla_doc_id' ,'a.nombre as area','dda.area_id as area_id','p.nombre as pnombre','p.paterno as ppaterno','p.materno as pmaterno','dd.cuerpo','dd.tipo_envio','dda.persona_id','dda.tipo')
                     ->where( 
+
                         function($query){
                             if ( Input::get('id') ) {
                                 $query->where('dd.id','=',Input::get('id'));
@@ -36,21 +37,24 @@ class DocumentoDigital extends Base {
         }else{
             return DB::table('doc_digital as dd')
             		->join('plantilla_doc as pd', 'dd.plantilla_doc_id', '=', 'pd.id')
-                    ->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla','dd.estado')
+                    ->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla','dd.estado',
+                        DB::raw('(SELECT COUNT(r.id) FROM rutas r where r.doc_digital_id=dd.id) AS ruta'),
+                        DB::raw('(SELECT COUNT(rdv.id) FROM rutas_detalle_verbo rdv where rdv.doc_digital_id=dd.id) AS rutadetallev'))
                    	->where( 
                         function($query){
-                            $sql="  SELECT count(id) cant
+/*                            $sql="  SELECT count(id) cant
                                     FROM cargo_persona
                                     WHERE estado=1
                                     AND cargo_id=12
                                     AND persona_id=".Auth::user()->id;
                             $csql=DB::select($sql);
-                            if( $csql[0]->cant==0 ){
-                                $query->where('dd.area_id','=',Auth::user()->area_id);
-                            }
+                            if( $csql[0]->cant==0 ){*/
+                                $query->where('dd.area_id','=',28);
+                            /* }*/
                         }
                     )
-                    ->orderBy('dd.id')
+                    ->orderBy('ruta','desc') 
+                    ->orderBy('rutadetallev','desc')
                     ->get();            
         }
     }

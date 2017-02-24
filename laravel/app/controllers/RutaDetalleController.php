@@ -281,14 +281,24 @@ class RutaDetalleController extends \BaseController
             $alerta= Input::get('alerta');
             $alertaTipo= Input::get('alerta_tipo');
 
-            if( Input::get('verbog') OR Input::get('codg') OR Input::get('obsg') ){
+            if( Input::get('verbog') OR Input::get('codg') OR Input::get('obsg')){
             $verbog= explode( "|",Input::get('verbog') );
             $codg= explode( "|",Input::get('codg') );
             $obsg= explode( "|",Input::get('obsg') );
             $coddocg= explode( "|",Input::get('coddocg') );
+
+            if(Input::has('coddocdig')){
+                $coddocdig= explode( "|",Input::get('coddocdig'));                
+            }
+                
                 for( $i=0; $i<count($verbog); $i++ ){
                     $rdv= RutaDetalleVerbo::find($verbog[$i]);
                     $rdv['finalizo'] = '1';
+
+                    if($coddocdig[$i] != ''){
+                        $rdv['doc_digital_id'] = $coddocdig[$i];
+                    }
+
                     $rdv['documento'] = $codg[$i];
                     $rdv['observacion'] = $obsg[$i];
                     $rdv['usuario_updated_at']= Auth::user()->id;

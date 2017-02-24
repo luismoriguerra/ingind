@@ -97,10 +97,17 @@ HTMLCargar=function(datos,campos){
 	var c_text = campos.nombre;
 	var c_id = campos.id;
 
+        console.log(datos);
     var html="";
     $('#t_doc_digital').dataTable().fnDestroy();
     $.each(datos,function(index,data){
-        html+="<tr>";
+        
+        if($.trim(data.ruta) == 0 && $.trim(data.rutadetallev) == 0){
+            html+="<tr class='danger'>";
+        }else{
+            html+="<tr class='success'>";
+        }
+      
         html+="<td>"+data.titulo+"</td>";
         html+="<td>"+data.asunto+"</td>";
         html+="<td>"+data.plantilla+"</td>";
