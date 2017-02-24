@@ -188,5 +188,6 @@ Route::controller('empresa', 'EmpresaController');
 Route::controller('local', 'LocalController');
 Route::controller('inmueble', 'InmuebleController');
 Route::controller('apertura', 'AperturaController');
-
-
+Route::controller('poitipo', 'PoiTipoController');
+Route::controller('poisubtipo', 'PoiSubtipoController');
+Route::controller('poi', 'PoiController');
