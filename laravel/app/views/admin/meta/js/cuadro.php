@@ -124,17 +124,31 @@ HTMLreporte=function(datos){
 
     pos=0;
     $.each(datos,function(index,data){
+        if (data.fpt!==null) {
+       var arreglo = data.fpt.split(',');
+          var n=arreglo.length;
+     
+        }
+        
         pos++;
         html+="<tr id="+data.norden+">"+
             "<td>"+data.meta+"</td>"+
             "<td>"+data.actividad+"</td>"+
-            "<td>"+data.nombre+"</td>"+
-            "<td>"+data.email+"</td>"+
-            "<td>"+data.dni+"</td>"+
-            "<td>"+data.fecha_nacimiento+"</td>"+
-            "<td>"+data.sexo+"</td>"+
-            "<td>"+data.area+"</td>"+
-            "<td>"+data.rol+"</td>";
+            "<td>"+data.fa+"</td>"+
+            "<td>";
+        for($i=0;$i<n;$i++){
+         html+=arreglo[$i]+"<br><br>";
+        }     
+       html+="</td>"+
+            "<td>";
+        for($i=0;$i<n;$i++){
+         html+="<input type='file' name='archivo' id='archivo'><br>";
+        }
+        html+"</td>"+
+            "<td></td>"+
+            "<td></td>"+
+            "<td></td>"+
+            "<td></td>";
         html+="</tr>";
     });
     $("#tb_reporte").html(html);

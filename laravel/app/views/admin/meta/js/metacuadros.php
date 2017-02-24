@@ -2,7 +2,7 @@
 var cabeceraG=[]; // Cabecera del Datatable
 var columnDefsG=[]; // Columnas de la BD del datatable
 var targetsG=-1; // Posiciones de las columnas del datatable
-var MetacuadrosG={id:0,actividad:"",fecha_vencimiento:"",anio:"",estado:1}; // Datos Globales
+var MetacuadrosG={id:0,actividad:"",anio:"",estado:1}; // Datos Globales
 $(document).ready(function() {
     /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
         2: Descripción de cabecera
@@ -14,7 +14,6 @@ $(document).ready(function() {
     var idG={   actividad        :'onBlur|Actividad|#DCE6F1', //#DCE6F1
                 meta          :'3|Meta |#DCE6F1',
                 anio        :'onBlur|Año|#DCE6F1', //#DCE6F1
-                fecha_vencimiento        :'onChange|Fecha Vencimiento|#DCE6F1|fechaG', //#DCE6F1
                 estado        :'2|Estado|#DCE6F1', //#DCE6F1
              };
              
@@ -27,18 +26,9 @@ $(document).ready(function() {
     columnDefsG=resG[0]; // registra la colunmna adiciona con boton
     targetsG=resG[1]; // registra el contador actualizado
     MostrarAjax('metacuadros');
-
-         $('.fecha').daterangepicker({
-            format: 'YYYY-MM-DD',
-            singleDatePicker: true,
-            showDropdowns: true
-        });
+   initDatePicker();
         
-       $('.fechaG').daterangepicker({
-            format: 'YYYY-MM-DD',
-            singleDatePicker: true,
-            showDropdowns: true
-        });
+
         
     $('#metacuadroModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
@@ -59,7 +49,6 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
 
             $('#form_metacuadros_modal #txt_actividad').val( MetacuadrosG.actividad );
-            $('#form_metacuadros_modal #txt_fecha_vencimiento').val( MetacuadrosG.fecha_vencimiento );
             $('#form_metacuadros_modal #txt_anio').val( MetacuadrosG.anio );
             $('#form_metacuadros_modal #slct_estado').val( MetacuadrosG.estado );
             $('#form_metacuadros_modal #slct_meta').val( MetacuadrosG.meta );
@@ -71,6 +60,8 @@ $(document).ready(function() {
     $('#metacuadroModal').on('hide.bs.modal', function (event) {
        $('#form_metacuadros_modal input').val('');
         $('#form_metacuadros_modal select').val('');
+        $('#form_metacuadros_modal #tb_fecha2').html('');
+        $('#form_metacuadros_modal #tb_fecha1').html('');
      //   var modal = $(this);
        // modal.find('.modal-body input').val('');
     });
@@ -82,9 +73,11 @@ BtnEditar=function(btn,id){
     MetacuadrosG.actividad=$(tr).find("td:eq(0)").text();
     MetacuadrosG.meta=$(tr).find("td:eq(1) input[name='txt_meta']").val();
     MetacuadrosG.anio=$(tr).find("td:eq(2)").text();
-    MetacuadrosG.fecha_vencimiento=$(tr).find("td:eq(3)").text();
-    MetacuadrosG.estado=$(tr).find("td:eq(4)>span").attr("data-estado");
+    MetacuadrosG.estado=$(tr).find("td:eq(3)>span").attr("data-estado");
     $("#BtnEditar").click();
+    data={id:id};
+    MetaCuadros.CargarFecha1(data);
+     MetaCuadros.CargarFecha2(data);
 };
 
 MostrarAjax=function(t){
@@ -99,7 +92,7 @@ MostrarAjax=function(t){
 }
 
 GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
-    if(typeof(fn)!='undefined' && fn.col==4){
+    if(typeof(fn)!='undefined' && fn.col==3){
         var estadohtml='';
         estadohtml='<span id="'+row.id+'" onClick="activar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-danger">Inactivo</span>';
         if(row.estado==1){
@@ -140,5 +133,72 @@ validaVerbos = function(){
         r=false;
     }
     return r;
+};
+
+fecha1HTML=function(datos){
+  var html="";
+    var alerta_tipo= '';
+    pos=0;
+    $.each(datos,function(index,data){
+        pos++;
+        html+="<tr>"+
+             "<td>"+pos+"<input type='hidden' name='f1id[]' id='f1id' value='"+data.id+"'></td>"+
+            "<td><input type='text' class='datepicker form-control fechaG' id='txt_fecha2' name='txt_fecha1[]' value='"+data.fecha+"'></td>"+
+            "<td><textarea class='form-control' id='txt_comentario1' name='txt_comentario1[]'>"+data.comentario+"</textarea></td>";
+        html+="</tr>";
+    });
+    $("#tb_fecha1").html(html); initDatePicker();
+
+
+};
+
+fecha2HTML=function(datos){
+  var html="";
+    var alerta_tipo= '';
+    pos=0;
+    $.each(datos,function(index,data){
+        pos++;
+        html+="<tr>"+
+             "<td>"+pos+"<input type='hidden' name='f2id[]' id='f2id' value='"+data.id+"'></td>"+
+            "<td><input type='text' class='datepicker form-control fechaG' id='txt_fecha2' name='txt_fecha2[]' value='"+data.fecha+"'></td>"+
+            "<td><textarea class='form-control' id='txt_comentario2' name='txt_comentario2[]'>"+data.comentario+"</textarea></td>";
+        html+="</tr>";
+    });
+    $("#tb_fecha2").html(html);
+        initDatePicker();
+
+
+};
+
+AgregarFecha1 = function(){
+  var html='';
+          html+="<tr>"+
+             "<td>#<input type='hidden' name='f1id[]' id='f1id' value=''></td>"+
+            "<td><input type='text' class='datepicker form-control fechaG' id='txt_fecha1' name='txt_fecha1[]'></td>"+
+            "<td><textarea class='form-control' id='txt_comentario1' name='txt_comentario1[]'></textarea></td>";
+        html+="</tr>";
+        
+  $("#t_fecha1").append(html);initDatePicker();
+  
+};
+
+AgregarFecha2 = function(){
+  var html='';
+          html+="<tr>"+
+             "<td>#<input type='hidden' name='f2id[]' id='f2id' value=''></td>"+
+            "<td><input type='text' class='datepicker form-control fechaG' id='txt_fecha2' name='txt_fecha2[]'></td>"+
+            "<td><textarea class='form-control' id='txt_comentario2' name='txt_comentario2[]'></textarea></td>";
+        html+="</tr>";
+        
+  $("#t_fecha2").append(html);initDatePicker();
+  
+};
+
+function initDatePicker(){
+         $('.fechaG').daterangepicker({
+            format: 'YYYY-MM-DD',
+            singleDatePicker: true,
+            showDropdowns: true
+        });
 };
 </script>

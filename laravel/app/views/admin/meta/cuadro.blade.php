@@ -57,13 +57,9 @@
                                     <tr>
                                         <th>Meta</th>
                                         <th>Actividad</th>
-                                        <th>-</th>
-                                        <th>-</th>
-                                        <th>-</th>
-                                        <th>- -</th>
-                                        <th>-</th>
-                                        <th>-</th>
-                                        <th>-</th>
+                                        <th>F. V. Actividad</th>
+                                        <th>F. V. Plan de Trabajo</th>
+                                        <th>Avances</th>
                                       
                                     </tr>
                                 </thead>
