@@ -1,6 +1,6 @@
 <script type="text/javascript">
 $(document).ready(function() {
-	docdigital.Cargar(HTMLCargar);
+
     slctGlobal.listarSlctFuncion('plantilladoc','cargar','slct_plantilla','simple',null,{'area':1});
 /*
     slctGlobal.listarSlct('area','slct_areas','multiple',null,{estado:1,areagestion:1});
@@ -45,6 +45,10 @@ $(document).ready(function() {
     $('#NuevoDocDigital').on('show.bs.modal', function (event) {
         $("#slct_tipoenvio").multiselect('destroy');
         slctGlobalHtml('slct_tipoenvio','simple');
+    });
+
+     $('#listDocDigital').on('show.bs.modal', function (event) {
+        docdigital.Cargar(HTMLCargar);
     });
 
     function limpia(area) {
