@@ -1,9 +1,8 @@
 <script type="text/javascript">
-var Consulta, ConsultaDetalle, ConsultaDetalle2;
-var Usuario={
-    mostrar:function( data){
+var Accion={
+    mostrar:function( data ){
         $.ajax({
-            url         : 'reporte/usuarios',
+            url         : 'envioautomatico/actividadesdiariasalertas',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -14,8 +13,7 @@ var Usuario={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                    HTMLreporte(obj.datos);
-                    Consulta=obj;
+                    mostrarHTML(obj.data);
                 }
             },
             error: function(){

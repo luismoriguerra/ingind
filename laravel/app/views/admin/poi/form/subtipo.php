@@ -12,22 +12,16 @@
         <form id="form_subtipos_modal" name="form_subtipos_modal" action="" method="post">
 
           
-
+          <input type="hidden" value="ss" name="txt_tipo" id="txt_tipo"> 
+          
           <div class="form-group">
             <label class="control-label">Nombre:</label>
             <input type="text" class="form-control" placeholder="Ingrese Nombre" name="txt_nombre" id="txt_nombre">
           </div>
         <div class="form-group">
-          <label class="control-label">Tipo:
-          </label>
-          <select class="form-control" name="slct_tipo" id="slct_tipo">
-          <option value="">.::Seleccione::.</option>
-          </select>
-        </div>
-        <div class="form-group">
             <label class="control-label">Costo Actual:</label>
             <input type="text" class="form-control" placeholder="Ingrese Costo Actual" name="txt_costo_actual" id="txt_costo_actual">
-          </div>
+        </div>
         <div class="form-group">
             <label class="control-label">Tamaño:</label>
             <textarea type="text" class="form-control" placeholder="Ingrese Tamaño" name="txt_tamano" id="txt_tamano"></textarea>

@@ -105,6 +105,111 @@ var Tipos={
                 msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
             }
         });
-    }
+    },
+    
+    CargarSubtipos:function( data ){
+        $.ajax({
+            url         : 'poisubtipo/cargar',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : data,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay,.loading-img").remove();
+                if(obj.rst==1){
+                    subtipoHTML(obj.datos);
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
+                                    '<i class="fa fa-ban"></i>'+
+                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
+                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
+                                '</div>');
+            }
+        });
+    },
+    AgregarEditarSubtipo:function(AE){
+        var datos = $("#form_subtipos_modal").serialize().split("txt_").join("").split("slct_").join("");
+        var id=$("#form_subtipos_modal #txt_tipo").val();
+        var accion = (AE==1) ? "poisubtipo/editar" : "poisubtipo/crear";
+        
+        $.ajax({
+            url         : accion,
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : datos,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay, .loading-img").remove();
+                if(obj.rst==1){
+                    data={id:id};
+                    Tipos.CargarSubtipos(data);
+                    $("#form_subtipos_modal input[type='hidden']").not("#form_subtipos_modal #txt_tipo_id").remove();
+                    msjG.mensaje('success',obj.msj,4000);
+                    $('#subtipoModal .modal-footer [data-dismiss="modal"]').click();
+
+                } else {
+                    var cont = 0;
+
+                    $.each(obj.msj, function(index, datos){
+                        cont++;
+                         if(cont==1){
+                            alert(datos[0]);
+                       }
+
+                    });
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
+            }
+        });
+
+    },
+    CambiarEstadoSubTipo: function(id, AD){
+        $("#form_subtipos_modal").append("<input type='hidden' value='"+id+"' name='id'>");
+        $("#form_subtipos_modal").append("<input type='hidden' value='"+AD+"' name='estado'>");
+        var id=$("#form_subtipos_modal #txt_tipo").val();
+        var datos = $("#form_subtipos_modal").serialize().split("txt_").join("").split("slct_").join("");
+        $.ajax({
+            url         : 'poisubtipo/cambiarestado',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : datos,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay, .loading-img").remove();
+
+                if (obj.rst==1) {
+                    data={id:id};
+                    Tipos.CargarSubtipos(data);
+                     $("#form_subtipos_modal input[type='hidden']").not("#form_subtipos_modal #txt_tipo_id").remove();
+                    msjG.mensaje('success',obj.msj,4000);
+                    $('#subtipoModal .modal-footer [data-dismiss="modal"]').click();
+                } else {
+                    $.each(obj.msj, function(index, datos) {
+                        $("#error_"+index).attr("data-original-title",datos);
+                        $('#error_'+index).css('display','');
+                    });
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
+            }
+        });
+    },
 };
 </script>

@@ -20,79 +20,25 @@ class PoiSubtipoController extends \BaseController
     public function postCargar()
     {
         if ( Request::ajax() ) {
-            /*********************FIJO*****************************/
             $array=array();
-            $array['where']='';$array['usuario']=Auth::user()->id;
-            $array['limit']='';$array['order']='';
+            $array['where']='';
             
-            if (Input::has('draw')) {
-                if (Input::has('order')) {
-                    $inorder=Input::get('order');
-                    $incolumns=Input::get('columns');
-                    $array['order']=  ' ORDER BY '.
-                                      $incolumns[ $inorder[0]['column'] ]['name'].' '.
-                                      $inorder[0]['dir'];
-                }
-
-                $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
-                $aParametro["draw"]=Input::get('draw');
-            }
-            /************************************************************/
-
-            if( Input::has("nombre") ){
-                $nombre=Input::get("nombre");
-                if( trim( $nombre )!='' ){
-                    $array['where'].=" AND ps.nombre LIKE '%".$nombre."%' ";
+            if( Input::has("id") ){
+                $tipo_id=Input::get("id");
+                if( trim( $tipo_id )!='' ){
+                    $array['where'].=" AND ps.tipo_id=".$tipo_id;
                 }
             }
-            
-            if( Input::has("tipo") ){
-                $tipo=Input::get("tipo");
-                if( trim( $tipo )!='' ){
-                    $array['where'].=" AND pt.nombre LIKE '%".$tipo."%' ";
-                }
-            }
-            
-            if( Input::has("tamano") ){
-                $tamano=Input::get("tamano");
-                if( trim( $tamano )!='' ){
-                    $array['where'].=" AND ps.tamano LIKE '%".$tamano."%' ";
-                }
-            }
-            
-            if( Input::has("costo_actual") ){
-                $costo_actual=Input::get("costo_actual");
-                if( trim( $costo_actual )!='' ){
-                    $array['where'].=" AND ps.costo_actual LIKE '%".$costo_actual."%' ";
-                }
-            }
-            
-            if( Input::has("color") ){
-                $color=Input::get("color");
-                if( trim( $color )!='' ){
-                    $array['where'].=" AND ps.color LIKE '%".$color."%' ";
-                }
-            }
+            $a      = new PoiSubtipo;
+            $listar = Array();
+            $listar = $a->getCargar($array);
 
-            if( Input::has("estado") ){
-                $estado=Input::get("estado");
-                if( trim( $estado )!='' ){
-                    $array['where'].=" AND ps.estado='".$estado."' ";
-                }
-            }
-
-            $array['order']=" ORDER BY ps.nombre ";
-
-            $cant  = PoiSubtipo::getCargarCount( $array );
-            $aData = PoiSubtipo::getCargar( $array );
-
-            $aParametro['rst'] = 1;
-            $aParametro["recordsTotal"]=$cant;
-            $aParametro["recordsFiltered"]=$cant;
-            $aParametro['data'] = $aData;
-            $aParametro['msj'] = "No hay registros aún";
-            return Response::json($aParametro);
-
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $listar
+                )
+            );
         }
     }
     /**
@@ -147,7 +93,7 @@ class PoiSubtipoController extends \BaseController
             $poi_subtipo = new PoiSubtipo;
             $poi_subtipo->nombre = Input::get('nombre');
             $poi_subtipo->estado = Input::get('estado');
-            $poi_subtipo->tipo_id = Input::get('tipo');
+            $poi_subtipo->tipo_id = Input::get('tipo_id');
             $poi_subtipo->color = Input::get('color');
             $poi_subtipo->tamano = Input::get('tamano');
             $poi_subtipo->costo_actual = Input::get('costo_actual');
@@ -203,7 +149,6 @@ class PoiSubtipoController extends \BaseController
             $poi_subtipo = PoiSubtipo::find($poi_subtipoId);
             $poi_subtipo->nombre = Input::get('nombre');
             $poi_subtipo->estado = Input::get('estado');
-            $poi_subtipo->tipo_id = Input::get('tipo');
             $poi_subtipo->color = Input::get('color');
             $poi_subtipo->tamano = Input::get('tamano');
             $poi_subtipo->costo_actual = Input::get('costo_actual');

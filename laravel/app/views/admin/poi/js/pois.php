@@ -4,6 +4,7 @@ var columnDefsG=[]; // Columnas de la BD del datatable
 var targetsG=-1; // Posiciones de las columnas del datatable
 var PoiG={id:0,objetivo_general:"",anio:"",tipo_organo:"",centro_apoyo:"",meta_siaf:"",unidad_medida:"",cantidad_programada_semestral:"",cantidad_programada_anual:"",linea_estrategica_pdlc:"",estado:1,area:""}; // Datos Globales
 var CostoPersonalG={id:0,rol:"",modalidad:"",monto:"",estimacion:"",essalud:"",subtotal:"",estado:1}; // Datos Globales
+var ActividadG={id:0,poi_estrat_pei:"",orden:"",actividad:"",unidad_medida:"",indicador_cumplimiento:"",estado:1}; // Datos Globales
 var EstratPeiG={id:0,descripcion:"",estado:1}; // Datos Globales
 
     // Datos Globales
@@ -19,7 +20,10 @@ $(document).ready(function() {
     slctGlobalHtml('form_costo_personal_modal #slct_estado','simple');
     slctGlobal.listarSlct('area','slct_area','simple',null,datos);
     slctGlobalHtml('form_pois_modal #slct_estado','simple');
-     slctGlobalHtml('form_estrat_pei_modal #slct_estado','simple');
+    slctGlobalHtml('form_estrat_pei_modal #slct_estado','simple');
+    slctGlobal.listarSlctFuncion('poi','listarsestratpei','slct_poi_estrat_pei','simple',null,datos);
+    slctGlobalHtml('form_actividad_modal #slct_estado','simple'); 
+    
     var idG={   objetivo_general        :'onBlur|Objetivo General|#DCE6F1', //#DCE6F1
                 ano        :'onBlur|Año|#DCE6F1', //#DCE6F1
                 tipo_organo        :'onBlur|Tipo de Órgano|#DCE6F1', //#DCE6F1
@@ -32,8 +36,9 @@ $(document).ready(function() {
                 area          :'3|Área |#DCE6F1',
                 estado        :'1|Estado|#DCE6F1', //#DCE6F1
                 Grupo          :'1|  |#DCE6F1',
-                G          :'1|  |#DCE6F1',
                 a          :'1|  |#DCE6F1',
+                b          :'1|  |#DCE6F1',
+                c          :'1|  |#DCE6F1',
              };
 
     var resG=dataTableG.CargarCab(idG);
@@ -130,8 +135,8 @@ $(document).ready(function() {
     });
     
     $('#costopersonalModal').on('hide.bs.modal', function (event) {
-       $('#contrataciondetalleModal :visible').val('');
-       $('#contrataciondetalleModal textarea').val('');
+       $('#costopersonalModal :visible').val('');
+       $('#costopersonalModal textarea').val('');
         $('#costopersonalModal select').val('');
      //   var modal = $(this);
        // modal.find('.modal-body input').val('');
@@ -171,6 +176,48 @@ $(document).ready(function() {
        $('#estratpeiModal :visible').val('');
        $('#estratpeiModal textarea').val('');
         $('#estratpeiModal select').val('');
+     //   var modal = $(this);
+       // modal.find('.modal-body input').val('');
+    });
+    
+    $('#actividadModal').on('show.bs.modal', function (event) { 
+        
+      var button = $(event.relatedTarget); // captura al boton
+      var titulo = button.data('titulo'); // extrae del atributo data-
+
+      var modal = $(this); //captura el modal
+      modal.find('.modal-title').text(titulo+' Actividad');
+      $('#form_actividad_modal [data-toggle="tooltip"]').css("display","none");
+//      $("#form_costo_personal_modal input[type='hidden']").remove();
+ 
+        if(titulo=='Nueva'){
+            //$("#form_actividad_modal").append("<input type='hidden' value='263' name='txt_contratacion_id'>");
+            modal.find('.modal-footer .btn-primary').text('Guardar');
+            modal.find('.modal-footer .btn-primary').attr('onClick','AgregarActividad();');
+            $('#form_actividad_modal #slct_estado').val(1);
+            $('#form_actividad_modal #txt_actividad').focus();
+           
+        } else {
+            modal.find('.modal-footer .btn-primary').text('Actualizar');
+            modal.find('.modal-footer .btn-primary').attr('onClick','EditarActividad();');
+            
+            $('#form_actividad_modal #slct_poi_estrat_pei').val( ActividadG.poi_estrat_pei );
+            $('#form_actividad_modal #txt_orden').val( ActividadG.orden );
+            $('#form_actividad_modal #txt_actividad').val( ActividadG.actividad );
+            $('#form_actividad_modal #txt_unidad_medida').val( ActividadG.unidad_medida );
+            $('#form_actividad_modal #txt_indicador_cumplimiento').val( ActividadG.indicador_cumplimiento );
+            $('#form_actividad_modal #slct_estado').val( ActividadG.estado );
+            $("#form_actividad_modal").append("<input type='hidden' value='"+ActividadG.id+"' name='id'>");
+            
+          
+        }
+             $('#form_actividad_modal select').multiselect('rebuild');
+    });
+    
+    $('#actividadModal').on('hide.bs.modal', function (event) {
+       $('#actividadModal :visible').val('');
+       $('#actividadModal textarea').val('');
+        $('#actividadModal select').val('');
      //   var modal = $(this);
        // modal.find('.modal-body input').val('');
     });
@@ -218,13 +265,19 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
    
    if(typeof(fn)!='undefined' && fn.col==12){
         var grupo='';
-        grupo+= '<span id="'+row.id+'" onClick="CargarCostoPersonal(\''+row.id+'\',\''+row.objetivo_general+'\',this)" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-user"></i></span>';
+        grupo+= '<span id="'+row.id+'" title="Costo Personal" onClick="CargarCostoPersonal(\''+row.id+'\',\''+row.objetivo_general+'\',this)" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-user"></i></span>';
         return grupo;
    }
    
    if(typeof(fn)!='undefined' && fn.col==13){
         var grupo='';
-        grupo+= '<span id="'+row.id+'" onClick="CargarEstratPei(\''+row.id+'\',\''+row.objetivo_general+'\',this)" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-ok"></i></span>';
+        grupo+= '<span id="'+row.id+'" title="Estrategia PEI" onClick="CargarEstratPei(\''+row.id+'\',\''+row.objetivo_general+'\',this)" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-ok"></i></span>';
+        return grupo;
+   }
+   
+      if(typeof(fn)!='undefined' && fn.col==14){
+        var grupo='';
+        grupo+= '<span id="'+row.id+'" title="Actividad" onClick="CargarActividad(\''+row.id+'\',\''+row.objetivo_general+'\',this)" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-list-alt"></i></span>';
         return grupo;
    }
 
@@ -264,6 +317,14 @@ activarCostoPersonal = function(id){
       Pois.CambiarEstadoCostoPersonal(id, 1);   
 };
 
+desactivarActividad = function(id){
+      Pois.CambiarEstadoActividad(id, 0); 
+};
+
+activarActividad = function(id){
+      Pois.CambiarEstadoActividad(id, 1);   
+};
+
 desactivarEstratPei = function(id){
       Pois.CambiarEstadoEstratPei(id, 0); 
 };
@@ -274,13 +335,13 @@ activarEstratPei = function(id){
 
 Editar = function(){
     if(validaContrataciones()){
-        Pois.AgregarEditarContratacion(1);
+        Pois.AgregarEditarPois(1);
         $("#form_costo_personal .form-group").css("display","none");
     }
 };
 Agregar = function(){
     if(validaContrataciones()){
-       Pois.AgregarEditarContratacion(0);
+       Pois.AgregarEditarPois(0);
        $("#form_costo_personal .form-group").css("display","none");
     }
 };
@@ -312,7 +373,9 @@ CargarCostoPersonal=function(id,titulo,boton){
     $("#form_costo_personal_modal #txt_poi_id").val(id);
     $("#form_costo_personal #txt_titulo").text(titulo);
     $("#form_costo_personal .form-group").css("display","");
+    
     $("#form_estrat_pei .form-group").css("display","none");
+    $("#form_actividad .form-group").css("display","none");
     data={id:id};
     Pois.CargarCostoPersonal(data);
 };
@@ -325,12 +388,32 @@ CargarEstratPei=function(id,titulo,boton){
         trs[i].style.backgroundColor="#f9f9f9";
     tr.style.backgroundColor = "#9CD9DE";
     
-    $("#form_estrat_pei #txt_poi_id").val(id);
+    $("#form_estrat_pei_modal #txt_poi_id").val(id);
     $("#form_estrat_pei #txt_titulo").text(titulo);
     $("#form_estrat_pei .form-group").css("display","");
+    
     $("#form_costo_personal .form-group").css("display","none");
+    $("#form_actividad .form-group").css("display","none");
     data={id:id};
     Pois.CargarEstratPei(data);
+};
+
+CargarActividad=function(id,titulo,boton){
+    
+    var tr = boton.parentNode.parentNode;
+    var trs = tr.parentNode.children;
+    for(var i =0;i<trs.length;i++)
+        trs[i].style.backgroundColor="#f9f9f9";
+    tr.style.backgroundColor = "#9CD9DE";
+    
+    $("#form_actividad_modal #txt_poi_id").val(id);
+    $("#form_actividad #txt_titulo").text(titulo);
+    $("#form_actividad .form-group").css("display","");
+    
+    $("#form_costo_personal .form-group").css("display","none");
+    $("#form_estrat_pei .form-group").css("display","none");
+    data={id:id};
+    Pois.CargarActividad(data);
 };
 
 costopersonalHTML=function(datos){
@@ -394,6 +477,38 @@ estratpeiHTML=function(datos){
 
 };
 
+actividadHTML=function(datos){
+  var html="";
+    var alerta_tipo= '';
+    $('#t_actividad').dataTable().fnDestroy();
+    pos=0;
+    $.each(datos,function(index,data){
+        pos++;
+        html+="<tr>"+
+              "<td>"+pos+"</td>"+
+              "<td>"+data.estrat_pei+"<input type='hidden'name='txt_poi_estrat_pei' value='"+data.poi_estrat_pei_id+"'></td>"+
+              "<td>"+data.orden+"</td>"+
+              "<td>"+data.actividad+"</td>"+
+              "<td>"+data.unidad_medida+"</td>"+
+              "<td>"+data.indicador_cumplimiento+"</td>";
+        html+="<td align='center'><a class='form-control btn btn-primary' data-toggle='modal' data-target='#actividadModal' data-titulo='Editar' onclick='BtnEditarActividad(this,"+data.id+")'><i class='fa fa-lg fa-edit'></i></a></td>";
+        if(data.estado==1){
+            html+='<td align="center"><span id="'+data.id+'" onClick="desactivarActividad('+data.id+')" data-estado="'+data.estado+'" class="btn btn-success">Activo</span></td>';
+        }
+        else {
+           html+='<td align="center"><span id="'+data.id+'" onClick="activarActividad('+data.id+')" data-estado="'+data.estado+'" class="btn btn-danger">Inactivo</span></td>';
+
+        }
+
+        html+="</tr>";
+    });
+    $("#tb_actividad").html(html);
+    $("#t_actividad").dataTable(
+    ); 
+
+
+};
+
 eventoSlctGlobalSimple=function(){
 };
 
@@ -409,6 +524,19 @@ BtnEditarCostoPersonal=function(btn,id){
     CostoPersonalG.estado=$(tr).find("td:eq(8)>span").attr("data-estado");
 
 };
+
+BtnEditarActividad=function(btn,id){
+    var tr = btn.parentNode.parentNode; // Intocable
+    ActividadG.id=id;
+    ActividadG.poi_estrat_pei=$(tr).find("td:eq(1) input[name='txt_poi_estrat_pei']").val();
+    ActividadG.orden=$(tr).find("td:eq(2)").text();
+    ActividadG.actividad=$(tr).find("td:eq(3)").text();
+    ActividadG.unidad_medida=$(tr).find("td:eq(4)").text();
+    ActividadG.indicador_cumplimiento=$(tr).find("td:eq(5)").text();
+    ActividadG.estado=$(tr).find("td:eq(7)>span").attr("data-estado");
+
+};
+
 
 BtnEditarEstratPei=function(btn,id){
     var tr = btn.parentNode.parentNode; // Intocable
@@ -437,6 +565,17 @@ AgregarCostoPersonal = function(){
     }
 };
 
+EditarActividad = function(){
+    if(validaActividad()){
+        Pois.AgregarEditarActividad(1);
+    }
+};
+AgregarActividad = function(){
+    if(validaActividad()){
+        Pois.AgregarEditarActividad(0);
+    }
+};
+
 EditarEstratPei = function(){
     if(validaEstratPei()){
         Pois.AgregarEditarEstratPei(1);
@@ -452,6 +591,15 @@ validaEstratPei = function(){
     var r=true;
     if( $("#form_estrat_pei_modal #txt_descripcion").val()=='' ){
         alert("Ingrese Descripción");
+        r=false;
+    }
+    return r;
+};
+
+validaActividad = function(){
+    var r=true;
+    if( $("#form_actividad_modal #txt_actividad").val()=='' ){
+        alert("Ingrese Actividad");
         r=false;
     }
     return r;

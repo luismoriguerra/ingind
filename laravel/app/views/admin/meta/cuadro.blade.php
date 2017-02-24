@@ -8,24 +8,23 @@
     {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
 
-
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-    @include( 'admin.meta.js.cuadrometa_ajax' )
-    @include( 'admin.meta.js.cuadrometa' )
+    @include( 'admin.meta.js.cuadro_ajax' )
+    @include( 'admin.meta.js.cuadro' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Metas
+            Producciòn de Usuario
             <small> </small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
             <li><a href="#">Reporte</a></li>
-            <li class="active">Metas</li>
+            <li class="active">Usuarios</li>
         </ol>
     </section>
 
@@ -38,22 +37,17 @@
                         <div class="col-sm-12">
                             <div class="col-sm-4">
                                 <label class="control-label">Año:</label>
-                                <select class="form-control" name="slct_area_id" id="slct_area_id">
-                                    <option value="0">.:SELECCIONE:.</option>
-                                    <option value="98" selected="">2017</option>
+                                <select class="form-control" name="slct_anio" id="slct_anio">
+                                    <option value="2017">2016</option><option value="2017">2017</option>
                                 </select>
                             </div>
                             <div class="col-sm-2">
                                 <label class="control-label"></label>
-                                <input type="button" class="form-control btn btn-primary" id="generar" name="generar" value="Mostrar">
-                            </div>
-                            <div class="col-md-1 col-sm-2" style="padding:24px">
-                                <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Export</i></a>
+                                <input type="button" class="form-control btn btn-primary" id="generar_area" name="generar_area" value="Mostrar">
                             </div>
                         </div>
                     </div>
                 </fieldset>
-            </div><!-- /.box -->
             <div class="box-body table-responsive">
                 <div class="row form-group" id="reporte" >
                     <div class="col-sm-12">
@@ -62,46 +56,35 @@
                                 <thead>
                                     <tr>
                                         <th>Meta</th>
-                                        <th>Avances</th>
-                                        <th>Oficio Final</th>
-                                        <th>Mejoras/ observaciones</th>
-                                        <th>Documento Generado</th>
-                                        <th>Plan de Trabajo</th>
+                                        <th>Actividad</th>
+                                        <th>-</th>
+                                        <th>-</th>
+                                        <th>-</th>
+                                        <th>- -</th>
+                                        <th>-</th>
+                                        <th>-</th>
+                                        <th>-</th>
+                                      
                                     </tr>
                                 </thead>
                                 <tbody id="tb_reporte">
-                                    <tr>
-                                        <td>Meta 1 2017</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Meta 2 2017</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Meta 3 2017</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+              
+               
+                
+                
                 
             </div><!-- /.box -->
+            </div><!-- /.box -->
+
+
             <!-- Finaliza contenido -->
         </div>
     </section><!-- /.content -->
+    
+
 @stop
