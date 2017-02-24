@@ -1,6 +1,6 @@
 <?php
 
-class PoiTipoController extends \BaseController
+class MetaCuadroController extends \BaseController
 {
     protected $_errorController;
     /**
@@ -39,24 +39,24 @@ class PoiTipoController extends \BaseController
             }
             /************************************************************/
 
-            if( Input::has("nombre") ){
-                $nombre=Input::get("nombre");
-                if( trim( $nombre )!='' ){
-                    $array['where'].=" AND pt.nombre LIKE '%".$nombre."%' ";
+            if( Input::has("actividad") ){
+                $actividad=Input::get("actividad");
+                if( trim( $actividad )!='' ){
+                    $array['where'].=" AND mc.actividad LIKE '%".$actividad."%' ";
                 }
             }
 
             if( Input::has("estado") ){
                 $estado=Input::get("estado");
                 if( trim( $estado )!='' ){
-                    $array['where'].=" AND pt.estado='".$estado."' ";
+                    $array['where'].=" AND mc.estado='".$estado."' ";
                 }
             }
 
-            $array['order']=" ORDER BY pt.nombre ";
+            $array['order']=" ORDER BY mc.actividad ";
 
-            $cant  = PoiTipo::getCargarCount( $array );
-            $aData = PoiTipo::getCargar( $array );
+            $cant  = MetaCuadro::getCargarCount( $array );
+            $aData = MetaCuadro::getCargar( $array );
 
             $aParametro['rst'] = 1;
             $aParametro["recordsTotal"]=$cant;
@@ -73,12 +73,12 @@ class PoiTipoController extends \BaseController
      *
      * @return Response
      */
-   public function postListar()
+   public function postListarmetacuadro()
     {
         if ( Request::ajax() ) {
-            $a      = new PoiTipo;
+            $a      = new MetaCuadro;
             $listar = Array();
-            $listar = $a->getPoiTipo();
+            $listar = $a->getMetaCuadro();
 
             return Response::json(
                 array(
@@ -102,7 +102,7 @@ class PoiTipoController extends \BaseController
             $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
             $required = 'required';
             $reglas = array(
-                'nombre' => $required.'|'.$regex,
+                'actividad' => $required.'|'.$regex,
             );
 
             $mensaje= array(
@@ -116,13 +116,16 @@ class PoiTipoController extends \BaseController
                 return Response::json( array('rst'=>2, 'msj'=>$validator->messages()) );
             }
 
-            $poi_tipo = new PoiTipo;
-            $poi_tipo->nombre = Input::get('nombre');
-            $poi_tipo->estado = Input::get('estado');
-            $poi_tipo->usuario_created_at = Auth::user()->id;
-            $poi_tipo->save();
+            $metacuadro = new MetaCuadro;
+            $metacuadro->meta_id = Input::get('meta');
+            $metacuadro->fecha_vencimiento = Input::get('fecha_vencimiento');
+            $metacuadro->anio = Input::get('anio');
+            $metacuadro->actividad = Input::get('actividad');
+            $metacuadro->estado = Input::get('estado');
+            $metacuadro->usuario_created_at = Auth::user()->id;
+            $metacuadro->save();
 
-            return Response::json(array('rst'=>1, 'msj'=>'Registro realizado correctamente', 'poi_tipo_id'=>$poi_tipo->id));
+            return Response::json(array('rst'=>1, 'msj'=>'Registro realizado correctamente', 'metacuadro_id'=>$metacuadro->id));
         }
     }
 
@@ -138,7 +141,7 @@ class PoiTipoController extends \BaseController
             $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
             $required = 'required';
             $reglas = array(
-                'nombre' => $required.'|'.$regex,
+                'actividad' => $required.'|'.$regex,
             );
 
             $mensaje= array(
@@ -152,12 +155,15 @@ class PoiTipoController extends \BaseController
                 return Response::json( array('rst'=>2, 'msj'=>$validator->messages()) );
             }
 
-            $poi_tipoId = Input::get('id');
-            $poi_tipo = PoiTipo::find($poi_tipoId);
-            $poi_tipo->nombre = Input::get('nombre');
-            $poi_tipo->estado = Input::get('estado');
-            $poi_tipo->usuario_updated_at = Auth::user()->id;
-            $poi_tipo->save();
+            $metacuadroId = Input::get('id');
+            $metacuadro = MetaCuadro::find($metacuadroId);
+            $metacuadro->meta_id = Input::get('meta');
+            $metacuadro->fecha_vencimiento = Input::get('fecha_vencimiento');
+            $metacuadro->anio = Input::get('anio');
+            $metacuadro->actividad = Input::get('actividad');
+            $metacuadro->estado = Input::get('estado');
+            $metacuadro->usuario_updated_at = Auth::user()->id;
+            $metacuadro->save();
 
             return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
         }
@@ -174,10 +180,10 @@ class PoiTipoController extends \BaseController
 
         if ( Request::ajax() ) {
 
-            $poi_tipo = PoiTipo::find(Input::get('id'));
-            $poi_tipo->usuario_created_at = Auth::user()->id;
-            $poi_tipo->estado = Input::get('estado');
-            $poi_tipo->save();
+            $metacuadro = MetaCuadro::find(Input::get('id'));
+            $metacuadro->usuario_created_at = Auth::user()->id;
+            $metacuadro->estado = Input::get('estado');
+            $metacuadro->save();
            
             return Response::json(
                 array(
@@ -189,4 +195,20 @@ class PoiTipoController extends \BaseController
         }
     }
     
+       public function postListarmeta()
+    {
+        if ( Request::ajax() ) {
+            $a      = new MetaCuadro;
+            $listar = Array();
+            $listar = $a->getMeta();
+
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $listar
+                )
+            );
+        }
+    }
+
 }

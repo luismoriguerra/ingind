@@ -127,32 +127,7 @@ var Pois={
         });
     },
     
-    CargarActividad:function( data ){
-        $.ajax({
-            url         : 'poi/listaractividad',
-            type        : 'POST',
-            cache       : false,
-            dataType    : 'json',
-            data        : data,
-            beforeSend : function() {
-                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
-            },
-            success : function(obj) {
-                $(".overlay,.loading-img").remove();
-                if(obj.rst==1){
-                    actividadHTML(obj.datos);
-                }
-            },
-            error: function(){
-                $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                    '<i class="fa fa-ban"></i>'+
-                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
-                                '</div>');
-            }
-        });
-    },
+    
     
     CambiarEstadoPois: function(id, AD){
         $("#form_costo_personal_modal").append("<input type='hidden' value='"+id+"' name='id'>");
@@ -343,8 +318,33 @@ var Pois={
             }
         });
     },
-    
-        AgregarEditarActividad:function(AE){
+    CargarActividad:function( data ){
+        $.ajax({
+            url         : 'poi/listaractividad',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : data,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay,.loading-img").remove();
+                if(obj.rst==1){
+                    actividadHTML(obj.datos);
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
+                                    '<i class="fa fa-ban"></i>'+
+                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
+                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
+                                '</div>');
+            }
+        });
+    },
+    AgregarEditarActividad:function(AE){
         var datos = $("#form_actividad_modal").serialize().split("txt_").join("").split("slct_").join("");
         var id=$("#form_actividad_modal #txt_poi_id").val();
         var accion = (AE==1) ? "poi/editaractividad" : "poi/crearactividad";
