@@ -74,7 +74,10 @@ class Ruta extends Eloquent
             $tablaRelacion['responsable']=Input::get('responsable');
         }
         $tablaRelacion['sumilla']=Input::get('sumilla');
-        $tablaRelacion['doc_digital_id']=Input::get('doc_digital_id');
+
+        if( Input::has('doc_digital_id')){
+             $tablaRelacion['doc_digital_id']=Input::get('doc_digital_id');
+        }
 
         $tablaRelacion['persona_autoriza_id']=Input::get('id_autoriza');
         $tablaRelacion['persona_responsable_id']=Input::get('id_responsable');
@@ -128,7 +131,11 @@ class Ruta extends Eloquent
         if($tablarelacion_id!=''){
             $referido['tabla_relacion_id']=$tablarelacion_id;
         }
-        $referido['doc_digital_id']=Input::get('doc_digital_id');
+        
+        if( Input::has('doc_digital_id')){
+               $referido['doc_digital_id']=Input::get('doc_digital_id');
+        }
+      
         $referido['tipo']=0;
         $referido['ruta_detalle_verbo_id']=0;
         $referido['referido']=$tablaRelacion->id_union;
