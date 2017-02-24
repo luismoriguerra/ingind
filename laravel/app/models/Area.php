@@ -135,8 +135,7 @@ class Area extends Base
                 INNER JOIN area_cargo_persona acp ON acp.area_id=a.id AND acp.estado=1
                 INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1 AND cp.cargo_id=5
                 INNER JOIN personas p ON p.id=cp.persona_id AND p.estado = 1 AND p.rol_id IN (8,9) 
-                WHERE a.estado=1
-                ";
+                WHERE a.estado=1 AND a.area_gestion=1";
         $result = DB::select($sql);
         return ($result) ? $result : false;
     }

@@ -181,18 +181,21 @@ HTMLCargar=function(datos){
     var html="";
     $('#t_plantilla').dataTable().fnDestroy();
     $.each(datos,function(index,data){
-        html+="<tr>"+
-            "<td>"+data.titulo+"</td>"+
-            "<td>"+data.asunto+"</td>"+
-            "<td>"+data.plantilla+"</td>"+
-           /* "<td>"+data.area+"</td>"+
-            "<td>"+data.pnombre+" "+data.ppaterno+" "+data.pmaterno+"</td>"+*/
-            "<td>"+
-                "<a class='btn btn-primary btn-sm' onclick='editDocDigital("+data.id+"); return false;' data-titulo='Editar'><i class='glyphicon glyphicon-pencil'></i> </a>"+
-            "</td>"+
-            "<td>"+
-                "<a class='btn btn-default btn-sm' onclick='openPrevisualizarPlantilla("+data.id+"); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'></i> </a>"+
-            "</td>";
+        html+="<tr>";
+        html+="<td>"+data.titulo+"</td>";
+        html+="<td>"+data.asunto+"</td>";
+        html+="<td>"+data.plantilla+"</td>";
+
+        if(data.estado == 1){
+            html+="<td><a class='btn btn-primary btn-sm' onclick='editDocDigital("+data.id+"); return false;' data-titulo='Editar'><i class='glyphicon glyphicon-pencil'></i> </a></td>";
+            html+="<td><a class='btn btn-default btn-sm' onclick='openPrevisualizarPlantilla("+data.id+"); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'></i> </a></td>";
+            html+= "<td><a class='btn btn-danger btn-sm' onclick='deleteDocumento("+data.id+"); return false;' data-titulo='Eliminar'><i class='glyphicon glyphicon-trash'></i> </a></td>";
+        }else{
+            html+="<td><a class='btn btn-primary btn-sm' style='opacity:0.5'><i class='glyphicon glyphicon-pencil'></i> </a></td>";
+            html+="<td><a class='btn btn-default btn-sm' style='opacity:0.5'><i class='fa fa-eye fa-lg'></i> </a></td>";
+            html+= "<td><a class='btn btn-danger btn-sm' style='opacity:0.5'><i class='glyphicon glyphicon-trash'></i> </a></td>";
+        }
+
         html+="</tr>";
     });
     $("#tb_doc_digital").html(html);
@@ -244,6 +247,11 @@ editDocDigital = function(id){
     Plantillas.CargarAreas(HTMLAreas);      
     Plantillas.Cargar(HTMLEdit,{'id':id});
 }
+
+deleteDocumento = function(id){
+    Plantillas.EliminarDocumento({'estado':0,'id':id});    
+}
+
 
 HTMLEdit = function(data){
     if(data.length > 0){

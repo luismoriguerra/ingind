@@ -2,7 +2,7 @@
 <div class="modal fade" id="NuevoDocDigital" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form id="formNuevoDocDigital" name="form_plantilla" method="post">
+      <form id="formNuevoDocDigital" name="formNuevoDocDigital" method="post">
         <input type="hidden" id="txt_iddocdigital" name="txt_iddocdigital" value="">
         <input type="hidden" id="txt_area_plantilla" name="txt_area_plantilla" value="">
         <div class="modal-header logo">
@@ -25,7 +25,7 @@
                          <label id="lblDocumento" style="margin-top:5px;float:right;">Documento Prueba Nº</label>
                       </div>
                       <div class="col-xs-3">
-                          <input type="text" class="form-control" placeholder="Ingrese Titulo" name="txt_titulo" id="txt_titulo">
+                          <input type="text" class="form-control txttittle" placeholder="Ingrese Titulo" name="txt_titulo" id="txt_titulo">
                       </div>
                       <div class="col-xs-3">
                           <label id="lblArea" style="margin-top:5px;">-MDI</label>

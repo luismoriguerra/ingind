@@ -1,10 +1,9 @@
 <script type="text/javascript">
-var plantilla_id, PlantillaObj;
-var Plantillas={
-    AgregarEditar:function(areas,event){
+var docdigital={
+       AgregarEditar:function(areas,event,poblate = 0){
         $("#formNuevoDocDigital input[name='word']").remove();
         $("#formNuevoDocDigital").append("<input type='hidden' value='"+CKEDITOR.instances.plantillaWord.getData()+"' name='word'>");
-        $("#txt_titulofinal").val($("#lblDocumento").text()+$("#txt_titulo").val()+$("#lblArea").text());
+        $("#txt_titulofinal").val($("#lblDocumento").text()+$(".txttittle").val()+$("#lblArea").text());
         var datos=$("#formNuevoDocDigital").serialize().split("txt_").join("").split("slct_").join("");
         datos+="&areasselect="+JSON.stringify(areas);
         var accion="documentodig/crear";
@@ -24,10 +23,14 @@ var Plantillas={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                    $('#t_plantilla').dataTable().fnDestroy();
-                    Plantillas.Cargar(HTMLCargar);
                     alertBootstrap('success', obj.msj, 6);
                     $("#NuevoDocDigital").modal('hide');
+
+                    if(poblate != 0){
+                        var campos = $("#txt_campos").attr('c_text');
+                        $("#"+$("#txt_campos").attr('c_text')).val(obj.nombre);
+                        $("#"+$("#txt_campos").attr('c_id')).val(obj.iddocdigital);
+                    }
                 }
                 else{
                     $.each(obj.msj,function(index,datos){
@@ -42,7 +45,7 @@ var Plantillas={
             }
         });
     },
-    Cargar:function(evento,data = ''){
+    Cargar:function(evento,campos,data = ''){
         $.ajax({
             url         : 'documentodig/cargar',
             type        : 'POST',
@@ -54,7 +57,7 @@ var Plantillas={
             },
             success : function(obj) {
                 if(obj.rst==1){
-                    evento(obj.datos);
+                    evento(obj.datos,campos);
                    /* PlantillaObj=obj.datos;*/
                 }
                 $(".overlay,.loading-img").remove();
@@ -227,5 +230,5 @@ var Plantillas={
             }
         });
     },
-};
+}
 </script>
