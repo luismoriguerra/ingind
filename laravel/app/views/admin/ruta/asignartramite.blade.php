@@ -93,10 +93,10 @@
                                                     </div>
                                                     <div class="col-sm-3">
                                                          <br>
-                                                         <span class="btn btn-success" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital">
+                                                         <span class="btn btn-success" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-id="txt_doc_digital_id">
                                                             <i class="glyphicon glyphicon-file"></i>
                                                         </span>
-                                                        <span class="btn btn-success" data-toggle="modal" data-target="#NuevoDocDigital" id="btn_nuevo_docdigital">
+                                                        <span class="btn btn-success" data-toggle="modal" data-target="#NuevoDocDigital" id="btn_nuevo_docdigital" data-texto="txt_codigo" data-id="txt_doc_digital_id">
                                                             <i class="glyphicon glyphicon-paperclip"></i>
                                                         </span>
                                                         <span class="btn btn-primary" data-toggle="modal" data-target="#indedocsModal" data-texto="txt_codigo" data-id="txt_documento_id" id="btn_buscar_indedocs">
@@ -280,14 +280,14 @@
                                                         <label class="control-label">Nro Trámite:</label>
                                                         <input class="form-control" id="txt_codigo2" name="txt_codigo2" type="text"  readonly="">
                                                         <input id="txt_documento_id2" name="txt_documento_id2" type="hidden"  value="">
-                                                        
+                                                         <input id="txt_doc_digital_id2" name="txt_doc_digital_id2" type="hidden"  value="">
                                                     </div>
                                                      <div class="col-sm-3">
                                                          <br>
-                                                           <span class="btn btn-success" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital">
+                                                           <span class="btn btn-success" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo2" data-id="txt_doc_digital_id2">
                                                             <i class="glyphicon glyphicon-file"></i>
                                                         </span>
-                                                        <span class="btn btn-success" data-toggle="modal" data-target="#NuevoDocDigital" id="btn_nuevo_docdigital">
+                                                        <span class="btn btn-success" data-toggle="modal" data-target="#NuevoDocDigital" id="btn_nuevo_docdigital" data-texto="txt_codigo2" data-id="txt_doc_digital_id2">
                                                             <i class="glyphicon glyphicon-paperclip"></i>
                                                         </span>
                                                         <span class="btn btn-primary" data-toggle="modal" data-target="#indedocsModal" data-texto="txt_codigo2" data-id="txt_documento_id2" id="btn_buscar_indedocs">

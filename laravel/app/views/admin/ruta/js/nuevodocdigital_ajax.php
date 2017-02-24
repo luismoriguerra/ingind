@@ -27,8 +27,9 @@ var docdigital={
                     $("#NuevoDocDigital").modal('hide');
 
                     if(poblate != 0){
-                        $("#txt_codigo").val(obj.nombre);
-                        $("#txt_doc_digital_id").val(obj.iddocdigital);
+                        var campos = $("#txt_campos").attr('c_text');
+                        $("#"+$("#txt_campos").attr('c_text')).val(obj.nombre);
+                        $("#"+$("#txt_campos").attr('c_id')).val(obj.iddocdigital);
                     }
                 }
                 else{
@@ -44,7 +45,7 @@ var docdigital={
             }
         });
     },
-    Cargar:function(evento,data = ''){
+    Cargar:function(evento,campos,data = ''){
         $.ajax({
             url         : 'documentodig/cargar',
             type        : 'POST',
@@ -56,7 +57,7 @@ var docdigital={
             },
             success : function(obj) {
                 if(obj.rst==1){
-                    evento(obj.datos);
+                    evento(obj.datos,campos);
                    /* PlantillaObj=obj.datos;*/
                 }
                 $(".overlay,.loading-img").remove();

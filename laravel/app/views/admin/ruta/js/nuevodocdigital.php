@@ -45,10 +45,19 @@ $(document).ready(function() {
     $('#NuevoDocDigital').on('show.bs.modal', function (event) {
         $("#slct_tipoenvio").multiselect('destroy');
         slctGlobalHtml('slct_tipoenvio','simple');
+        var button = $(event.relatedTarget); // captura al boton
+	    var text = $.trim( button.data('texto') );
+	    var id= $.trim( button.data('id') );
+	    $("#formNuevoDocDigital input[name='txt_campos']").remove();
+        $("#formNuevoDocDigital").append("<input type='hidden' c_text='"+text+"' c_id='"+id+"' id='txt_campos' name='txt_campos'>");
     });
 
      $('#listDocDigital').on('show.bs.modal', function (event) {
-        docdigital.Cargar(HTMLCargar);
+     	var button = $(event.relatedTarget); // captura al boton
+	    var text = $.trim( button.data('texto') );
+	    var id= $.trim( button.data('id') );
+	    var camposP = {'nombre':text,'id':id};
+        docdigital.Cargar(HTMLCargar,camposP);
     });
 
     function limpia(area) {
@@ -84,7 +93,10 @@ HTMLPlantilla = function(data){
     }
 }
 
-HTMLCargar=function(datos){
+HTMLCargar=function(datos,campos){
+	var c_text = campos.nombre;
+	var c_id = campos.id;
+
     var html="";
     $('#t_doc_digital').dataTable().fnDestroy();
     $.each(datos,function(index,data){
@@ -92,18 +104,18 @@ HTMLCargar=function(datos){
         html+="<td>"+data.titulo+"</td>";
         html+="<td>"+data.asunto+"</td>";
         html+="<td>"+data.plantilla+"</td>";
-        html+="<td><a class='btn btn-success btn-sm' id='"+data.id+"' title='"+data.titulo+"' onclick='SelectDocDig(this)'><i class='glyphicon glyphicon-ok'></i> </a></td>";
+        html+="<td><a class='btn btn-success btn-sm' c_text='"+c_text+"' c_id='"+c_id+"'  id='"+data.id+"' title='"+data.titulo+"' onclick='SelectDocDig(this)'><i class='glyphicon glyphicon-ok'></i> </a></td>";
         html+="</tr>";
     });
     $("#tb_doc_digital").html(html);
     $("#t_doc_digital").dataTable();
 };
 
-SelectDocDig = function(obj){
+SelectDocDig = function(obj){	
 	var id = obj.getAttribute('id');
 	var nombre = obj.getAttribute('title');
-	$("#txt_codigo").val(nombre);
-    $("#txt_doc_digital_id").val(id);
+	$("#"+obj.getAttribute('c_text')).val(nombre);
+	$("#"+obj.getAttribute('c_id')).val(id);
 	$("#listDocDigital").modal('hide');
 }
 

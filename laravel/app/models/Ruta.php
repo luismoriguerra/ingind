@@ -410,6 +410,10 @@ class Ruta extends Eloquent
             $tablaRelacion['razon_social']=Input::get('razon_social2');
         }
 
+        if( Input::has('doc_digital_id2')){
+            $tablaRelacion['doc_digital_id']=Input::get('doc_digital_id2');
+        }
+
 
         if( Input::has('referente2') AND trim(Input::get('referente2'))!='' ){
             $tablaRelacion['referente']=Input::get('referente2');
@@ -435,6 +439,10 @@ class Ruta extends Eloquent
         $ruta['flujo_id']=$rutaFlujo->flujo_id;
         $ruta['persona_id']=$rutaFlujo->persona_id;
         $ruta['area_id']=$rutaFlujo->area_id;
+
+        if( Input::has('doc_digital_id2')){
+            $ruta['doc_digital_id']=Input::get('doc_digital_id2');
+        }
         $ruta['usuario_created_at']= Auth::user()->id;
         $ruta->save();
         /**************CARTA *************************************************/
@@ -470,6 +478,9 @@ class Ruta extends Eloquent
         $referido['tabla_relacion_id']=$tablaRelacion->id;
         if($tablarelacion_id!=''){
             $referido['tabla_relacion_id']=$tablarelacion_id;
+        }
+        if( Input::has('doc_digital_id2')){
+            $referido['doc_digital_id']=Input::get('doc_digital_id2');
         }
         $referido['tipo']=0;
         $referido['ruta_detalle_verbo_id']=0;

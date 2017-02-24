@@ -2,7 +2,7 @@
 <div class="modal fade" id="NuevoDocDigital" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form id="formNuevoDocDigital" name="form_plantilla" method="post">
+      <form id="formNuevoDocDigital" name="formNuevoDocDigital" method="post">
         <input type="hidden" id="txt_iddocdigital" name="txt_iddocdigital" value="">
         <input type="hidden" id="txt_area_plantilla" name="txt_area_plantilla" value="">
         <div class="modal-header logo">
