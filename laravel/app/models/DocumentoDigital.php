@@ -49,7 +49,7 @@ class DocumentoDigital extends Base {
                                     AND persona_id=".Auth::user()->id;
                             $csql=DB::select($sql);
                             if( $csql[0]->cant==0 ){*/
-                                $query->where('dd.area_id','=',28);
+                                $query->where('dd.area_id','=',Auth::user()->area_id);
                             /* }*/
                         }
                     )
