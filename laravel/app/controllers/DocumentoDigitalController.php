@@ -199,10 +199,14 @@ class DocumentoDigitalController extends \BaseController {
                 $array=array();
                 $array['where']='';$array['usuario']=Auth::user()->id;
                 $array['limit']='';$array['order']='';
-                $array['having']='HAVING ruta=1 OR rutadetallev=1';
+                $array['having']='HAVING ruta=0 AND rutadetallev=0';
 
                 if(Input::has('idtipo') AND Input::get('idtipo')!=''){
-                    $array['having']="HAVING ruta=".Input::get('idtipo')." OR rutadetallev=".Input::get('idtipo')."";                    
+                    if(Input::get('idtipo')==1){
+                        $array['having']="HAVING ruta=".Input::get('idtipo')." OR rutadetallev=".Input::get('idtipo')."";                    
+                    }else{
+                         $array['having']="HAVING ruta=".Input::get('idtipo')." AND rutadetallev=".Input::get('idtipo').""; 
+                    }
                 }
                 
              /*   if (Input::has('draw')) {
