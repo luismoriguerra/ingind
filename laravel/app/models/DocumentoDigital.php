@@ -94,4 +94,36 @@ class DocumentoDigital extends Base {
         return $oData;
     }
 
+
+    public static function getDocdigitalCount( $array )
+    {   
+        $sSql=" select COUNT(*) as cant FROM (SELECT `dd`.`id`, `dd`.`titulo`, `dd`.`asunto`, `pd`.`descripcion` as `plantilla`, `dd`.`estado`,
+                 (SELECT COUNT(r.id) FROM rutas r where r.doc_digital_id=dd.id) AS ruta,
+                 (SELECT COUNT(rdv.id) FROM rutas_detalle_verbo rdv where rdv.doc_digital_id=dd.id) AS rutadetallev
+                 from `doc_digital` as `dd`
+                 inner join `plantilla_doc` as `pd` on `dd`.`plantilla_doc_id` = `pd`.`id` ".$array['having'].") as tb1";
+
+        $sSql.= $array['where'];
+                //echo $sSql;
+        $oData = DB::select($sSql);
+        return $oData[0]->cant;
+    }
+
+    public static function getDocdigital( $array )
+    {
+        $sSql=" select `dd`.`id`, `dd`.`titulo`, `dd`.`asunto`, `pd`.`descripcion` as `plantilla`, `dd`.`estado`,
+                 (SELECT COUNT(r.id) FROM rutas r where r.doc_digital_id=dd.id) AS ruta,
+                 (SELECT COUNT(rdv.id) FROM rutas_detalle_verbo rdv where rdv.doc_digital_id=dd.id) AS rutadetallev
+                 from `doc_digital` as `dd`
+                 inner join `plantilla_doc` as `pd` on `dd`.`plantilla_doc_id` = `pd`.`id`";
+
+        $sSql.= $array['where'].
+                $array['having'].
+                $array['order'].
+                $array['limit'];
+
+        $oData = DB::select($sSql);
+        return $oData;
+    }
+
 }

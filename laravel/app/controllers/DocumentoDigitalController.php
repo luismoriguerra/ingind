@@ -189,6 +189,77 @@ class DocumentoDigitalController extends \BaseController {
         ];
     }
 
+
+    public function postDocdigital()
+    {
+        //si la peticion es ajax
+        if ( Request::ajax() ) {
+            //$cargar         = TablaRelacion::getPlataforma();
+
+                $array=array();
+                $array['where']='';$array['usuario']=Auth::user()->id;
+                $array['limit']='';$array['order']='';
+                $array['having']='HAVING ruta=1 OR rutadetallev=1';
+
+                if(Input::has('idtipo') AND Input::get('idtipo')!=''){
+                    $array['having']="HAVING ruta=".Input::get('idtipo')." OR rutadetallev=".Input::get('idtipo')."";                    
+                }
+                
+             /*   if (Input::has('draw')) {
+                    if (Input::has('order')) {
+                        $inorder=Input::get('order');
+                        $incolumns=Input::get('columns');
+                        $array['order']=  ' ORDER BY '.
+                                          $incolumns[ $inorder[0]['column'] ]['name'].' '.
+                                          $inorder[0]['dir'];
+                    }
+
+                    $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
+                    $aParametro["draw"]=Input::get('draw');
+                }*/
+                /************************************************************/
+
+                if( Input::has('titulo') AND Input::get('titulo')!='' ){
+                    $array['where'].=" AND dd.titulo LIKE '%".Input::get('titulo')."%' ";
+                }
+
+                if( Input::has('asunto') AND Input::get('asunto')!='' ){
+                    $array['where'].=" AND dd.asunto LIKE '%".Input::get('asunto')."%' ";
+                }
+
+                if( Input::has('plantilla') AND Input::get('plantilla')!='' ){
+                    $array['where'].=" AND pd.descripcion LIKE '%".Input::get('plantilla')."%' ";
+                }
+/*
+
+                if( Input::has("area") ){
+                    $usuario=Input::get("usuario");
+                    if( trim( $usuario )!='' ){
+                        $array['where'].=" AND CONCAT_WS(p.nombre,p.paterno,p.materno) LIKE '%".$usuario."%' ";
+                    }
+                }
+
+                if( Input::has("fecha_tramite") ){
+                    $fecha_t=Input::get("fecha_tramite");
+                    if( trim( $fecha_inicio )!='' ){
+                        $array['where'].=" AND DATE(tr.fecha_tramite)='".$fecha_t."' ";
+                    }
+                }*/
+
+                $array['order']=" ORDER BY ruta DESC,rutadetallev DESC ";
+
+                $cant  = DocumentoDigital::getDocdigitalCount( $array );
+                $aData = DocumentoDigital::getDocdigital( $array );
+
+                $aParametro['rst'] = 1;
+                $aParametro["recordsTotal"]=$cant;
+                $aParametro["recordsFiltered"]=$cant;
+                $aParametro['data'] = $aData;
+                $aParametro['msj'] = "No hay registros aún";
+                return Response::json($aParametro);
+        }
+    }
+
 	/**
 	 * Display a listing of the resource.
 	 * GET /documentodigital
