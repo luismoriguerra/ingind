@@ -10,7 +10,8 @@
 		"itsgoingd/clockwork": "1.*",
         "simplesoftwareio/simple-qrcode": "~1",
 		"google/recaptcha": "~1.1",
-		"thujohn/pdf": "dev-master"
+		"thujohn/pdf": "dev-master",
+		"barryvdh/laravel-dompdf": "0.4.*"
 	},
 	"autoload": {
 		"psr-4": {

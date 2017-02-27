@@ -174,7 +174,11 @@ class DocumentoDigitalController extends \BaseController {
             $view = \View::make('admin.mantenimiento.templates.plantilla1', $params);
             $html = $view->render();
 
-            return \PDF::load($html, 'A4', 'portrait')->show();
+            $pdf = App::make('dompdf');
+            $pdf->loadHTML($html);
+            $pdf->setPaper('a4')->setOrientation('portrait');
+            return $pdf->stream();
+            //\PDFF::loadHTML($html)->setPaper('a4')->setOrientation('landscape')->setWarnings(false)->stream();
         }
 
     }
