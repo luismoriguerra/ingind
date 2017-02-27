@@ -35,8 +35,8 @@
                                         <th style="width: 30%">Asunto</th>
                                         <th style="width: 30%">Plantilla</th>
                                         <th style="width: 5%">Select</th>
-                                       <!--  <th style="width: 5%">Vista Previa</th>
-                                         <th style="width: 5%">Eliminar</th> -->
+                                        <th style="width: 5%">Vista Previa</th>
+                                        <!--  <th style="width: 5%">Eliminar</th> -->
                                     </tr>
                                 </thead>
                                 <tbody id="tb_doc_digital">
@@ -47,8 +47,8 @@
                                         <th style="width: 30%">Asunto</th>
                                         <th style="width: 30%">Plantilla</th>
                                          <th style="width: 5%">Editar</th>
-                           <!--              <th style="width: 5%">Vista Previa</th>
-                                        <th style="width: 5%">Eliminar</th> -->
+                                        <th style="width: 5%">Vista Previa</th>
+<!--                                         <th style="width: 5%">Eliminar</th> -->
                                     </tr>
                                 </tfoot>
                             </table>
