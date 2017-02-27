@@ -71,21 +71,23 @@ hr {
 }
 .nombre-documento {
     text-align: center;
-    font-size: 35px;
+    font-size: 40px;
     text-decoration: underline;
 }
 .cuerpo-documento {
-    font-size: 15px;
+    font-size: 35px;
 }
 .tabla-cabecera {
     border: none;
        line-height: 18px;
+        font-size: 33px;
 }
 .tabla-cabecera td {
     vertical-align: top;
     border: none;
     padding: 5px;
      line-height: 18px;
+      font-size: 33px;
 }
 .qr {
   position: absolute;
