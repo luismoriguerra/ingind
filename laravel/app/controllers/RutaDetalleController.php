@@ -295,7 +295,7 @@ class RutaDetalleController extends \BaseController
                     $rdv= RutaDetalleVerbo::find($verbog[$i]);
                     $rdv['finalizo'] = '1';
 
-                    if($coddocdig[$i] != "undefined" or $coddocdig[$i] != ""){
+                    if($coddocdig[$i]){
                         var_dump($coddocdig[$i]);
                         exit();
                         $rdv['doc_digital_id'] = $coddocdig[$i];
