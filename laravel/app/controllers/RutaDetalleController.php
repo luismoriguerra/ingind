@@ -296,6 +296,7 @@ class RutaDetalleController extends \BaseController
                     $rdv['finalizo'] = '1';
 
                     if(isset($coddocdig[$i]) && $coddocdig[$i]!=null){
+                        var_dump(trim($coddocdig[$i]));
                         var_dump($coddocdig[$i]);
                         exit();
                         $rdv['doc_digital_id'] = $coddocdig[$i];
