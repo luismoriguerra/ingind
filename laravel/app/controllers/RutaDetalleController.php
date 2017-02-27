@@ -296,8 +296,12 @@ class RutaDetalleController extends \BaseController
                     $rdv['finalizo'] = '1';
 
                     if($coddocdig[$i] != 'undefined' or $coddocdig[$i] != ''){
+                        var_dump($coddocdig[$i]);
+                        exit();
                         $rdv['doc_digital_id'] = $coddocdig[$i];
                     }else{
+                          var_dump($coddocdig[$i]);
+                        exit();
                         $rdv['doc_digital_id'] =0;
                     }
 
