@@ -7,8 +7,8 @@
 <style>
 
 html, body{
-    font-size: 13px;
-    line-height: 18px;
+    font-size: 35px;
+    /*line-height: 8px;*/
 }
 
 table, tr , td, th {
@@ -16,8 +16,9 @@ table, tr , td, th {
     border-collapse: collapse;
     border: 1px solid #ccc;
     width: 100%;
-    font-size: 13px;
+    font-size: 25px;
     font-family: arial, sans-serif;
+    line-height: 18px;
 }
 th, td {
     padding: 5px;
@@ -34,23 +35,32 @@ hr {
 
 .logo {
      left: -40px;position: absolute;
+     text-align: center
 }
 .logo img {
     height: 100px;
 }
+
+.nombmuni{
+    text-align: center;
+       line-height: 1.5px;
+}
+
 .nombre-municipio {
  position: absolute;
-  top:  0px; 
+    top: 0px
   left: 120px;
   font-style: italic;
-   font-size: 15px;
+   font-size: 25px;
+      line-height: 1.5px;
 }
 .nombre-anio {
     text-align: center;
     font-style: italic;
-    font-size: 15px;
+    font-size: 25px;
     padding: 0px;
     margin: 10px;
+       line-height: 1.5px;
 }
 .gerencia {
      position: absolute;
@@ -61,7 +71,7 @@ hr {
 }
 .nombre-documento {
     text-align: center;
-    font-size: 17px;
+    font-size: 35px;
     text-decoration: underline;
 }
 .cuerpo-documento {
@@ -69,11 +79,13 @@ hr {
 }
 .tabla-cabecera {
     border: none;
+       line-height: 18px;
 }
 .tabla-cabecera td {
     vertical-align: top;
     border: none;
     padding: 5px;
+     line-height: 18px;
 }
 .qr {
   position: absolute;
@@ -91,7 +103,9 @@ hr {
             <div class="logo">
                 <img align="left" src="img/logo_muni.jpg">
             </div> 
-            <h4 class="nombre-municipio">MUNICIPALIDAD DISTRITAL DE INDEPENDECIA</h4>
+            <div class="nombmuni">
+                <h4 class="nombre-municipio">MUNICIPALIDAD DISTRITAL DE INDEPENDECIA</h4>                
+            </div>
             <!--            <h4 class="gerencia">Gerencia x</h4>--><br><br><br><br><br>
             <h4 class="nombre-anio">“Año del Buen Servicio al Ciudadano”</h4>
            <div class="qr">{{ $imagen }}</div>

@@ -101,7 +101,7 @@ class DocumentoDigitalController extends \BaseController {
             $DocDigital->asunto = Input::get('asunto');
             $DocDigital->cuerpo = $html;
             $DocDigital->plantilla_doc_id = Input::get('plantilla');
-            $DocDigital->area_id = Input::get('area_plantilla');
+            $DocDigital->area_id = Auth::user()->area_id;
             $DocDigital->tipo_envio = Input::get('tipoenvio');
             $DocDigital->persona_id = Auth::user()->id;
             $DocDigital->usuario_created_at = Auth::user()->id;
@@ -126,33 +126,79 @@ class DocumentoDigitalController extends \BaseController {
     public function getVistaprevia($id)
     {
 
-        $DocumentoDigital = DocumentoDigital::find($id);
+
+
+// create some HTML content
+$DocumentoDigital = DocumentoDigital::find($id);
 
         if ($DocumentoDigital) {
-        	/*get remitente data*/
-        	$persona = Persona::find($DocumentoDigital->persona_id);
-        	$area = Area::find($DocumentoDigital->area_id);
-        	$remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." <br>".$area->nombre;
-        	/*end get remitente data */
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
-        	/*get destinatario data*/
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Nicola Asuni');
+$pdf->SetTitle('TCPDF Example 039');
+$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set font
+$pdf->SetFont('helvetica', 'B', 20);
+
+// set default header data
+/*$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 039', PDF_HEADER_STRING);*/
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+/*$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+*/
+// set margins
+/*$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);*/
+/*$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);*/
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+/*if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+    require_once(dirname(__FILE__).'/lang/eng.php');
+    $pdf->setLanguageArray($l);
+}*/
+
+// ---------------------------------------------------------
+
+// add a page
+$pdf->AddPage();
+            /*get remitente data*/
+            $persona = Persona::find($DocumentoDigital->persona_id);
+            $area = Area::find($DocumentoDigital->area_id);
+            $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." <br>".$area->nombre;
+            /*end get remitente data */
+
+            /*get destinatario data*/
             $copias = '';
             $copias.= '<ul>';
-        	$destinatarios = '';
-        	$destinatarios.= '<ul>';
-        	$DocDigitalArea = DocumentoDigitalArea::where('doc_digital_id', '=', $id)->where('estado', '=', 1)->get();
-        	foreach($DocDigitalArea as $key => $value){
-        		$persona2 = Persona::find($value->persona_id);
-        		$area2 = Area::find($value->area_id);
+            $destinatarios = '';
+            $destinatarios.= '<ul>';
+            $DocDigitalArea = DocumentoDigitalArea::where('doc_digital_id', '=', $id)->where('estado', '=', 1)->get();
+            foreach($DocDigitalArea as $key => $value){
+                $persona2 = Persona::find($value->persona_id);
+                $area2 = Area::find($value->area_id);
                 if($value->tipo ==1){
-        		  $destinatarios.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' <br>'.$area2->nombre.'</li>';
+                  $destinatarios.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' <br>'.$area2->nombre.'</li>';
                 }else{
                     $copias.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' <br>'.$area2->nombre.'</li>';
                 }        
-        	}
+            }
             $destinatarios.= '</ul>';    
-        	$copias.= '</ul>';        	
-        	/*end get destinatario data*/
+            $copias.= '</ul>';          
+            /*end get destinatario data*/
             $png = QrCode::format('png')->size(150)->generate("http://procesos.munindependencia.pe/documentodig/vistaprevia/".$id);
             $png = base64_encode($png);
             $png= "<img src='data:image/png;base64," . $png . "'>";
@@ -171,12 +217,19 @@ class DocumentoDigitalController extends \BaseController {
             ];
             $params = $params;
             
-            $view = \View::make('admin.mantenimiento.templates.plantilla1', $params);
+            $view = View::make('admin.mantenimiento.templates.plantilla1', $params);
             $html = $view->render();
 
-            return \PDF::load($html, 'A4', 'portrait')->show();
-        }
+            /*return \PDF::load($html, 'A4', 'portrait')->show();*/
+// output the HTML content
+$pdf->writeHTML($html, true, 0, true, true);
 
+// reset pointer to the last page
+/*$pdf->lastPage();*/
+
+//Close and output PDF document
+$pdf->Output('example_039.pdf', 'I');
+        }
     }
 
     function dataEjemploPlantilla() {

@@ -312,7 +312,7 @@ AreaSeleccionadas = function(){
         });
     }
 
-    if($("#slct_copia").val().length > 0){
+    if($("#slct_copia").val() != ''){
         $('#slct_copia  option:selected').each(function(index,el) {
             var area_id = $(el).val();
             var persona_id  = $(el).attr('data-relation').split('|');
