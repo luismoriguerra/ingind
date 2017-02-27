@@ -8,26 +8,33 @@
 
 html, body{
     font-size: 35px;
-    /*line-height: 8px;*/
 }
 
-table, tr , td, th {
+table, td, th {
     text-align: left !important;
     border-collapse: collapse;
     border: 1px solid #ccc;
     width: 100%;
     font-size: 25px;
     font-family: arial, sans-serif;
-    line-height: 18px;
+    line-height: 8px;
 }
+
+tr{
+    line-height: 10px;
+}
+
+
 th, td {
-    padding: 5px;
+    padding: 0px;
+    line-height: 8px;
 }
 hr {
     width: 100%;
     height: 0;
     color: #b2b2b2;
     background-color: #b2b2b2;
+    line-height: 8px;
 }
 .text-negrita {
     font-weight: bold;
@@ -35,7 +42,8 @@ hr {
 
 .logo {
      left: -40px;position: absolute;
-     text-align: center
+     text-align: center;
+     line-height: 1.5px;
 }
 .logo img {
     height: 100px;
@@ -76,10 +84,11 @@ hr {
 }
 .cuerpo-documento {
     font-size: 35px;
+        line-height: 18px;
 }
 .tabla-cabecera {
     border: none;
-       line-height: 18px;
+       line-height: 10px;
         font-size: 33px;
 }
 .tabla-cabecera td {
@@ -91,8 +100,9 @@ hr {
 }
 .qr {
   position: absolute;
-  top:  -15px; 
-  left: 550px;
+  text-align: right;
+/*  top:  -15px; 
+  left: 550px;*/
 }
 </style>
 
