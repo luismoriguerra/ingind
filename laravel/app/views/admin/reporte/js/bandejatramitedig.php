@@ -497,7 +497,7 @@ guardarTodo=function(){
                 codaux+= "|"+codauxd.substr(1);
                 obsaux+="|"+$("#area_"+$(this).val()).val();
                 coddocaux+="|"+$("#txt_documento_id_"+$(this).val()).val();
-                coddocdig+=$("#txt_doc_digital_id_"+$(this).val()).val() != 'undefined' ? "|"+$("#txt_doc_digital_id_"+$(this).val()).val() : "|"+ "";
+                coddocdig+=(typeof $("#txt_doc_digital_id_"+$(this).val()).val()) != 'undefined' ? "|"+$("#txt_doc_digital_id_"+$(this).val()).val() : "|"+ "";
                 contcheck++;
 
                 if( $("#documento_"+$(this).val()).val()=="" ){
