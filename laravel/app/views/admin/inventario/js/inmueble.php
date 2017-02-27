@@ -10,7 +10,7 @@ $(document).ready(function() {
 
 
     
-    poblateDataUser();
+    poblateDataUser('');
     /*Inicializar tramites*/
     var data={'estado':1};
     /*end Inicializar tramites*/
