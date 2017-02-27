@@ -8,9 +8,9 @@
 		"laravel/framework": "4.2.*",
 		"way/generators": "~2.0",
 		"itsgoingd/clockwork": "1.*",
-
         "simplesoftwareio/simple-qrcode": "~1",
-		"google/recaptcha": "~1.1"
+		"google/recaptcha": "~1.1",
+		"thujohn/pdf": "dev-master"
 	},
 	"autoload": {
 		"psr-4": {
