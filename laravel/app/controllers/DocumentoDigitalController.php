@@ -126,96 +126,6 @@ class DocumentoDigitalController extends \BaseController {
     public function getVistaprevia($id)
     {
 
-
-/*
-// create some HTML content
-$DocumentoDigital = DocumentoDigital::find($id);
-
-        if ($DocumentoDigital) {
-        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-
-// set document information
-$pdf->SetCreator('Gerencia de Modernizacion');
-$pdf->SetAuthor('Gerencia de Modernizacion');
-$pdf->SetTitle($DocumentoDigital->titulo);
-
-// set font
-$pdf->SetFont('helvetica', 'B', 20);
-
-// set default header data
-
-
-// set header and footer fonts
-/*$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));*/
-
-// set default monospaced font
-
-
-$pdf->setPrintHeader(false);
-$pdf->setPrintFooter(false);
-
-// set auto page breaks
-$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-
-// set image scale factor
-$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-
-// ---------------------------------------------------------
-
-// add a page
-$pdf->SetMargins(10, 0, 10, true);
-$pdf->AddPage();
-            $persona = Persona::find($DocumentoDigital->persona_id);
-            $area = Area::find($DocumentoDigital->area_id);
-            $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." <br>".$area->nombre;
-            $copias = '';
-            $copias.= '<ul>';
-            $destinatarios = '';
-            $destinatarios.= '<ul>';
-            $DocDigitalArea = DocumentoDigitalArea::where('doc_digital_id', '=', $id)->where('estado', '=', 1)->get();
-            foreach($DocDigitalArea as $key => $value){
-                $persona2 = Persona::find($value->persona_id);
-                $area2 = Area::find($value->area_id);
-                if($value->tipo ==1){
-                  $destinatarios.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' <br>'.$area2->nombre.'</li>';
-                }else{
-                    $copias.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' <br>'.$area2->nombre.'</li>';
-                }        
-            }
-            $destinatarios.= '</ul>';    
-            $copias.= '</ul>';          
-            $png = QrCode::format('png')->size(150)->generate("http://procesos.munindependencia.pe/documentodig/vistaprevia/".$id);
-            $png = base64_encode($png);
-            $png= "<img src='data:image/png;base64," . $png . "'>";
-            $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
-            
-            $params = [
-                'titulo' => $DocumentoDigital->titulo,
-                'asunto' => $DocumentoDigital->asunto,
-                'conCabecera' => 1,
-                'contenido' => $DocumentoDigital->cuerpo,
-                'fecha' => 'Lima,'.date('d').' de '.$meses[date('m')*1].' del '.date('Y'),
-                'remitente' => $remitente,
-                'destinatario' => $destinatarios,
-                'copias' => $copias,
-                'imagen'=>$png,
-            ];
-            $params = $params;
-            
-            $view = View::make('admin.mantenimiento.templates.plantilla1', $params);
-            $html = $view->render();
-
-// output the HTML content
-$pdf->writeHTML($html, true, 0, true, true);
-
-// reset pointer to the last page
-
-//Close and output PDF document
-$pdf->Output('example_039.pdf', 'I');
-        }*/
-
         $DocumentoDigital = DocumentoDigital::find($id);
 
         if ($DocumentoDigital) {
@@ -266,6 +176,7 @@ $pdf->Output('example_039.pdf', 'I');
 
             return \PDF::load($html, 'A4', 'portrait')->show();
         }
+
     }
 
     function dataEjemploPlantilla() {
