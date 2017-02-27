@@ -297,8 +297,6 @@ class RutaDetalleController extends \BaseController
 
                     if(isset($coddocdig[$i]) && $coddocdig[$i]!=''){
                         $rdv['doc_digital_id'] = $coddocdig[$i];
-                    }else{
-                        $rdv['doc_digital_id'] =0;
                     }
 
                     $rdv['documento'] = $codg[$i];
