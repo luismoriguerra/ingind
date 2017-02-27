@@ -29,6 +29,7 @@ class DocumentoDigital extends Base {
                             if( $csql[0]->cant==0 ){
                             $query->where('dd.area_id','=',Auth::user()->area_id);
                             }
+                            $query->where('dd.estado','=',1);
                             $query->where('dda.estado','=',1);
                         }
                     )
