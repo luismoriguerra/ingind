@@ -53,13 +53,19 @@ class DocumentoDigitalController extends \BaseController {
         if ( Request::ajax() ) {
             $html = Input::get('word', '');
 
+            $jefe = DB::table('personas')
+                ->where('area_id', '=', Auth::user()->area_id)
+                ->whereIn('rol_id', array(8,9))
+                ->where('estado',1)
+                ->get();
+
             $DocDigital = DocumentoDigital::find(Input::get('iddocdigital'));
             $DocDigital->titulo = Input::get('titulofinal');
             $DocDigital->asunto = Input::get('asunto');
             $DocDigital->cuerpo = $html;
             $DocDigital->plantilla_doc_id = Input::get('plantilla');
             $DocDigital->area_id = Auth::user()->area_id;
-            $DocDigital->persona_id = Auth::user()->id;
+            $DocDigital->persona_id = $jefe[0]->id;
             $DocDigital->usuario_created_at = Auth::user()->id;
             $DocDigital->save();
 
@@ -96,6 +102,11 @@ class DocumentoDigitalController extends \BaseController {
     {
         if ( Request::ajax() ) {
             $html = Input::get('word', '');
+            $jefe = DB::table('personas')
+                    ->where('area_id', '=', Auth::user()->area_id)
+                    ->whereIn('rol_id', array(8,9))
+                    ->where('estado',1)
+                    ->get();
 
             $DocDigital = new DocumentoDigital;
             $DocDigital->titulo = Input::get('titulofinal');
@@ -104,7 +115,7 @@ class DocumentoDigitalController extends \BaseController {
             $DocDigital->plantilla_doc_id = Input::get('plantilla');
             $DocDigital->area_id = Auth::user()->area_id;
             $DocDigital->tipo_envio = Input::get('tipoenvio');
-            $DocDigital->persona_id = Auth::user()->id;
+            $DocDigital->persona_id = $jefe[0]->id;
             $DocDigital->usuario_created_at = Auth::user()->id;
             $DocDigital->save();
 
