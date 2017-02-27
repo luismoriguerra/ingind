@@ -112,14 +112,14 @@ HTMLCargar=function(datos,campos){
         html+="<td>"+data.asunto+"</td>";
         html+="<td>"+data.plantilla+"</td>";
         html+="<td><a class='btn btn-success btn-sm' c_text='"+c_text+"' c_id='"+c_id+"'  id='"+data.id+"' title='"+data.titulo+"' onclick='SelectDocDig(this)'><i class='glyphicon glyphicon-ok'></i> </a></td>";
-        html+="<td><a class='btn btn-primary btn-sm' id='"+data.id+"' onclick='openPrevisualizarPlantilla(this)'><i class='fa fa-eye'></i> </a></td>";
+        html+="<td><a class='btn btn-primary btn-sm' id='"+data.id+"' onclick='openPrevisualizarPlantilla(this,'"+data.id+"')'><i class='fa fa-eye'></i> </a></td>";
         html+="</tr>";
     });
     $("#tb_doc_digital").html(html);
     $("#t_doc_digital").dataTable();
 };
 
-SelectDocDig = function(obj){	
+SelectDocDig = function(obj,id){	
 	var id = obj.getAttribute('id');
 	var nombre = obj.getAttribute('title');
 	$("#"+obj.getAttribute('c_text')).val(nombre);
@@ -127,8 +127,7 @@ SelectDocDig = function(obj){
 	$("#listDocDigital").modal('hide');
 }
 
-openPrevisualizarPlantilla=function(obj){
-    var id= obj.getAttribute('id');
+openPrevisualizarPlantilla=function(obj,id){
     window.open("documentodig/vistaprevia/"+id,
                 "PrevisualizarPlantilla",
                 "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
