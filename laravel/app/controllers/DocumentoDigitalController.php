@@ -51,6 +51,8 @@ class DocumentoDigitalController extends \BaseController {
     public function postEditar()
     {
         if ( Request::ajax() ) {
+/*            var_dump(Input::all());
+            exit();*/
             $html = Input::get('word', '');
 
             $DocDigital = DocumentoDigital::find(Input::get('iddocdigital'));
@@ -58,7 +60,7 @@ class DocumentoDigitalController extends \BaseController {
             $DocDigital->asunto = Input::get('asunto');
             $DocDigital->cuerpo = $html;
             $DocDigital->plantilla_doc_id = Input::get('plantilla');
-            $DocDigital->area_id = Input::get('area_plantilla');
+            $DocDigital->area_id = Auth::user()->area_id;
             $DocDigital->persona_id = Auth::user()->id;
             $DocDigital->usuario_created_at = Auth::user()->id;
             $DocDigital->save();
