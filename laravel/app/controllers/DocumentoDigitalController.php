@@ -178,9 +178,11 @@ class DocumentoDigitalController extends \BaseController {
                 'fecha' => 'Lima,'.date('d').' de '.$meses[date('m')*1].' del '.date('Y'),
                 'remitente' => $remitente,
                 'destinatario' => $destinatarios,
-                'copias' => $copias,
                 'imagen'=>$png,
             ];
+            if($copias != '' && $copias != '<ul></ul>'){ 
+                $params['copias'] = $copias;                
+            }
             $params = $params;
             
             $view = \View::make('admin.mantenimiento.templates.plantilla1', $params);
