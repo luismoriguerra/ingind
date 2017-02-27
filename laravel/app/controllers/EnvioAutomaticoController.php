@@ -21,7 +21,6 @@ class EnvioAutomaticoController extends \BaseController {
 
         $n = 1;
         $hoy = date('Y-m-d');
-        $hoy='2017-02-13';
         $ayer = strtotime('-1 day', strtotime($hoy));
         $ayer = date('Y-m-d', $ayer);
 
@@ -55,7 +54,7 @@ class EnvioAutomaticoController extends \BaseController {
                     WHERE ap.estado=1 
                     AND ap.usuario_created_at=ap.persona_id 
                     GROUP BY ap.area_id, ap.persona_id
-                    HAVING val_acti=0 or val_minu=0 LIMIT 0,50";
+                    HAVING val_minu=0";
 
             $actividades = DB::select($Ssql);
 
@@ -71,16 +70,16 @@ class EnvioAutomaticoController extends \BaseController {
                 $html .= "</tr>";
                 $texto = '';
 
-                if ($value->val_acti == 1 AND $value->val_minu == 0) {
+                if ($value->val_minu == 0) {
                     $texto = 'la cantidad mínima de minutos la cual es: 360 minutos por día (6 horas). Usted ha registrado: '.$value->minuto.' minuto(s).';
                 }
-                if ($value->val_acti == 0 AND $value->val_minu == 1) {
-                    $texto = 'la cantidad mínima de actividades la cual es 5 actividades por día. Usted ha registrado: '.$value->actividad.' actividad(es).';
-                }
-                if ($value->val_acti == 0 AND $value->val_minu == 0) {
-                    $texto = 'la cantidad mínima de actividades y minutos la cual es: 360 minutos por día (6 horas) y 5 actividades por día.'
-                            . ' Usted ha registrado: '.$value->minuto.' minuto(s) y '.$value->actividad.' actividad(es).';
-                }
+//                if ($value->val_acti == 0 AND $value->val_minu == 1) {
+//                    $texto = 'la cantidad mínima de actividades la cual es 5 actividades por día. Usted ha registrado: '.$value->actividad.' actividad(es).';
+//                }
+//                if ($value->val_acti == 0 AND $value->val_minu == 0) {
+//                    $texto = 'la cantidad mínima de actividades y minutos la cual es: 360 minutos por día (6 horas) y 5 actividades por día.'
+//                            . ' Usted ha registrado: '.$value->minuto.' minuto(s) y '.$value->actividad.' actividad(es).';
+//                }
 
                 $plantilla = Plantilla::where('tipo', '=', '9')->first();
                 $buscar = array('persona:', 'dia:', 'mes:', 'año:', 'persona:', 'fechaayer:', 'actividades:');
@@ -98,7 +97,7 @@ class EnvioAutomaticoController extends \BaseController {
                 }
                 $emailpersonal = explode(",", $value->email_personal);
                 $emailjefe = explode(",", $value->email_jefe);
-                $email = 'rcapchab@gmail.com';
+                $email = 'consultas.gmgm@gmail.com';
                 $emailpersonal = 'rcapchab@gmail.com';
                 $emailjefe='rcapchab@gmail.com';
 
