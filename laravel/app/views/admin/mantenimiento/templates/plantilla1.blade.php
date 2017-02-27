@@ -80,6 +80,10 @@ hr {
   top:  -15px; 
   left: 550px;
 }
+
+.body-rest{
+    margin-left: 2cm;       
+}
 </style>
 
 </head>
@@ -100,39 +104,41 @@ hr {
         <h3 class="nombre-documento">{{ $titulo }}</h3>
 
         @if ($conCabecera)
-        <table class="tabla-cabecera">
-            <tr>
-                <td width='25%' class='text-negrita'>DE</td>
-                <td width='5px' class='text-negrita'>:</td>
-                <td width='75%'>{{ $remitente }}</td>
-            </tr>
-            <tr>
-                <td width='25%' class='text-negrita'>A</td>
-                <td width='5px' class='text-negrita'>:</td>
-                <td width='75%'>{{ $destinatario }}</td>
-            </tr>
-             <tr>
-                <td width='25%' class='text-negrita'>CC</td>
-                <td width='5px' class='text-negrita'>:</td>
-                <td width='75%'>{{ $copias }}</td>
-            </tr>
-            <tr>
-                <td width='25%' class='text-negrita'>ASUNTO</td>
-                <td width='5px' class='text-negrita'>:</td>
-                <td width='75%'>{{ $asunto }}</td>
-            </tr>
-            <tr>
-                <td width='25%' class='text-negrita'>FECHA</td>
-                <td width='5px' class='text-negrita'>:</td>
-                <td width='75%'>{{ $fecha }}</td>
-            </tr>
-        </table>
+        <div class="body-rest">
+            <table class="tabla-cabecera">
+                <tr>
+                    <td width='25%' class='text-negrita'>DE</td>
+                    <td width='5px' class='text-negrita'>:</td>
+                    <td width='75%'>{{ $remitente }}</td>
+                </tr>
+                <tr>
+                    <td width='25%' class='text-negrita'>A</td>
+                    <td width='5px' class='text-negrita'>:</td>
+                    <td width='75%'>{{ $destinatario }}</td>
+                </tr>
+                 <tr>
+                    <td width='25%' class='text-negrita'>CC</td>
+                    <td width='5px' class='text-negrita'>:</td>
+                    <td width='75%'>{{ $copias }}</td>
+                </tr>
+                <tr>
+                    <td width='25%' class='text-negrita'>ASUNTO</td>
+                    <td width='5px' class='text-negrita'>:</td>
+                    <td width='75%'>{{ $asunto }}</td>
+                </tr>
+                <tr>
+                    <td width='25%' class='text-negrita'>FECHA</td>
+                    <td width='5px' class='text-negrita'>:</td>
+                    <td width='75%'>{{ $fecha }}</td>
+                </tr>
+            </table>
 
-        <br><hr><br>
-        @endif
+            <br><hr><br>
+            @endif
 
-        <div class='cuerpo-documento'>
-            {{ $contenido }}
+            <div class='cuerpo-documento'>
+                {{ $contenido }}
+            </div>            
         </div>
     </div>
 
