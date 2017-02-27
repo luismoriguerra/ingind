@@ -153,7 +153,7 @@ class DocumentoDigitalController extends \BaseController {
             $destinatarios.= '</ul>';    
             $copias.= '</ul>';          
             /*end get destinatario data*/
-            $png = QrCode::format('png')->size(150)->generate("http://procesos.munindependencia.pe/documentodig/vistaprevia/".$id);
+            $png = QrCode::format('png')->size(150)->generate("http://proceso.munindependencia.pe/documentodig/vistaprevia/".$id);
             $png = base64_encode($png);
             $png= "<img src='data:image/png;base64," . $png . "'>";
             $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');

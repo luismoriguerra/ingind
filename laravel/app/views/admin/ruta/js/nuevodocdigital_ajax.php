@@ -26,11 +26,13 @@ var docdigital={
                     alertBootstrap('success', obj.msj, 6);
                     $("#NuevoDocDigital").modal('hide');
 
+                    openPrevisualizarPlantilla(obj.iddocdigital);
                     if(poblate != 0){
                         var campos = $("#txt_campos").attr('c_text');
                         $("#"+$("#txt_campos").attr('c_text')).val(obj.nombre);
                         $("#"+$("#txt_campos").attr('c_id')).val(obj.iddocdigital);
                     }
+
                 }
                 else{
                     $.each(obj.msj,function(index,datos){

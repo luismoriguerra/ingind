@@ -126,6 +126,12 @@ SelectDocDig = function(obj){
 	$("#listDocDigital").modal('hide');
 }
 
+openPrevisualizarPlantilla=function(id){
+    window.open("documentodig/vistaprevia/"+id,
+                "PrevisualizarPlantilla",
+                "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
+};
+
 HTMLCargarCorrelativo=function(obj){
     $(".txttittle").val("");
     var ano= obj.ano;

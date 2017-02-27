@@ -19,7 +19,7 @@ $(document).ready(function() {
         var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,1,'documentos','t_documentos');
         columnDefsG=resG[0]; // registra las columnas del datatable
         targetsG=resG[1]; // registra los contadores
-        var resG=dataTableG.CargarBtn(columnDefsG,targetsG,1,'btnVistaPrevia','t_documentos','fa fa-eye');
+        var resG=dataTableG.CargarBtn(columnDefsG,targetsG,1,'openPrevisualizarPlantilla','t_documentos','fa fa-eye');
         columnDefsG=resG[0]; // registra la colunmna adiciona con boton
         targetsG=resG[1]; // registra el contador actualizado
         MostrarAjax('documentos');
@@ -59,6 +59,12 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
         return estadohtml;
     }
 }
+
+openPrevisualizarPlantilla=function(obj,id){
+    window.open("documentodig/vistaprevia/"+id,
+                "PrevisualizarPlantilla",
+                "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
+};
 
 
 activarTabla=function(){
