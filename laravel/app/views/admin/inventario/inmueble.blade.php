@@ -283,7 +283,7 @@ td, th{
                 </div>
               </form>
 
-              <div class="col-md-12 form-group">
+              <div class="col-md-12 form-group hidden">
                 <div class="box-body table-responsive">
                   <div class="row form-group" id="reporte" style="">
                       <div class="col-sm-12">
