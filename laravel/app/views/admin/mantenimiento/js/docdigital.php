@@ -182,7 +182,13 @@ HTMLCargar=function(datos){
     $('#t_plantilla').dataTable().fnDestroy();
     var eye = "";
     $.each(datos,function(index,data){
-        html+="<tr>";
+
+        if($.trim(data.ruta) == 0 && $.trim(data.rutadetallev) == 0){
+            html+="<tr class='danger'>";
+        }else{
+            html+="<tr class='success'>";
+        }
+
         html+="<td>"+data.titulo+"</td>";
         html+="<td>"+data.asunto+"</td>";
         html+="<td>"+data.plantilla+"</td>";
