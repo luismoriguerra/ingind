@@ -198,10 +198,10 @@ HTMLCargar=function(datos){
 
             if($.trim(data.ruta) != 0 || $.trim(data.rutadetallev)!= 0){
                 html+="<td><a class='btn btn-default btn-sm' onclick='openPrevisualizarPlantilla("+data.id+"); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'></i> </a></td>";
-                html+= "<td><a class='btn btn-danger btn-sm' onclick='deleteDocumento("+data.id+"); return false;' data-titulo='Eliminar'><i class='glyphicon glyphicon-trash'></i> </a></td>";
+                html+="<td></td>";
             }else{
                 html+="<td></td>";
-                html+="<td></td>";
+                html+= "<td><a class='btn btn-danger btn-sm' onclick='deleteDocumento("+data.id+"); return false;' data-titulo='Eliminar'><i class='glyphicon glyphicon-trash'></i> </a></td>";
             }
             
         }else{
