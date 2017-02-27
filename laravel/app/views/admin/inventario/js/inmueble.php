@@ -9,7 +9,7 @@ $(document).ready(function() {
     });
 
 
-    DataUser = '<?php echo Auth::user(); ?>';
+    
     poblateDataUser();
     /*Inicializar tramites*/
     var data={'estado':1};
@@ -48,6 +48,7 @@ $(document).ready(function() {
 });
 
 poblateDataUser = function(data){
+    DataUser = '<?php echo Auth::user(); ?>';
     var result = JSON.parse(DataUser);
     document.querySelector("#txt_useresponsable").value = result.paterno + " " + result.materno + " " + result.nombre;
     document.querySelector("#txt_apenomb").value = result.paterno + " " + result.materno + " " + result.nombre;
