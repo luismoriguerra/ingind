@@ -66,6 +66,11 @@
                 </div>               
               </div>
               <div class="col-xs-5">
+                     <div class="radio todassubg hidden">
+                          <label style="margin-left:-12px">
+                              <input class="chk form-control" type="checkbox" name="chk_todasareas" id="chk_todasareas" value="allgesub"> Todas Las Gerencias y Sub Gerencias                                                                
+                          </label>
+                      </div>
                 <div class="form-group araesgerencia hidden">
                     <label class="control-label">Area(s) Envio:
                     </label>
@@ -87,7 +92,7 @@
                     </select>
                 </div>
 
-                 <div class="form-group">
+                 <div class="form-group copias">
                   <label class="control-label">Seleccione Copia: </label>
                   <select class="form-control" name="slct_copia" id="slct_copia" multiple></select>
                 </div>                

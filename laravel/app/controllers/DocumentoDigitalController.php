@@ -101,6 +101,8 @@ class DocumentoDigitalController extends \BaseController {
     public function postCrear()
     {
         if ( Request::ajax() ) {
+            var_dump(Input::all());
+            exit();
             $html = Input::get('word', '');
             $jefe = DB::table('personas')
                     ->where('area_id', '=', Auth::user()->area_id)

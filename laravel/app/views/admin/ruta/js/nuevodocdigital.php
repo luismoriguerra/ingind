@@ -18,10 +18,29 @@ $(document).ready(function() {
         if($(this).val() == 1){ //persona
             $(".araesgerencia").addClass('hidden');
             $(".areaspersona").removeClass('hidden');
+            $(".todassubg").addClass('hidden');
         }else{ //gerencia
              $(".araesgerencia").removeClass('hidden');
              $(".areaspersona").addClass('hidden');
              $(".personasarea").addClass('hidden');
+             $(".todassubg").removeClass('hidden');
+        }
+    });
+
+    $('.chk').on('ifChanged', function(event){
+        if(event.target.value == 'allgesub'){
+            if(event.target.checked == true){
+                $(".copias").addClass('hidden');
+                $(".araesgerencia").addClass('hidden');
+                $('#slct_areas option').prop('selected', true);
+                $('#slct_areas').multiselect('refresh');
+            }else{
+                $(".copias").removeClass('hidden');
+                $(".araesgerencia").removeClass('hidden');
+
+                $('#slct_areas option').prop('selected', false);
+                $('#slct_areas').multiselect('refresh');
+            }
         }
     });
 
@@ -67,7 +86,9 @@ $(document).ready(function() {
         CKEDITOR.instances.plantillaWord.setData('');
         $(".araesgerencia,.areaspersona,.personasarea").addClass('hidden');
         $("#slct_copia").val(['']);
+        $('input').iCheck('uncheck');
         $("#slct_copia").multiselect('refresh');
+        $(".copias").removeClass('hidden');
     };
 
     $('#NuevoDocDigital').on('hidden.bs.modal', function(){
@@ -112,7 +133,11 @@ HTMLCargar=function(datos,campos){
         html+="<td>"+data.asunto+"</td>";
         html+="<td>"+data.plantilla+"</td>";
         html+="<td><a class='btn btn-success btn-sm' c_text='"+c_text+"' c_id='"+c_id+"'  id='"+data.id+"' title='"+data.titulo+"' onclick='SelectDocDig(this)'><i class='glyphicon glyphicon-ok'></i> </a></td>";
-        html+="<td><a class='btn btn-primary btn-sm' id='"+data.id+"' onclick='openPrevisualizarPlantilla(this,0)'><i class='fa fa-eye'></i> </a></td>";
+        if($.trim(data.ruta) != 0  || $.trim(data.rutadetallev) != 0){
+            html+="<td><a class='btn btn-primary btn-sm' id='"+data.id+"' onclick='openPrevisualizarPlantilla(this,0)'><i class='fa fa-eye'></i> </a></td>";
+        }else{
+             html+="<td></td>";
+        }
         html+="</tr>";
     });
     $("#tb_doc_digital").html(html);
