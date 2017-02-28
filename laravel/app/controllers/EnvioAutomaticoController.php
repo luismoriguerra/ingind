@@ -111,11 +111,11 @@ class EnvioAutomaticoController extends \BaseController {
                 DB::insert($insert);
 
                 try {
-                    Mail::send('notreirel', $parametros, function($message) use ($email, $emailpersonal,$emailjefe) {
+                    Mail::queue('notreirel', $parametros, function($message) use ($email, $emailpersonal,$emailjefe) {
                         $message
                                 ->to($email)
                                 ->cc($emailpersonal,$emailjefe)
-                                ->subject('.::Notificación::.');
+                                ->subject('.::Aviso de Actividad::.');
                     }
                     );
                 } catch (Exception $e) {
