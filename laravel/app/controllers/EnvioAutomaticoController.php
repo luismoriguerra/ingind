@@ -119,8 +119,9 @@ class EnvioAutomaticoController extends \BaseController {
                 
                 $insert = 'INSERT INTO alertas_actividad (persona_id,area_id,actividad, minuto, fecha_alerta) 
                      VALUES (' . $value->persona_id . ',' . $value->area_id . ',' . $value->actividad . ',' . $value->minuto . ',"' . date("Y-m-d h:m:s") . '")';
+//                echo $insert;
                 DB::insert($insert);
-
+                
                 try {
                     Mail::queue('notreirel', $parametros, function($message) use ($email, $emailpersonal,$emailjefe) {
                         $message
