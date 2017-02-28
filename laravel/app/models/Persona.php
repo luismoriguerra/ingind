@@ -725,19 +725,18 @@ class Persona extends Base implements UserInterface, RemindableInterface
         $sSql.= "SELECT a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona";
         $sSql.=$cl;
         $sSql.= ",COUNT(ap.id) AS f_total,SEC_TO_TIME(ABS(SUM(ap.ot_tiempo_transcurrido)) * 60)  h_total,IFNULL(GROUP_CONCAT(ap.id),'0') id_total";
-        $sSql.= " FROM actividad_personal ap
-                 INNER JOIN areas a on ap.area_id=a.id
-                 INNER JOIN personas p on ap.persona_id=p.id ";
+        $sSql.= " FROM personas p
+                 INNER JOIN areas a on p.area_id=a.id
+                 LEFT JOIN actividad_personal ap on ap.persona_id=p.id AND ap.estado=1 AND ap.usuario_created_at=ap.persona_id ".$f_fecha;
         $sSql.=$left;
-        $sSql.= " WHERE ap.estado=1 AND ap.usuario_created_at=ap.persona_id";
-        $sSql.=$f_fecha;
+        $sSql.= " WHERE p.estado=1 ";
         
         if(Input::has('area_id') && Input::get('area_id')){
             $id_area = Input::get('area_id');
-            $sSql.= " AND ap.area_id IN ($id_area)";
+            $sSql.= " AND p.area_id IN ($id_area)";
         }
         
-        $sSql.= "GROUP BY ap.area_id, ap.persona_id";
+        $sSql.= " GROUP BY p.id ";
 
 
         $oData['cabecera']=$cabecera;
@@ -785,19 +784,18 @@ class Persona extends Base implements UserInterface, RemindableInterface
         $sSql.= "SELECT 1 as norden,a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona";
         $sSql.=$cl;
         $sSql.= ",COUNT(ap.id) AS f_total,SEC_TO_TIME(ABS(SUM(ap.ot_tiempo_transcurrido)) * 60)  h_total";
-        $sSql.= " FROM actividad_personal ap
-                 INNER JOIN areas a on ap.area_id=a.id
-                 INNER JOIN personas p on ap.persona_id=p.id ";
+        $sSql.= " FROM personas p
+                 INNER JOIN areas a on p.area_id=a.id
+                 LEFT JOIN actividad_personal ap on ap.persona_id=p.id AND ap.estado=1 AND ap.usuario_created_at=ap.persona_id ".$f_fecha;
         $sSql.=$left;
-        $sSql.= " WHERE ap.estado=1 AND ap.usuario_created_at=ap.persona_id";
-        $sSql.=$f_fecha;
+        $sSql.= " WHERE p.estado=1 ";
         
         if(Input::has('area_id') && Input::get('area_id')){
             $id_area = Input::get('area_id');
-            $sSql.= " AND ap.area_id IN ($id_area)";
+            $sSql.= " AND p.area_id IN ($id_area)";
         }
         
-        $sSql.= "GROUP BY ap.area_id, ap.persona_id";
+        $sSql.= " GROUP BY p.id ";
 
 
         $oData['cabecera']=$cabecera;
