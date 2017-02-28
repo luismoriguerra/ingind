@@ -107,7 +107,7 @@ class MetaCuadroController extends \BaseController {
                 }
             }
 
-            $array['order'] = " ORDER BY m.nombre,mc.actividad ";
+            $array['order'] = " ORDER BY m.id";
 
             $cant = MetaCuadro::getCargarCount($array);
             $aData = MetaCuadro::getCargar($array);
@@ -178,11 +178,13 @@ class MetaCuadroController extends \BaseController {
             
             $f1id = Input::get('f1id');
             $fecha1 = Input::get('fecha1');
-            $fecha2 = Input::get('fecha2');
-            $f2id = Input::get('f2id');
             $comentario1 = Input::get('comentario1');
+            
+            $f2id = Input::get('f2id');
+            $fecha2 = Input::get('fecha2');
             $comentario2 = Input::get('comentario2');
-
+            $fecha_relacion2 = Input::get('fecha_relacion2');
+            
             for ($i = 0; $i < count($fecha1); $i++) {
                 if ($f1id[$i] == '') {
                     $metafecha = new MetaFechaVencimiento;
@@ -207,6 +209,7 @@ class MetaCuadroController extends \BaseController {
                     $metafecha->meta_cuadro_id = $metacuadro->id;
                     $metafecha->fecha = $fecha2[$i];
                     $metafecha->comentario = $comentario2[$i];
+                    $metafecha->relacion_id = $fecha_relacion2[$i];
                     $metafecha->tipo = 2;
                 }
                 if (($f2id[$i] !== '')) {
@@ -214,6 +217,7 @@ class MetaCuadroController extends \BaseController {
                     $metafecha = MetaFechaVencimiento::find($metafechaId);
                     $metafecha->fecha = $fecha2[$i];
                     $metafecha->comentario = $comentario2[$i];
+                    $metafecha->relacion_id = $fecha_relacion2[$i];
                     $metafecha->tipo = 2;
                 }
                 $metafecha->save();
@@ -259,11 +263,13 @@ class MetaCuadroController extends \BaseController {
 
             $f1id = Input::get('f1id');
             $fecha1 = Input::get('fecha1');
-            $fecha2 = Input::get('fecha2');
-            $f2id = Input::get('f2id');
             $comentario1 = Input::get('comentario1');
+            
+            $f2id = Input::get('f2id');
+            $fecha2 = Input::get('fecha2');
             $comentario2 = Input::get('comentario2');
-
+            $fecha_relacion2 = Input::get('fecha_relacion2');
+            
             for ($i = 0; $i < count($fecha1); $i++) {
                 if ($f1id[$i] == '') {
                     $metafecha = new MetaFechaVencimiento;
@@ -288,6 +294,7 @@ class MetaCuadroController extends \BaseController {
                     $metafecha->meta_cuadro_id = $metacuadro->id;
                     $metafecha->fecha = $fecha2[$i];
                     $metafecha->comentario = $comentario2[$i];
+                    $metafecha->relacion_id = $fecha_relacion2[$i];
                     $metafecha->tipo = 2;
                 }
                 if (($f2id[$i] !== '')) {
@@ -295,6 +302,7 @@ class MetaCuadroController extends \BaseController {
                     $metafecha = MetaFechaVencimiento::find($metafechaId);
                     $metafecha->fecha = $fecha2[$i];
                     $metafecha->comentario = $comentario2[$i];
+                    $metafecha->relacion_id = $fecha_relacion2[$i];
                     $metafecha->tipo = 2;
                 }
                 $metafecha->save();
@@ -333,6 +341,21 @@ class MetaCuadroController extends \BaseController {
             $a = new MetaCuadro;
             $listar = Array();
             $listar = $a->getMeta();
+
+            return Response::json(
+                            array(
+                                'rst' => 1,
+                                'datos' => $listar
+                            )
+            );
+        }
+    }
+    
+        public function postListarfecha1() {
+        if (Request::ajax()) {
+            $a = new MetaFechaVencimiento;
+            $listar = Array();
+            $listar = $a->getFecha1();
 
             return Response::json(
                             array(

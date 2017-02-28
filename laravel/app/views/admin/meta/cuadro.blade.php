@@ -55,11 +55,16 @@
                             <table id="t_reporte" class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Meta</th>
-                                        <th>Actividad</th>
-                                        <th>F. V. Actividad</th>
-                                        <th>F. V. Plan de Trabajo</th>
-                                        <th>Avances</th>
+                                        <th colspan="4" style="text-align:center">Meta</th>
+                                        <th colspan="2" style="text-align:center">Plan de Trabajo</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align:center">Meta</th>
+                                        <th style="text-align:center">Actividad</th>
+                                        <th style="text-align:center">Descripción</th>
+                                        <th style="text-align:center">Fecha</th>
+                                        <th style="text-align:center">Paso</th>
+                                        <th style="text-align:center">Fecha</th>
                                       
                                     </tr>
                                 </thead>

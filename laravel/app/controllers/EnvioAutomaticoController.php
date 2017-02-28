@@ -31,9 +31,9 @@ class EnvioAutomaticoController extends \BaseController {
                 $ayer = strtotime('-3 day', strtotime($hoy));
                 $ayer = date('Y-m-d', $ayer);
             }
-            $Ssql = "SELECT ap.persona_id,p.area_id,a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona, p.email,p.email_mdi,
-                    COUNT(total.id) AS 'actividad',IFNULL(SUM(total.ot_tiempo_transcurrido),0) as 'minuto',
-                    IF(COUNT(total.id)>=5,1,0) as val_acti,IF(IFNULL(SUM(total.ot_tiempo_transcurrido),0)>=360,1,0) as val_minu,
+            $Ssql = "SELECT p.id as persona_id,p.area_id,a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona, p.email,p.email_mdi,
+                    COUNT(ap.id) AS 'actividad',IFNULL(SUM(ap.ot_tiempo_transcurrido),0) as 'minuto',
+                    IF(COUNT(ap.id)>=5,1,0) as val_acti,IF(IFNULL(SUM(ap.ot_tiempo_transcurrido),0)>=360,1,0) as val_minu,
                      (SELECT CONCAT(email,',',email_mdi)
                          FROM personas 
                                      where area_id in (53)
@@ -41,20 +41,20 @@ class EnvioAutomaticoController extends \BaseController {
                          and estado=1
                          order by area_id
                          LIMIT 0,1) email_personal,
-                       (SELECT CONCAT(email,',',email_mdi)
+                       IFNULL((SELECT CONCAT(email,',',email_mdi)
                          FROM personas 
                          where area_id=p.area_id
                          and rol_id in (9,8)
                          and estado=1
-                         LIMIT 0,1) email_jefe
-                    FROM actividad_personal ap
-                    INNER JOIN areas a on ap.area_id=a.id AND a.area_gestion=1
-                    INNER JOIN personas p on ap.persona_id=p.id AND p.estado=1 AND p.rol_id NOT IN (8,9)
-                    LEFT JOIN actividad_personal total on total.id=ap.id AND DATE(ap.fecha_inicio)= '$ayer'
-                    WHERE ap.estado=1 
-                    AND ap.usuario_created_at=ap.persona_id 
-                    GROUP BY ap.area_id, ap.persona_id
-                    HAVING val_minu=0";
+                         LIMIT 0,1),',') email_jefe
+                    FROM personas p
+                    INNER JOIN areas a on p.area_id=a.id and area_gestion=1
+                   LEFT JOIN actividad_personal ap on ap.persona_id=p.id  and DATE(ap.fecha_inicio)= '$ayer' AND ap.usuario_created_at=ap.persona_id AND ap.estado=1
+                    WHERE  
+                     p.estado=1 
+		    AND p.rol_id NOT IN (8,9)
+                    GROUP BY p.id
+	            HAVING val_minu=0";
 
             $actividades = DB::select($Ssql);
 
@@ -96,10 +96,21 @@ class EnvioAutomaticoController extends \BaseController {
                     array_push($email, $value->email);
                 }
                 $emailpersonal = explode(",", $value->email_personal);
-                $emailjefe = explode(",", $value->email_jefe);
-                $email = 'consultas.gmgm@gmail.com';
-                $emailpersonal = 'rcapchab@gmail.com';
-                $emailjefe='rcapchab@gmail.com';
+                
+                
+                $emailjefe = array();
+                $emailjefeauxi=explode(",", $value->email_jefe);
+                
+                 if (trim($emailjefeauxi[0]) != '') {
+                    array_push($emailjefe, $emailjefeauxi[0]);
+                }
+                if (trim($emailjefeauxi[1]) != '') {
+                    array_push($emailjefe, $emailjefeauxi[1]);
+                }
+                
+//                $email = 'consultas.gmgm@gmail.com';
+//                $emailpersonal = 'rcapchab@gmail.com';
+//                $emailjefe=array('rcapchab@gmail.com');
 
                 DB::beginTransaction();
                 
@@ -108,14 +119,15 @@ class EnvioAutomaticoController extends \BaseController {
                 
                 $insert = 'INSERT INTO alertas_actividad (persona_id,area_id,actividad, minuto, fecha_alerta) 
                      VALUES (' . $value->persona_id . ',' . $value->area_id . ',' . $value->actividad . ',' . $value->minuto . ',"' . date("Y-m-d h:m:s") . '")';
+//                echo $insert;
                 DB::insert($insert);
-
+                
                 try {
-                    Mail::send('notreirel', $parametros, function($message) use ($email, $emailpersonal,$emailjefe) {
+                    Mail::queue('notreirel', $parametros, function($message) use ($email, $emailpersonal,$emailjefe) {
                         $message
                                 ->to($email)
                                 ->cc($emailpersonal,$emailjefe)
-                                ->subject('.::Notificación::.');
+                                ->subject('.::Aviso de Actividad::.');
                     }
                     );
                 } catch (Exception $e) {

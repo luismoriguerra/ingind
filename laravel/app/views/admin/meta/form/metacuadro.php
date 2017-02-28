@@ -34,13 +34,13 @@
                                 <li class="logo tab_1 active">
                                     <a href="#tab_1" data-toggle="tab">
                                         <button class="btn btn-primary btn-sm"><i class="fa fa-cloud fa-lg"></i> </button>
-                                        Vencimiento de Actividad
+                                        Actividad
                                     </a>
                                 </li>
                                 <li class="logo tab_2">
                                     <a href="#tab_2" data-toggle="tab">
                                         <button class="btn btn-primary btn-sm"><i class="fa fa-cloud fa-lg"></i> </button>
-                                        Vencimiento de Proceso
+                                        Plan de Trabajo
                                     </a>
                                 </li>
                             </ul>
@@ -56,7 +56,7 @@
                                                                 <th>N°&nbsp;<a class='btn btn-success btn-sm'
                                                                          onclick="AgregarFecha1()"><i class="fa fa-plus fa-lg"></i></a></th>
                                                                 <th>Fecha</th>
-                                                                <th>Comentario</th>
+                                                                <th>Descripción</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tb_fecha1">
@@ -75,10 +75,11 @@
                                                     <table id="t_fecha2" class="table table-bordered">
                                                         <thead>
                                                             <tr>
-                                                               <th>N°&nbsp;<a class='btn btn-success btn-sm'
-                                                                         onclick="AgregarFecha2()"><i class="fa fa-plus fa-lg"></i></a></th>
+                                                               <th>N°&nbsp;<a class='btn btn-success btn-sm agregarfecha2'
+                                                                         ><i class="fa fa-plus fa-lg"></i></a></th>
                                                                 <th>Fecha</th>
-                                                                <th>Comentario</th>
+                                                                <th>Paso</th>
+                                                                <th>Actividad</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tb_fecha2">

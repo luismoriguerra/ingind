@@ -8,7 +8,7 @@ class MetaFechaVencimiento extends Base
     
     public static function getCargar($array )
     {
-        $sSql=" SELECT mf.id, mf.meta_cuadro_id, mf.tipo, mf.fecha , mf.comentario, mf.estado
+        $sSql=" SELECT mf.id, mf.meta_cuadro_id, mf.tipo, mf.fecha , mf.comentario, mf.estado, mf.relacion_id
                 FROM metas_fechavencimiento mf
                 WHERE 1=1  ";
         $sSql.= $array['where'];
@@ -17,13 +17,19 @@ class MetaFechaVencimiento extends Base
     }
 
 
-    public function getMeta(){
-        $metacuadro=DB::table('metas')
-                ->select('id','nombre','estado')
+        public function getFecha1(){
+        $metacuadro=DB::table('metas_fechavencimiento')
+                ->select('id','fecha as nombre','estado')
                 ->where( 
                     function($query){
                         if ( Input::get('estado') ) {
                             $query->where('estado','=','1');
+                            
+                        }
+                        if ( Input::get('meta_cuadro_id') ) {
+                            $meta_cuadro_id = Input::get("meta_cuadro_id");
+                            $query->where('tipo','=','1');
+                            $query->where('meta_cuadro_id','=',$meta_cuadro_id);
                         }
                     }
                 )
