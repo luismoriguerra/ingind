@@ -14,6 +14,23 @@ $(document).ready(function() {
     /*Plantillas.getArea();*/
     HTML_Ckeditor();
 
+    $('.chk').on('ifChanged', function(event){
+        if(event.target.value == 'allgesub'){
+            if(event.target.checked == true){
+                $(".copias").addClass('hidden');
+                $(".araesgerencia").addClass('hidden');
+                $('#slct_areas option').prop('selected', true);
+                $('#slct_areas').multiselect('refresh');
+            }else{
+                $(".copias").removeClass('hidden');
+                $(".araesgerencia").removeClass('hidden');
+
+                $('#slct_areas option').prop('selected', false);
+                $('#slct_areas').multiselect('refresh');
+            }
+        }
+    });
+
     $(document).on('change', '#slct_plantilla', function(event) {
         event.preventDefault();
         Plantillas.CargarInfo({'id':$(this).val()},HTMLPlantilla);
@@ -268,7 +285,13 @@ deleteDocumento = function(id){
 
 
 HTMLEdit = function(data){
+
     if(data.length > 0){
+        if(data[0].envio_total == 1){
+            $('input').iCheck('check');
+        }else{
+            $('input').iCheck('uncheck');
+        }
         /*personas area envio*/
         if(data[0].tipo_envio == 1){ //persona
             $(".areaspersona,.personasarea").removeClass('hidden');
@@ -280,7 +303,8 @@ HTMLEdit = function(data){
             $('#slct_personaarea').multiselect('destroy');
             slctGlobal.listarSlctFuncion('area','personaarea','slct_personaarea','simple',ids,{'area_id':data[0].area_id});  
         }else{ //gerencia
-            originales = [];copias = [];
+            originales = [];
+            copias = [];
             $.each(data,function(index, el) {
                 if(el.tipo == 1 ){
                     originales.push(el.area_id);
@@ -288,6 +312,7 @@ HTMLEdit = function(data){
                     copias.push(el.area_id);
                 }
             });
+            $(".todassubg").removeClass('hidden');
             $("#slct_areas").val(originales);
             $('#slct_areas').multiselect('refresh');
             $("#slct_copia").val(copias);

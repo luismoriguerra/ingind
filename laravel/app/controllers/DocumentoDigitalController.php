@@ -65,6 +65,13 @@ class DocumentoDigitalController extends \BaseController {
             $DocDigital->cuerpo = $html;
             $DocDigital->plantilla_doc_id = Input::get('plantilla');
             $DocDigital->area_id = Auth::user()->area_id;
+
+            if(Input::has('chk_todasareas') && Input::get('chk_todasareas') == 'allgesub'){
+                $DocDigital->envio_total = 1;
+            }else{
+                $DocDigital->envio_total = 0;
+            }
+
             $DocDigital->persona_id = $jefe[0]->id;
             $DocDigital->usuario_created_at = Auth::user()->id;
             $DocDigital->save();
@@ -101,8 +108,6 @@ class DocumentoDigitalController extends \BaseController {
     public function postCrear()
     {
         if ( Request::ajax() ) {
-/*            var_dump(Input::all());
-            exit();*/
             $html = Input::get('word', '');
             $jefe = DB::table('personas')
                     ->where('area_id', '=', Auth::user()->area_id)
@@ -116,6 +121,13 @@ class DocumentoDigitalController extends \BaseController {
             $DocDigital->cuerpo = $html;
             $DocDigital->plantilla_doc_id = Input::get('plantilla');
             $DocDigital->area_id = Auth::user()->area_id;
+
+            if(Input::has('chk_todasareas') && Input::get('chk_todasareas') == 'allgesub'){
+                $DocDigital->envio_total = 1;
+            }else{
+                $DocDigital->envio_total = 0;
+            }
+
             $DocDigital->tipo_envio = Input::get('tipoenvio');
             $DocDigital->persona_id = $jefe[0]->id;
             $DocDigital->usuario_created_at = Auth::user()->id;
@@ -151,21 +163,27 @@ class DocumentoDigitalController extends \BaseController {
 
             /*get destinatario data*/
             $copias = '';
-            $copias.= '<ul>';
             $destinatarios = '';
-            $destinatarios.= '<ul>';
-            $DocDigitalArea = DocumentoDigitalArea::where('doc_digital_id', '=', $id)->where('estado', '=', 1)->get();
-            foreach($DocDigitalArea as $key => $value){
-                $persona2 = Persona::find($value->persona_id);
-                $area2 = Area::find($value->area_id);
-                if($value->tipo ==1){
-                  $destinatarios.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' <br>'.$area2->nombre.'</li>';
-                }else{
-                    $copias.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' <br>'.$area2->nombre.'</li>';
-                }        
+            if($DocumentoDigital->envio_total ==1){
+                $copias = '<ul></ul>';
+                $destinatarios = 'Todas las Gerencias y Sub Gerencias';
+            }else{
+                $copias.= '<ul>';
+                $destinatarios.= '<ul>';
+                $DocDigitalArea = DocumentoDigitalArea::where('doc_digital_id', '=', $id)->where('estado', '=', 1)->get();
+                foreach($DocDigitalArea as $key => $value){
+                    $persona2 = Persona::find($value->persona_id);
+                    $area2 = Area::find($value->area_id);
+                    if($value->tipo ==1){
+                      $destinatarios.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' <br>'.$area2->nombre.'</li>';
+                    }else{
+                        $copias.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' <br>'.$area2->nombre.'</li>';
+                    }        
+                }
+                $destinatarios.= '</ul>';    
+                $copias.= '</ul>';          
             }
-            $destinatarios.= '</ul>';    
-            $copias.= '</ul>';          
+
             /*end get destinatario data*/
             $png = QrCode::format('png')->size(150)->generate("http://proceso.munindependencia.pe/documentodig/vistaprevia/".$id);
             $png = base64_encode($png);
