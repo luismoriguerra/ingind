@@ -54,7 +54,7 @@ class EnvioAutomaticoController extends \BaseController {
                      p.estado=1 
 		    AND p.rol_id NOT IN (8,9)
                     GROUP BY p.id
-	            HAVING val_minu=0  LIMIT 0,15";
+	            HAVING val_minu=0";
 
             $actividades = DB::select($Ssql);
 
@@ -108,9 +108,9 @@ class EnvioAutomaticoController extends \BaseController {
                     array_push($emailjefe, $emailjefeauxi[1]);
                 }
                 
-                $email = 'consultas.gmgm@gmail.com';
-                $emailpersonal = 'rcapchab@gmail.com';
-                $emailjefe=array('rcapchab@gmail.com');
+//                $email = 'consultas.gmgm@gmail.com';
+//                $emailpersonal = 'rcapchab@gmail.com';
+//                $emailjefe=array('rcapchab@gmail.com');
 
                 DB::beginTransaction();
                 
