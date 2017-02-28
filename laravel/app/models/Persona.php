@@ -713,7 +713,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
         $fechaFin_=strtotime($fechaFin);
         $fecha = date_create($fechaIni);
         $n=1; for($i=$fechaIni_; $i<=$fechaFin_; $i+=86400){   
-        $cl.= ",COUNT(ap$n.id) AS f$n,SEC_TO_TIME(ABS(SUM(ap$n.ot_tiempo_transcurrido)) * 60)  h$n,IFNULL(GROUP_CONCAT(ap$n.id),'0') id$n,IFNULL(SUM(ap$n.ot_tiempo_transcurrido),0) v$n";
+        $cl.= ",COUNT(ap$n.id) AS f$n,IFNULL(SEC_TO_TIME(ABS(SUM(ap$n.ot_tiempo_transcurrido)) * 60),'00:00')  h$n,IFNULL(GROUP_CONCAT(ap$n.id),'0') id$n,IFNULL(SUM(ap$n.ot_tiempo_transcurrido),0) v$n";
         $left.= "LEFT JOIN actividad_personal ap$n on ap$n.id=ap.id AND  DATE(ap.fecha_inicio) = STR_TO_DATE('".date("d-m-Y", $i)."','%d-%m-%Y')";
         $n++;
         
@@ -724,7 +724,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
         
         $sSql.= "SELECT a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona";
         $sSql.=$cl;
-        $sSql.= ",COUNT(ap.id) AS f_total,SEC_TO_TIME(ABS(SUM(ap.ot_tiempo_transcurrido)) * 60)  h_total,IFNULL(GROUP_CONCAT(ap.id),'0') id_total";
+        $sSql.= ",COUNT(ap.id) AS f_total,IFNULL(SEC_TO_TIME(ABS(SUM(ap.ot_tiempo_transcurrido)) * 60),'00:00')  h_total,IFNULL(GROUP_CONCAT(ap.id),'0') id_total";
         $sSql.= " FROM personas p
                  INNER JOIN areas a on p.area_id=a.id
                  LEFT JOIN actividad_personal ap on ap.persona_id=p.id AND ap.estado=1 AND ap.usuario_created_at=ap.persona_id ".$f_fecha;
@@ -769,7 +769,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
         $fechaFin_=strtotime($fechaFin);
         $fecha = date_create($fechaIni);
         $n=1; for($i=$fechaIni_; $i<=$fechaFin_; $i+=86400){   
-        $cl.= ",COUNT(ap$n.id) AS f$n,SEC_TO_TIME(ABS(SUM(ap$n.ot_tiempo_transcurrido)) * 60)  h$n";
+        $cl.= ",COUNT(ap$n.id) AS f$n,IFNULL(SEC_TO_TIME(ABS(SUM(ap$n.ot_tiempo_transcurrido)) * 60),'00:00')  h$n";
         $left.= "LEFT JOIN actividad_personal ap$n on ap$n.id=ap.id AND  DATE(ap.fecha_inicio) = STR_TO_DATE('".date("d-m-Y", $i)."','%d-%m-%Y')";
         $n++;
         
@@ -783,7 +783,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
         
         $sSql.= "SELECT 1 as norden,a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona";
         $sSql.=$cl;
-        $sSql.= ",COUNT(ap.id) AS f_total,SEC_TO_TIME(ABS(SUM(ap.ot_tiempo_transcurrido)) * 60)  h_total";
+        $sSql.= ",COUNT(ap.id) AS f_total,IFNULL(SEC_TO_TIME(ABS(SUM(ap.ot_tiempo_transcurrido)) * 60),'00:00')  h_total";
         $sSql.= " FROM personas p
                  INNER JOIN areas a on p.area_id=a.id
                  LEFT JOIN actividad_personal ap on ap.persona_id=p.id AND ap.estado=1 AND ap.usuario_created_at=ap.persona_id ".$f_fecha;
