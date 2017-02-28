@@ -2480,15 +2480,32 @@ class ReporteController extends BaseController
           $objPHPExcel->getActiveSheet()->getStyle('A2:'.$head[key($value)].'2')->applyFromArray($styleThinBlackBorderAllborders);
           
         }
-
+        $a=0;
         foreach($value as $index => $val){
           $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($head[$cont])->setAutoSize(true);
-            
+          
           if($index == 'norden' && $key > 1){ //set orden in excel
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue($head[$cont].($key + 1), $key-1);                
           }else{ //poblate info
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue($head[$cont].($key + 1), $val);
-          }
+            if ($key>1 && $val<=5  && $index != 'persona' && $index != 'area' && $index != 'f_total' && $index != 'h_total' && 
+                $index != 'f1' && $index != 'f2' && $index != 'f3' && $index != 'f4' && $index != 'f5' && $index != 'f6' && $index != 'f7' && $index != 'f8' &&
+                $index != 'f9' && $index != 'f10' && $index != 'f11' && $index != 'f12' && $index != 'f13' && $index != 'f14' && $index != 'f15' && $index != 'f16' &&
+                $index != 'f17' && $index != 'f18' && $index != 'f19' && $index != 'f20' && $index != 'f21' && $index != 'f22' && $index != 'f23' && $index != 'f24' &&
+                $index != 'f25' && $index != 'f26' && $index != 'f27' && $index != 'f28' && $index != 'f29' && $index != 'f30' && $index != 'f31' && $index != 'f32'){
+            $objPHPExcel->getActiveSheet()->getStyle($head[$cont].($key + 1), $val)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('FE4E4E');
+            $objPHPExcel->getActiveSheet()->getStyle($head[$cont-1].($key + 1), $val)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('FE4E4E');
+            }
+            if ($key>1 && $val>=6  && $index != 'persona' && $index != 'area' && $index != 'f_total' && $index != 'h_total' && 
+                $index != 'f1' && $index != 'f2' && $index != 'f3' && $index != 'f4' && $index != 'f5' && $index != 'f6' && $index != 'f7' && $index != 'f8' &&
+                $index != 'f9' && $index != 'f10' && $index != 'f11' && $index != 'f12' && $index != 'f13' && $index != 'f14' && $index != 'f15' && $index != 'f16' &&
+                $index != 'f17' && $index != 'f18' && $index != 'f19' && $index != 'f20' && $index != 'f21' && $index != 'f22' && $index != 'f23' && $index != 'f24' &&
+                $index != 'f25' && $index != 'f26' && $index != 'f27' && $index != 'f28' && $index != 'f29' && $index != 'f30' && $index != 'f31' && $index != 'f32'){
+            $objPHPExcel->getActiveSheet()->getStyle($head[$cont].($key + 1), $val)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('7BF7AE');
+            $objPHPExcel->getActiveSheet()->getStyle($head[$cont-1].($key + 1), $val)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('7BF7AE');
+            
+            }
+           }
 
           $cont++;
         }          
