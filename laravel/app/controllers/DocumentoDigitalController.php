@@ -101,6 +101,8 @@ class DocumentoDigitalController extends \BaseController {
     public function postCrear()
     {
         if ( Request::ajax() ) {
+/*            var_dump(Input::all());
+            exit();*/
             $html = Input::get('word', '');
             $jefe = DB::table('personas')
                     ->where('area_id', '=', Auth::user()->area_id)
@@ -178,9 +180,11 @@ class DocumentoDigitalController extends \BaseController {
                 'fecha' => 'Lima,'.date('d').' de '.$meses[date('m')*1].' del '.date('Y'),
                 'remitente' => $remitente,
                 'destinatario' => $destinatarios,
-                'copias' => $copias,
                 'imagen'=>$png,
             ];
+            if($copias != '' && $copias != '<ul></ul>'){ 
+                $params['copias'] = $copias;                
+            }
             $params = $params;
             
             $view = \View::make('admin.mantenimiento.templates.plantilla1', $params);
