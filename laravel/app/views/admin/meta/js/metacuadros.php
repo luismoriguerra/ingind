@@ -10,6 +10,7 @@ $(document).ready(function() {
     */
     var datos={estado:1};
     slctGlobal.listarSlctFuncion('metacuadro','listarmeta','slct_meta','simple',null,datos);
+     
     slctGlobalHtml('slct_estado','simple');
     var idG={   actividad        :'onBlur|Actividad|#DCE6F1', //#DCE6F1
                 meta          :'3|Meta |#DCE6F1',
@@ -36,6 +37,7 @@ $(document).ready(function() {
 
       var modal = $(this); //captura el modal
       modal.find('.modal-title').text(titulo+' Meta Cuadro');
+      modal.find('.modal-body .agregarfecha2').attr('onClick','AgregarFecha2('+MetacuadrosG.id+');');
       $('#form_metacuadros_modal [data-toggle="tooltip"]').css("display","none");
       $("#form_metacuadros_modal input[type='hidden']").remove();
 
@@ -161,8 +163,13 @@ fecha2HTML=function(datos){
         html+="<tr>"+
              "<td>"+pos+"<input type='hidden' name='f2id[]' id='f2id' value='"+data.id+"'></td>"+
             "<td><input type='text' class='datepicker form-control fechaG' id='txt_fecha2' name='txt_fecha2[]' value='"+data.fecha+"'></td>"+
-            "<td><textarea class='form-control' id='txt_comentario2' name='txt_comentario2[]'>"+data.comentario+"</textarea></td>";
+            "<td><textarea class='form-control' id='txt_comentario2' name='txt_comentario2[]'>"+data.comentario+"</textarea></td>"+
+            "<td><select class='form-control fechar' name='slct_fecha_relacion2[]' id='slct_fecha_relacion2"+index+"'></select></td>";
         html+="</tr>";
+            
+            var dat={estado:1,meta_cuadro_id:data.meta_cuadro_id};
+            slctGlobal.listarSlctFuncion('metacuadro','listarfecha1','slct_fecha_relacion2'+index,'simple',[data.relacion_id],dat);
+            
     });
     $("#tb_fecha2").html(html);
         initDatePicker();
@@ -182,14 +189,16 @@ AgregarFecha1 = function(){
   
 };
 
-AgregarFecha2 = function(){
+AgregarFecha2 = function(meta_cuadro_id){
   var html='';
           html+="<tr>"+
              "<td>#<input type='hidden' name='f2id[]' id='f2id' value=''></td>"+
             "<td><input type='text' class='datepicker form-control fechaG' id='txt_fecha2' name='txt_fecha2[]'></td>"+
-            "<td><textarea class='form-control' id='txt_comentario2' name='txt_comentario2[]'></textarea></td>";
+            "<td><textarea class='form-control' id='txt_comentario2' name='txt_comentario2[]'></textarea></td>"+
+            "<td><select class='form-control fecharelacion' name='slct_fecha_relacion2[]' id='slct_fecha_relacion2'></select></td>";
         html+="</tr>";
-        
+        var dat={estado:1,meta_cuadro_id:meta_cuadro_id};
+            slctGlobal.listarSlctFuncion('metacuadro','listarfecha1','ñ,.fecharelacion','simple',null,dat);
   $("#t_fecha2").append(html);initDatePicker();
   
 };

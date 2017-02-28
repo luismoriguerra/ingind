@@ -89,9 +89,15 @@ HTMLCPActividad=function(datos,cabecera){
         var hora = data['h'+i];
         if(data['h'+i]!=null){
          hora = data['h'+i].substring(0,5);
-        } 
-        html+='<td style="cursor:pointer" onclick="Detalle(\''+$.trim(data['id'+i])+'\')">'+$.trim(data['f'+i])+'</td>'+
-            '<td style="cursor:pointer" onclick="Detalle(\''+$.trim(data['id'+i])+'\')">'+$.trim(hora)+"</td>";
+        }
+        
+         if(data['v'+i]>=360){
+         var style=';background-color:#7BF7AE';
+        }else {
+          var style=';background-color:#FE4E4E';   
+        }
+        html+='<td style="cursor:pointer'+style+'" onclick="Detalle(\''+$.trim(data['id'+i])+'\')">'+$.trim(data['f'+i])+'</td>'+
+            '<td style="cursor:pointer'+style+'" onclick="Detalle(\''+$.trim(data['id'+i])+'\')">'+$.trim(hora)+"</td>";
         }
         var h_total = data.h_total.substring(0,5);
         html+='<td style="cursor:pointer" onclick="Detalle(\''+$.trim(data.id_total)+'\')">'+data.f_total+"</td>";

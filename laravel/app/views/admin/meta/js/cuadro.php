@@ -124,27 +124,15 @@ HTMLreporte=function(datos){
 
     pos=0;
     $.each(datos,function(index,data){
-        if (data.fpt!==null) {
-       var arreglo = data.fpt.split(',');
-          var n=arreglo.length;
-     
-        }
         
         pos++;
         html+="<tr id="+data.norden+">"+
-            "<td>"+data.meta+"</td>"+
+            "<td>"+data.nombre+"</td>"+
             "<td>"+data.actividad+"</td>"+
-            "<td>"+data.fa+"</td>"+
-            "<td>";
-        for($i=0;$i<n;$i++){
-         html+=arreglo[$i]+"<br><br>";
-        }     
-       html+="</td>"+
-            "<td>";
-        for($i=0;$i<n;$i++){
-         html+="<input type='file' name='archivo' id='archivo'><br>";
-        }
-        html+"</td>"+
+            "<td>"+data.d+"</td>"+
+            "<td>"+data.df+"</td>"+
+            "<td>"+data.p+"</td>"+
+            "<td>"+data.pf+"</td>"+
             "<td></td>"+
             "<td></td>"+
             "<td></td>"+
