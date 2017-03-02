@@ -47,14 +47,15 @@ class MetaCuadro extends Base
         return $metacuadro;
     }
         
-        public function getMetaCuadro( )
+        public function getMetaCuadro($array )
     {
         $sSql=" SELECT m.nombre,mc.actividad,mf1.comentario as d,mf1.fecha as df,mf2.comentario as p,mf2.fecha as pf
                 FROM metas_cuadro mc
                 INNER JOIN metas m on mc.meta_id=m.id
                 LEFT JOIN metas_fechavencimiento mf1 on mc.id=mf1.meta_cuadro_id and mf1.tipo=1
                 LEFT JOIN metas_fechavencimiento mf2 on mc.id=mf2.meta_cuadro_id and mf2.relacion_id=mf1.id
-";
+                WHERE 1=1 ";
+        $sSql.= $array['where'];
         $oData = DB::select($sSql);
         return $oData;
     }

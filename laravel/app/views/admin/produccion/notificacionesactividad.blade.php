@@ -10,21 +10,21 @@
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-    @include( 'admin.reporte.js.notificacionesincumplimiento_ajax' )
-    @include( 'admin.reporte.js.notificacionesincumplimiento' )
+    @include( 'admin.produccion.js.notificacionesactividad_ajax' )
+    @include( 'admin.produccion.js.notificacionesactividad' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            REPORTE NOTIFICACIONES POR INCUMPLIMIENTO
+            REPORTE NOTIFICACIONES POR INCUMPLIMIENTO DE REGISTRO DE ACTIVIDADES
             <small> </small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
             <li><a href="#">Reporte</a></li>
-            <li class="active">Cant. Documentos Generados por área</li>
+            <li class="active">Incumplimiento</li>
         </ol>
     </section>
 
@@ -44,11 +44,11 @@
                                 <label class="control-label">Rango de Fechas:</label>
                                 <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha" onfocus="blur()"/>
                             </div>
-                             <div class="col-sm-3">
+                            <div class="col-sm-3">
                                     <label class="control-label">Tipo:</label>
                              <select class="form-control" name="slct_tipo_id" id="slct_tipo_id">
-                                <option value='1' selected>Incuplimiento de Gestión del Trámite</option>
-                                <option value='2' >Incuplimiento de Asignación del Trámite</option>
+                                <option value='2' selected>Todas las Notificaciones</option>
+                                <option value='1' >Última Notificación</option>
                             </select>
                             </div>
                             <div class="col-sm-2" style="padding:24px">
@@ -72,17 +72,12 @@
                                 <thead>
                                     <tr>
                                         <th>N°</th>
-                                        <th>Documento</th>
-                                        <th>Paso</th>
-                                        <th>Fecha de Asignación</th>
-                                        <th>Fecha Final</th>
-                                        <th>Fecha de Gestión</th>
-                                        <th>Tiempo</th>
-                                        <th>Nombres y Apellidos</th>
-                                        <th>Fecha de Aviso</th>
-                                        <th>Tipo de aviso</th>
-                                        <th>Proceso</th>
-                                        <th>Area</th>
+                                        <th>Persona</th>
+                                        <th>Área</th>
+                                        <th>Último Registro</th>
+                                        <th>Nro. de Actividades</th>
+                                        <th>Nro. de Minutos</th>
+                                        <th>Fecha que se Envió Alerta</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_reporte">

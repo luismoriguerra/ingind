@@ -39,7 +39,7 @@ $(document).ready(function() {
         if(data.length > 0){
             tipo_id = $('#slct_tipo_id').val();
             var area = data[0]['area_id'].join('","');
-            $(this).attr('href','reporte/exportnotincumplimiento'+'?fecha='+data[0]['fecha']+'&area_id='+area+'&tipo_id='+tipo_id);            
+            $(this).attr('href','reporte/exportnotificacionactividad'+'?fecha='+data[0]['fecha']+'&area_id='+area+'&tipo_id='+tipo_id);            
         }else{
             event.preventDefault();
         }
@@ -56,17 +56,12 @@ HTMLreporte=function(datos){
         cont=cont+1;
         html+="<tr>"+
             "<td>"+ cont +"</td>"+
-            "<td>"+data.documento+"</td>"+
-            "<td>"+data.paso+"</td>"+
-            "<td>"+data.fechaAsignada+"</td>"+
-            "<td>"+data.fechaFinal+"</td>"+
-            "<td>"+data.fechaGestion+"</td>"+
-            "<td>"+data.tiempo+"</td>"+
             "<td>"+data.persona+"</td>"+
-            "<td>"+data.fecha_aviso+"</td>"+
-            "<td>"+data.tipo_aviso+"</td>"+
-            "<td>"+ data.proceso +"</td>"+
-            "<td>"+ data.area +"</td>";
+            "<td>"+data.area+"</td>"+
+            "<td>"+data.ultimo_registro+"</td>"+
+            "<td>"+data.actividad+"</td>"+
+            "<td>"+data.minuto+"</td>"+
+            "<td>"+data.fecha_alerta+"</td>";
         html+="</tr>";
     });
     $("#tb_reporte").html(html);

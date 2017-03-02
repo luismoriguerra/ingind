@@ -1212,6 +1212,63 @@ class ReporteController extends BaseController
             )
         );
     }
+    
+        public function postNotificacionactividad(){
+        $fecha = '';
+        $area = '';
+        $tipo = '';
+          if(Input::get('fecha')){
+            $fecha = Input::get('fecha');
+          }
+          if(Input::get('area_id')){
+            $area=implode('","',Input::get('area_id'));
+          }
+          if(Input::get('tipo_id')){
+            $tipo=Input::get('tipo_id');
+          }
+
+        $result = ActividadPersonal::getNotificacionactividad($fecha,$area,$tipo);
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$result
+            )
+        );
+    }
+    
+    public function getExportnotificacionactividad(){
+                $fecha = '';
+       
+        $tipo = '';
+          if(Input::get('fecha')){
+            $fecha = Input::get('fecha');
+          }
+          $area=Input::get('area_id');
+          if(Input::get('tipo_id')){
+            $tipo=Input::get('tipo_id');
+          }
+
+        $rst = ActividadPersonal::getNotificacionactividad($fecha,$area,$tipo);
+        
+
+        $propiedades = array(
+          'creador'=>'Gerencia Modernizacion',
+          'subject'=>'Notificaciones de Actividad',
+          'tittle'=>'Personal',
+          'font-name'=>'Bookman Old Style',
+          'font-size'=>8,
+        );
+
+        $cabecera = array(
+          'PERSONA',
+          'ÁREA',
+          'ÚLTIMO REGISTRO',
+          'ACTIVIDAD',
+          'MINUTO',
+          'FECHA DE ALERTA',
+        );
+        $this->exportExcel($propiedades,'',$cabecera,$rst);
+    }
 
      public function getExportdetalleproduccion(){
          $array=array();

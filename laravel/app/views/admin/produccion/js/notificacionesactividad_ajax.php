@@ -3,7 +3,7 @@ var Consulta, ConsultaDetalle, ConsultaDetalle2;
 var Accion={
     mostrar:function( data){
         $.ajax({
-            url         : 'reporte/notificacionincumplimiento',
+            url         : 'reporte/notificacionactividad',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -30,7 +30,7 @@ var Accion={
     },
     export:function(data){
         $.ajax({
-            url         : 'reporte/exportnotincumplimiento',
+            url         : 'reporte/exportnotificacionactividad',
             type        : 'GET',
             cache       : false,
             dataType    : 'json',
