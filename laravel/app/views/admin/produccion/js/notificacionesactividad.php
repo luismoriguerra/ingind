@@ -24,8 +24,7 @@ $(document).ready(function() {
         }
         return data;
     }
-
-    slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);
+    slctGlobal.listarSlct('area','slct_area_id','multiple',null,{estado:1,areagestionall:1});
     slctGlobalHtml('slct_tipo_id','simple');
     $("#generar").click(function (){
         var data = DataToFilter();            
