@@ -77,6 +77,10 @@ class Area extends Base
                             $query->where('area_gestion','>','0')
                             ->whereRaw('id!='.Auth::user()->area_id);
                         }
+                        
+                        if ( Input::has('personal') && Auth::user()->area_id!=53 && Auth::user()->area_id!=94 ){
+                            $query->where('id','=',Auth::user()->area_id);
+                        }
 
                         if ( Input::has('areagestionall') ){
                             $query->where('area_gestion','>','0');
