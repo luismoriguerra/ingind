@@ -100,7 +100,7 @@ class Area extends Base
         public static function getRol(){
         $sql = "SELECT cp.cargo_id
                 FROM personas p
-                INNER JOIN cargo_persona cp on p.id=cp.persona_id
+                INNER JOIN cargo_persona cp on p.id=cp.persona_id and cp.estado=1
 
                 WHERE p.id=".Auth::user()->id;
         $result = DB::select($sql);
