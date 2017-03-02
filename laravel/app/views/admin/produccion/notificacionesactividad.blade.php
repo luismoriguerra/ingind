@@ -35,16 +35,16 @@
                 <fieldset>
                     <div class="row form-group" >
                         <div class="col-sm-12">
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <label class="control-label">Area:</label>
                                 <select class="form-control" name="slct_area_id" id="slct_area_id" multiple>
                                 </select>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-4">
                                 <label class="control-label">Rango de Fechas:</label>
                                 <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha" onfocus="blur()"/>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3" style="display: none">
                                     <label class="control-label">Tipo:</label>
                              <select class="form-control" name="slct_tipo_id" id="slct_tipo_id">
                                 <option value='2' selected>Todas las Notificaciones</option>

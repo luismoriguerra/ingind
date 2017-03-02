@@ -554,5 +554,24 @@ class PersonaController extends BaseController
 
         }
     }
+    
+        public function postAlertasactividad()
+    {
+
+        if ( Request::ajax() ) {
+            $persona = Persona::find(Input::get('id'));
+            $persona->envio_actividad = Input::get('estado');
+            $persona->usuario_updated_at = Auth::user()->id;
+            $persona->save();
+
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro actualizado correctamente',
+                )
+            );    
+
+        }
+    }
 
 }

@@ -152,11 +152,11 @@ class Persona extends Base implements UserInterface, RemindableInterface
     }
     public static $where =[
                         'id', 'paterno','materno','nombre','dni','sexo','area_id', 'rol_id',
-                         'estado','email','fecha_nacimiento','password',
+                         'estado','envio_actividad','email','fecha_nacimiento','password',
                           ];
     public static $selec =[
                         'id', 'paterno','materno','nombre','dni','sexo','area_id', 'rol_id',
-                         'estado','email','fecha_nacimiento','password'
+                         'estado','envio_actividad','email','fecha_nacimiento','password'
                           ];
 
     public static function getCargar($array)
@@ -313,7 +313,7 @@ class Persona extends Base implements UserInterface, RemindableInterface
                 WHEN 1 THEN 'Activo'
                 WHEN 0 THEN 'Inactivo'
                 END estado,
-                a.nombre area,r.nombre rol
+                a.nombre area,r.nombre rol,p.envio_actividad
                 FROM personas p
                 INNER JOIN areas a on p.area_id=a.id
 		INNER JOIN roles r on p.rol_id=r.id
