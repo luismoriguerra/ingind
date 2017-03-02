@@ -77,9 +77,12 @@ class Area extends Base
                             $query->where('area_gestion','>','0')
                             ->whereRaw('id!='.Auth::user()->area_id);
                         }
-                        
-                        if ( Input::has('personal') && Auth::user()->area_id!=53 && Auth::user()->area_id!=94 ){
-                            $query->where('id','=',Auth::user()->area_id);
+                        $rst=$this->getRol();
+                        foreach ($rst as $value) {
+                        $array[] = $value->cargo_id;}           
+                        if ( Input::has('personal') && Auth::user()->area_id!=53  ){
+                            if (in_array(12, $array)){}else {
+                            $query->where('id','=',Auth::user()->area_id);}
                         }
 
                         if ( Input::has('areagestionall') ){
@@ -92,6 +95,17 @@ class Area extends Base
                 ->get();
                 
         return $area;
+    }
+    
+        public static function getRol(){
+        $sql = "SELECT cp.cargo_id
+                FROM personas p
+                INNER JOIN cargo_persona cp on p.id=cp.persona_id
+
+                WHERE p.id=".Auth::user()->id;
+        $result = DB::select($sql);
+        
+        return $result;
     }
 
     public function getListar(){
