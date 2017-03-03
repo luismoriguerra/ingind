@@ -80,7 +80,7 @@ class Area extends Base
                         $rst=$this->getRol();
                         foreach ($rst as $value) {
                         $array[] = $value->cargo_id;}           
-                        if ( Input::has('personal') && Auth::user()->area_id!=53  ){
+                        if ( Input::has('personal') && Auth::user()->area_id!=53 or Auth::user()->area_id!=31 ){
                             if (in_array(12, $array)){}else {
                             $query->where('id','=',Auth::user()->area_id);}
                         }
@@ -235,6 +235,15 @@ class Area extends Base
         $sSql.="  GROUP BY ap.area_id,ap.persona_id";
 
         $oData= DB::select($sSql);
+        return $oData;
+    }
+    
+        public static function getAreaNotificacion( )
+    {
+        $sSql=" SELECT a.id, a.nombre
+                FROM areas a
+                WHERE a.area_gestion=1 and a.estado=1";
+        $oData = DB::select($sSql);
         return $oData;
     }
 }
