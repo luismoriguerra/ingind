@@ -690,7 +690,7 @@ class Ruta extends Eloquent
                             $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
                             $rutaDetalleVerbo->save();                           
                         }*/
-                    }elseif( Input::get('select_tipoenvio')==1 or $val->copia==1){ //con retorno
+                    }elseif( Input::get('select_tipoenvio')==1){ //con retorno
                         $array_verbos = [2,1,5,4];
          /*               foreach ($array_verbos as $key => $value) {
                             $verbo = Verbo::find($value);
@@ -717,7 +717,7 @@ class Ruta extends Eloquent
                             $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
                             $rutaDetalleVerbo->save();                           
                         }*/
-                    }else{ //sin retorno
+                    }else if(Input::get('select_tipoenvio')==2  or $val->copia==1){ //sin retorno
                         $array_verbos = [2,14];
          /*               foreach ($array_verbos as $key => $value) {
                             $verbo = Verbo::find($value);
