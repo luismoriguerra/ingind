@@ -129,9 +129,17 @@ class MetaCuadroController extends \BaseController {
      */
     public function postListarmetacuadro() {
         if (Request::ajax()) {
+            $array = array();
+            $array['where'] = '';
+            
+            if (Input::has("meta")) {
+                $metaId=implode("','",Input::get('meta'));
+                    $array['where'] .= " AND m.id IN ('".$metaId."')";
+
+            }
             $a = new MetaCuadro;
             $listar = Array();
-            $listar = $a->getMetaCuadro();
+            $listar = $a->getMetaCuadro($array);
 
             return Response::json(
                             array(

@@ -10,21 +10,21 @@
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-    @include( 'admin.meta.js.cuadro_ajax' )
-    @include( 'admin.meta.js.cuadro' )
+    @include( 'admin.produccion.js.alertasactividad_ajax' )
+    @include( 'admin.produccion.js.alertasactividad' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Producciòn de Usuario
+            Alertas Actividad
             <small> </small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
             <li><a href="#">Reporte</a></li>
-            <li class="active">Usuarios</li>
+            <li class="active">Alertas Actividad</li>
         </ol>
     </section>
 
@@ -36,8 +36,8 @@
                     <div class="row form-group" >
                         <div class="col-sm-12">
                             <div class="col-sm-4">
-                                <label class="control-label">Meta:</label>
-                                <select class="form-control" name="slct_meta" id="slct_meta"multiple="">
+                                <label class="control-label">Area:</label>
+                                <select class="form-control" name="slct_area_id[]" id="slct_area_id" multiple>
                                 </select>
                             </div>
                             <div class="col-sm-2">
@@ -48,23 +48,18 @@
                     </div>
                 </fieldset>
             <div class="box-body table-responsive">
+                <form id="form_actividad" name="form_actividad"></form>
                 <div class="row form-group" id="reporte" >
                     <div class="col-sm-12">
                         <div class="box-body table-responsive">
                             <table id="t_reporte" class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th colspan="4" style="text-align:center">Meta</th>
-                                        <th colspan="2" style="text-align:center">Plan de Trabajo</th>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align:center">Meta</th>
-                                        <th style="text-align:center">Actividad</th>
-                                        <th style="text-align:center">Descripción</th>
-                                        <th style="text-align:center">Fecha</th>
-                                        <th style="text-align:center">Paso</th>
-                                        <th style="text-align:center">Fecha</th>
-                                      
+                                        <th>Paterno</th>
+                                        <th>Materno</th>
+                                        <th>Nombre</th>
+                                        <th>Dni</th>
+                                        <th>[]</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_reporte">
@@ -79,12 +74,13 @@
                 
                 
             </div><!-- /.box -->
-            </div><!-- /.box -->
-
 
             <!-- Finaliza contenido -->
         </div>
     </section><!-- /.content -->
     
 
+@stop
+@section('formulario')
+     @include( 'admin.reporte.form.produccionusu' )
 @stop

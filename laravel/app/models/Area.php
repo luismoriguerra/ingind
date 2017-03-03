@@ -77,6 +77,13 @@ class Area extends Base
                             $query->where('area_gestion','>','0')
                             ->whereRaw('id!='.Auth::user()->area_id);
                         }
+                        $rst=$this->getRol();
+                        foreach ($rst as $value) {
+                        $array[] = $value->cargo_id;}           
+                        if ( Input::has('personal') && Auth::user()->area_id!=53 && Auth::user()->area_id!=31 ){
+                            if (in_array(12, $array)){}else {
+                            $query->where('id','=',Auth::user()->area_id);}
+                        }
 
                         if ( Input::has('areagestionall') ){
                             $query->where('area_gestion','>','0');
@@ -88,6 +95,17 @@ class Area extends Base
                 ->get();
                 
         return $area;
+    }
+    
+        public static function getRol(){
+        $sql = "SELECT cp.cargo_id
+                FROM personas p
+                INNER JOIN cargo_persona cp on p.id=cp.persona_id and cp.estado=1
+
+                WHERE p.id=".Auth::user()->id;
+        $result = DB::select($sql);
+        
+        return $result;
     }
 
     public function getListar(){
@@ -217,6 +235,15 @@ class Area extends Base
         $sSql.="  GROUP BY ap.area_id,ap.persona_id";
 
         $oData= DB::select($sSql);
+        return $oData;
+    }
+    
+        public static function getAreaNotificacion( )
+    {
+        $sSql=" SELECT a.id, a.nombre
+                FROM areas a
+                WHERE a.area_gestion=1 and a.estado=1";
+        $oData = DB::select($sSql);
         return $oData;
     }
 }

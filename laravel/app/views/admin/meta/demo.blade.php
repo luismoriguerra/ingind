@@ -18,8 +18,7 @@
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Producciòn de Usuario
-            <small> </small>
+            Demo
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
@@ -64,10 +63,44 @@
                                         <th style="text-align:center">Fecha</th>
                                         <th style="text-align:center">Paso</th>
                                         <th style="text-align:center">Fecha</th>
+                                        <th style="text-align:center">Avance de Paso</th>
+                                        <th style="text-align:center">Avance de Descripción</th>
+                                        <th style="text-align:center">Meta</th>
                                       
                                     </tr>
                                 </thead>
                                 <tbody id="tb_reporte">
+                                    <tr>
+                                        <td rowspan="3">Meta 1</td>
+                                        <td rowspan="3">Actividad 1</td>
+                                        <td rowspan="2">Descripción 1 de Actividad 1</td>    
+                                        <td>2017-03-31</td>
+                                        <td>Paso 1 de Descripcion 1</td>
+                                        <td>2017-02-03</td>
+                                        <td></td>
+                                        <td rowspan="2"></td>
+                                        <td rowspan="3"></td>
+                                    </tr>
+                                    <tr>
+<!--                                        <td>Meta 1</td>-->
+<!--                                        <td>Actividad 1</td>-->
+<!--                                        <td>Descripción 1 de Actividad 1</td>    -->
+                                        <td>2017-03-31</td>
+                                        <td>Paso 2 de Descripcion 1</td>
+                                        <td>2017-02-03</td>
+                                        <td></td>
+                                       
+                                    </tr>
+                                    
+                                    <tr>
+<!--                                    <td>Meta 1</td>-->                    
+                                        <td>Descripción 2 de Actividad 1</td>    
+                                        <td>2017-03-31</td>
+                                        <td>Paso 1 de Descripcion 2</td>
+                                        <td>2017-02-10</td>
+                                        <td></td><td></td>
+                                       
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

@@ -15,7 +15,7 @@
                     <div class="form-group">
                         <label class="control-label">Meta:
                         </label>
-                        <select class="form-control" name="slct_meta" id="slct_meta">
+                        <select class="form-control" name="slct_meta[]" id="slct_meta">
                         </select>
                     </div>
                     <div class="form-group">

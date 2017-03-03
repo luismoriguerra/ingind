@@ -54,18 +54,18 @@ $(document).ready(function() {
         singleDatePicker: false,
          showDropdowns: true
     });
-    var dataG = {estado:1};
     var data = {estado:1};
     var ids = [];
-/*    slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);*/
-    slctGlobalHtml('slct_anio','simple',null);
+        var datos={estado:1};
+    slctGlobal.listarSlctFuncion('metacuadro','listarmeta','slct_meta','multiple',null,datos);
+
     $("#generar_area").click(function (){
-        area_id = $('#slct_anio').val();
-        if ($.trim(area_id)!=='') {
-            data = {area_id:area_id};
+        meta = $('#slct_meta').val();
+        if ($.trim(meta)!=='') {
+            data = {meta:meta};
             Usuario.mostrar(data);
         } else {
-            alert("Seleccione AÑO");
+            alert("Seleccione Metas");
         }
     });
 

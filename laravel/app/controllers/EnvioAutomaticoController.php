@@ -31,12 +31,14 @@ class EnvioAutomaticoController extends \BaseController {
                 $ayer = strtotime('-3 day', strtotime($hoy));
                 $ayer = date('Y-m-d', $ayer);
             }
-            $Ssql = "SELECT p.id as persona_id,p.area_id,a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona, p.email,p.email_mdi,
+            $Ssql = "SELECT p.id as persona_id,p.area_id,a.nombre as area,
+                    CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona, p.email,p.email_mdi,
                     COUNT(ap.id) AS 'actividad',IFNULL(SUM(ap.ot_tiempo_transcurrido),0) as 'minuto',
-                    IF(COUNT(ap.id)>=5,1,0) as val_acti,IF(IFNULL(SUM(ap.ot_tiempo_transcurrido),0)>=360,1,0) as val_minu,
+                    IF(COUNT(ap.id)>=5,1,0) as val_acti,
+                    IF(IFNULL(SUM(ap.ot_tiempo_transcurrido),0)>=360,1,0) as val_minu,
                      (SELECT CONCAT(email,',',email_mdi)
                          FROM personas 
-                                     where area_id in (53)
+                         where area_id in (53)
                          and rol_id in (9,8)
                          and estado=1
                          order by area_id
@@ -49,12 +51,12 @@ class EnvioAutomaticoController extends \BaseController {
                          LIMIT 0,1),',') email_jefe
                     FROM personas p
                     INNER JOIN areas a on p.area_id=a.id and area_gestion=1
-                   LEFT JOIN actividad_personal ap on ap.persona_id=p.id  and DATE(ap.fecha_inicio)= '$ayer' AND ap.usuario_created_at=ap.persona_id AND ap.estado=1
-                    WHERE  
-                     p.estado=1 
-		    AND p.rol_id NOT IN (8,9)
+                    LEFT JOIN actividad_personal ap on ap.persona_id=p.id  and DATE(ap.fecha_inicio)= '$ayer' AND ap.usuario_created_at=ap.persona_id AND ap.estado=1
+                    WHERE p.estado=1 
+                    AND p.rol_id NOT IN (8,9)
+                    AND p.actividad=1
                     GROUP BY p.id
-	            HAVING val_minu=0";
+                    HAVING val_minu=0";
 
             $actividades = DB::select($Ssql);
 
