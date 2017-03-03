@@ -18,7 +18,7 @@
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Asignación Automática
+           Cargar Inventario
             <small> </small>
         </h1>
         <ol class="breadcrumb">
