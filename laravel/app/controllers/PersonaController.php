@@ -560,7 +560,7 @@ class PersonaController extends BaseController
 
         if ( Request::ajax() ) {
             $persona = Persona::find(Input::get('id'));
-            $persona->envio_actividad = Input::get('estado');
+            $persona->actividad = Input::get('estado');
             $persona->usuario_updated_at = Auth::user()->id;
             $persona->save();
 
