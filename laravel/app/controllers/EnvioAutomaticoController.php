@@ -8,6 +8,219 @@ class EnvioAutomaticoController extends \BaseController {
      *
      * @return Response
      */
+    public function postActividadesdiariasalertasjefe() {
+        $array = array();
+        $array['usuario'] = Auth::user()->id;
+
+        $retorno = array(
+            'rst' => 1
+        );
+
+        $html = "";
+        $meses = array('', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre');
+
+        $n = 1;
+
+        $hoy = date('Y-m-d');
+        $hoy = '2017-02-13';
+        $dia_validar = date('w', strtotime($hoy));
+        if ($dia_validar == 1) {
+
+            $listar = Area::getAreaNotificacion();
+           
+            foreach ($listar as $value) {
+                
+            $fechaFin = strtotime('-1 day', strtotime($hoy));
+            $fechaFin = date('Y-m-d', $fechaFin);
+            $fechaIni = strtotime('-7 day', strtotime($hoy));
+            $fechaIni = date('Y-m-d', $fechaIni);
+
+            $sSql = '';
+            $sSqls = '';
+            $cl = '';
+            $left = '';
+            ;
+            $f_fecha = '';
+            $cabecera = [];
+
+            $f_fecha .= " AND DATE(ap.fecha_inicio) BETWEEN '" . $fechaIni . "' AND '" . $fechaFin . "' ";
+
+
+            $fechaIni_ = strtotime($fechaIni);
+            $fechaFin_ = strtotime($fechaFin);
+            $fecha = date_create($fechaIni);
+            $n = 1;
+            for ($i = $fechaIni_; $i <= $fechaFin_; $i += 86400) {
+                $cl .= ",COUNT(ap$n.id) AS f$n,IFNULL(SEC_TO_TIME(ABS(SUM(ap$n.ot_tiempo_transcurrido)) * 60),'00:00')  h$n";
+                $left .= "LEFT JOIN actividad_personal ap$n on ap$n.id=ap.id AND  DATE(ap.fecha_inicio) = STR_TO_DATE('" . date("d-m-Y", $i) . "','%d-%m-%Y')";
+                $n++;
+
+                array_push($cabecera, date_format($fecha, 'Y-m-d'));
+                date_add($fecha, date_interval_create_from_date_string('1 days'));
+            }
+
+            $sSql .= "SELECT a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona";
+            $sSql .= $cl;
+            $sSql .= ",COUNT(ap.id) AS f_total,IFNULL(SEC_TO_TIME(ABS(SUM(ap.ot_tiempo_transcurrido)) * 60),'00:00')  h_total";
+            $sSql .= " FROM personas p
+                 INNER JOIN areas a on p.area_id=a.id
+                 LEFT JOIN actividad_personal ap on ap.persona_id=p.id AND ap.estado=1 AND ap.usuario_created_at=ap.persona_id " . $f_fecha;
+            $sSql .= $left;
+            $sSql .= " WHERE p.estado=1 AND p.rol_id NOT IN (8,9)";
+
+
+            $sSql .= " AND p.area_id=".$value->id;
+
+            $sSql .= " GROUP BY p.id";
+
+            $oData['cabecera'] = $cabecera;
+            $oData['data'] = DB::select($sSql);
+
+
+//                foreach ($actividades as $value) {
+
+            $html = "";
+            $html_cabecera = "";
+            $html_table = "";
+            $pos = 0;
+            $html_cabecera .= "<tr>";
+            $html_cabecera .= "<th colspan='2'></th>";
+            $n = 0;
+            foreach ($oData['cabecera'] as $cabecera) {
+
+                $html_cabecera .= "<th colspan='2'>" . $cabecera . "</th>";
+                $n++;
+            }
+            $html_cabecera .= "<th colspan='2'>TOTAL</th>";
+            $html_cabecera .= "</tr>";
+
+            $html_cabecera .= "<tr>";
+            $html_cabecera .= "<th>N°</th>";
+//                $html_cabecera .= "<th>Area</th>";
+            $html_cabecera .= "<th>Persona</th>";
+            $n = 0;
+            foreach ($oData['cabecera'] as $cabecera) {
+
+                $html_cabecera .= "<th >N° A.</th>";
+                $html_cabecera .= "<th >N° H.</th>";
+                $n++;
+            }
+
+            $html_cabecera .= "<th>N° Acti. Total</th>";
+            $html_cabecera .= "<th>Total de Horas</th>";
+            $html_cabecera .= "</tr>";
+
+            $array = json_decode(json_encode($oData['data']), true);
+            foreach ($array as $data) {
+                $pos++;
+                $html .= "<tr>";
+                $html .= "<td>" . $pos . "</td>";
+//                     $html .="<td>" . $data->area . "</td>" ;
+                $html .= "<td>" . $data['persona'] . "</td>";
+
+                for ($i = 1; $i <= $n; $i++) {
+                    $hora = $data['h' . $i];
+                    if ($data['h' . $i] != null) {
+                        $hora = substr($data['h' . $i], 0, 5);
+                    }
+                    if ($data['h' . $i] >= 06) {
+                        $style = ';background-color:#7BF7AE';
+                    } else {
+                        $style = ';background-color:#FE4E4E';
+                    }
+                    $html .= '<td style="' . $style . '">' . $data['f' . $i] . '</td>';
+                    $html .= '<td style="' . $style . '">' . $hora . "</td>";
+                }
+
+                $hora_t = substr($data['h_total'], 0, 5);
+
+                $html .= '<td>' . $data['f_total'] . "</td>";
+                $html .= '<td>' . $hora_t . "</td>";
+
+
+                $html .= "</tr>";
+            }
+            $html_table .= '<table border="1" cellspacing="0">  ';
+            $html_table .= ' <thead>';
+            $html_table .= $html_cabecera;
+            $html_table .= ' </thead>';
+            $html_table .= '<tbody>';
+            $html_table .= $html;
+            $html_table .= '</tbody>';
+            $html_table .= '</table >';
+
+//                }
+             $sSqls.= " SELECT CONCAT_WS(' ',paterno,materno,nombre)as persona,IFNULL(CONCAT(email,',',email_mdi),',') as email_jefe,
+			(SELECT CONCAT(email,',',email_mdi)
+                         FROM personas 
+                         where area_id in (53)
+                         and rol_id in (9,8)
+                         and estado=1
+                         order by area_id
+                         LIMIT 0,1) email_personal
+                         FROM personas 
+                         where area_id=".$value->id;
+                     
+              $sSqls.= " and rol_id in (9,8)
+                         and estado=1
+                         LIMIT 0,1";
+
+            $jefe = DB::select($sSqls);
+            
+            $plantilla = Plantilla::where('tipo', '=', '10')->first();
+            $buscar = array('persona:', 'dia:', 'mes:', 'año:', 'persona:', 'tabla:');
+            $reemplazar = array($jefe[0]->persona, date('d'), $meses[date('n')], date("Y"),$jefe[0]->persona,$html_table);
+            $parametros = array(
+                'cuerpo' => str_replace($buscar, $reemplazar, $plantilla->cuerpo)
+            );
+            
+            $emailpersonal = explode(",", $jefe[0]->email_personal);
+            $emailjefe = array();
+            $emailjefeauxi = explode(",", $jefe[0]->email_jefe);
+            
+            
+            if (trim($emailjefeauxi[0]) != '') {
+                array_push($emailjefe, $emailjefeauxi[0]);
+            }
+            if (trim($emailjefeauxi[1]) != '') {
+                array_push($emailjefe, $emailjefeauxi[1]);
+            }
+
+            $emailpersonal = 'rcapchab@gmail.com';
+            $emailjefe = array('rcapchab@gmail.com');
+
+            DB::beginTransaction();
+
+//                $update = 'update alertas_actividad set ultimo_registro=0 where persona_id=' . $value->persona_id;
+//                DB::update($update);
+//                
+//                $insert = 'INSERT INTO alertas_actividad (persona_id,area_id,actividad, minuto, fecha_alerta) 
+//                     VALUES (' . $value->persona_id . ',' . $value->area_id . ',' . $value->actividad . ',' . $value->minuto . ',"' . date("Y-m-d h:m:s") . '")';
+////                echo $insert;
+//                DB::insert($insert);
+
+            try {
+                Mail::send('notreirel', $parametros, function($message) use ($emailpersonal, $emailjefe) {
+                    $message
+                            ->to($emailjefe)
+                            ->cc($emailpersonal)
+                            ->subject('.::Aviso de Actividad de la Semana::.');
+                }
+                );
+            } catch (Exception $e) {
+                //echo $qem[$k]->email."<br>";
+                DB::rollback();
+            }
+            DB::commit();
+
+            $n++;
+           }
+        }
+        $retorno["data"] = $html;
+
+        return Response::json($retorno);
+    }
+
     public function postActividadesdiariasalertas() {
         $array = array();
         $array['usuario'] = Auth::user()->id;
@@ -26,8 +239,8 @@ class EnvioAutomaticoController extends \BaseController {
 
         $dia_validar = date('w', strtotime($hoy));
         if ($dia_validar == 1 OR $dia_validar == 2 OR $dia_validar == 3 OR $dia_validar == 4 OR $dia_validar == 5) {
-          
-            if ($dia_validar == 1 ){
+
+            if ($dia_validar == 1) {
                 $ayer = strtotime('-3 day', strtotime($hoy));
                 $ayer = date('Y-m-d', $ayer);
             }
@@ -73,7 +286,7 @@ class EnvioAutomaticoController extends \BaseController {
                 $texto = '';
 
                 if ($value->val_minu == 0) {
-                    $texto = 'la cantidad mínima de minutos la cual es: 360 minutos por día (6 horas). Usted ha registrado: '.$value->minuto.' minuto(s).';
+                    $texto = 'la cantidad mínima de minutos la cual es: 360 minutos por día (6 horas). Usted ha registrado: ' . $value->minuto . ' minuto(s).';
                 }
 //                if ($value->val_acti == 0 AND $value->val_minu == 1) {
 //                    $texto = 'la cantidad mínima de actividades la cual es 5 actividades por día. Usted ha registrado: '.$value->actividad.' actividad(es).';
@@ -98,37 +311,37 @@ class EnvioAutomaticoController extends \BaseController {
                     array_push($email, $value->email);
                 }
                 $emailpersonal = explode(",", $value->email_personal);
-                
-                
+
+
                 $emailjefe = array();
-                $emailjefeauxi=explode(",", $value->email_jefe);
-                
-                 if (trim($emailjefeauxi[0]) != '') {
+                $emailjefeauxi = explode(",", $value->email_jefe);
+
+                if (trim($emailjefeauxi[0]) != '') {
                     array_push($emailjefe, $emailjefeauxi[0]);
                 }
                 if (trim($emailjefeauxi[1]) != '') {
                     array_push($emailjefe, $emailjefeauxi[1]);
                 }
-                
+
 //                $email = 'consultas.gmgm@gmail.com';
 //                $emailpersonal = 'rcapchab@gmail.com';
 //                $emailjefe=array('rcapchab@gmail.com');
 
                 DB::beginTransaction();
-                
+
                 $update = 'update alertas_actividad set ultimo_registro=0 where persona_id=' . $value->persona_id;
                 DB::update($update);
-                
+
                 $insert = 'INSERT INTO alertas_actividad (persona_id,area_id,actividad, minuto, fecha_alerta) 
                      VALUES (' . $value->persona_id . ',' . $value->area_id . ',' . $value->actividad . ',' . $value->minuto . ',"' . date("Y-m-d h:m:s") . '")';
 //                echo $insert;
                 DB::insert($insert);
-                
+
                 try {
-                    Mail::queue('notreirel', $parametros, function($message) use ($email, $emailpersonal,$emailjefe) {
+                    Mail::queue('notreirel', $parametros, function($message) use ($email, $emailpersonal, $emailjefe) {
                         $message
                                 ->to($email)
-                                ->cc($emailpersonal,$emailjefe)
+                                ->cc($emailpersonal, $emailjefe)
                                 ->subject('.::Aviso de Actividad::.');
                     }
                     );
