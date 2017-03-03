@@ -256,6 +256,134 @@ class CargarController extends BaseController
         }
     }
 
+    public function postCargarinventario()
+    {
+        ini_set('memory_limit','512M');
+        if (isset($_FILES['carga']) and $_FILES['carga']['size'] > 0) {
+
+            $uploadFolder = 'txt/inventario';
+            
+            if ( !is_dir($uploadFolder) ) {
+                mkdir($uploadFolder);
+            }
+
+
+            $nombreArchivo = explode(".",$_FILES['carga']['name']);
+            $tmpArchivo = $_FILES['carga']['tmp_name'];
+            $archivoNuevo = $nombreArchivo[0]."_u".Auth::user()->id."_".date("Ymd_his")."." . $nombreArchivo[1];
+            $file = $uploadFolder . '/' . $archivoNuevo;
+
+            //@unlink($file);
+
+            $m="Ocurrio un error al subir el archivo. No pudo guardarse.";
+            if (!move_uploaded_file($tmpArchivo, $file)) {
+                return Response::json(
+                    array(
+                        'upload' => FALSE,
+                        'rst'    => '2',
+                        'msj'    => $m,
+                        'error'  => $_FILES['archivo'],
+                    )
+                );
+            }
+
+            $array=array();
+            $arrayExist=array();
+
+/*            $file=file('txt/inventario/'.$archivoNuevo);*/
+            $file=file('/var/www/html/ingind/public/txt/inventario/'.$archivoNuevo);
+            for($i=0; $i < count($file); $i++) {
+                 DB::beginTransaction();
+                if(trim($file[$i]) != ''){
+                $detfile=explode("\t",$file[$i]);
+
+
+                    for ($j=0; $j < count($detfile); $j++) { 
+                        $buscar=array(chr(13).chr(10), "\r\n", "\n","�", "\r","\n\n","\xEF","\xBB","\xBF");
+                        $reemplazar="";
+                        $detfile[$j]=trim(str_replace($buscar,$reemplazar,$detfile[$j]));
+                        $array[$i][$j]=$detfile[$j];
+                    }
+                    /*validar existencia*/
+                    $exist=Inmueble::where('cod_patrimonial','=',$detfile[0])
+                            ->where('cod_interno','=',$detfile[1])
+                            ->where('estado','=','1')
+                            ->get();
+
+                    if( count($exist)>0 ){
+                        $arrayExist[]=$detfile[0]."; Inmueble ya existe";
+                    }else{
+                         /*registro datos */
+                  
+                    $Inmueble = new Inmueble();
+                    $Inmueble['cod_patrimonial'] = $detfile[0];
+                    $Inmueble['cod_interno'] = $detfile[1]; 
+                    $Inmueble['descripcion'] = $detfile[2];
+
+                    $persona = DB::table('personas')
+                        ->where('dni', '=', $detfile[9])
+                        ->get();
+                    $Inmueble['area_id'] = $persona[0]->area_id;
+                    $Inmueble['persona_id'] = $persona[0]->id;
+
+                    
+                    $local = DB::table('inventario_local')
+                        ->where('nombre', 'LIKE', '%'.$detfile[11].'%')
+                        ->get();
+                    $Inmueble['inventario_local_id'] = $local[0]->id;
+
+                    if($detfile[10] != ''){
+                        if($detfile[10] == 'CAS'){
+                            $Inmueble['modalidad_id'] = 3;
+                        }elseif($detfile[10] == 'CAP'){
+                            $Inmueble['modalidad_id'] = 2;
+                        }else{
+                            $Inmueble['modalidad_id'] = 1;
+                        }
+                    }
+
+                    if($detfile[12]!=''){
+                        $Inmueble['oficina'] = $detfile[12];           
+                    }
+
+                    if($detfile[3]!=''){
+                        $Inmueble['marca'] = $detfile[3]; 
+                    }
+
+                    if($detfile[4]!=''){
+                        $Inmueble['modelo'] = $detfile[4]; 
+                    }
+
+                    if($detfile[5]!=''){
+                        $Inmueble['tipo'] = $detfile[5]; 
+                    }
+                    
+                    $Inmueble['color'] = $detfile[6];
+                    $Inmueble['serie'] = $detfile[7];
+                    $Inmueble['fecha_creacion'] = date('Y-m-d',strtotime($detfile[13]));
+                    $Inmueble['situacion'] = $detfile[8];
+                    $Inmueble['created_at'] = date('Y-m-d H:i:s');
+                    $Inmueble['usuario_created_at'] = Auth::user()->id;
+                    $Inmueble->save();
+                    /*end registros datos */
+                    }
+                    /*end validar existencia*/
+                }
+                DB::commit();
+            }// for del file
+            return Response::json(
+                    array(
+                        'rst'       => '1',
+                        'msj'       => 'Archivo procesado correctamente',
+                        'file'    => $archivoNuevo,
+                        'upload'    => TRUE, 
+                        'data'      => $array,
+                        'existe'    => $arrayExist
+                    )
+            );
+        }
+    }
+
     public function postAsignacion()
     {
         ini_set('memory_limit','512M');
@@ -290,7 +418,8 @@ class CargarController extends BaseController
             $array=array();
             $arrayExist=array();
 
-            //$file=file('C:\\wamp\\www\\ingind\\public\\txt\\asignacion\\'.$archivoNuevo);
+           /* $file=file('txt/asignacion/'.$archivoNuevo);*/
+           /* $file=file('C:\\xampp\\www\\htdocs\\ingind\\public\\txt\\asignacion\\'.$archivoNuevo);*/
             //$file=file('/home/m1ndepen/public_html/procesosmuni/public/txt/asignacion/'.$archivoNuevo);
             
             $file=file('/var/www/html/ingind/public/txt/asignacion/'.$archivoNuevo);

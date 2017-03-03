@@ -19,11 +19,13 @@ $(document).ready(function() {
             $(".araesgerencia").addClass('hidden');
             $(".areaspersona").removeClass('hidden');
             $(".todassubg").addClass('hidden');
-        }else{ //gerencia
+        }else if($(this).val() == 2){ //gerencia
              $(".araesgerencia").removeClass('hidden');
              $(".areaspersona").addClass('hidden');
              $(".personasarea").addClass('hidden');
              $(".todassubg").removeClass('hidden');
+        }else{
+            $(".araesgerencia,.areaspersona,.personasarea,.todassubg,.copias").addClass('hidden');
         }
     });
 

@@ -129,21 +129,36 @@ class DocumentoDigitalController extends \BaseController {
             }
 
             $DocDigital->tipo_envio = Input::get('tipoenvio');
-            $DocDigital->persona_id = $jefe[0]->id;
+            if(Input::get('tipoenvio')==3){
+                $DocDigital->persona_id = Auth::user()->id;    
+            }else{
+                $DocDigital->persona_id = $jefe[0]->id;                
+            }
+
             $DocDigital->usuario_created_at = Auth::user()->id;
             $DocDigital->save();
 
             if($DocDigital->id){
-            	$areas_envio = json_decode(Input::get('areasselect'));
-            	foreach ($areas_envio as $key => $value) {
-            		$DocDigitalArea = new DocumentoDigitalArea();
-            		$DocDigitalArea->doc_digital_id = $DocDigital->id;
-            		$DocDigitalArea->persona_id = $value->persona_id;
-            		$DocDigitalArea->area_id = $value->area_id;
-                    $DocDigitalArea->tipo = $value->tipo;
-            		$DocDigitalArea->usuario_created_at = Auth::user()->id;
-            		$DocDigitalArea->save();
-            	}
+                if(Input::get('tipoenvio')==3){
+                    $DocDigitalArea = new DocumentoDigitalArea();
+                    $DocDigitalArea->doc_digital_id = $DocDigital->id;
+                    $DocDigitalArea->persona_id = $jefe[0]->id;
+                    $DocDigitalArea->area_id =Auth::user()->area_id;
+                    $DocDigitalArea->tipo = 1;
+                    $DocDigitalArea->usuario_created_at = Auth::user()->id;
+                    $DocDigitalArea->save();
+                }else{
+                	$areas_envio = json_decode(Input::get('areasselect'));
+                	foreach ($areas_envio as $key => $value) {
+                		$DocDigitalArea = new DocumentoDigitalArea();
+                		$DocDigitalArea->doc_digital_id = $DocDigital->id;
+                		$DocDigitalArea->persona_id = $value->persona_id;
+                		$DocDigitalArea->area_id = $value->area_id;
+                        $DocDigitalArea->tipo = $value->tipo;
+                		$DocDigitalArea->usuario_created_at = Auth::user()->id;
+                		$DocDigitalArea->save();
+                	}                    
+                }
             }
             return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente','nombre'=>$DocDigital->titulo,'iddocdigital'=>$DocDigital->id));
         }
