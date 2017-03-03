@@ -51,6 +51,7 @@
                       <option value="0">::Seleccionar::</option>
                       <option value="1">Personas</option>
                       <option value="2">Gerencias</option>
+                      <option value="3">Reporte Personal</option>
                     </select>
                 </div>
 

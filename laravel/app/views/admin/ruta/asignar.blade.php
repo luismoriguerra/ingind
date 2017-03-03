@@ -343,6 +343,7 @@
                                                                 <tr>
                                                                     <th style="width: 50%">Area</th>
                                                                     <th style="width: 50%">Tiempo(Dias)</th>
+                                                                    <th style="width: 50%"><a data-toggle="popover" data-placement="top" data-content="Seleccione Areas de Copia"><span class="btn btn-warning btn-sm"><i class="fa fa-exclamation"></i></span></a></th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody id="tb_numareas">

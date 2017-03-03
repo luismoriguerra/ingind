@@ -35,6 +35,11 @@
     
     @include( 'admin.ruta.js.proceso' )
     @include( 'admin.ruta.js.referente' )
+
+    <style type="text/css">
+       .tooltip-arrow,
+.red-tooltip + .tooltip > .tooltip-inner {background-color: #f00;}
+    </style>
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -93,12 +98,16 @@
                                                     </div>
                                                     <div class="col-sm-3">
                                                          <br>
-                                                         <span class="btn btn-success" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-id="txt_doc_digital_id">
-                                                            <i class="glyphicon glyphicon-file"></i>
-                                                        </span>
-                                                        <span class="btn btn-success" data-toggle="modal" data-target="#NuevoDocDigital" id="btn_nuevo_docdigital" data-texto="txt_codigo" data-id="txt_doc_digital_id">
-                                                            <i class="glyphicon glyphicon-paperclip"></i>
-                                                        </span>
+                                                        <a data-toggle="tooltip" title="Listar Doc Digitales">
+                                                             <span class="btn btn-success" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-id="txt_doc_digital_id">
+                                                                <i class="glyphicon glyphicon-file"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a data-toggle="tooltip" title="Crear Doc Digital">
+                                                            <span class="btn btn-success" data-toggle="modal" data-target="#NuevoDocDigital" id="btn_nuevo_docdigital" data-texto="txt_codigo" data-id="txt_doc_digital_id">
+                                                                <i class="glyphicon glyphicon-paperclip"></i>
+                                                            </span>
+                                                        </a>
                                                         <span class="btn btn-primary" data-toggle="modal" data-target="#indedocsModal" data-texto="txt_codigo" data-id="txt_documento_id" id="btn_buscar_indedocs">
                                                             <i class="fa fa-search fa-lg"></i>
                                                         </span>
@@ -284,12 +293,16 @@
                                                     </div>
                                                      <div class="col-sm-3">
                                                          <br>
-                                                           <span class="btn btn-success" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo2" data-id="txt_doc_digital_id2">
+                                                        <a data-toggle="tooltip" title="Listar Doc Digitales">
+                                                            <span class="btn btn-success" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo2" data-id="txt_doc_digital_id2">
                                                             <i class="glyphicon glyphicon-file"></i>
-                                                        </span>
+                                                            </span>
+                                                        </a>
+                                                        <a data-toggle="tooltip" title="Crear Doc Digital">
                                                         <span class="btn btn-success" data-toggle="modal" data-target="#NuevoDocDigital" id="btn_nuevo_docdigital" data-texto="txt_codigo2" data-id="txt_doc_digital_id2">
                                                             <i class="glyphicon glyphicon-paperclip"></i>
                                                         </span>
+                                                         </a>
                                                         <span class="btn btn-primary" data-toggle="modal" data-target="#indedocsModal" data-texto="txt_codigo2" data-id="txt_documento_id2" id="btn_buscar_indedocs">
                                                             <i class="fa fa-search fa-lg"></i>
                                                         </span>
@@ -362,6 +375,7 @@
                                                                 <tr>
                                                                     <th style="width: 50%">Area</th>
                                                                     <th style="width: 50%">Tiempo(Dias)</th>
+                                                                    <th style="width: 50%"><a data-toggle="popover" data-placement="top" data-content="Seleccione Areas de Copia"><span class="btn btn-warning btn-sm"><i class="fa fa-exclamation"></i></span></a></th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody id="tb_numareas">

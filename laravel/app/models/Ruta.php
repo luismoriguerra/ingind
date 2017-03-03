@@ -352,7 +352,7 @@ class Ruta extends Eloquent
     }
 
     public function crearRutaGestion(){
-         DB::beginTransaction();
+        DB::beginTransaction();
         $codigounico="";
         $codigounico=Input::get('codigo2');
         $id_documento='';
@@ -502,26 +502,26 @@ class Ruta extends Eloquent
 
         $tiempo = [];
         $areas = [];
-        if(Input::has('areasSelect') && Input::has('diasTiempo')){
-            $tiempo = json_decode(Input::get('diasTiempo'));
+        if(Input::has('areasSelect')){
+/*            $tiempo = json_decode(Input::get('diasTiempo'));*/
             $areas = json_decode(Input::get('areasSelect'));
-        }elseif(Input::has('areasTodas') && Input::has('tiempo')){
-            $tiempo = Input::get('tiempo');
+        }elseif(Input::has('areasTodas')){
+         /*   $tiempo = Input::get('tiempo');*/
             $areas = json_decode(Input::get('areasTodas'));
         }
 
             foreach ($areas as $index => $val) {
                 $rutaDetalle = new RutaDetalle;
                 $rutaDetalle['ruta_id']=$ruta->id;
-                $rutaDetalle['area_id']=$val;
+                $rutaDetalle['area_id']=$val->area_id;
                 $rutaDetalle['tiempo_id']=2;         
-
+/*
                 if (is_array($tiempo)){
                     $rutaDetalle['dtiempo']=$tiempo[$index];                    
-                }else{
-                    $rutaDetalle['dtiempo']=$tiempo;
-                }
-
+                }else{*/
+                    $rutaDetalle['dtiempo']=$val->tiempo;
+/*                }
+*/
                 $rutaDetalle['norden']=$index + 1;
                 if($index==0){
                     $rutaDetalle['fecha_inicio']=Input::get('fecha_inicio2');
@@ -662,9 +662,10 @@ class Ruta extends Eloquent
                             $rutaDetalleVerbo->save();
                         }
                     }*/
+                    $array_verbos = [];
                     if($index==0){
                         $array_verbos = [1,5,4];
-                        foreach ($array_verbos as $key => $value) {
+                        /*foreach ($array_verbos as $key => $value) {
                             $verbo = Verbo::find($value);
 
                             $rutaDetalleVerbo = new RutaDetalleVerbo;
@@ -688,11 +689,10 @@ class Ruta extends Eloquent
                             $rutaDetalleVerbo['orden']= $key + 1;
                             $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
                             $rutaDetalleVerbo->save();                           
-                        }
-                    }
-                   elseif( Input::get('select_tipoenvio')==1 ){ //con retorno
+                        }*/
+                    }elseif( Input::get('select_tipoenvio')==1 or $val->copia==1){ //con retorno
                         $array_verbos = [2,1,5,4];
-                        foreach ($array_verbos as $key => $value) {
+         /*               foreach ($array_verbos as $key => $value) {
                             $verbo = Verbo::find($value);
 
                             $rutaDetalleVerbo = new RutaDetalleVerbo;
@@ -716,10 +716,10 @@ class Ruta extends Eloquent
                             $rutaDetalleVerbo['orden']= $key + 1;
                             $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
                             $rutaDetalleVerbo->save();                           
-                        }
+                        }*/
                     }else{ //sin retorno
                         $array_verbos = [2,14];
-                        foreach ($array_verbos as $key => $value) {
+         /*               foreach ($array_verbos as $key => $value) {
                             $verbo = Verbo::find($value);
 
                             $rutaDetalleVerbo = new RutaDetalleVerbo;
@@ -733,7 +733,33 @@ class Ruta extends Eloquent
                             $rutaDetalleVerbo['orden']= $key + 1;
                             $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
                             $rutaDetalleVerbo->save();                           
+                        }*/
+                    }
+
+                    foreach ($array_verbos as $key => $value) {
+                        $verbo = Verbo::find($value);
+
+                        $rutaDetalleVerbo = new RutaDetalleVerbo;
+                        $rutaDetalleVerbo['ruta_detalle_id']= $rutaDetalle->id;
+                        $rutaDetalleVerbo['nombre']= $verbo->nombre;
+                        $rutaDetalleVerbo['condicion']= 0;
+
+                        if($value == 5){
+                            $Area = Area::find($val->area_id);
+                            if($Area->area_gestion == 1){
+                                $rutaDetalleVerbo['rol_id']= 8;     
+                            }elseif($Area->area_gestion == 2){
+                                $rutaDetalleVerbo['rol_id']= 9;                                    
+                            }
+                        }else{
+                            $rutaDetalleVerbo['rol_id']= 1;                                
                         }
+
+                        $rutaDetalleVerbo['verbo_id']= $value;
+                         $rutaDetalleVerbo['documento_id']= '';
+                        $rutaDetalleVerbo['orden']= $key + 1;
+                        $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
+                        $rutaDetalleVerbo->save();                           
                     }
             }
             DB::commit();

@@ -131,7 +131,7 @@ var Asignar={
         $("#form_asignarGestion").append('<input type="hidden" value="CI-" name="txt_ci" id="txt_ci">');
         var datos=$("#form_asignarGestion").serialize().split("txt_").join("").split("slct_").join("").split("_modal").join("");
 
-        var checked = $('#chk_todasareas').iCheck('update')[0].checked;
+       /* var checked = $('#chk_todasareas').iCheck('update')[0].checked;
         if(checked == true){
             var areasTodas = [];
             areasTodas.push(<?php  echo Auth::user()->area_id; ?>);
@@ -141,9 +141,30 @@ var Asignar={
             var diasTiempo = $("input[name='txt_dias']").map(function(){return $(this).val();}).get();
             var select_area = $("[name='select_area']").map(function(){return $(this).val();}).get();
             datos+="&areasSelect="+JSON.stringify(select_area)+"&diasTiempo="+JSON.stringify(diasTiempo);
+        }*/
+
+        var checked = $('#chk_todasareas').iCheck('update')[0].checked;
+        if(checked == true){
+            var areasTodas = [];
+            areasTodas.push({'area_id':<?php  echo Auth::user()->area_id; ?>,'tiempo':$("#txt_tiempo").val(),'copia':0});
+            $("#areasTodas option").map(function(){return areasTodas.push({'area_id':$(this).val(),'tiempo':$("#txt_tiempo").val(),'copia':0})});
+            datos+="&areasTodas="+JSON.stringify(areasTodas);
+        }else{
+            var areasSingular = [];
+            $("#tb_numareas tr").each(function(index, el) {
+                var area = $(this).find('.select_area').val();
+                var tiempo = $(this).find('.txt_dias').val();
+
+                if($(this).find('.chk_copias').iCheck('update')[0].checked == true){
+                    var copia = 1
+                }else{
+                    var copia = 0
+                }
+                areasSingular.push({'area_id':area,'tiempo':tiempo,'copia':copia});
+            });
+              datos+="&areasSelect="+JSON.stringify(areasSingular);
         }
 
-        console.log(datos);
         $.ajax({
             url         : 'ruta/crearutagestion',
             type        : 'POST',
