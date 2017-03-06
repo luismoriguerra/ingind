@@ -186,7 +186,7 @@ class EnvioAutomaticoController extends \BaseController {
             }
 
             $emailpersonal = 'rcapchab@gmail.com';
-            $emailjefe = array('rcapchab@gmail.com');
+            $emailjefe = array('consultas.gmgm@gmail.com'); 
 
 
             DB::beginTransaction();
