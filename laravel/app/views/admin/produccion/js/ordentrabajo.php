@@ -60,14 +60,15 @@ function initClockPicker(){
 
 var today = new Date(); // get current date
 var first = today.getDate() - today.getDay(); // First day is the day of the month - the day of the week
-var firstday = new Date(today.setDate(first)).toUTCString();
+var firstday = new Date(2017,new Date().getMonth(),first);
+var month =firstday.getMonth()+1;
 function initDatePicker(){
     $('.fechaInicio').datepicker({
         format: 'yyyy-mm-dd',
         language: 'es',
         multidate: 1,
         todayHighlight:true,
-        startDate: firstday,
+    /*    startDate: firstday.getFullYear()+"-"+month+"-"+firstday.getDate(),*/
         daysOfWeekDisabled: '0', //bloqueo domingos
         onSelect: function (date, el) {
         }
