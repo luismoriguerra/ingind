@@ -461,7 +461,7 @@ class Reporte extends Eloquent
                     $sql.=" AND tr2.id_union IS NULL";
                 }
             }
-            $sql.=" order by proceso DESC,rd.dtiempo_final";
+            $sql.=" order by a.nombre,proceso DESC,rd.dtiempo_final";
 
             $r=DB::select($sql);
             return $r;
