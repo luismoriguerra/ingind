@@ -1,0 +1,231 @@
+<?php
+
+class EnvioAutomaticoController extends \BaseController {
+    /**
+     * Display a listing of the resource.
+     * GET /prueba
+     *
+     * @return Response
+     */
+    public function postActividadesdiariasalertasjefe() {
+        $array = array();
+        $array['usuario'] = Auth::user()->id;
+
+        $retorno = array(
+            'rst' => 1
+        );
+
+        $html = "";
+        $meses = array('', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre');
+
+        $n = 1;
+
+        $hoy = date('Y-m-d');
+        $hoy = '2017-02-13';
+        $dia_validar = date('w', strtotime($hoy));
+        if ($dia_validar == 1) {
+
+            $listar = Area::getAreaNotificacion();
+           
+            foreach ($listar as $value) {
+                
+            $fechaFin = strtotime('-1 day', strtotime($hoy));
+            $fechaFin = date('Y-m-d', $fechaFin);
+            $fechaIni = strtotime('-7 day', strtotime($hoy));
+            $fechaIni = date('Y-m-d', $fechaIni);
+
+            $sSql = '';
+            $sSqls = '';
+            $cl = '';
+            $left = '';
+            ;
+            $f_fecha = '';
+            $cabecera = [];
+
+            $f_fecha .= " AND DATE(ap.fecha_inicio) BETWEEN '" . $fechaIni . "' AND '" . $fechaFin . "' ";
+
+
+            $fechaIni_ = strtotime($fechaIni);
+            $fechaFin_ = strtotime($fechaFin);
+            $fecha = date_create($fechaIni);
+            $n = 1;
+            for ($i = $fechaIni_; $i <= $fechaFin_; $i += 86400) {
+                $cl .= ",COUNT(ap$n.id) AS f$n,IFNULL(SEC_TO_TIME(ABS(SUM(ap$n.ot_tiempo_transcurrido)) * 60),'00:00')  h$n";
+                $left .= "LEFT JOIN actividad_personal ap$n on ap$n.id=ap.id AND  DATE(ap.fecha_inicio) = STR_TO_DATE('" . date("d-m-Y", $i) . "','%d-%m-%Y')";
+                $n++;
+
+                array_push($cabecera, date_format($fecha, 'Y-m-d'));
+                date_add($fecha, date_interval_create_from_date_string('1 days'));
+            }
+
+            $sSql .= "SELECT a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona";
+            $sSql .= $cl;
+            $sSql .= ",COUNT(ap.id) AS f_total,IFNULL(SEC_TO_TIME(ABS(SUM(ap.ot_tiempo_transcurrido)) * 60),'00:00')  h_total";
+            $sSql .= " FROM personas p
+                 INNER JOIN areas a on p.area_id=a.id
+                 LEFT JOIN actividad_personal ap on ap.persona_id=p.id AND ap.estado=1 AND ap.usuario_created_at=ap.persona_id " . $f_fecha;
+            $sSql .= $left;
+            $sSql .= " WHERE p.estado=1 AND p.rol_id NOT IN (8,9)";
+
+
+            $sSql .= " AND p.area_id=".$value->id;
+
+            $sSql .= " GROUP BY p.id";
+
+            $oData['cabecera'] = $cabecera;
+            $oData['data'] = DB::select($sSql);
+
+
+//                foreach ($actividades as $value) {
+
+            $html = "";
+            $html_cabecera = "";
+            $html_table = "";
+            $pos = 0;
+            $html_cabecera .= "<tr>";
+            $html_cabecera .= "<th colspan='2'></th>";
+            $n = 0;
+            foreach ($oData['cabecera'] as $cabecera) {
+
+                $html_cabecera .= "<th colspan='2'>" . $cabecera . "</th>";
+                $n++;
+            }
+            $html_cabecera .= "<th colspan='2'>TOTAL</th>";
+            $html_cabecera .= "</tr>";
+
+            $html_cabecera .= "<tr>";
+            $html_cabecera .= "<th>N°</th>";
+//                $html_cabecera .= "<th>Area</th>";
+            $html_cabecera .= "<th>Persona</th>";
+            $n = 0;
+            foreach ($oData['cabecera'] as $cabecera) {
+
+                $html_cabecera .= "<th >N° A.</th>";
+                $html_cabecera .= "<th >N° H.</th>";
+                $n++;
+            }
+
+            $html_cabecera .= "<th>N° Acti. Total</th>";
+            $html_cabecera .= "<th>Total de Horas</th>";
+            $html_cabecera .= "</tr>";
+
+            $array = json_decode(json_encode($oData['data']), true);
+            foreach ($array as $data) {
+                $pos++;
+                $html .= "<tr>";
+                $html .=<?php
+
+class EnvioAutomaticoController extends \BaseController {
+    /**
+     * Display a listing of the resource.
+     * GET /prueba
+     *
+     * @return Response
+     */
+    public function postActividadesdiariasalertasjefe() {
+        $array = array();
+        $array['usuario'] = Auth::user()->id;
+
+        $retorno = array(
+            'rst' => 1
+        );
+
+        $html = "";
+        $meses = array('', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre');
+
+        $n = 1;
+
+        $hoy = date('Y-m-d');
+        $hoy = '2017-02-13';
+        $dia_validar = date('w', strtotime($hoy));
+        if ($dia_validar == 1) {
+
+            $listar = Area::getAreaNotificacion();
+           
+            foreach ($listar as $value) {
+                
+            $fechaFin = strtotime('-1 day', strtotime($hoy));
+            $fechaFin = date('Y-m-d', $fechaFin);
+            $fechaIni = strtotime('-7 day', strtotime($hoy));
+            $fechaIni = date('Y-m-d', $fechaIni);
+
+            $sSql = '';
+            $sSqls = '';
+            $cl = '';
+            $left = '';
+            ;
+            $f_fecha = '';
+            $cabecera = [];
+
+            $f_fecha .= " AND DATE(ap.fecha_inicio) BETWEEN '" . $fechaIni . "' AND '" . $fechaFin . "' ";
+
+
+            $fechaIni_ = strtotime($fechaIni);
+            $fechaFin_ = strtotime($fechaFin);
+            $fecha = date_create($fechaIni);
+            $n = 1;
+            for ($i = $fechaIni_; $i <= $fechaFin_; $i += 86400) {
+                $cl .= ",COUNT(ap$n.id) AS f$n,IFNULL(SEC_TO_TIME(ABS(SUM(ap$n.ot_tiempo_transcurrido)) * 60),'00:00')  h$n";
+                $left .= "LEFT JOIN actividad_personal ap$n on ap$n.id=ap.id AND  DATE(ap.fecha_inicio) = STR_TO_DATE('" . date("d-m-Y", $i) . "','%d-%m-%Y')";
+                $n++;
+
+                array_push($cabecera, date_format($fecha, 'Y-m-d'));
+                date_add($fecha, date_interval_create_from_date_string('1 days'));
+            }
+
+            $sSql .= "SELECT a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona";
+            $sSql .= $cl;
+            $sSql .= ",COUNT(ap.id) AS f_total,IFNULL(SEC_TO_TIME(ABS(SUM(ap.ot_tiempo_transcurrido)) * 60),'00:00')  h_total";
+            $sSql .= " FROM personas p
+                 INNER JOIN areas a on p.area_id=a.id
+                 LEFT JOIN actividad_personal ap on ap.persona_id=p.id AND ap.estado=1 AND ap.usuario_created_at=ap.persona_id " . $f_fecha;
+            $sSql .= $left;
+            $sSql .= " WHERE p.estado=1 AND p.rol_id NOT IN (8,9)";
+
+
+            $sSql .= " AND p.area_id=".$value->id;
+
+            $sSql .= " GROUP BY p.id";
+
+            $oData['cabecera'] = $cabecera;
+            $oData['data'] = DB::select($sSql);
+
+
+//                foreach ($actividades as $value) {
+
+            $html = "";
+            $html_cabecera = "";
+            $html_table = "";
+            $pos = 0;
+            $html_cabecera .= "<tr>";
+            $html_cabecera .= "<th colspan='2'></th>";
+            $n = 0;
+            foreach ($oData['cabecera'] as $cabecera) {
+
+                $html_cabecera .= "<th colspan='2'>" . $cabecera . "</th>";
+                $n++;
+            }
+            $html_cabecera .= "<th colspan='2'>TOTAL</th>";
+            $html_cabecera .= "</tr>";
+
+            $html_cabecera .= "<tr>";
+            $html_cabecera .= "<th>N°</th>";
+//                $html_cabecera .= "<th>Area</th>";
+            $html_cabecera .= "<th>Persona</th>";
+            $n = 0;
+            foreach ($oData['cabecera'] as $cabecera) {
+
+                $html_cabecera .= "<th >N° A.</th>";
+                $html_cabecera .= "<th >N° H.</th>";
+                $n++;
+            }
+
+            $html_cabecera .= "<th>N° Acti. Total</th>";
+            $html_cabecera .= "<th>Total de Horas</th>";
+            $html_cabecera .= "</tr>";
+
+            $array = json_decode(json_encode($oData['data']), true);
+            foreach ($array as $data) {
+                $pos++;
+                $html .= "<tr>";
+                $html .=

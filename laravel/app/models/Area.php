@@ -241,8 +241,9 @@ class Area extends Base
         public static function getAreaNotificacion( )
     {
         $sSql=" SELECT a.id, a.nombre
-                FROM areas a
-                WHERE a.area_gestion=1 and a.estado=1";
+                FROM areas a 
+		INNER JOIN personas p on p.area_id=a.id and rol_id in (9,8) and p.estado=1
+                WHERE a.area_gestion=1 and a.estado=1 ";
         $oData = DB::select($sSql);
         return $oData;
     }
