@@ -68,7 +68,7 @@ function initDatePicker(){
         language: 'es',
         multidate: 1,
         todayHighlight:true,
-        startDate: firstday.getFullYear()+"-"+month+"-"+firstday.getDate(),
+//        startDate: firstday.getFullYear()+"-"+month+"-"+firstday.getDate(),
 //        daysOfWeekDisabled: '0', //bloqueo domingos
         onSelect: function (date, el) {
         }
