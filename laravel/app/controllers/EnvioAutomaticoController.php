@@ -22,7 +22,6 @@ class EnvioAutomaticoController extends \BaseController {
         $n = 1;
 
         $hoy = date('Y-m-d');
-        $hoy = '2017-02-13';
         $dia_validar = date('w', strtotime($hoy));
         if ($dia_validar == 1) {
 
@@ -189,6 +188,7 @@ class EnvioAutomaticoController extends \BaseController {
             $emailpersonal = 'rcapchab@gmail.com';
             $emailjefe = array('rcapchab@gmail.com');
 
+
             DB::beginTransaction();
 
 //                $update = 'update alertas_actividad set ultimo_registro=0 where persona_id=' . $value->persona_id;
@@ -267,7 +267,7 @@ class EnvioAutomaticoController extends \BaseController {
                     LEFT JOIN actividad_personal ap on ap.persona_id=p.id  and DATE(ap.fecha_inicio)= '$ayer' AND ap.usuario_created_at=ap.persona_id AND ap.estado=1
                     WHERE p.estado=1 
                     AND p.rol_id NOT IN (8,9)
-                    AND p.actividad=1
+                    AND p.envio_actividad=1
                     GROUP BY p.id
                     HAVING val_minu=0";
 
