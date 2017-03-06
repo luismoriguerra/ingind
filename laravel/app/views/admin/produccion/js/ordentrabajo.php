@@ -1,5 +1,6 @@
 <script type="text/javascript">
 $(document).ready(function() { 
+
     Area_id = '<?php echo Auth::user()->area_id; ?>';
     id = '<?php echo Auth::user()->id; ?>';
     Rol_id='<?php echo Auth::user()->rol_id; ?>';
@@ -56,12 +57,18 @@ function initClockPicker(){
    );
 }
 
+
+var today = new Date(); // get current date
+var first = today.getDate() - today.getDay(); // First day is the day of the month - the day of the week
+var firstday = new Date(today.setDate(first)).toUTCString();
 function initDatePicker(){
     $('.fechaInicio').datepicker({
         format: 'yyyy-mm-dd',
         language: 'es',
         multidate: 1,
         todayHighlight:true,
+        startDate: firstday,
+        daysOfWeekDisabled: '0', //bloqueo domingos
         onSelect: function (date, el) {
         }
     })
