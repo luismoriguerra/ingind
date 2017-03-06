@@ -2,7 +2,7 @@
 var Accion={
     mostrar:function( data ){
         $.ajax({
-            url         : 'envioautomatico/actividadesdiariasalertas',
+            url         : 'envioautomatico/actividadesdiariasalertasjefe',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',

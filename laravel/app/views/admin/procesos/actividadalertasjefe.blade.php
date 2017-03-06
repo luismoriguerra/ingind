@@ -10,21 +10,21 @@
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-    @include( 'admin.procesos.js.actividadalertas_ajax' )
-    @include( 'admin.procesos.js.actividadalertas' )
+    @include( 'admin.procesos.js.actividadalertasjefe_ajax' )
+    @include( 'admin.procesos.js.actividadalertasjefe' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            ENVIO DE NOTIFICACIONES ACTIVIDADES
+            ENVIO DE NOTIFICACIONES ACTIVIDADES PARA JEFES
             <small> </small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
             <li><a href="#">Reporte</a></li>
-            <li class="active">Notificaciones Actividades</li>
+            <li class="active">Notificaciones Actividades para Jefes</li>
         </ol>
     </section>
 
