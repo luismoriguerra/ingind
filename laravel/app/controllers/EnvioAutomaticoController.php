@@ -66,7 +66,7 @@ class EnvioAutomaticoController extends \BaseController {
                  INNER JOIN areas a on p.area_id=a.id
                  LEFT JOIN actividad_personal ap on ap.persona_id=p.id AND ap.estado=1 AND ap.usuario_created_at=ap.persona_id " . $f_fecha;
             $sSql .= $left;
-            $sSql .= " WHERE p.estado=1 AND p.rol_id NOT IN (8,9)";
+            $sSql .= " WHERE p.estado=1 AND p.rol_id NOT IN (8,9) AND p.envio_actividad=1";
 
 
             $sSql .= " AND p.area_id=".$value->id;
@@ -267,7 +267,7 @@ class EnvioAutomaticoController extends \BaseController {
                     LEFT JOIN actividad_personal ap on ap.persona_id=p.id  and DATE(ap.fecha_inicio)= '$ayer' AND ap.usuario_created_at=ap.persona_id AND ap.estado=1
                     WHERE p.estado=1 
                     AND p.rol_id NOT IN (8,9)
-                    AND p.actividad=1
+                    AND p.envio_actividad=1
                     GROUP BY p.id
                     HAVING val_minu=0";
 
