@@ -149,7 +149,7 @@ class EnvioAutomaticoController extends \BaseController {
             $html_table .= '</table >';
 
 //                }
-             $sSqls.= " SELECT CONCAT_WS(' ',paterno,materno,nombre)as persona,IFNULL(CONCAT(email,',',email_mdi),',') as email_jefe,
+             $sSqls.= "  SELECT CONCAT_WS(' ',p.paterno,p.materno,p.nombre)as persona,IFNULL(CONCAT(p.email,',',p.email_mdi),',') as email_jefe,a.nombre as area,
 			(SELECT CONCAT(email,',',email_mdi)
                          FROM personas 
                          where area_id in (53)
@@ -157,18 +157,19 @@ class EnvioAutomaticoController extends \BaseController {
                          and estado=1
                          order by area_id
                          LIMIT 0,1) email_personal
-                         FROM personas 
+                         FROM personas p
+			 INNER JOIN areas a on p.area_id=a.id
                          where area_id=".$value->id;
                      
               $sSqls.= " and rol_id in (9,8)
-                         and estado=1
+                         and p.estado=1
                          LIMIT 0,1";
 
             $jefe = DB::select($sSqls);
             
             $plantilla = Plantilla::where('tipo', '=', '10')->first();
             $buscar = array('persona:', 'dia:', 'mes:', 'año:', 'persona:', 'tabla:');
-            $reemplazar = array($jefe[0]->persona, date('d'), $meses[date('n')], date("Y"),$jefe[0]->persona,$html_table);
+            $reemplazar = array('<b>'.$jefe[0]->persona.' - '.$jefe[0]->area.'</b>', date('d'), $meses[date('n')], date("Y"),$jefe[0]->persona,$html_table);
             $parametros = array(
                 'cuerpo' => str_replace($buscar, $reemplazar, $plantilla->cuerpo)
             );
@@ -186,7 +187,7 @@ class EnvioAutomaticoController extends \BaseController {
             }
 
             $emailpersonal = 'rcapchab@gmail.com';
-            $emailjefe = array('consultas.gmgm@gmail.com'); 
+            $emailjefe = array('rcapchab@gmail.com'); 
 
 
             DB::beginTransaction();
