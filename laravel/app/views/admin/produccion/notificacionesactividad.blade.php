@@ -74,7 +74,6 @@
                                         <th>N°</th>
                                         <th>Persona</th>
                                         <th>Área</th>
-                                        <th>Último Registro</th>
                                         <th>Nro. de Actividades</th>
                                         <th>Nro. de Minutos</th>
                                         <th>Fecha que se Envió Alerta</th>

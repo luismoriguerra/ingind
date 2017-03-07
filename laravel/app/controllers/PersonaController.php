@@ -574,4 +574,15 @@ class PersonaController extends BaseController
         }
     }
 
+    public function postAlertasactividadarea(){
+      $r=Persona::AlertasActividadArea();
+
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro actualizado correctamente',
+                )
+            );  
+    }
+
 }

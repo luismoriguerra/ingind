@@ -6,7 +6,7 @@ class ActividadPersonal extends Base
     
     public static function getNotificacionactividad($fecha='',$area='',$tipo=''){
         $query = 'SELECT CONCAT_WS(" ",p.paterno,p.materno,p.nombre) 
-                as persona,a.nombre as area,CASE aa.ultimo_registro WHEN 1 THEN "X" WHEN 0 THEN "" ELSE aa.ultimo_registro END as ultimo_registro , aa.actividad, aa.minuto, aa.fecha_alerta
+                as persona,a.nombre as area, aa.actividad, aa.minuto, aa.fecha_alerta
                 FROM alertas_actividad aa
                 INNER JOIN personas p on aa.persona_id=p.id
                 INNER JOIN areas a on aa.area_id=a.id
