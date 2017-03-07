@@ -186,8 +186,8 @@ class EnvioAutomaticoController extends \BaseController {
                 array_push($emailjefe, $emailjefeauxi[1]);
             }
 
-            $emailpersonal = 'rcapchab@gmail.com';
-            $emailjefe = array('rcapchab@gmail.com'); 
+//            $emailpersonal = 'rcapchab@gmail.com';
+//            $emailjefe = array('rcapchab@gmail.com'); 
 
             DB::beginTransaction();
 
@@ -238,12 +238,8 @@ class EnvioAutomaticoController extends \BaseController {
         $ayer = date('Y-m-d', $ayer);
 
         $dia_validar = date('w', strtotime($hoy));
-        if ($dia_validar == 1 OR $dia_validar == 2 OR $dia_validar == 3 OR $dia_validar == 4 OR $dia_validar == 5) {
+        if ( $dia_validar == 2 OR $dia_validar == 3 OR $dia_validar == 4 OR $dia_validar == 5 OR $dia_validar == 6) {
 
-            if ($dia_validar == 1) {
-                $ayer = strtotime('-3 day', strtotime($hoy));
-                $ayer = date('Y-m-d', $ayer);
-            }
             $Ssql = "SELECT p.id as persona_id,p.area_id,a.nombre as area,
                     CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona, p.email,p.email_mdi,
                     COUNT(ap.id) AS 'actividad',IFNULL(SUM(ap.ot_tiempo_transcurrido),0) as 'minuto',

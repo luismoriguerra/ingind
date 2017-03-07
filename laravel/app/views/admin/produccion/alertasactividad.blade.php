@@ -44,6 +44,14 @@
                                 <label class="control-label"></label>
                                 <input type="button" class="form-control btn btn-primary" id="generar_area" name="generar_area" value="Mostrar">
                             </div>
+                            <div class="col-sm-2">
+                                <label class="control-label"></label>
+                                <span id="i_area"  data-estado="0" class="form-control btn btn-danger">Actividad</span>
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="control-label"></label>
+                               <span id="a_area" data-estado="1" class="form-control btn btn-success">Actividad</span>
+                            </div>
                         </div>
                     </div>
                 </fieldset>
