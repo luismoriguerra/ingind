@@ -1262,7 +1262,6 @@ class ReporteController extends BaseController
         $cabecera = array(
           'PERSONA',
           'ÁREA',
-          'ÚLTIMO REGISTRO',
           'ACTIVIDAD',
           'MINUTO',
           'FECHA DE ALERTA',

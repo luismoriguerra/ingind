@@ -57,7 +57,6 @@ HTMLreporte=function(datos){
             "<td>"+ cont +"</td>"+
             "<td>"+data.persona+"</td>"+
             "<td>"+data.area+"</td>"+
-            "<td>"+data.ultimo_registro+"</td>"+
             "<td>"+data.actividad+"</td>"+
             "<td>"+data.minuto+"</td>"+
             "<td>"+data.fecha_alerta+"</td>";
