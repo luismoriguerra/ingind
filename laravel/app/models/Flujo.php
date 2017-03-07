@@ -228,7 +228,39 @@ class Flujo extends Base
 
     public static function getProdporproceso()
     {
-        $sSql= "";
+        $sSql ="";
+        $sSql.="select f.id nroden,a.nombre area ,f.nombre proceso,
+                (select SUM(rd.dtiempo) from rutas_flujo_detalle rd where rd.ruta_flujo_id=rf.id) as cant_diast,
+                rd.norden nordendetalle,rd.dtiempo,a2.nombre areadetalle,
+                (select COUNT(rdv.id) from rutas_flujo_detalle_verbo rdv where rdv.ruta_flujo_detalle_id=rd.id) as cant_rdv,
+                (select COUNT(r.id) from rutas r where r.flujo_id=f.id and r.estado=1) as cantProc";
+
+        if(Input::has('area_id')){
+             $sSql.=",(select ROUND(SUM(rd2.dtiempo)/cant_diast,2) from rutas_flujo_detalle rd2 where rd2.ruta_flujo_id=rf.id and rd2.area_id IN (".Input::get('area_id').")) as porc_ttotal";
+        }else{
+            $sSql.=",(select ROUND(SUM(rd2.dtiempo)/cant_diast,2) from rutas_flujo_detalle rd2 where rd2.ruta_flujo_id=rf.id) as porc_ttotal";
+        }
+        $sSql.=",(select ROUND(rd.dtiempo/cant_diast,2)) as porc_actividad,
+                CONCAT_WS(' ',p.nombre,p.paterno,p.materno) userAct,rd.updated_at fechaActualizo 
+                from flujos f 
+                INNER JOIN rutas_flujo rf ON rf.flujo_id=f.id AND rf.estado=1 
+                INNER JOIN areas a ON rf.area_id=a.id AND a.estado=1";
+
+        if(Input::has('area_id')){
+             $sSql.=" INNER JOIN rutas_flujo_detalle rd ON rd.ruta_flujo_id=rf.id and rd.estado=1 AND rd.area_id IN (".Input::get('area_id').")";
+        }else{
+            $sSql.=" INNER JOIN rutas_flujo_detalle rd ON rd.ruta_flujo_id=rf.id and rd.estado=1";
+        }
+
+        $sSql.=" INNER JOIN areas a2 ON rd.area_id=a2.id AND a2.estado=1
+        LEFT JOIN personas p ON p.id=rd.usuario_updated_at AND p.estado=1
+        WHERE f.estado=1";
+
+$sSql.=" ORDER BY proceso,rd.norden";
+
+/*var_dump($sSql);
+exit();*/
+     /*   $sSql= "";
         $sSql.=" SELECT  f.id norden,f.nombre proceso ,a.nombre area, COUNT(r.id) cantidad from flujos f 
                 inner join rutas_flujo rf on rf.flujo_id =f.id and rf.estado in (1,2)
                 inner join rutas_flujo_detalle rfd on rf.id=rfd.ruta_flujo_id and rfd.norden=1 and rfd.estado=1
@@ -245,7 +277,7 @@ class Flujo extends Base
             $sSql.=' AND rfd.area_id IN ('.Input::get('area_id').') ';
           }
 
-          $sSql.=" group by f.id";
+          $sSql.=" group by f.id";*/
 /*
         $sSql.= $array['where'].
                 $array['order'].
