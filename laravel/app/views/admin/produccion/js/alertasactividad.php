@@ -68,6 +68,30 @@ $(document).ready(function() {
             alert("Seleccione Área");
         }
     });
+    
+        $("#i_area").click(function (){
+        area_id = $('#slct_area_id').val();
+        if ($.trim(area_id)!=='') {
+            data = {area_id:area_id,estado:0};
+            var c=confirm("¿Está seguro de Inactivar Notificaciones de Actividades para la(s) Áreas seleccionadas?");
+            if (c){
+             Usuario.CambiarAlertaActividadArea(data);}
+        } else {
+            alert("Seleccione Área");
+        }
+    });
+    
+    $("#a_area").click(function (){
+        area_id = $('#slct_area_id').val();
+        if ($.trim(area_id)!=='') {
+           data = {area_id,estado:1};
+            var c=confirm("¿Está seguro de Activar Notificaciones de Actividades para la(s) Áreas seleccionadas?");
+            if (c){
+             Usuario.CambiarAlertaActividadArea(data);}
+        } else {
+            alert("Seleccione Área");
+        }
+    });
 
     $("#btnexport").click(GeneraHref);
  
