@@ -124,7 +124,7 @@ HTMLreporte=function(datos){
 
     pos=0;
     $.each(datos,function(index,data){
-        
+        var auxiliar=datos;
         pos++;
         html+="<tr id="+data.norden+">"+
             "<td>"+data.nombre+"</td>"+
