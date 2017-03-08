@@ -264,6 +264,7 @@ class EnvioAutomaticoController extends \BaseController {
                     WHERE p.estado=1 
                     AND p.rol_id NOT IN (8,9)
                     AND p.envio_actividad=1
+                    AND '$ayer' NOT BETWEEN DATE(IFNULL(p.fecha_ini_exonera,CURDATE()))  AND DATE(IFNULL(p.fecha_fin_exonera,CURDATE()))
                     GROUP BY p.id
                     HAVING val_minu=0";
 
@@ -281,8 +282,12 @@ class EnvioAutomaticoController extends \BaseController {
                 $html .= "</tr>";
                 $texto = '';
 
-                if ($value->val_minu == 0) {
-                    $texto = 'la cantidad mínima de minutos la cual es: 360 minutos por día (6 horas). Usted ha registrado: ' . $value->minuto . ' minuto(s).';
+                if ($value->minuto > 0) {
+                    $texto = 'Ud. incumplió con la responsabilidad de registrar la cantidad mínima de minutos la cual es: 360 minutos por día (6 horas). Usted ha registrado: ' . $value->minuto . ' minuto(s).';
+                }
+                
+                if ($value->minuto == 0) {
+                    $texto = 'Ud. incumplió con la responsabilidad de registrar sus actividades, la cantidad mínima de minutos es: 360 minutos por día (6 horas). Usted ha registrado: ' . $value->minuto . ' minuto(s).';
                 }
 //                if ($value->val_acti == 0 AND $value->val_minu == 1) {
 //                    $texto = 'la cantidad mínima de actividades la cual es 5 actividades por día. Usted ha registrado: '.$value->actividad.' actividad(es).';
@@ -294,7 +299,7 @@ class EnvioAutomaticoController extends \BaseController {
 
                 $plantilla = Plantilla::where('tipo', '=', '9')->first();
                 $buscar = array('persona:', 'dia:', 'mes:', 'año:', 'persona:', 'fechaayer:', 'actividades:');
-                $reemplazar = array($value->persona, date('d'), $meses[date('n')], date("Y"), $value->persona, $ayer, $texto);
+                $reemplazar = array('<b>'.$value->persona.' - '.$value->area.'</b>', date('d'), $meses[date('n')], date("Y"), $value->persona, $ayer, $texto);
                 $parametros = array(
                     'cuerpo' => str_replace($buscar, $reemplazar, $plantilla->cuerpo)
                 );
@@ -319,7 +324,7 @@ class EnvioAutomaticoController extends \BaseController {
                     array_push($emailjefe, $emailjefeauxi[1]);
                 }
 
-//                $email = 'consultas.gmgm@gmail.com';
+//                $email = 'rcapchab@gmail.com';
 //                $emailpersonal = 'rcapchab@gmail.com';
 //                $emailjefe=array('rcapchab@gmail.com');
 
@@ -334,10 +339,10 @@ class EnvioAutomaticoController extends \BaseController {
                 DB::insert($insert);
 
                 try {
-                    Mail::queue('notreirel', $parametros, function($message) use ($email, $emailpersonal, $emailjefe) {
+                    Mail::queue('notreirel', $parametros, function($message) use ($email, $emailjefe) {
                         $message
                                 ->to($email)
-                                ->cc($emailpersonal, $emailjefe)
+                                ->cc($emailjefe)
                                 ->subject('.::Aviso de Actividad::.');
                     }
                     );
