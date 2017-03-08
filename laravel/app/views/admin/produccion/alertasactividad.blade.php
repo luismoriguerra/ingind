@@ -8,6 +8,9 @@
     {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
 
+    {{ HTML::style('lib/datepicker.css') }}
+    {{ HTML::script('lib/bootstrap-datepicker.js') }}
+
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
     @include( 'admin.produccion.js.alertasactividad_ajax' )
@@ -67,6 +70,8 @@
                                         <th>Materno</th>
                                         <th>Nombre</th>
                                         <th>Dni</th>
+                                        <th>Fecha Inicio</th>
+                                        <th>Fecha Fin</th>
                                         <th>[]</th>
                                     </tr>
                                 </thead>

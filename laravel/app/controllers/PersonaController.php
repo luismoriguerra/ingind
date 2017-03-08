@@ -554,6 +554,47 @@ class PersonaController extends BaseController
 
         }
     }
+
+    public function postExoneranotif()
+    {
+
+        if ( Request::ajax() ) {
+            $persona = Persona::find(Input::get('idpersona'));
+
+            if(Input::has('fechaini')){
+                $persona->fecha_ini_exonera = Input::get('fechaini');
+            }
+
+            if(Input::has('fechafin')){
+                $persona->fecha_fin_exonera = Input::get('fechafin');
+            }
+
+            $persona->usuario_updated_at = Auth::user()->id;
+            $persona->save();
+
+
+            /*if validate fechas y estado envio*/
+            if($persona->fecha_ini_exonera != '' && $persona->fecha_fin_exonera != ''){
+                $actual = date('Y-m-d ');
+                $inicial = date('Y-m-d',strtotime($persona->fecha_ini_exonera));
+                $final = date('Y-m-d',strtotime($persona->fecha_fin_exonera));
+                if($inicial <= $actual && $actual <= $final){
+                    $persona->envio_actividad = 0;
+                    $persona->usuario_updated_at = Auth::user()->id;
+                    $persona->save();
+                }
+            }
+            /*end validate fechas y estado envio*/
+
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro actualizado correctamente',
+                )
+            );    
+
+        }
+    }
     
         public function postAlertasactividad()
     {

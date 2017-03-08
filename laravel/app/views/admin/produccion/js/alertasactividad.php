@@ -10,7 +10,22 @@ var targetsG1=-1; // Posiciones de las columnas del datatable
 var DetalleG1={id:0,proceso:"",area:"",id_union:"",sumilla:"",fecha:""}; // Datos Globales
 
 $(document).ready(function() {
-    
+
+    function initDatePicker(){
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            language: 'es',
+            multidate: 1,
+            todayHighlight:true,
+            onSelect: function (date, el) {
+            }
+        })
+    }
+    initDatePicker();
+
+    $('.datepicker').on('changeDate', function(ev){
+        $(this).datepicker('hide');
+    });
      /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
         2: Descripción de cabecera
         3: Color Cabecera
@@ -123,11 +138,23 @@ HTMLreporte=function(datos){
     pos=0;
     $.each(datos,function(index,data){
         pos++;
+        var fechaini = '';
+        var fechafin = '';
+
+        if(data.fechaini){
+            fechaini=data.fechaini;
+        }
+        if(data.fechafin){
+             fechafin=data.fechafin;
+        }
+
         html+="<tr id="+data.norden+">"+
             "<td>"+data.paterno+"</td>"+
             "<td>"+data.materno+"</td>"+
             "<td>"+data.nombre+"</td>"+
-            "<td>"+data.dni+"</td>";
+            "<td>"+data.dni+"</td>"+
+            "<td><input type='text' name='txt_fechaini' id='txt_fechaini' class='form-control datepicker txt_fechaini' personaid='"+data.norden+"' Onchange='registerDate(this)' value='"+fechaini+"'/></td>"+
+            "<td><input type='text' name='txt_fechafin' id='txt_fechafin' class='form-control datepicker txt_fechafin' personaid='"+data.norden+"' Onchange='registerDate(this)' value='"+fechafin+"'/></td>";
         if(data.envio_actividad==0){    
         html+='<td><span id="'+data.norden+'" onClick="activar('+data.norden+')" data-estado="'+data.envio_actividad+'" class="btn btn-danger">Actividad</span></td>';
         }if(data.envio_actividad==1){
@@ -136,6 +163,16 @@ HTMLreporte=function(datos){
         html+="</tr>";
     });
     $("#tb_reporte").html(html);
+
+    $('.datepicker').datepicker({
+        format: 'yyyy-mm-dd',
+        language: 'es',
+        multidate: 1,
+        todayHighlight:true,
+         onSelect: function (date, el) {
+        }
+    });
+
     $("#t_reporte").dataTable(
         {
             "order": [[ 0, "asc" ],[1, "asc"],[2, "asc"]],
@@ -143,6 +180,24 @@ HTMLreporte=function(datos){
     ); 
     $("#reporte").show();
 };
+
+registerDate = function(obj){
+    var idpersona = obj.getAttribute('personaid');
+
+    if(obj.value != '' && idpersona !=''){
+        var data = {};
+        data.idpersona = idpersona;
+        if (obj.classList.contains('txt_fechaini')) {
+            data.fechaini = obj.value;
+        }
+        if (obj.classList.contains('txt_fechafin')) {
+            data.fechafin = obj.value;
+        }
+        Usuario.ExoneraPersona(data);
+    }else{
+        alert('Error!');
+    }
+}
 
 ActPest=function(nro){
     Pest=nro;
