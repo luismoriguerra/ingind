@@ -93,7 +93,11 @@ HTMLCPActividad=function(datos,cabecera){
         
          if(data['v'+i]>=360){
          var style=';background-color:#7BF7AE';
-        }else {
+        }
+        if(data['v'+i]>0 && data['v'+i]<360){
+         var style=';background-color:#FFA027';
+        }
+        if(data['v'+i]==0){
           var style=';background-color:#FE4E4E';   
         }
         html+='<td style="cursor:pointer'+style+'" onclick="Detalle(\''+$.trim(data['id'+i])+'\')">'+$.trim(data['f'+i])+'</td>'+
