@@ -117,8 +117,8 @@ var Usuario={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                    area_id = $('#slct_area_id').val();
-                    Usuario.mostrar({area_id:area_id});
+                  /*  area_id = $('#slct_area_id').val();
+                    Usuario.mostrar({area_id:area_id});*/
                 }
             },
             error: function(){
