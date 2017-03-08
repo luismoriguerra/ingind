@@ -264,6 +264,7 @@ class EnvioAutomaticoController extends \BaseController {
                     WHERE p.estado=1 
                     AND p.rol_id NOT IN (8,9)
                     AND p.envio_actividad=1
+                    AND '$ayer' NOT BETWEEN DATE(IFNULL(p.fecha_ini_exonera,CURDATE()))  AND DATE(IFNULL(p.fecha_fin_exonera,CURDATE()))
                     GROUP BY p.id
                     HAVING val_minu=0";
 
