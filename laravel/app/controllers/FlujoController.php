@@ -424,9 +424,18 @@ class FlujoController extends \BaseController
 
          $cabecera = array(
           'N°',        
-          'PROCESO',
           'AREA',
-          'CANTIDAD',
+          'PROCESO',
+          'TIEMPO TOTAL',
+          'NRO ASIGNACIONES',
+          'ORDEN',
+          'TIEMPO',
+          'AREA',
+          'ACCIONES',
+          '% TIEMPO TOTAL',
+          '% TIEMPO ACTIVIDAD',
+          'ULT.USUARIO ACTUALIZO',
+          'ULT.FECHA ACTUALIZACION',
         );
 
         $this->exportExcel($propiedades,'',$cabecera,$rst);

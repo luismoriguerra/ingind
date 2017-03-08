@@ -111,11 +111,19 @@ HTMLreporte=function(datos){
     cont = 0;
     $.each(datos,function(index,data){
         cont=cont+1;
-        html+="<tr>"+
-            "<td>"+ cont +"</td>"+
+        html+="<tr flujo_id="+data.id+">"+
+            "<td>"+ data.area +"</td>"+
             "<td>"+data.proceso+"</td>"+
-            "<td>"+data.area+"</td>"+
-            "<td>"+data.cantidad+"</td>";
+            "<td>"+data.cant_diast+" Dias</td>"+
+            "<td>"+data.cantProc+"</td>"+
+            "<td>"+data.nordendetalle+"</td>"+
+            "<td>"+data.dtiempo+"</td>"+
+            "<td>"+data.areadetalle+"</td>"+
+            "<td>"+data.cant_rdv+"</td>"+
+            "<td>"+Math.ceil(data.porc_ttotal * 100)+" %</td>"+
+            "<td>"+Math.ceil(data.porc_actividad * 100)+" %</td>"+
+            "<td>"+data.userAct+"</td>"+
+            "<td>"+data.fechaActualizo+"</td>";
         html+="</tr>";
     });
     $("#t_documentos tbody").html(html);

@@ -6,9 +6,11 @@
     {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
-    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
+{{--     {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }} --}}
+     {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }}
     {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
-    {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js') }}
+    {{-- {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js') }} --}}
+    {{ HTML::script('lib/cloudflare/cloudflare-vue-1.0.24.js') }}
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
 

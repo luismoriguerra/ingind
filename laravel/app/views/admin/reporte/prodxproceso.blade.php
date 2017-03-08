@@ -40,10 +40,10 @@
                                 <select class="form-control" name="slct_area_id" id="slct_area_id" multiple>
                                 </select>
                             </div>
-                            <div class="col-md-4 col-sm-4">
+                     {{--        <div class="col-md-4 col-sm-4">
                                 <label class="control-label">Rango de Fechas:</label>
                                 <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha" onfocus="blur()"/>
-                            </div>
+                            </div> --}}
                             <div class="col-md-1 col-sm-2" style="padding:24px">
                                 <span class="btn btn-primary btn-md" id="generar" name="generar"><i class="glyphicon glyphicon-search"></i> Buscar</span>
                                 {{-- <input type="button" class="form-control btn btn-primary" id="generar" name="generar" value="mostrar"> --}}
@@ -63,10 +63,23 @@
                             <table id="t_documentos" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th style="width: 10">Nº</th>
-                                    <th style="width: 40%">Proceso</th>
-                                    <th style="width: 40%">Area</th>
-                                    <th style="width: 10%">Cantidad</th>
+                                    <td colspan="4" style="text-align: center">PROCESO-AREA</td>
+                                    <td colspan="3" style="text-align: center">ACTIVIDAD</td>
+                                    <td colspan="5" style="text-align: center">DATOS ADICIONALES</td>
+                                </tr>
+                                <tr>
+                                    <th style="">AREA</th>
+                                    <th style="">PROCESO</th>
+                                    <th style="">TIEMPO TOTAL</th>
+                                    <th style="">NRO ASIGNACIONES</th>
+                                    <th style="">Nº</th>
+                                    <th style="">TIEMPO</th>
+                                    <th style="">AREA</th>
+                                    <th style="">Nº ACCIONES</th>
+                                    <th style="">% TIEMPO TOTAL</th>
+                                    <th style="">% TIEMPO ACTIVIDAD</th>
+                                    <th style="">ULT.USUARIO ACTUALIZO</th>
+                                    <th style="">ULT.FECHA ACTUALIZO</th>
                                 </tr>
                                 </thead>
                                 <tbody>
