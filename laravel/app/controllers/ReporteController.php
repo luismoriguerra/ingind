@@ -2544,7 +2544,7 @@ class ReporteController extends BaseController
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue($head[$cont].($key + 1), $key-1);                
           }else{ //poblate info
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue($head[$cont].($key + 1), $val);
-            if ($key>1 && $val>=1 && $val<=5  && $index != 'persona' && $index != 'area' && $index != 'f_total' && $index != 'h_total' && 
+            if ($key>1 && (($val>=1 && $val<=5) or substr($val, 3, 2)!=0) && $index != 'persona' && $index != 'area' && $index != 'f_total' && $index != 'h_total' && 
                 $index != 'f1' && $index != 'f2' && $index != 'f3' && $index != 'f4' && $index != 'f5' && $index != 'f6' && $index != 'f7' && $index != 'f8' &&
                 $index != 'f9' && $index != 'f10' && $index != 'f11' && $index != 'f12' && $index != 'f13' && $index != 'f14' && $index != 'f15' && $index != 'f16' &&
                 $index != 'f17' && $index != 'f18' && $index != 'f19' && $index != 'f20' && $index != 'f21' && $index != 'f22' && $index != 'f23' && $index != 'f24' &&
@@ -2561,7 +2561,7 @@ class ReporteController extends BaseController
             $objPHPExcel->getActiveSheet()->getStyle($head[$cont-1].($key + 1), $val)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('7BF7AE');
             
             }
-            if ($key>1 && $val==0   && $index != 'persona' && $index != 'area' && $index != 'f_total' && $index != 'h_total' && 
+            if ($key>1 && $val==0 && substr($val, 3, 2)==0  && $index != 'persona' && $index != 'area' && $index != 'f_total' && $index != 'h_total' && 
                 $index != 'f1' && $index != 'f2' && $index != 'f3' && $index != 'f4' && $index != 'f5' && $index != 'f6' && $index != 'f7' && $index != 'f8' &&
                 $index != 'f9' && $index != 'f10' && $index != 'f11' && $index != 'f12' && $index != 'f13' && $index != 'f14' && $index != 'f15' && $index != 'f16' &&
                 $index != 'f17' && $index != 'f18' && $index != 'f19' && $index != 'f20' && $index != 'f21' && $index != 'f22' && $index != 'f23' && $index != 'f24' &&
