@@ -237,9 +237,9 @@ class Flujo extends Base
                 (select COUNT(rdv.id) from rutas_flujo_detalle_verbo rdv where rdv.ruta_flujo_detalle_id=rd.id and rdv.estado=1) as cant_rdv";
 
         if(Input::has('area_id')){
-             $sSql.=",(select ROUND(SUM(rd2.dtiempo)/cant_diast,2) from rutas_flujo_detalle rd2 where rd2.ruta_flujo_id=rf.id and rd2.area_id IN (".Input::get('area_id').")) as porc_ttotal";
+             $sSql.=",(select ROUND(SUM(rd2.dtiempo)/cant_diast,2) from rutas_flujo_detalle rd2 where rd2.estado=1 and rd2.ruta_flujo_id=rf.id and rd2.area_id IN (".Input::get('area_id').")) as porc_ttotal";
         }else{
-            $sSql.=",(select ROUND(SUM(rd2.dtiempo)/cant_diast,2) from rutas_flujo_detalle rd2 where rd2.ruta_flujo_id=rf.id) as porc_ttotal";
+            $sSql.=",(select ROUND(SUM(rd2.dtiempo)/cant_diast,2) from rutas_flujo_detalle rd2 where rd2.estado=1  and rd2.ruta_flujo_id=rf.id) as porc_ttotal";
         }
         $sSql.=",(select ROUND(rd.dtiempo/cant_diast,2)) as porc_actividad,
                 CONCAT_WS(' ',p.nombre,p.paterno,p.materno) userAct,rd.updated_at fechaActualizo 
