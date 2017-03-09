@@ -129,13 +129,14 @@ class PretramiteController extends BaseController {
 		        	$codigo = str_pad($tramite->id, 7, "0", STR_PAD_LEFT).'-'.date('Y'); //cod
 
 		        	/*get ruta flujo*/
-                    $sql="SELECT flujo_id
+                  /*  $sql="SELECT flujo_id
                             FROM areas_internas
                             WHERE area_id='".$tramite->area_id."' 
                             AND estado=1";
-                    $area_interna=DB::select($sql);
-                    $ruta_flujo = RutaFlujo::where('flujo_id', '=', $area_interna[0]->flujo_id)->get();
-                    $ruta_flujo_id = $ruta_flujo[0]->id;
+                    $area_interna=DB::select($sql);*/
+                    $clasificador = ClasificadorTramite::find($array_data->idclasitramite);
+                    $ruta_flujo = RutaFlujo::find($clasificador->ruta_flujo_id);
+                    $ruta_flujo_id = $ruta_flujo->id;
 		        	/* end get ruta flujo*/
 
 
