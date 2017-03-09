@@ -229,7 +229,7 @@ class Flujo extends Base
     public static function getProdporproceso()
     {
         $sSql ="";
-        $sSql.="select f.id nroden,a.nombre area ,f.nombre proceso,
+        $sSql.="select f.id norden,a.nombre area ,f.nombre proceso,
                 (select SUM(rd.dtiempo) from rutas_flujo_detalle rd where rd.ruta_flujo_id=rf.id) as cant_diast,
                 (select COUNT(r.id) from rutas r where r.flujo_id=f.id and r.estado=1) as cantProc,
                 rd.norden nordendetalle,
