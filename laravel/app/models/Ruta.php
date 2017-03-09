@@ -183,15 +183,15 @@ class Ruta extends Eloquent
                             ORDER BY id
                             LIMIT $conteo,1";
                     $cd=DB::select($sql);
-                    $conteo++;
-                    $cartaDesglose=CartaDesglose::find($cd[0]->id);
-                    if(count($cartaDesglose)==0){
+                    if(count($cd)==0){
                         DB::rollback();
                         return  array(
                                 'rst'=>2,
                                 'msj'=>'Numero de actidades del proceso no concuerda con numero de actividades de la carta'
                             );
                     }
+                    $conteo++;
+                    $cartaDesglose=CartaDesglose::find($cd[0]->id);
                 }
                 else{
                     $sql="  SELECT id
