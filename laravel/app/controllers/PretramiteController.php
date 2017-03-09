@@ -279,8 +279,8 @@ class PretramiteController extends BaseController {
 			                /*if($rd->norden==1 or ($rd->norden>1 and $validaactivar==0 and $rd->estado_ruta==2) ){
 			                    $rutaDetalle['fecha_inicio']=Input::get('fecha_inicio');
 			                }*/
-			                 if($rd->norden==1 or $rd->norden==2 or ($rd->norden>1 and $validaactivar==0 and $rd->estado_ruta==2) ){
-                                if($rd->norden==1){
+			                 if($rd->norden==1 or ($rd->norden>1 and $validaactivar==0 and $rd->estado_ruta==2) ){
+                                if($rd->norden==1 && $rd->area_id == 52){
                                     $rutaDetalle['dtiempo_final']=date("Y-m-d H:i:s");
                                     $rutaDetalle['tipo_respuesta_id']=2;
                                                 $rutaDetalle['tipo_respuesta_detalle_id']=1;
@@ -408,7 +408,8 @@ class PretramiteController extends BaseController {
                                                 $rutaDetalleVerbo['orden']= $rdv->orden;
                                                 $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
 
-                                                if($rd->norden==1){
+                                                /*if($rd->norden==1){*/
+                                                 if($rd->norden==1 && $rd->area_id == 52){
                                                     $rutaDetalleVerbo['usuario_updated_at']= Auth::user()->id;
                                                     $rutaDetalleVerbo['updated_at']= date("Y-m-d H:i:s");
                                                     $rutaDetalleVerbo['finalizo']=1;
