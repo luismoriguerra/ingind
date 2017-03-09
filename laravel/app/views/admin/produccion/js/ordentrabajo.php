@@ -62,6 +62,7 @@ var today = new Date(); // get current date
 var first = today.getDate() - today.getDay(); // First day is the day of the month - the day of the week
 var firstday = new Date(2017,new Date().getMonth(),first);
 var month =firstday.getMonth()+1;
+
 function initDatePicker(){
     $('.fechaInicio').datepicker({
         format: 'yyyy-mm-dd',

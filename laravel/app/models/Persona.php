@@ -151,6 +151,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         return 'img/admin/M.jpg';
     }
 
+
     public static $where = [
         'id', 'paterno', 'materno', 'nombre', 'dni', 'sexo', 'area_id', 'rol_id',
         'estado', 'envio_actividad', 'email', 'fecha_nacimiento', 'password',
@@ -163,6 +164,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
     public static function getCargar($array) {
 
         $sSql = " SELECT p.id ,a.id area_id,r.id rol_id, p.paterno, p.materno, p.nombre,p.dni,p.sexo sexo_id,p.fecha_nacimiento,
+
                                 a.nombre area,r.nombre rol, 
                                 p.estado,p.email,p.password,
                                 CASE p.sexo

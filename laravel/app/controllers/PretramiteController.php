@@ -408,6 +408,7 @@ class PretramiteController extends BaseController {
                                                 $rutaDetalleVerbo['orden']= $rdv->orden;
                                                 $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
 
+
                                                 /*if($rd->norden==1){*/
                                                  if($rd->norden==1 && $rd->area_id == 52){
                                                     $rutaDetalleVerbo['usuario_updated_at']= Auth::user()->id;
