@@ -230,11 +230,11 @@ class Flujo extends Base
     {
         $sSql ="";
         $sSql.="select f.id norden,a.nombre area ,f.nombre proceso,
-                (select SUM(rd.dtiempo) from rutas_flujo_detalle rd where rd.ruta_flujo_id=rf.id) as cant_diast,
+                (select SUM(rd.dtiempo) from rutas_flujo_detalle rd where rd.ruta_flujo_id=rf.id and rd.estado=1) as cant_diast,
                 (select COUNT(r.id) from rutas r where r.flujo_id=f.id and r.estado=1) as cantProc,
                 rd.norden nordendetalle,
                 rd.dtiempo,a2.nombre areadetalle,
-                (select COUNT(rdv.id) from rutas_flujo_detalle_verbo rdv where rdv.ruta_flujo_detalle_id=rd.id) as cant_rdv";
+                (select COUNT(rdv.id) from rutas_flujo_detalle_verbo rdv where rdv.ruta_flujo_detalle_id=rd.id and rdv.estado=1) as cant_rdv";
 
         if(Input::has('area_id')){
              $sSql.=",(select ROUND(SUM(rd2.dtiempo)/cant_diast,2) from rutas_flujo_detalle rd2 where rd2.ruta_flujo_id=rf.id and rd2.area_id IN (".Input::get('area_id').")) as porc_ttotal";
@@ -243,12 +243,20 @@ class Flujo extends Base
         }
         $sSql.=",(select ROUND(rd.dtiempo/cant_diast,2)) as porc_actividad,
                 CONCAT_WS(' ',p.nombre,p.paterno,p.materno) userAct,rd.updated_at fechaActualizo 
-                from flujos f 
-                INNER JOIN rutas_flujo rf ON rf.flujo_id=f.id AND rf.estado=1 
-                INNER JOIN areas a ON rf.area_id=a.id AND a.estado=1";
+                from flujos f ";
 
-        if(Input::has('area_id')){
-             $sSql.=" INNER JOIN rutas_flujo_detalle rd ON rd.ruta_flujo_id=rf.id and rd.estado=1 AND rd.area_id IN (".Input::get('area_id').")";
+        if(Input::has('cargos') && Input::get('cargos')==1){
+            $sSql.=" INNER JOIN rutas_flujo rf ON rf.flujo_id=f.id AND rf.estado=1 AND rf.area_id=".Auth::user()->area_id;
+        }else{
+            $sSql.=" INNER JOIN rutas_flujo rf ON rf.flujo_id=f.id AND rf.estado=1";
+        }
+        $sSql.=" INNER JOIN areas a ON rf.area_id=a.id AND a.estado=1";
+
+
+        if((Input::has('area_id') && Input::get('cargos')==2) or (!Input::has('area_id') && Input::get('cargos')==2)){
+             $sSql.=" INNER JOIN rutas_flujo_detalle rd ON rd.ruta_flujo_id=rf.id and rd.estado=1 AND rd.norden > 1 AND rd.area_id='".Auth::user()->area_id."'";
+        }else if(Input::has('area_id') && Input::get('cargos')!=2){
+              $sSql.=" INNER JOIN rutas_flujo_detalle rd ON rd.ruta_flujo_id=rf.id and rd.estado=1 AND rd.area_id IN (".Input::get('area_id').")";
         }else{
             $sSql.=" INNER JOIN rutas_flujo_detalle rd ON rd.ruta_flujo_id=rf.id and rd.estado=1";
         }

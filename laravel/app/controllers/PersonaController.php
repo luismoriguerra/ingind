@@ -615,6 +615,45 @@ class PersonaController extends BaseController
         }
     }
 
+
+     public function postEstadoasigt()
+    {
+
+        if ( Request::ajax() ) {
+            $persona = Persona::find(Input::get('id'));
+            $persona->responsable_asigt = Input::get('estado');
+            $persona->usuario_updated_at = Auth::user()->id;
+            $persona->save();
+
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro actualizado correctamente',
+                )
+            );    
+
+        }
+    }
+
+     public function postEstadodervt()
+    {
+
+        if ( Request::ajax() ) {
+            $persona = Persona::find(Input::get('id'));
+            $persona->responsable_dert = Input::get('estado');
+            $persona->usuario_updated_at = Auth::user()->id;
+            $persona->save();
+
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro actualizado correctamente',
+                )
+            );    
+
+        }
+    }
+
     public function postAlertasactividadarea(){
       $r=Persona::AlertasActividadArea();
 

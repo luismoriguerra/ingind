@@ -43,6 +43,7 @@ $(document).ready(function() {
 
     function DataToFilter(){
         area_id = $('#slct_area_id').val();
+        var cargo = $('#slct_cargo').val();
         var fecha=$("#fecha").val();
         var element = {}
         var data = [];
@@ -54,13 +55,19 @@ $(document).ready(function() {
             element.area_id = area_id.join(",");
         }
 
+        if ($.trim(cargo)!=='') {
+            element.cargos = cargo;
+        }
+
         data.push(element);
         return data;
     }
 
+    slctGlobalHtml('slct_cargo','simple');
     slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);
     $("#generar").click(function (){
         var data = DataToFilter();           
+            console.log(data);
         if(data.length > 0){
             Accion.mostrar(data[0]);            
         }

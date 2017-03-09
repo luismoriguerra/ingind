@@ -40,6 +40,14 @@
                                 <select class="form-control" name="slct_area_id" id="slct_area_id" multiple>
                                 </select>
                             </div>
+                              <div class="col-md-4 col-sm-4">
+                                <label class="control-label">Cargo:</label>
+                                <select class="form-control" name="slct_cargo" id="slct_cargo">
+                                    <option value="">Todo</option>
+                                    <option value="1">Dueño de Proceso</option>
+                                    <option value="2">Involucrado</option>
+                                </select>
+                            </div>
                      {{--        <div class="col-md-4 col-sm-4">
                                 <label class="control-label">Rango de Fechas:</label>
                                 <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="fecha" name="fecha" onfocus="blur()"/>

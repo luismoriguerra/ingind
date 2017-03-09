@@ -13,8 +13,8 @@
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-    @include( 'admin.produccion.js.alertasactividad_ajax' )
-    @include( 'admin.produccion.js.alertasactividad' )
+    @include( 'admin.produccion.js.responsableaccion_ajax' )
+    @include( 'admin.produccion.js.responsableaccion' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -47,14 +47,14 @@
                                 <label class="control-label"></label>
                                 <input type="button" class="form-control btn btn-primary" id="generar_area" name="generar_area" value="Mostrar">
                             </div>
-                            <div class="col-sm-2">
+            {{--                 <div class="col-sm-2">
                                 <label class="control-label"></label>
                                 <span id="i_area"  data-estado="0" class="form-control btn btn-danger">Actividad</span>
                             </div>
                             <div class="col-sm-2">
                                 <label class="control-label"></label>
                                <span id="a_area" data-estado="1" class="form-control btn btn-success">Actividad</span>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </fieldset>
@@ -66,13 +66,12 @@
                             <table id="t_reporte" class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Paterno</th>
-                                        <th>Materno</th>
-                                        <th>Nombre</th>
-                                        <th>Dni</th>
-                                        <th>Fecha Inicio</th>
-                                        <th>Fecha Fin</th>
-                                        <th>[]</th>
+                                        <th style="width:22%">Paterno</th>
+                                        <th style="width:22%">Materno</th>
+                                        <th style="width:22%">Nombre</th>
+                                        <th style="width:22%">Dni</th>
+                                        <th style="width:6%">Asignacion de Tramites</th>
+                                        <th style="width:6%">Derivar Tramites</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_reporte">
