@@ -231,9 +231,10 @@ class Flujo extends Base
         $sSql ="";
         $sSql.="select f.id nroden,a.nombre area ,f.nombre proceso,
                 (select SUM(rd.dtiempo) from rutas_flujo_detalle rd where rd.ruta_flujo_id=rf.id) as cant_diast,
-                rd.norden nordendetalle,rd.dtiempo,a2.nombre areadetalle,
-                (select COUNT(rdv.id) from rutas_flujo_detalle_verbo rdv where rdv.ruta_flujo_detalle_id=rd.id) as cant_rdv,
-                (select COUNT(r.id) from rutas r where r.flujo_id=f.id and r.estado=1) as cantProc";
+                rd.norden nordendetalle,
+                (select COUNT(r.id) from rutas r where r.flujo_id=f.id and r.estado=1) as cantProc,
+                rd.dtiempo,a2.nombre areadetalle,
+                (select COUNT(rdv.id) from rutas_flujo_detalle_verbo rdv where rdv.ruta_flujo_detalle_id=rd.id) as cant_rdv";
 
         if(Input::has('area_id')){
              $sSql.=",(select ROUND(SUM(rd2.dtiempo)/cant_diast,2) from rutas_flujo_detalle rd2 where rd2.ruta_flujo_id=rf.id and rd2.area_id IN (".Input::get('area_id').")) as porc_ttotal";
