@@ -48,7 +48,7 @@ class RutaFlujo extends Eloquent
                     INNER JOIN flujos AS f ON f.id = rf.flujo_id
                     INNER JOIN personas AS p ON p.id = rf.persona_id
                     INNER JOIN areas AS a ON a.id = rf.area_id
-                    WHERE f.estado = 1
+                    WHERE f.estado = 1 AND rf.estado=1 
                     ";
         $sSql.= $array['where'].
                 $array['groupby'].
