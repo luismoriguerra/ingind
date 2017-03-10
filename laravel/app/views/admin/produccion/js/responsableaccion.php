@@ -161,9 +161,9 @@ HTMLreporte=function(datos){
         }
 
         if(data.responsable_dert==0){    
-            html+='<td><span id="'+data.norden+'" onClick="CambiarEstadoDert('+data.norden+')" data-estado="'+data.responsable_dert+'" class="btn btn-danger">Inactivo</span></td>';
+            html+='<td><span id="'+data.norden+'" onClick="CambiarEstadoDert('+data.norden+',1)" data-estado="'+data.responsable_dert+'" class="btn btn-danger">Inactivo</span></td>';
         }else{
-            html+='<td><span id="'+data.norden+'" onClick="CambiarEstadoDert('+data.norden+')" data-estado="'+data.responsable_dert+'" class="btn btn-success">Activo</span></td>';
+            html+='<td><span id="'+data.norden+'" onClick="CambiarEstadoDert('+data.norden+',0)" data-estado="'+data.responsable_dert+'" class="btn btn-success">Activo</span></td>';
         }
 
         html+="</tr>";

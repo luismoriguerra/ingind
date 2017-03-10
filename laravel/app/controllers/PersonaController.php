@@ -621,10 +621,30 @@ class PersonaController extends BaseController
 
         if ( Request::ajax() ) {
             $persona = Persona::find(Input::get('id'));
+
+            /*validate if already there is a responsable*/
+            if(Input::get('estado')==1){
+                $responsable = DB::table('personas')
+                    ->where('area_id', '=', $persona->area_id)
+                    ->where('responsable_asigt',1)
+                    ->where('estado',1)
+                    ->get();
+
+                if(count($responsable)>0){
+                    foreach ($responsable as $key => $value) {
+                        $Asignado = Persona::find($value->id);
+                        $Asignado->responsable_asigt=0;
+                        $Asignado->usuario_updated_at = Auth::user()->id;
+                        $Asignado->save();
+                    }
+                }         
+            }
+            /*end validate if already there is a responsable*/
+
             $persona->responsable_asigt = Input::get('estado');
             $persona->usuario_updated_at = Auth::user()->id;
             $persona->save();
-
+            
             return Response::json(
                 array(
                 'rst'=>1,
@@ -640,6 +660,26 @@ class PersonaController extends BaseController
 
         if ( Request::ajax() ) {
             $persona = Persona::find(Input::get('id'));
+
+             /*validate if already there is a responsable*/
+            if(Input::get('estado')==1){
+                $responsable = DB::table('personas')
+                    ->where('area_id', '=', $persona->area_id)
+                    ->where('responsable_dert',1)
+                    ->where('estado',1)
+                    ->get();
+
+                if(count($responsable)>0){
+                    foreach ($responsable as $key => $value) {
+                        $Asignado = Persona::find($value->id);
+                        $Asignado->responsable_dert=0;
+                        $Asignado->usuario_updated_at = Auth::user()->id;
+                        $Asignado->save();
+                    }
+                }
+            }
+            /*end validate if already there is a responsable*/
+
             $persona->responsable_dert = Input::get('estado');
             $persona->usuario_updated_at = Auth::user()->id;
             $persona->save();
