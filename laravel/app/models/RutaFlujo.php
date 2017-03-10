@@ -29,6 +29,7 @@ class RutaFlujo extends Eloquent
         $usuarioid = Auth::user()->id;
         $sSql=" SELECT  rf.estado AS cestado,rf.id,f.nombre AS flujo,
                         CONCAT(p.paterno,' ',p.materno,' ',p.nombre) AS persona,
+                        (SELECT sum(dtiempo) FROM rutas_flujo_detalle WHERE ruta_flujo_id=rf.id AND estado=1) as cantidadProc,
                         a.nombre AS area,
                         rf.n_flujo_ok AS ok,
                         rf.n_flujo_error AS error,
