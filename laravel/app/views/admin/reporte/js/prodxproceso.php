@@ -83,6 +83,9 @@ $(document).ready(function() {
             if(data[0]['area_id']){
                 info+= (info) ? '&area_id='+data[0]['area_id'] : 'area_id='+data[0]['area_id'];
             }
+            if(data[0]['cargos']){
+                info+= (info) ? '&cargos='+data[0]['cargos'] : 'cargos='+data[0]['cargos'];
+            }
 
             $(this).attr('href','flujo/exportproduccionxproceso?'+info);            
         }else{
