@@ -114,7 +114,7 @@
                 </div>
                 <div id="tabs-2">
                     <form id="form_crear" name="form_crear" method="POST" action="">
-                    
+                    <input type="hidden" name="estado" value="1">
                         <select style="display:none" class="form-control" name="slct_estados" id="slct_estados">
                             <option value>.::TODOS::.</option>
                             <option value="1">Producción</option>
