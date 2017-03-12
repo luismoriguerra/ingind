@@ -295,7 +295,11 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         if (Input::get('export')) {
             $areaId = Input::get('area_id');
         } else {
-            $areaId = implode("','", Input::get('area_id'));
+            if(is_array(Input::get('area_id'))){
+                $areaId = implode("','", Input::get('area_id'));                
+            }else{
+                $areaId = Input::get('area_id');
+            }
         }
 
         $sql = "SELECT p.id norden,p.paterno,p.materno,p.nombre,p.email,p.dni,p.fecha_nacimiento,

@@ -37,7 +37,7 @@
             <div class="box">
                 <fieldset>
                     <div class="row form-group" >
-                        <div class="col-sm-12">
+                        <div class="col-sm-12 filtros hidden">
                             <div class="col-sm-4">
                                 <label class="control-label">Area:</label>
                                 <select class="form-control" name="slct_area_id[]" id="slct_area_id" multiple>

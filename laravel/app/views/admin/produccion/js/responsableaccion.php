@@ -11,6 +11,9 @@ var DetalleG1={id:0,proceso:"",area:"",id_union:"",sumilla:"",fecha:""}; // Dato
 
 $(document).ready(function() {
 
+    area_id='<?php echo Auth::user()->area_id; ?>';
+    Usuario.mostrar({area_id:area_id});
+
     function initDatePicker(){
         $('.datepicker').datepicker({
             format: 'yyyy-mm-dd',
