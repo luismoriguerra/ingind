@@ -325,6 +325,10 @@ class Reporte extends Eloquent
                 ),'|' ) alerta, p.id persona_id, p2.id jefe_id,
                 CONCAT(p2.paterno,' ',p2.materno,', ',p2.nombre) jefe,
                 p2.email_mdi email_jefe,
+                CONCAT(p3.paterno,' ',p3.materno,', ',p3.nombre) responsable_auto, 
+                p3.email_mdi email_mdi_responsable_auto,
+                p3.email email_responsable_auto,
+                p3.id responsable_auto_id,
                 (
                     SELECT CONCAT(email,',',email_mdi)
                     FROM personas 
@@ -343,6 +347,7 @@ class Reporte extends Eloquent
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
                 INNER JOIN tiempos t ON t.id=rd.tiempo_id
                 INNER JOIN flujos f ON f.id=r.flujo_id
+                LEFT JOIN personas p3 ON p3.area_id=a.id AND p3.estado=1 AND p3.responsable_dert=1
                 WHERE r.estado=1 
                 AND rd.fecha_inicio!='' 
                 AND rd.dtiempo_final IS NULL ".
