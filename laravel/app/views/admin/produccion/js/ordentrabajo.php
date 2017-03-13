@@ -59,9 +59,13 @@ function initClockPicker(){
 
 
 var today = new Date(); // get current date
-var first = today.getDate() - today.getDay(); // First day is the day of the month - the day of the week
+var first = (today.getDate() - today.getDay()) + 1; // First day is the day of the month - the day of the week
 var firstday = new Date(2017,new Date().getMonth(),first);
 var month =firstday.getMonth()+1;
+
+var sumlast = 7 - today.getDay();
+var last = today.getDate() + sumlast;
+var lastday = new Date(2017,new Date().getMonth(),last);
 
 function initDatePicker(){
     $('.fechaInicio').datepicker({
@@ -69,8 +73,9 @@ function initDatePicker(){
         language: 'es',
         multidate: 1,
         todayHighlight:true,
-//        startDate: firstday.getFullYear()+"-"+month+"-"+firstday.getDate(),
-//        daysOfWeekDisabled: '0', //bloqueo domingos
+       startDate: firstday.getFullYear()+"-"+month+"-"+firstday.getDate(),
+       endDate: lastday.getFullYear()+"-"+month+"-"+lastday.getDate(),
+     /*  daysOfWeekDisabled: '0', //bloqueo domingos*/
         onSelect: function (date, el) {
         }
     })
