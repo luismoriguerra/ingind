@@ -84,6 +84,11 @@ class Area extends Base
                             if (in_array(12, $array)){}else {
                             $query->where('id','=',Auth::user()->area_id);}
                         }
+                        
+                        if ( Input::has('responsable') ){
+                            if (in_array(12, $array)){}else {
+                            $query->where('id','=',Auth::user()->area_id);}
+                        }
 
                         if ( Input::has('areagestionall') ){
                             $query->where('area_gestion','>','0');

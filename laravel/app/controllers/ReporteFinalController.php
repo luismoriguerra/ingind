@@ -520,10 +520,23 @@ class ReporteFinalController extends BaseController
           $value->responsable=$value->jefe;
           $value->email_mdi=$value->email_jefe;
           $value->email='';
+          $value->persona_id=$value->jefe_id;
           $alerta[1]='';
           $cd=CartaDesglose::where('ruta_detalle_id',$value->ruta_detalle_id)->first();
           $cartaDesglose=CartaDesglose::find($cd->id);
           $cartaDesglose->persona_id=$value->jefe_id;
+          $cartaDesglose->save();
+        }
+
+        if( ($value->rol_id==8 OR $value->rol_id==9) AND trim($value->responsable_auto_id)!='' ){
+          $value->responsable=$value->responsable_auto;
+          $value->email_mdi=$value->email_mdi_responsable_auto;
+          $value->email=$value->email_responsable_auto;
+          $value->persona_id=$value->responsable_auto_id;
+          $alerta[1]='';
+          $cd=CartaDesglose::where('ruta_detalle_id',$value->ruta_detalle_id)->first();
+          $cartaDesglose=CartaDesglose::find($cd->id);
+          $cartaDesglose->persona_id=$value->responsable_auto_id;
           $cartaDesglose->save();
         }
 
