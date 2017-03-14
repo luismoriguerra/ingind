@@ -119,26 +119,58 @@ MostrarAjax1=function(t){
 
 HTMLreporte=function(datos){
     var html="";
-    
-    var alerta_tipo= '';
 
-    pos=0;
+    pos=0; 
+    n=1;a=1;b=1;c=1;
+    var m1=1;a1='0';d1='0';p1='0';
+    
+    aux_meta_id='';
+    aux_meta_cuadro_id='';
+    aux_id_d='';
+    aux_id_p='';
     $.each(datos,function(index,data){
-        var auxiliar=datos;
-        pos++;
-        html+="<tr id="+data.norden+">"+
-            "<td>"+data.nombre+"</td>"+
-            "<td>"+data.actividad+"</td>"+
-            "<td>"+data.d+"</td>"+
-            "<td>"+data.df+"</td>"+
-            "<td>"+data.p+"</td>"+
-            "<td>"+data.pf+"</td>"+
-            "<td></td>"+
-            "<td></td>"+
-            "<td></td>"+
-            "<td></td>";
+        
+        html+="<tr>";
+        if(aux_meta_id!==data.meta_id){
+         aux_meta_id=data.meta_id;
+         x=n,
+         html+="<td rowspan='"+x+"' >"+data.nombre+"</td>";
+         html+=html.replace("1",5);
+         n=1;
+        }
+        else { n++;}
+        
+        if(aux_meta_cuadro_id!==data.meta_cuadro_id){ 
+         aux_meta_cuadro_id=data.meta_cuadro_id;
+         y=a;
+         html+="<td rowspan='"+y+"'>"+data.actividad+"</td>"; 
+         a=1;
+        }
+        else { a++;}
+        
+        if(aux_id_d!==data.id_d){ 
+         aux_id_d=data.id_d;
+        z=b;
+         html+="<td rowspan='"+z+"'>"+data.d+"</td>";
+         html+="<td rowspan='"+z+"'>"+data.df+"</td>"; 
+         b=1;
+        }
+        else { b++;}
+        
+        if(aux_id_p!==data.id_p){ 
+        aux_id_p=data.id_p;
+         w=c  
+        html+="<td rowspan='"+w+"'>"+data.p+"</td>";
+        html+="<td rowspan='"+w+"'>"+data.pf+"</td>"; 
+        c=1;
+        }
+        else { c++;}
         html+="</tr>";
+
     });
+//    var strNewString = $('body').html().replace(/\./g,'---');
+//    $('body').html(strNewString);
+//    var htmll=html.replace("rowspan='0'", "rowspan='5'");
     $("#tb_reporte").html(html);
 
     $("#reporte").show();

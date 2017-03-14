@@ -49,7 +49,7 @@ class MetaCuadro extends Base
         
         public function getMetaCuadro($array )
     {
-        $sSql=" SELECT m.nombre,mc.actividad,mf1.comentario as d,mf1.fecha as df,mf2.comentario as p,mf2.fecha as pf
+        $sSql=" SELECT m.nombre,m.id as meta_id,mc.actividad,mc.id as meta_cuadro_id,mf1.comentario as d,mf1.id as id_d,mf1.fecha as df,mf2.comentario as p,mf2.id as id_p,mf2.fecha as pf
                 FROM metas_cuadro mc
                 INNER JOIN metas m on mc.meta_id=m.id
                 LEFT JOIN metas_fechavencimiento mf1 on mc.id=mf1.meta_cuadro_id and mf1.tipo=1

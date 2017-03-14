@@ -75,27 +75,28 @@
                                         <td rowspan="9">Meta3</td>
                                         <td rowspan="3">Actividad 1</td>
                                         <td rowspan="2">Descripción 1 de Actividad 1</td>    
-                                        <td>2017-03-31</td>
-                                        <td>Paso 1 de Descripcion 1</td>
-                                        <td>2017-02-03</td>
+                                        <td rowspan="2">2017-03-31</td>
+                                        <td rowspan="1">Paso 1 de Descripcion 1</td>
+                                        <td rowspan="1">2017-02-03</td>
                                         <td rowspan="1"></td>
                                         <td rowspan="2"></td>
                                         <td rowspan="9"></td>
                                     </tr>
                                     <tr>
-<!--                                        <td>Meta 1</td>-->
-<!--                                        <td>Actividad 1</td>-->
-<!--                                        <td>Descripción 1 de Actividad 1</td>    -->
-                                        <td>2017-03-31</td>
+<!--                                    <td>Meta 1</td>-->
+<!--                                    <td>Actividad 1</td>-->
+<!--                                    <td>Descripción 1 de Actividad 1</td>    -->
+<!--                                    <td>2017-03-31</td>-->
                                         <td>Paso 2 de Descripcion 1</td>
                                         <td>2017-02-03</td>
                                         <td rowspan="1"></td>
-<!--                                    <td rowspan="1"></td>-->
-<!--                                    <td rowspan="1"></td>-->
+<!--                                    <td ></td>-->
+<!--                                    <td ></td>-->
                                     </tr>
                                     
                                     <tr>
-<!--                                    <td>Meta 1</td>-->                    
+<!--                                    <td>Meta 1</td>-->   
+<!--                                    <td>Actividad 1</td>-->     
                                         <td>Descripción 2 de Actividad 1</td>    
                                         <td>2017-03-31</td>
                                         <td>Paso 1 de Descripcion 2</td>
@@ -108,7 +109,7 @@
 <!--                                        <td rowspan="3">Meta 1</td>-->
                                         <td rowspan="6">Actividad 2</td>
                                         <td rowspan="6">Descripción 1 de Actividad 2</td>    
-                                        <td>2017-03-31</td>
+                                        <td rowspan="6">2017-03-31</td>
                                         <td>Paso 1 de Descripcion 1</td>
                                         <td>2017-02-03</td>
                                         <td></td>
@@ -119,7 +120,7 @@
 <!--                                        <td>Meta 1</td>-->
 <!--                                        <td>Actividad 1</td>-->
 <!--                                        <td>Descripción 1 de Actividad 1</td>    -->
-                                        <td>2017-03-31</td>
+<!--                                        <td>2017-03-31</td>-->
                                         <td>Paso 2 de Descripcion 1</td>
                                         <td>2017-02-03</td>
                                         <td ></td>
@@ -129,7 +130,7 @@
                                     <tr>
 <!--                                    <td>Meta 1</td>-->                    
 <!--                                        <td>Descripción 2 de Actividad 1</td>    -->
-                                        <td>2017-03-31</td>
+<!--                                        <td>2017-03-31</td>-->
                                         <td>Paso 3 de Descripcion 1</td>
                                         <td>2017-02-10</td>
                                         <td></td>
@@ -138,7 +139,7 @@
                                     <tr>
 <!--                                    <td>Meta 1</td>-->                    
 <!--                                        <td>Descripción 2 de Actividad 1</td>    -->
-                                        <td>2017-03-31</td>
+<!--                                        <td>2017-03-31</td>-->
                                         <td>Paso 4 de Descripcion 1</td>
                                         <td>2017-02-10</td>
                                         <td></td>
@@ -147,7 +148,7 @@
                                                                         <tr>
 <!--                                    <td>Meta 1</td>-->                    
 <!--                                        <td>Descripción 2 de Actividad 1</td>    -->
-                                        <td>2017-03-31</td>
+<!--                                        <td>2017-03-31</td>-->
                                         <td>Paso 5 de Descripcion 1</td>
                                         <td>2017-02-10</td>
                                         <td></td>
@@ -156,7 +157,7 @@
                                                                         <tr>
 <!--                                    <td>Meta 1</td>-->                    
 <!--                                        <td>Descripción 2 de Actividad 1</td>    -->
-                                        <td>2017-03-31</td>
+<!--                                        <td>2017-03-31</td>-->
                                         <td>Paso 6 de Descripcion 1</td>
                                         <td>2017-02-10</td>
                                         <td></td>
