@@ -560,18 +560,34 @@ class PersonaController extends BaseController
 
         if ( Request::ajax() ) {
             $persona = Persona::find(Input::get('idpersona'));
-
-            if(Input::has('fechaini')){
-                $persona->fecha_ini_exonera = Input::get('fechaini');
-            }
-
-            if(Input::has('fechafin')){
-                $persona->fecha_fin_exonera = Input::get('fechafin');
-            }
-
+            $persona->fecha_ini_exonera = Input::get('fechaini');
+            $persona->fecha_fin_exonera = Input::get('fechafin');
             $persona->usuario_updated_at = Auth::user()->id;
             $persona->save();
 
+
+            /*disable old dates*/
+            $OldDates = DB::table('persona_exoneracion')
+                ->where('persona_id', '=', $persona->id)
+                ->where('estado',1)
+                ->get();
+            if(count($OldDates)>0){
+                foreach ($OldDates as $key => $value) {
+                    $Changed = PersonaExoneracion::find($value->id);
+                    $Changed->estado = 0;
+                    $Changed->save();
+                }                
+            }
+            /*end disable old dates*/
+
+            $persona_exo = new PersonaExoneracion();
+            $persona_exo->persona_id = $persona->id;
+            $persona_exo->fecha_ini_exonera = Input::get('fechaini');
+            $persona_exo->fecha_fin_exonera =  Input::get('fechafin');
+            if(Input::has('observ')){
+                $persona_exo->observacion =  Input::get('observ');
+            }
+            $persona_exo->save();
 
             /*if validate fechas y estado envio*/
             if($persona->fecha_ini_exonera != '' && $persona->fecha_fin_exonera != ''){
@@ -595,6 +611,36 @@ class PersonaController extends BaseController
 
         }
     }
+
+    public function postDeleteexonera(){
+        if ( Request::ajax() ) {
+            $persona_exonera=PersonaExoneracion::find(Input::get('id'));
+            $persona_exonera->estado = 0;
+            $persona_exonera->save();
+         
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'msj'=>'Registro eliminado correctamente',
+                )
+            );
+        }
+    }
+
+    public function postGetexoneracion()
+    {
+        if ( Request::ajax() ) {
+            $r=Persona::getExoneraciones();
+         
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $r
+                )
+            );
+        }
+    }
+
     
         public function postAlertasactividad()
     {

@@ -73,6 +73,14 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         return $this->email;
     }
 
+    public static function getExoneraciones(){
+        $sql = "SELECT *
+                FROM persona_exoneracion pe
+                WHERE pe.persona_id=".Input::get('persona_id');
+        $rst = DB::select($sql);
+        return $rst;
+    }
+
     /**
      * Boot the model.
      *

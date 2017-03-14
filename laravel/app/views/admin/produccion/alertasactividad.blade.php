@@ -29,6 +29,15 @@
             <li><a href="#">Reporte</a></li>
             <li class="active">Alertas Actividad</li>
         </ol>
+
+        <style type="text/css">
+            .btn-yellow{
+                color: #0070ba;
+                background-color: ghostwhite;
+                border-color: #ccc;
+                font-weight: bold;
+            }
+        </style>
     </section>
 
         <!-- Main content -->
@@ -66,17 +75,20 @@
                             <table id="t_reporte" class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Paterno</th>
-                                        <th>Materno</th>
-                                        <th>Nombre</th>
-                                        <th>Dni</th>
-                                        <th>Fecha Inicio</th>
-                                        <th>Fecha Fin</th>
-                                        <th>[]</th>
+                                        <th style="width: 20%">Paterno</th>
+                                        <th style="width: 20%">Materno</th>
+                                        <th style="width: 20%">Nombre</th>
+                                        <th style="width: 10%">Dni</th>
+                                         <th style="width: 5%">Exoneracion</th>
+{{--                                         <th>Fecha Inicio</th>
+                                        <th>Fecha Fin</th> --}}
+                                        <th style="width: 5%">[]</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_reporte">
                                 </tbody>
+                                <tfoot>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -96,4 +108,5 @@
 @stop
 @section('formulario')
      @include( 'admin.reporte.form.produccionusu' )
+     @include( 'admin.produccion.form.fechas_exoneradas' )
 @stop

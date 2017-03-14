@@ -23,9 +23,10 @@ $(document).ready(function() {
     }
     initDatePicker();
 
-    $('.datepicker').on('changeDate', function(ev){
-        $(this).datepicker('hide');
-    });
+  /*  $('#fechaExonerar').on('hide.bs.modal', function (event) {
+        $("#form_exoneracion input[type='hidden'],#form_exoneracion input[type='text'],#form_exoneracion select,#form_exoneracion textarea").not('.mant').val("");
+        $('#form_exoneracion select').multiselect('refresh');  
+    });*/
      /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
         2: Descripción de cabecera
         3: Color Cabecera
@@ -153,8 +154,9 @@ HTMLreporte=function(datos){
             "<td>"+data.materno+"</td>"+
             "<td>"+data.nombre+"</td>"+
             "<td>"+data.dni+"</td>"+
-            "<td><input type='text' name='txt_fechaini' id='txt_fechaini' class='form-control datepicker txt_fechaini' personaid='"+data.norden+"' Onchange='registerDate(this)' value='"+fechaini+"'/></td>"+
-            "<td><input type='text' name='txt_fechafin' id='txt_fechafin' class='form-control datepicker txt_fechafin' personaid='"+data.norden+"' Onchange='registerDate(this)' value='"+fechafin+"'/></td>";
+            "<td><span id='"+data.norden+"' onClick='exonerar(this)' data-estado='"+data.envio_actividad+"' class='btn btn-warning'>Exonera</span></td>";
+           /* "<td><input type='text' name='txt_fechaini' id='txt_fechaini' class='form-control datepicker txt_fechaini' personaid='"+data.norden+"' Onchange='registerDate(this)' value='"+fechaini+"'/></td>"+
+            "<td><input type='text' name='txt_fechafin' id='txt_fechafin' class='form-control datepicker txt_fechafin' personaid='"+data.norden+"' Onchange='registerDate(this)' value='"+fechafin+"'/></td>";*/
         if(data.envio_actividad==0){    
         html+='<td><span id="'+data.norden+'" onClick="activar('+data.norden+')" data-estado="'+data.envio_actividad+'" class="btn btn-danger">Actividad</span></td>';
         }if(data.envio_actividad==1){
@@ -169,8 +171,6 @@ HTMLreporte=function(datos){
         language: 'es',
         multidate: 1,
         todayHighlight:true,
-         onSelect: function (date, el) {
-        }
     });
 
     $("#t_reporte").dataTable(
@@ -180,6 +180,56 @@ HTMLreporte=function(datos){
     ); 
     $("#reporte").show();
 };
+
+exonerar = function(obj){
+    Usuario.getExoneracion({persona_id:obj.getAttribute('id')});
+    $('#txt_idpersona2').val(obj.getAttribute('id'));
+    $("#fechaExonerar").modal('show');
+}
+
+/*add new verb to generate*/
+Addtr = function(e){
+    e.preventDefault();
+    var template = $("#t_exoneracion").find('.trNuevo').clone().removeClass('trNuevo').removeClass('hidden');
+    $("#t_exoneracion tbody").append(template);
+
+    $('.datepicker').datepicker({
+        format: 'yyyy-mm-dd',
+        language: 'es',
+        multidate: 1,
+        todayHighlight:true,
+    });
+}
+/*end add new verb to generate*/
+
+/*delete tr*/
+Deletetr = function(object){
+    object.parentNode.parentNode.remove();
+}
+/*end delete tr*/
+
+HTMLExoneraciones = function(data){
+        var html = '';
+        $.each(data,function(index,el){
+            html+='<tr>';
+            html+=' <td>'+el.fecha_ini_exonera+'</td>';
+            html+=' <td>'+el.fecha_fin_exonera+'</td>';
+            html+=' <td>'+el.observacion+'</td>';
+
+            if(el.estado == 1){
+                html+=' <td><span id="btnDelete" name="btnDelete" class="btn btn-danger  btn-sm btnDelete" onclick="deleteExonera(this,'+el.id+')"><i class="glyphicon glyphicon-remove"></i></span></td>';
+            }else{
+                html+=' <td></td>';
+            }
+          
+            html+='</tr>';            
+        });
+        $("#tb_exoneracion").html(html);
+}
+
+deleteExonera = function(obj,idexoneracion){
+    Usuario.DeleteExonera({id:idexoneracion},obj);
+}
 
 registerDate = function(obj){
     var idpersona = obj.getAttribute('personaid');
@@ -216,4 +266,27 @@ activarTabla=function(){
 };
 eventoSlctGlobalSimple=function(slct,valores){
 };
+
+
+saveVerbo = function(obj){
+    var tr = obj.parentNode.parentNode;
+    var fechaini = $(tr).find('.txt_fechaini').val();
+    var fechafin =$(tr).find('.txt_fechafin').val();
+    var observ = $(tr).find('.txt_observacion').val();
+    if(fechaini != '' && fechafin != ''){
+        var data = {'fechaini':fechaini,'fechafin':fechafin,'observ':observ,'idpersona':$("#txt_idpersona2").val()};
+         Usuario.ExoneraPersona(data);
+    }else{
+        alert('complete datos');
+    }
+/*    if($(".txt_fechaini").val()== ""){
+        alert('seleccione fecha inicio');
+    }else if($(".txt_fechafin").val()== ""){
+         alert('seleccione fecha fin');
+    }else{
+        Usuario.ExoneraPersona();        
+    }*/
+}
+
+
 </script>

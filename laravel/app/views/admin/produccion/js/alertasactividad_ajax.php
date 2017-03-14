@@ -117,8 +117,64 @@ var Usuario={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
+                      msjG.mensaje('success',obj.msj,4000);
+                      Usuario.getExoneracion({persona_id: $('#txt_idpersona2').val()});
                   /*  area_id = $('#slct_area_id').val();
                     Usuario.mostrar({area_id:area_id});*/
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
+                                    '<i class="fa fa-ban"></i>'+
+                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
+                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
+                                '</div>');
+            }
+        });
+    },
+    getExoneracion:function( data){
+        $.ajax({
+            url         : 'persona/getexoneracion',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : data,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay,.loading-img").remove();
+                if(obj.rst==1){
+                    HTMLExoneraciones(obj.datos);
+                    $("#form_exoneracion input[type='text'],#form_exoneracion select,#form_exoneracion textarea").not('.mant').val("");
+                    $('#form_exoneracion select').multiselect('refresh'); 
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
+                                    '<i class="fa fa-ban"></i>'+
+                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
+                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
+                                '</div>');
+            }
+        });
+    },
+        DeleteExonera:function(data,tr){
+        $.ajax({
+            url         : 'persona/deleteexonera',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : data,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay,.loading-img").remove();
+                if(obj.rst==1){
+                    tr.parentNode.parentNode.remove();
                 }
             },
             error: function(){
