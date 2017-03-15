@@ -88,10 +88,9 @@ class PretramiteController extends BaseController {
 
 	        if($array_data->idempresa){
 	        	$pretramite['empresa_id'] = $array_data->idempresa;        	
-	        }else{
-	        	$pretramite['persona_id'] =  $array_data->cbo_persona;
 	        }
 
+	        $pretramite['persona_id'] =  Auth::user()->id;
 	        $pretramite['tipo_solicitante_id'] = $array_data->cbo_tiposolicitante;
 	        $pretramite['tipo_documento_id'] = $array_data->cbo_tipodoc;
 	        $pretramite['documento'] = $array_data->tipodoc;
@@ -120,8 +119,7 @@ class PretramiteController extends BaseController {
         if($array_data->idempresa){
         	$pretramite['empresa_id'] = $array_data->idempresa;        	
         }else{
-        /*	$pretramite['persona_id'] =  $array_data->cbo_persona;*/
-        	$pretramite['persona_id'] =  Auth::user()->id;
+        	$pretramite['persona_id'] =  $array_data->cbo_persona;
         }
 
         $pretramite['tipo_solicitante_id'] = $array_data->cbo_tiposolicitante;

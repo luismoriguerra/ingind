@@ -9,13 +9,13 @@ class Pretramite extends Eloquent {
 				ts.nombre solicitante,tt.nombre_tipo_tramite tipotramite,d.nombre tipodoc,ct.nombre_clasificador_tramite as tramite,
 				pt.fecha_pretramite fecha  
 				from pretramites pt 
-				LEFT JOIN personas p on p.id=pt.persona_id and p.estado=1 
+				INNER JOIN personas p on p.id=pt.persona_id 
 				INNER JOIN clasificador_tramite ct on ct.id=pt.clasificador_tramite_id
 				INNER JOIN tipo_tramite tt on tt.id=ct.tipo_tramite_id 
 				LEFT JOIN empresas e on e.id=pt.empresa_id 
 				INNER JOIN tipo_solicitante ts on ts.id=pt.tipo_solicitante_id 
 				INNER JOIN documentos d on d.id=pt.tipo_documento_id 
-				WHERE pt.estado = 1 and pt.usuario_created_at=".Input::get('persona');
+				WHERE pt.estado = 1 and pt.persona_id=".Input::get('persona');
 		$r= DB::select($sql);
         return $r; 		
     }
