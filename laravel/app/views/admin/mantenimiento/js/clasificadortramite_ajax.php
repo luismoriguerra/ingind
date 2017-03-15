@@ -19,7 +19,7 @@ var ClasificadorTramites={
                   
                     MostrarAjax('clasificadortramites');
                     msjG.mensaje('success',obj.msj,4000);
-                    $('#clasificadortramiteModal .modal-footer [data-dismiss="modal"]').click();
+                    $('#clasificadortramitesModal .modal-footer [data-dismiss="modal"]').click();
 
                 } else {
                     var cont = 0;

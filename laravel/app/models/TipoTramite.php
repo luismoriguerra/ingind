@@ -41,4 +41,13 @@ class TipoTramite extends Base
                 
         return $tipotramite;
     }
+    
+        public static function getCargar_tipo( )
+    {
+        $sSql=" SELECT tt.id, tt.nombre_tipo_tramite nombre, tt.estado
+                FROM tipo_tramite tt
+                WHERE 1=1 ";
+        $oData = DB::select($sSql);
+        return $oData;
+    }
 }

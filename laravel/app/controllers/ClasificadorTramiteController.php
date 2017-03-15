@@ -42,13 +42,13 @@ class ClasificadorTramiteController extends \BaseController
             if( Input::has("nombre") ){
                 $nombre=Input::get("nombre");
                 if( trim( $nombre )!='' ){
-                    $array['where'].=" AND ct.nombre LIKE '%".$nombre."%' ";
+                    $array['where'].=" AND ct.nombre_clasificador_tramite LIKE '%".$nombre."%' ";
                 }
             }
             if( Input::has("tipo_tramite") ){
                 $tipo_tramite=Input::get("tipo_tramite");
                 if( trim( $tipo_tramite )!='' ){
-                    $array['where'].=" AND tt.nombre LIKE '%".$tipo_tramite."%' ";
+                    $array['where'].=" AND tt.nombre_tipo_tramite LIKE '%".$tipo_tramite."%' ";
                 }
             }
 
@@ -60,7 +60,7 @@ class ClasificadorTramiteController extends \BaseController
                 }
             }
 
-            $array['order']=" ORDER BY ct.nombre ";
+            $array['order']=" ORDER BY ct.nombre_clasificador_tramite ";
 
             $cant  = ClasificadorTramite::getCargarCount( $array );
             $aData = ClasificadorTramite::getCargar( $array );
@@ -125,10 +125,10 @@ class ClasificadorTramiteController extends \BaseController
             }
 
             $clasificadortramite = new ClasificadorTramite;
-            $clasificadortramite->nombre = Input::get('nombre');
+            $clasificadortramite->nombre_clasificador_tramite = Input::get('nombre');
             $clasificadortramite->tipo_tramite_id = Input::get('tipo_tramite');
             //$clasificadortramite->area = Input::get('area');
-            $clasificadortramite->estado = Input::get('estado');
+            $clasificadortramite->estado = Input::get('estado_clasificador');
             $clasificadortramite->usuario_created_at = Auth::user()->id;
             $clasificadortramite->save();
 
@@ -164,9 +164,9 @@ class ClasificadorTramiteController extends \BaseController
 
             $clasificadortramiteId = Input::get('id');
             $clasificadortramite = ClasificadorTramite::find($clasificadortramiteId);
-            $clasificadortramite->nombre = Input::get('nombre');
+            $clasificadortramite->nombre_clasificador_tramite = Input::get('nombre');
             $clasificadortramite->tipo_tramite_id = Input::get('tipo_tramite');
-            $clasificadortramite->estado = Input::get('estado');
+            $clasificadortramite->estado = Input::get('estado_clasificador');
             $clasificadortramite->usuario_updated_at = Auth::user()->id;
             $clasificadortramite->save();
 
@@ -197,6 +197,120 @@ class ClasificadorTramiteController extends \BaseController
                 )
             );    
 
+        }
+    }
+    
+           public function postListarrequisito()
+    {
+        if ( Request::ajax() ) {
+            $array=array();
+            $array['where']='';
+            
+             if( Input::has("id") ){
+                $poi_id=Input::get("id");
+                if( trim( $poi_id )!='' ){
+                    $array['where'].=" AND r.clasificador_tramite_id=".$poi_id;
+                }
+            }
+            $a      = new Requisito;
+            $listar = Array();
+            $listar = $a->getCargar($array);
+
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $listar
+                )
+            );
+        }
+    }
+    
+        public function postCambiarestadorequisito()
+    {
+
+        if ( Request::ajax() ) {
+
+            $costopersonal = Requisito::find(Input::get('id'));
+            $costopersonal->usuario_created_at = Auth::user()->id;
+            $costopersonal->estado = Input::get('estado');
+            $costopersonal->save();
+           
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro actualizado correctamente',
+                )
+            );    
+
+        }
+    }
+            public function postCrearrequisito()
+    {
+        if ( Request::ajax() ) {
+            $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
+            $required = 'required';
+            $reglas = array(
+                'nombre' => $required.'|'.$regex,
+            );
+
+            $mensaje= array(
+                'required' => ':attribute Es requerido',
+                'regex'    => ':attribute Solo debe ser Texto',
+            );
+
+            $validator = Validator::make(Input::all(), $reglas, $mensaje);
+
+            if ( $validator->fails() ) {
+                return Response::json( array('rst'=>2, 'msj'=>$validator->messages()) );
+            }
+
+            $costopersonal = new Requisito;
+            $costopersonal->clasificador_tramite_id = Input::get('poi_id');
+            $costopersonal->nombre = Input::get('nombre');
+            $costopersonal->cantidad = Input::get('cantidad');
+            $costopersonal->estado = Input::get('estado');
+            $costopersonal->usuario_created_at = Auth::user()->id;
+            $costopersonal->save();
+
+            return Response::json(array('rst'=>1, 'msj'=>'Registro realizado correctamente', 'costo_personal_id'=>$costopersonal->id));
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     * POST /rol/editar
+     *
+     * @return Response
+     */
+   public function postEditarrequisito()
+    {
+        if ( Request::ajax() ) {
+            $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
+            $required = 'required';
+            $reglas = array(
+                'nombre' => $required.'|'.$regex,
+            );
+
+            $mensaje= array(
+                'required' => ':attribute Es requerido',
+                'regex'    => ':attribute Solo debe ser Texto',
+            );
+
+            $validator = Validator::make(Input::all(), $reglas, $mensaje);
+
+            if ( $validator->fails() ) {
+                return Response::json( array('rst'=>2, 'msj'=>$validator->messages()) );
+            }
+
+            $costopersonalId = Input::get('id');
+            $costopersonal = Requisito::find($costopersonalId);
+            $costopersonal->nombre = Input::get('nombre');
+            $costopersonal->cantidad = Input::get('cantidad');
+            $costopersonal->estado = Input::get('estado');
+            $costopersonal->usuario_updated_at = Auth::user()->id;
+            $costopersonal->save();
+
+            return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
         }
     }
 

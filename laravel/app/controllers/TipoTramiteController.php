@@ -9,6 +9,23 @@ class TipoTramiteController extends \BaseController
         $this->beforeFilter('auth');
         $this->_errorController = $ErrorController;
     }
+    
+           public function postListartipotramite()
+    {
+        if ( Request::ajax() ) {
+            
+            $a      = new TipoTramite;
+            $listar = Array();
+            $listar = $a->getCargar_tipo();
+
+            return Response::json(
+                array(
+                    'rst'   => 1,
+                    'datos' => $listar
+                )
+            );
+        }
+    }
 
     public function postCargar()
     {

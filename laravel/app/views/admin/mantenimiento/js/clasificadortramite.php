@@ -15,10 +15,12 @@ $(document).ready(function() {
     */
     var datos={estado:1};
     slctGlobal.listarSlct('tipotramite','slct_tipo_tramite','simple',null,datos);
-    slctGlobalHtml('slct_estado','simple');
+    slctGlobalHtml('slct_estado_clasificador','simple');
     var idG={   nombre        :'onBlur|Nombre|#DCE6F1', //#DCE6F1
                 tipo_tramite        :'3|TIpoTramite|#DCE6F1', //#DCE6F1
                 estado        :'2|Estado|#DCE6F1', //#DCE6F1
+                a          :'1|  |#DCE6F1',
+                b          :'1|  |#DCE6F1',
              };
 
     var resG=dataTableG.CargarCab(idG);
@@ -32,7 +34,7 @@ $(document).ready(function() {
     MostrarAjax('clasificadortramites');
 
 
-    $('#clasificadortramiteModal').on('show.bs.modal', function (event) {
+    $('#clasificadortramitesModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
       var titulo = button.data('titulo'); // extrae del atributo data-
 
@@ -44,7 +46,7 @@ $(document).ready(function() {
         if(titulo=='Nuevo'){
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
-            $('#form_clasificadortramites_modal #slct_estado').val(1);
+            $('#form_clasificadortramites_modal #slct_estado_clasificador').val(1);
             $('#form_clasificadortramites_modal #txt_nombre').focus();
             $('#form_clasificadortramites_modal #slct_tipo_tramite').val('' );
         } else {
@@ -54,18 +56,19 @@ $(document).ready(function() {
             $('#form_clasificadortramites_modal #txt_nombre').val( ClasificadorTramitesG.nombre );
             $('#form_clasificadortramites_modal #slct_tipo_tramite').val( ClasificadorTramitesG.tipo_tramite );
 
-            $('#form_clasificadortramites_modal #slct_estado').val( ClasificadorTramitesG.estado );
+            $('#form_clasificadortramites_modal #slct_estado_clasificador').val( ClasificadorTramitesG.estado );
             $("#form_clasificadortramites_modal").append("<input type='hidden' value='"+ClasificadorTramitesG.id+"' name='id'>");
            
 
         }
            
-             $('#form_clasificadortramites_modal select').multiselect('refresh');
+             $('#form_clasificadortramites_modal select').multiselect('rebuild');
 
     });
 
-    $('#clasificadortramiteModal').on('hide.bs.modal', function (event) {
+    $('#clasificadortramitesModal').on('hide.bs.modal', function (event) {
        $('#form_clasificadortramites_modal input').val('');
+       $('#form_clasificadortramites_modal textarea').val('');
      //   var modal = $(this);
        // modal.find('.modal-body input').val('');
     });
@@ -75,9 +78,9 @@ BtnEditar=function(btn,id){
     var tr = btn.parentNode.parentNode; // Intocable
     ClasificadorTramitesG.id=id;
     ClasificadorTramitesG.nombre=$(tr).find("td:eq(0)").text();
-    ClasificadorTramitesG.tipo_tramite=$(tr).find("td:eq(1) input[name='txt_tipo_tramite']").val(); 
+    ClasificadorTramitesG.tipo_tramite=$(tr).find("td:eq(1) input[name='txt_tipo_tramite']").val();
     ClasificadorTramitesG.estado=$(tr).find("td:eq(2)>span").attr("data-estado");
-    $("#BtnEditar").click();
+    $("#BtnEditar_clasificador").click();
 };
 
 MostrarAjax=function(t){
@@ -95,6 +98,16 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
     if(typeof(fn)!='undefined' && fn.col==1){
         return row.tipo_tramite+"<input type='hidden'name='txt_tipo_tramite' value='"+row.tipo_tramite_id+"'>";
     }
+    if(typeof(fn)!='undefined' && fn.col==3){
+        var grupo='';
+        grupo+= '<span id="'+row.id+'" title="Requisitos" onClick="CargarCostoPersonal(\''+row.id+'\',\''+row.nombre+'\',this)" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-ok"></i></span>';
+        return grupo;
+    }      
+    if(typeof(fn)!='undefined' && fn.col==4){
+        var grupo='';
+        grupo+= '<span id="'+row.id+'" title="Actividad" onClick="CargarActividad(\''+row.id+'\',\''+row.objetivo_general+'\',this)" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-list-alt"></i></span>';
+        return grupo;
+   }
     else if(typeof(fn)!='undefined' && fn.col==2){
         var estadohtml='';
         estadohtml='<span id="'+row.id+'" onClick="activar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-danger">Inactivo</span>';
@@ -125,7 +138,9 @@ Agregar = function(){
         ClasificadorTramites.AgregarEditarClasificadorTramite(0);
     }
 };
-
+ActPest=function(nro){
+    Pest=nro;
+};
 validaClasificadorTramites = function(){
     var r=true;
     
@@ -134,10 +149,6 @@ validaClasificadorTramites = function(){
         r=false;
     }
 
-    else if( $("#form_clasificadortramites_modal #txt_tipo_tramite").val()=='' ){
-        alert("Ingrese Nombre de ClasificadorTramite");
-        r=false;
-    }
     return r;
 };
 </script>
