@@ -330,6 +330,7 @@ selectEmpresa = function(obj){
    
 poblateData = function(tipo,data){
 /*    if(tipo == 'usuario'){*/
+        DataUser = '<?php echo Auth::user(); ?>';
         var result = JSON.parse(DataUser);
         document.querySelector('#txt_userdni').value=result.dni;
         document.querySelector('#txt_usernomb').value=result.nombre;
