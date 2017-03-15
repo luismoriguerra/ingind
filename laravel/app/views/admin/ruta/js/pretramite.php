@@ -331,7 +331,7 @@ selectEmpresa = function(obj){
 poblateData = function(tipo,data){
 /*    if(tipo == 'usuario'){*/
         document.querySelector('#txt_userdni').value='<?php echo Auth::user()->dni; ?>';
-        document.querySelector('#txt_usernomb').value=r'<?php echo Auth::user()->nombre; ?>';
+        document.querySelector('#txt_usernomb').value='<?php echo Auth::user()->nombre; ?>';
         document.querySelector('#txt_userapepat').value='<?php echo Auth::user()->paterno; ?>';
         document.querySelector('#txt_userapemat').value='<?php echo Auth::user()->materno; ?>';
     /*    user_telf.value=data.;
