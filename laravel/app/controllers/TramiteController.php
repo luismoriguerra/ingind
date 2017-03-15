@@ -178,13 +178,14 @@ class TramiteController extends BaseController {
 		        	$codigo = str_pad($tramite->id, 7, "0", STR_PAD_LEFT).'-'.date('Y'); //cod
 
 		        	/*get ruta flujo*/
-                    $sql="SELECT flujo_id
+                   /* $sql="SELECT flujo_id
                             FROM areas_internas
                             WHERE area_id='".$tramite->area_id."' 
                             AND estado=1";
-                    $area_interna=DB::select($sql);
-                    $ruta_flujo = RutaFlujo::where('flujo_id', '=', $area_interna[0]->flujo_id)->get();
-                    $ruta_flujo_id = $ruta_flujo[0]->id;
+                    $area_interna=DB::select($sql);*/
+                    $clasificador = ClasificadorTramite::find($tramite->clasificador_tramite_id);
+                    $ruta_flujo = RutaFlujo::find($clasificador->ruta_flujo_id);
+                    $ruta_flujo_id = $ruta_flujo->id;
 		        	/* end get ruta flujo*/
 
 
@@ -329,8 +330,9 @@ class TramiteController extends BaseController {
 			                /*if($rd->norden==1 or ($rd->norden>1 and $validaactivar==0 and $rd->estado_ruta==2) ){
 			                    $rutaDetalle['fecha_inicio']=Input::get('fecha_inicio');
 			                }*/
-			                 if($rd->norden==1 or $rd->norden==2 or ($rd->norden>1 and $validaactivar==0 and $rd->estado_ruta==2) ){
-                                if($rd->norden==1){
+			                 /*if($rd->norden==1 or $rd->norden==2 or ($rd->norden>1 and $validaactivar==0 and $rd->estado_ruta==2) ){*/
+			                if($rd->norden==1 or ($rd->norden>1 and $validaactivar==0 and $rd->estado_ruta==2) ){
+                                if($rd->norden==1 && $rd->area_id == 52){
                                     $rutaDetalle['dtiempo_final']=date("Y-m-d H:i:s");
                                     $rutaDetalle['tipo_respuesta_id']=2;
                                                 $rutaDetalle['tipo_respuesta_detalle_id']=1;
@@ -458,7 +460,7 @@ class TramiteController extends BaseController {
                                                 $rutaDetalleVerbo['orden']= $rdv->orden;
                                                 $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
 
-                                                if($rd->norden==1){
+                                                if($rd->norden==1 && $rd->area_id == 52){
                                                     $rutaDetalleVerbo['usuario_updated_at']= Auth::user()->id;
                                                     $rutaDetalleVerbo['updated_at']= date("Y-m-d H:i:s");
                                                     $rutaDetalleVerbo['finalizo']=1;

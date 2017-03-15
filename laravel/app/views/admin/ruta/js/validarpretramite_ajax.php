@@ -123,7 +123,7 @@ var Bandeja={
             success : function(obj) {
                 /*$(".overlay,.loading-img").remove();*/
                 if(obj.rst==1){
-                    evento(obj.datos,tramite);                    
+                    evento(obj.datos,tramite);                  
                 }
             },
             error: function(){
@@ -144,7 +144,7 @@ var Bandeja={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-
+                    msjG.mensaje("success","Registrado",3000);   
                 }
             },
             error: function(){

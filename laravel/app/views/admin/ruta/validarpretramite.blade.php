@@ -327,4 +327,6 @@ td, th{
   @include( 'admin.ruta.form.voucherpretramite' )
   @include( 'admin.ruta.form.buscartramite' )
   @include( 'admin.ruta.form.empresasbyuser' )
+  @include( 'admin.ruta.form.rutaflujo' )
+  @include( 'admin.ruta.form.ruta' )
 @stop

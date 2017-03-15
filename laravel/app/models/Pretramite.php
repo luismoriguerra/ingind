@@ -15,7 +15,7 @@ class Pretramite extends Eloquent {
 				LEFT JOIN empresas e on e.id=pt.empresa_id 
 				INNER JOIN tipo_solicitante ts on ts.id=pt.tipo_solicitante_id 
 				INNER JOIN documentos d on d.id=pt.tipo_documento_id 
-				WHERE pt.estado = 1 and pt.persona_id=".Input::get('persona');
+				WHERE pt.estado = 1 and pt.usuario_created_at=".Input::get('persona');
 		$r= DB::select($sql);
         return $r; 		
     }

@@ -79,6 +79,37 @@ class PretramiteController extends BaseController {
 	 *
 	 * @return Response
 	 */
+	public function postCreatepretramite(){
+		if ( Request::ajax() ) {
+			$array_data = json_decode(Input::get('info'));
+			$pretramite = new Pretramite;
+
+	        $pretramite['clasificador_tramite_id'] = $array_data->idclasitramite;
+
+	        if($array_data->idempresa){
+	        	$pretramite['empresa_id'] = $array_data->idempresa;        	
+	        }else{
+	        	$pretramite['persona_id'] =  $array_data->cbo_persona;
+	        }
+
+	        $pretramite['tipo_solicitante_id'] = $array_data->cbo_tiposolicitante;
+	        $pretramite['tipo_documento_id'] = $array_data->cbo_tipodoc;
+	        $pretramite['documento'] = $array_data->tipodoc;
+	        $pretramite['nro_folios'] = $array_data->numfolio;
+	        $pretramite['area_id'] = $array_data->idarea;
+	/*        $pretramite['fecha_pretramite'] = date();*/
+	        $pretramite['usuario_created_at'] = Auth::user()->id;
+	        $pretramite->save();
+	        																																																																																																																																																																																																																																				
+	        return Response::json(
+	            array(
+	            'rst'=>1,
+	            'msj'=>'Registro realizado correctamente',
+	            )
+	        );
+	 	}
+	}
+
 	public function postCreate()
 	{
 		$array_data = json_decode(Input::get('info'));

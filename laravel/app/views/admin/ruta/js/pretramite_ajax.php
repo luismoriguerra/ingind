@@ -135,7 +135,7 @@ var Bandeja={
     GuardarPreTramite:function(data,evento){
         var datos = {'info':data};
         $.ajax({
-            url         : 'pretramite/create',
+            url         : 'pretramite/createpretramite',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
