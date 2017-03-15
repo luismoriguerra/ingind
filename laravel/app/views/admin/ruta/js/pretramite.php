@@ -153,7 +153,7 @@ $(document).ready(function() {
 });
 
 CargarPreTramites = function(){
-    var data={'persona':UsuarioId,'estado':1};
+    var data={'persona':'<?php echo Auth::user()->id; ?>','estado':1};
     Bandeja.MostrarPreTramites(data,HTMLPreTramite);
 }
 
