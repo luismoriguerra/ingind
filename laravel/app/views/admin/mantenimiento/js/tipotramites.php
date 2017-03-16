@@ -8,7 +8,7 @@ $(document).ready(function() {
         2: Descripción de cabecera
         3: Color Cabecera
     */
-
+   
     slctGlobalHtml('slct_estado','simple');
     var idG={   nombre        :'onBlur|Nombre TipoTramite|#DCE6F1', //#DCE6F1
                 estado        :'2|Estado|#DCE6F1', //#DCE6F1
@@ -23,7 +23,7 @@ $(document).ready(function() {
     columnDefsG=resG[0]; // registra la colunmna adiciona con boton
     targetsG=resG[1]; // registra el contador actualizado
     MostrarAjax('tipotramites');
-
+    
 
     $('#tipotramiteModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton

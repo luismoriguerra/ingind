@@ -1,38 +1,30 @@
-<script type="text/javascript">var posicionDetalleVerboG=0;
-$(document).ready(function() {
+<script type="text/javascript">
+var cabeceraG=[]; // Cabecera del Datatable
+var columnDefsG=[]; // Columnas de la BD del datatable
+var targetsG=-1; // Posiciones de las columnas del datatable
 
-    UsuarioId='<?php echo Auth::user()->id; ?>';
-    DataUser = '<?php echo Auth::user(); ?>';
-    /*Inicializar tramites*/
-    var data={'persona':UsuarioId,'estado':1};
-    Bandeja.MostrarPreTramites(data,HTMLPreTramite);
-    /*end Inicializar tramites*/
-    
-    /*inicializate selects*/
-    slctGlobal.listarSlct('documento','cbo_tipodoc','simple',null,data); 
-    slctGlobal.listarSlct('tipotramite','cbo_tipotramite','simple',null,data);  
-    slctGlobal.listarSlctFuncion('tiposolicitante','listar?pretramite=1','cbo_tiposolicitante','simple',null,data);
-    /*end inicializate selects*/
-    
-    data = {estado:1};
+var CostoPersonalG={id:0,nombre:"",cantidad:"",estado:1}; // Datos Globales
+var EstratPeiG={id:0,descripcion:"",estado:1}; // Datos Globales
+
+    // Datos Globales
+$(document).ready(function() {
+    /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
+        2: Descripción de cabecera
+        3: Color Cabecera
+    */
+       data = {estado:1};
     var ids = [];
     slctGlobal.listarSlct('software','slct_software_id_modal','simple',ids,data);
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
     slctGlobal.listarSlct2('documento','slct_documento_modal',data);
-    
-    $(document).on('change', '#cbo_tiposolicitante', function(event) {
-        var data={'id':$(this).val(),'estado':1};
-        Bandeja.GetTipoSolicitante(data,Mostrar);
-    });
+ 
+   $("#btn_close").click(Close);
+    slctGlobalHtml('form_tipotramites_modal #slct_estado','simple');
+    slctGlobalHtml('form_requisitos_modal #slct_estado','simple');
+    CargarEstratPei();
 
-    $(document).on('click', '#btnnuevo', function(event) {
-        $(".crearPreTramite").removeClass('hidden');
-        
-        window.scrollTo(0,document.body.scrollHeight);
-    });
-    
-         $('#rutaModal').on('show.bs.modal', function (event) {
+             $('#rutaModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
       var text = $.trim( button.data('text') );
       var id= $.trim( button.data('id') );
@@ -112,362 +104,303 @@ $(document).ready(function() {
       $("#form_ruta_verbo input[type='hidden']").remove();
       modal.find('.modal-body input').val(''); // busca un input para copiarle texto
     });
-    
-     $('#buscartramite').on('hide.bs.modal', function (event) {
-//      var modal = $(this); //captura el modal
-//      $("#form_ruta_tiempo input[type='hidden']").remove();
-//      $("#form_ruta_verbo input[type='hidden']").remove();
-      $("#buscartramite #reporte").show();
-    });
-     /*validaciones*/
-    $('#FormCrearPreTramite').bootstrapValidator({
-        feedbackIcons: {
-            valid: 'glyphicon glyphicon-ok',
-            invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh',
-        },
-        excluded: ':disabled',
-        fields: {
-            txt_numfolio: {
-                validators: {
-                    notEmpty: {
-                        message: 'campo requerido'
-                    },
-                    digits:{
-                        message: 'dato numerico'
-                    }
-                }
-            },
-            txt_tipodoc: {
-                validators: {
-                    notEmpty: {
-                        message: 'campo requerido'
-                    },
-                    digits:{
-                        message: 'dato numerico'
-                    }
-                }
-            }
+    $('#requisitoModal').on('show.bs.modal', function (event) { 
+        
+      var button = $(event.relatedTarget); // captura al boton
+      var titulo = button.data('titulo'); // extrae del atributo data-
+
+      var modal = $(this); //captura el modal
+      modal.find('.modal-title').text(titulo+' Requisito');
+      $('#form_requisitos_modal [data-toggle="tooltip"]').css("display","none");
+//      $("#form_requisitos_modal input[type='hidden']").remove();
+ 
+        if(titulo=='Nuevo'){
+            //$("#form_requisitos_modal").append("<input type='hidden' value='263' name='txt_contratacion_id'>");
+            modal.find('.modal-footer .btn-primary').text('Guardar');
+            modal.find('.modal-footer .btn-primary').attr('onClick','AgregarCostoPersonal();');
+            $('#form_requisitos_modal #slct_estado').val(1);
+            $('#form_requisitos_modal #txt_nombre').focus();
+           
+        } else {
+            modal.find('.modal-footer .btn-primary').text('Actualizar');
+            modal.find('.modal-footer .btn-primary').attr('onClick','EditarCostoPersonal();');
+
+            $('#form_requisitos_modal #txt_nombre').val( CostoPersonalG.nombre );
+            $('#form_requisitos_modal #txt_cantidad').val( CostoPersonalG.cantidad );
+            $('#form_requisitos_modal #slct_estado').val( CostoPersonalG.estado );
+            $("#form_requisitos_modal").append("<input type='hidden' value='"+CostoPersonalG.id+"' name='id'>");
+            
+          
         }
+             $('#form_requisitos_modal select').multiselect('rebuild');
     });
+    
+    $('#requisitoModal').on('hide.bs.modal', function (event) {
+       $('#requisitoModal :visible').val('');
+       $('#requisitoModal textarea').val('');
+        $('#requisitoModal select').val('');
+     //   var modal = $(this);
+       // modal.find('.modal-body input').val('');
+    });
+    
+    $('#tipotramiteModal').on('show.bs.modal', function (event) { 
+        
+      var button = $(event.relatedTarget); // captura al boton
+      var titulo = button.data('titulo'); // extrae del atributo data-
+
+      var modal = $(this); //captura el modal
+      modal.find('.modal-title').text(titulo+' Tipo de Trámite');
+      $('#form_tipotramites_modal [data-toggle="tooltip"]').css("display","none");
+//      $("#form_tipotramites_modal input[type='hidden']").remove();
+ 
+        if(titulo=='Nueva'){
+            //$("#form_tipotramites_modal").append("<input type='hidden' value='263' name='txt_contratacion_id'>");
+            modal.find('.modal-footer .btn-primary').text('Guardar');
+            modal.find('.modal-footer .btn-primary').attr('onClick','AgregarEstratPei();');
+            $('#form_tipotramites_modal #slct_estado').val(1);
+            $('#form_tipotramites_modal #txt_descripcion').focus();
+           
+        } else {
+            modal.find('.modal-footer .btn-primary').text('Actualizar');
+            modal.find('.modal-footer .btn-primary').attr('onClick','EditarEstratPei();');
+
+            $('#form_tipotramites_modal #txt_nombre').val( EstratPeiG.descripcion );
+            $('#form_tipotramites_modal #slct_estado').val( EstratPeiG.estado );
+            $("#form_tipotramites_modal").append("<input type='hidden' value='"+EstratPeiG.id+"' name='id'>");
+            
+          
+        }
+             $('#form_tipotramites_modal select').multiselect('rebuild');
+    });
+    
+    $('#tipotramiteModal').on('hide.bs.modal', function (event) {
+       $('#tipotramiteModal :visible').val('');
+        $('#tipotramiteModal select').val('');
+     //   var modal = $(this);
+       // modal.find('.modal-body input').val('');
+    });
+     $("#btn_guardar_todo").click(guardarasignacion);
+    
 });
 
-CargarPreTramites = function(){
-    var data={'persona':'<?php echo Auth::user()->id; ?>','estado':1};
-    Bandeja.MostrarPreTramites(data,HTMLPreTramite);
-}
 
-HTMLPreTramite = function(data){
-    $('#t_reporte').dataTable().fnDestroy();
-    if(data){
-        var html ='';
-        $.each(data,function(index, el) {
-            html+="<tr>";
-            html+=    "<td>"+el.pretramite +"</td>";
-            html+=    "<td>"+el.usuario+"</td>";
-            
-            if(el.empresa){
-                html+=    "<td>"+el.empresa+"</td>";                
-            }else{
-                html+=    "<td>"+el.usuario+"</td>";
-            }
-            
-            html+=    "<td>"+el.solicitante+"</td>";
-            html+=    "<td>"+el.tipotramite+"</td>";
-            html+=    "<td>"+el.tipodoc+"</td>";
-            html+=    "<td>"+el.tramite+"</td>";
-            html+=    "<td>"+el.fecha+"</td>";
-            html+=    '<td><span class="btn btn-primary btn-sm" id-pretramite="'+el.pretramite+'" onclick="Detallepret(this)"><i class="glyphicon glyphicon-th-list"></i></span></td>';
-            html+=    '<td><span class="btn btn-primary btn-sm" id-pretramite="'+el.pretramite+'" onclick="Voucherpret(this)"><i class="glyphicon glyphicon-search"></i></span></td>';
-            html+="</tr>";            
-        });
-        $("#tb_reporte").html(html);
-        $("#t_reporte").dataTable(); 
-    }else{
-        alert('no hay nada');
+
+desactivarCostoPersonal = function(id){
+      Pois.CambiarEstadoCostoPersonal(id, 0); 
+};
+
+activarCostoPersonal = function(id){
+      Pois.CambiarEstadoCostoPersonal(id, 1);   
+};
+
+desactivarEstratPei = function(id){
+      Pois.CambiarEstadoEstratPei(id, 0); 
+};
+
+activarEstratPei = function(id){
+      Pois.CambiarEstadoEstratPei(id, 1);   
+};
+
+Editar = function(){
+    if(validaContrataciones()){
+        Pois.AgregarEditarPois(1);
+        $("#form_costo_personal .form-group").css("display","none");
     }
-}
-
-Detallepret = function(obj){
-    var id_pretramite = obj.getAttribute('id-pretramite');
-    var data = {'idpretramite':id_pretramite};
-    Bandeja.GetPreTramitebyid(data,poblarDetalle);
-
-}
-
-poblarDetalle = function(data){
-    var result = data[0];
-    document.querySelector('#spanTipoTramite').innerHTML = result.tipotramite;
-    document.querySelector('#spanTipoDoc').innerHTML = result.tipodoc;
-    document.querySelector('#spanNombreTramite').innerHTML = result.tramite;
-    document.querySelector('#spanNumFolio').innerHTML = result.folio;
-    document.querySelector('#spanNumTipoDoc').innerHTML = result.nrotipodoc;
-    document.querySelector('#spanTipoSolicitante').innerHTML = result.solicitante;
-    document.querySelector('#spanArea').innerHTML = result.area;
-
-    if(result.empresa){
-        document.querySelector('#spanRuc').innerHTML = result.ruc;
-        document.querySelector('#spanTipoEmpresa').innerHTML = result.tipoempresa;
-        document.querySelector('#spanRazonSocial').innerHTML = result.empresa;
-        document.querySelector('#spanNombComer').innerHTML = result.nomcomercial;
-        document.querySelector('#spanDomiFiscal').innerHTML = result.edireccion;
-        document.querySelector('#spanTelefonoE').innerHTML = result.etelf;
-        document.querySelector('#spanFechavE').innerHTML = result.efvigencia;
-        document.querySelector('#spanRepreL').innerHTML = result.reprelegal;
-        document.querySelector('#spanDniRL').innerHTML = result.repredni;
-        $('.empresadetalle').removeClass('hidden');        
-    }else{
-        $('.empresadetalle').addClass('hidden');
+};
+Agregar = function(){
+    if(validaContrataciones()){
+       Pois.AgregarEditarPois(0);
+       $("#form_costo_personal .form-group").css("display","none");
     }
+};
 
-    document.querySelector('#spanDniU').innerHTML = result.dniU;
-    document.querySelector('#spanNombreU').innerHTML = result.nombusuario;
-    document.querySelector('#spanNombreApeP').innerHTML = result.apepusuario;
-    document.querySelector('#spanNombreApeM').innerHTML = result.apemusuario;
-    document.querySelector('#spanTelefonoU').innerHTML = '';
-    document.querySelector('#spanDirecU').innerHTML = '';
-    $('#detallepretramite').modal('show');
-}
+validaContrataciones = function(){
+    var r=true;
 
-Voucherpret = function(obj){
-    var id_pretramite = obj.getAttribute('id-pretramite');
-    var data = {'idpretramite':id_pretramite};
-    Bandeja.GetPreTramitebyid(data,poblarVoucher);
-}
+        if( $("#form_pois_modal #txt_objetivo_general").val()=='' ){
+            alert("Ingrese Objetivo General");
+            r=false;
+        }
+        if( $("#form_pois_modal #slct_area").val()=='' ){
+            alert("Seleccione Área");
+            r=false;
+        }
 
-poblarVoucher = function(data){
-    var result = data[0];
-    document.querySelector('#spanvfecha').innerHTML=result.fregistro;
-    document.querySelector('#spanvcodpretramite').innerHTML=result.pretramite;
-    document.querySelector('#spantArea').innerHTML=result.area;
-    document.querySelector('#spanImprimir').setAttribute('idpretramite',result.pretramite);
 
-   if(result.empresa){
-        document.querySelector('#spanveruc').innerHTML=result.ruc;
-        document.querySelector('#spanvetipo').innerHTML=result.tipoempresa;
-        document.querySelector('#spanverazonsocial').innerHTML=result.empresa;
-        document.querySelector('#spanvenombreco').innerHTML=result.nomcomercial;
-        document.querySelector('#spanvedirecfiscal').innerHTML=result.edireccion;
-        document.querySelector('#spanvetelf').innerHTML=result.etelf;
-        document.querySelector('#spanverepre').innerHTML=result.reprelegal;
-        $('.vempresa').removeClass('hidden');
-    }else{
-        $('.vempresa').addClass('hidden');
-    }
+    return r;
+};
 
-    document.querySelector('#spanvudni').innerHTML=result.dniU;
-    document.querySelector('#spanvunomb').innerHTML=result.nombusuario;
-    document.querySelector('#spanvuapep').innerHTML=result.apepusuario;
-    document.querySelector('#spanvuapem').innerHTML=result.apemusuario;
-    document.querySelector('#spanvnombtramite').innerHTML=result.tramite;
+CargarCostoPersonal=function(id,titulo,boton){
     
-    $('#voucher').modal('show');
-}
+    var tr = boton.parentNode.parentNode;
+    var trs = tr.parentNode.children;
+    for(var i =0;i<trs.length;i++)
+        trs[i].style.backgroundColor="#f9f9f9";
+    tr.style.backgroundColor = "#9CD9DE";
+    
+    $("#form_requisitos_modal #txt_poi_id").val(id);
+    $("#form_costo_personal #txt_titulo").text(titulo);
+    $("#form_costo_personal .form-group").css("display","");
+    $("#form_actividad").css("display","none");
+    
+    data={id:id};
+    Pois.CargarCostoPersonal(data);
+};
 
-exportPDF = function(obj){
-    var idpretramite = obj.getAttribute('idpretramite');
-    if(idpretramite){
-        obj.setAttribute('href','pretramite/voucherpretramite'+'?idpretramite='+idpretramite);
-       /* $(this).attr('href','reporte/exportprocesosactividades'+'?estado='+data[0]['estado']+'&area_id='+data[0]['area_id']);*/
-    }else{
-        event.preventDefault();
-    }
-}
+CargarActividad=function(id,titulo,boton){
+    
+    var tr = boton.parentNode.parentNode;
+    var trs = tr.parentNode.children;
+    for(var i =0;i<trs.length;i++)
+        trs[i].style.backgroundColor="#f9f9f9";
+    tr.style.backgroundColor = "#9CD9DE";
+    
+    $("#form_actividad #id").val(id);
+    $("#form_actividad #txt_titulo").text(titulo);
+    $("#form_actividad").css("display","");
+    
+    $("#form_costo_personal .form-group").css("display","none");
 
-Mostrar = function(data){
-    if(data[0].pide_empresa == 1){
-        $(".usuario").removeClass('hidden');
-        $(".empresa").removeClass('hidden');
-        Bandeja.getEmpresasByPersona({'persona':UsuarioId},ValidacionEmpresa);
-    }else{
-        $(".empresa").addClass('hidden');
-        $(".usuario").removeClass('hidden');
-        poblateData('usuario',DataUser);
-    }
-}
+};
 
-ValidacionEmpresa = function(data){
-    if(data.length > 1){
-        var html = '';
-        $.each(data,function(index, el) {
-            html+='<tr id='+el.id+'>';
-            html+='<td name="ruc">'+el.ruc+'</td>';
-            html+='<td name="tipo_id">'+el.tipo_id+'</td>';
-            html+='<td name="razon_social">'+el.razon_social+'</td>';
-            html+='<td name="nombre_comercial">'+el.nombre_comercial+'</td>';
-            html+='<td name="direccion_fiscal">'+el.direccion_fiscal+'</td>';
-            html+='<td name="telefono">'+el.telefono+'</td>';
-            html+='<td name="fecha_vigencia">'+el.fecha_vigencia+'</td>';
-            html+='<td name="estado">'+el.estado+'</td>';
-            html+='<td name="representante">'+el.representante+'</td>';
-            html+='<td name="dnirepre">'+el.dnirepre+'</td>';
-            html+='<td><span class="btn btn-primary btn-sm" id-empresa='+el.id+' onClick="selectEmpresa(this)">Seleccionar</span></td>';
-            html+='</tr>';
-        });
-        $('#tb_empresa').html(html);
-        $('#empresasbyuser').modal('show');
-    }else if(data.length == 1){
-        poblateData('empresa',data[0]);
-    }else{
-        $(".empresa").addClass('hidden');
-        alert('no cuenta con una empresa');
-    }
-}
+CargarEstratPei=function(){
 
-selectEmpresa = function(obj){
-    var idempresa = obj.parentNode.parentNode.getAttribute('id');
-    var td = document.querySelectorAll("#t_empresa tr[id='"+idempresa+"'] td");
-    var data = '{';
-    for (var i = 0; i < td.length; i++) {
-        if(td[i].getAttribute('name')){
-          data+=(i==0) ? '"'+td[i].getAttribute('name')+'":"'+td[i].innerHTML : '","' + td[i].getAttribute('name')+'":"'+td[i].innerHTML;   
+    Pois.CargarEstratPei();
+};
+
+
+costopersonalHTML=function(datos){
+  var html="";
+    var alerta_tipo= '';
+    $('#t_costo_personal').dataTable().fnDestroy();
+    pos=0;
+    $.each(datos,function(index,data){
+        pos++;
+        html+="<tr>"+
+             "<td>"+pos+"</td>"+
+            "<td>"+data.nombre+"</td>"+
+            "<td>"+data.cantidad+"</td>";
+        html+="<td align='center'><a class='form-control btn btn-primary' data-toggle='modal' data-target='#requisitoModal' data-titulo='Editar' onclick='BtnEditarCostoPersonal(this,"+data.id+")'><i class='fa fa-lg fa-edit'></i></a></td>";
+        if(data.estado==1){
+            html+='<td align="center"><span id="'+data.id+'" onClick="desactivarCostoPersonal('+data.id+')" data-estado="'+data.estado+'" class="btn btn-success">Activo</span></td>';
         }
-    }
-    data+='","id":'+idempresa+'}';
-    poblateData('empresa',JSON.parse(data));
-    $('#empresasbyuser').modal('hide');
-}
-   
-poblateData = function(tipo,data){
-/*    if(tipo == 'usuario'){*/
-        document.querySelector('#txt_userdni').value='<?php echo Auth::user()->dni; ?>';
-        document.querySelector('#txt_usernomb').value='<?php echo Auth::user()->nombre; ?>';
-        document.querySelector('#txt_userapepat').value='<?php echo Auth::user()->paterno; ?>';
-        document.querySelector('#txt_userapemat').value='<?php echo Auth::user()->materno; ?>';
-    /*    user_telf.value=data.;
-        user_direc.value=data.;*/
-    /*  */
+        else {
+           html+='<td align="center"><span id="'+data.id+'" onClick="activarCostoPersonal('+data.id+')" data-estado="'+data.estado+'" class="btn btn-danger">Inactivo</span></td>';
 
-    if(tipo == 'empresa'){
-        document.querySelector('#txt_idempresa').value=data.id;
-        document.querySelector('#txt_ruc').value=data.ruc;
-        document.querySelector('#txt_tipoempresa').value=data.tipo_id;
-        document.querySelector('#txt_razonsocial').value=data.razon_social;
-        document.querySelector('#txt_nombcomercial').value=data.nombre_comercial;
-        document.querySelector('#txt_domiciliofiscal').value=data.direccion_fiscal;
-        document.querySelector('#txt_emptelefono').value=data.telefono;
-        document.querySelector('#txt_empfechav').value=data.fecha_vigencia;
-        document.querySelector('#txt_reprelegal').value=data.representante;
-        document.querySelector('#txt_repredni').value=data.dnirepre;
-    }
-
-    if(tipo== 'tramite'){
-        document.querySelector('#txt_nombretramite').value=data.nombre;
-        document.querySelector('#txt_idclasitramite').value=data.id;
-        document.querySelector('#txt_idarea').value=data.areaid;
-    }
-
-}
-
-consultar = function(){
-    var busqueda = document.querySelector("#txtbuscarclasificador");
-    var tipotramite = document.querySelector('#cbo_tipotramite');
-
-    var data = {};
-    data.estado = 1;
-    if(busqueda){
-       data.buscar = busqueda.value;
-    }
-    if(tipotramite){
-        data.tipotra = tipotramite.value;
-    }
-    Bandeja.getClasificadoresTramite(data,HTMLClasificadores);
-    $(".rowArea").addClass('hidden');
-    $('#buscartramite').modal('show');
-}
-
-HTMLClasificadores = function(data){
-    if(data.length > 0){
-        $("#t_clasificador").dataTable().fnDestroy();
-        var html = '';
-        $.each(data,function(index, el) {
-            html+='<tr>';
-            html+='<td>'+el.id+'</td>';
-            html+='<td style="text-align: left">'+el.nombre_clasificador_tramite+'</td>';
-            html+='<td><span class="btn btn-primary btn-sm" id="'+el.id+'" nombre="'+el.nombre_clasificador_tramite+'" onClick="getRequisitos(this)">Ver</span></td>';
-            html+='<td><span class="btn btn-primary btn-sm" id="'+el.id+'" nombre="'+el.nombre_clasificador_tramite+'" onclick="selectClaTramite(this)">Seleccionar</span></td>';
-            html+='<td><span class="btn btn-primary btn-sm" id="'+el.id+'" nombre="'+el.nombre_clasificador_tramite+'" onclick="cargarRutaId('+el.ruta_flujo_id+',2)">Ver Ruta</span></td>';
-            html+='</tr>';        
-        });
-        $("#tb_clasificador").html(html);
-        $("#t_clasificador").dataTable(
-                {
-                    "order": [[ 0, "asc" ],[1, "asc"]],
-                }
-        ); 
-        $("#t_clasificador").show();        
-    }else{
-        alert('no hay data');
-    }
-}
-
-selectClaTramite = function(obj){
-    data ={'id':obj.getAttribute('id'),'nombre':obj.getAttribute('nombre')};
-    Bandeja.GetAreasbyCTramite({'idc':obj.getAttribute('id')},data);
-}
-
-selectCA = function(obj){
-    var areaid= obj.value;
-    var area_nomb = document.querySelectorAll("#slcAreasct option[value='"+areaid+"']");
-    var cla_id = document.querySelector('#txt_clasificador_id').value;
-    var cla_nomb = document.querySelector('#txt_clasificador_nomb').value;
-    var data ={'id':cla_id,'nombre':cla_nomb,'area':area_nomb[0].textContent,'areaid':areaid};
-    poblateData('tramite',data);
-    $('#buscartramite').modal('hide');
-
-}
-/*
-confirmInfo = function(data,tipo){
-    if(tipo == 'incompleto'){ //falta seleccionar su area
-        var areaSelect = document.querySelector("#slcAreasct");
-        if(areaSelect.value != ''){
-            data.area = areaSelect.value;
-            poblateData('tramite',data);
-            $('#buscartramite').modal('hide');
-        }else{
-            alert('seleccione una area');
         }
-    }else{
-        poblateData('tramite',data);
-        $('#buscartramite').modal('hide');
-    }
-}
-*/
-getRequisitos = function(obj){
-    data = {'idclatramite':obj.getAttribute('id'),'estado':1};
-    Bandeja.getRequisitosbyclatramite(data,HTMLRequisitos,obj.getAttribute('nombre'));
-}
 
-HTMLRequisitos = function(data,tramite){
-    $("#tb_requisitos").html('');
-    if(data){
-        var html ='';
-        $.each(data,function(index, el) {
-            html+='<tr><ul>';
-            html+='<td style="text-align: left;"><li>'+el.nombre+'</li></td>';
-            html+='<td>'+el.cantidad+'</td>';
-            html+='<ul></tr>';
-        });
-        $("#tb_requisitos").html(html);
-        $("#nombtramite").text(tramite);
-        $("#requisitos").modal('show');
-    }
-}
+        html+="</tr>";
+    });
+    $("#tb_costo_personal").html(html);
+    $("#t_costo_personal").dataTable(
+    ); 
 
-generarPreTramite = function(){
-    var tipodoc = document.querySelector('#cbo_tipodoc').value;
-    if(tipodoc){
-        datos=$("#FormCrearPreTramite").serialize().split("txt_").join("").split("slct_").join("").split("%5B%5D").join("[]").split("+").join(" ").split("%7C").join("|").split("&");
-        data = '{';
-        for (var i = 0; i < datos.length ; i++) {
-            var elemento = datos[i].split('=');
-            data+=(i == 0) ? '"'+elemento[0]+'":"'+elemento[1] : '","' + elemento[0]+'":"'+elemento[1];   
+
+};
+
+estratpeiHTML=function(datos){
+  var html="";
+    var alerta_tipo= '';
+    $('#t_estrat_pei').dataTable().fnDestroy();
+    pos=0;
+    $.each(datos,function(index,data){
+        pos++;
+        html+="<tr>"+
+             "<td>"+pos+"</td>"+
+            "<td>"+data.nombre+"</td>";
+        html+="<td align='center'><a class='form-control btn btn-primary' data-toggle='modal' data-target='#tipotramiteModal' data-titulo='Editar' onclick='BtnEditarEstratPei(this,"+data.id+")'><i class='fa fa-lg fa-edit'></i></a></td>";
+        if(data.estado==1){
+            html+='<td align="center"><span id="'+data.id+'" onClick="desactivarEstratPei('+data.id+')" data-estado="'+data.estado+'" class="btn btn-success">Activo</span></td>';
         }
-        data+='"}';
-        Bandeja.GuardarPreTramite(data,CargarPreTramites);
-        
-    }else{
-        alert('complete data');
+        else {
+           html+='<td align="center"><span id="'+data.id+'" onClick="activarEstratPei('+data.id+')" data-estado="'+data.estado+'" class="btn btn-danger">Inactivo</span></td>';
+
+        }
+
+        html+="</tr>";
+    });
+    $("#tb_estrat_pei").html(html);
+    $("#t_estrat_pei").dataTable(
+    ); 
+
+
+};
+
+
+eventoSlctGlobalSimple=function(){
+};
+
+BtnEditarCostoPersonal=function(btn,id){
+    var tr = btn.parentNode.parentNode; // Intocable
+    CostoPersonalG.id=id;
+    CostoPersonalG.nombre=$(tr).find("td:eq(1)").text();
+    CostoPersonalG.cantidad=$(tr).find("td:eq(2)").text();
+    CostoPersonalG.estado=$(tr).find("td:eq(4)>span").attr("data-estado");
+
+};
+
+
+BtnEditarEstratPei=function(btn,id){
+    var tr = btn.parentNode.parentNode; // Intocable
+    EstratPeiG.id=id;
+    EstratPeiG.descripcion=$(tr).find("td:eq(1)").text();
+    EstratPeiG.estado=$(tr).find("td:eq(3)>span").attr("data-estado");
+
+};
+
+validaCostoPersonal = function(){
+    var r=true;
+    if( $("#form_requisitos_modal #txt_modalidad").val()=='' ){
+        alert("Ingrese Modalidad");
+        r=false;
+    }
+    return r;
+};
+EditarCostoPersonal = function(){
+    if(validaCostoPersonal()){
+        Pois.AgregarEditarCostoPersonal(1);
+    }
+};
+AgregarCostoPersonal = function(){
+    if(validaCostoPersonal()){
+        Pois.AgregarEditarCostoPersonal(0);
+    }
+};
+
+
+EditarEstratPei = function(){
+    if(validaEstratPei()){
+        Pois.AgregarEditarEstratPei(1);
+    }
+};
+AgregarEstratPei = function(){
+    if(validaEstratPei()){
+        Pois.AgregarEditarEstratPei(0);
+    }
+};
+
+validaEstratPei = function(){
+    var r=true;
+    if( $("#form_tipotramites_modal #txt_nombre").val()=='' ){
+        alert("Ingrese Nombre");
+        r=false;
+    }
+    return r;
+};
+
+
+Close=function(){
+    $("#form_costo_personal .form-group").css("display","none");
+}
+
+
+guardarasignacion=function(){
+    if( $("#txt_flujo2_id").val()=='' ){
+        alert("Seleccione un Tipo Flujo");
+    }
+
+    else{
+        Pois.agregarProceso();
     }
 }
 

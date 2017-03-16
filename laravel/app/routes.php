@@ -192,3 +192,4 @@ Route::controller('poitipo', 'PoiTipoController');
 Route::controller('poisubtipo', 'PoiSubtipoController');
 Route::controller('poi', 'PoiController');
 Route::controller('metacuadro', 'MetaCuadroController');
+Route::controller('clasificadortramite', 'ClasificadorTramiteController');
