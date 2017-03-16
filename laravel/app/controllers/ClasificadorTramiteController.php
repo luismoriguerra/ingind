@@ -313,5 +313,25 @@ class ClasificadorTramiteController extends \BaseController
             return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
         }
     }
+    
+            public function postAgregarproceso()
+    {
+
+        if ( Request::ajax() ) {
+
+            $costopersonal = ClasificadorTramite::find(Input::get('id'));
+            $costopersonal->usuario_created_at = Auth::user()->id;
+            $costopersonal->ruta_flujo_id = Input::get('ruta_flujo_id');
+            $costopersonal->save();
+           
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro actualizado correctamente',
+                )
+            );    
+
+        }
+    }
 
 }

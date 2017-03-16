@@ -15,7 +15,7 @@ class ClasificadorTramite extends Base
     public static function getCargar($array)
     {
      
-        $sSql=" SELECT ct.id,tt.id tipo_tramite_id, ct.nombre_clasificador_tramite as nombre, ct.estado,tt.nombre_tipo_tramite tipo_tramite
+        $sSql=" SELECT ct.ruta_flujo_id,ct.id,tt.id tipo_tramite_id, ct.nombre_clasificador_tramite as nombre, ct.estado,tt.nombre_tipo_tramite tipo_tramite
                     FROM clasificador_tramite ct
                     
                     LEFT JOIN tipo_tramite tt ON tt.id=ct.tipo_tramite_id
