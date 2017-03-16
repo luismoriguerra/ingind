@@ -264,8 +264,8 @@ class EnvioAutomaticoController extends \BaseController {
                     LEFT JOIN actividad_personal ap on ap.persona_id=p.id  and DATE(ap.fecha_inicio)= '$ayer' AND ap.usuario_created_at=ap.persona_id AND ap.estado=1
                     WHERE p.estado=1 
                     AND p.rol_id NOT IN (8,9)
-                    AND p.envio_actividad=1
-                    AND '$ayer' NOT BETWEEN DATE(IFNULL(p.fecha_ini_exonera,CURDATE()))  AND DATE(IFNULL(p.fecha_fin_exonera,CURDATE()))
+                    AND (p.envio_actividad=1
+                    OR '$ayer' NOT BETWEEN DATE(IFNULL(p.fecha_ini_exonera,CURDATE()))  AND DATE(IFNULL(p.fecha_fin_exonera,CURDATE())))
                     GROUP BY p.id
                     HAVING val_minu=0";
 
