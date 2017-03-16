@@ -590,7 +590,7 @@ class PersonaController extends BaseController
             $persona_exo->save();
 
             /*if validate fechas y estado envio*/
-            if($persona->fecha_ini_exonera != '' && $persona->fecha_fin_exonera != ''){
+/*            if($persona->fecha_ini_exonera != '' && $persona->fecha_fin_exonera != ''){
                 $actual = date('Y-m-d ');
                 $inicial = date('Y-m-d',strtotime($persona->fecha_ini_exonera));
                 $final = date('Y-m-d',strtotime($persona->fecha_fin_exonera));
@@ -599,7 +599,7 @@ class PersonaController extends BaseController
                     $persona->usuario_updated_at = Auth::user()->id;
                     $persona->save();
                 }
-            }
+            }*/
             /*end validate fechas y estado envio*/
 
             return Response::json(
