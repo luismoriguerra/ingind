@@ -16,14 +16,14 @@ class TablaRelacion extends Eloquent
                 INNER JOIN rutas_detalle rd2 ON rd2.ruta_id=r.id AND rd2.estado=1 AND rd2.norden=2
                 LEFT JOIN tablas_relacion tr2 ON tr2.id_union=tr.id_union AND tr2.estado=1 AND tr2.id>tr.id
                 WHERE r.estado=1
-                AND FIND_IN_SET(rd2.area_id,
-                    (SELECT GROUP_CONCAT(a.id)
+                AND rd2.area_id IN
+                    (SELECT a.id
                     FROM area_cargo_persona acp
                     INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
                     INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
                     WHERE acp.estado=1
-                    AND cp.persona_id= ".$usuario.")
-                    )>0
+                    AND cp.persona_id= ".$usuario."
+                    )
                  ";
         $sSql.= $array['where']."
                 GROUP BY tr.id_union
@@ -45,14 +45,14 @@ class TablaRelacion extends Eloquent
                 INNER JOIN rutas_detalle rd2 ON rd2.ruta_id=r.id AND rd2.estado=1 AND rd2.norden=2
                 LEFT JOIN tablas_relacion tr2 ON tr2.id_union=tr.id_union AND tr2.estado=1 AND tr2.id>tr.id
                 WHERE r.estado=1
-                AND FIND_IN_SET(rd2.area_id,
-                    (SELECT GROUP_CONCAT(a.id)
+                AND rd2.area_id IN 
+                    (SELECT a.id
                     FROM area_cargo_persona acp
                     INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
                     INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
                     WHERE acp.estado=1
-                    AND cp.persona_id= ".$usuario.")
-                    )>0
+                    AND cp.persona_id= ".$usuario."
+                    )
                  ";
         $sSql.= $array['where']."
                 GROUP BY tr.id_union
