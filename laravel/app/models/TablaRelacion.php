@@ -5,7 +5,6 @@ class TablaRelacion extends Eloquent
 
     public static function getPlataformaCount( $array )
     {   
-        $usuario=Auth::user()->id;
         $sSql=" SELECT COUNT(a.id) cant
                 FROM ( 
                 SELECT tr.id_union id,COUNT(tr2.id) cant
@@ -16,14 +15,6 @@ class TablaRelacion extends Eloquent
                 INNER JOIN rutas_detalle rd2 ON rd2.ruta_id=r.id AND rd2.estado=1 AND rd2.norden=2
                 LEFT JOIN tablas_relacion tr2 ON tr2.id_union=tr.id_union AND tr2.estado=1 AND tr2.id>tr.id
                 WHERE r.estado=1
-                AND rd2.area_id IN
-                    (SELECT a.id
-                    FROM area_cargo_persona acp
-                    INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
-                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
-                    WHERE acp.estado=1
-                    AND cp.persona_id= ".$usuario."
-                    )
                  ";
         $sSql.= $array['where']."
                 GROUP BY tr.id_union
@@ -36,7 +27,6 @@ class TablaRelacion extends Eloquent
 
     public static function getPlataforma( $array )
     {
-        $usuario=Auth::user()->id;
         $sSql=" SELECT CONCAT(r.id,'|',tr.id_union) id,f.nombre proceso, tr.id_union tramite, rd.fecha_inicio f1,rd2.fecha_inicio, COUNT(tr2.id) cant
                 FROM rutas r
                 INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1 AND tr.usuario_created_at!=1272
@@ -45,14 +35,6 @@ class TablaRelacion extends Eloquent
                 INNER JOIN rutas_detalle rd2 ON rd2.ruta_id=r.id AND rd2.estado=1 AND rd2.norden=2
                 LEFT JOIN tablas_relacion tr2 ON tr2.id_union=tr.id_union AND tr2.estado=1 AND tr2.id>tr.id
                 WHERE r.estado=1
-                AND rd2.area_id IN 
-                    (SELECT a.id
-                    FROM area_cargo_persona acp
-                    INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
-                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
-                    WHERE acp.estado=1
-                    AND cp.persona_id= ".$usuario."
-                    )
                  ";
         $sSql.= $array['where']."
                 GROUP BY tr.id_union
@@ -75,14 +57,14 @@ class TablaRelacion extends Eloquent
                 INNER JOIN rutas_detalle rd2 ON rd2.ruta_id=r.id AND rd2.estado=1 AND rd2.norden=2
                 LEFT JOIN tablas_relacion tr2 ON tr2.id_union=tr.id_union AND tr2.estado=1 AND tr2.id>tr.id
                 WHERE r.estado=1
-                AND FIND_IN_SET(rd2.area_id,
-                    (SELECT GROUP_CONCAT(a.id)
+                AND rd2.area_id IN 
+                    (SELECT a.id
                     FROM area_cargo_persona acp
                     INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
                     INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
                     WHERE acp.estado=1
-                    AND cp.persona_id= ".$usuario.")
-                    )>0
+                    AND cp.persona_id= ".$usuario."
+                    )
                 GROUP BY tr.id_union
                 HAVING cant=0
                 ORDER BY rd2.fecha_inicio DESC ";

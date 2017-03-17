@@ -48,6 +48,23 @@ class TablaRelacionController extends \BaseController
                     }
                 }
 
+                $usuario=Auth::user()->id;
+                $cargopersona= CargoPersona::where('cargo_id','12')
+                                ->where('persona_id',$usuario)
+                                ->where('estado','1')
+                                ->get();
+                $area="";
+                if( count($cargopersona)==0 ){
+                    $array['where'].=" AND rd2.area_id IN
+                                        (SELECT a.id
+                                        FROM area_cargo_persona acp
+                                        INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                                        INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                        WHERE acp.estado=1
+                                        AND cp.persona_id= ".$usuario."
+                                        ) ";
+                }
+
                 $array['order']=" ORDER BY rd2.fecha_inicio DESC ";
 
                 $cant  = TablaRelacion::getPlataformaCount( $array );
