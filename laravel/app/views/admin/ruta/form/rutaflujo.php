@@ -23,7 +23,7 @@
                         <div class="col-sm-12">
                             <div class="col-sm-4">
                                 <label class="control-label">Dueño del Proceso:</label>
-                                <input class="form-control" type="text" id="txt_persona" name="txt_persona" readonly>
+                                <input class="form-control" type="text" id="txt_persona_1" name="txt_persona_1" readonly>
                             </div>
                             <div class="col-sm-4">
                                 <label class="control-label">Proceso:</label>
@@ -31,7 +31,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <label class="control-label">Area del Dueño del Proceso:</label>
-                                <input class="form-control" type="text" id="txt_area" name="txt_area" readonly>
+                                <input class="form-control" type="text" id="txt_area_1" name="txt_area_1" readonly>
                             </div>
                         </div>
                     </div>
