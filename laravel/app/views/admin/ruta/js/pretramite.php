@@ -354,7 +354,7 @@ poblateData = function(tipo,data){
     if(tipo== 'tramite'){
         document.querySelector('#txt_nombretramite').value=data.nombre;
         document.querySelector('#txt_idclasitramite').value=data.id;
-        document.querySelector('#txt_idarea').value=data.areaid;
+/*        document.querySelector('#txt_idarea').value=data.areaid;*/
     }
 
 }
@@ -403,7 +403,9 @@ HTMLClasificadores = function(data){
 
 selectClaTramite = function(obj){
     data ={'id':obj.getAttribute('id'),'nombre':obj.getAttribute('nombre')};
-    Bandeja.GetAreasbyCTramite({'idc':obj.getAttribute('id')},data);
+    poblateData('tramite',data);
+    $('#buscartramite').modal('hide');
+    /*Bandeja.GetAreasbyCTramite({'idc':obj.getAttribute('id')},data);*/
 }
 
 selectCA = function(obj){

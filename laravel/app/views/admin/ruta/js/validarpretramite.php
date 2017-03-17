@@ -303,7 +303,9 @@ HTMLRequisitos = function(data,tramite){
 
 selectClaTramite = function(obj){
     data ={'id':obj.getAttribute('id'),'nombre':obj.getAttribute('nombre')};
-    Bandeja.GetAreasbyCTramite({'idc':obj.getAttribute('id')},data);
+/*    Bandeja.GetAreasbyCTramite({'idc':obj.getAttribute('id')},data);*/
+    poblateData('tramite',data);
+    $('#buscartramite').modal('hide');
 }
 
 selectCA = function(obj){
@@ -319,9 +321,9 @@ selectCA = function(obj){
 poblateData = function(tipo,data){
     if(tipo=='tramite'){
         document.querySelector('#spanNombreT').innerHTML=data.nombre;
-        document.querySelector('#spanArea').innerHTML=data.area;
+/*        document.querySelector('#spanArea').innerHTML=data.area;*/
         document.querySelector('#txt_ctramite').value=data.id;
-        document.querySelector('#txt_area').value=data.areaid;
+/*        document.querySelector('#txt_area').value=data.areaid;*/
     }
 }
 
