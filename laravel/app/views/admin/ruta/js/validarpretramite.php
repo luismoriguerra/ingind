@@ -275,8 +275,8 @@ HTMLClasificadores = function(data){
         }
     ); 
         $("#buscartramite").modal('show');
-    }else{
         alert('sin data');
+    }else{
     }
 }
 

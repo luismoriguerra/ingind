@@ -59,13 +59,21 @@ function initClockPicker(){
 
 
 var today = new Date(); // get current date
-var first = (today.getDate() - today.getDay()) + 1; // First day is the day of the month - the day of the week
-var firstday = new Date(2017,new Date().getMonth(),first);
-var month =firstday.getMonth()+1;
+var first;
+var last = 0;
 
-var sumlast = 7 - today.getDay();
-var last = today.getDate() + sumlast;
+if(today.getDay()!=0){
+    first = (today.getDate() - today.getDay()) + 1;
+    var sumlast = 7 - today.getDay();
+    last = today.getDate() + sumlast;
+}else{
+    first = (today.getDate() - today.getDay()) - 6;
+    last = today.getDate();
+}
+
+var firstday = new Date(2017,new Date().getMonth(),first);
 var lastday = new Date(2017,new Date().getMonth(),last);
+var month =firstday.getMonth()+1;
 
 function initDatePicker(){
     $('.fechaInicio').datepicker({
