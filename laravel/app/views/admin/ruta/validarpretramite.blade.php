@@ -272,14 +272,14 @@ td, th{
                                 </div>
                               </div>
                               <div class="row form-group">
-                                <div class="col-sm-5">
+                                <div class="col-sm-10">
                                   <label>NOMBRE DEL TRAMITE: </label>
                                   <span id="spanNombreT"></span>
                                 </div>
-                                <div class="col-sm-5">
+                     {{--            <div class="col-sm-5">
                                   <label>AREA: </label>
                                   <span id="spanArea"></span>
-                                </div>
+                                </div> --}}
                                 <div class="col-sm-2">                              
                                   <label class="btn btn-primary btn-sm" id="spanEditar" onclick="getCTramites()" style="width: 100%">Editar</label>
                                 </div>                          
