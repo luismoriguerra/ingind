@@ -284,11 +284,11 @@ class EnvioAutomaticoController extends \BaseController {
                 $texto = '';
 
                 if ($value->minuto > 0) {
-                    $texto = 'Ud. incumplió con la responsabilidad de registrar la cantidad mínima de minutos la cual es: 360 minutos por día (6 horas). Usted ha registrado: ' . $value->minuto . ' minuto(s).';
+                    $texto = 'Ud. incumplió con la responsabilidad de registrar la cantidad mínima de minutos la cual es: 480 minutos por día (8 horas). Usted ha registrado: ' . $value->minuto . ' minuto(s).';
                 }
                 
                 if ($value->minuto == 0) {
-                    $texto = 'Ud. incumplió con la responsabilidad de registrar sus actividades, la cantidad mínima de minutos es: 360 minutos por día (6 horas). Usted ha registrado: ' . $value->minuto . ' minuto(s).';
+                    $texto = 'Ud. incumplió con la responsabilidad de registrar sus actividades, la cantidad mínima de minutos es: 480 minutos por día (8 horas). Usted ha registrado: ' . $value->minuto . ' minuto(s).';
                 }
 //                if ($value->val_acti == 0 AND $value->val_minu == 1) {
 //                    $texto = 'la cantidad mínima de actividades la cual es 5 actividades por día. Usted ha registrado: '.$value->actividad.' actividad(es).';
