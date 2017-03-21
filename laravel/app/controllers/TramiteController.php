@@ -160,7 +160,7 @@ class TramiteController extends BaseController {
 		        	$tramite['empresa_id'] = $data['txt_empresaid'];      	
 		        }
 
-		        $tramite['area_id'] = $data['txt_area'];
+		        //$tramite['area_id'] = $data['txt_area'];
 		        $tramite['clasificador_tramite_id'] = $data['txt_ctramite'];
 		        $tramite['tipo_solicitante_id'] = $data['txt_tsolicitante'];
 		        $tramite['tipo_documento_id'] = $data['txt_tdocumento'];

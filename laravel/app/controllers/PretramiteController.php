@@ -95,7 +95,7 @@ class PretramiteController extends BaseController {
 	        $pretramite['tipo_documento_id'] = $array_data->cbo_tipodoc;
 	        $pretramite['documento'] = $array_data->tipodoc;
 	        $pretramite['nro_folios'] = $array_data->numfolio;
-	        $pretramite['area_id'] = $array_data->idarea;
+	        //$pretramite['area_id'] = $array_data->idarea;
 	/*        $pretramite['fecha_pretramite'] = date();*/
 	        $pretramite['usuario_created_at'] = Auth::user()->id;
 	        $pretramite->save();
@@ -126,7 +126,7 @@ class PretramiteController extends BaseController {
         $pretramite['tipo_documento_id'] = $array_data->cbo_tipodoc;
         $pretramite['documento'] = $array_data->tipodoc;
         $pretramite['nro_folios'] = $array_data->numfolio;
-        $pretramite['area_id'] = $array_data->idarea;
+        //$pretramite['area_id'] = $array_data->idarea;
 /*        $pretramite['fecha_pretramite'] = date();*/
         $pretramite['usuario_created_at'] = Auth::user()->id;
         $pretramite->save();
