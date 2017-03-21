@@ -188,8 +188,11 @@ var Asignar={
                     $(".ordenesT input[type='hidden'],.ordenesT input[type='numeric'],.ordenesT input[type='text'],.ordenesT select,.ordenesT textarea").val("");
                     $('.ordenesT select').multiselect('refresh');  
                     $(".filtros input[type='hidden'],.filtros input[type='text'],.filtros select,.filtros textarea").val("");
-                    $('.filtros select').multiselect('refresh');  
-                    msjG.mensaje('success','Registrado',4000);
+                    $('.filtros select').multiselect('refresh');
+                    msjG.mensaje('success','Registrado Correctamente',4000);
+                    if(obj.registro != ''){
+                        msjG.mensaje('danger','Fechas no registradas: '+obj.registro,40000);                        
+                    }  
                     $(".overlay,.loading-img").remove();
                 }
                 else{

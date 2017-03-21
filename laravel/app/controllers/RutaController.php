@@ -105,6 +105,22 @@ class RutaController extends \BaseController
     {   
 
         if ( Input::has('info') ) {
+
+            /*validate date*/
+            $dayweek = date('w');
+            $sumlast = 7 - $dayweek;
+            $array_noregistrados = [];
+
+            if($dayweek!=0){
+                $event = date('Y-m-d',strtotime("-$dayweek days"));
+                $fechaFirst = date('Y-m-d',strtotime($event. "+1 days"));
+                $fechaLast = date('Y-m-d',strtotime("+$sumlast days"));
+            }else{
+                $fechaFirst = date('Y-m-d',strtotime("-6 days"));
+                $fechaLast = date('Y-m-d');
+            }
+            /*end validate date*/
+
             $info = Input::get('info');
             if(count($info) > 0){
                 
@@ -116,6 +132,8 @@ class RutaController extends \BaseController
                 /*fin si crea para otra persona*/
                 $Persona = Persona::find($persona_id);
              foreach ($info as $key => $value) {
+                $fechaActual = date("Y-m-d", strtotime($value['finicio']));
+                if($fechaActual >= $fechaFirst && $fechaActual <= $fechaLast){
                     DB::beginTransaction();
                     $ttranscurrido = $value['ttranscurrido'];
                     $minTrascurrido = explode(':', $ttranscurrido)[0] * 60 + explode(':', $ttranscurrido)[1];
@@ -130,13 +148,16 @@ class RutaController extends \BaseController
                     $acti_personal->usuario_created_at = Auth::user()->id;
 
                     $acti_personal->save();
-                      DB::commit();
-            
+                    DB::commit();
+                }else{
+                    $array_noregistrados[]=$fechaActual;
+                }
             }
            
             return  array(
                             'rst'=>1,
-                            'msj'=>'Registro realizado con éxito'
+                            'msj'=>'Registro realizado con éxito',
+                            'registro' => implode(",", $array_noregistrados)
                     );  
         }}
     }
