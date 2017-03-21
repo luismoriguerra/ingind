@@ -587,6 +587,8 @@ class PersonaController extends BaseController
             if(Input::has('observ')){
                 $persona_exo->observacion =  Input::get('observ');
             }
+            $persona_exo->created_at = date("Y-m-d H:i:s");
+            $persona_exo->usuario_created_at = Auth::user()->id;
             $persona_exo->save();
 
             /*if validate fechas y estado envio*/
