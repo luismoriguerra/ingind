@@ -280,10 +280,7 @@ var Asignar={
                     msjG.mensaje('warning',obj.msj+' de la fila '+pos,4000);
 
                 } else {
-                    $.each(obj.msj, function(index, datos) {
-                        $("#error_"+index).attr("data-original-title",datos);
-                        $('#error_'+index).css('display','');
-                    });
+                    msjG.mensaje('danger','No Actualizado',40000);
                 }
             },
             error: function(){

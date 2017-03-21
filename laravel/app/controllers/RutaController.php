@@ -81,23 +81,47 @@ class RutaController extends \BaseController
     {
 
         if ( Request::ajax() ) {
-            $rutadetalleId = Input::get('id');
-            $rutadetalle = ActividadPersonal::find($rutadetalleId);
-            $rutadetalle->fecha_inicio = date("Y-m-d", strtotime(Input::get('finicio')))." ".explode(' ',Input::get('hinicio'))[0];
-            $rutadetalle->dtiempo_final = date("Y-m-d", strtotime(Input::get('ffin')))." ".explode(' ',Input::get('hfin'))[0];
-            $ttranscurrido =  Input::get('ttranscurrido');
-            $minTrascurrido = explode(':', $ttranscurrido)[0] * 60 + explode(':', $ttranscurrido)[1];
-            $rutadetalle->ot_tiempo_transcurrido =$minTrascurrido;
-            $rutadetalle->usuario_updated_at = Auth::user()->id;
-            $rutadetalle->save();
-            
-            return Response::json(
-                array(
-                'rst'=>1,
-                'msj'=>'Registro actualizado correctamente',
-                )
-            );    
 
+             /*validate date*/
+            $dayweek = date('w');
+            $sumlast = 7 - $dayweek;
+            $array_noregistrados = [];
+
+            if($dayweek!=0){
+                $event = date('Y-m-d',strtotime("-$dayweek days"));
+                $fechaFirst = date('Y-m-d',strtotime($event. "+1 days"));
+                $fechaLast = date('Y-m-d',strtotime("+$sumlast days"));
+            }else{
+                $fechaFirst = date('Y-m-d',strtotime("-6 days"));
+                $fechaLast = date('Y-m-d');
+            }
+            /*end validate date*/
+            $fechaActual = date("Y-m-d", strtotime(Input::get('finicio')));
+            if($fechaActual >= $fechaFirst && $fechaActual <= $fechaLast){
+                $rutadetalleId = Input::get('id');
+                $rutadetalle = ActividadPersonal::find($rutadetalleId);
+                $rutadetalle->fecha_inicio = date("Y-m-d", strtotime(Input::get('finicio')))." ".explode(' ',Input::get('hinicio'))[0];
+                $rutadetalle->dtiempo_final = date("Y-m-d", strtotime(Input::get('ffin')))." ".explode(' ',Input::get('hfin'))[0];
+                $ttranscurrido =  Input::get('ttranscurrido');
+                $minTrascurrido = explode(':', $ttranscurrido)[0] * 60 + explode(':', $ttranscurrido)[1];
+                $rutadetalle->ot_tiempo_transcurrido =$minTrascurrido;
+                $rutadetalle->usuario_updated_at = Auth::user()->id;
+                $rutadetalle->save();
+    
+                return Response::json(
+                    array(
+                    'rst'=>1,
+                    'msj'=>'Registro actualizado correctamente',
+                    )
+                );    
+            }else{
+                return Response::json(
+                    array(
+                    'rst'=>2,
+                    'msj'=>'Error al Actualizar',
+                    )
+                );    
+            }
         }
     }
     
