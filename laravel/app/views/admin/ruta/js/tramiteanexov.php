@@ -236,8 +236,8 @@ seleccionado = function(obj){
 
         document.querySelector('#txt_idtramite').value=idtramite;
         document.querySelector('#txt_codtramite').value=idtramite;
-        document.querySelector('#txt_nombtramite').value=nombret[0].innerHTML;
-        document.querySelector('#txt_fechaingreso').value= new Date().toLocaleString();
+        $('#txt_nombtramite').val(nombret[0].innerHTML);
+        $('#txt_fechaingreso').val(new Date().toLocaleString());
         document.querySelector('#txt_numdocA').value= numdoc;
         /*end poblate info acoording to select to create new anexo*/
     }
@@ -394,9 +394,9 @@ HTMLEdit = function(data){
     if(data.length > 0){
         var result = data[0];
         document.querySelector('#txt_codtramite').value=result.codtramite;
-        document.querySelector('#txt_fechaingreso').value=result.fechaanexo;
+        $('#txt_fechaingreso').val(result.fechaanexo);
        /* document.querySelector('#cbo_tipodoc').value=result.tipodoc;*/
-        document.querySelector('#txt_nombtramite').value=result.nombretramite;
+        $('#txt_nombtramite').val(result.nombretramite);
         document.querySelector('#txt_numdocA').value=result.numdoc;
         document.querySelector('#txt_folio').value=result.folios;
         document.querySelector('#txt_anexoid').value=result.codanexo;
