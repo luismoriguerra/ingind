@@ -91,21 +91,21 @@ HTMLCPActividad=function(datos,cabecera){
          hora = data['h'+i].substring(0,5);
         }
         
-         if(data['v'+i]>=360){
+         if(data['v'+i]>=360 || data.envio_actividad==0){
          var style=';background-color:#7BF7AE';
         }
-        if(data['v'+i]>0 && data['v'+i]<360){
+        if(data['v'+i]>0 && data['v'+i]<360 && data.envio_actividad==1){
          var style=';background-color:#FFA027';
         }
-        if(data['v'+i]==0){
+        if(data['v'+i]==0 && data.envio_actividad==1){
           var style=';background-color:#FE4E4E';   
         }
-        html+='<td style="cursor:pointer'+style+'" onclick="Detalle(\''+$.trim(data['id'+i])+'\')">'+$.trim(data['f'+i])+'</td>'+
-            '<td style="cursor:pointer'+style+'" onclick="Detalle(\''+$.trim(data['id'+i])+'\')">'+$.trim(hora)+"</td>";
+        html+='<td style="cursor:pointer'+style+'" onclick="Detalle(\''+$.trim(data['id'+i])+'\',\''+data.envio_actividad+'\')">'+$.trim(data['f'+i])+'</td>'+
+            '<td style="cursor:pointer'+style+'" onclick="Detalle(\''+$.trim(data['id'+i])+'\',\''+data.envio_actividad+'\')">'+$.trim(hora)+"</td>";
         }
         var h_total = data.h_total.substring(0,5);
-        html+='<td style="cursor:pointer" onclick="Detalle(\''+$.trim(data.id_total)+'\')">'+data.f_total+"</td>";
-        html+='<td style="cursor:pointer" onclick="Detalle(\''+$.trim(data.id_total)+'\')">'+h_total+"</td>";
+        html+='<td style="cursor:pointer" onclick="Detalle(\''+$.trim(data.id_total)+'\',\''+data.envio_actividad+'\')">'+data.f_total+"</td>";
+        html+='<td style="cursor:pointer" onclick="Detalle(\''+$.trim(data.id_total)+'\',\''+data.envio_actividad+'\')">'+h_total+"</td>";
 
     });
 
@@ -136,16 +136,17 @@ activarTabla=function(){
 eventoSlctGlobalSimple=function(slct,valores){
 };
 
-Detalle=function(id){
+Detalle=function(id,envio_actividad){
         var dataG=[];
         dataG = {id:id};
-        Usuario.MostrarActividades(dataG)
+        Usuario.MostrarActividades(dataG,envio_actividad)
         $('#actividadModal').modal('show');
 };
 
-HTMLCargaActividades=function(datos){var html ='';
-
+HTMLCargaActividades=function(datos,envio_actividad){
+    var html ='';
     var alerta_tipo= '';
+    $("#exonera").text("");
     $('#form_actividad #t_actividad').dataTable().fnDestroy();
     pos=0;
     
@@ -163,6 +164,10 @@ HTMLCargaActividades=function(datos){var html ='';
              "<td>"+horas + ":" + min +"</td>";
         html+="</tr>";
     });
+        if(envio_actividad==0){
+       $("#exonera").text("Se encuentra exonerado");
+    }
+
     $("#form_actividad #tb_actividad").html(html);
     $("#form_actividad #t_actividad").dataTable(
                          {
