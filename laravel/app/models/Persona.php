@@ -722,7 +722,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
             date_add($fecha, date_interval_create_from_date_string('1 days'));
         }
 
-        $sSql .= "SELECT a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona";
+        $sSql .= "SELECT a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona, p.envio_actividad";
         $sSql .= $cl;
         $sSql .= ",COUNT(ap.id) AS f_total,IFNULL(SEC_TO_TIME(ABS(SUM(ap.ot_tiempo_transcurrido)) * 60),'00:00')  h_total,IFNULL(GROUP_CONCAT(ap.id),'0') id_total";
         $sSql .= " FROM personas p
@@ -789,6 +789,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         $sSql .= "SELECT 1 as norden,a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona";
         $sSql .= $cl;
         $sSql .= ",COUNT(ap.id) AS f_total,IFNULL(SEC_TO_TIME(ABS(SUM(ap.ot_tiempo_transcurrido)) * 60),'00:00')  h_total";
+        $sSql .= ",p.envio_actividad";
         $sSql .= " FROM personas p
                  INNER JOIN areas a on p.area_id=a.id
                  LEFT JOIN actividad_personal ap on ap.persona_id=p.id AND ap.estado=1 AND ap.usuario_created_at=ap.persona_id " . $f_fecha;

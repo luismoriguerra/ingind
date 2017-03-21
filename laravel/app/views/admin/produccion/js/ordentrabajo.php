@@ -156,11 +156,19 @@ CalcGlobalH = function(){
     return horas + ':' + min;
 }
 
-guardarTodo = function(){
+mostrarConfirmacion = function(){
     var calcG = CalcGlobalH();
     $("#txt_ttotal").val(CalcGlobalH());
-    var r = confirm("Usted a generado" + calcG.split(':')[0] + "hora(s) con" + calcG.split(':')[1] + "minuto(s),Desea Guardar?");
-    if (r == true) {
+    $("#spanMensaje").text("Usted a generado" + calcG.split(':')[0] + "hora(s) con" + calcG.split(':')[1] + "minuto(s),Desea Guardar?");
+    $("#ConfirmacionModal").modal('show');
+}
+
+guardarTodo = function(){
+/*    var calcG = CalcGlobalH();
+    $("#txt_ttotal").val(CalcGlobalH());
+    $("#spanMensaje").text("Usted a generado" + calcG.split(':')[0] + "hora(s) con" + calcG.split(':')[1] + "minuto(s),Desea Guardar?");*/
+/*    var r = confirm("Usted a generado" + calcG.split(':')[0] + "hora(s) con" + calcG.split(':')[1] + "minuto(s),Desea Guardar?");
+    if (r == true) {*/
         var actividades = $(".valido textarea[id='txt_actividad']").map(function(){return $(this).val();}).get();
         var finicio = $(".valido input[id='txt_fechaInicio']").map(function(){return $(this).val();}).get();
         var ffin = $(".valido input[id='txt_fechaFin']").map(function(){return $(this).val();}).get();
@@ -199,7 +207,7 @@ guardarTodo = function(){
         }else{
              Asignar.guardarOrdenTrabajo(data);   
         }
-    }
+/*    }*/
 }
 
 HTMLcargarordentrabajodia=function(datos){
