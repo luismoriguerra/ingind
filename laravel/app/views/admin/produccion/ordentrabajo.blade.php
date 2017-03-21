@@ -68,7 +68,7 @@
                                     <input type="text" class="form-control" id="txt_ttotal" name="txt_ttotal" readonly="readonly">                                            
                                 </div>
                                 <div class="col-md-3 col-xs-4 col-sm-4">
-                                    <span class="btn btn-primary btn-success" id="btnGuardar" onclick="guardarTodo()">Guardar  <i class="glyphicon glyphicon-plus"></i></span>                                            
+                                    <span class="btn btn-primary btn-success" id="btnGuardar" onclick="mostrarConfirmacion()">Guardar  <i class="glyphicon glyphicon-plus"></i></span>                                            
                                 </div>
                                 <div class="col-md-5 col-xs-5 col-sm-5 selectbyPerson hidden">
                                     <div class="col-md-4">
@@ -91,7 +91,7 @@
                                     <input type="text" class="form-control" id="" name="" readonly="readonly">                                            
                                 </div>
                                 <div class="col-md-3 col-xs-4 col-sm-4">
-                                    <span class="btn btn-primary btn-success" onclick="guardarTodo()">Guardar  <i class="glyphicon glyphicon-plus"></i></span>                                            
+                                    <span class="btn btn-primary btn-success" onclick="mostrarConfirmacion()">Guardar  <i class="glyphicon glyphicon-plus"></i></span>                                            
                                 </div>
                             </div>
                         </div>
@@ -222,5 +222,5 @@
 @stop
 
 @section('formulario')
-{{--      @include( 'admin.mantenimiento.form.cargo' ) --}}
+    @include( 'admin.produccion.form.confirmacion' )
 @stop
