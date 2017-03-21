@@ -30,7 +30,7 @@ var Usuario={
         });
     },
     
-        MostrarActividades:function( dataG){
+        MostrarActividades:function( dataG,envio_actividad){
         $.ajax({
             url         : 'reporte/cargaractividad',
             type        : 'POST',
@@ -42,8 +42,8 @@ var Usuario={
             },
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
-                if(obj.rst==1){  
-                    HTMLCargaActividades(obj.datos);
+                if(obj.rst==1){
+                    HTMLCargaActividades(obj.datos,envio_actividad);
                     
                 }
             },
