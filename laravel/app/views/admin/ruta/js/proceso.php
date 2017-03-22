@@ -82,7 +82,10 @@ $(document).ready(function() {
 }*/
 
 CargarProceso=function(flujo_id,flujo,area_id,area){
-     
+	console.log(flujo_id);
+console.log(flujo);
+console.log(area_id);
+console.log(area);     
     $("#"+textoFG).val(flujo+" - "+area);
     $("#"+textoIdFG).val(flujo_id);
     $("#"+textoAreaIdFG).val(area_id);
