@@ -142,7 +142,7 @@
               <span id="spanFechaTramite"></span>
             </div>
           </div>
-           <div class="row">
+           <div class="row" style="display:none;">
             <div class="col-md-4 right">
               <label>AREA: </label>
             </div>
