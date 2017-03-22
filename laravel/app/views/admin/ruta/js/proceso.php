@@ -82,14 +82,8 @@ $(document).ready(function() {
 }*/
 
 CargarProceso=function(flujo_id,flujo,area_id,area){
-    
-    var name = 'PROCESO'; 
-    if(flujo.length <= 50){
-      name = flujo;
-    }
-
-    console.log(name);
-    $("#"+textoFG).val(name+" - "+area);
+     
+    $("#"+textoFG).val(flujo+" - "+area);
     $("#"+textoIdFG).val(flujo_id);
     $("#"+textoAreaIdFG).val(area_id);
     
