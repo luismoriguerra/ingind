@@ -51,7 +51,7 @@
                        </div>
                    </div>
                </div>
-               <div class="col-md-6">
+               <div class="col-md-6" style="display:none;">
                    <div class="row">
                        <div class="col-md-4">
                             <label>AREA: </label>

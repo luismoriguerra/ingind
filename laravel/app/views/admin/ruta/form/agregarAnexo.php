@@ -49,7 +49,7 @@
                       </div>
                       <div class="col-md-4 form-group">
                            <label>Fecha Ingreso:</label>
-                           <input class="form-control" type="text" name="txt_fechaingreso" id="txt_fechaingreso" value="" readonly="readonly">
+                           <textarea class="form-control" type="text" name="txt_fechaingreso" id="txt_fechaingreso" value="" readonly="readonly"></textarea>
                       </div>
                       <div class="col-md-4 form-group">
                             <label>#Tipo Doc:</label>
@@ -61,7 +61,7 @@
                   <div class="col-md-12">
                       <div class="col-md-4 form-group">
                           <label>Nombre Tramite:</label>
-                          <input class="form-control" type="text" name="txt_nombtramite" id="txt_nombtramite" value="" readonly="readonly">
+                          <textarea class="form-control" type="text" name="txt_nombtramite" id="txt_nombtramite" value="" readonly="readonly"></textarea>
                       </div>
                       <div class="col-md-4 form-group">
                            <label>#Num Documento:</label>
@@ -96,7 +96,7 @@
                 <div class="row form-group">
                   <div class="col-md-12" style="text-align: right">
                       <input type="submit" class="btn btn-primary btn-md btnAction" id="" value="Guardar">
-                      <span class="btn btn-warning btn-md">Cancelar</span>
+                      <span class="btn btn-warning btn-md" data-dismiss="modal">Cancelar</span>
                   </div>
                 </div>
           </form>

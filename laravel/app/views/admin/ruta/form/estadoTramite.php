@@ -72,7 +72,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-6" style="display:none;">
                 <label>AREA:</label>
                 <span id="spanArea">NATURAL</span>
               </div>              
