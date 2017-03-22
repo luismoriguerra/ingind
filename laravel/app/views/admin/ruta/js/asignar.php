@@ -707,8 +707,13 @@ MostrarAjax=function(t){
 GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
   
     if(typeof(fn)!='undefined' && fn.col==1){
+        var name='PROCESO';
+        if(row.nombre.length <= 48){
+            name = row.nombre;
+        }
+
         var estadohtml='';
-        estadohtml='<span id="'+row.id+'" onClick="CargarProceso(\''+row.id+'\',\''+row.nombre+'\',\''+row.area_id+'\',\''+row.area+'\')" class="btn btn-success"><i class="fa fa-lg fa-check"></i></span>';
+        estadohtml='<span id="'+row.id+'" onClick="CargarProceso(\''+row.id+'\',\''+name+'\',\''+row.area_id+'\',\''+row.area+'\')" class="btn btn-success"><i class="fa fa-lg fa-check"></i></span>';
 //        estadohtml='<a class="form-control btn-success" onClick="CargarProceso('+row.nombre+')"<i class="fa fa-lg fa-check"></i></a>';
         return estadohtml;
     }
