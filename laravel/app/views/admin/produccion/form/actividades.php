@@ -33,6 +33,9 @@
               <div class="col-sm-12" style="text-align:center">
                   <label id="exonera" style="background-color:blue;color: #ffffff"></label> 
               </div>
+              <div class="col-sm-12" style="text-align:center">
+                  <label id="fechas" style="background-color:blue;color: #ffffff"></label> 
+              </div>
           </div>
       </div>
       <div class="modal-footer">

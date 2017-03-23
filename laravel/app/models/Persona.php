@@ -714,7 +714,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         $fecha = date_create($fechaIni);
         $n = 1;
         for ($i = $fechaIni_; $i <= $fechaFin_; $i += 86400) {
-            $cl .= ",COUNT(ap$n.id) AS f$n,IFNULL(SEC_TO_TIME(ABS(SUM(ap$n.ot_tiempo_transcurrido)) * 60),'00:00')  h$n,IFNULL(GROUP_CONCAT(ap$n.id),'0') id$n,IFNULL(SUM(ap$n.ot_tiempo_transcurrido),0) v$n";
+            $cl .= ",COUNT(ap$n.id) AS f$n,IFNULL(SEC_TO_TIME(ABS(SUM(ap$n.ot_tiempo_transcurrido)) * 60),'00:00')  h$n,IFNULL(GROUP_CONCAT(ap$n.id),'0') id$n,IFNULL(SUM(ap$n.ot_tiempo_transcurrido),0) v$n,ExoneraFecha(STR_TO_DATE('" . date("d-m-Y", $i) . "','%d-%m-%Y'),p.id) as e$n";
             $left .= "LEFT JOIN actividad_personal ap$n on ap$n.id=ap.id AND  DATE(ap.fecha_inicio) = STR_TO_DATE('" . date("d-m-Y", $i) . "','%d-%m-%Y')";
             $n++;
 
@@ -738,7 +738,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
 
         $sSql .= " GROUP BY p.id ";
 
-
+        
         $oData['cabecera'] = $cabecera;
 
         $oData['data'] = DB::select($sSql);
@@ -749,10 +749,20 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         $id_actividad = Input::get('id');
         $sSql = '';
         $sSql .= "SELECT ap.id norden,ap.actividad,ap.fecha_inicio,ap.dtiempo_final,ABS(ap.ot_tiempo_transcurrido) ot_tiempo_transcurrido ,SEC_TO_TIME(ABS(ap.ot_tiempo_transcurrido) * 60) formato "
-                . "FROM actividad_personal ap WHERE ap.id IN ($id_actividad)";
+                . " FROM actividad_personal ap WHERE ap.id IN ($id_actividad)";
 
         $oData = DB::select($sSql);
         return $oData;
+    }
+    
+        public static function MostrarTextoFecha() {
+        $id_fecha = Input::get('id');
+        $sSql = '';
+        $sSql .= "SELECT pe.observacion"
+                . " FROM persona_exoneracion pe WHERE pe.id = ".$id_fecha;
+
+        $oData = DB::select($sSql);
+        return $oData[0]->observacion;
     }
 
     public static function ExportCuadroProductividadActividad() {
@@ -775,7 +785,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         $fecha = date_create($fechaIni);
         $n = 1;
         for ($i = $fechaIni_; $i <= $fechaFin_; $i += 86400) {
-            $cl .= ",COUNT(ap$n.id) AS f$n,IFNULL(SEC_TO_TIME(ABS(SUM(ap$n.ot_tiempo_transcurrido)) * 60),'00:00')  h$n";
+            $cl .= ",ExoneraFecha(STR_TO_DATE('" . date("d-m-Y", $i) . "','%d-%m-%Y'),p.id) as e$n ,COUNT(ap$n.id) AS f$n,IFNULL(SEC_TO_TIME(ABS(SUM(ap$n.ot_tiempo_transcurrido)) * 60),'00:00')  h$n";
             $left .= "LEFT JOIN actividad_personal ap$n on ap$n.id=ap.id AND  DATE(ap.fecha_inicio) = STR_TO_DATE('" . date("d-m-Y", $i) . "','%d-%m-%Y')";
             $n++;
 
