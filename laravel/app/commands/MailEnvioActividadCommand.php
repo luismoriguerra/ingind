@@ -11,7 +11,7 @@ class MailEnvioActividadCommand extends Command {
      *
      * @var string
      */
-    protected $name = 'mail:envioactividad';
+    protected $name = 'mailact:envioactividad';
 
     /**
      * The console command description.
