@@ -74,6 +74,7 @@ if(today.getDay()!=0){
 var firstday = new Date(2017,new Date().getMonth(),first);
 var lastday = new Date(2017,new Date().getMonth(),last);
 var month =firstday.getMonth()+1;
+var lastmonth = lastday.getMonth()+1;
 
 function initDatePicker(){
     $('.fechaInicio').datepicker({
@@ -82,7 +83,7 @@ function initDatePicker(){
         multidate: 1,
         todayHighlight:true,
        startDate: firstday.getFullYear()+"-"+month+"-"+firstday.getDate(),
-       endDate: lastday.getFullYear()+"-"+month+"-"+lastday.getDate(),
+       endDate: lastday.getFullYear()+"-"+lastmonth+"-"+lastday.getDate(),
      /*  daysOfWeekDisabled: '0', //bloqueo domingos*/
         onSelect: function (date, el) {
         }
