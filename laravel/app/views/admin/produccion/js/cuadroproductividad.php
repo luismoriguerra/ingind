@@ -91,17 +91,17 @@ HTMLCPActividad=function(datos,cabecera){
          hora = data['h'+i].substring(0,5);
         }
         
-         if(data['v'+i]>=360 || data.envio_actividad==0){
+         if(data['v'+i]>=360 || data.envio_actividad==0 || data['e'+i]>=1){
          var style=';background-color:#7BF7AE';
         }
-        if(data['v'+i]>0 && data['v'+i]<360 && data.envio_actividad==1){
+        else if(data['v'+i]>0 && data['v'+i]<360 && data.envio_actividad==1){
          var style=';background-color:#FFA027';
         }
-        if(data['v'+i]==0 && data.envio_actividad==1){
+        else if(data['v'+i]==0 && data.envio_actividad==1){
           var style=';background-color:#FE4E4E';   
         }
-        html+='<td style="cursor:pointer'+style+'" onclick="Detalle(\''+$.trim(data['id'+i])+'\',\''+data.envio_actividad+'\')">'+$.trim(data['f'+i])+'</td>'+
-            '<td style="cursor:pointer'+style+'" onclick="Detalle(\''+$.trim(data['id'+i])+'\',\''+data.envio_actividad+'\')">'+$.trim(hora)+"</td>";
+        html+='<td style="cursor:pointer'+style+'" onclick="Detalle(\''+$.trim(data['id'+i])+'\',\''+data.envio_actividad+'\',\''+data['e'+i]+'\')">'+$.trim(data['f'+i])+'</td>'+
+            '<td style="cursor:pointer'+style+'" onclick="Detalle(\''+$.trim(data['id'+i])+'\',\''+data.envio_actividad+'\',\''+data['e'+i]+'\')">'+$.trim(hora)+"</td>";
         }
         var h_total = data.h_total.substring(0,5);
         html+='<td style="cursor:pointer" onclick="Detalle(\''+$.trim(data.id_total)+'\',\''+data.envio_actividad+'\')">'+data.f_total+"</td>";
@@ -136,17 +136,18 @@ activarTabla=function(){
 eventoSlctGlobalSimple=function(slct,valores){
 };
 
-Detalle=function(id,envio_actividad){
+Detalle=function(id,envio_actividad,exonera){
         var dataG=[];
         dataG = {id:id};
-        Usuario.MostrarActividades(dataG,envio_actividad)
+        Usuario.MostrarActividades(dataG,envio_actividad,exonera)
         $('#actividadModal').modal('show');
 };
 
-HTMLCargaActividades=function(datos,envio_actividad){
+HTMLCargaActividades=function(datos,envio_actividad,exonera){
     var html ='';
     var alerta_tipo= '';
     $("#exonera").text("");
+    $("#fechas").text("");
     $('#form_actividad #t_actividad').dataTable().fnDestroy();
     pos=0;
     
@@ -164,9 +165,11 @@ HTMLCargaActividades=function(datos,envio_actividad){
              "<td>"+horas + ":" + min +"</td>";
         html+="</tr>";
     });
-        if(envio_actividad==0){
-       $("#exonera").text("Se encuentra exonerado");
-    }
+    
+    MostrarMensajes(envio_actividad,exonera);
+    
+
+    
 
     $("#form_actividad #tb_actividad").html(html);
     $("#form_actividad #t_actividad").dataTable(
@@ -177,6 +180,18 @@ HTMLCargaActividades=function(datos,envio_actividad){
     );
 
 
+};
+
+MostrarMensajes=function(envio_actividad,exonera){
+
+        if(envio_actividad==0){
+       $("#exonera").text("Se encuentra exonerado todos los días");
+        }
+        else if(exonera!=0){
+         var dataG=[];
+        dataG = {id:exonera};
+         Usuario.MostrarTextoFecha(dataG);     
+        }
 };
 
 

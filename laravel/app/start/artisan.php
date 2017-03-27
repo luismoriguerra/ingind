@@ -13,3 +13,4 @@
 
 Artisan::add(new MailEnvioAlertasCommand);
 Artisan::add(new MailEnvioGSCCommand);
+Artisan::add(new MailEnvioActividadCommand);

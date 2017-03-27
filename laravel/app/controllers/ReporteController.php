@@ -172,6 +172,17 @@ class ReporteController extends BaseController
             )
         );
    }
+   
+           public function postMostrartextofecha()
+   {
+        $oData=Persona::MostrarTextoFecha();
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$oData,
+            )
+        );
+   }
 
     public function getExportordentbyperson(){
         $rst=Persona::OrdenTrabjbyPersona(); 
@@ -2530,8 +2541,12 @@ class ReporteController extends BaseController
       foreach($data as $key => $value){          
         $cont = 0;
         $auxi=1;
+        $auxi1=0;
+        $value_aux=json_decode(json_encode($value), true);
         if ($key>1){
-        $auxi=$value->envio_actividad;       }
+        $auxi=$value->envio_actividad; 
+    
+        }
         if($key == 0){ // set style to header
          end($value);       
           $objPHPExcel->getActiveSheet()->getStyle('A1:'.$head[key($value)].'1')->applyFromArray($styleThinBlackBorderAllborders);
@@ -2540,23 +2555,30 @@ class ReporteController extends BaseController
         }
         $a=0;
         foreach($value as $index => $val){
+          
           $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($head[$cont])->setAutoSize(true);
           
           if($index == 'norden' && $key > 1){ //set orden in excel
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue($head[$cont].($key + 1), $key-1);                
           }
-          else if ($index=='envio_actividad'){}
+          else if ($index=='envio_actividad' ){}
+          else if ( $index == 'e1' or $index == 'e2' or $index == 'e3' or $index == 'e4' or $index == 'e5' or $index == 'e6' or $index == 'e7' or $index == 'e8' or
+                $index == 'e9' or $index == 'e10' or $index == 'e11' or $index == 'e12' or $index == 'e13' or $index == 'e14' or $index == 'e15' or $index == 'e16' or
+                $index == 'e17' or $index == 'e18' or $index == 'e19' or $index == 'e20' or $index == 'e21' or $index == 'e22' or $index == 'e23' or $index == 'e24' or
+                $index == 'e25' or $index == 'e26' or $index == 'e27' or $index == 'e28' or $index == 'e29' or $index == 'e30' or $index == 'e31' or $index == 'e32')
+              { 
+              $cont--;
+              $auxi1=$value_aux[$index];
+              }
           else{ //poblate info
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue($head[$cont].($key + 1), $val);
 
-            if ($key>1 && ($val>=6  or $auxi==0) && $index != 'persona' && $index != 'area' && $index != 'f_total' && $index != 'h_total' && 
+            if ($key>1 && ($val>=6  or $auxi==0 or $auxi1>=1) && $index != 'persona' && $index != 'area' && $index != 'f_total' && $index != 'h_total' && 
                 $index != 'f1' && $index != 'f2' && $index != 'f3' && $index != 'f4' && $index != 'f5' && $index != 'f6' && $index != 'f7' && $index != 'f8' &&
                 $index != 'f9' && $index != 'f10' && $index != 'f11' && $index != 'f12' && $index != 'f13' && $index != 'f14' && $index != 'f15' && $index != 'f16' &&
                 $index != 'f17' && $index != 'f18' && $index != 'f19' && $index != 'f20' && $index != 'f21' && $index != 'f22' && $index != 'f23' && $index != 'f24' &&
                 $index != 'f25' && $index != 'f26' && $index != 'f27' && $index != 'f28' && $index != 'f29' && $index != 'f30' && $index != 'f31' && $index != 'f32'){
-            $objPHPExcel->getActiveSheet()->getStyle($head[$cont-1].($key + 1).':'.$head[$cont].($key + 1), $val)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('7BF7AE');
-            //$objPHPExcel->getActiveSheet()->getStyle(, $val)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('7BF7AE');
-            
+            $objPHPExcel->getActiveSheet()->getStyle($head[$cont-1].($key + 1).':'.$head[$cont].($key + 1), $val)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('7BF7AE');            
             }
             else if ($key>1 && (($val>=1 && $val<=5)  or substr($val, 3, 2)!=0) && $index != 'persona' && $index != 'area' && $index != 'f_total' && $index != 'h_total' && 
                 $index != 'f1' && $index != 'f2' && $index != 'f3' && $index != 'f4' && $index != 'f5' && $index != 'f6' && $index != 'f7' && $index != 'f8' &&
@@ -2564,7 +2586,6 @@ class ReporteController extends BaseController
                 $index != 'f17' && $index != 'f18' && $index != 'f19' && $index != 'f20' && $index != 'f21' && $index != 'f22' && $index != 'f23' && $index != 'f24' &&
                 $index != 'f25' && $index != 'f26' && $index != 'f27' && $index != 'f28' && $index != 'f29' && $index != 'f30' && $index != 'f31' && $index != 'f32'){
             $objPHPExcel->getActiveSheet()->getStyle($head[$cont-1].($key + 1).':'.$head[$cont].($key + 1), $val)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('FFA027');
-           // $objPHPExcel->getActiveSheet()->getStyle(, $val)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('FFA027');
             }
             else if ($key>1 && $val==0 && substr($val, 3, 2)==0  && $index != 'persona' && $index != 'area' && $index != 'f_total' && $index != 'h_total' && 
                 $index != 'f1' && $index != 'f2' && $index != 'f3' && $index != 'f4' && $index != 'f5' && $index != 'f6' && $index != 'f7' && $index != 'f8' &&
@@ -2572,7 +2593,6 @@ class ReporteController extends BaseController
                 $index != 'f17' && $index != 'f18' && $index != 'f19' && $index != 'f20' && $index != 'f21' && $index != 'f22' && $index != 'f23' && $index != 'f24' &&
                 $index != 'f25' && $index != 'f26' && $index != 'f27' && $index != 'f28' && $index != 'f29' && $index != 'f30' && $index != 'f31' && $index != 'f32'){
             $objPHPExcel->getActiveSheet()->getStyle($head[$cont-1].($key + 1).':'.$head[$cont].($key + 1), $val)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('FE4E4E');
-            //$objPHPExcel->getActiveSheet()->getStyle(, $val)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('FE4E4E');
             }
             
            }
