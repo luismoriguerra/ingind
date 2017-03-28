@@ -425,7 +425,7 @@ class Reporte extends Eloquent
             FROM rutas r
             INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.norden=1 AND rd.area_id=52
             INNER JOIN rutas_detalle rd2 ON rd2.ruta_id=r.id AND rd2.estado=1 AND rd2.norden=2
-            INNER JOIN personas p ON rd2.area_id=p.area_id AND p.rol_id IN (8,9) AND p.estado=1
+            INNER JOIN personas p ON (rd2.area_id=p.area_id OR FIND_IN_SET(rd2.area_id,p.area_responsable)) AND p.rol_id IN (8,9) AND p.estado=1
             INNER JOIN areas a ON a.id=rd2.area_id 
             INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1 AND tr.usuario_created_at!=1272
             INNER JOIN flujos f ON f.id=r.flujo_id
