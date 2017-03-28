@@ -187,7 +187,7 @@ MostrarMensajes=function(envio_actividad,exonera){
         if(envio_actividad==0){
        $("#exonera").text("Se encuentra exonerado todos los días");
         }
-        else if(exonera!=0){
+        else if(exonera!=0 && typeof (exonera)!='undefined'){
          var dataG=[];
         dataG = {id:exonera};
          Usuario.MostrarTextoFecha(dataG);     
