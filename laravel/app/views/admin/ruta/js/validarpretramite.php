@@ -1,5 +1,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
+     slctGlobal.listarSlct('persona','slct_persona','simple',null,{apellido_nombre:1});
+
 
     $(document).on('click', '#btnImage', function(event) {
         $('#txt_file').click();
@@ -192,12 +194,16 @@ $(document).ready(function() {
 
 Detallepret = function(){
     var codpretramite = $('#txt_codpt').val();
+    var persona = $('#slct_persona').val();
+    var data = {};
+    data.idpretramite = true;
     if(codpretramite){
-        var data = {'idpretramite':codpretramite,'validacion':true};
-        Bandeja.GetPreTramitebyid(data,poblarDetalle);        
-    }else{
-        alert('ingrese codigo');
+        data.idpretramite = codpretramite;
     }
+    if(persona){
+        data.persona = persona;
+    }
+    Bandeja.GetPreTramitebyid(data,poblarDetalle);        
 }
 
 poblarDetalle = function(data){

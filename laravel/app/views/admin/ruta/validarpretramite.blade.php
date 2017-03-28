@@ -142,6 +142,11 @@ td, th{
                               
                             </div>
                             <div class="col-sm-3">
+                                <select id="slct_persona" name="slct_persona" class="form-control">
+                                  
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
                                 <span class="btn btn-primary btn-md" onclick="Detallepret()"><i class="glyphicon glyphicon-search"></i> Buscar</span>
                             </div>
                           </div>
