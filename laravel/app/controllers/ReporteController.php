@@ -1212,17 +1212,17 @@ class ReporteController extends BaseController
                   $tipo = 0;
                   foreach ($alertas as $index => $val) {
                     if($val->fecha >= '2017-03-28' && $val->fecha <= '2017-03-29'){
-                      if($fechaAntigua == $val->fecha && $ruta_detalle ==$val->ruta_detalle_id){
+ /*                     if($fechaAntigua == $val->fecha && $ruta_detalle ==$val->ruta_detalle_id){
                         $actualizar = Alerta::find($val->id);
                         $actualizar->estado=0;
                         $actualizar->save();
-                      }
+                      }*/
 
-                  /*    if($ruta_detalle == $val->ruta_detalle_id && $fechaAntigua ==  date('Y-m-d', strtotime($val->fecha . ' -1 day')) && $tipo == $val->tipo){
+                      if($ruta_detalle == $val->ruta_detalle_id && $fechaAntigua ==  date('Y-m-d', strtotime($val->fecha . ' -1 day')) && $tipo == $val->tipo){
                         $updated = Alerta::find($val->id);
                         $updated->tipo=$val->tipo + 1;
                         $updated->save();
-                      }*/
+                      }
                       $fechaAntigua = $val->fecha;
                       $ruta_detalle = $val->ruta_detalle_id;
                       $tipo = $val->tipo;
