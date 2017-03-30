@@ -49,7 +49,24 @@ class MetaCuadro extends Base
         
         public function getMetaCuadro($array )
     {
-        $sSql=" SELECT m.nombre,m.id as meta_id,mc.actividad,mc.id as meta_cuadro_id,mf1.comentario as d,mf1.id as id_d,mf1.fecha as df,mf2.comentario as p,mf2.id as id_p,mf2.fecha as pf
+        $sSql=" SELECT m.nombre,m.id as meta_id,mc.actividad,mc.id as meta_cuadro_id,mf1.comentario as d,
+			 mf1.id as id_d,mf1.fecha as df,mf2.comentario as p,mf2.id as id_p,mf2.fecha as pf,
+			(SELECT CONCAT_WS('|',GROUP_CONCAT(ma.ruta),GROUP_CONCAT(ma.id))
+			 FROM metas_archivo ma
+			 WHERE  ma.tipo_avance=4 AND ma.avance_id=mf2.id AND ma.estado=1
+			 GROUP BY ma.avance_id) as a_p,
+			(SELECT CONCAT_WS('|',GROUP_CONCAT(ma.ruta),GROUP_CONCAT(ma.id))
+			 FROM metas_archivo ma
+			 WHERE  ma.tipo_avance=3 AND ma.avance_id=mf1.id AND ma.estado=1
+			 GROUP BY ma.avance_id) as a_d,
+			(SELECT CONCAT_WS('|',GROUP_CONCAT(ma.ruta),GROUP_CONCAT(ma.id))
+			 FROM metas_archivo ma
+			 WHERE  ma.tipo_avance=2 AND ma.avance_id=mc.id AND ma.estado=1
+			 GROUP BY ma.avance_id) as a_a,
+			(SELECT CONCAT_WS('|',GROUP_CONCAT(ma.ruta),GROUP_CONCAT(ma.id))
+			 FROM metas_archivo ma
+			 WHERE  ma.tipo_avance=1 AND ma.avance_id=m.id AND ma.estado=1
+                GROUP BY ma.avance_id) as a_m
                 FROM metas_cuadro mc
                 INNER JOIN metas m on mc.meta_id=m.id
                 LEFT JOIN metas_fechavencimiento mf1 on mc.id=mf1.meta_cuadro_id and mf1.tipo=1
