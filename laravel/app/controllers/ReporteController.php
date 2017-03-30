@@ -1195,7 +1195,10 @@ class ReporteController extends BaseController
             $query.=' AND al.clasificador='.$tipo;
           }
 
-          $query.=" ORDER BY a.nombre,f.nombre,al.tipo ";
+          $query.=" ORDER BY a.nombre,f.nombre,al.tipo,al.persona_id";
+          var_dump($query);
+          exit();
+
           $result= DB::Select($query);
 
 
