@@ -1199,7 +1199,7 @@ class ReporteController extends BaseController
           $result= DB::Select($query);
 
 
-/*          if($result){
+          if($result){
             foreach ($result as $key => $value) {
               $alertas = DB::table('alertas')
                 ->where('ruta_detalle_id', '=', $value->id)
@@ -1212,18 +1212,18 @@ class ReporteController extends BaseController
                   $tipo = 0;
                   $persona_id=0;
                   foreach ($alertas as $index => $val) {
-                    if($val->fecha >= '2017-03-28' && $val->fecha <= '2017-03-29'){
+                    if($val->fecha >= '2017-03-29' && $val->fecha <= '2017-03-30'){
                       if($fechaAntigua == $val->fecha && $ruta_detalle ==$val->ruta_detalle_id && $persona_id==$val->persona_id){
                         $actualizar = Alerta::find($val->id);
                         $actualizar->estado=0;
                         $actualizar->save();
                       }
 
-                      if($ruta_detalle == $val->ruta_detalle_id && $fechaAntigua ==  date('Y-m-d', strtotime($val->fecha . ' -1 day')) && $tipo == $val->tipo && $persona_id==$val->persona_id){
+                     /* if($ruta_detalle == $val->ruta_detalle_id && $fechaAntigua ==  date('Y-m-d', strtotime($val->fecha . ' -1 day')) && $tipo == $val->tipo && $persona_id==$val->persona_id){
                         $updated = Alerta::find($val->id);
                         $updated->tipo=$val->tipo + 1;
                         $updated->save();
-                      }
+                      }*/
                       $fechaAntigua = $val->fecha;
                       $ruta_detalle = $val->ruta_detalle_id;
                       $tipo = $val->tipo;
@@ -1232,7 +1232,7 @@ class ReporteController extends BaseController
                   }
                 } 
             }
-          }*/
+          }
           
           return $result;
     }
