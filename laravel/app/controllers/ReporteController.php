@@ -1221,12 +1221,11 @@ class ReporteController extends BaseController
                         $actualizar->estado=0;
                         $actualizar->save(); 
                       }
-
-                     /* if($ruta_detalle == $val->ruta_detalle_id && $fechaAntigua ==  date('Y-m-d', strtotime($val->fecha . ' -1 day')) && $tipo == $val->tipo && $persona_id==$val->persona_id){
-                        $updated = Alerta::find($val->id);
-                        $updated->tipo=$val->tipo + 1;
-                        $updated->save();
-                      }*/
+/*                     if($ruta_detalle == $val->ruta_detalle_id && $fechaAntigua ==  date('Y-m-d', strtotime($val->fecha . ' -1 day')) && $tipo == $val->tipo && $persona_id==$val->persona_id){
+                       $updated = Alerta::find($val->id);
+                       $updated->tipo=$val->tipo + 1;
+                       $updated->save();
+                     }*/
                       $fechaAntigua = $val->fecha;
                       $ruta_detalle = $val->ruta_detalle_id;
                       $tipo = $val->tipo;
