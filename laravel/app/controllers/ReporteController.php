@@ -1216,7 +1216,7 @@ class ReporteController extends BaseController
                       if($fechaAntigua == $val->fecha && $ruta_detalle ==$val->ruta_detalle_id && $persona_id==$val->persona_id){
                         $actualizar = Alerta::find($val->id);
                         $actualizar->estado=0;
-                        $actualizar->save();
+                        $actualizar->save(); 
                       }
 
                      /* if($ruta_detalle == $val->ruta_detalle_id && $fechaAntigua ==  date('Y-m-d', strtotime($val->fecha . ' -1 day')) && $tipo == $val->tipo && $persona_id==$val->persona_id){
