@@ -1161,7 +1161,7 @@ class ReporteController extends BaseController
     public function notificacionIncum($fecha='',$area='',$tipo=''){
         $query = '';
 
-       $query.="SELECT t.id_union as documento,rd.norden as paso,rd.fecha_inicio as fechaAsignada,
+       $query.="SELECT rd.id,t.id_union as documento,rd.norden as paso,rd.fecha_inicio as fechaAsignada,
                 CalcularFechaFinal(
                   rd.fecha_inicio, 
                   (rd.dtiempo*ti.totalminutos),
@@ -1195,8 +1195,44 @@ class ReporteController extends BaseController
             $query.=' AND al.clasificador='.$tipo;
           }
 
-          $query.=" ORDER BY a.nombre,f.nombre ";
+          $query.=" ORDER BY a.nombre,f.nombre,al.tipo ";
           $result= DB::Select($query);
+
+
+/*          if($result){
+            foreach ($result as $key => $value) {
+              $alertas = DB::table('alertas')
+                ->where('ruta_detalle_id', '=', $value->id)
+                ->where('estado',1)
+                ->get();
+
+                if($alertas){
+                  $fechaAntigua = "";
+                  $ruta_detalle = "";
+                  $tipo = 0;
+                  $persona_id=0;
+                  foreach ($alertas as $index => $val) {
+                    if($val->fecha >= '2017-03-28' && $val->fecha <= '2017-03-29'){
+                      if($fechaAntigua == $val->fecha && $ruta_detalle ==$val->ruta_detalle_id && $persona_id==$val->persona_id){
+                        $actualizar = Alerta::find($val->id);
+                        $actualizar->estado=0;
+                        $actualizar->save();
+                      }
+
+                      if($ruta_detalle == $val->ruta_detalle_id && $fechaAntigua ==  date('Y-m-d', strtotime($val->fecha . ' -1 day')) && $tipo == $val->tipo && $persona_id==$val->persona_id){
+                        $updated = Alerta::find($val->id);
+                        $updated->tipo=$val->tipo + 1;
+                        $updated->save();
+                      }
+                      $fechaAntigua = $val->fecha;
+                      $ruta_detalle = $val->ruta_detalle_id;
+                      $tipo = $val->tipo;
+                      $persona_id=$val->persona_id;
+                    }                    
+                  }
+                } 
+            }
+          }*/
           
           return $result;
     }
