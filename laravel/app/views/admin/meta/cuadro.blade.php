@@ -18,7 +18,7 @@
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Producciòn de Usuario
+            Metas
             <small> </small>
         </h1>
         <ol class="breadcrumb">
@@ -50,27 +50,32 @@
             <div class="box-body table-responsive">
                 <div class="row form-group" id="reporte" >
                     <div class="col-sm-12">
-                        <div class="box-body table-responsive">
-                            <table id="t_reporte" class="table table-bordered">
+<!--                        <div class="box-body table-responsive">-->
+                            <table id="t_reporte" class="table table-bordered" >
                                 <thead>
                                     <tr>
-                                        <th colspan="4" style="text-align:center">Meta</th>
-                                        <th colspan="2" style="text-align:center">Plan de Trabajo</th>
+                                        <th colspan="4" style="text-align:center; background-color:#FCD790; width: 30% !important;">Meta</th>
+                                        <th colspan="2" style="text-align:center; background-color:#F5DF9D; width: 30% !important;">Plan de Trabajo</th>
+                                        <th colspan="4" style="text-align:center; background-color:#DEFAFA; width: 40% !important;">Avances</th>
                                     </tr>
                                     <tr>
-                                        <th style="text-align:center">Meta</th>
-                                        <th style="text-align:center">Actividad</th>
-                                        <th style="text-align:center">Descripción</th>
-                                        <th style="text-align:center">Fecha</th>
-                                        <th style="text-align:center">Paso</th>
-                                        <th style="text-align:center">Fecha</th>
+                                        <th style="text-align:center;background-color:#FCD790; width: 5% !important;">Meta</th>
+                                        <th style="text-align:center;background-color:#FCD790; width: 10% !important;">Actividad</th>
+                                        <th style="text-align:center;background-color:#FCD790; width: 20% !important;">Descripción</th>
+                                        <th style="text-align:center;background-color:#FCD790; width: 5% !important;">Fecha</th>
+                                        <th style="text-align:center;background-color:#F5DF9D; width: 20% !important;">Paso</th>
+                                        <th style="text-align:center;background-color:#F5DF9D; width: 5% !important;">Fecha</th>
+                                        <th style="text-align:center;background-color:#DEFAFA; width: 10% !important;">Avance de Paso</th>
+                                        <th style="text-align:center;background-color:#DEFAFA; width: 10% !important;">Avance de Descripción</th>
+                                        <th style="text-align:center;background-color:#DEFAFA; width: 10% !important;">Avance de Actividad</th>
+                                        <th style="text-align:center;background-color:#DEFAFA; width: 5% !important;">Avance de Meta</th>
                                       
                                     </tr>
                                 </thead>
                                 <tbody id="tb_reporte">
                                 </tbody>
                             </table>
-                        </div>
+<!--                        </div>-->
                     </div>
                 </div>
               

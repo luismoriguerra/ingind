@@ -73,7 +73,7 @@ $(document).ready(function() {
 
     $('#fecha,.fechaG').daterangepicker({
         format: 'YYYY-MM-DD',
-        singleDatePicker: true,
+        singleDatePicker: false,
         showDropdowns: true
 
     });

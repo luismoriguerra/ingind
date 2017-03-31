@@ -28,143 +28,69 @@ var Usuario={
             }
         });
     },
-    CargarProduccion:function( dataG){
+    
+    Crear:function(form){
         $.ajax({
-            url         : 'reporte/produccionusuario',
+            url         : "metacuadro/create",
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
-            data        : dataG,
+            data        : form,
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
-            success : function(obj) {
-                $(".overlay,.loading-img").remove();
-                if(obj.rst==1){  
-                    HTMLproduccion(obj.datos);
-                    
+            success: function(obj) {
+                if(obj.rst==1){
+                    msjG.mensaje('success', obj.msj, 6000);
+                    meta = $('#slct_meta').val();
+                    data = {meta:meta}; 
+                    Usuario.mostrar(data);
+//                    limpiar();
+                } else {
+                    $.each(obj.msj,function(index,datos){
+                        $("#error_"+index).attr("data-original-title",datos);
+                        $('#error_'+index).css('display','');
+                    });
                 }
-            },
-            error: function(){
                 $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                    '<i class="fa fa-ban"></i>'+
-                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
-                                '</div>');
+            },
+            error: function(obj) {
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje('danger', 'ocurrio un error al registrar', 6000);
+                //alert('no se cargo archivo');
             }
         });
     },
     
-    CargarProduccionArea:function( dataG){
+        Eliminar:function(data){
         $.ajax({
-            url         : 'reporte/produccionusuarioxarea',
+            url         : "metacuadro/eliminar",
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
-            data        : dataG,
+            data        : data,
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
-            success : function(obj) {
-                $(".overlay,.loading-img").remove();
-                if(obj.rst==1){  
-                   
-                    HTMLproxarea(obj.datos);
-                    
+            success: function(obj) {
+                if(obj.rst==1){
+                    msjG.mensaje('success', obj.msj, 6000);
+//                    limpiar();
+                } else {
+                    $.each(obj.msj,function(index,datos){
+                        $("#error_"+index).attr("data-original-title",datos);
+                        $('#error_'+index).css('display','');
+                    });
                 }
-            },
-            error: function(){
                 $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                    '<i class="fa fa-ban"></i>'+
-                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
-                                '</div>');
+            },
+            error: function(obj) {
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje('danger', 'ocurrio un error al registrar', 6000);
+                //alert('no se cargo archivo');
             }
         });
     },
-    CargarProduccionTramiteAsignado:function( dataG){
-        $.ajax({
-            url         : 'reporte/producciontramiteasignado',
-            type        : 'POST',
-            cache       : false,
-            dataType    : 'json',
-            data        : dataG,
-            beforeSend : function() {
-                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
-            },
-            success : function(obj) {
-                $(".overlay,.loading-img").remove();
-                if(obj.rst==1){  
-                   
-                    HTMLprotramiteasignado(obj.datos);
-                    
-                }
-            },
-            error: function(){
-                $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                    '<i class="fa fa-ban"></i>'+
-                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
-                                '</div>');
-            }
-        });
-    },
-    CargarProduccionTramiteAsignadoTotal:function( dataG){
-        $.ajax({
-            url         : 'reporte/producciontramiteasignadototal',
-            type        : 'POST',
-            cache       : false,
-            dataType    : 'json',
-            data        : dataG,
-            beforeSend : function() {
-                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
-            },
-            success : function(obj) {
-                $(".overlay,.loading-img").remove();
-                if(obj.rst==1){  
-                    HTMLprotramiteasignadototal(obj.datos);
-                    
-                }
-            },
-            error: function(){
-                $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                    '<i class="fa fa-ban"></i>'+
-                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
-                                '</div>');
-            }
-        });
-    },
-    OrdenesTrabajo:function( dataG){
-        $.ajax({
-            url         : 'reporte/reporteortrabajo',
-            type        : 'POST',
-            cache       : false,
-            dataType    : 'json',
-            data        : dataG,
-            beforeSend : function() {
-                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
-            },
-            success : function(obj) {
-                $(".overlay,.loading-img").remove();
-                if(obj.rst==1){  
-                    HTMLOrdenesTrabajo(obj.datos);
-                    
-                }
-            },
-            error: function(){
-                $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                    '<i class="fa fa-ban"></i>'+
-                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
-                                '</div>');
-            }
-        });
-    }
+
 };
 </script>

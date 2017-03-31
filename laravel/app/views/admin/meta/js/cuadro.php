@@ -1,62 +1,7 @@
 <script type="text/javascript">
-var cabeceraG=[]; // Cabecera del Datatable
-var columnDefsG=[]; // Columnas de la BD del datatable
-var targetsG=-1; // Posiciones de las columnas del datatable
-var DetalleG={id:0,proceso:"",area:"",tarea:"",verbo:"",documento:"",observacion:"",nroacti:"",updated_at:""}; // Datos Globales
-
-var cabeceraG1=[]; // Cabecera del Datatable
-var columnDefsG1=[]; // Columnas de la BD del datatable
-var targetsG1=-1; // Posiciones de las columnas del datatable
-var DetalleG1={id:0,proceso:"",area:"",id_union:"",sumilla:"",fecha:""}; // Datos Globales
-
 $(document).ready(function() {
     
-     /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
-        2: Descripción de cabecera
-        3: Color Cabecera
-    */
-
-    slctGlobalHtml('slct_estado','simple');
-    var idG={   proceso        :'0|Proceso|#DCE6F1', //#DCE6F1
-                area        :'0|Área|#DCE6F1', //#DCE6F1
-                tarea        :'0|Tarea|#DCE6F1', //#DCE6F1
-                verbo        :'0|Verbo|#DCE6F1', //#DCE6F1
-                documento        :'0|Documento Generado|#DCE6F1', //#DCE6F1
-                observacion        :'0|Observación|#DCE6F1', //#DCE6F1
-                nroacti        :'0|N° de Actividad|#DCE6F1', //#DCE6F1
-                updated_at        :'0|Fecha|#DCE6F1' //#DCE6F1
-             };
-
-    var resG=dataTableG.CargarCab(idG);
-    cabeceraG=resG; // registra la cabecera
-    var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,0,'detalles','t_detalles');
-    columnDefsG=resG[0]; // registra las columnas del datatable
-    targetsG=resG[1]; // registra los contadores
-    
-    slctGlobalHtml('slct_estado','simple');
-    var idG1={   proceso        :'0|Proceso|#DCE6F1', //#DCE6F1
-                area        :'0|Área|#DCE6F1', //#DCE6F1
-                id_union        :'0|Nombre|#DCE6F1', //#DCE6F1
-                sumilla        :'0|Sumilla|#DCE6F1', //#DCE6F1
-                fecha        :'0|Fecha|#DCE6F1'
-             };
-
-    var resG1=dataTableG.CargarCab(idG1);
-    cabeceraG1=resG1; // registra la cabecera
-    var resG1=dataTableG.CargarCol(cabeceraG1,columnDefsG1,targetsG1,0,'detalles_tramite','t_detalles_tramite');
-    columnDefsG1=resG1[0]; // registra las columnas del datatable
-    targetsG1=resG1[1]; // registra los contadores
-   
-
-    
-    $('#fecha').daterangepicker({
-        format: 'YYYY-MM-DD',
-        singleDatePicker: false,
-         showDropdowns: true
-    });
-    var data = {estado:1};
-    var ids = [];
-        var datos={estado:1};
+    var datos={estado:1};
     slctGlobal.listarSlctFuncion('metacuadro','listarmeta','slct_meta','multiple',null,datos);
 
     $("#generar_area").click(function (){
@@ -68,261 +13,389 @@ $(document).ready(function() {
             alert("Seleccione Metas");
         }
     });
-
- 
+    
+     $(document).on('click', '.btnDelete', function(event) {
+        $(this).parent().parent().remove();
+    }); 
+    
 
 });
-
-GeneraHref=function(){
-    var fecha=$("#fecha").val();
-        $("#btnexport").removeAttr('href');
-        if ( fecha!=="") {
-            data = {fecha:fecha,usuario_id:$("#usuario_id").val()};
-            window.location='reporte/exportordentbyperson?fecha='+data.fecha+'&usuario_id='+data.usuario_id;
-        }else{
-            alert('selecciona un rango de fechas');
-        }
-    /*    else if ( fecha!=="" ) {
-            data = {fecha:fecha};
-            window.location='reporte/exportdocplataforma'+'?nro='+Math.random(1000)+'&fecha='+data.fecha;
-        } */
-}
-
-MostrarAjax=function(t){ 
-    if( t=="detalles" ){
-       
-        if( columnDefsG.length>0 ){
-            
-            dataTableG.CargarDatos(t,'reporte','detalleproduccion',columnDefsG);
-        }
-       
-        else{
-            alert('Faltan datos');
-        }
-    }
+var ap=0;
+AgregarAP = function(cont1,avance_id){
+  ap++;
+  var html='';
+          html+="<tr>"+
+             "<td>#"+
+             "<input type='hidden' name='tipo_avance[]' id='tipo_avance' value='4'>"+
+             "<input type='hidden' name='avance_id[]' id='avance_id' value='"+avance_id+"'></td></td> "+
+            "<td>";
+          html+='<input type="text"  readOnly class="form-control input-sm" id="pago_nombre'+ap+'""  name="pago_nombre[]" value="">'+
+                    '<input type="text" style="display: none;" id="pago_archivo'+ap+'" name="pago_archivo[]">'+
+                    '<label class="btn bg-olive btn-flat margin btn-xs">'+
+                        '<i class="fa fa-file-pdf-o fa-lg"></i>'+
+                        '<i class="fa fa-file-word-o fa-lg"></i>'+
+                        '<i class="fa fa-file-image-o fa-lg"></i>'+
+                        '<input type="file" style="display: none;" onchange="onPagos(event,'+ap+');" >'+
+                    '</label>';
+         html+="</td>"+
+            '<td><a id="btnDelete"  name="btnDelete" class="btn btn-danger btn-xs btnDelete">'+
+                                          '<i class="fa fa-trash fa-lg"></i>'+
+                                        '</a></td>';
+        html+="</tr>";
+        
+  $("#t_aparchivo"+cont1).append(html);
+  
+};
+var ad=0;
+AgregarD = function(cont2,avance_id){
+  ad++;
+  var html='';
+          html+="<tr>"+
+             "<td>#"+
+             "<input type='hidden' name='tipo_avance[]' id='tipo_avance' value='3'>"+
+             "<input type='hidden' name='avance_id[]' id='avance_id' value='"+avance_id+"'></td></td> "+
+            "<td>";
+          html+='<input type="text"  readOnly class="form-control input-sm" id="pago_nombre'+ad+'""  name="pago_nombre[]" value="">'+
+                    '<input type="text" style="display: none;" id="pago_archivo'+ad+'" name="pago_archivo[]">'+
+                    '<label class="btn bg-olive btn-flat margin btn-xs">'+
+                        '<i class="fa fa-file-pdf-o fa-lg"></i>'+
+                        '<i class="fa fa-file-word-o fa-lg"></i>'+
+                        '<i class="fa fa-file-image-o fa-lg"></i>'+
+                        '<input type="file" style="display: none;" onchange="onPagos(event,'+ad+');" >'+
+                    '</label>';
+         html+="</td>"+
+            '<td><a id="btnDelete"  name="btnDelete" class="btn btn-danger btn-xs btnDelete">'+
+                                          '<i class="fa fa-trash fa-lg"></i>'+
+                                        '</a></td>';
+        html+="</tr>";
+        
+  $("#t_darchivo"+cont2).append(html);
   
 };
 
-MostrarAjax1=function(t){ 
-    if( t=="detalles_tramite" ){
-   
-        if( columnDefsG1.length>0 ){
-            
-            dataTableG.CargarDatos(t,'reporte','producciontramiteasignadodetalle',columnDefsG1);
-        }
-        else{
-            alert('Faltan datos');
-        }
-    }
+var aa=0;
+AgregarA = function(cont3,avance_id){
+  aa++;
+  var html='';
+          html+="<tr>"+
+             "<td>#"+
+             "<input type='hidden' name='tipo_avance[]' id='tipo_avance' value='2'>"+
+             "<input type='hidden' name='avance_id[]' id='avance_id' value='"+avance_id+"'></td></td> "+
+            "<td>";
+          html+='<input type="text"  readOnly class="form-control input-sm" id="pago_nombre'+aa+'""  name="pago_nombre[]" value="">'+
+                    '<input type="text" style="display: none;" id="pago_archivo'+aa+'" name="pago_archivo[]">'+
+                    '<label class="btn bg-olive btn-flat margin btn-xs">'+
+                        '<i class="fa fa-file-pdf-o fa-lg"></i>'+
+                        '<i class="fa fa-file-word-o fa-lg"></i>'+
+                        '<i class="fa fa-file-image-o fa-lg"></i>'+
+                        '<input type="file" style="display: none;" onchange="onPagos(event,'+aa+');" >'+
+                    '</label>';
+         html+="</td>"+
+            '<td><a id="btnDelete"  name="btnDelete" class="btn btn-danger btn-xs btnDelete">'+
+                                          '<i class="fa fa-trash fa-lg"></i>'+
+                                        '</a></td>';
+        html+="</tr>";
+        
+  $("#t_aarchivo"+cont3).append(html);
+  
+};
+var am=0;
+AgregarM = function(cont4,avance_id){
+    am++;
+  var html='';
+          html+="<tr>"+
+             "<td>#"+
+             "<input type='hidden' name='tipo_avance[]' id='tipo_avance' value='1'>"+
+             "<input type='hidden' name='avance_id[]' id='avance_id' value='"+avance_id+"'></td></td> "+
+            "<td>";
+          html+='<input type="text"  readOnly class="form-control input-sm" id="pago_nombre'+am+'""  name="pago_nombre[]" value="">'+
+                    '<input type="text" style="display: none;" id="pago_archivo'+am+'" name="pago_archivo[]">'+
+                    '<label class="btn bg-olive btn-flat margin btn-xs">'+
+                        '<i class="fa fa-file-pdf-o fa-lg"></i>'+
+                        '<i class="fa fa-file-word-o fa-lg"></i>'+
+                        '<i class="fa fa-file-image-o fa-lg"></i>'+
+                        '<input type="file" style="display: none;" onchange="onPagos(event,'+am+');" >'+
+                    '</label>';
+         html+="</td>"+
+            '<td><a id="btnDelete"  name="btnDelete" class="btn btn-danger btn-xs btnDelete">'+
+                                          '<i class="fa fa-trash fa-lg"></i>'+
+                                        '</a></td>';
+        html+="</tr>";
+        
+  $("#t_marchivo"+cont4).append(html);
   
 };
 
 HTMLreporte=function(datos){
     var html="";
-
     pos=0; 
+    
     n=1;a=1;b=1;c=1;
-    var m1=1;a1='0';d1='0';p1='0';
+    n1=1;a1=1;b1=1;c1=1;
     
     aux_meta_id='';
     aux_meta_cuadro_id='';
     aux_id_d='';
     aux_id_p='';
+    
+    aux_meta_id1='';
+    aux_meta_cuadro_id1='';
+    aux_id_d1='';
+    aux_id_p1='';
+    
+    cont1=0; cont2=0; cont3=0; cont4=0;
+    
     $.each(datos,function(index,data){
-        
-        html+="<tr>";
+
+        html+='<tr>';
         if(aux_meta_id!==data.meta_id){
          aux_meta_id=data.meta_id;
-         x=n,
-         html+="<td rowspan='"+x+"' >"+data.nombre+"</td>";
-         html+=html.replace("1",5);
+         if(index>0){
+          html= html.replace("rowspann","rowspan='"+n+"'");
+         }
+         html+='<td rowspann >'+data.nombre+'</td>';
          n=1;
         }
         else { n++;}
         
         if(aux_meta_cuadro_id!==data.meta_cuadro_id){ 
          aux_meta_cuadro_id=data.meta_cuadro_id;
-         y=a;
-         html+="<td rowspan='"+y+"'>"+data.actividad+"</td>"; 
+          if(index>0){ 
+              html= html.replace("rowspana","rowspan='"+a+"'");
+         }
+         html+='<td rowspana >'+data.actividad+'</td>'; 
          a=1;
         }
         else { a++;}
         
         if(aux_id_d!==data.id_d){ 
          aux_id_d=data.id_d;
-        z=b;
-         html+="<td rowspan='"+z+"'>"+data.d+"</td>";
-         html+="<td rowspan='"+z+"'>"+data.df+"</td>"; 
+         if(index>0){
+             html= html.replace(/rowspanb/g,"rowspan='"+b+"'");
+            //  html= html.split('rowspanb').join("rowspan='"+b+"'");
+         }
+         html+='<td rowspanb >'+data.d+'</td>';
+         html+='<td rowspanb >'+data.df+'</td>'; 
          b=1;
         }
         else { b++;}
         
         if(aux_id_p!==data.id_p){ 
         aux_id_p=data.id_p;
-         w=c  
-        html+="<td rowspan='"+w+"'>"+data.p+"</td>";
-        html+="<td rowspan='"+w+"'>"+data.pf+"</td>"; 
+         if(index>0){
+             html= html.replace(/rowspanc/g,"rowspan='"+c+"'");
+         }
+        html+='<td rowspanc >'+data.p+'</td>';
+        html+='<td rowspanc >'+data.pf+'</td>'; 
         c=1;
         }
         else { c++;}
-        html+="</tr>";
+        
+        if(aux_id_p1!==data.id_p){ 
+        aux_id_p1=data.id_p;
+         if(index>0){
+             html= html.replace(/rowspanc1/g,"rowspan='"+c1+"'");
+         }
+        cont1++;
 
-    });
-//    var strNewString = $('body').html().replace(/\./g,'---');
-//    $('body').html(strNewString);
-//    var htmll=html.replace("rowspan='0'", "rowspan='5'");
-    $("#tb_reporte").html(html);
-
-    $("#reporte").show();
-};
-
-HTMLproxarea=function(datos){
-  var html="";
-    
-    var alerta_tipo= '';
-    $('#t_produccion').dataTable().fnDestroy();
-    pos=0;
-    $.each(datos,function(index,data){
-        pos++;
+        html+='<td rowspanc1 >'+
+              '<form name="form_aparchivo'+cont1+'" id="form_aparchivo'+cont1+'" enctype=”multipart/form-data”>'+
+              
+               '<table id="t_aparchivo'+cont1+'" class="table table-bordered" >'+
+                                        '<thead>'+
+                                            '<tr>'+
+                                                '<th>N°</th>'+
+                                                '<th>Archivo</th>'+
+                                                '<th><a class="btn btn-success btn-xs" title="Agregar Archivo"'+
+                                                         'onclick="AgregarAP('+cont1+','+data.id_p+')"><i class="fa fa-plus fa-lg"></i></a></th>'+
+                                           ' </tr>'+
+                                       ' </thead>'+
+                                       ' <tbody id="tb_aparchivo'+cont1+'">';
+        if(data.a_p!=null){
+        var a_p = data.a_p.split('|');
+        var a_p_nombre=a_p[0].split(',');
+        var a_p_id=a_p[1].split(',');
+        pos_ap=1;
+        for(i=0;i<a_p_nombre.length;i++){
+        var nombre=a_p_nombre[i].split('/');
         html+="<tr>"+
-            "<td>"+data.nombre+"</td>"+
-            "<td>"+data.tareas+"</td>"+
-            "<td align='center'><span data-toggle='modal' onClick='MostrarDetalle("+data.id+");' data-id='' data-target='#produccionusuModal' class='btn btn-info'>Detalle</span></td>"+
-            "<td align='center'><a class='btn btn-success btn-md' onClick='ExportDetalle("+data.id+");' id='btnexport_"+data.id+"' name='btnexport' href='' target=''><i class='glyphicon glyphicon-download-alt'></i> Export</i></a></td>";
+             "<td>"+pos_ap+"<input type='hidden' name='c_id[]' id='c_id' value='"+a_p_id[i]+"'></td></td> "+
+            "<td><a target='_blank' href='file/meta/"+a_p_nombre[i]+"'>"+nombre[1]+"</a></td>"+
+            '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="Eliminar(\''+a_p_id[i]+'\',\''+nombre[0]+'\',\''+nombre[1]+'\',this)">'+
+                                          '<i class="fa fa-trash fa-lg"></i>'+
+                                        '</a></td>';
         html+="</tr>";
-    });
-    $("#tb_produccion").html(html);
-    $("#t_produccion").dataTable(
-    ); 
-    $(".nav-tabs-custom").show();
+        pos_ap++;
+        }
+        }
+      
+                                        html+=' </tbody>'+
+                                                    '</table>'+
+                                                    '</form>'+
+                                    '<a class="btn btn-success btn-xs" id="guardar"  style="width: 100%;margin-top:10px" onClick="Guardar(\'#form_aparchivo'+cont1+'\')">'+
+                                    '<i class="fa fa-save fa-lg"></i>Guardar'+
+                                '</a>'+                                      
+                                                    '</td>';
+        
+        c1=1;
+        }
+        else { c1++;}
+        
+        if(aux_id_d1!==data.id_d){ 
+         aux_id_d1=data.id_d;
+         if(index>0){
+             html= html.replace(/rowspanb1/g,"rowspan='"+b1+"'");
+         }
+         cont2++;
+         html+='<td rowspanb1 >'+
+                             '<form name="form_darchivo'+cont2+'" id="form_darchivo'+cont2+'" enctype=”multipart/form-data”>'+
+               '<table id="t_darchivo'+cont2+'" class="table table-bordered">'+
+                                        '<thead>'+
+                                            '<tr>'+
+                                                '<th>N°</th>'+
+                                                '<th>Archivo</th>'+
+                                                '<th><a class="btn btn-success btn-xs"'+
+                                                         'onclick="AgregarD('+cont2+','+data.id_d+')"><i class="fa fa-plus fa-lg"></i></a></th>'+
+                                           ' </tr>'+
+                                       ' </thead>'+
+                                       ' <tbody id="tb_darchivo'+cont2+'">';
 
-};
-
-HTMLproduccion=function(datos){
-    var html="";
-    $.each(datos,function(index,data){
-      html+="<table class='table table-bordered'><tr><td><b>Total de Tareas Realizadas</b></td><td>"+data.tareas+"</td><td align='center'><span data-toggle='modal' onClick='MostrarDetalle();' data-id='' data-target='#produccionusuModal' class='btn btn-info'>Detalle Total</span></td><td align='center'><a class='btn btn-success btn-md' onClick='ExportDetalleTotal();' id='btnexport_'  href='' target=''><i class='glyphicon glyphicon-download-alt'></i> Export</i></a></td></tr>";
-    });
-    
-    $("#div_total_produccion").html(html);
-  
-};
-
-HTMLprotramiteasignado=function(datos){
-  var html="";
-    
-    var alerta_tipo= '';
-    $('#t_tramite_asignado').dataTable().fnDestroy();
-    pos=0;
-    $.each(datos,function(index,data){
-        pos++;
+        if(data.a_d!=null){
+        var a_d = data.a_d.split('|');
+        var a_d_nombre=a_d[0].split(',');
+        var a_d_id=a_d[1].split(',');
+        pos_ad=1;
+        for(i=0;i<a_d_nombre.length;i++){
+        var nombre=a_d_nombre[i].split('/');
         html+="<tr>"+
-            "<td>"+data.nombre+"</td>"+
-            "<td>"+data.tareas+"</td>"+
-            "<td align='center'><span data-toggle='modal' onClick='MostrarDetalleTramite("+data.id+");' data-id='' data-target='#produccionusuModal' class='btn btn-info'>Detalle</span></td>"+
-            "<td align='center'><a class='btn btn-success btn-md' onClick='ExportDetalleTramite("+data.id+");' id='btnexport1_"+data.id+"' name='btnexport1' href='' target=''><i class='glyphicon glyphicon-download-alt'></i> Export</i></a></td>";
+             "<td>"+pos_ad+"<input type='hidden' name='c_id[]' id='c_id' value='"+a_d_id[i]+"'></td></td> "+
+            "<td><a target='_blank' href='file/meta/"+a_d_nombre[i]+"'>"+nombre[1]+"</a></td>"+
+            '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="Eliminar(\''+a_d_id[i]+'\',\''+nombre[0]+'\',\''+nombre[1]+'\',this)">'+
+                                          '<i class="fa fa-trash fa-lg"></i>'+
+                                        '</a></td>';
         html+="</tr>";
-    });
-    $("#tb_tramite_asignado").html(html);
-    $("#t_tramite_asignado").dataTable(
-    ); 
-    $(".nav-tabs-custom").show();
+        pos_ad++;
+        }
+        }
+                                        html+=' </tbody>'+
+                                                    '</table>'+
+                                                    '</form><br>'+
+                                    '<a class="btn btn-success btn-xs" id="guardar" onClick="Guardar(\'#form_darchivo'+cont2+'\')">'+
+                                    '<i class="fa fa-save fa-lg">    </i>Guardar'+
+                                '</a>'+                                      
 
-};
+                                                    '</td>';
 
-HTMLprotramiteasignadototal=function(datos){
-    var html="";
-    $.each(datos,function(index,data){
-      html+="<table class='table table-bordered'><tr><td><b>Total de Trámites asignados</b></td><td>"+data.tareas+"</td><td align='center'><span data-toggle='modal' onClick='MostrarDetalleTramite();' data-id='' data-target='#produccionusuModal' class='btn btn-info'>Detalle Total</span></td><td align='center'><a class='btn btn-success btn-md' onClick='ExportDetalleTramiteTotal();' id='btnexport1_'  href='' target=''><i class='glyphicon glyphicon-download-alt'></i> Export</i></a></td></tr>";
-    });
-    
-    $("#div_total_tramite_asignado").html(html);
-  
-};
-
-
-HTMLOrdenesTrabajo=function(datos){
-  if(datos.length > 0){
-    var alerta_tipo= '';
-    $('#t_ordenest').dataTable().fnDestroy();
-    pos=0;
-    var html ='';
-    var totalh = 0;
-    $.each(datos,function(index,data){
-        pos++;
-        totalh+=parseInt(Math.abs(data.ot_tiempo_transcurrido));
-
-        var horas = Math.floor( data.ot_tiempo_transcurrido / 60);
-        var min = data.ot_tiempo_transcurrido % 60;
-
+         b1=1;
+        }
+        else { b1++;}
+        
+        if(aux_meta_cuadro_id1!==data.meta_cuadro_id){ 
+         aux_meta_cuadro_id1=data.meta_cuadro_id;
+          if(index>0){ 
+              html= html.replace("rowspana1","rowspan='"+a1+"'");
+         }
+         cont3++;
+         html+='<td rowspana1 >'+
+                '<form name="form_aarchivo'+cont3+'" id="form_aarchivo'+cont3+'" enctype=”multipart/form-data”>'+
+               '<table id="t_aarchivo'+cont3+'" class="table table-bordered">'+
+                                        '<thead>'+
+                                            '<tr>'+
+                                                '<th>N°</th>'+
+                                                '<th>Archivo</th>'+
+                                                '<th><a class="btn btn-success btn-xs"'+
+                                                         'onclick="AgregarA('+cont3+','+data.meta_cuadro_id+')"><i class="fa fa-plus fa-lg"></i></a></th>'+
+                                           ' </tr>'+
+                                       ' </thead>'+
+                                       ' <tbody id="tb_aarchivo'+cont3+'">';
+        if(data.a_a!=null){
+        var a_a = data.a_a.split('|');
+        var a_a_nombre=a_a[0].split(',');
+        var a_a_id=a_a[1].split(',');
+        pos_aa=1;
+        for(i=0;i<a_a_nombre.length;i++){
+         var nombre=a_a_nombre[i].split('/');
         html+="<tr>"+
-            "<td>"+data.actividad+"</td>"+
-            "<td>"+data.fecha_inicio+"</td>"+
-            "<td>"+data.dtiempo_final+"</td>"+
-            "<td>"+Math.abs(data.ot_tiempo_transcurrido) + " min"+"</td>"+
-            "<td>"+horas + ":" + min +"</td>";
+             "<td>"+pos_aa+"<input type='hidden' name='c_id[]' id='c_id' value='"+a_a_id[i]+"'></td></td> "+
+            "<td><a target='_blank' href='file/meta/"+a_a_nombre[i]+"'>"+nombre[1]+"</a></td>"+
+            '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="Eliminar(\''+a_a_id[i]+'\',\''+nombre[0]+'\',\''+nombre[1]+'\',this)">'+
+                                          '<i class="fa fa-trash fa-lg"></i>'+
+                                        '</a></td>';
         html+="</tr>";
+        pos_aa++;
+        }
+        }
+                                        html+=' </tbody>'+
+                                                    '</table>'+
+                                                    '</form><br>'+
+                                    '<a class="btn btn-success btn-xs" id="guardar" onClick="Guardar(\'#form_aarchivo'+cont3+'\')">'+
+                                    '<i class="fa fa-save fa-lg">    </i>Guardar'+
+                                '</a>'+                                      
+                                                    '</td>';
+         a1=1;
+        }
+        else { a1++;}
+        
+        if(aux_meta_id1!==data.meta_id){
+         aux_meta_id1=data.meta_id;
+         if(index>0){
+          html= html.replace("rowspann1","rowspan='"+n1+"'");
+         }
+         cont4++;
+         html+='<td rowspann1 >'+
+                                 '<form name="form_marchivo'+cont4+'" id="form_marchivo'+cont4+'" enctype=”multipart/form-data”>'+
+               '<table id="t_marchivo'+cont4+'" class="table table-bordered">'+
+                                        '<thead>'+
+                                            '<tr>'+
+                                                '<th>N°</th>'+
+                                                '<th>Archivo</th>'+
+                                                '<th><a class="btn btn-success btn-xs"'+
+                                                         'onclick="AgregarM('+cont4+','+data.meta_id+')"><i class="fa fa-plus fa-lg"></i></a></th>'+
+                                           ' </tr>'+
+                                       ' </thead>'+
+                                       ' <tbody id="tb_marchivo'+cont4+'">';
+        if(data.a_m!=null){
+        var a_m = data.a_m.split('|');
+        var a_m_nombre=a_m[0].split(',');
+        var a_m_id=a_m[1].split(',');
+        pos_am=1;
+        for(i=0;i<a_m_nombre.length;i++){
+        var nombre=a_m_nombre[i].split('/');
+        html+="<tr>"+
+             "<td>"+pos_am+"<input type='hidden' name='c_id[]' id='c_id' value='"+a_m_id[i]+"'></td></td> "+
+            "<td><a target='_blank' href='file/meta/"+a_m_nombre[i]+"'>"+nombre[1]+"</a></td>"+
+            '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="Eliminar(\''+a_m_id[i]+'\',\''+nombre[0]+'\',\''+nombre[1]+'\',this)">'+
+                                          '<i class="fa fa-trash fa-lg"></i>'+
+                                        '</a></td>';
+        html+="</tr>";
+        pos_am++;
+        }
+        }
+                                        html+=' </tbody>'+
+                                                    '</table>'+
+                                                    '</form><br>'+
+                                    '<a class="btn btn-success btn-xs" id="guardar" onClick="Guardar(\'#form_marchivo'+cont4+'\')">'+
+                                    '<i class="fa fa-save fa-lg">    </i>Guardar'+
+                                '</a>'+                                      
+                                                    '</td>';
+         n1=1;
+        }
+        else { n1++;}
+        html+='</tr>';
+
     });
-    $("#tb_ordenest").html(html);
-    $("#t_ordenest").dataTable(
-    );
-
-    var horastotal = Math.floor( totalh / 60);
-    var mintotal = totalh % 60;
-    $("#txt_totalh").val(horastotal + " : " + mintotal);  
-  }else{
-    $("#tb_ordenest").html('');   
-  }
-};
-
-
-MostrarUsuario=function(id){
-
-
-    $('#reporte').hide();
-    $('fieldset').hide();
-    $('#bandeja_detalle').show();
-    var app = document.getElementById(id).getElementsByTagName('td')[0].innerHTML;
-    var apm = document.getElementById(id).getElementsByTagName('td')[1].innerHTML;
-    var nombre = document.getElementById(id).getElementsByTagName('td')[2].innerHTML;
-    $("#txt_persona").attr("value",app+" "+apm +" "+ nombre);
-    $("#usuario_id").attr("value",id);
+    html= html.replace("rowspann","rowspan='"+n+"'");
+    html= html.replace("rowspana","rowspan='"+a+"'");
+    html= html.replace(/rowspanb/g,"rowspan='"+b+"'");
+    html= html.replace(/rowspanc/g,"rowspan='"+c+"'");
     
-};
+    html= html.replace(/rowspanc1/g,"rowspan='"+c1+"'");
+    html= html.replace(/rowspanb1/g,"rowspan='"+b1+"'");
+    html= html.replace("rowspana1","rowspan='"+a1+"'");
+    html= html.replace("rowspann1","rowspan='"+n+"'");
 
-MostrarDetalle=function(id){
-     usuario_id = $('#usuario_id').val();
-     var fecha=$("#fecha").val();
-     $("#form_detalles #txt_usuario_id").attr("value",'');
-     $("#form_detalles #txt_proceso_id").attr("value",'');
-     $("#form_detalles #txt_fecha").attr("value",'');
-     $("#form_detalles #txt_usuario_id").attr("value",usuario_id);
-     $("#form_detalles #txt_proceso_id").attr("value",id);
-     $("#form_detalles #txt_fecha").attr("value",fecha);
-//    dataG = {usuario_id:usuario_id,fecha:fecha,proceso_id:id};
-    $("#t_detalles").dataTable(); 
-    
-    $('#form_detalles_tramite').hide();
-    $('#form_detalles').show();
-     MostrarAjax('detalles'); 
-};
-
-MostrarDetalleTramite=function(id){
-     usuario_id = $('#usuario_id').val();
-     var fecha=$("#fecha").val();
-     $("#form_detalles_tramite #txt_usuario_id").attr("value",'');
-     $("#form_detalles_tramite #txt_proceso_id").attr("value",'');
-     $("#form_detalles_tramite #txt_fecha").attr("value",'');
-     $("#form_detalles_tramite #txt_usuario_id").attr("value",usuario_id);
-     $("#form_detalles_tramite #txt_proceso_id").attr("value",id);
-     $("#form_detalles_tramite #txt_fecha").attr("value",fecha);
-//    dataG = {usuario_id:usuario_id,fecha:fecha,proceso_id:id};
-    $("#t_detalles_tramite").dataTable(); 
-    
-    $('#form_detalles_tramite').show();
-    $('#form_detalles').hide();
-    
-     MostrarAjax1('detalles_tramite'); 
+    $("#tb_reporte").html(html); 
+    $("#reporte").show(); 
 };
 
 
@@ -330,17 +403,40 @@ ActPest=function(nro){
     Pest=nro;
 };
 
-Regresar=function(){
-    
-    $('#reporte').show();
-    $('fieldset').show();
-     $(".nav-tabs-custom").hide();
-    $('#bandeja_detalle').hide();
-    
-};
 activarTabla=function(){
     $("#t_detalles").dataTable(); // inicializo el datatable    
 };
 eventoSlctGlobalSimple=function(slct,valores){
 };
+
+Guardar=function(form){
+    var datos=$(form).serialize().split("txt_").join("").split("slct_").join("");
+    Usuario.Crear(datos);
+};
+
+Eliminar=function(id,carpeta,nombre,tr){
+
+     var datos={id:id,carpeta:carpeta,nombre:nombre};
+     var c= confirm("¿Está seguro de Eliminar el archivo?");
+     if(c){$(tr).parent().parent().remove();
+       Usuario.Eliminar(datos); 
+       
+     }
+    
+};
+
+onPagos=function(event,item){
+    var files = event.target.files || event.dataTransfer.files;
+    if (!files.length)
+      return;
+    var image = new Image();
+    var reader = new FileReader();
+    reader.onload = (e) => {
+        $('#pago_archivo'+item).val(e.target.result);
+    };
+    reader.readAsDataURL(files[0]);
+    $('#pago_nombre'+item).val(files[0].name);
+    console.log(files[0].name);
+};
+
 </script>

@@ -527,8 +527,7 @@ class ReporteFinalController extends BaseController
           $cartaDesglose->persona_id=$value->jefe_id;
           $cartaDesglose->save();
         }
-
-        if( ($value->rol_id==8 OR $value->rol_id==9) AND trim($value->responsable_auto_id)!='' ){
+        else if(  trim($value->responsable_auto_id)!='' AND $value->responsable_auto_id!= $value->persona_id){
           $value->responsable=$value->responsable_auto;
           $value->email_mdi=$value->email_mdi_responsable_auto;
           $value->email=$value->email_responsable_auto;
