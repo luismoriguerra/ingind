@@ -18,6 +18,7 @@ class MetaCuadroController extends \BaseController {
      *
      * @return Response
      */
+    
     public function postListarvencimiento1() {
         if (Request::ajax()) {
             $array = array();
@@ -373,5 +374,99 @@ class MetaCuadroController extends \BaseController {
             );
         }
     }
+    
+        public function fileToFile($file,$id, $url){
+        if ( !is_dir('file') ) {
+            mkdir('file',0777);
+        }
+        if ( !is_dir('file/meta') ) {
+            mkdir('file/meta',0777);
+        }
+        if ( !is_dir('file/meta/'.$id) ) {
+            mkdir('file/meta/'.$id,0777);
+        }
 
+        list($type, $file) = explode(';', $file);
+        list(, $type) = explode('/', $type);
+        if ($type=='jpeg') $type='jpg';
+        if (strpos($type,'document')!==False) $type='docx';
+        if (strpos($type, 'sheet') !== False) $type='xlsx';
+        if ($type=='plain') $type='txt';
+        list(, $file)      = explode(',', $file);
+        $file = base64_decode($file);
+        file_put_contents($url , $file);
+        return $url. $type;
+    }
+    
+        public function postCreate()
+    {
+
+        if ( Request::ajax() ) {
+            $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
+            $required = 'required';
+            $reglas = array(
+                'ruta' => $required . '|' . $regex,
+            );
+
+            $mensaje = array(
+                'required' => ':attribute Es requerido',
+                'regex' => ':attribute Solo debe ser Texto',
+            );
+
+            $validator = Validator::make(Input::all(), $reglas, $mensaje);
+
+//            if ($validator->fails()) {
+//                return Response::json(array('rst' => 2, 'msj' => $validator->messages()));
+//            }
+
+
+
+            //crear archivos
+                $length=Input::get('pago_nombre');               
+                $nombre = Input::get('pago_nombre');
+                $avance_id=Input::get('avance_id');
+                $tipo_avance=Input::get('tipo_avance');
+                
+                $file = Input::get('pago_archivo');
+                
+                for ($i=0; $i < count($length); $i++) {
+                    $url = "file/meta/a".date("Y")."/".$nombre[$i].'.';
+                     $this->fileToFile($file[$i],'a'.date("Y"), $url);
+                    
+                    $ruta='a'.date('Y').'/'.$nombre[$i];
+                    $archivo = new MetaArchivo;
+                    $archivo->avance_id = $avance_id[$i];
+                    $archivo->tipo_avance = $tipo_avance[$i];
+                    $archivo->ruta = $ruta;
+                    $archivo->usuario_created_at = Auth::user()->id;
+                    $archivo->save();
+                }
+               
+    
+
+            return Response::json(array('rst' => 1, 'msj' => 'Registro realizado correctamente'));
+        }
+
+    }
+    
+        public function postEliminar() {
+
+        if (Request::ajax()) {
+            $carpeta=Input::get('carpeta');
+            $nombre=Input::get('nombre');
+            $metacuadro = MetaArchivo::find(Input::get('id'));
+            $metacuadro->usuario_created_at = Auth::user()->id;
+            $metacuadro->estado = 0;
+            $metacuadro->save();
+            
+            unlink('file/meta/'.$carpeta.'/'.$nombre.'');
+            return Response::json(
+                            array(
+                                'rst' => 1,
+                                'msj' => 'Registro actualizado correctamente',
+                            )
+            );
+        }
+    }
+    
 }
