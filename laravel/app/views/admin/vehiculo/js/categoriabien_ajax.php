@@ -2,12 +2,12 @@
 var cargo_id, menus_selec=[], CargoObj;
 var Cargos={
     AgregarEditarCargo:function(AE){
-        $("#form_cargos input[name='menus_selec']").remove();
-        $("#form_cargos").append("<input type='hidden' value='"+menus_selec+"' name='menus_selec'>");
-        var datos=$("#form_cargos").serialize().split("txt_").join("").split("slct_").join("");
-        var accion="cargo/crear";
+        $("#form_bienes input[name='menus_selec']").remove();
+        $("#form_bienes").append("<input type='hidden' value='"+menus_selec+"' name='menus_selec'>");
+        var datos=$("#form_bienes").serialize().split("txt_").join("").split("slct_").join("");
+        var accion="biencategoria/createcategoria";
         if(AE==1){
-            accion="cargo/editar";
+            accion="biencategoria/editar";
         }
 
         $.ajax({
@@ -24,13 +24,13 @@ var Cargos={
                 if(obj.rst==1){
                     $('#t_cargos').dataTable().fnDestroy();
 
-                    Cargos.CargarCargos(activarTabla);
+                     Cargos.cargarCategorias({estado:1});
                     $("#msj").html('<div class="alert alert-dismissable alert-success">'+
                                         '<i class="fa fa-check"></i>'+
                                         '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
                                         '<b>'+obj.msj+'</b>'+
                                     '</div>');
-                    $('#cargoModal .modal-footer [data-dismiss="modal"]').click();
+                    $('#nuevoBien .modal-footer [data-dismiss="modal"]').click();
                 }
                 else{ 
                     $.each(obj.msj,function(index,datos){
@@ -119,11 +119,11 @@ var Cargos={
         });
     },
     CambiarEstadoCargos:function(id,AD){
-        $("#form_cargos").append("<input type='hidden' value='"+id+"' name='id'>");
-        $("#form_cargos").append("<input type='hidden' value='"+AD+"' name='estado'>");
-        var datos=$("#form_cargos").serialize().split("txt_").join("").split("slct_").join("");
+        $("#form_bienes").append("<input type='hidden' value='"+id+"' name='id'>");
+        $("#form_bienes").append("<input type='hidden' value='"+AD+"' name='estado'>");
+        var datos=$("#form_bienes").serialize().split("txt_").join("").split("slct_").join("");
         $.ajax({
-            url         : 'cargo/cambiarestado',
+            url         : 'biencategoria/cambiarestado',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -135,13 +135,13 @@ var Cargos={
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
                     $('#t_cargos').dataTable().fnDestroy();
-                    Cargos.CargarCargos(activarTabla);
+                    Cargos.cargarCategorias({estado:1});
                     $("#msj").html('<div class="alert alert-dismissable alert-info">'+
                                         '<i class="fa fa-info"></i>'+
                                         '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
                                         '<b>'+obj.msj+'</b>'+
                                     '</div>');
-                    $('#cargoModal .modal-footer [data-dismiss="modal"]').click();
+                    $('#nuevoBien').modal('hide');
                 }
                 else{ 
                     $.each(obj.msj,function(index,datos){
@@ -159,6 +159,28 @@ var Cargos={
                                 '</div>');
             }
         });
-    }
+    },
+     cargarCategorias:function(data){
+        //getOpciones
+        $.ajax({
+            url         : 'biencategoria/cargar',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : data,
+            async       : false,
+            beforeSend : function() {
+                
+            },
+            success : function(obj) {
+                //CARGAR opciones
+                if(obj.rst == 1){
+                    HTMLCargarBien(obj.datos);
+                }
+            },
+            error: function(){
+            }
+        });
+    },
 };
 </script>

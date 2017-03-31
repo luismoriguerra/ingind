@@ -1,54 +1,38 @@
 <script type="text/javascript">
 $(document).ready(function() {  
-    Cargos.CargarCargos(activarTabla);
+    Cargos.cargarCategorias({estado:1});
 
-    $('#cargoModal').on('show.bs.modal', function (event) {
+    $('#nuevoBien').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // captura al boton
         var titulo = button.data('titulo'); // extrae del atributo data-
-        cargo_id = button.data('id'); //extrae el id del atributo data
-        //var data = {cargo_id: cargo_id};
-        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        id = button.data('id'); //extrae el id del atributo data
+
         var modal = $(this); //captura el modal
-        modal.find('.modal-title').text(titulo+' Cargo');
-        $('#form_cargos [data-toggle="tooltip"]').css("display","none");
-        $("#form_cargos input[type='hidden']").remove();
+        modal.find('.modal-title').text(titulo+' Bien');
+        $('#form_bienes [data-toggle="tooltip"]').css("display","none");
+        $("#form_bienes input[type='hidden']").remove();
 
-
-        slctGlobal.listarSlct('menu','slct_menus','simple');
         if(titulo=='Nuevo'){
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
-            $('#form_cargos #slct_estado').val(1); 
-            $('#form_cargos #txt_nombre').focus();
+            $('#form_bienes #slct_estado').val(1); 
+            $('#form_bienes #txt_nombre').focus();
         }
         else{
-            Cargos.CargarOpciones(cargo_id); //no es multiselect
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
 
-            $('#form_cargos #txt_nombre').val( CargoObj[cargo_id-1].nombre );
-            $('#form_cargos #slct_estado').val( CargoObj[cargo_id-1].estado );
-            $("#form_cargos").append("<input type='hidden' value='"+button.data('id')+"' name='id'>");
+            $('#form_bienes #txt_nombre').val(button.data('nombre'));
+            $('#form_bienes #txt_observ').val(button.data('observacion'));
+            $('#form_bienes #slct_estado').val(button.data('estado'));
+            $("#form_bienes").append("<input type='hidden' value='"+button.data('id')+"' name='id'>");
         }
-        $( "#form_cargos #slct_estado" ).trigger('change');
-        $( "#form_cargos #slct_estado" ).change(function() {
-            if ($( "#form_cargos #slct_estado" ).val()==1) {
-                $('fieldset').removeAttr('disabled');
-            }
-            else {
-                $('fieldset').attr('disabled', 'disabled');
-            }
-        });
-
     });
 
-    $('#cargoModal').on('hide.bs.modal', function (event) {
+    $('#nuevoBien').on('hide.bs.modal', function (event) {
         var modal = $(this); //captura el modal
         modal.find('.modal-body input').val(''); // busca un input para copiarle texto
-        $("#slct_menus").multiselect('destroy');
-        $("#t_opcionCargo").html('');
-        menus_selec=[];
+       $("#form_bienes input[type='hidden'],#form_bienes input[type='text'],#form_bienes select,#form_bienes textarea").not('.mant').val("");
     });
 });
 
@@ -70,10 +54,15 @@ desactivar=function(id){
 };
 
 Agregar=function(){
-    if(validaCargos()){
+    if($('#txt_nombre').val() == ''){
+        alert('Ingrese Nombre de la Categoria');
+    }else if($('#txt_observ').val() == ''){
+        alert('Escriba una observacion');
+    }else{
         Cargos.AgregarEditarCargo(0);
     }
 };
+
 AgregarOpcion=function(){
     //añadir registro "opcion" por usuario
     var menu_id=$('#slct_menus option:selected').val();
@@ -138,7 +127,7 @@ valida=function(inicial,id,v_default){
         return false;
     }   
 };
-HTMLCargarCargo=function(datos){
+HTMLCargarBien=function(datos){
     var html="";
     $('#t_cargos').dataTable().fnDestroy();
 
@@ -150,9 +139,9 @@ HTMLCargarCargo=function(datos){
 
         html+="<tr>"+
             "<td >"+data.nombre+"</td>"+
+            "<td id='observ_"+data.observacion+"'>"+data.observacion+"</td>"+
             "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
-            '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#cargoModal" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
-
+            '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#nuevoBien" data-id="'+data.id+'" data-nombre="'+data.nombre+'" data-estado="'+data.estado+'" data-observacion="'+data.observacion+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
         html+="</tr>";
     });
     $("#tb_cargos").html(html); 

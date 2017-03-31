@@ -8,15 +8,15 @@
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-    @include( 'admin.mantenimiento.js.categoriabien_ajax' )
-    @include( 'admin.mantenimiento.js.categoriabien' )
+    @include( 'admin.vehiculo.js.categoriabien_ajax' )
+    @include( 'admin.vehiculo.js.categoriabien' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
     <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Mantenimiento de Cargos
+                Categoria de Los Bienes
                 <small> </small>
             </h1>
             <ol class="breadcrumb">
@@ -40,7 +40,8 @@
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
-                                        <th>Estado</th>
+                                        <th>obsevacion</th>
+                                        <th>estado</th>
                                         <th> [ ] </th>
                                     </tr>
                                 </thead>
@@ -55,7 +56,7 @@
                                 </tfoot>
                             </table>
                             <a class='btn btn-primary btn-sm' class="btn btn-primary" 
-                            data-toggle="modal" data-target="#cargoModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                            data-toggle="modal" data-target="#nuevoBien" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->
@@ -66,5 +67,5 @@
 @stop
 
 @section('formulario')
-     @include( 'admin.mantenimiento.form.cargo' )
+     @include( 'admin.vehiculo.form.bienes' )
 @stop
