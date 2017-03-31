@@ -1172,7 +1172,7 @@ class ReporteController extends BaseController
                 WHEN 2 THEN 'Reiterativo'
                 WHEN 3 THEN 'Relevo'
                 END as tipo_aviso ,CONCAT(ti.apocope,': ',rd.dtiempo) tiempo,
-                al.fecha fecha_aviso, IFNULL(rd.dtiempo_final,'') fechaGestion
+                al.fecha fecha_aviso, IFNULL(rd.dtiempo_final,'') fechaGestion,t.sumilla asunto 
                 FROM rutas r 
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 
                 INNER JOIN tiempos ti ON ti.id=rd.tiempo_id 
@@ -1195,15 +1195,17 @@ class ReporteController extends BaseController
             $query.=' AND al.clasificador='.$tipo;
           }
 
-          $query.=" ORDER BY a.nombre,f.nombre,al.tipo ";
+          $query.=" ORDER BY a.nombre,f.nombre";
           $result= DB::Select($query);
 
 
-          if($result){
+         /*if($result){
             foreach ($result as $key => $value) {
               $alertas = DB::table('alertas')
                 ->where('ruta_detalle_id', '=', $value->id)
-                ->where('estado',1)
+		->where('estado',1)
+		->orderBy('persona_id')
+                ->orderBy('fecha')
                 ->get();
 
                 if($alertas){
@@ -1212,18 +1214,26 @@ class ReporteController extends BaseController
                   $tipo = 0;
                   $persona_id=0;
                   foreach ($alertas as $index => $val) {
-                    if($val->fecha >= '2017-03-29' && $val->fecha <= '2017-03-30'){
-                      if($fechaAntigua == $val->fecha && $ruta_detalle ==$val->ruta_detalle_id && $persona_id==$val->persona_id){
+                    if($val->fecha >= '2017-03-28' && $val->fecha <= '2017-03-30'){
+                    	if($fechaAntigua == $val->fecha && $ruta_detalle ==$val->ruta_detalle_id && $persona_id==$val->persona_id){
                         $actualizar = Alerta::find($val->id);
                         $actualizar->estado=0;
                         $actualizar->save();
-                      }
-
-//                      if($ruta_detalle == $val->ruta_detalle_id && $fechaAntigua ==  date('Y-m-d', strtotime($val->fecha . ' -1 day')) && $tipo == $val->tipo && $persona_id==$val->persona_id){
-//                        $updated = Alerta::find($val->id);
-//                        $updated->tipo=$val->tipo + 1;
-//                        $updated->save();
-//                      }
+             		}else{
+			$actualizar = Alerta::find($val->id);
+                        $actualizar->estado=1;
+                        $actualizar->save();
+			}
+			
+                      if($ruta_detalle == $val->ruta_detalle_id && $fechaAntigua ==  date('Y-m-d', strtotime($val->fecha . ' -1 day')) && $persona_id==$val->persona_id && $tipo < 3 ){
+			$updated = Alerta::find($val->id);
+                        $updated->tipo=$tipo + 1;
+                        $updated->save();
+                      }else if($ruta_detalle == $val->ruta_detalle_id && $fechaAntigua ==  date('Y-m-d', strtotime($val->fecha . ' -1 day')) && $persona_id==$val->persona_id && $tipo==3){
+			$updated = Alerta::find($val->id);
+                        $updated->tipo=1;
+                        $updated->save();
+			}
                       $fechaAntigua = $val->fecha;
                       $ruta_detalle = $val->ruta_detalle_id;
                       $tipo = $val->tipo;
@@ -1232,7 +1242,7 @@ class ReporteController extends BaseController
                   }
                 } 
             }
-          }
+          }*/
           
           return $result;
     }
@@ -1673,10 +1683,11 @@ class ReporteController extends BaseController
                         ->setCellValue('I3', 'FECHA DE AVISO')
                         ->setCellValue('J3', 'TIPO DE AVISO')
                         ->setCellValue('K3', 'PROCESO')
-                        ->setCellValue('L3', 'AREA')
-                  ->mergeCells('A1:L1')
+			->setCellValue('L3', 'ASUNTO')
+                        ->setCellValue('M3', 'AREA')
+                  ->mergeCells('A1:M1')
                   ->setCellValue('A1', 'NOTIFICACIONES POR INCUMPLIMIENTO')
-                  ->getStyle('A1:L1')->getFont()->setSize(18);
+                  ->getStyle('A1:M1')->getFont()->setSize(18);
 
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
@@ -1690,6 +1701,7 @@ class ReporteController extends BaseController
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('J')->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('k')->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('l')->setAutoSize(true);
+	$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('M')->setAutoSize(true);
             /*end head*/
             /*body*/
             if($result){
@@ -1706,7 +1718,8 @@ class ReporteController extends BaseController
                               ->setCellValue('I' . ($key + 4), $value->fecha_aviso)
                               ->setCellValue('J' . ($key + 4), $value->tipo_aviso)
                               ->setCellValue('K' . ($key + 4), $value->proceso)
-                              ->setCellValue('L' . ($key + 4), $value->area)
+				->setCellValue('L' . ($key + 4), $value->asunto)
+                              ->setCellValue('M' . ($key + 4), $value->area)
                               ;
               }
             }

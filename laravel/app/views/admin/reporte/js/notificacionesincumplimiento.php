@@ -66,6 +66,7 @@ HTMLreporte=function(datos){
             "<td>"+data.fecha_aviso+"</td>"+
             "<td>"+data.tipo_aviso+"</td>"+
             "<td>"+ data.proceso +"</td>"+
+	  "<td>"+ data.asunto +"</td>"+
             "<td>"+ data.area +"</td>";
         html+="</tr>";
     });
