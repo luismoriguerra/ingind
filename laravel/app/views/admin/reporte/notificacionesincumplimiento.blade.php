@@ -82,7 +82,7 @@
                                         <th>Fecha de Aviso</th>
                                         <th>Tipo de aviso</th>
                                         <th>Proceso</th>
-					<th>Asunto</th>
+                                        <th>Asunto</th>
                                         <th>Area</th>
                                     </tr>
                                 </thead>
