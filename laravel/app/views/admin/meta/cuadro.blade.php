@@ -93,3 +93,7 @@
     
 
 @stop
+
+@section('formulario')
+     @include( 'admin.ruta.form.ListdocDigital' )
+@stop

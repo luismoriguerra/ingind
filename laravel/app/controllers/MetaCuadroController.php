@@ -430,10 +430,10 @@ class MetaCuadroController extends \BaseController {
                 $file = Input::get('pago_archivo');
                 
                 for ($i=0; $i < count($length); $i++) {
-                    $url = "file/meta/a".date("Y")."/".$nombre[$i].'.';
+                    $url = "file/meta/a".date("Y")."/".date("Y-m-d")."-".$nombre[$i].'.';
                      $this->fileToFile($file[$i],'a'.date("Y"), $url);
                     
-                    $ruta='a'.date('Y').'/'.$nombre[$i];
+                    $ruta='a'.date('Y').'/'.date("Y-m-d").'-'.$nombre[$i];
                     $archivo = new MetaArchivo;
                     $archivo->avance_id = $avance_id[$i];
                     $archivo->tipo_avance = $tipo_avance[$i];
@@ -444,7 +444,7 @@ class MetaCuadroController extends \BaseController {
                
     
 
-            return Response::json(array('rst' => 1, 'msj' => 'Registro realizado correctamente'));
+            return Response::json(array('rst' => 1, 'msj' => 'Archivo registrado correctamente'));
         }
 
     }
@@ -463,7 +463,7 @@ class MetaCuadroController extends \BaseController {
             return Response::json(
                             array(
                                 'rst' => 1,
-                                'msj' => 'Registro actualizado correctamente',
+                                'msj' => 'Archivo eliminado correctamente',
                             )
             );
         }

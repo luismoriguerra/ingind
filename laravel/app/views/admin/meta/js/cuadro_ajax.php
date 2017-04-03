@@ -74,7 +74,7 @@ var Usuario={
             },
             success: function(obj) {
                 if(obj.rst==1){
-                    msjG.mensaje('success', obj.msj, 6000);
+                    msjG.mensaje('warning', obj.msj, 6000);
 //                    limpiar();
                 } else {
                     $.each(obj.msj,function(index,datos){
@@ -88,6 +88,30 @@ var Usuario={
                 $(".overlay,.loading-img").remove();
                 msjG.mensaje('danger', 'ocurrio un error al registrar', 6000);
                 //alert('no se cargo archivo');
+            }
+        });
+    },
+    
+        Cargar:function(evento,campos,data = ''){
+        $.ajax({
+            url         : 'documentodig/cargar',
+            type        : 'POST',
+            cache       : false,
+            data : data,
+            dataType    : 'json',
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                if(obj.rst==1){
+                    evento(obj.datos,campos);
+                   /* PlantillaObj=obj.datos;*/
+                }
+                $(".overlay,.loading-img").remove();
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                alertBootstrap('danger', 'Ocurrio una interrupción en el proceso,Favor de intentar nuevamente', 6);
             }
         });
     },

@@ -18,6 +18,13 @@ $(document).ready(function() {
         $(this).parent().parent().remove();
     }); 
     
+    $('#listDocDigital').on('show.bs.modal', function (event) {
+     	var button = $(event.relatedTarget); // captura al boton
+	    var text = $.trim( button.data('texto') );
+	    var id= $.trim( button.data('id') );
+	    var camposP = {'nombre':text,'id':id};
+        Usuario.Cargar(HTMLCargar,camposP);
+    });
 
 });
 var ap=0;
@@ -199,6 +206,7 @@ HTMLreporte=function(datos){
         cont1++;
 
         html+='<td rowspanc1 >'+
+              '<div>'+
               '<form name="form_aparchivo'+cont1+'" id="form_aparchivo'+cont1+'" enctype=”multipart/form-data”>'+
               
                '<table id="t_aparchivo'+cont1+'" class="table table-bordered" >'+
@@ -232,9 +240,50 @@ HTMLreporte=function(datos){
                                         html+=' </tbody>'+
                                                     '</table>'+
                                                     '</form>'+
+                                    '<a class="btn btn-success btn-xs" id="guardar"  style="width: 100%;margin-top:10px;margin-bottom:10px" onClick="Guardar(\'#form_aparchivo'+cont1+'\')">'+
+                                    '<i class="fa fa-save fa-lg"></i>&nbsp;Guardar'+
+                                '</a>'+
+                                '</div>'+
+                                
+              '<div>'+
+              '<form name="form_aparchivo'+cont1+'" id="form_aparchivo'+cont1+'" enctype=”multipart/form-data”>'+
+              
+               '<table id="t_aparchivo'+cont1+'" class="table table-bordered" >'+
+                                        '<thead>'+
+                                            '<tr>'+
+                                                '<th>N°</th>'+
+                                                '<th>Documento</th>'+
+                                                '<th><span class="btn btn-success btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-id="txt_doc_digital_id">'+
+                                                                '<i class="glyphicon glyphicon-file"></i>'+
+                                                            '</span></th>'+
+                                           ' </tr>'+
+                                       ' </thead>'+
+                                       ' <tbody id="tb_aparchivo'+cont1+'">';
+        if(data.d_p!=null){
+        var d_p = data.d_p.split('|');
+        var d_p_nombre=d_p[0].split(',');
+        var d_p_id=d_p[1].split(',');
+        pos_ap=1;
+        for(i=0;i<d_p_nombre.length;i++){
+
+        html+="<tr>"+
+             "<td>"+pos_ap+"<input type='hidden' name='c_id[]' id='c_id' value='"+d_p_id[i]+"'></td></td> "+
+            "<td>"+d_p_nombre[i]+"</td>"+
+            '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="Eliminar(\''+d_p_id[i]+'\',\''+nombre[0]+'\',\''+nombre[1]+'\',this)">'+
+                                          '<i class="fa fa-trash fa-lg"></i>'+
+                                        '</a></td>';
+        html+="</tr>";
+        pos_ap++;
+        }
+        }
+      
+                                        html+=' </tbody>'+
+                                                    '</table>'+
+                                                    '</form>'+
                                     '<a class="btn btn-success btn-xs" id="guardar"  style="width: 100%;margin-top:10px" onClick="Guardar(\'#form_aparchivo'+cont1+'\')">'+
-                                    '<i class="fa fa-save fa-lg"></i>Guardar'+
-                                '</a>'+                                      
+                                    '<i class="fa fa-save fa-lg"></i>&nbsp;Guardar'+
+                                '</a>'+
+                                '</div>'+
                                                     '</td>';
         
         c1=1;
@@ -279,9 +328,9 @@ HTMLreporte=function(datos){
         }
                                         html+=' </tbody>'+
                                                     '</table>'+
-                                                    '</form><br>'+
-                                    '<a class="btn btn-success btn-xs" id="guardar" onClick="Guardar(\'#form_darchivo'+cont2+'\')">'+
-                                    '<i class="fa fa-save fa-lg">    </i>Guardar'+
+                                                    '</form>'+
+                                    '<a class="btn btn-success btn-xs" id="guardar"  style="width: 100%;margin-top:10px" onClick="Guardar(\'#form_darchivo'+cont2+'\')">'+
+                                    '<i class="fa fa-save fa-lg">    </i>&nbsp;Guardar'+
                                 '</a>'+                                      
 
                                                     '</td>';
@@ -327,9 +376,9 @@ HTMLreporte=function(datos){
         }
                                         html+=' </tbody>'+
                                                     '</table>'+
-                                                    '</form><br>'+
-                                    '<a class="btn btn-success btn-xs" id="guardar" onClick="Guardar(\'#form_aarchivo'+cont3+'\')">'+
-                                    '<i class="fa fa-save fa-lg">    </i>Guardar'+
+                                                    '</form>'+
+                                    '<a class="btn btn-success btn-xs" id="guardar"  style="width: 100%;margin-top:10px" onClick="Guardar(\'#form_aarchivo'+cont3+'\')">'+
+                                    '<i class="fa fa-save fa-lg">    </i>&nbsp;Guardar'+
                                 '</a>'+                                      
                                                     '</td>';
          a1=1;
@@ -373,9 +422,9 @@ HTMLreporte=function(datos){
         }
                                         html+=' </tbody>'+
                                                     '</table>'+
-                                                    '</form><br>'+
-                                    '<a class="btn btn-success btn-xs" id="guardar" onClick="Guardar(\'#form_marchivo'+cont4+'\')">'+
-                                    '<i class="fa fa-save fa-lg">    </i>Guardar'+
+                                                    '</form>'+
+                                    '<a class="btn btn-success btn-xs" id="guardar"  style="width: 100%;margin-top:10px" onClick="Guardar(\'#form_marchivo'+cont4+'\')">'+
+                                    '<i class="fa fa-save fa-lg">    </i>&nbsp;Guardar'+
                                 '</a>'+                                      
                                                     '</td>';
          n1=1;
@@ -438,5 +487,42 @@ onPagos=function(event,item){
     $('#pago_nombre'+item).val(files[0].name);
     console.log(files[0].name);
 };
+HTMLCargar=function(datos,campos){
+	var c_text = campos.nombre;
+	var c_id = campos.id;
+
+        console.log(datos);
+    var html="";
+    $('#t_doc_digital').dataTable().fnDestroy();
+    $.each(datos,function(index,data){
+        
+        if($.trim(data.ruta) == 0 && $.trim(data.rutadetallev) == 0){
+            html+="<tr class='danger'>";
+        }else{
+            html+="<tr class='success'>";
+        }
+      
+        html+="<td>"+data.titulo+"</td>";
+        html+="<td>"+data.asunto+"</td>";
+        html+="<td>"+data.plantilla+"</td>";
+        html+="<td><a class='btn btn-success btn-sm' c_text='"+c_text+"' c_id='"+c_id+"'  id='"+data.id+"' title='"+data.titulo+"' onclick='SelectDocDig(this)'><i class='glyphicon glyphicon-ok'></i> </a></td>";
+        if($.trim(data.ruta) != 0  || $.trim(data.rutadetallev) != 0){
+            html+="<td><a class='btn btn-primary btn-sm' id='"+data.id+"' onclick='openPrevisualizarPlantilla(this,0)'><i class='fa fa-eye'></i> </a></td>";
+        }else{
+             html+="<td></td>";
+        }
+        html+="</tr>";
+    });
+    $("#tb_doc_digital").html(html);
+    $("#t_doc_digital").dataTable();
+};
+
+SelectDocDig = function(obj,id){	
+	var id = obj.getAttribute('id');
+	var nombre = obj.getAttribute('title');
+	$("#"+obj.getAttribute('c_text')).val(nombre);
+	$("#"+obj.getAttribute('c_id')).val(id);
+	$("#listDocDigital").modal('hide');
+}
 
 </script>
