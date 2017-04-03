@@ -30,7 +30,7 @@ class Area extends Base
 
     public static function getCargar( $array )
     {
-        $sSql=" SELECT a.id, a.nombre,a.nemonico, a.estado
+        $sSql=" SELECT a.id, a.nombre,a.nemonico,a.imagen,a.imagenc,a.imagenp, a.estado
                 FROM areas a
                 WHERE 1=1 ";
         $sSql.= $array['where'].

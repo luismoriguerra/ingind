@@ -263,7 +263,21 @@ class PersonaController extends BaseController
                     )
                 );
             }
-
+            $rol = Input::get('rol');$rst='';
+            if ($rol==9 or $rol==8) {
+                $rst=Persona::BuscarJefe(Input::get('area'));
+                if($rst>=1){
+                return Response::json(
+                    array(
+                    'rst'=>3,
+                    'msj'=>'Área con Gerente, Inhabilitar y volver a crear',
+                    )
+                );
+                }else {
+                 Persona::ActualizarResponsable(Input::get('area'));   
+                }
+            }
+            
             $persona = new Persona;
             $persona['paterno'] = Input::get('paterno');
             $persona['materno'] = Input::get('materno');
@@ -273,7 +287,10 @@ class PersonaController extends BaseController
             $persona['sexo'] = Input::get('sexo');
             $persona['password'] = Input::get('password');
             if (Input::get('fecha_nacimiento')<>'') 
-            $persona['fecha_nacimiento'] = Input::get('fecha_nacimiento');
+            $persona['fecha_nacimiento'] = Input::get('fecha_nacimiento');        
+            if ($rol==9 or $rol==8){
+            $persona['responsable_asigt']=1;
+            $persona['responsable_dert']=1;}
             $persona['area_id'] = Input::get('area');
             $persona['rol_id'] = Input::get('rol');
             $persona['estado'] = Input::get('estado');
@@ -292,7 +309,7 @@ class PersonaController extends BaseController
                     )
                 );
             }
-
+            
             if (Input::has('cargos_selec')) {
                 $cargos=Input::get('cargos_selec');
                 $cargos = explode(',', $cargos);
@@ -404,8 +421,27 @@ class PersonaController extends BaseController
                     )
                 );
             }
+            
+            $rol = Input::get('rol');$rst='';
+            if ($rol==9 or $rol==8) {
+                $rst=Persona::BuscarJefe(Input::get('area'));
+                if($rst>=1){
+                return Response::json(
+                    array(
+                    'rst'=>3,
+                    'msj'=>'Área con Gerente, Inhabilitar y volver a actualizar',
+                    )
+                );
+                }else {
+                 Persona::ActualizarResponsable(Input::get('area'));   
+                }
+            }
+            
             $personaId = Input::get('id');
             $persona = Persona::find($personaId);
+            if ($rol==9 or $rol==8){
+            $persona['responsable_asigt']=1;
+            $persona['responsable_dert']=1;}
             $persona['paterno'] = Input::get('paterno');
             $persona['materno'] = Input::get('materno');
             $persona['nombre'] = Input::get('nombre');
