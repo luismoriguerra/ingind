@@ -354,8 +354,6 @@ class Reporte extends Eloquent
                 $array['tiempo_final'].
                 " ORDER BY rd.fecha_inicio DESC ".
                 $array['limit'];
-        var_dump($sql);
-        exit();
         $r= DB::select($sql);
         return $r;
     }
