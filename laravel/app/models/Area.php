@@ -80,9 +80,11 @@ class Area extends Base
                         $rst=$this->getRol();
                         foreach ($rst as $value) {
                         $array[] = $value->cargo_id;}           
-                        if ( Input::has('personal') && Auth::user()->area_id!=53 && Auth::user()->area_id!=31 && (Auth::user()->area_id!=44  && Auth::user()->id!=75) ){
-                            if (in_array(12, $array)){}else {
-                            $query->where('id','=',Auth::user()->area_id);}
+                        if ( Input::has('personal') && Auth::user()->area_id!=53 && Auth::user()->area_id!=31 && Auth::user()->id!=75 ){
+                            if (!in_array(12, $array)) {
+                            $query->where('id','=',Auth::user()->area_id);
+                            
+                        }
                         }
                         
                         if ( Input::has('responsable') ){
