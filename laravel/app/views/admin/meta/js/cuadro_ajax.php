@@ -29,9 +29,10 @@ var Usuario={
         });
     },
     
-    Crear:function(form){
+    Crear:function(form,AD){
+        var accion = (AD==1) ? "metacuadro/create" : "metacuadro/createdoc";
         $.ajax({
-            url         : "metacuadro/create",
+            url         : accion,
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -62,9 +63,10 @@ var Usuario={
         });
     },
     
-        Eliminar:function(data){
+        Eliminar:function(data,AD){
+        var accion = (AD==1) ? "metacuadro/eliminar" :  "metacuadro/eliminardoc";
         $.ajax({
-            url         : "metacuadro/eliminar",
+            url         : accion,
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -91,7 +93,7 @@ var Usuario={
             }
         });
     },
-    
+       
         Cargar:function(evento,campos,data = ''){
         $.ajax({
             url         : 'documentodig/cargar',

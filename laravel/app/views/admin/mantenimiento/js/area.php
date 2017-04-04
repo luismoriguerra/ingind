@@ -2,7 +2,7 @@
 var cabeceraG=[]; // Cabecera del Datatable
 var columnDefsG=[]; // Columnas de la BD del datatable
 var targetsG=-1; // Posiciones de las columnas del datatable
-var AreasG={id:0,nombre:"",nemonico:"",estado:1}; // Datos Globales
+var AreasG={id:0,nombre:"",nemonico:"",imagen:0,imagenc:0,imagenp:0,estado:1}; // Datos Globales
 $(document).ready(function() {  
     /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
         2: Descripción de cabecera
@@ -11,7 +11,7 @@ $(document).ready(function() {
 
     slctGlobalHtml('slct_estado','simple');
     var idG={   nombre        :'onBlur|Nombre Area|#DCE6F1', //#DCE6F1
-                nemonico      :'onBlur|Nemonico Area|#DCE6F1', //#DCE6F1
+                nemonico      :'3|Nemonico Area|#DCE6F1', //#DCE6F1
                 estado        :'2|Estado|#DCE6F1', //#DCE6F1
              };
 
@@ -46,7 +46,8 @@ $(document).ready(function() {
              $('#form_areas_modal #txt_nemonico').focus();
         }
         else{
-            
+//            var imagen='a'+AreasG.id'.png';
+//            alert(imagen);
             if (AreasG.imagen===null || AreasG.imagen==='')
                 $("#img_imagen_").attr( "src",'');
             else
@@ -102,6 +103,9 @@ BtnEditar=function(btn,id){
     AreasG.id=id;
     AreasG.nombre=$(tr).find("td:eq(0)").text();
     AreasG.nemonico=$(tr).find("td:eq(0)").text();
+    AreasG.imagen=$(tr).find("td:eq(1) input[name='txt_imagen']").val();
+    AreasG.imagenc=$(tr).find("td:eq(1) input[name='txt_imagenc']").val();
+    AreasG.imagenp=$(tr).find("td:eq(1) input[name='txt_imagenp']").val();
     AreasG.estado=$(tr).find("td:eq(2)>span").attr("data-estado");
     $("#BtnEditar").click();
 };
@@ -119,9 +123,10 @@ MostrarAjax=function(t){
 }
 
 GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
-    if(typeof(fn)!='undefined' 
-        //&& fn.col==1
-        ){
+    if(typeof(fn)!='undefined' && fn.col==1){
+        return row.nemonico+"<input type='hidden' name='txt_imagen' value='"+row.imagen+"'><input type='hidden' name='txt_imagenc' value='"+row.imagenc+"'><input type='hidden' name='txt_imagenp' value='"+row.imagenp+"'>";
+    }
+    if(typeof(fn)!='undefined' && fn.col==2){
         var estadohtml='';
         estadohtml='<span id="'+row.id+'" onClick="activar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-danger">Inactivo</span>';
         if(row.estado==1){

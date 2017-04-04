@@ -57,7 +57,7 @@ class DocumentoDigital extends Base {
                     ->orderBy('ruta','desc') 
                     ->orderBy('rutadetallev','desc')
                     ->get();            
-        }
+        } 
     }
 
 

@@ -1,9 +1,10 @@
 <script type="text/javascript">
+var Cuadro={fecha_actual:""}; // Datos Globales
 $(document).ready(function() {
     
     var datos={estado:1};
     slctGlobal.listarSlctFuncion('metacuadro','listarmeta','slct_meta','multiple',null,datos);
-
+     Cuadro.fecha_actual='<?php echo date('Y-m-d')?>';
     $("#generar_area").click(function (){
         meta = $('#slct_meta').val();
         if ($.trim(meta)!=='') {
@@ -22,7 +23,10 @@ $(document).ready(function() {
      	var button = $(event.relatedTarget); // captura al boton
 	    var text = $.trim( button.data('texto') );
 	    var id= $.trim( button.data('id') );
-	    var camposP = {'nombre':text,'id':id};
+            var avance_id = $.trim( button.data('avanceid') );
+            var tipo_id = $.trim( button.data('tipoid') );
+	    var form= $.trim( button.data('form') );
+	    var camposP = {'nombre':text,'id':id,'avance_id':avance_id,'form':form,'tipo_id':tipo_id};
         Usuario.Cargar(HTMLCargar,camposP);
     });
 
@@ -79,7 +83,6 @@ AgregarD = function(cont2,avance_id){
   $("#t_darchivo"+cont2).append(html);
   
 };
-
 var aa=0;
 AgregarA = function(cont3,avance_id){
   aa++;
@@ -239,37 +242,43 @@ HTMLreporte=function(datos){
       
                                         html+=' </tbody>'+
                                                     '</table>'+
-                                                    '</form>'+
-                                    '<a class="btn btn-success btn-xs" id="guardar"  style="width: 100%;margin-top:10px;margin-bottom:10px" onClick="Guardar(\'#form_aparchivo'+cont1+'\')">'+
+                                                    '</form>';
+              
+                if(data.pf>=Cuadro.fecha_actual){
+                                html+='<a class="btn btn-success btn-xs" id="guardar"  style="width: 100%;margin-top:10px;margin-bottom:10px" onClick="Guardar(\'#form_aparchivo'+cont1+'\')">'+
                                     '<i class="fa fa-save fa-lg"></i>&nbsp;Guardar'+
-                                '</a>'+
-                                '</div>'+
+                                '</a>';}
+                    else {
+                                html+='<br>';
+                                }
+                                html+='</div>'+
                                 
               '<div>'+
-              '<form name="form_aparchivo'+cont1+'" id="form_aparchivo'+cont1+'" enctype=”multipart/form-data”>'+
+              '<form name="form_apdocumento'+cont1+'" id="form_apdocumento'+cont1+'" enctype=”multipart/form-data”>'+
               
-               '<table id="t_aparchivo'+cont1+'" class="table table-bordered" >'+
+               '<table id="t_apdocumento'+cont1+'" class="table table-bordered" >'+
                                         '<thead>'+
                                             '<tr>'+
                                                 '<th>N°</th>'+
                                                 '<th>Documento</th>'+
-                                                '<th><span class="btn btn-success btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-id="txt_doc_digital_id">'+
+                                                '<th><span class="btn btn-success btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="4" data-form="#t_apdocumento'+cont1+'" data-avanceid="'+data.id_p+'" data-id="txt_doc_digital_id">'+
                                                                 '<i class="glyphicon glyphicon-file"></i>'+
                                                             '</span></th>'+
                                            ' </tr>'+
                                        ' </thead>'+
-                                       ' <tbody id="tb_aparchivo'+cont1+'">';
+                                       ' <tbody id="tb_apdocumento'+cont1+'">';
         if(data.d_p!=null){
         var d_p = data.d_p.split('|');
         var d_p_nombre=d_p[0].split(',');
         var d_p_id=d_p[1].split(',');
+        var d_p_doc_digital_id=d_p[2].split(',');
         pos_ap=1;
         for(i=0;i<d_p_nombre.length;i++){
 
         html+="<tr>"+
              "<td>"+pos_ap+"<input type='hidden' name='c_id[]' id='c_id' value='"+d_p_id[i]+"'></td></td> "+
-            "<td>"+d_p_nombre[i]+"</td>"+
-            '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="Eliminar(\''+d_p_id[i]+'\',\''+nombre[0]+'\',\''+nombre[1]+'\',this)">'+
+            "<td><a target='_blank' href='documentodig/vistaprevia/"+d_p_doc_digital_id[i]+"'>"+d_p_nombre[i]+"</a></td>"+
+            '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\''+d_p_id[i]+'\',this)">'+
                                           '<i class="fa fa-trash fa-lg"></i>'+
                                         '</a></td>';
         html+="</tr>";
@@ -279,11 +288,13 @@ HTMLreporte=function(datos){
       
                                         html+=' </tbody>'+
                                                     '</table>'+
-                                                    '</form>'+
-                                    '<a class="btn btn-success btn-xs" id="guardar"  style="width: 100%;margin-top:10px" onClick="Guardar(\'#form_aparchivo'+cont1+'\')">'+
+                                                    '</form>';
+                    if(data.pf>=Cuadro.fecha_actual){                            
+                              html+= '<a class="btn btn-success btn-xs" id="guardar"  style="width: 100%;margin-top:10px" onClick="GuardarDoc(\'#form_apdocumento'+cont1+'\')">'+
                                     '<i class="fa fa-save fa-lg"></i>&nbsp;Guardar'+
-                                '</a>'+
-                                '</div>'+
+                                '</a>';
+                    }
+                              html+=  '</div>'+
                                                     '</td>';
         
         c1=1;
@@ -460,7 +471,12 @@ eventoSlctGlobalSimple=function(slct,valores){
 
 Guardar=function(form){
     var datos=$(form).serialize().split("txt_").join("").split("slct_").join("");
-    Usuario.Crear(datos);
+    Usuario.Crear(datos,1);
+};
+
+GuardarDoc=function(form){
+    var datos=$(form).serialize().split("txt_").join("").split("slct_").join("");
+    Usuario.Crear(datos,0);
 };
 
 Eliminar=function(id,carpeta,nombre,tr){
@@ -468,7 +484,16 @@ Eliminar=function(id,carpeta,nombre,tr){
      var datos={id:id,carpeta:carpeta,nombre:nombre};
      var c= confirm("¿Está seguro de Eliminar el archivo?");
      if(c){$(tr).parent().parent().remove();
-       Usuario.Eliminar(datos); 
+       Usuario.Eliminar(datos,1); 
+     }   
+};
+
+EliminarDoc=function(id,tr){
+
+     var datos={id:id};
+     var c= confirm("¿Está seguro de Eliminar el Documento?");
+     if(c){$(tr).parent().parent().remove();
+       Usuario.Eliminar(datos,0); 
        
      }
     
@@ -490,6 +515,9 @@ onPagos=function(event,item){
 HTMLCargar=function(datos,campos){
 	var c_text = campos.nombre;
 	var c_id = campos.id;
+        var c_avance_id = campos.avance_id;
+        var c_tipo_id = campos.tipo_id;
+        var c_form = campos.form;
 
         console.log(datos);
     var html="";
@@ -505,10 +533,11 @@ HTMLCargar=function(datos,campos){
         html+="<td>"+data.titulo+"</td>";
         html+="<td>"+data.asunto+"</td>";
         html+="<td>"+data.plantilla+"</td>";
-        html+="<td><a class='btn btn-success btn-sm' c_text='"+c_text+"' c_id='"+c_id+"'  id='"+data.id+"' title='"+data.titulo+"' onclick='SelectDocDig(this)'><i class='glyphicon glyphicon-ok'></i> </a></td>";
         if($.trim(data.ruta) != 0  || $.trim(data.rutadetallev) != 0){
+            html+="<td><a class='btn btn-success btn-sm' c_tipo_id='"+c_tipo_id+"' c_avance_id='"+c_avance_id+"' c_form='"+c_form+"' c_text='"+c_text+"' c_id='"+c_id+"'  id='"+data.id+"' title='"+data.titulo+"' onclick='SelectDocDig(this)'><i class='glyphicon glyphicon-ok'></i> </a></td>";
             html+="<td><a class='btn btn-primary btn-sm' id='"+data.id+"' onclick='openPrevisualizarPlantilla(this,0)'><i class='fa fa-eye'></i> </a></td>";
         }else{
+             html+="<td></td>";
              html+="<td></td>";
         }
         html+="</tr>";
@@ -517,12 +546,42 @@ HTMLCargar=function(datos,campos){
     $("#t_doc_digital").dataTable();
 };
 
-SelectDocDig = function(obj,id){	
-	var id = obj.getAttribute('id');
+SelectDocDig = function(obj,id){
+        var id = obj.getAttribute('id');
 	var nombre = obj.getAttribute('title');
-	$("#"+obj.getAttribute('c_text')).val(nombre);
-	$("#"+obj.getAttribute('c_id')).val(id);
-	$("#listDocDigital").modal('hide');
+        var form = obj.getAttribute('c_form');
+        var avance_id = obj.getAttribute('c_avance_id');
+        var tipo_id = obj.getAttribute('c_tipo_id');
+        $("#listDocDigital").modal('hide');
+//	$("#"+obj.getAttribute('c_text')).val(nombre);
+//	$("#"+obj.getAttribute('c_id')).val(id);
+	   
+ var html='';
+          html+="<tr>"+
+             "<td>#"+
+             "<input type='hidden' name='tipo_avance[]' id='tipo_avance' value='"+tipo_id+"'>"+
+             "<input type='hidden' name='avance_id[]' id='avance_id' value='"+avance_id+"'></td></td> "+
+             "<input type='hidden' name='doc_id[]' id='doc_id' value='"+id+"'></td></td> "+
+            "<td>";
+          html+='<input type="text"  readOnly class="form-control input-sm" id="pago_nombre"  name="pago_nombre[]" value="'+nombre+'">';
+         html+="</td>"+
+            '<td><a id="btnDelete"  name="btnDelete" class="btn btn-danger btn-xs btnDelete">'+
+                                          '<i class="fa fa-trash fa-lg"></i>'+
+                                        '</a></td>';
+        html+="</tr>";
+
+  $(form).append(html);
+  
+	
 }
 
+openPrevisualizarPlantilla=function(obj,id){
+    var iddoc = id;
+    if(id==0 || id ==''){
+        iddoc=obj.getAttribute('id');
+    }
+    window.open("documentodig/vistaprevia/"+iddoc,
+                "PrevisualizarPlantilla",
+                "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
+};
 </script>
