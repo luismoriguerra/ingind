@@ -267,7 +267,11 @@ mostrarDetallle=function(id,rtid = ''){ //OK
      $("#form_ruta_detalle>#ruta_id").remove();
     $("#form_ruta_detalle").append("<input type='hidden' id='ruta_id' name='ruta_id' value='"+rtid+"'>");
     var datos={ruta_detalle_id:id};
-   
+    if( RolIdG==8 || RolIdG==9 ){
+        var dataG={estado_persona:1,area_documento:1,ruta_detalle_id:datos.id};
+        $("#slct_persona").multiselect('destroy');
+        slctGlobal.listarSlctAsi('persona','slct_persona','simple',[datos.persona_id],dataG);
+    }
     Validar.mostrarDetalle(datos,mostrarDetalleHTML);
 }
 
@@ -303,16 +307,14 @@ mostrarDetalleHTML=function(datos){
     /*fin puede regresar al paso anterior*/
 
     if( RolIdG==8 || RolIdG==9 ){
-    var dataG={estado_persona:1,area_documento:1,ruta_detalle_id:datos.id};
-    $("#slct_persona").multiselect('destroy');
-    slctGlobal.listarSlct('persona','slct_persona','simple',[datos.persona_id],dataG);
+    
     CartaDesgloseG=datos.carta_deglose_id;
 //    
 //        $("#slct_persona").attr("data-id",datos.carta_deglose_id);
 //        $("#slct_persona").val('');
 //        $('#slct_persona').multiselect('rebuild');
-//        $("#slct_persona").val(datos.persona_id);
-//        $('#slct_persona').multiselect('rebuild');
+        $("#slct_persona").val(datos.persona_id);
+        $('#slct_persona').multiselect('rebuild');
     }
     else{
         $("#slct_persona").html(datos.persona_responsable);
@@ -453,7 +455,7 @@ mostrarDetalleHTML=function(datos){
                     console.log('hola2');                   
                 }
             }
-            $(".slcPersona").html($("#slct_persona").html())
+            //$(".slcPersona").html($("#slct_persona").html())
             /*last referido*/
             last_ref =0;
             $('#t_detalle_verbo tr[class=referidos]').each(function () {
