@@ -67,7 +67,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Guardar</button>
+          <button type="button" class="btn btn-primary"  id="btnAccion2" >Guardar</button>
 <!--          <input type="submit" class="btn btn-primary btn-sm btnAction" id="" value="Guardar" onclick="AgregarEditarBienCaracteristica()"> -->
         </div>
       </div>
