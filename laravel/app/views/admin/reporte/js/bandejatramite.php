@@ -453,7 +453,7 @@ mostrarDetalleHTML=function(datos){
                     console.log('hola2');                   
                 }
             }
-
+            $(".slcPersona").html($("#slct_persona").html())
             /*last referido*/
             last_ref =0;
             $('#t_detalle_verbo tr[class=referidos]').each(function () {
@@ -462,6 +462,7 @@ mostrarDetalleHTML=function(datos){
             $('#t_detalle_verbo .referidos[count='+last_ref+']').addClass('danger');
             $('#t_detalle_verbo .referidos[count='+last_ref+']').addClass('referidoSelect');
             /*end last referido */
+            
         }
 
 }
