@@ -265,9 +265,10 @@ mostrarDetallle=function(id,rtid = ''){ //OK
      $("#form_ruta_detalle>#ruta_id").remove();
     $("#form_ruta_detalle").append("<input type='hidden' id='ruta_id' name='ruta_id' value='"+rtid+"'>");
     var datos={ruta_detalle_id:id};
-   $("#slct_persona").multiselect('rebuild');
+   
     var dataG={estado_persona:1,area_documento:1,ruta_detalle_id:id};
     slctGlobal.listarSlct('persona','slct_persona','simple',null,dataG);
+    $("#slct_persona").multiselect('rebuild');
     Validar.mostrarDetalle(datos,mostrarDetalleHTML);
 }
 
