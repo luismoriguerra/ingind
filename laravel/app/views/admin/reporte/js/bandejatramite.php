@@ -268,7 +268,7 @@ mostrarDetallle=function(id,rtid = ''){ //OK
     $("#form_ruta_detalle").append("<input type='hidden' id='ruta_id' name='ruta_id' value='"+rtid+"'>");
     var datos={ruta_detalle_id:id};
     if( RolIdG==8 || RolIdG==9 ){
-        var dataG={estado_persona:1,area_documento:1,ruta_detalle_id:datos.id};
+        var dataG={estado_persona:1,area_documento:1,ruta_detalle_id:id};
         $("#slct_persona").multiselect('destroy');
         slctGlobal.listarSlctAsi('persona','slct_persona','simple',[datos.persona_id],dataG);
     }
