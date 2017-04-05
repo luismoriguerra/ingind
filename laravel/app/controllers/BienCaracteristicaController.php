@@ -29,6 +29,10 @@ class BienCaracteristicaController extends \BaseController {
 				$BienCa['alerta_razon'] = Input::get('motivoalerta'); 
 			}
 
+			if(Input::has('fechaalerta')){
+				$BienCa['alerta_fecha'] = Input::get('fechaalerta'); 
+			}
+
 			$BienCa['created_at'] = date('Y-m-d H:i:s');
 			$BienCa['usuario_created_at'] = Auth::user()->id;
 			$BienCa->save();
@@ -42,6 +46,59 @@ class BienCaracteristicaController extends \BaseController {
 		 	);
 		}
 	}
+
+
+	public function postEditar(){
+		if ( Request::ajax() ) {
+			$BienCa = BienCaracteristica::find(Input::get('id'));
+/*			$BienCa['bien_id'] = Input::get('idbien'); */
+			$BienCa['descripcion'] = Input::get('nombre'); 
+			$BienCa['observacion'] = Input::get('observ'); 
+			$BienCa['valor'] = Input::get('valor'); 
+			$BienCa['alerta'] = Input::get('alerta'); 
+			
+			if(Input::has('motivoalerta')){
+				$BienCa['alerta_razon'] = Input::get('motivoalerta'); 
+			}
+
+			if(Input::has('fechaalerta')){
+				$BienCa['alerta_fecha'] = Input::get('fechaalerta'); 
+			}
+
+			$BienCa['updated_at'] = date('Y-m-d H:i:s');
+			$BienCa['usuario_updated_at'] = Auth::user()->id;
+			$BienCa->save();
+
+			return Response::json(
+			    array(
+			       'rst'=>1,
+			       'msj'=>'Se registro con Exito',
+			       'bien' => $BienCa->bien_id
+			    )
+		 	);
+		}
+	}
+
+	public function postCambiarestado()
+    {
+
+        if ( Request::ajax() ) {
+            $Id = Input::get('id');
+            $BienC = BienCaracteristica::find($Id);
+            $BienC->usuario_updated_at = Auth::user()->id;
+            $BienC->estado = Input::get('estado');
+            $BienC->save();
+
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro actualizado correctamente',
+                'bien' => $BienC->bien_id
+                )
+            );    
+
+        }
+    }
 
 	/**
 	 * Display a listing of the resource.

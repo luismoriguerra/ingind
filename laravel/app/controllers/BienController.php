@@ -66,6 +66,26 @@ class BienController extends \BaseController {
 		}
 	}
 
+	public function postCambiarestado()
+    {
+
+        if ( Request::ajax() ) {
+            $Id = Input::get('id');
+            $Bien = Bien::find($Id);
+            $Bien->usuario_updated_at = Auth::user()->id;
+            $Bien->estado = Input::get('estado');
+            $Bien->save();
+
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro actualizado correctamente',
+                )
+            );    
+
+        }
+    }
+
 
 	/**
 	 * Display a listing of the resource.

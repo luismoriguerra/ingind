@@ -11,6 +11,12 @@ $(document).ready(function() {
         })
     }
     initDatePicker();
+    $('#txt_fechaalerta').datepicker({
+            format: 'yyyy-mm-dd',
+            language: 'es',
+            multidate: 1,
+            todayHighlight:true,
+    })
     slctGlobal.listarSlctFuncion('biencategoria','cargar','slct_categoria','simple',null,{estado:1});
 
 
@@ -100,28 +106,22 @@ $(document).ready(function() {
             }
         }
     });*/
-/*
+
     $('#accionBien').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // captura al boton
         var titulo = button.data('titulo'); // extrae del atributo data-
         id = button.data('id'); //extrae el id del atributo data
 
         var modal = $(this); //captura el modal
-        modal.find('.modal-title').text(titulo+' Bien');*/
-/*        $('#form_bienes [data-toggle="tooltip"]').css("display","none");
-        $("#form_bienes input[type='hidden']").remove();*/
+        modal.find('.modal-title').text(titulo+' Bien');
+        $('#form_bienes [data-toggle="tooltip"]').css("display","none");
+        $("#form_bienes input[type='hidden']").remove();
 
- /*       if(titulo=='Nuevo'){*/
-          /*  modal.find('.modal-footer .btn-primary').text('Guardar');
-            modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');*/
-       /*     $('#form_bienes #slct_estado').val(1); 
-            $('#form_bienes #txt_nombre').focus();*/
-/*        }
-        else{*/
-/*            modal.find('.modal-footer .btn-primary').text('Actualizar');
-            modal.find('.modal-footer .btn-primary').attr('onClick','EditarBien();');*/
-/*        }
-    })*/;
+        if(titulo=='Nuevo'){
+            modal.find('.modal-footer .btn-primary').text('Guardar');
+            modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
+        }
+    });
 
     $('#accionBien').on('hide.bs.modal', function (event) {
 /*        var modal = $(this); //captura el modal
@@ -135,9 +135,6 @@ $(document).ready(function() {
         var button = $(event.relatedTarget); // captura al boton
         var titulo = button.data('titulo'); // extrae del atributo data-
         id = button.data('id'); //extrae el id del atributo data
-
-        console.log(titulo);
-        console.log(id);
         
         var modal = $(this); //captura el modal
         modal.find('.modal-title').text('Bien - Caracteristica');
@@ -150,19 +147,36 @@ $(document).ready(function() {
         }
         else if(titulo=='Editar'){
             modal.find('.modal-footer .btn-primary').text('Actualizar');
-            modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
+            modal.find('.modal-footer .btn-primary').attr('onClick','EditarCaracteristica();');
 
-            $('#form_bienes #txt_nombre').val(button.data('nombre'));
-            $('#form_bienes #txt_observ').val(button.data('observacion'));
-            $('#form_bienes #slct_estado').val(button.data('estado'));
-            $("#form_bienes").append("<input type='hidden' value='"+button.data('id')+"' name='id'>");
+            $('#form_nuevaCaracteristica #txt_nombre').val(button.data('nombre'));
+            $('#form_nuevaCaracteristica #txt_valor').val(button.data('valor'));
+            $('#form_nuevaCaracteristica #txt_observ').val(button.data('observacion'));
+            $('#form_nuevaCaracteristica #slct_alerta').val(button.data('alerta'));
+
+            var fechaAd = new Date(button.data('fecha'));
+            var month = fechaAd.getMonth()+1;
+            if(fechaAd){
+                $('#form_nuevaCaracteristica #txt_fechaalerta').val(fechaAd.getFullYear()+"-"+month+"-"+fechaAd.getDate());
+            }else{
+                $('#form_nuevaCaracteristica #txt_fechaalerta').val('');
+            }
+
+            $('#form_nuevaCaracteristica #txt_motivoalerta').val(button.data('razon'));
+
+            if(button.data('alerta') == 1){
+                 $(".motivoAlerta").removeClass('hidden');
+            }else{
+                 $(".motivoAlerta").addClass('hidden');
+            }
+            $("#form_nuevaCaracteristica").append("<input type='hidden' value='"+button.data('id')+"' name='id'>");
         }
     });
 
     $('#nuevaCaracteristica').on('hide.bs.modal', function (event) {
-        var modal = $(this); //captura el modal
+/*        var modal = $(this); //captura el modal
         modal.find('.modal-body input').val(''); // busca un input para copiarle texto
-       $("#form_nuevaCaracteristica input[type='text'],#form_nuevaCaracteristica select,#form_nuevaCaracteristica textarea").not('.mant').val("");
+       $("#form_nuevaCaracteristica input[type='text'],#form_nuevaCaracteristica select,#form_nuevaCaracteristica textarea").not('.mant').val("");*/
     });
 
 
@@ -225,6 +239,22 @@ desactivar=function(id){
     Cargos.CambiarEstadoCargos(id,0);
 };
 
+activarB = function(id){
+    Cargos.CambiarEstadoB({'id':id,'estado':1});
+};
+
+desactivarB = function(id){
+    Cargos.CambiarEstadoB({'id':id,'estado':0});
+};
+
+activarC = function(id){
+    Cargos.CambiarEstadoC({'id':id,'estado':1});
+};
+
+desactivarC = function(id){
+    Cargos.CambiarEstadoC({'id':id,'estado':0});
+};
+
 Agregar=function(){
     if($("#txt_nombre").val() == ""){
         alert('Registre Nombre');
@@ -242,6 +272,10 @@ Agregar=function(){
 AgregarCaracteristica = function(){
     Cargos.AgregarEditarBienCaracteristica(0);
 }
+
+EditarCaracteristica=function(){
+    Cargos.AgregarEditarBienCaracteristica(1);
+};
 
 AgregarEvento = function(){
     Cargos.AgregarEditarEvento(0);
@@ -350,11 +384,14 @@ HTMLCaracteristicasBien = function (datos){
     $('#t_caracteristica').dataTable().fnDestroy();
 
     $.each(datos,function(index,data){
-        estadohtml='<span id="'+data.id+'" onClick="activar('+data.id+')" class="btn btn-danger">Inactivo</span>';
+        estadohtml='<span id="'+data.id+'" onClick="activarC('+data.id+')" class="btn btn-danger">Inactivo</span>';
         if(data.estado==1){
-            estadohtml='<span id="'+data.id+'" onClick="desactivar('+data.id+')" class="btn btn-success">Activo</span>';
+            estadohtml='<span id="'+data.id+'" onClick="desactivarC('+data.id+')" class="btn btn-success">Activo</span>';
         }
+
         alerta = (data.alerta == 1 ) ? 'SI' : 'NO';
+        razon = (typeof data.alerta_razon == 'object' ) ? '' : data.alerta_razon;
+        alerta_fecha = (typeof data.alerta_fecha == 'object') ? '' : data.alerta_fecha;
 
 
         html+="<tr>"+
@@ -362,8 +399,10 @@ HTMLCaracteristicasBien = function (datos){
             "<td >"+data.observacion+"</td>"+
             "<td >"+data.valor+"</td>"+
             "<td >"+alerta+"</td>"+
-            "<td >"+data.alerta_razon+"</td>"+
-            '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#nuevaCaracteristica" data-id="'+data.id+'" data-nombre="'+data.nombre+'" data-estado="'+data.estado+'" data-observacion="'+data.observacion+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>'+
+            "<td >"+razon+"</td>"+
+            "<td >"+alerta_fecha+"</td>"+
+            "<td >"+estadohtml+"</td>"+
+            '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#nuevaCaracteristica" data-id="'+data.id+'" data-nombre="'+data.descripcion+'" data-estado="'+data.estado+'" data-valor="'+data.valor+'" data-alerta="'+data.alerta+'" data-fecha="'+alerta_fecha+'" data-razon="'+razon+'" data-observacion="'+data.observacion+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>'+
             '<td><span class="btn btn-primary btn-sm" id-caracteristica="'+data.id+'" onclick="seleccionado(this),eventosCaracteristica(this)"><i class="glyphicon glyphicon-th-list"></i></span></td>';
         html+="</tr>";
     });
@@ -405,9 +444,9 @@ HTMLCargarBienes=function(datos){
     $('#t_cargos').dataTable().fnDestroy();
 
     $.each(datos,function(index,data){
-        estadohtml='<span id="'+data.id+'" onClick="activar('+data.id+')" class="btn btn-danger">Inactivo</span>';
+        estadohtml='<span id="'+data.id+'" onClick="activarB('+data.id+')" class="btn btn-danger">Inactivo</span>';
         if(data.estado==1){
-            estadohtml='<span id="'+data.id+'" onClick="desactivar('+data.id+')" class="btn btn-success">Activo</span>';
+            estadohtml='<span id="'+data.id+'" onClick="desactivarB('+data.id+')" class="btn btn-success">Activo</span>';
         }
 
         html+="<tr>"+
@@ -419,7 +458,7 @@ HTMLCargarBienes=function(datos){
             "<td >"+data.serie+"</td>"+
             "<td >"+data.ubicacion+"</td>"+
             "<td >"+data.fecha_adquisicion+"</td>"+
-/*            "<td >"+data.estadohtml+"</td>"+*/
+            "<td >"+estadohtml+"</td>"+
             '<td><a class="btn btn-primary btn-sm editBien" data-toggle="modal" data-target="#accionBien" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>'+
              '<td><span class="btn btn-primary btn-sm" id-bien="'+data.id+'" onclick="seleccionado(this),caracteristicaBien(this)"><i class="glyphicon glyphicon-th-list"></i></span></td>';
         html+="</tr>";
