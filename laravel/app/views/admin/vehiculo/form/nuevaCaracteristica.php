@@ -48,11 +48,18 @@
                   </div>
                 </div>
                 <div class="col-md-12 motivoAlerta hidden">
-                   <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label class="control-label">Fecha Alerta
+                        </label>
+                        <input type="text" class="form-control datepicker" name="txt_fechaalerta" id="txt_fechaalerta">
+                    </div>
+                    <div class="col-md-6 form-group">
                         <label class="control-label">Motivo Alerta
                         </label>
                         <textarea class="form-control" name="txt_motivoalerta" id="txt_motivoalerta" rows="3"></textarea>
                     </div>
+                  </div>
                 </div>
 
               </div>

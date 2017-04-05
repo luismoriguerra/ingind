@@ -56,7 +56,7 @@
                                         <th>Serie</th>
                                         <th>Ubicacion</th>
                                         <th>Fecha_adquision</th>
-{{--                                         <th>estado</th> --}}
+                                        <th>estado</th>
                                         <th> [ ] </th>
                                         <th> [ ] </th>
                                     </tr>
@@ -87,6 +87,8 @@
                                         <th>Valor</th>
                                         <th>Alerta</th>
                                         <th>Alerta Razon</th>
+                                        <th>Alerta Fecha</th>
+                                        <th> [ ] </th>
                                         <th> [ ] </th>
                                          <th> [ ] </th>
                                     </tr>
