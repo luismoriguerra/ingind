@@ -223,9 +223,6 @@ desactivar=function(id,ruta_detalle_id,td,rutaid = ''){//establecer como no vist
     var data ={ruta_detalle_id:ruta_detalle_id};
     mostrarDetallle(ruta_detalle_id,rutaid);
     
-    $("#slct_persona").multiselect("destroy");
-    var dataG={estado_persona:1,area_documento:1,ruta_detalle_id:ruta_detalle_id};
-    slctGlobal.listarSlct('persona','slct_persona','simple',null,dataG);
 };
 
 validacheck=function(val,idcheck){
@@ -267,7 +264,10 @@ mostrarDetallle=function(id,rtid = ''){ //OK
     $("#form_ruta_detalle").append("<input type='hidden' id='ruta_detalle_id' name='ruta_detalle_id' value='"+id+"'>");
      $("#form_ruta_detalle>#ruta_id").remove();
     $("#form_ruta_detalle").append("<input type='hidden' id='ruta_id' name='ruta_id' value='"+rtid+"'>");
-    var datos={ruta_detalle_id:id}
+    var datos={ruta_detalle_id:id};
+    $("#slct_persona").multiselect('rebuild');$("#slct_persona").multiselect('refresh');
+    var dataG={estado_persona:1,area_documento:1,ruta_detalle_id:id};
+    slctGlobal.listarSlct('persona','slct_persona','simple',null,dataG);
     Validar.mostrarDetalle(datos,mostrarDetalleHTML);
 }
 
