@@ -424,7 +424,7 @@ class PersonaController extends BaseController
             
             $rol = Input::get('rol');$rst='';
             if ($rol==9 or $rol==8) {
-                $rst=Persona::BuscarJefe(Input::get('area'));
+                $rst=Persona::BuscarJefe(Input::get('area'),Input::get('id'));
                 if($rst>=1){
                 return Response::json(
                     array(

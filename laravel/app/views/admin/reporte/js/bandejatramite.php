@@ -118,7 +118,7 @@ $(document).ready(function() {
     if( RolIdG==8 || RolIdG==9 ){
         var data={estado_persona:1,solo_area:1};
         //slctGlobal.listarSlct('persona','cboPersona','simple',null,data);
-        slctGlobal.listarSlct('persona','slct_persona','simple',null,data);
+       // slctGlobal.listarSlct('persona','slct_persona','simple',null,data);
     }else{
         $("#btnAdd").addClass('hidden');
     }
@@ -222,6 +222,8 @@ desactivar=function(id,ruta_detalle_id,td,rutaid = ''){//establecer como no vist
 
     var data ={ruta_detalle_id:ruta_detalle_id};
     mostrarDetallle(ruta_detalle_id,rutaid);
+    var dataG={estado_persona:1,area_documento:1,ruta_detalle_id:ruta_detalle_id};
+    slctGlobal.listarSlct('persona','slct_persona','simple',null,dataG);
 };
 
 validacheck=function(val,idcheck){
