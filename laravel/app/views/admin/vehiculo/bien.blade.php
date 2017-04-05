@@ -74,7 +74,7 @@
                     <!-- Inicia contenido -->
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title2">Detalles  <a class='btn btn-success btn-xs' class="btn btn-primary" 
+                            <h3 class="box-title2">Detalles  <a class='btn btn-success btn-xs nuevaCaracteristica' class="btn btn-primary" 
                             data-toggle="modal" data-target="#nuevaCaracteristica" data-titulo="Nuevo" style="color: white;"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
                             </h3>
                         </div><!-- /.box-header -->

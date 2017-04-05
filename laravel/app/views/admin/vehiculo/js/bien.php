@@ -3,7 +3,7 @@ $(document).ready(function() {
     Cargos.cargarBienes({area:1});
 
     function initDatePicker(){
-        $('#txt_fechaadquisicion').datepicker({
+        $('#txt_fechaadquisicion,#txt_fechaalerta').datepicker({
             format: 'yyyy-mm-dd',
             language: 'es',
             multidate: 1,
@@ -11,12 +11,6 @@ $(document).ready(function() {
         })
     }
     initDatePicker();
-    $('#txt_fechaalerta').datepicker({
-            format: 'yyyy-mm-dd',
-            language: 'es',
-            multidate: 1,
-            todayHighlight:true,
-    })
     slctGlobal.listarSlctFuncion('biencategoria','cargar','slct_categoria','simple',null,{estado:1});
 
 
@@ -35,77 +29,23 @@ $(document).ready(function() {
         $("#"+ref).modal('show');
     });
 
+
     $(document).on('click', '.editBien', function(event) {
         $("#btnAccion").text('Actualizar');
         $("#btnAccion").attr('onClick','EditarBien();');
         Cargos.cargarBienes({id:$(this).attr('data-id')},1);
     });
-/*
-    $("form[name='form_AccionBien']").submit(function(e) {
-        e.preventDefault();
-        Agregar();
-     });*/
 
-/*     $('#form_AccionBien').bootstrapValidator({
-        feedbackIcons: {
-            valid: 'glyphicon glyphicon-ok',
-            invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh',
-        },
-        excluded: ':disabled',
-        fields: {
-            txt_nombre: {
-                validators: {
-                    notEmpty: {
-                        message: 'Ingrese Nombre'
-                    }
-                }
-            },
-            txt_marca: {
-                validators: {
-                    notEmpty: {
-                        message: 'Ingrese Marca'
-                    }
-                }
-            },
-            txt_modelo: {
-                validators: {
-                    notEmpty: {
-                        message: 'Ingrese Modelo'
-                    }
-                }
-            },
-            txt_nroInterno: {
-                validators: {
-                    notEmpty: {
-                        message: 'Ingrese Nro Interno'
-                    }
-                }
-            },
-            txt_ubicacion: {
-                validators: {
-                    notEmpty: {
-                        message: 'Ingrese Ubicacion'
-                    }
-                }
-            },
-            txt_fechaadquisicion: {
-                validators: {
-                    notEmpty: {
-                        message: 'Seleccione una Fecha'
-                    }
-                }
-            },
-            slct_categoria: {
-                validators: {
-                    choice: {
-                        min:1,
-                        message: 'Seleccione una Categoria'
-                    }
-                }
-            }
-        }
-    });*/
+    $(document).on('click', '.nuevaCaracteristica', function(event) {
+        $("#btnAccion2").text('Guardar');
+        $("#btnAccion2").attr('onClick','AgregarCaracteristica();');
+    });
+
+    $(document).on('click', '.editCaracteristica', function(event) {
+        $("#btnAccion2").text('Actualizar');
+        $("#btnAccion2").attr('onClick','EditarCaracteristica();');
+    });
+
 
     $('#accionBien').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // captura al boton
@@ -138,16 +78,10 @@ $(document).ready(function() {
         
         var modal = $(this); //captura el modal
         modal.find('.modal-title').text('Bien - Caracteristica');
-        $('#form_bienes [data-toggle="tooltip"]').css("display","none");
-        $("#form_bienes input[type='hidden']").remove();
-
-        if(titulo=='Nuevo' || typeof titulo == 'undefined'){
-            modal.find('.modal-footer .btn-primary').text('Guardar');
-            modal.find('.modal-footer .btn-primary').attr('onClick','AgregarCaracteristica();');
-        }
-        else if(titulo=='Editar'){
-            modal.find('.modal-footer .btn-primary').text('Actualizar');
-            modal.find('.modal-footer .btn-primary').attr('onClick','EditarCaracteristica();');
+        
+        if(titulo=='Editar'){
+           /* modal.find('.modal-footer .btn-primary').text('Actualizar');
+            modal.find('.modal-footer .btn-primary').attr('onClick','EditarCaracteristica();');*/
 
             $('#form_nuevaCaracteristica #txt_nombre').val(button.data('nombre'));
             $('#form_nuevaCaracteristica #txt_valor').val(button.data('valor'));
@@ -402,7 +336,7 @@ HTMLCaracteristicasBien = function (datos){
             "<td >"+razon+"</td>"+
             "<td >"+alerta_fecha+"</td>"+
             "<td >"+estadohtml+"</td>"+
-            '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#nuevaCaracteristica" data-id="'+data.id+'" data-nombre="'+data.descripcion+'" data-estado="'+data.estado+'" data-valor="'+data.valor+'" data-alerta="'+data.alerta+'" data-fecha="'+alerta_fecha+'" data-razon="'+razon+'" data-observacion="'+data.observacion+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>'+
+            '<td><a class="btn btn-primary btn-sm editCaracteristica" data-toggle="modal" data-target="#nuevaCaracteristica" data-id="'+data.id+'" data-nombre="'+data.descripcion+'" data-estado="'+data.estado+'" data-valor="'+data.valor+'" data-alerta="'+data.alerta+'" data-fecha="'+alerta_fecha+'" data-razon="'+razon+'" data-observacion="'+data.observacion+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>'+
             '<td><span class="btn btn-primary btn-sm" id-caracteristica="'+data.id+'" onclick="seleccionado(this),eventosCaracteristica(this)"><i class="glyphicon glyphicon-th-list"></i></span></td>';
         html+="</tr>";
     });
