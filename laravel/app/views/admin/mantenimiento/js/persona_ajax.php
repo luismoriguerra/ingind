@@ -31,6 +31,9 @@ var Persona={
                     $('#personaModal .modal-footer [data-dismiss="modal"]').click();
                     cargos_selec=[];
                 }
+                else if(obj.rst==3){
+                     msjG.mensaje('warning',obj.msj,4000);
+                }
                 else{ 
                             var cont = 0;
                     $.each(obj.msj, function(index, datos){

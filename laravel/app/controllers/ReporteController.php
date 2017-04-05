@@ -1195,15 +1195,16 @@ class ReporteController extends BaseController
             $query.=' AND al.clasificador='.$tipo;
           }
 
-          $query.=" ORDER BY a.nombre,f.nombre,al.tipo ";
+          $query.=" ORDER BY a.nombre,f.nombre";
           $result= DB::Select($query);
-
 
 /*          if($result){
             foreach ($result as $key => $value) {
               $alertas = DB::table('alertas')
                 ->where('ruta_detalle_id', '=', $value->id)
-                ->where('estado',1)
+		->where('estado',1)
+		->orderBy('persona_id')
+                ->orderBy('fecha')
                 ->get();
 
                 if($alertas){
@@ -1212,12 +1213,23 @@ class ReporteController extends BaseController
                   $tipo = 0;
                   $persona_id=0;
                   foreach ($alertas as $index => $val) {
+                    if($val->fecha >= '2017-03-28' && $val->fecha <= '2017-03-30'){
+                    	if($fechaAntigua == $val->fecha && $ruta_detalle ==$val->ruta_detalle_id && $persona_id==$val->persona_id){
+                        $actualizar = Alerta::find($val->id);
+                        $actualizar->estado=0;
+                        $actualizar->save();
+             		}else{
+			$actualizar = Alerta::find($val->id);
+                        $actualizar->estado=1;
+                        $actualizar->save();
+			}
+			
                     if($val->fecha >= '2017-03-28' && $val->fecha <= '2017-03-29'){
                       if($fechaAntigua == $val->fecha && $ruta_detalle ==$val->ruta_detalle_id && $persona_id==$val->persona_id){
                         $actualizar = Alerta::find($val->id);
                         $actualizar->estado=0;
                         $actualizar->save();
-                      }
+                     
 
                       if($ruta_detalle == $val->ruta_detalle_id && $fechaAntigua ==  date('Y-m-d', strtotime($val->fecha . ' -1 day')) && $tipo == $val->tipo && $persona_id==$val->persona_id){
                         $updated = Alerta::find($val->id);

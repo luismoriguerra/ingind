@@ -55,18 +55,38 @@ class MetaCuadro extends Base
 			 FROM metas_archivo ma
 			 WHERE  ma.tipo_avance=4 AND ma.avance_id=mf2.id AND ma.estado=1
 			 GROUP BY ma.avance_id) as a_p,
+			(SELECT CONCAT_WS('|',GROUP_CONCAT(dd.titulo),GROUP_CONCAT(md.id),GROUP_CONCAT(md.doc_digital_id))
+			 FROM metas_docdigital md
+			 INNER JOIN doc_digital dd ON md.doc_digital_id=dd.id
+			 WHERE  md.tipo_avance=4 AND md.avance_id=mf2.id AND md.estado=1
+			 GROUP BY md.avance_id) as d_p,
 			(SELECT CONCAT_WS('|',GROUP_CONCAT(ma.ruta),GROUP_CONCAT(ma.id))
 			 FROM metas_archivo ma
 			 WHERE  ma.tipo_avance=3 AND ma.avance_id=mf1.id AND ma.estado=1
 			 GROUP BY ma.avance_id) as a_d,
+                         (SELECT CONCAT_WS('|',GROUP_CONCAT(dd.titulo),GROUP_CONCAT(md.id),GROUP_CONCAT(md.doc_digital_id))
+			 FROM metas_docdigital md
+			 INNER JOIN doc_digital dd ON md.doc_digital_id=dd.id
+			 WHERE  md.tipo_avance=3 AND md.avance_id=mf1.id AND md.estado=1
+			 GROUP BY md.avance_id) as d_d,
 			(SELECT CONCAT_WS('|',GROUP_CONCAT(ma.ruta),GROUP_CONCAT(ma.id))
 			 FROM metas_archivo ma
 			 WHERE  ma.tipo_avance=2 AND ma.avance_id=mc.id AND ma.estado=1
 			 GROUP BY ma.avance_id) as a_a,
+			(SELECT CONCAT_WS('|',GROUP_CONCAT(dd.titulo),GROUP_CONCAT(md.id),GROUP_CONCAT(md.doc_digital_id))
+			 FROM metas_docdigital md
+			 INNER JOIN doc_digital dd ON md.doc_digital_id=dd.id
+			 WHERE  md.tipo_avance=2 AND md.avance_id=mc.id AND md.estado=1
+			 GROUP BY md.avance_id) as d_a,
 			(SELECT CONCAT_WS('|',GROUP_CONCAT(ma.ruta),GROUP_CONCAT(ma.id))
 			 FROM metas_archivo ma
 			 WHERE  ma.tipo_avance=1 AND ma.avance_id=m.id AND ma.estado=1
-                GROUP BY ma.avance_id) as a_m
+                        GROUP BY ma.avance_id) as a_m,
+                         (SELECT CONCAT_WS('|',GROUP_CONCAT(dd.titulo),GROUP_CONCAT(md.id),GROUP_CONCAT(md.doc_digital_id))
+			 FROM metas_docdigital md
+			 INNER JOIN doc_digital dd ON md.doc_digital_id=dd.id
+			 WHERE  md.tipo_avance=1 AND md.avance_id=mf2.id AND md.estado=1
+			 GROUP BY md.avance_id) as d_m
                 FROM metas_cuadro mc
                 INNER JOIN metas m on mc.meta_id=m.id
                 LEFT JOIN metas_fechavencimiento mf1 on mc.id=mf1.meta_cuadro_id and mf1.tipo=1

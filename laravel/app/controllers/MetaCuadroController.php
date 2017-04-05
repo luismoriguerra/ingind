@@ -398,6 +398,47 @@ class MetaCuadroController extends \BaseController {
         return $url. $type;
     }
     
+        public function postCreatedoc()
+    {
+        if ( Request::ajax() ) {
+            $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
+            $required = 'required';
+            $reglas = array(
+                'doc_id' => $required.'|'.$regex,
+            );
+
+            $mensaje= array(
+                'required' => ':attribute Es requerido',
+                'regex'    => ':attribute Solo debe ser Texto',
+            );
+
+            $validator = Validator::make(Input::all(), $reglas, $mensaje);
+
+//            if ( $validator->fails() ) {
+//                return Response::json( array('rst'=>2, 'msj'=>$validator->messages()) );
+//            }
+
+            //crear archivos
+                $length=Input::get('doc_id');               
+                $docid = Input::get('doc_id');
+                $avance_id=Input::get('avance_id');
+                $tipo_avance=Input::get('tipo_avance');
+                
+           
+                for ($i=0; $i < count($length); $i++) {
+
+                    $archivo = new MetaDocdigital;
+                    $archivo->avance_id = $avance_id[$i];
+                    $archivo->tipo_avance = $tipo_avance[$i];
+                    $archivo->doc_digital_id = $docid[$i];
+                    $archivo->usuario_created_at = Auth::user()->id;
+                    $archivo->save();
+                }
+
+            return Response::json(array('rst' => 1, 'msj' => 'Documento registrado correctamente'));
+        }
+    }
+    
         public function postCreate()
     {
 
@@ -430,10 +471,10 @@ class MetaCuadroController extends \BaseController {
                 $file = Input::get('pago_archivo');
                 
                 for ($i=0; $i < count($length); $i++) {
-                    $url = "file/meta/a".date("Y")."/".$nombre[$i].'.';
+                    $url = "file/meta/a".date("Y")."/".date("Y-m-d")."-".$nombre[$i].'.';
                      $this->fileToFile($file[$i],'a'.date("Y"), $url);
                     
-                    $ruta='a'.date('Y').'/'.$nombre[$i];
+                    $ruta='a'.date('Y').'/'.date("Y-m-d").'-'.$nombre[$i];
                     $archivo = new MetaArchivo;
                     $archivo->avance_id = $avance_id[$i];
                     $archivo->tipo_avance = $tipo_avance[$i];
@@ -444,7 +485,7 @@ class MetaCuadroController extends \BaseController {
                
     
 
-            return Response::json(array('rst' => 1, 'msj' => 'Registro realizado correctamente'));
+            return Response::json(array('rst' => 1, 'msj' => 'Archivo registrado correctamente'));
         }
 
     }
@@ -463,7 +504,25 @@ class MetaCuadroController extends \BaseController {
             return Response::json(
                             array(
                                 'rst' => 1,
-                                'msj' => 'Registro actualizado correctamente',
+                                'msj' => 'Archivo eliminado correctamente',
+                            )
+            );
+        }
+    }
+    
+            public function postEliminardoc() {
+
+        if (Request::ajax()) {
+
+            $metacuadro = MetaDocdigital::find(Input::get('id'));
+            $metacuadro->usuario_created_at = Auth::user()->id;
+            $metacuadro->estado = 0;
+            $metacuadro->save();
+            
+            return Response::json(
+                            array(
+                                'rst' => 1,
+                                'msj' => 'Documento eliminado correctamente',
                             )
             );
         }

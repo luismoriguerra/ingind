@@ -225,6 +225,12 @@ class Persona extends Base implements UserInterface, RemindableInterface {
             $where = " AND FIND_IN_SET(p.area_id, $area )>0 ";
             $select = " p.id,CONCAT(p.paterno,' ',substr(p.materno,1,4),'. ',substr(p.nombre,1,7)) nombre ";
         }
+        else if (Input::has('area_documento')) {
+            $id = Input::get('ruta_detalle_id');
+            $rd = RutaDetalle::find($id);
+            $where = " AND p.area_id =".$rd->area_id;
+            $select = " p.id,CONCAT(p.paterno,' ',substr(p.materno,1,4),'. ',substr(p.nombre,1,7)) nombre ";
+        }
         $sql = "  SELECT $select
                 FROM personas p
                 LEFT JOIN areas a ON a.id=p.area_id 
@@ -832,5 +838,28 @@ class Persona extends Base implements UserInterface, RemindableInterface {
 
         return $r;
     }
+    
+        public static function BuscarJefe($area_id,$persona_id) {
+            
+        $sSql = '';
+        $sSql .= "SELECT COUNT(p.id) as cantidad
+                    FROM personas p
+                    WHERE  p.area_id=".$area_id." 
+                    AND p.rol_id IN (8,9) AND p.estado=1
+                    AND p.id!=".$persona_id;
+
+        $oData = DB::select($sSql);
+        return $oData[0]->cantidad;
+    }
+    
+            public static function ActualizarResponsable($area_id) {
+            
+            $sSql = 'UPDATE personas
+                     SET responsable_asigt=0,
+		     responsable_dert=0
+                     WHERE area_id= '.$area_id;
+            
+                DB::update($sSql);
+            }
 
 }

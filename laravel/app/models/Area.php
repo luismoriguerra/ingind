@@ -30,7 +30,7 @@ class Area extends Base
 
     public static function getCargar( $array )
     {
-        $sSql=" SELECT a.id, a.nombre,a.nemonico, a.estado
+        $sSql=" SELECT a.id, a.nombre,a.nemonico,a.imagen,a.imagenc,a.imagenp, a.estado
                 FROM areas a
                 WHERE 1=1 ";
         $sSql.= $array['where'].
@@ -80,9 +80,11 @@ class Area extends Base
                         $rst=$this->getRol();
                         foreach ($rst as $value) {
                         $array[] = $value->cargo_id;}           
-                        if ( Input::has('personal') && Auth::user()->area_id!=53 && Auth::user()->area_id!=31 ){
-                            if (in_array(12, $array)){}else {
-                            $query->where('id','=',Auth::user()->area_id);}
+                        if ( Input::has('personal') && Auth::user()->area_id!=53 && Auth::user()->area_id!=31 && Auth::user()->id!=75 ){
+                            if (!in_array(12, $array)) {
+                            $query->where('id','=',Auth::user()->area_id);
+                            
+                        }
                         }
                         
                         if ( Input::has('responsable') ){
