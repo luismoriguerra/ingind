@@ -16,7 +16,7 @@ var RolIdG='';
 var UsuarioId='';
 var fechaAux="";
 $(document).ready(function() {
-
+    slctGlobalHtml('slct_persona','simple');
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
     slctGlobal.listarSlct2('documento','slct_documento_modal',data);
@@ -222,6 +222,8 @@ desactivar=function(id,ruta_detalle_id,td,rutaid = ''){//establecer como no vist
 
     var data ={ruta_detalle_id:ruta_detalle_id};
     mostrarDetallle(ruta_detalle_id,rutaid);
+    
+    $("#slct_persona").multiselect("destroy");
     var dataG={estado_persona:1,area_documento:1,ruta_detalle_id:ruta_detalle_id};
     slctGlobal.listarSlct('persona','slct_persona','simple',null,dataG);
 };
