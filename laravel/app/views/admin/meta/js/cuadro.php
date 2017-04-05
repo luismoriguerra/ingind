@@ -208,8 +208,9 @@ HTMLreporte=function(datos){
          }
         cont1++;
 
-        html+='<td rowspanc1 >'+
-              '<div>'+
+        html+='<td rowspanc1 >';
+//        if( data.a_p==null && data.pf>=Cuadro.fecha_actual){
+        html+='<div>'+
               '<form name="form_aparchivo'+cont1+'" id="form_aparchivo'+cont1+'" enctype=”multipart/form-data”>'+
               
                '<table id="t_aparchivo'+cont1+'" class="table table-bordered" >'+
@@ -217,8 +218,12 @@ HTMLreporte=function(datos){
                                             '<tr>'+
                                                 '<th>N°</th>'+
                                                 '<th>Archivo</th>'+
-                                                '<th><a class="btn btn-success btn-xs" title="Agregar Archivo"'+
-                                                         'onclick="AgregarAP('+cont1+','+data.id_p+')"><i class="fa fa-plus fa-lg"></i></a></th>'+
+                                                '<th>';
+                                        if(data.pf>=Cuadro.fecha_actual){
+                                        html+='<a class="btn btn-success btn-xs" title="Agregar Archivo"'+
+                                                         'onclick="AgregarAP('+cont1+','+data.id_p+')"><i class="fa fa-plus fa-lg"></i></a>';
+                                             }
+                                          html+='</th>'+
                                            ' </tr>'+
                                        ' </thead>'+
                                        ' <tbody id="tb_aparchivo'+cont1+'">';
@@ -251,9 +256,10 @@ HTMLreporte=function(datos){
                     else {
                                 html+='<br>';
                                 }
-                                html+='</div>'+
-                                
-              '<div>'+
+                                html+='</div>';
+//        }
+//        if( data.d_p==null && data.pf>=Cuadro.fecha_actual){
+         html+='<div>'+
               '<form name="form_apdocumento'+cont1+'" id="form_apdocumento'+cont1+'" enctype=”multipart/form-data”>'+
               
                '<table id="t_apdocumento'+cont1+'" class="table table-bordered" >'+
@@ -261,9 +267,13 @@ HTMLreporte=function(datos){
                                             '<tr>'+
                                                 '<th>N°</th>'+
                                                 '<th>Documento</th>'+
-                                                '<th><span class="btn btn-success btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="4" data-form="#t_apdocumento'+cont1+'" data-avanceid="'+data.id_p+'" data-id="txt_doc_digital_id">'+
+                                                '<th>';
+                                        if(data.pf>=Cuadro.fecha_actual){
+                                          html+='<span class="btn btn-success btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="4" data-form="#t_apdocumento'+cont1+'" data-avanceid="'+data.id_p+'" data-id="txt_doc_digital_id">'+
                                                                 '<i class="glyphicon glyphicon-file"></i>'+
-                                                            '</span></th>'+
+                                                            '</span>';
+                                        }
+                                          html+='</th>'+
                                            ' </tr>'+
                                        ' </thead>'+
                                        ' <tbody id="tb_apdocumento'+cont1+'">';
@@ -294,8 +304,9 @@ HTMLreporte=function(datos){
                                     '<i class="fa fa-save fa-lg"></i>&nbsp;Guardar'+
                                 '</a>';
                     }
-                              html+=  '</div>'+
-                                                    '</td>';
+                    html+=  '</div>';
+//                    }
+                                            html+= '</td>';
         
         c1=1;
         }
