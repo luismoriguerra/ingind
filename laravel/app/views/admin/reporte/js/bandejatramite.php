@@ -15,6 +15,7 @@ var posicionDetalleVerboG=0;
 var RolIdG='';
 var UsuarioId='';
 var fechaAux="";
+var CartaDesgloseG=0;
 $(document).ready(function() {
     slctGlobalHtml('slct_persona','simple');
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
@@ -158,6 +159,7 @@ $(document).ready(function() {
 });
 
 ActualizarResponsable=function(val){
+    $("#slct_persona").attr("data-id",CartaDesgloseG);
     if( $.trim( $("#slct_persona").attr("data-id") )!='' ){
         var data={persona_id:val,carta_deglose_id:$("#slct_persona").attr("data-id")};
         var ruta='asignacion/responsable';
@@ -266,9 +268,6 @@ mostrarDetallle=function(id,rtid = ''){ //OK
     $("#form_ruta_detalle").append("<input type='hidden' id='ruta_id' name='ruta_id' value='"+rtid+"'>");
     var datos={ruta_detalle_id:id};
    
-    var dataG={estado_persona:1,area_documento:1,ruta_detalle_id:id};
-    slctGlobal.listarSlct('persona','slct_persona','simple',null,dataG);
-    $("#slct_persona").multiselect('rebuild');
     Validar.mostrarDetalle(datos,mostrarDetalleHTML);
 }
 
@@ -304,11 +303,16 @@ mostrarDetalleHTML=function(datos){
     /*fin puede regresar al paso anterior*/
 
     if( RolIdG==8 || RolIdG==9 ){
-        $("#slct_persona").attr("data-id",datos.carta_deglose_id);
-        $("#slct_persona").val('');
-        $('#slct_persona').multiselect('rebuild');
-        $("#slct_persona").val(datos.persona_id);
-        $('#slct_persona').multiselect('rebuild');
+    var dataG={estado_persona:1,area_documento:1,ruta_detalle_id:datos.id};
+    $("#slct_persona").multiselect('destroy');
+    slctGlobal.listarSlct('persona','slct_persona','simple',[datos.persona_id],dataG);
+    CartaDesgloseG=datos.carta_deglose_id;
+//    
+//        $("#slct_persona").attr("data-id",datos.carta_deglose_id);
+//        $("#slct_persona").val('');
+//        $('#slct_persona').multiselect('rebuild');
+//        $("#slct_persona").val(datos.persona_id);
+//        $('#slct_persona').multiselect('rebuild');
     }
     else{
         $("#slct_persona").html(datos.persona_responsable);
