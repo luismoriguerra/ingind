@@ -316,7 +316,7 @@ mostrarDetalleHTML=function(datos){
         $("#slct_persona").val(datos.persona_id);
         $('#slct_persona').multiselect('rebuild');
     }
-    else{
+    else{ $('#slct_persona').multiselect('destroy'); 
         $("#slct_persona").html(datos.persona_responsable);
     }
     //$('#slct_tipo_respuesta,#slct_tipo_respuesta_detalle').attr('disabled',"true");
