@@ -249,7 +249,7 @@ tr.shown td.details-control {
                                                 <input type="text" class="form-control" id="txt_respuesta" name="txt_respuesta" readonly>
                                             </div>
                                             <div class="col-sm-4">
-                                                <label class="control-label">Responsable de la Actividadd:</label>
+                                                <label class="control-label">Responsable de la Actividad:</label>
                                                 <?php
                                                     if( Auth::user()->rol_id==8 OR Auth::user()->rol_id==9 ){
                                                 ?>
@@ -258,7 +258,7 @@ tr.shown td.details-control {
                                                     }
                                                     else{
                                                 ?>
-                                                        <div id="slct_persona"></div>
+                                                        <div><input class="form-control" id="slct_persona" readonly=""></div>
                                                 <?php
                                                     }
                                                 ?>

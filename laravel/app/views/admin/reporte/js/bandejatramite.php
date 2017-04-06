@@ -317,7 +317,7 @@ mostrarDetalleHTML=function(datos){
         $('#slct_persona').multiselect('rebuild');
     }
     else{ $('#slct_persona').multiselect('destroy'); 
-        $("#slct_persona").html(datos.persona_responsable);
+        $("#slct_persona").val(datos.persona_responsable);
     }
     //$('#slct_tipo_respuesta,#slct_tipo_respuesta_detalle').attr('disabled',"true");
     slctGlobal.listarSlct('tiporespuesta','slct_tipo_respuesta','simple',ids,data,0,'#slct_tipo_respuesta_detalle','TR');
