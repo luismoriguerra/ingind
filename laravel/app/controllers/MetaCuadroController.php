@@ -179,6 +179,7 @@ class MetaCuadroController extends \BaseController {
             $metacuadro = new MetaCuadro;
             $metacuadro->meta_id = Input::get('meta');
             $metacuadro->anio = Input::get('anio');
+            $metacuadro->fecha = Input::get('fecha');
             $metacuadro->actividad = Input::get('actividad');
             $metacuadro->estado = Input::get('estado');
             $metacuadro->usuario_created_at = Auth::user()->id;
@@ -264,6 +265,7 @@ class MetaCuadroController extends \BaseController {
             $metacuadroId = Input::get('id');
             $metacuadro = MetaCuadro::find($metacuadroId);
             $metacuadro->meta_id = Input::get('meta');
+            $metacuadro->fecha = Input::get('fecha');
             $metacuadro->anio = Input::get('anio');
             $metacuadro->actividad = Input::get('actividad');
             $metacuadro->estado = Input::get('estado');

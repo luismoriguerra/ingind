@@ -19,7 +19,7 @@ class MetaFechaVencimiento extends Base
 
         public function getFecha1(){
         $metacuadro=DB::table('metas_fechavencimiento')
-                ->select('id','fecha as nombre','estado')
+                ->select('id','estado', DB::raw('CONCAT(fecha, "-", substr(comentario,1,12),".") AS nombre'))
                 ->where( 
                     function($query){
                         if ( Input::get('estado') ) {

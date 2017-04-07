@@ -42,7 +42,7 @@
                 "<td>";
         html += '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre' + ap + '""  name="pago_nombre[]" value="">' +
                 '<input type="text" style="display: none;" id="pago_archivo' + ap + '" name="pago_archivo[]">' +
-                '<label class="btn bg-olive btn-flat margin btn-xs">' +
+                '<label class="btn btn-default btn-flat margin btn-xs">' +
                 '<i class="fa fa-file-pdf-o fa-lg"></i>' +
                 '<i class="fa fa-file-word-o fa-lg"></i>' +
                 '<i class="fa fa-file-image-o fa-lg"></i>' +
@@ -68,7 +68,7 @@
                 "<td>";
         html += '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre' + ad + '""  name="pago_nombre[]" value="">' +
                 '<input type="text" style="display: none;" id="pago_archivo' + ad + '" name="pago_archivo[]">' +
-                '<label class="btn bg-olive btn-flat margin btn-xs">' +
+                '<label class="btn btn-default btn-flat margin btn-xs">' +
                 '<i class="fa fa-file-pdf-o fa-lg"></i>' +
                 '<i class="fa fa-file-word-o fa-lg"></i>' +
                 '<i class="fa fa-file-image-o fa-lg"></i>' +
@@ -94,7 +94,7 @@
                 "<td>";
         html += '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre' + aa + '""  name="pago_nombre[]" value="">' +
                 '<input type="text" style="display: none;" id="pago_archivo' + aa + '" name="pago_archivo[]">' +
-                '<label class="btn bg-olive btn-flat margin btn-xs">' +
+                '<label class="btn btn-default btn-flat margin btn-xs">' +
                 '<i class="fa fa-file-pdf-o fa-lg"></i>' +
                 '<i class="fa fa-file-word-o fa-lg"></i>' +
                 '<i class="fa fa-file-image-o fa-lg"></i>' +
@@ -120,7 +120,7 @@
                 "<td>";
         html += '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre' + am + '""  name="pago_nombre[]" value="">' +
                 '<input type="text" style="display: none;" id="pago_archivo' + am + '" name="pago_archivo[]">' +
-                '<label class="btn bg-olive btn-flat margin btn-xs">' +
+                '<label class="btn btn-default btn-flat margin btn-xs">' +
                 '<i class="fa fa-file-pdf-o fa-lg"></i>' +
                 '<i class="fa fa-file-word-o fa-lg"></i>' +
                 '<i class="fa fa-file-image-o fa-lg"></i>' +
@@ -163,7 +163,6 @@
         cont2 = 0;
         cont3 = 0;
         cont4 = 0;
-
         $.each(datos, function (index, data) {
 
             html += '<tr>';
@@ -226,17 +225,16 @@
                 html += '<div>' +
                         '<form name="form_aparchivo' + cont1 + '" id="form_aparchivo' + cont1 + '" enctype=”multipart/form-data”>' +
                         '<table id="t_aparchivo' + cont1 + '" class="table table-bordered" >' +
-                        '<thead>' +
+                        '<thead class="bg-aqua disabled color-palette">' +
                         '<tr>' +
                         '<th>N°</th>' +
-                        '<th>Archivo</th>' +
-                        '<th>';
+                        '<th>Archivo</th>';
                 if (data.pf >= Cuadro.fecha_actual) {
-                    html += '<a class="btn btn-success btn-xs" title="Agregar Archivo"' +
-                            'onclick="AgregarAP(' + cont1 + ',' + data.id_p + ')"><i class="fa fa-plus fa-lg"></i></a>';
+                    html += '<th><a class="btn btn-default btn-xs" title="Agregar Archivo"' +
+                            'onclick="AgregarAP(' + cont1 + ',' + data.id_p + ')"><i class="fa fa-plus fa-lg"></i></a></th>';
                 }
-                html += '</th>' +
-                        ' </tr>' +
+                 
+                  html +=' </tr>' +
                         ' </thead>' +
                         ' <tbody id="tb_aparchivo' + cont1 + '">';
                 if (data.a_p != null) {
@@ -248,10 +246,12 @@
                         var nombre = a_p_nombre[i].split('/');
                         html += "<tr>" +
                                 "<td>" + pos_ap + "<input type='hidden' name='c_id[]' id='c_id' value='" + a_p_id[i] + "'></td></td> " +
-                                "<td><a target='_blank' href='file/meta/" + a_p_nombre[i] + "'>" + nombre[1] + "</a></td>" +
-                                '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="Eliminar(\'' + a_p_id[i] + '\',\'' + nombre[0] + '\',\'' + nombre[1] + '\',this)">' +
+                                "<td><a target='_blank' href='file/meta/" + a_p_nombre[i] + "'>" + nombre[1] + "</a></td>";
+                        if (data.pf >= Cuadro.fecha_actual) {
+                        html+='<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="Eliminar(\'' + a_p_id[i] + '\',\'' + nombre[0] + '\',\'' + nombre[1] + '\',this)">' +
                                 '<i class="fa fa-trash fa-lg"></i>' +
                                 '</a></td>';
+                        }
                         html += "</tr>";
                         pos_ap++;
                     }
@@ -262,7 +262,7 @@
                         '</form>';
 
                 if (data.pf >= Cuadro.fecha_actual) {
-                    html += '<a class="btn btn-success btn-xs" id="guardar"  style="width: 100%;margin-top:10px;margin-bottom:10px" onClick="Guardar(\'#form_aparchivo' + cont1 + '\')">' +
+                    html += '<a class="btn btn-default btn-xs" id="guardar"  style="width: 100%;margin-top:10px;margin-bottom:10px" onClick="Guardar(\'#form_aparchivo' + cont1 + '\')">' +
                             '<i class="fa fa-save fa-lg"></i>&nbsp;Guardar' +
                             '</a>';
                 } else {
@@ -274,18 +274,16 @@
                 html += '<div>' +
                         '<form name="form_apdocumento' + cont1 + '" id="form_apdocumento' + cont1 + '" enctype=”multipart/form-data”>' +
                         '<table id="t_apdocumento' + cont1 + '" class="table table-bordered" >' +
-                        '<thead>' +
+                        '<thead class="bg-teal disabled color-palette">' +
                         '<tr>' +
                         '<th>N°</th>' +
-                        '<th>Documento</th>' +
-                        '<th>';
+                        '<th>Documento</th>';
                 if (data.pf >= Cuadro.fecha_actual) {
-                    html += '<span class="btn btn-success btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="4" data-form="#t_apdocumento' + cont1 + '" data-avanceid="' + data.id_p + '" data-id="txt_doc_digital_id">' +
+                    html += '<th><span class="btn btn-default btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="4" data-form="#t_apdocumento' + cont1 + '" data-avanceid="' + data.id_p + '" data-id="txt_doc_digital_id">' +
                             '<i class="glyphicon glyphicon-file"></i>' +
-                            '</span>';
+                            '</span></th>';
                 }
-                html += '</th>' +
-                        ' </tr>' +
+                html +=' </tr>' +
                         ' </thead>' +
                         ' <tbody id="tb_apdocumento' + cont1 + '">';
                 if (data.d_p != null) {
@@ -298,10 +296,12 @@
 
                         html += "<tr>" +
                                 "<td>" + pos_ap + "<input type='hidden' name='c_id[]' id='c_id' value='" + d_p_id[i] + "'></td></td> " +
-                                "<td><a target='_blank' href='documentodig/vistaprevia/" + d_p_doc_digital_id[i] + "'>" + d_p_nombre[i] + "</a></td>" +
-                                '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\'' + d_p_id[i] + '\',this)">' +
+                                "<td><a target='_blank' href='documentodig/vistaprevia/" + d_p_doc_digital_id[i] + "'>" + d_p_nombre[i] + "</a></td>";
+                        if (data.pf >= Cuadro.fecha_actual) {
+                        html += '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\'' + d_p_id[i] + '\',this)">' +
                                 '<i class="fa fa-trash fa-lg"></i>' +
                                 '</a></td>';
+                        }
                         html += "</tr>";
                         pos_ap++;
                     }
@@ -311,7 +311,7 @@
                         '</table>' +
                         '</form>';
                 if (data.pf >= Cuadro.fecha_actual) {
-                    html += '<a class="btn btn-success btn-xs" id="guardar"  style="width: 100%;margin-top:10px" onClick="GuardarDoc(\'#form_apdocumento' + cont1 + '\')">' +
+                    html += '<a class="btn btn-default btn-xs" id="guardar"  style="width: 100%;margin-top:10px" onClick="GuardarDoc(\'#form_apdocumento' + cont1 + '\')">' +
                             '<i class="fa fa-save fa-lg"></i>&nbsp;Guardar' +
                             '</a>';
                 }
@@ -335,16 +335,15 @@
                         '<div>' +
                         '<form name="form_darchivo' + cont2 + '" id="form_darchivo' + cont2 + '" enctype=”multipart/form-data”>' +
                         '<table id="t_darchivo' + cont2 + '" class="table table-bordered">' +
-                        '<thead>' +
+                        '<thead class="bg-aqua disabled color-palette">' +
                         '<tr>' +
                         '<th>N°</th>' +
-                        '<th>Archivo</th>' +
-                        '<th>';
+                        '<th>Archivo</th>';
                 if (data.df >= Cuadro.fecha_actual) {
-                html+='<a class="btn btn-success btn-xs"' +
-                        'onclick="AgregarD(' + cont2 + ',' + data.id_d + ')"><i class="fa fa-plus fa-lg"></i></a>';}
-                html+='</th>' +
-                        ' </tr>' +
+                html+='<th><a class="btn btn-default btn-xs"' +
+                        'onclick="AgregarD(' + cont2 + ',' + data.id_d + ')"><i class="fa fa-plus fa-lg"></i></a></th>';
+                }
+                html+=' </tr>' +
                         ' </thead>' +
                         ' <tbody id="tb_darchivo' + cont2 + '">';
 
@@ -357,10 +356,12 @@
                         var nombre = a_d_nombre[i].split('/');
                         html += "<tr>" +
                                 "<td>" + pos_ad + "<input type='hidden' name='c_id[]' id='c_id' value='" + a_d_id[i] + "'></td></td> " +
-                                "<td><a target='_blank' href='file/meta/" + a_d_nombre[i] + "'>" + nombre[1] + "</a></td>" +
-                                '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="Eliminar(\'' + a_d_id[i] + '\',\'' + nombre[0] + '\',\'' + nombre[1] + '\',this)">' +
+                                "<td><a target='_blank' href='file/meta/" + a_d_nombre[i] + "'>" + nombre[1] + "</a></td>" ;
+                        if (data.df >= Cuadro.fecha_actual) {
+                        html += '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="Eliminar(\'' + a_d_id[i] + '\',\'' + nombre[0] + '\',\'' + nombre[1] + '\',this)">' +
                                 '<i class="fa fa-trash fa-lg"></i>' +
                                 '</a></td>';
+                    }
                         html += "</tr>";
                         pos_ad++;
                     }
@@ -369,7 +370,7 @@
                         '</table>' +
                         '</form>';
                 if (data.df >= Cuadro.fecha_actual) {    
-                html += '<a class="btn btn-success btn-xs" id="guardar"  style="width: 100%;margin-top:10px;margin-bottom:10px" onClick="Guardar(\'#form_darchivo' + cont2 + '\')">' +
+                html += '<a class="btn btn-default btn-xs" id="guardar"  style="width: 100%;margin-top:10px;margin-bottom:10px" onClick="Guardar(\'#form_darchivo' + cont2 + '\')">' +
                         '<i class="fa fa-save fa-lg">    </i>&nbsp;Guardar' +
                         '</a>';} else {
                 html+='<br>';        
@@ -380,18 +381,16 @@
                 html += '<div>' +
                         '<form name="form_ddocumento' + cont2 + '" id="form_ddocumento' + cont2 + '" enctype=”multipart/form-data”>' +
                         '<table id="t_ddocumento' + cont2 + '" class="table table-bordered" >' +
-                        '<thead>' +
+                        '<thead class="bg-teal disabled color-palette">' +
                         '<tr>' +
                         '<th>N°</th>' +
-                        '<th>Documento</th>' +
-                        '<th>';
+                        '<th>Documento</th>';
                 if (data.df >= Cuadro.fecha_actual) {
-                    html += '<span class="btn btn-success btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="3" data-form="#t_ddocumento' + cont2 + '" data-avanceid="' + data.id_d + '" data-id="txt_doc_digital_id">' +
+                    html += '<th><span class="btn btn-default btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="3" data-form="#t_ddocumento' + cont2 + '" data-avanceid="' + data.id_d + '" data-id="txt_doc_digital_id">' +
                             '<i class="glyphicon glyphicon-file"></i>' +
-                            '</span>';
+                            '</span></th>';
                 }
-                html += '</th>' +
-                        ' </tr>' +
+                html += ' </tr>' +
                         ' </thead>' +
                         ' <tbody id="tb_ddocumento' + cont2 + '">';
                 if (data.d_d != null) {
@@ -404,10 +403,12 @@
 
                         html += "<tr>" +
                                 "<td>" + pos_d + "<input type='hidden' name='c_id[]' id='c_id' value='" + d_d_id[i] + "'></td></td> " +
-                                "<td><a target='_blank' href='documentodig/vistaprevia/" + d_d_doc_digital_id[i] + "'>" + d_d_nombre[i] + "</a></td>" +
-                                '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\'' + d_d_id[i] + '\',this)">' +
+                                "<td><a target='_blank' href='documentodig/vistaprevia/" + d_d_doc_digital_id[i] + "'>" + d_d_nombre[i] + "</a></td>" ;
+                        if (data.df >= Cuadro.fecha_actual) {
+                        html += '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\'' + d_d_id[i] + '\',this)">' +
                                 '<i class="fa fa-trash fa-lg"></i>' +
                                 '</a></td>';
+                        }
                         html += "</tr>";
                         pos_d++;
                     }
@@ -417,7 +418,7 @@
                         '</table>' +
                         '</form>';
                 if (data.df >= Cuadro.fecha_actual) {
-                    html += '<a class="btn btn-success btn-xs" id="guardar"  style="width: 100%;margin-top:10px" onClick="GuardarDoc(\'#form_ddocumento' + cont2 + '\')">' +
+                    html += '<a class="btn btn-default btn-xs" id="guardar"  style="width: 100%;margin-top:10px" onClick="GuardarDoc(\'#form_ddocumento' + cont2 + '\')">' +
                             '<i class="fa fa-save fa-lg"></i>&nbsp;Guardar' +
                             '</a>';
                 }
@@ -441,17 +442,15 @@
                 html+= '<div>'+
                         '<form name="form_aarchivo' + cont3 + '" id="form_aarchivo' + cont3 + '" enctype=”multipart/form-data”>' +
                         '<table id="t_aarchivo' + cont3 + '" class="table table-bordered">' +
-                        '<thead>' +
+                        '<thead class="bg-aqua disabled color-palette">' +
                         '<tr>' +
                         '<th>N°</th>' +
-                        '<th>Archivo</th>' +
-                        '<th>';
-                if (data.df >= Cuadro.fecha_actual) {    
-                html+= '<a class="btn btn-success btn-xs"' +
-                        'onclick="AgregarA(' + cont3 + ',' + data.meta_cuadro_id + ')"><i class="fa fa-plus fa-lg"></i></a>';
+                        '<th>Archivo</th>';
+                if (data.af >= Cuadro.fecha_actual) {    
+                html+= '<th><a class="btn btn-default btn-xs"' +
+                        'onclick="AgregarA(' + cont3 + ',' + data.meta_cuadro_id + ')"><i class="fa fa-plus fa-lg"></i></a></th>';
                  }
-                html+= '</th>' +
-                        ' </tr>' +
+                html+= ' </tr>' +
                         ' </thead>' +
                         ' <tbody id="tb_aarchivo' + cont3 + '">';
                 if (data.a_a != null) {
@@ -463,10 +462,12 @@
                         var nombre = a_a_nombre[i].split('/');
                         html += "<tr>" +
                                 "<td>" + pos_aa + "<input type='hidden' name='c_id[]' id='c_id' value='" + a_a_id[i] + "'></td></td> " +
-                                "<td><a target='_blank' href='file/meta/" + a_a_nombre[i] + "'>" + nombre[1] + "</a></td>" +
-                                '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="Eliminar(\'' + a_a_id[i] + '\',\'' + nombre[0] + '\',\'' + nombre[1] + '\',this)">' +
+                                "<td><a target='_blank' href='file/meta/" + a_a_nombre[i] + "'>" + nombre[1] + "</a></td>" ;
+                        if (data.af >= Cuadro.fecha_actual) {
+                        html +='<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="Eliminar(\'' + a_a_id[i] + '\',\'' + nombre[0] + '\',\'' + nombre[1] + '\',this)">' +
                                 '<i class="fa fa-trash fa-lg"></i>' +
                                 '</a></td>';
+                        }
                         html += "</tr>";
                         pos_aa++;
                     }
@@ -474,8 +475,8 @@
                 html += ' </tbody>' +
                         '</table>' +
                         '</form>';
-            if (data.df >= Cuadro.fecha_actual) {    
-                html += '<a class="btn btn-success btn-xs" id="guardar"  style="width: 100%;margin-top:10px;margin-bottom:10px" onClick="Guardar(\'#form_aarchivo' + cont3 + '\')">' +
+            if (data.af >= Cuadro.fecha_actual) {    
+                html += '<a class="btn btn-default btn-xs" id="guardar"  style="width: 100%;margin-top:10px;margin-bottom:10px" onClick="Guardar(\'#form_aarchivo' + cont3 + '\')">' +
                         '<i class="fa fa-save fa-lg">    </i>&nbsp;Guardar' +
                         '</a>';
             }else {
@@ -487,18 +488,16 @@
                 html += '<div>' +
                         '<form name="form_adocumento' + cont3 + '" id="form_adocumento' + cont3 + '" enctype=”multipart/form-data”>' +
                         '<table id="t_adocumento' + cont3 + '" class="table table-bordered" >' +
-                        '<thead>' +
+                        '<thead class="bg-teal disabled color-palette">' +
                         '<tr>' +
                         '<th>N°</th>' +
-                        '<th>Documento</th>' +
-                        '<th>';
-                if (data.df >= Cuadro.fecha_actual) {
-                    html += '<span class="btn btn-success btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="2" data-form="#t_adocumento' + cont3 + '" data-avanceid="' + data.meta_cuadro_id + '" data-id="txt_doc_digital_id">' +
+                        '<th>Documento</th>';
+                if (data.af >= Cuadro.fecha_actual) {
+                    html += '<th><span class="btn btn-default btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="2" data-form="#t_adocumento' + cont3 + '" data-avanceid="' + data.meta_cuadro_id + '" data-id="txt_doc_digital_id">' +
                             '<i class="glyphicon glyphicon-file"></i>' +
-                            '</span>';
+                            '</span></th>';
                 }
-                html += '</th>' +
-                        ' </tr>' +
+                html += ' </tr>' +
                         ' </thead>' +
                         ' <tbody id="tb_adocumento' + cont3 + '">';
                 if (data.d_a != null) {
@@ -511,10 +510,12 @@
 
                         html += "<tr>" +
                                 "<td>" + pos_a + "<input type='hidden' name='c_id[]' id='c_id' value='" + d_a_id[i] + "'></td></td> " +
-                                "<td><a target='_blank' href='documentodig/vistaprevia/" + d_a_doc_digital_id[i] + "'>" + d_a_nombre[i] + "</a></td>" +
-                                '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\'' + d_a_id[i] + '\',this)">' +
+                                "<td><a target='_blank' href='documentodig/vistaprevia/" + d_a_doc_digital_id[i] + "'>" + d_a_nombre[i] + "</a></td>" ;
+                        if (data.af >= Cuadro.fecha_actual) {
+                        html += '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\'' + d_a_id[i] + '\',this)">' +
                                 '<i class="fa fa-trash fa-lg"></i>' +
                                 '</a></td>';
+                        }
                         html += "</tr>";
                         pos_a++;
                     }
@@ -523,8 +524,8 @@
                 html += ' </tbody>' +
                         '</table>' +
                         '</form>';
-                if (data.df >= Cuadro.fecha_actual) {
-                    html += '<a class="btn btn-success btn-xs" id="guardar"  style="width: 100%;margin-top:10px" onClick="GuardarDoc(\'#form_adocumento' + cont3 + '\')">' +
+                if (data.af >= Cuadro.fecha_actual) {
+                    html += '<a class="btn btn-default btn-xs" id="guardar"  style="width: 100%;margin-top:10px" onClick="GuardarDoc(\'#form_adocumento' + cont3 + '\')">' +
                             '<i class="fa fa-save fa-lg"></i>&nbsp;Guardar' +
                             '</a>';
                 } 
@@ -547,17 +548,15 @@
                 html += '<div>'+
                         '<form name="form_marchivo' + cont4 + '" id="form_marchivo' + cont4 + '" enctype=”multipart/form-data”>' +
                         '<table id="t_marchivo' + cont4 + '" class="table table-bordered">' +
-                        '<thead>' +
+                        '<thead class="bg-aqua disabled color-palette">' +
                         '<tr>' +
                         '<th>N°</th>' +
-                        '<th>Archivo</th>' +
-                        '<th>';
-                if (data.df >= Cuadro.fecha_actual) {
-                html+=  '<a class="btn btn-success btn-xs"' +
-                        'onclick="AgregarM(' + cont4 + ',' + data.meta_id + ')"><i class="fa fa-plus fa-lg"></i></a>';
+                        '<th>Archivo</th>';
+                if (data.mf >= Cuadro.fecha_actual) {
+                html+=  '<th><a class="btn btn-default btn-xs"' +
+                        'onclick="AgregarM(' + cont4 + ',' + data.meta_id + ')"><i class="fa fa-plus fa-lg"></i></a></th>';
                 }
-                html+= '</th>' +
-                        ' </tr>' +
+                html+= ' </tr>' +
                         ' </thead>' +
                         ' <tbody id="tb_marchivo' + cont4 + '">';
                 if (data.a_m != null) {
@@ -569,10 +568,12 @@
                         var nombre = a_m_nombre[i].split('/');
                         html += "<tr>" +
                                 "<td>" + pos_am + "<input type='hidden' name='c_id[]' id='c_id' value='" + a_m_id[i] + "'></td></td> " +
-                                "<td><a target='_blank' href='file/meta/" + a_m_nombre[i] + "'>" + nombre[1] + "</a></td>" +
-                                '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="Eliminar(\'' + a_m_id[i] + '\',\'' + nombre[0] + '\',\'' + nombre[1] + '\',this)">' +
+                                "<td><a target='_blank' href='file/meta/" + a_m_nombre[i] + "'>" + nombre[1] + "</a></td>" ;
+                        if (data.mf >= Cuadro.fecha_actual) {
+                        html += '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="Eliminar(\'' + a_m_id[i] + '\',\'' + nombre[0] + '\',\'' + nombre[1] + '\',this)">' +
                                 '<i class="fa fa-trash fa-lg"></i>' +
                                 '</a></td>';
+                         }
                         html += "</tr>";
                         pos_am++;
                     }
@@ -580,8 +581,8 @@
                 html += ' </tbody>' +
                         '</table>' +
                         '</form>';
-                if (data.df >= Cuadro.fecha_actual) {
-                html += '<a class="btn btn-success btn-xs" id="guardar"  style="width: 100%;margin-top:10px;margin-bottom:10px" onClick="Guardar(\'#form_marchivo' + cont4 + '\')">' +
+                if (data.mf >= Cuadro.fecha_actual) {
+                html += '<a class="btn btn-default btn-xs" id="guardar"  style="width: 100%;margin-top:10px;margin-bottom:10px" onClick="Guardar(\'#form_marchivo' + cont4 + '\')">' +
                         '<i class="fa fa-save fa-lg">    </i>&nbsp;Guardar' +
                         '</a>';
                 }else{
@@ -593,18 +594,16 @@
                 html += '<div>' +
                         '<form name="form_mdocumento' + cont4 + '" id="form_mdocumento' + cont4 + '" enctype=”multipart/form-data”>' +
                         '<table id="t_mdocumento' + cont4 + '" class="table table-bordered" >' +
-                        '<thead>' +
+                        '<thead class="bg-teal disabled color-palette">' +
                         '<tr>' +
                         '<th>N°</th>' +
-                        '<th>Documento</th>' +
-                        '<th>';
-                if (data.df >= Cuadro.fecha_actual) {
-                    html += '<span class="btn btn-success btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="1" data-form="#t_mdocumento' + cont4 + '" data-avanceid="' + data.meta_id + '" data-id="txt_doc_digital_id">' +
+                        '<th>Documento</th>';
+                if (data.mf >= Cuadro.fecha_actual) {
+                    html += '<th><span class="btn btn-default btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="1" data-form="#t_mdocumento' + cont4 + '" data-avanceid="' + data.meta_id + '" data-id="txt_doc_digital_id">' +
                             '<i class="glyphicon glyphicon-file"></i>' +
-                            '</span>';
+                            '</span></th>';
                 }
-                html += '</th>' +
-                        ' </tr>' +
+                html += ' </tr>' +
                         ' </thead>' +
                         ' <tbody id="tb_mdocumento' + cont3 + '">';
                 if (data.d_m != null) {
@@ -617,10 +616,12 @@
 
                         html += "<tr>" +
                                 "<td>" + pos_m + "<input type='hidden' name='c_id[]' id='c_id' value='" + d_m_id[i] + "'></td></td> " +
-                                "<td><a target='_blank' href='documentodig/vistaprevia/" + d_m_doc_digital_id[i] + "'>" + d_m_nombre[i] + "</a></td>" +
-                                '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\'' + d_m_id[i] + '\',this)">' +
+                                "<td><a target='_blank' href='documentodig/vistaprevia/" + d_m_doc_digital_id[i] + "'>" + d_m_nombre[i] + "</a></td>" ;
+                        if (data.mf >= Cuadro.fecha_actual) {
+                        html += '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\'' + d_m_id[i] + '\',this)">' +
                                 '<i class="fa fa-trash fa-lg"></i>' +
                                 '</a></td>';
+                        }
                         html += "</tr>";
                         pos_m++;
                     }
@@ -629,8 +630,8 @@
                 html += ' </tbody>' +
                         '</table>' +
                         '</form>';
-                if (data.df >= Cuadro.fecha_actual) {
-                    html += '<a class="btn btn-success btn-xs" id="guardar"  style="width: 100%;margin-top:10px" onClick="GuardarDoc(\'#form_mdocumento' + cont4 + '\')">' +
+                if (data.mf >= Cuadro.fecha_actual) {
+                    html += '<a class="btn btn-default btn-xs" id="guardar"  style="width: 100%;margin-top:10px" onClick="GuardarDoc(\'#form_mdocumento' + cont4 + '\')">' +
                             '<i class="fa fa-save fa-lg"></i>&nbsp;Guardar' +
                             '</a>';
                 } 

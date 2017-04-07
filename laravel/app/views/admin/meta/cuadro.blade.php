@@ -51,7 +51,7 @@
                 <div class="row form-group" id="reporte" >
                     <div class="col-sm-12">
 <!--                        <div class="box-body table-responsive">-->
-                            <table id="t_reporte" class="table table-bordered" >
+                            <table id="t_reporte" class="table table-bordered2" >
                                 <thead>
                                     <tr>
                                         <th colspan="4" style="text-align:center; background-color:#FCD790; width: 30% !important;">Meta</th>

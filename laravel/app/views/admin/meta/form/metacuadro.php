@@ -22,6 +22,10 @@
                         <label class="control-label">Actividad:</label>
                         <input type="text" class="form-control" placeholder="Ingrese Actividad" name="txt_actividad" id="txt_actividad">
                     </div>
+                    <div class="form-group" >
+                        <label class="control-label">Fecha de Vencimiento:</label>
+                        <input type="text" class="form-control fechaG" placeholder="AAAA-MM-DD" id="txt_fecha" name="txt_fecha" onfocus="blur()"/>
+                    </div>
          
                         <div class="form-group">
                             <label class="control-label">Año:</label>

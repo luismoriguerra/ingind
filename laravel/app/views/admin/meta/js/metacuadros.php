@@ -2,7 +2,7 @@
 var cabeceraG=[]; // Cabecera del Datatable
 var columnDefsG=[]; // Columnas de la BD del datatable
 var targetsG=-1; // Posiciones de las columnas del datatable
-var MetacuadrosG={id:0,actividad:"",anio:"",estado:1}; // Datos Globales
+var MetacuadrosG={id:0,actividad:"",fecha:"",anio:"",estado:1}; // Datos Globales
 $(document).ready(function() {
     /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
         2: Descripción de cabecera
@@ -12,8 +12,9 @@ $(document).ready(function() {
     slctGlobal.listarSlctFuncion('metacuadro','listarmeta','slct_meta','simple',null,datos);
      
     slctGlobalHtml('slct_estado','simple');
-    var idG={   actividad        :'onBlur|Actividad|#DCE6F1', //#DCE6F1
-                meta          :'3|Meta |#DCE6F1',
+    var idG={   meta          :'3|Meta |#DCE6F1',
+                actividad        :'onBlur|Actividad|#DCE6F1', //#DCE6F1
+                fecha        :'onBlur|Fecha de Actividad|#DCE6F1', //#DCE6F1
                 anio        :'onBlur|Año|#DCE6F1', //#DCE6F1
                 estado        :'2|Estado|#DCE6F1', //#DCE6F1
              };
@@ -51,6 +52,7 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
 
             $('#form_metacuadros_modal #txt_actividad').val( MetacuadrosG.actividad );
+            $('#form_metacuadros_modal #txt_fecha').val( MetacuadrosG.fecha );
             $('#form_metacuadros_modal #txt_anio').val( MetacuadrosG.anio );
             $('#form_metacuadros_modal #slct_estado').val( MetacuadrosG.estado );
             $('#form_metacuadros_modal #slct_meta').val( MetacuadrosG.meta );
@@ -72,10 +74,11 @@ $(document).ready(function() {
 BtnEditar=function(btn,id){
     var tr = btn.parentNode.parentNode; // Intocable
     MetacuadrosG.id=id;
-    MetacuadrosG.actividad=$(tr).find("td:eq(0)").text();
-    MetacuadrosG.meta=$(tr).find("td:eq(1) input[name='txt_meta']").val();
-    MetacuadrosG.anio=$(tr).find("td:eq(2)").text();
-    MetacuadrosG.estado=$(tr).find("td:eq(3)>span").attr("data-estado");
+    MetacuadrosG.actividad=$(tr).find("td:eq(1)").text();
+    MetacuadrosG.fecha=$(tr).find("td:eq(2)").text();
+    MetacuadrosG.meta=$(tr).find("td:eq(0) input[name='txt_meta']").val();
+    MetacuadrosG.anio=$(tr).find("td:eq(3)").text();
+    MetacuadrosG.estado=$(tr).find("td:eq(4)>span").attr("data-estado");
     $("#BtnEditar").click();
     data={id:id};
     MetaCuadros.CargarFecha1(data);
@@ -94,7 +97,7 @@ MostrarAjax=function(t){
 }
 
 GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
-    if(typeof(fn)!='undefined' && fn.col==3){
+    if(typeof(fn)!='undefined' && fn.col==4){
         var estadohtml='';
         estadohtml='<span id="'+row.id+'" onClick="activar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-danger">Inactivo</span>';
         if(row.estado==1){
@@ -102,7 +105,7 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
         }
         return estadohtml;
     }
-    if(typeof(fn)!='undefined' && fn.col==1){
+    if(typeof(fn)!='undefined' && fn.col==0){
         return row.meta+"<input type='hidden' name='txt_meta' value='"+row.meta_id+"'>";
     }
 }
