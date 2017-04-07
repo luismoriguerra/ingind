@@ -85,7 +85,7 @@ class MetaCuadro extends Base
                         (SELECT CONCAT_WS('|',GROUP_CONCAT(dd.titulo),GROUP_CONCAT(md.id),GROUP_CONCAT(md.doc_digital_id))
 			 FROM metas_docdigital md
 			 INNER JOIN doc_digital dd ON md.doc_digital_id=dd.id
-			 WHERE  md.tipo_avance=1 AND md.avance_id=mf2.id AND md.estado=1
+			 WHERE  md.tipo_avance=1 AND md.avance_id=m.id AND md.estado=1
 			 GROUP BY md.avance_id) as d_m
                 FROM metas_cuadro mc
                 INNER JOIN metas m on mc.meta_id=m.id

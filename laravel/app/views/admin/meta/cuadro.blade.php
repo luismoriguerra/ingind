@@ -56,7 +56,7 @@
                                     <tr>
                                         <th colspan="4" style="text-align:center; background-color:#FCD790; width: 30% !important;">Meta</th>
                                         <th colspan="2" style="text-align:center; background-color:#F5DF9D; width: 30% !important;">Plan de Trabajo</th>
-                                        <th colspan="4" style="text-align:center; background-color:#DEFAFA; width: 40% !important;">Avances</th>
+                                        <th colspan="5" style="text-align:center; background-color:#DEFAFA; width: 40% !important;">Avances</th>
                                     </tr>
                                     <tr>
                                         <th style="text-align:center;background-color:#FCD790; width: 5% !important;">Meta</th>
@@ -68,6 +68,7 @@
                                         <th style="text-align:center;background-color:#DEFAFA; width: 10% !important;">Avance de Paso</th>
                                         <th style="text-align:center;background-color:#DEFAFA; width: 10% !important;">Avance de Descripción</th>
                                         <th style="text-align:center;background-color:#DEFAFA; width: 10% !important;">Avance de Actividad</th>
+                                        <th style="text-align:center;background-color:#DEFAFA; width: 10% !important;">Proceso</th>
                                         <th style="text-align:center;background-color:#DEFAFA; width: 5% !important;">Avance de Meta</th>
                                       
                                     </tr>

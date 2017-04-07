@@ -146,6 +146,7 @@
         c = 1;
         n1 = 1;
         a1 = 1;
+        a2 = 1;
         b1 = 1;
         c1 = 1;
 
@@ -156,12 +157,14 @@
 
         aux_meta_id1 = '';
         aux_meta_cuadro_id1 = '';
+        aux_meta_cuadro_id2 = '';
         aux_id_d1 = '';
         aux_id_p1 = '';
 
         cont1 = 0;
         cont2 = 0;
         cont3 = 0;
+        cont3_1 = 0;
         cont4 = 0;
         $.each(datos, function (index, data) {
 
@@ -536,6 +539,55 @@
             } else {
                 a1++;
             }
+            
+            if (aux_meta_cuadro_id2 !== data.meta_cuadro_id) {
+                aux_meta_cuadro_id2 = data.meta_cuadro_id;
+                if (index > 0) {
+                    html = html.replace("rowspana2", "rowspan='" + a2 + "'");
+                }
+                cont3_1++;
+                html += '<td rowspana2 >';
+//        if( data.d_p==null && data.pf>=Cuadro.fecha_actual){
+                html+= '<div>'+
+                        '<form name="form_aproceso' + cont3_1 + '" id="form_aproceso' + cont3_1 + '" enctype=”multipart/form-data”>' +
+                        '<table id="t_aproceso' + cont3_1 + '" class="table table-bordered">' +
+                        '<thead class="bg-aqua disabled color-palette">' +
+                        '<tr>' +
+                        '<th>N°</th>' +
+                        '<th>Proceso</th>';
+                html+= '<th>[]</th>';
+                html+= ' </tr>' +
+                        ' </thead>' +
+                        ' <tbody id="tb_aproceso' + cont3_1 + '">';
+//                if (data.a_a != null) {
+//                    var a_a = data.a_a.split('|');
+//                    var a_a_nombre = a_a[0].split(',');
+//                    var a_a_id = a_a[1].split(',');
+//                    pos_aa = 1;
+//                    for (i = 0; i < a_a_nombre.length; i++) {
+//                        var nombre = a_a_nombre[i].split('/');
+//                        html += "<tr>" +
+//                                "<td>" + pos_aa + "<input type='hidden' name='c_id[]' id='c_id' value='" + a_a_id[i] + "'></td></td> " +
+//                                "<td><a target='_blank' href='file/meta/" + a_a_nombre[i] + "'>" + nombre[1] + "</a></td>" ;
+//                        if (data.af >= Cuadro.fecha_actual) {
+//                        html +='<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="Eliminar(\'' + a_a_id[i] + '\',\'' + nombre[0] + '\',\'' + nombre[1] + '\',this)">' +
+//                                '<i class="fa fa-trash fa-lg"></i>' +
+//                                '</a></td>';
+//                        }
+//                        html += "</tr>";
+//                        pos_aa++;
+//                    }
+//                }
+                html += ' </tbody>' +
+                        '</table>' +
+                        '</form>';
+                html += '</div>';
+//        }                      
+                        '</td>';
+                a2 = 1;
+            } else {
+                a2++;
+            }
 
             if (aux_meta_id1 !== data.meta_id) {
                 aux_meta_id1 = data.meta_id;
@@ -649,10 +701,11 @@
         html = html.replace("rowspana", "rowspan='" + a + "'");
         html = html.replace(/rowspanb/g, "rowspan='" + b + "'");
         html = html.replace(/rowspanc/g, "rowspan='" + c + "'");
-
+        
         html = html.replace(/rowspanc1/g, "rowspan='" + c1 + "'");
         html = html.replace(/rowspanb1/g, "rowspan='" + b1 + "'");
         html = html.replace("rowspana1", "rowspan='" + a1 + "'");
+        html = html.replace("rowspana2", "rowspan='" + a2 + "'");
         html = html.replace("rowspann1", "rowspan='" + n + "'");
 
         $("#tb_reporte").html(html);
