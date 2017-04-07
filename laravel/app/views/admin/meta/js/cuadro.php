@@ -46,7 +46,7 @@
                 '<i class="fa fa-file-pdf-o fa-lg"></i>' +
                 '<i class="fa fa-file-word-o fa-lg"></i>' +
                 '<i class="fa fa-file-image-o fa-lg"></i>' +
-                '<input type="file" style="display: none;" onchange="onPagos(event,' + ap + ');" >' +
+                '<input type="file" style="display: none;" onchange="onPagos(event,' + ap + ',\'#t_aparchivo' + cont1 + '\');" >' +
                 '</label>';
         html += "</td>" +
                 '<td><a id="btnDelete"  name="btnDelete" class="btn btn-danger btn-xs btnDelete">' +
@@ -72,7 +72,7 @@
                 '<i class="fa fa-file-pdf-o fa-lg"></i>' +
                 '<i class="fa fa-file-word-o fa-lg"></i>' +
                 '<i class="fa fa-file-image-o fa-lg"></i>' +
-                '<input type="file" style="display: none;" onchange="onPagos(event,' + ad + ');" >' +
+                '<input type="file" style="display: none;" onchange="onPagos(event,' + ad + ',\'#t_darchivo' + cont2 + '\');" >' +
                 '</label>';
         html += "</td>" +
                 '<td><a id="btnDelete"  name="btnDelete" class="btn btn-danger btn-xs btnDelete">' +
@@ -98,7 +98,7 @@
                 '<i class="fa fa-file-pdf-o fa-lg"></i>' +
                 '<i class="fa fa-file-word-o fa-lg"></i>' +
                 '<i class="fa fa-file-image-o fa-lg"></i>' +
-                '<input type="file" style="display: none;" onchange="onPagos(event,' + aa + ');" >' +
+                '<input type="file" style="display: none;" onchange="onPagos(event,' + aa + ',\'#t_aarchivo' + cont3 + '\');" >' +
                 '</label>';
         html += "</td>" +
                 '<td><a id="btnDelete"  name="btnDelete" class="btn btn-danger btn-xs btnDelete">' +
@@ -124,7 +124,7 @@
                 '<i class="fa fa-file-pdf-o fa-lg"></i>' +
                 '<i class="fa fa-file-word-o fa-lg"></i>' +
                 '<i class="fa fa-file-image-o fa-lg"></i>' +
-                '<input type="file" style="display: none;" onchange="onPagos(event,' + am + ');" >' +
+                '<input type="file" style="display: none;" onchange="onPagos(event,' + am + ',\'#t_marchivo' + cont4 + '\');" >' +
                 '</label>';
         html += "</td>" +
                 '<td><a id="btnDelete"  name="btnDelete" class="btn btn-danger btn-xs btnDelete">' +
@@ -755,17 +755,17 @@
 
     };
 
-    onPagos = function (event, item) {
+    onPagos = function (event, item,form) {
         var files = event.target.files || event.dataTransfer.files;
         if (!files.length)
             return;
         var image = new Image();
         var reader = new FileReader();
         reader.onload = (e) => {
-            $('#pago_archivo' + item).val(e.target.result);
+            $(form+' #pago_archivo' + item).val(e.target.result);
         };
         reader.readAsDataURL(files[0]);
-        $('#pago_nombre' + item).val(files[0].name);
+        $(form+' #pago_nombre' + item).val(files[0].name);
         console.log(files[0].name);
     };
     HTMLCargar = function (datos, campos) {
