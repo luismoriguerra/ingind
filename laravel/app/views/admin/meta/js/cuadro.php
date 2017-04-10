@@ -573,17 +573,17 @@
                                 "<td><b>Nombre:</b></td> " +
                                 "<td>"+a_proceso_nombre[i]+"</td>" ;
                         html += "</tr>";
-                         html += "<tr>" +
+                        html += "<tr>" +
                                 "<td><b>Total:</b></td> " +
-                                "<td>"+a_proceso_total[i]+"</td>" ;
-                        html += "</tr>";
-                         html += "<tr>" +
-                                "<td><b>Concluido:</b></td> " +
                                 "<td>"+a_proceso_concluido[i]+"</td>" ;
                         html += "</tr>";
                          html += "<tr>" +
-                                "<td><b>Pendiente:</b></td> " +
+                                "<td><b>Concluido:</b></td> " +
                                 "<td>"+a_proceso_pendiente[i]+"</td>" ;
+                        html += "</tr>";
+                        html += "<tr>" +
+                                "<td><b>Pendiente:</b></td> " +
+                                "<td>"+a_proceso_total[i]+"</td>" ;
                         html += "</tr>";
 
                     }
