@@ -90,8 +90,8 @@ class MetaCuadro extends Base
 			(SELECT CONCAT_WS('|',
                          f.nombre,
                         COUNT(DISTINCT(r.id)),
-                        COUNT(DISTINCT(IF(ISNULL(rd.dtiempo_final),1,0))),
-                        COUNT(DISTINCT(r.id))-COUNT(DISTINCT(IF(ISNULL(rd.dtiempo_final),1,0))) )
+                        COUNT(DISTINCT(IF(ISNULL(rd.dtiempo_final),r.id,NULL))),
+                        COUNT(DISTINCT(r.id))-COUNT(DISTINCT(IF(ISNULL(rd.dtiempo_final),r.id,NULL))) )
                         FROM rutas r
                         INNER JOIN rutas_detalle rd ON r.id=rd.ruta_id and rd.estado=1
                         INNER JOIN flujos f ON r.flujo_id=f.id
@@ -107,7 +107,7 @@ class MetaCuadro extends Base
                 INNER JOIN metas m on mc.meta_id=m.id
                 LEFT JOIN metas_fechavencimiento mf1 on mc.id=mf1.meta_cuadro_id and mf1.tipo=1
                 LEFT JOIN metas_fechavencimiento mf2 on mc.id=mf2.meta_cuadro_id and mf2.relacion_id=mf1.id
-                WHERE 1=1
+                WHERE mc.estado=1
                 ";
         $sSql.= $array['where'];
         $sSql.="ORDER BY m.id,mc.id,mf2.fecha,mf1.fecha DESC";
