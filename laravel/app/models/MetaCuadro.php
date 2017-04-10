@@ -88,15 +88,21 @@ class MetaCuadro extends Base
 			 WHERE  md.tipo_avance=1 AND md.avance_id=m.id AND md.estado=1
 			 GROUP BY md.avance_id) as d_m,
 			(SELECT CONCAT_WS('|',
-                        f.nombre,
-                        COUNT(rd.dtiempo_final),
-                        COUNT(rd.id),
-                        SUM(IF(ISNULL(rd.dtiempo_final),1,0)) )
+                         f.nombre,
+                        COUNT(DISTINCT(r.id)),
+                        COUNT(DISTINCT(IF(ISNULL(rd.dtiempo_final),1,0))),
+                        COUNT(DISTINCT(r.id))-COUNT(DISTINCT(IF(ISNULL(rd.dtiempo_final),1,0))) )
                         FROM rutas r
-                        INNER JOIN rutas_detalle rd ON r.id=rd.ruta_id
+                        INNER JOIN rutas_detalle rd ON r.id=rd.ruta_id and rd.estado=1
                         INNER JOIN flujos f ON r.flujo_id=f.id
-                        WHERE r.ruta_flujo_id=mc.ruta_flujo_id
-                        GROUP BY f.id)  as a_proceso
+                        WHERE r.ruta_flujo_id=mc.ruta_flujo_id and r.estado=1
+                        GROUP BY f.id)  as a_proceso,
+                        (SELECT GROUP_CONCAT(DISTINCT(r.id))
+                        FROM rutas r
+                        INNER JOIN rutas_detalle rd ON r.id=rd.ruta_id and rd.estado=1
+			INNER JOIN flujos f ON r.flujo_id=f.id
+                        WHERE r.ruta_flujo_id=mc.ruta_flujo_id and r.estado=1
+                        GROUP BY f.id) as a_proceso_id
                 FROM metas_cuadro mc
                 INNER JOIN metas m on mc.meta_id=m.id
                 LEFT JOIN metas_fechavencimiento mf1 on mc.id=mf1.meta_cuadro_id and mf1.tipo=1

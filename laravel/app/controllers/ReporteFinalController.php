@@ -69,7 +69,13 @@ class ReporteFinalController extends BaseController
           $array['tramite'].=" AND tr.id_union LIKE '%".$tramite[$i]."%' ";
         }
       }
+      
+      if( Input::has('envio_meta')){
 
+        $array['tramite'].=" AND r.id IN (".Input::get('id').") ";
+
+      }
+      
       $r = Reporte::Tramite( $array );
       return Response::json(
           array(

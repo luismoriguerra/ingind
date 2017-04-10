@@ -12,6 +12,9 @@
     @include( 'admin.js.slct_global' )
     @include( 'admin.meta.js.cuadro_ajax' )
     @include( 'admin.meta.js.cuadro' )
+    @include( 'admin.reporte.js.totaltramites_ajax' )
+    @include( 'admin.reporte.js.totaltramites' )
+    @include( 'admin.ruta.js.ruta_ajax' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -97,4 +100,6 @@
 
 @section('formulario')
      @include( 'admin.ruta.form.ListdocDigital' )
+     @include( 'admin.meta.form.tramite' )
+     @include( 'admin.ruta.form.ruta' )
 @stop
