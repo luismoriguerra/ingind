@@ -553,31 +553,40 @@
                         '<table id="t_aproceso' + cont3_1 + '" class="table table-bordered">' +
                         '<thead class="bg-aqua disabled color-palette">' +
                         '<tr>' +
-                        '<th>N°</th>' +
+                        '<th>[]</th>' +
                         '<th>Proceso</th>';
-                html+= '<th>[]</th>';
+//                html+= '<th>[]</th>';
                 html+= ' </tr>' +
                         ' </thead>' +
                         ' <tbody id="tb_aproceso' + cont3_1 + '">';
-//                if (data.a_a != null) {
-//                    var a_a = data.a_a.split('|');
-//                    var a_a_nombre = a_a[0].split(',');
-//                    var a_a_id = a_a[1].split(',');
-//                    pos_aa = 1;
-//                    for (i = 0; i < a_a_nombre.length; i++) {
-//                        var nombre = a_a_nombre[i].split('/');
-//                        html += "<tr>" +
-//                                "<td>" + pos_aa + "<input type='hidden' name='c_id[]' id='c_id' value='" + a_a_id[i] + "'></td></td> " +
-//                                "<td><a target='_blank' href='file/meta/" + a_a_nombre[i] + "'>" + nombre[1] + "</a></td>" ;
-//                        if (data.af >= Cuadro.fecha_actual) {
-//                        html +='<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="Eliminar(\'' + a_a_id[i] + '\',\'' + nombre[0] + '\',\'' + nombre[1] + '\',this)">' +
-//                                '<i class="fa fa-trash fa-lg"></i>' +
-//                                '</a></td>';
-//                        }
-//                        html += "</tr>";
-//                        pos_aa++;
-//                    }
-//                }
+                if (data.a_proceso != null) {
+                    var a_proceso = data.a_proceso.split('|');
+                    var a_proceso_nombre = a_proceso[0].split(',');
+                    var a_proceso_concluido = a_proceso[1].split(',');
+                    var a_proceso_total = a_proceso[2].split(',');
+                    var a_proceso_pendiente = a_proceso[3].split(',');
+
+                    for (i = 0; i < a_proceso_nombre.length; i++) {
+
+                        html += "<tr>" +
+                                "<td><b>Nombre:</b></td> " +
+                                "<td>"+a_proceso_nombre[i]+"</td>" ;
+                        html += "</tr>";
+                         html += "<tr>" +
+                                "<td><b>Total:</b></td> " +
+                                "<td>"+a_proceso_total[i]+"</td>" ;
+                        html += "</tr>";
+                         html += "<tr>" +
+                                "<td><b>Concluido:</b></td> " +
+                                "<td>"+a_proceso_concluido[i]+"</td>" ;
+                        html += "</tr>";
+                         html += "<tr>" +
+                                "<td><b>Pendiente:</b></td> " +
+                                "<td>"+a_proceso_pendiente[i]+"</td>" ;
+                        html += "</tr>";
+
+                    }
+                }
                 html += ' </tbody>' +
                         '</table>' +
                         '</form>';

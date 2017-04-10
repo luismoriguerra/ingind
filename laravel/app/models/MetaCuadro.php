@@ -81,12 +81,22 @@ class MetaCuadro extends Base
 			(SELECT CONCAT_WS('|',GROUP_CONCAT(ma.ruta),GROUP_CONCAT(ma.id))
 			 FROM metas_archivo ma
 			 WHERE  ma.tipo_avance=1 AND ma.avance_id=m.id AND ma.estado=1
-                        GROUP BY ma.avance_id) as a_m,
-                        (SELECT CONCAT_WS('|',GROUP_CONCAT(dd.titulo),GROUP_CONCAT(md.id),GROUP_CONCAT(md.doc_digital_id))
+                       GROUP BY ma.avance_id) as a_m,
+                      (SELECT CONCAT_WS('|',GROUP_CONCAT(dd.titulo),GROUP_CONCAT(md.id),GROUP_CONCAT(md.doc_digital_id))
 			 FROM metas_docdigital md
 			 INNER JOIN doc_digital dd ON md.doc_digital_id=dd.id
 			 WHERE  md.tipo_avance=1 AND md.avance_id=m.id AND md.estado=1
-			 GROUP BY md.avance_id) as d_m
+			 GROUP BY md.avance_id) as d_m,
+			(SELECT CONCAT_WS('|',
+                        f.nombre,
+                        COUNT(rd.dtiempo_final),
+                        COUNT(rd.id),
+                        SUM(IF(ISNULL(rd.dtiempo_final),1,0)) )
+                        FROM rutas r
+                        INNER JOIN rutas_detalle rd ON r.id=rd.ruta_id
+                        INNER JOIN flujos f ON r.flujo_id=f.id
+                        WHERE r.ruta_flujo_id=mc.ruta_flujo_id
+                        GROUP BY f.id)  as a_proceso
                 FROM metas_cuadro mc
                 INNER JOIN metas m on mc.meta_id=m.id
                 LEFT JOIN metas_fechavencimiento mf1 on mc.id=mf1.meta_cuadro_id and mf1.tipo=1
