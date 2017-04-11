@@ -379,6 +379,7 @@ class MetaCuadroController extends \BaseController {
         if ($type=='jpeg') $type='jpg';
         if (strpos($type,'document')!==False) $type='docx';
         if (strpos($type, 'sheet') !== False) $type='xlsx';
+        if (strpos($type, 'pdf') !== False) $type='pdf';
         if ($type=='plain') $type='txt';
         list(, $file)      = explode(',', $file);
         $file = base64_decode($file);
