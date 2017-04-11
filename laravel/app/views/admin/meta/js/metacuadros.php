@@ -9,7 +9,7 @@ $(document).ready(function() {
         3: Color Cabecera
     */
     var datos={estado:1};
-    slctGlobal.listarSlctFuncion('metacuadro','listarmeta','slct_meta','simple',null,datos);
+    slctGlobal.listarSlct('meta','slct_meta', 'simple', null, datos);
      
     slctGlobalHtml('slct_estado','simple');
     var idG={   meta          :'3|Meta |#DCE6F1',
