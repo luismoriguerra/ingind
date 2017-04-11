@@ -3,8 +3,8 @@
 class Meta extends Base
 {
     public $table = "metas";
-    public static $where =['id', 'nombre', 'estado'];
-    public static $selec =['id', 'nombre', 'estado'];
+    public static $where =['id', 'nombre','area_multiple_id', 'estado'];
+    public static $selec =['id', 'nombre','area_multiple_id', 'estado'];
 
     public static function getCargarCount( $array )
     {
@@ -18,7 +18,7 @@ class Meta extends Base
 
     public static function getCargar( $array )
     {
-        $sSql=" SELECT m.id, m.nombre, m.estado
+        $sSql=" SELECT m.id, m.nombre, m.estado,m.area_multiple_id
                 FROM metas m
                 WHERE 1=1 ";
         $sSql.= $array['where'].
