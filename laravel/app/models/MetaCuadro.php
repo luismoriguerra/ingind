@@ -30,23 +30,7 @@ class MetaCuadro extends Base
         return $oData;
     }
 
-
-    public function getMeta(){
-        $metacuadro=DB::table('metas')
-                ->select('id','nombre','estado')
-                ->where( 
-                    function($query){
-                        if ( Input::get('estado') ) {
-                            $query->where('estado','=','1');
-                        }
-                    }
-                )
-                ->orderBy('id')
-                ->get();
-                
-        return $metacuadro;
-    }
-        
+     
         public function getMetaCuadro($array )
     {
         $sSql=" SELECT m.nombre,m.id as meta_id,m.fecha as mf,mc.actividad,mc.id as meta_cuadro_id,mc.fecha as af,mf1.comentario as d,

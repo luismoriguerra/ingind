@@ -4,7 +4,7 @@
     $(document).ready(function () {
 
         var datos = {estado: 1};
-        slctGlobal.listarSlctFuncion('metacuadro', 'listarmeta', 'slct_meta', 'multiple', null, datos);
+        slctGlobal.listarSlct('meta','slct_meta', 'multiple', null, datos);
         Cuadro.fecha_actual = '<?php echo date('Y-m-d') ?>';
         $("#generar_area").click(function () {
             meta = $('#slct_meta').val();

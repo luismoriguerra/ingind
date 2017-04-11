@@ -73,18 +73,17 @@ class MetaController extends \BaseController
      *
      * @return Response
      */
-    public function postListar()
-    {
-        if ( Request::ajax() ) {
-            $a      = new Meta;
+        public function postListar() {
+        if (Request::ajax()) {
+            $a = new Meta;
             $listar = Array();
             $listar = $a->getMeta();
 
             return Response::json(
-                array(
-                    'rst'   => 1,
-                    'datos' => $listar
-                )
+                            array(
+                                'rst' => 1,
+                                'datos' => $listar
+                            )
             );
         }
     }
@@ -101,7 +100,7 @@ class MetaController extends \BaseController
             $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
             $required = 'required';
             $reglas = array(
-                'nombre' => $required.'|'.$regex,
+                'area_id' => $required,
             );
 
             $mensaje= array(
@@ -139,7 +138,7 @@ class MetaController extends \BaseController
             $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
             $required = 'required';
             $reglas = array(
-                'nombre' => $required.'|'.$regex,
+                 'area_id' => $required,
             );
 
             $mensaje= array(
@@ -149,9 +148,9 @@ class MetaController extends \BaseController
 
             $validator = Validator::make(Input::all(), $reglas, $mensaje);
 
-//            if ( $validator->fails() ) {
-//                return Response::json( array('rst'=>2, 'msj'=>$validator->messages()) );
-//            }
+            if ( $validator->fails() ) {
+                return Response::json( array('rst'=>2, 'msj'=>$validator->messages()) );
+            }
             $area_id = implode(",",Input::get('area_id'));
             $metaId = Input::get('id');
             $meta = Meta::find($metaId);

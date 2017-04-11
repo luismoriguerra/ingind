@@ -2,7 +2,7 @@
 var cabeceraG=[]; // Cabecera del Datatable
 var columnDefsG=[]; // Columnas de la BD del datatable
 var targetsG=-1; // Posiciones de las columnas del datatable
-var MetasG={id:0,nombre:"",area:"94,34",estado:1}; // Datos Globales
+var MetasG={id:0,nombre:"",area:"",estado:1}; // Datos Globales
 $(document).ready(function() {
     /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
         2: Descripción de cabecera
@@ -117,7 +117,10 @@ Agregar = function(){
 };
 validaMetas = function(){
     var r=true;
-    
+    if( $("#form_metas_modal #slct_area_id").val()=='' ){
+        alert("Ingrese Área(s) de Meta");
+        r=false;
+    }
     return r;
 };
 </script>

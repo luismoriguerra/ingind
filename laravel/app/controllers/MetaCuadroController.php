@@ -347,21 +347,7 @@ class MetaCuadroController extends \BaseController {
         }
     }
 
-    public function postListarmeta() {
-        if (Request::ajax()) {
-            $a = new MetaCuadro;
-            $listar = Array();
-            $listar = $a->getMeta();
 
-            return Response::json(
-                            array(
-                                'rst' => 1,
-                                'datos' => $listar
-                            )
-            );
-        }
-    }
-    
         public function postListarfecha1() {
         if (Request::ajax()) {
             $a = new MetaFechaVencimiento;

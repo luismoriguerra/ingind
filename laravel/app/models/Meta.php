@@ -27,19 +27,26 @@ class Meta extends Base
         $oData = DB::select($sSql);
         return $oData;
     }
+    
     public function getMeta(){
-        $r=DB::table('metas')
-                ->select('id','nombre','estado')
+        $meta=DB::table('metas')
+                ->select('id','nombre','estado')        
                 ->where( 
                     function($query){
                         if ( Input::get('estado') ) {
                             $query->where('estado','=','1');
+                        $rst=Area::getRol();
+                        foreach ($rst as $value) {
+                        $array[] = $value->cargo_id;}
+                        if (!in_array(12, $array)) {
+                        $query->whereRaw('FIND_IN_SET('.Auth::user()->area_id.',area_multiple_id)');
+                        }
                         }
                     }
                 )
-                ->orderBy('nombre')
+                ->orderBy('id')
                 ->get();
-                
-        return $r;
+
+        return $meta;
     }
 }
