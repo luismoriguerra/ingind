@@ -84,6 +84,11 @@ hr {
 .body-rest{
     margin-left: 2cm;       
 }
+.ul-style {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
 </style>
 
 </head>
@@ -105,35 +110,27 @@ hr {
 
         @if ($conCabecera)
         <div class="body-rest">
-            <table class="tabla-cabecera">
-                <tr>
-                    <td width='25%' class='text-negrita'>DE</td>
-                    <td width='5px' class='text-negrita'>:</td>
-                    <td width='75%'>{{ $remitente }}</td>
-                </tr>
-                <tr>
-                    <td width='25%' class='text-negrita'>A</td>
-                    <td width='5px' class='text-negrita'>:</td>
-                    <td width='75%'>{{ $destinatario }}</td>
-                </tr>
+            <div class="tabla-cabecera">
+                <ul class="ul-style">
+                    <li><b>DE:</b> {{ $remitente }}</li>
+                </ul>
+                <ul class="ul-style">
+                    <li><b>A:</b> {{ $destinatario }}</li>
+                </ul>
                 @if(isset($copias))
-                <tr>
-                    <td width='25%' class='text-negrita'>CC</td>
-                    <td width='5px' class='text-negrita'>:</td>
-                    <td width='75%'>{{ $copias }}</td>
-                </tr>
+                <ul class="ul-style">
+                    <li><b>CC:</b> {{ $copias }}</li>
+                </ul>
                 @endif
-                <tr>
-                    <td width='25%' class='text-negrita'>ASUNTO</td>
-                    <td width='5px' class='text-negrita'>:</td>
-                    <td width='75%'>{{ $asunto }}</td>
-                </tr>
-                <tr>
-                    <td width='25%' class='text-negrita'>FECHA</td>
-                    <td width='5px' class='text-negrita'>:</td>
-                    <td width='75%'>{{ $fecha }}</td>
-                </tr>
-            </table>
+                <ul class="ul-style">
+                    <li><b>ASUNTO:</b> {{ $asunto }}</li>
+
+                </ul>
+                <ul class="ul-style">
+                    <li><b>FECHA:</b> {{ $fecha }}</li>
+
+                </ul>
+            </div>
 
             <br><hr><br>
             @endif
