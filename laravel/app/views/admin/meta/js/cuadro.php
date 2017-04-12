@@ -3,7 +3,7 @@
     var Cuadro = {fecha_actual: ""}; // Datos Globales
     $(document).ready(function () {
 
-        var datos = {estado: 1};
+        var datos = {estado: 1,cuadro:1};
         slctGlobal.listarSlct('meta','slct_meta', 'multiple', null, datos);
         Cuadro.fecha_actual = '<?php echo date('Y-m-d') ?>';
         $("#generar_area").click(function () {
