@@ -73,7 +73,7 @@ class DocumentoDigitalController extends \BaseController {
             }
 
             $DocDigital->persona_id = $jefe[0]->id;
-            $DocDigital->usuario_created_at = Auth::user()->id;
+            $DocDigital->usuario_updated_at = Auth::user()->id;
             $DocDigital->save();
 
             if($DocDigital->id){

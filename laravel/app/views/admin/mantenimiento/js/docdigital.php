@@ -205,7 +205,8 @@ HTMLCargar=function(datos){
         }else{
             html+="<tr class='success'>";
         }
-
+        html+="<td>"+data.persona_c+"</td>";
+        html+="<td>"+data.persona_u+"</td>";
         html+="<td>"+data.titulo+"</td>";
         html+="<td>"+data.asunto+"</td>";
         html+="<td>"+data.plantilla+"</td>";

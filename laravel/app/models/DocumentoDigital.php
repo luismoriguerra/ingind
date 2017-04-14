@@ -38,7 +38,10 @@ class DocumentoDigital extends Base {
         }else{
             return DB::table('doc_digital as dd')
             		->join('plantilla_doc as pd', 'dd.plantilla_doc_id', '=', 'pd.id')
-                    ->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla','dd.estado',
+                        ->leftjoin('personas as p','p.id','=','dd.usuario_created_at')
+                        ->leftjoin('personas as p1','p1.id','=','dd.usuario_updated_at')
+                    ->select(DB::raw('CONCAT_WS(" ",p1.paterno,p1.materno,p1.nombre) as persona_u'),
+                        DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona_c'),'dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla','dd.estado',
                         DB::raw('(SELECT COUNT(r.id) FROM rutas r where r.doc_digital_id=dd.id) AS ruta'),
                         DB::raw('(SELECT COUNT(rdv.id) FROM rutas_detalle_verbo rdv where rdv.doc_digital_id=dd.id) AS rutadetallev'))
                    	->where( 
@@ -66,8 +69,8 @@ class DocumentoDigital extends Base {
         $r2=array(array('correlativo'=>'000001','ano'=>$año));
     	/*$sql = "SELECT LPAD(id+1,6,'0') as correlativo,'$año' ano FROM doc_digital ORDER BY id DESC LIMIT 1";*/
         $sql = "select LPAD(count(dd.id)+1,6,'0') as correlativo from doc_digital dd 
-                inner join plantilla_doc pd on dd.plantilla_doc_id=pd.id and pd.tipo_documento_id=".Input::get('tipo_doc')."
-                ORDER BY dd.id DESC LIMIT 1";
+                inner join plantilla_doc pd on dd.plantilla_doc_id=pd.id and pd.tipo_documento_id=".Input::get('tipo_doc')." and pd.area_id= ".Auth::user()->area_id.
+                " ORDER BY dd.id DESC LIMIT 1";
     	$r= DB::select($sql);
     	return (isset($r[0])) ? $r[0] : $r2[0];
     }

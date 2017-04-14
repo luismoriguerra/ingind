@@ -43,6 +43,8 @@
                             <table id="t_doc_digital" class="table table-bordered">
                                 <thead>
                                     <tr>
+                                        <th style="width: 30%">Creador</th>
+                                        <th style="width: 30%">Actualizó</th>
                                         <th style="width: 30%">Titulo</th>
                                         <th style="width: 30%">Asunto</th>
                                         <th style="width: 30%">Plantilla</th>
@@ -57,6 +59,8 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
+                                        <th style="width: 30%">Creador</th>
+                                        <th style="width: 30%">Actualizó</th>
                                         <th style="width: 30%">Titulo</th>
                                         <th style="width: 30%">Asunto</th>
                                         <th style="width: 30%">Plantilla</th>
