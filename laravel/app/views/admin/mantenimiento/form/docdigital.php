@@ -52,6 +52,7 @@
                       <option value="1">Personas</option>
                       <option value="2">Gerencias</option>
                       <option value="3">Reporte Personal</option>
+                      <option value="4">Doc Libre(s)</option>
                     </select>
                 </div>
 
@@ -59,12 +60,12 @@
 
               </div>
             </div>
-            <div class="row">
+            <div class="row asunto">
               <div class="col-xs-7 form-group">
                 <div class="form-group">
                   <label class="control-label">Asunto: </label>
                   <textarea class="form-control" name="txt_asunto" id="txt_asunto" placeholder="Asunto .." rows="5"></textarea>
-                </div>               
+                </div>
               </div>
               <div class="col-xs-5">
                      <div class="radio todassubg hidden">

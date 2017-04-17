@@ -38,14 +38,7 @@ $(document).ready(function() {
 
     $(document).on('change', '#slct_tipoenvio', function(event) {
         event.preventDefault();
-        if($(this).val() == 1){ //persona
-            $(".araesgerencia").addClass('hidden');
-            $(".areaspersona").removeClass('hidden');
-        }else{ //gerencia
-             $(".araesgerencia").removeClass('hidden');
-             $(".areaspersona").addClass('hidden');
-             $(".personasarea").addClass('hidden');
-        }
+        TipoEnvio();
     });
 
     $(document).on('click', '#btnCrear', function(event) {
@@ -74,6 +67,8 @@ $(document).ready(function() {
         $(".araesgerencia,.areaspersona,.personasarea").addClass('hidden');
         $("#slct_copia").val(['']);
         $("#slct_copia").multiselect('refresh');
+        $("#slct_plantilla").val('');
+        $('#slct_plantilla').multiselect('refresh');
     };
 
     $('#NuevoDocDigital').on('hidden.bs.modal', function(){
@@ -176,6 +171,25 @@ $(document).ready(function() {
         }
     });*/
 });
+TipoEnvio=function(){
+    $(".araesgerencia").removeClass('hidden');
+    $(".areaspersona").removeClass('hidden');
+    $(".personasarea").removeClass('hidden');
+    $(".asunto").removeClass('hidden');
+    $(".personasarea").addClass('hidden');
+
+    if($("#slct_tipoenvio").val() == 1){ //persona
+        $(".araesgerencia").addClass('hidden');
+    }
+    else if($("#slct_tipoenvio").val() == 4){
+        $(".araesgerencia").addClass('hidden');
+        $(".areaspersona").addClass('hidden');
+        $(".asunto").addClass('hidden');
+    }
+    else{ //gerencia
+         $(".areaspersona").addClass('hidden');
+    }
+};
 activarTabla=function(){
     $("#t_doc_digital").dataTable();
 };
@@ -336,6 +350,7 @@ HTMLEdit = function(data){
         CKEDITOR.instances.plantillaWord.setData( data[0].cuerpo );
         document.querySelector("#txt_asunto").value = data[0].asunto;
         document.querySelector("#txt_iddocdigital").value = data[0].id;
+        TipoEnvio();
         $("#NuevoDocDigital").modal('show');
     }
 }

@@ -206,11 +206,16 @@ class DocumentoDigitalController extends \BaseController {
             $png = base64_encode($png);
             $png= "<img src='data:image/png;base64," . $png . "'>";
             $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
+
+            $cabecera=1;
+            if($DocumentoDigital->tipo_envio==4){
+                $cabecera=null;
+            }
             
             $params = [
                 'titulo' => $DocumentoDigital->titulo,
                 'asunto' => $DocumentoDigital->asunto,
-                'conCabecera' => 1,
+                'conCabecera' => $cabecera,
                 'contenido' => $DocumentoDigital->cuerpo,
                 'fecha' => 'Lima,'.date('d').' de '.$meses[date('m')*1].' del '.date('Y'),
                 'remitente' => $remitente,
