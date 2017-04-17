@@ -349,9 +349,9 @@ HTMLEdit = function(data){
         $('#slct_plantilla').multiselect('refresh');
 
         var titulo = data[0].titulo.split("-");
-        document.querySelector("#lblDocumento").innerHTML= titulo[0]+"-";
-        document.querySelector("#lblArea").innerHTML= "-"+titulo[2]+"-"+titulo[3];
-        document.querySelector("#txt_titulo").value = titulo[1];
+        document.querySelector("#lblDocumento").innerHTML= titulo[0]+"-Nº";
+        document.querySelector("#lblArea").innerHTML= "-"+titulo[2]+"-"+titulo[3];var tnombre= titulo[1].substring(2,10);
+        document.querySelector("#txt_titulo").value = tnombre;
         document.querySelector('#txt_area_plantilla').value = data[0].area_id;
         CKEDITOR.instances.plantillaWord.setData( data[0].cuerpo );
         document.querySelector("#txt_asunto").value = data[0].asunto;
