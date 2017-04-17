@@ -176,10 +176,10 @@ TipoEnvio=function(){
     $(".asunto").removeClass('hidden');
     $(".personasarea").addClass('hidden');
 
-    if($(this).val() == 1){ //persona
+    if($("#slct_tipoenvio").val() == 1){ //persona
         $(".araesgerencia").addClass('hidden');
     }
-    else if($(this).val() == 4){
+    else if($("#slct_tipoenvio").val() == 4){
         $(".araesgerencia").addClass('hidden');
         $(".areaspersona").addClass('hidden');
         $(".asunto").addClass('hidden');
