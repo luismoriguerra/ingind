@@ -38,13 +38,22 @@ $(document).ready(function() {
 
     $(document).on('change', '#slct_tipoenvio', function(event) {
         event.preventDefault();
+        $(".araesgerencia").removeClass('hidden');
+        $(".areaspersona").removeClass('hidden');
+        $(".personasarea").removeClass('hidden');
+        $(".asunto").removeClass('hidden');
+        $(".personasarea").addClass('hidden');
+
         if($(this).val() == 1){ //persona
             $(".araesgerencia").addClass('hidden');
-            $(".areaspersona").removeClass('hidden');
-        }else{ //gerencia
-             $(".araesgerencia").removeClass('hidden');
+        }
+        else if($(this).val() == 4){
+            $(".araesgerencia").addClass('hidden');
+            $(".areaspersona").addClass('hidden');
+            $(".asunto").addClass('hidden');
+        }
+        else{ //gerencia
              $(".areaspersona").addClass('hidden');
-             $(".personasarea").addClass('hidden');
         }
     });
 
