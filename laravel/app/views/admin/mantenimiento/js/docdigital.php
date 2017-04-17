@@ -38,23 +38,7 @@ $(document).ready(function() {
 
     $(document).on('change', '#slct_tipoenvio', function(event) {
         event.preventDefault();
-        $(".araesgerencia").removeClass('hidden');
-        $(".areaspersona").removeClass('hidden');
-        $(".personasarea").removeClass('hidden');
-        $(".asunto").removeClass('hidden');
-        $(".personasarea").addClass('hidden');
-
-        if($(this).val() == 1){ //persona
-            $(".araesgerencia").addClass('hidden');
-        }
-        else if($(this).val() == 4){
-            $(".araesgerencia").addClass('hidden');
-            $(".areaspersona").addClass('hidden');
-            $(".asunto").addClass('hidden');
-        }
-        else{ //gerencia
-             $(".areaspersona").addClass('hidden');
-        }
+        TipoEnvio();
     });
 
     $(document).on('click', '#btnCrear', function(event) {
@@ -185,6 +169,25 @@ $(document).ready(function() {
         }
     });*/
 });
+TipoEnvio=function(){
+    $(".araesgerencia").removeClass('hidden');
+    $(".areaspersona").removeClass('hidden');
+    $(".personasarea").removeClass('hidden');
+    $(".asunto").removeClass('hidden');
+    $(".personasarea").addClass('hidden');
+
+    if($(this).val() == 1){ //persona
+        $(".araesgerencia").addClass('hidden');
+    }
+    else if($(this).val() == 4){
+        $(".araesgerencia").addClass('hidden');
+        $(".areaspersona").addClass('hidden');
+        $(".asunto").addClass('hidden');
+    }
+    else{ //gerencia
+         $(".areaspersona").addClass('hidden');
+    }
+};
 activarTabla=function(){
     $("#t_doc_digital").dataTable();
 };
@@ -345,6 +348,7 @@ HTMLEdit = function(data){
         CKEDITOR.instances.plantillaWord.setData( data[0].cuerpo );
         document.querySelector("#txt_asunto").value = data[0].asunto;
         document.querySelector("#txt_iddocdigital").value = data[0].id;
+        TipoEnvio();
         $("#NuevoDocDigital").modal('show');
     }
 }
