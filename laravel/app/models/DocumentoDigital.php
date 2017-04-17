@@ -33,7 +33,7 @@ class DocumentoDigital extends Base {
                             $query->where('dda.estado','=',1);
                         }
                     )
-                    ->orderBy('dd.idd')
+                    ->orderBy('dd.id')
                     ->get();
         }else{
             return DB::table('doc_digital as dd')
