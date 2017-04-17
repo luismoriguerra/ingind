@@ -213,6 +213,79 @@ class DocumentoDigitalController extends \BaseController {
             }
             
             $params = [
+                'titulo' => $DocumentoDigital->titulo.' (Documento Vista Previa)',
+                'asunto' => $DocumentoDigital->asunto,
+                'conCabecera' => $cabecera,
+                'contenido' => $DocumentoDigital->cuerpo,
+                'fecha' => 'Lima,'.date('d').' de '.$meses[date('m')*1].' del '.date('Y'),
+                'remitente' => $remitente,
+                'destinatario' => $destinatarios,
+                'imagen'=>$png,
+            ];  
+            if($copias != '' && $copias != '<ul></ul>'){ 
+                $params['copias'] = $copias;                
+            }
+            $params = $params;
+            
+            $view = \View::make('admin.mantenimiento.templates.plantilla1', $params);
+            $html = $view->render();
+
+            $pdf = App::make('dompdf');
+            $pdf->loadHTML($html);
+            $pdf->setPaper('a4')->setOrientation('portrait');
+            return $pdf->stream();
+            //\PDFF::loadHTML($html)->setPaper('a4')->setOrientation('landscape')->setWarnings(false)->stream();
+        }
+
+    }
+
+    public function getImprimirprevia($id)
+    {
+
+        $DocumentoDigital = DocumentoDigital::find($id);
+
+        if ($DocumentoDigital) {
+            /*get remitente data*/
+            $persona = Persona::find($DocumentoDigital->persona_id);
+            $area = Area::find($DocumentoDigital->area_id);
+            $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." <br>".$area->nombre;
+            /*end get remitente data */
+
+            /*get destinatario data*/
+            $copias = '';
+            $destinatarios = '';
+            if($DocumentoDigital->envio_total ==1){
+                $copias = '<ul></ul>';
+                $destinatarios = 'Todas las Gerencias y Sub Gerencias';
+            }else{
+                $copias.= '<ul>';
+                $destinatarios.= '<ul>';
+                $DocDigitalArea = DocumentoDigitalArea::where('doc_digital_id', '=', $id)->where('estado', '=', 1)->get();
+                foreach($DocDigitalArea as $key => $value){
+                    $persona2 = Persona::find($value->persona_id);
+                    $area2 = Area::find($value->area_id);
+                    if($value->tipo ==1){
+                      $destinatarios.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' <br>'.$area2->nombre.'</li>';
+                    }else{
+                        $copias.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' <br>'.$area2->nombre.'</li>';
+                    }        
+                }
+                $destinatarios.= '</ul>';    
+                $copias.= '</ul>';          
+            }
+
+            /*end get destinatario data*/
+            $png = QrCode::format('png')->size(150)->generate("http://proceso.munindependencia.pe/documentodig/vistaprevia/".$id);
+            $png = base64_encode($png);
+            $png= "<img src='data:image/png;base64," . $png . "'>";
+            $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
+
+            $cabecera=1;
+            if($DocumentoDigital->tipo_envio==4){
+                $cabecera=null;
+            }
+            
+            $params = [
                 'titulo' => $DocumentoDigital->titulo,
                 'asunto' => $DocumentoDigital->asunto,
                 'conCabecera' => $cabecera,
@@ -221,7 +294,7 @@ class DocumentoDigitalController extends \BaseController {
                 'remitente' => $remitente,
                 'destinatario' => $destinatarios,
                 'imagen'=>$png,
-            ];
+            ];  
             if($copias != '' && $copias != '<ul></ul>'){ 
                 $params['copias'] = $copias;                
             }

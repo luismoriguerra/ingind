@@ -52,6 +52,7 @@
                                         <th style="width: 19">Persona Recepcion</th> --}}
                                         <th style="width: 5%">Editar</th>
                                         <th style="width: 5%">Vista Previa</th>
+                                        <th style="width: 5%">Vista Impresión</th>
                                          <th style="width: 5%">Eliminar</th>
                                     </tr>
                                 </thead>
@@ -68,6 +69,7 @@
                                         <th style="width: 19">Persona Recepcion</th> --}}
                                          <th style="width: 5%">Editar</th>
                                         <th style="width: 5%">Vista Previa</th>
+                                        <th style="width: 5%">Vista Impresión</th>
                                         <th style="width: 5%">Eliminar</th>
                                     </tr>
                                 </tfoot>

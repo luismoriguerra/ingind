@@ -227,9 +227,9 @@ HTMLCargar=function(datos){
 
         if(data.estado == 1){
             html+="<td><a class='btn btn-primary btn-sm' onclick='editDocDigital("+data.id+"); return false;' data-titulo='Editar'><i class='glyphicon glyphicon-pencil'></i> </a></td>";
-
+            html+="<td><a class='btn btn-default btn-sm' onclick='openPrevisualizarPlantilla("+data.id+",1); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'></i> </a></td>";
             if($.trim(data.ruta) != 0 || $.trim(data.rutadetallev)!= 0){
-                html+="<td><a class='btn btn-default btn-sm' onclick='openPrevisualizarPlantilla("+data.id+"); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'></i> </a></td>";
+                html+="<td><a class='btn btn-default btn-sm' onclick='openImprimirPlantilla("+data.id+",2); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'></i> </a></td>";
                 html+="<td></td>";
             }else{
                 html+="<td></td>";
@@ -238,6 +238,7 @@ HTMLCargar=function(datos){
             
         }else{
             html+="<td><a class='btn btn-primary btn-sm' style='opacity:0.5'><i class='glyphicon glyphicon-pencil'></i> </a></td>";
+            html+="<td><a class='btn btn-default btn-sm' style='opacity:0.5'><i class='fa fa-eye fa-lg'></i> </a></td>";
             html+="<td><a class='btn btn-default btn-sm' style='opacity:0.5'><i class='fa fa-eye fa-lg'></i> </a></td>";
             html+= "<td><a class='btn btn-danger btn-sm' style='opacity:0.5'><i class='glyphicon glyphicon-trash'></i> </a></td>";
         }
@@ -259,6 +260,11 @@ openPrevisualizarPlantilla=function(id){
                 "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
 };
 
+openImprimirPlantilla=function(id){
+    window.open("documentodig/imprimirprevia/"+id,
+                "PrevisualizarPlantilla",
+                "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
+};
 HTMLAreas = function (data){
     if(data.length > 0){
       /*  var html = '';
