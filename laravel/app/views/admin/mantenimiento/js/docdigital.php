@@ -111,6 +111,7 @@ $(document).ready(function() {
 
     $('#NuevoDocDigital').on('show.bs.modal', function (event) {
         $("#slct_tipoenvio").multiselect('destroy');
+        $("#slct_tipoenvio").val('0');
         slctGlobalHtml('slct_tipoenvio','simple');
      /*   var button = $(event.relatedTarget);
         var titulo = button.data('titulo');
