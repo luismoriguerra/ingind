@@ -108,8 +108,8 @@ hr {
 
         <h3 class="nombre-documento">{{ $titulo }}</h3>
 
-        @if ($conCabecera)
         <div class="body-rest">
+        @if ($conCabecera)
             <div class="tabla-cabecera">
                 <ul class="ul-style">
                     <li><b>DE:</b> {{ $remitente }}</li>
@@ -133,7 +133,7 @@ hr {
             </div>
 
             <br><hr><br>
-            @endif
+        @endif
 
             <div class='cuerpo-documento'>
                 {{ $contenido }}
