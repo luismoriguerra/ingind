@@ -61,6 +61,7 @@ class DocumentoDigitalController extends \BaseController {
 
             $DocDigital = DocumentoDigital::find(Input::get('iddocdigital'));
             $DocDigital->titulo = Input::get('titulofinal');
+            $DocDigital->correlativo = Input::get('titulo');
             $DocDigital->asunto = Input::get('asunto');
             $DocDigital->cuerpo = $html;
             $DocDigital->plantilla_doc_id = Input::get('plantilla');
@@ -118,6 +119,7 @@ class DocumentoDigitalController extends \BaseController {
             $DocDigital = new DocumentoDigital;
             $DocDigital->titulo = Input::get('titulofinal');
             $DocDigital->asunto = Input::get('asunto');
+            $DocDigital->correlativo = Input::get('titulo');
             $DocDigital->cuerpo = $html;
             $DocDigital->plantilla_doc_id = Input::get('plantilla');
             $DocDigital->area_id = Auth::user()->area_id;
