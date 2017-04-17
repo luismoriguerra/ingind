@@ -4,7 +4,7 @@ var Plantillas={
     AgregarEditar:function(areas,event){
         $("#formNuevoDocDigital input[name='word']").remove();
         $("#formNuevoDocDigital").append("<input type='hidden' value='"+CKEDITOR.instances.plantillaWord.getData()+"' name='word'>");
-        $("#txt_titulofinal").val($("#lblDocumento").text()+$("#txt_titulo").val()+$("#lblArea").text());
+        $("#txt_titulofinal").val($("#lblDocumento").text()+addZeros( $("#txt_titulo").val(),"6")+$("#lblArea").text());
         var datos=$("#formNuevoDocDigital").serialize().split("txt_").join("").split("slct_").join("");
         datos+="&areasselect="+JSON.stringify(areas);
         var accion="documentodig/crear";
