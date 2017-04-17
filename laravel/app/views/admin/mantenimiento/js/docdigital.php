@@ -67,6 +67,8 @@ $(document).ready(function() {
         $(".araesgerencia,.areaspersona,.personasarea").addClass('hidden');
         $("#slct_copia").val(['']);
         $("#slct_copia").multiselect('refresh');
+        $("#slct_plantilla").val('');
+        $('#slct_plantilla').multiselect('refresh');
     };
 
     $('#NuevoDocDigital').on('hidden.bs.modal', function(){
@@ -112,8 +114,6 @@ $(document).ready(function() {
     $('#NuevoDocDigital').on('show.bs.modal', function (event) {
         $("#slct_tipoenvio").multiselect('destroy');
         slctGlobalHtml('slct_tipoenvio','simple');
-        $("#slct_plantilla").val('');
-        $('#slct_plantilla').multiselect('refresh');
      /*   var button = $(event.relatedTarget);
         var titulo = button.data('titulo');
             plantilla_id = button.data('id');
