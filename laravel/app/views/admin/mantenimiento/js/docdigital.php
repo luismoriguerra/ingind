@@ -15,7 +15,7 @@ $siglast="";
   var SiglasPersona='<?php echo $siglast; ?>'; 
 $(document).ready(function() {
     
-    slctGlobal.listarSlctFuncion('plantilladoc','cargar','slct_plantilla','simple',null,{'area':1});
+    slctGlobal.listarSlctFuncion('plantilladoc','cargar','slct_plantilla','simple',null,{'area':1,'activo':1});
     slctGlobal.listarSlctFuncion('area','areasgerencia','slct_areas','multiple',null);
     slctGlobal.listarSlctFuncion('area','areasgerencia','slct_copia','multiple',null);
     slctGlobalHtml('slct_tipoenvio','simple');

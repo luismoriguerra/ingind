@@ -16,6 +16,9 @@ class PlantillaDocumento extends Base {
                     	if ( Input::get('id') ) {
                             $query->where('pd.id','=',Input::get('id'));
                         }
+                        if ( Input::get('activo') ) {
+                            $query->where('pd.estado','=','1');
+                        }
 
                         $sql="  SELECT count(id) cant
                                 FROM cargo_persona
