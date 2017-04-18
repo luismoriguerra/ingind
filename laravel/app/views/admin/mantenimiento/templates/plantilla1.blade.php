@@ -61,7 +61,7 @@ hr {
 }
 .nombre-documento {
     text-align: center;
-    font-size: 25px;
+    font-size: 19px;
     text-decoration: underline;
 }
 .cuerpo-documento {
