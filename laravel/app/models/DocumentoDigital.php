@@ -20,7 +20,7 @@ class DocumentoDigital extends Base {
                     ->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla', 'dd.plantilla_doc_id' ,'a.nombre as area','dda.area_id as area_id','p.nombre as pnombre','p.paterno as ppaterno','p.materno as pmaterno','dd.cuerpo','dd.tipo_envio','dda.persona_id','dda.tipo','dd.envio_total')
                     ->where( 
 
-                        function($query){
+                        function($query){                    
                             if ( Input::get('id') ) {
                                 $query->where('dd.id','=',Input::get('id'));
                             }
@@ -48,7 +48,9 @@ class DocumentoDigital extends Base {
                         DB::raw('(SELECT COUNT(r.id) FROM rutas r where r.doc_digital_id=dd.id) AS ruta'),
                         DB::raw('(SELECT COUNT(rdv.id) FROM rutas_detalle_verbo rdv where rdv.doc_digital_id=dd.id) AS rutadetallev'))
                    	->where( 
-                        function($query){
+                        function($query){                          if(Input::get('activo')){
+                                $query->where('dd.estado','=','1');
+                            }
 /*                            $sql="  SELECT count(id) cant
                                     FROM cargo_persona
                                     WHERE estado=1
