@@ -229,6 +229,9 @@ class DocumentoDigitalController extends \BaseController {
             if($DocumentoDigital->tipo_envio==4){
                 $cabecera=null;
             }
+            if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==12){
+                $DocumentoDigital->area_id=44;
+            }
             
             $params = [
                 'titulo' => $DocumentoDigital->titulo.' (Documento Vista Previa)',
@@ -305,7 +308,10 @@ class DocumentoDigitalController extends \BaseController {
             if($DocumentoDigital->tipo_envio==4){
                 $cabecera=null;
             }
-            
+            if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==12){
+                $DocumentoDigital->area_id=44;
+            }
+                      
             $params = [
                 'titulo' => $DocumentoDigital->titulo,
                 'area' => $DocumentoDigital->area_id,

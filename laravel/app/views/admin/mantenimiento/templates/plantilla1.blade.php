@@ -61,7 +61,7 @@ hr {
 }
 .nombre-documento {
     text-align: center;
-    font-size: 17px;
+    font-size: 25px;
     text-decoration: underline;
 }
 .cuerpo-documento {
@@ -106,7 +106,7 @@ hr {
            <div class="qr">{{ $imagen }}</div>
         </div>
         @if ($area!=44)
-        <h3 class="nombre-documento">{{ $titulo }}</h3>
+        <h2 class="nombre-documento">{{ $titulo }}</h2>
         @endif
         <div class="body-rest">
         @if ($conCabecera)
