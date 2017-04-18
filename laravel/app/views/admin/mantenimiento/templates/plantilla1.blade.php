@@ -100,7 +100,7 @@ hr {
             <div class="logo">
                 <img align="left" src="img/logo_muni.jpg">
             </div> 
-            <h4 class="nombre-municipio">MUNICIPALIDAD DISTRITAL DE INDEPENDECIA</h4>
+            <h4 class="nombre-municipio">MUNICIPALIDAD DISTRITAL DE INDEPENDENCIA</h4>
             <!--            <h4 class="gerencia">Gerencia x</h4>--><br><br><br><br><br>
             <h4 class="nombre-anio">“Año del Buen Servicio al Ciudadano”</h4>
            <div class="qr">{{ $imagen }}</div>

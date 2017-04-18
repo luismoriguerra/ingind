@@ -1,4 +1,5 @@
 <script>
+  var Documento={tipo_documento_id:0};   
 $(document).ready(function() {
     
     slctGlobal.listarSlctFuncion('plantilladoc','cargar','slct_plantilla','simple',null,{'area':1});
@@ -35,10 +36,18 @@ $(document).ready(function() {
         event.preventDefault();
         Plantillas.CargarInfo({'id':$(this).val()},HTMLPlantilla);
     });
+    
+    $(document).on('change', '#slct_tipoenvio', function(event) {
+        if($(this).val()==3){
+        event.preventDefault();
+        Plantillas.CargarInfo({'id':$(this).val()},HTMLPlantilla);}
+    });
 
     $(document).on('change', '#slct_tipoenvio', function(event) {
         event.preventDefault();
         TipoEnvio();
+        if($(this).val()==3){
+        Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':1},HTMLCargarCorrelativo);}
     });
 
     $(document).on('click', '#btnCrear', function(event) {
@@ -284,7 +293,9 @@ HTMLPlantilla = function(data){
         document.querySelector("#lblArea").innerHTML= "-"+new Date().getFullYear()+"-"+result.nemonico_doc;
         document.querySelector('#txt_area_plantilla').value = result.area_id;
         CKEDITOR.instances.plantillaWord.setData( result.cuerpo );
-        Plantillas.CargarCorrelativo({'tipo_doc':result.tipo_documento_id},HTMLCargarCorrelativo);
+        
+        Documento.tipo_documento_id=result.tipo_documento_id;
+        Plantillas.CargarCorrelativo({'tipo_doc':result.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo);
     }
 }
 
