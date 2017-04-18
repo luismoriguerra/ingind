@@ -175,7 +175,8 @@ class DocumentoDigitalController extends \BaseController {
             /*get remitente data*/
             $persona = Persona::find($DocumentoDigital->persona_id);
             $area = Area::find($DocumentoDigital->area_id);
-            $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." <br>".$area->nombre;
+            $rol= Rol::find($persona->rol_id);
+            $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." -<span style='font-size:8px'>(".$rol->nombre.") ".$area->nombre."</span>";
             /*end get remitente data */
 
             /*get destinatario data*/
@@ -191,10 +192,11 @@ class DocumentoDigitalController extends \BaseController {
                 foreach($DocDigitalArea as $key => $value){
                     $persona2 = Persona::find($value->persona_id);
                     $area2 = Area::find($value->area_id);
+                    $rol2= Rol::find($persona2->rol_id);
                     if($value->tipo ==1){
-                      $destinatarios.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' <br>'.$area2->nombre.'</li>';
+                      $destinatarios.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' -<span style="font-size:8px">('.$rol2->nombre.') '.$area2->nombre.'</span></li>';
                     }else{
-                        $copias.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' <br>'.$area2->nombre.'</li>';
+                        $copias.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' -<span style="font-size:8px">('.$rol2->nombre.') '.$area2->nombre.'</span></li>';
                     }        
                 }
                 $destinatarios.= '</ul>';    
