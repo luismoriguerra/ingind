@@ -222,6 +222,7 @@ class DocumentoDigitalController extends \BaseController {
             
             $params = [
                 'titulo' => $DocumentoDigital->titulo.' (Documento Vista Previa)',
+                'area' => $DocumentoDigital->area_id,
                 'asunto' => $DocumentoDigital->asunto,
                 'conCabecera' => $cabecera,
                 'contenido' => $DocumentoDigital->cuerpo,
@@ -297,6 +298,7 @@ class DocumentoDigitalController extends \BaseController {
             
             $params = [
                 'titulo' => $DocumentoDigital->titulo,
+                'area' => $DocumentoDigital->area_id,
                 'asunto' => $DocumentoDigital->asunto,
                 'conCabecera' => $cabecera,
                 'contenido' => $DocumentoDigital->cuerpo,

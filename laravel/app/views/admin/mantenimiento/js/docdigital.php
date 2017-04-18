@@ -10,7 +10,7 @@ $siglast="";
     }
 ?>
 <script>
-  var Documento={tipo_documento_id:0};  
+  var Documento={tipo_documento_id:0,tipoenvio:0};  
   var SiglasArea='';
   var SiglasPersona='<?php echo $siglast; ?>'; 
 $(document).ready(function() {
@@ -47,6 +47,7 @@ $(document).ready(function() {
 
     $(document).on('change', '#slct_plantilla', function(event) {
         event.preventDefault();
+        Documento.tipoenvio=$("#slct_tipoenvio").val();
         Plantillas.CargarInfo({'id':$(this).val()},HTMLPlantilla);
     });
     
@@ -313,7 +314,7 @@ HTMLPlantilla = function(data){
         CKEDITOR.instances.plantillaWord.setData( result.cuerpo );
         
         Documento.tipo_documento_id=result.tipo_documento_id;
-        if( $("slct_tipoenvio").val()==3){
+        if( Documento.tipoenvio==3){
         document.querySelector("#lblArea").innerHTML= "-"+new Date().getFullYear()+"-"+SiglasPersona+"-"+SiglasArea;
         Plantillas.CargarCorrelativo({'tipo_doc':result.tipo_documento_id,'tipo_corre':1},HTMLCargarCorrelativo);
         } else {
