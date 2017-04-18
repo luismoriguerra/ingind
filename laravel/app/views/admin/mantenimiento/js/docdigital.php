@@ -5,7 +5,7 @@ $siglast="";
 
     for ($i=0; $i < count($dpersonat); $i++) { 
         if( trim($dpersonat[$i])!='' ){
-            $siglast.=substring($dpersonat[$i], 0,1); 
+            $siglast.=substr($dpersonat[$i], 0,1); 
         }
     }
 ?>
