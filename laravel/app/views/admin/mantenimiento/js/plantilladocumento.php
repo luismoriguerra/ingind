@@ -147,10 +147,16 @@ Editar=function(){
 /*    }*/
 };
 activar=function(id){
+    var c= confirm("¿Está seguro de activar Plantilla?");
+    if(c){
     Plantillas.CambiarEstado(id,1);
+    }
 };
 desactivar=function(id){
+    var c= confirm("¿Está seguro de Desactivar Plantilla?");
+    if(c){
     Plantillas.CambiarEstado(id,0);
+    }
 };
 Agregar=function(){
    /* if(validaPlantilla()){*/
