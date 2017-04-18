@@ -224,7 +224,11 @@ class DocumentoDigitalController extends \BaseController {
             $png = base64_encode($png);
             $png= "<img src='data:image/png;base64," . $png . "'>";
             $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
-
+            
+            $fechabase=$DocumentoDigital->created_at;
+            $fecha=explode(' ', $fechabase);
+            $fechaa=explode('-', $fecha[0]);
+            
             $cabecera=1;
             if($DocumentoDigital->tipo_envio==4){
                 $cabecera=null;
@@ -239,7 +243,7 @@ class DocumentoDigitalController extends \BaseController {
                 'asunto' => $DocumentoDigital->asunto,
                 'conCabecera' => $cabecera,
                 'contenido' => $DocumentoDigital->cuerpo,
-                'fecha' => 'Lima,'.date('d').' de '.$meses[date('m')*1].' del '.date('Y'),
+                'fecha' => 'Lima,'.$fechaa[2].' de '.$meses[$fechaa[1]*1].' del '.$fechaa[0],
                 'remitente' => $remitente,
                 'destinatario' => $destinatarios,
                 'imagen'=>$png,
@@ -303,7 +307,10 @@ class DocumentoDigitalController extends \BaseController {
             $png = base64_encode($png);
             $png= "<img src='data:image/png;base64," . $png . "'>";
             $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
-
+            $fechabase=$DocumentoDigital->created_at;
+            $fecha=explode(' ', $fechabase);
+            $fechaa=explode('-', $fecha[0]);
+            
             $cabecera=1;
             if($DocumentoDigital->tipo_envio==4){
                 $cabecera=null;
@@ -318,7 +325,7 @@ class DocumentoDigitalController extends \BaseController {
                 'asunto' => $DocumentoDigital->asunto,
                 'conCabecera' => $cabecera,
                 'contenido' => $DocumentoDigital->cuerpo,
-                'fecha' => 'Lima,'.date('d').' de '.$meses[date('m')*1].' del '.date('Y'),
+                'fecha' => 'Lima,'.$fechaa[2].' de '.$meses[$fechaa[1]*1].' del '.$fechaa[0],
                 'remitente' => $remitente,
                 'destinatario' => $destinatarios,
                 'imagen'=>$png,
