@@ -73,7 +73,13 @@ class DocumentoDigitalController extends \BaseController {
                 $DocDigital->envio_total = 0;
             }
 
-            $DocDigital->persona_id = $jefe[0]->id;
+            $DocDigital->tipo_envio = Input::get('tipoenvio');
+            if(Input::get('tipoenvio')==3){
+                $DocDigital->persona_id = Auth::user()->id;    
+            }else{
+                $DocDigital->persona_id = $jefe[0]->id;                
+            }
+            
             $DocDigital->usuario_updated_at = Auth::user()->id;
             $DocDigital->save();
 
