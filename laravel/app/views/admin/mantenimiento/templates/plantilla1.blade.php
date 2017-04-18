@@ -105,7 +105,7 @@ hr {
             <h4 class="nombre-anio">“Año del Buen Servicio al Ciudadano”</h4>
            <div class="qr">{{ $imagen }}</div>
         </div>
-        @if ($area!=44)
+        @if ($area!=1)
         <h2 class="nombre-documento">{{ $titulo }}</h2>
         @endif
         <div class="body-rest">
