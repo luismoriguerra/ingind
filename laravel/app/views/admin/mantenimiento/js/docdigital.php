@@ -210,7 +210,7 @@ Agregar=function(){
 
 HTMLCargar=function(datos){
     var html="";
-    $('#t_plantilla').dataTable().fnDestroy();
+    $('#t_doc_digital').dataTable().fnDestroy();
     var eye = "";
     $.each(datos,function(index,data){
 
