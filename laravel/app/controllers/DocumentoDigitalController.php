@@ -55,7 +55,7 @@ class DocumentoDigitalController extends \BaseController {
 
             $jefe = DB::table('personas')
                 ->where('area_id', '=', Auth::user()->area_id)
-                ->whereIn('rol_id', array(8,9))
+                ->whereIn('rol_id', array(8,9,6))
                 ->where('estado',1)
                 ->get();
 
@@ -118,7 +118,7 @@ class DocumentoDigitalController extends \BaseController {
             $html = Input::get('word', '');
             $jefe = DB::table('personas')
                     ->where('area_id', '=', Auth::user()->area_id)
-                    ->whereIn('rol_id', array(8,9))
+                    ->whereIn('rol_id', array(8,9,6))
                     ->where('estado',1)
                     ->get();
 
