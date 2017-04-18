@@ -230,11 +230,15 @@ class DocumentoDigitalController extends \BaseController {
             $fechaa=explode('-', $fecha[0]);
             
             $cabecera=1;
+            
             if($DocumentoDigital->tipo_envio==4){
                 $cabecera=null;
             }
             if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==12){
-                $DocumentoDigital->area_id=44;
+                $DocumentoDigital->area_id=1;
+            }
+            if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==44){
+                $DocumentoDigital->area_id=1;
             }
             
             $params = [
@@ -322,7 +326,7 @@ class DocumentoDigitalController extends \BaseController {
             if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==44){
                 $DocumentoDigital->area_id=1;
             }
-                      
+
             $params = [
                 'titulo' => $DocumentoDigital->titulo,
                 'area' => $DocumentoDigital->area_id,
