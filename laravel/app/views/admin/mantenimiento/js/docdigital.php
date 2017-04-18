@@ -301,7 +301,9 @@ editDocDigital = function(id){
 }
 
 deleteDocumento = function(id){
-    Plantillas.EliminarDocumento({'estado':0,'id':id});    
+    var c= confirm("¿Está seguro de eliminar documento?");
+    if(c){
+    Plantillas.EliminarDocumento({'estado':0,'id':id});    }
 }
 
 
