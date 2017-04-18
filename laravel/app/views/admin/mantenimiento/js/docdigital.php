@@ -37,17 +37,21 @@ $(document).ready(function() {
         Plantillas.CargarInfo({'id':$(this).val()},HTMLPlantilla);
     });
     
-    $(document).on('change', '#slct_tipoenvio', function(event) {
-        if($(this).val()==3){
-        event.preventDefault();
-        Plantillas.CargarInfo({'id':$(this).val()},HTMLPlantilla);}
-    });
+//    $(document).on('change', '#slct_tipoenvio', function(event) {
+//        if($(this).val()==3){
+//        event.preventDefault();
+//        Plantillas.CargarInfo({'id':$(this).val()},HTMLPlantilla);}
+//    });
 
     $(document).on('change', '#slct_tipoenvio', function(event) {
         event.preventDefault();
         TipoEnvio();
         if($(this).val()==3){
-        Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':1},HTMLCargarCorrelativo);}
+        Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':1},HTMLCargarCorrelativo);
+        }
+        else  {
+        Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo);
+        }
     });
 
     $(document).on('click', '#btnCrear', function(event) {
@@ -295,7 +299,11 @@ HTMLPlantilla = function(data){
         CKEDITOR.instances.plantillaWord.setData( result.cuerpo );
         
         Documento.tipo_documento_id=result.tipo_documento_id;
+        if( $("slct_tipoenvio").val()==3){
+        Plantillas.CargarCorrelativo({'tipo_doc':result.tipo_documento_id,'tipo_corre':1},HTMLCargarCorrelativo);
+        } else {
         Plantillas.CargarCorrelativo({'tipo_doc':result.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo);
+        }
     }
 }
 
