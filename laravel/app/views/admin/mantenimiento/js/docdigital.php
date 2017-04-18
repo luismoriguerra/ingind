@@ -386,14 +386,16 @@ HTMLEdit = function(data){
         $('#slct_plantilla').multiselect('refresh');
 
         var titulo = data[0].titulo.split("-");
+        var titulofinal= data[0].titulo.split(titulo[2]+"-");
+
         document.querySelector("#lblDocumento").innerHTML= titulo[0]+"-Nº";
         if( data[0].tipo_envio==3 ){
-            SiglasArea= titulo[4];
-            document.querySelector("#lblArea").innerHTML= "-"+titulo[2]+"-"+titulo[3]+"-"+titulo[4];
+            SiglasArea= titulofinal[1].split(titulofinal[1].split("-")[0]+"-")[1];
+            document.querySelector("#lblArea").innerHTML= "-"+titulo[2]+"-"+SiglasPersona+"-"+SiglasArea;
         }
         else{
-            SiglasArea= titulo[3];
-            document.querySelector("#lblArea").innerHTML= "-"+titulo[2]+"-"+titulo[3];
+            SiglasArea= titulofinal[1];
+            document.querySelector("#lblArea").innerHTML= "-"+titulo[2]+"-"+SiglasArea;
         }
 
         var tnombre= titulo[1].substring(2,10);
