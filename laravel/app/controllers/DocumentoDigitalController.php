@@ -176,7 +176,7 @@ class DocumentoDigitalController extends \BaseController {
             $persona = Persona::find($DocumentoDigital->persona_id);
             $area = Area::find($DocumentoDigital->area_id);
             $rol= Rol::find($persona->rol_id);
-            $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." - <span style='font-size:11px'>".$rol->nombre." de ".$area->nombre."</span>";
+            $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." - <span style='font-size:11px'>(".$rol->nombre.") ".$area->nombre."</span>";
             /*end get remitente data */
 
             /*get destinatario data*/
@@ -251,7 +251,7 @@ class DocumentoDigitalController extends \BaseController {
             $persona = Persona::find($DocumentoDigital->persona_id);
             $area = Area::find($DocumentoDigital->area_id);
             $rol= Rol::find($persona->rol_id);
-            $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." - <span style='font-size:11px'>".$rol->nombre." de ".$area->nombre."</span>";
+            $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." - <span style='font-size:11px'>(".$rol->nombre.") ".$area->nombre."</span>";
             /*end get remitente data */
 
             /*get destinatario data*/
