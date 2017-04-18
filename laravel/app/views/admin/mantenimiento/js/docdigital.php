@@ -60,10 +60,10 @@ $(document).ready(function() {
         event.preventDefault();
         TipoEnvio();
         if($(this).val()==3){
-        document.querySelector("#lblArea").innerHTML= "-"+SiglasPersona;
+        document.querySelector("#lblArea").innerHTML= "-"+new Date().getFullYear()+"-"+SiglasPersona+"-"+SiglasArea;
         Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':1},HTMLCargarCorrelativo);
         } else {
-        document.querySelector("#lblArea").innerHTML= "-"+SiglasArea;
+        document.querySelector("#lblArea").innerHTML= "-"+new Date().getFullYear()+"-"+SiglasArea;
         Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo);
         }
     });
@@ -308,16 +308,16 @@ HTMLPlantilla = function(data){
         var result = data[0];
         var tittle = result.tipodoc + "N-XX-2016" + "/MDI";
         document.querySelector("#lblDocumento").innerHTML= result.tipodoc+"-Nº";
-        SiglasArea= new Date().getFullYear()+"-"+result.nemonico_doc;
+        SiglasArea= result.nemonico_doc;
         document.querySelector('#txt_area_plantilla').value = result.area_id;
         CKEDITOR.instances.plantillaWord.setData( result.cuerpo );
         
         Documento.tipo_documento_id=result.tipo_documento_id;
         if( $("slct_tipoenvio").val()==3){
-        document.querySelector("#lblArea").innerHTML= "-"+SiglasPersona;
+        document.querySelector("#lblArea").innerHTML= "-"+new Date().getFullYear()+"-"+SiglasPersona+"-"+SiglasArea;
         Plantillas.CargarCorrelativo({'tipo_doc':result.tipo_documento_id,'tipo_corre':1},HTMLCargarCorrelativo);
         } else {
-        document.querySelector("#lblArea").innerHTML= "-"+SiglasArea;
+        document.querySelector("#lblArea").innerHTML= "-"+new Date().getFullYear()+"-"+SiglasArea;
         Plantillas.CargarCorrelativo({'tipo_doc':result.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo);
         }
     }
@@ -387,7 +387,16 @@ HTMLEdit = function(data){
 
         var titulo = data[0].titulo.split("-");
         document.querySelector("#lblDocumento").innerHTML= titulo[0]+"-Nº";
-        document.querySelector("#lblArea").innerHTML= "-"+titulo[2]+"-"+titulo[3];var tnombre= titulo[1].substring(2,10);
+        if( data[0].tipo_envio==3 ){
+            SiglasArea= titulo[4];
+            document.querySelector("#lblArea").innerHTML= "-"+titulo[2]+"-"+titulo[3]+"-"+titulo[4];
+        }
+        else{
+            SiglasArea= titulo[3];
+            document.querySelector("#lblArea").innerHTML= "-"+titulo[2]+"-"+titulo[3];
+        }
+
+        var tnombre= titulo[1].substring(2,10);
         document.querySelector("#txt_titulo").value = tnombre;
         document.querySelector('#txt_area_plantilla').value = data[0].area_id;
         CKEDITOR.instances.plantillaWord.setData( data[0].cuerpo );
