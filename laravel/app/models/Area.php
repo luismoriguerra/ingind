@@ -123,6 +123,9 @@ class Area extends Base
                         if ( Input::get('estado') ) {
                             $query->where('estado','=','1');
                         }
+                        if ( Input::has('areagestionall') ){
+                            $query->where('area_gestion','>','0');
+                        }
                         if ( Input::has('areapersona') ){
 
                             if ( Input::has('areagerencia') ){
