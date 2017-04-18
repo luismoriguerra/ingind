@@ -1,5 +1,18 @@
+<?php
+$personat=Auth::user()->nombre." ".Auth::user()->paterno." ".Auth::user()->materno;
+$dpersonat=explode(" ",$personat);
+$siglast="";
+
+    for ($i=0; $i < count($dpersonat); $i++) { 
+        if( trim($dpersonat[$i])!='' ){
+            $siglast.=substring($dpersonat[$i], 0,1); 
+        }
+    }
+?>
 <script>
-  var Documento={tipo_documento_id:0};   
+  var Documento={tipo_documento_id:0};  
+  var SiglasArea='';
+  var SiglasPersona='<?php echo $siglast; ?>'; 
 $(document).ready(function() {
     
     slctGlobal.listarSlctFuncion('plantilladoc','cargar','slct_plantilla','simple',null,{'area':1});
@@ -47,9 +60,10 @@ $(document).ready(function() {
         event.preventDefault();
         TipoEnvio();
         if($(this).val()==3){
+        document.querySelector("#lblArea").innerHTML= "-"+SiglasPersona;
         Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':1},HTMLCargarCorrelativo);
-        }
-        else  {
+        } else {
+        document.querySelector("#lblArea").innerHTML= "-"+SiglasArea;
         Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo);
         }
     });
@@ -294,14 +308,16 @@ HTMLPlantilla = function(data){
         var result = data[0];
         var tittle = result.tipodoc + "N-XX-2016" + "/MDI";
         document.querySelector("#lblDocumento").innerHTML= result.tipodoc+"-Nº";
-        document.querySelector("#lblArea").innerHTML= "-"+new Date().getFullYear()+"-"+result.nemonico_doc;
+        SiglasArea= new Date().getFullYear()+"-"+result.nemonico_doc;
         document.querySelector('#txt_area_plantilla').value = result.area_id;
         CKEDITOR.instances.plantillaWord.setData( result.cuerpo );
         
         Documento.tipo_documento_id=result.tipo_documento_id;
         if( $("slct_tipoenvio").val()==3){
+        document.querySelector("#lblArea").innerHTML= "-"+SiglasPersona;
         Plantillas.CargarCorrelativo({'tipo_doc':result.tipo_documento_id,'tipo_corre':1},HTMLCargarCorrelativo);
         } else {
+        document.querySelector("#lblArea").innerHTML= "-"+SiglasArea;
         Plantillas.CargarCorrelativo({'tipo_doc':result.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo);
         }
     }
