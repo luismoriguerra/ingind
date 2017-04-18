@@ -54,10 +54,15 @@ class DocumentoDigitalController extends \BaseController {
             $html = Input::get('word', '');
 
             $jefe = DB::table('personas')
-                ->where('area_id', '=', Auth::user()->area_id)
-                ->whereIn('rol_id', array(8,9,6))
-                ->where('estado',1)
-                ->get();
+             ->where(         
+                        function($query){
+                            $query->where('area_id', '=', Auth::user()->area_id)
+                            ->orwhereRaw('FIND_IN_SET(' . Auth::user()->area_id . ',area_responsable)');
+                        }
+                    )
+                    ->whereIn('rol_id', array(8,9,6))
+                    ->where('estado',1)
+                    ->get();
 
             $DocDigital = DocumentoDigital::find(Input::get('iddocdigital'));
             $DocDigital->titulo = Input::get('titulofinal');
@@ -117,7 +122,12 @@ class DocumentoDigitalController extends \BaseController {
         if ( Request::ajax() ) {
             $html = Input::get('word', '');
             $jefe = DB::table('personas')
-                    ->where('area_id', '=', Auth::user()->area_id)
+             ->where(         
+                        function($query){
+                            $query->where('area_id', '=', Auth::user()->area_id)
+                            ->orwhereRaw('FIND_IN_SET(' . Auth::user()->area_id . ',area_responsable)');
+                        }
+                    )
                     ->whereIn('rol_id', array(8,9,6))
                     ->where('estado',1)
                     ->get();
