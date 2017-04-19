@@ -103,11 +103,11 @@
                                                                 <i class="glyphicon glyphicon-file"></i>
                                                             </span>
                                                         </a>
-                                                        <a data-toggle="tooltip" title="Crear Doc Digital">
+<!--                                                        <a data-toggle="tooltip" title="Crear Doc Digital">
                                                             <span class="btn btn-success" data-toggle="modal" data-target="#NuevoDocDigital" id="btn_nuevo_docdigital" data-texto="txt_codigo" data-id="txt_doc_digital_id">
                                                                 <i class="glyphicon glyphicon-paperclip"></i>
                                                             </span>
-                                                        </a>
+                                                        </a>-->
                                                         <span class="btn btn-primary" data-toggle="modal" data-target="#indedocsModal" data-texto="txt_codigo" data-id="txt_documento_id" id="btn_buscar_indedocs">
                                                             <i class="fa fa-search fa-lg"></i>
                                                         </span>
@@ -298,11 +298,11 @@
                                                             <i class="glyphicon glyphicon-file"></i>
                                                             </span>
                                                         </a>
-                                                        <a data-toggle="tooltip" title="Crear Doc Digital">
+<!--                                                        <a data-toggle="tooltip" title="Crear Doc Digital">
                                                         <span class="btn btn-success" data-toggle="modal" data-target="#NuevoDocDigital" id="btn_nuevo_docdigital" data-texto="txt_codigo2" data-id="txt_doc_digital_id2">
                                                             <i class="glyphicon glyphicon-paperclip"></i>
                                                         </span>
-                                                         </a>
+                                                         </a>-->
                                                         <span class="btn btn-primary" data-toggle="modal" data-target="#indedocsModal" data-texto="txt_codigo2" data-id="txt_documento_id2" id="btn_buscar_indedocs">
                                                             <i class="fa fa-search fa-lg"></i>
                                                         </span>
