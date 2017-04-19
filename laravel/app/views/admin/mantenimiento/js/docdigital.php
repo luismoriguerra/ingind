@@ -204,7 +204,7 @@ TipoEnvio=function(){
     $(".areaspersona").removeClass('hidden');
     $(".personasarea").removeClass('hidden');
     $(".asunto").removeClass('hidden');
-    $(".personasarea").addClass('hidden');
+    $(".personasarea").removeClass('hidden');
 
     if($("#slct_tipoenvio").val() == 1){ //persona
         $(".araesgerencia").addClass('hidden');
@@ -213,9 +213,11 @@ TipoEnvio=function(){
         $(".araesgerencia").addClass('hidden');
         $(".areaspersona").addClass('hidden');
         $(".asunto").addClass('hidden');
+        $(".personasarea").addClass('hidden');
     }
     else{ //gerencia
          $(".areaspersona").addClass('hidden');
+         $(".personasarea").addClass('hidden');
     }
 };
 activarTabla=function(){
@@ -354,6 +356,7 @@ HTMLEdit = function(data){
         /*personas area envio*/
         if(data[0].tipo_envio == 1){ //persona
             $(".areaspersona,.personasarea").removeClass('hidden');
+            $(".todassubg").addClass('hidden');
             $("#slct_areasp").val(data[0].area_id);
             $('#slct_areasp').multiselect('refresh');
 
