@@ -10,7 +10,7 @@ $siglast="";
     }
 ?>
 <script>
-  var Documento={tipo_documento_id:0,tipoenvio:0};  
+  var Documento={tipo_documento_id:0,tipoenvio:0,area:0};  
   var SiglasArea='';
   var SiglasPersona='<?php echo $siglast; ?>'; 
 $(document).ready(function() {
@@ -63,7 +63,12 @@ $(document).ready(function() {
         if($(this).val()==3){
         document.querySelector("#lblArea").innerHTML= "-"+new Date().getFullYear()+"-"+SiglasPersona+"-"+SiglasArea;
         Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':1},HTMLCargarCorrelativo);
-        } else {
+        } 
+        else if( Documento.area==0){
+        document.querySelector("#lblArea").innerHTML= "-"+new Date().getFullYear()+"-"+" MDI";
+        Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo); 
+        }
+        else {
         document.querySelector("#lblArea").innerHTML= "-"+new Date().getFullYear()+"-"+SiglasArea;
         Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo);
         }
@@ -314,10 +319,16 @@ HTMLPlantilla = function(data){
         CKEDITOR.instances.plantillaWord.setData( result.cuerpo );
         
         Documento.tipo_documento_id=result.tipo_documento_id;
+         Documento.area=result.area;
         if( Documento.tipoenvio==3){
         document.querySelector("#lblArea").innerHTML= "-"+new Date().getFullYear()+"-"+SiglasPersona+"-"+SiglasArea;
         Plantillas.CargarCorrelativo({'tipo_doc':result.tipo_documento_id,'tipo_corre':1},HTMLCargarCorrelativo);
-        } else {
+        } 
+        else if( result.area==0){
+        document.querySelector("#lblArea").innerHTML= "-"+new Date().getFullYear()+"-"+" MDI";
+        Plantillas.CargarCorrelativo({'tipo_doc':result.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo); 
+        }
+        else {
         document.querySelector("#lblArea").innerHTML= "-"+new Date().getFullYear()+"-"+SiglasArea;
         Plantillas.CargarCorrelativo({'tipo_doc':result.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo);
         }

@@ -10,7 +10,7 @@ class PlantillaDocumento extends Base {
         return DB::table('plantilla_doc as pd')
         		->join('documentos as d', 'pd.tipo_documento_id', '=', 'd.id')
         		->join('areas as a', 'pd.area_id', '=', 'a.id')
-                ->select('pd.id', 'pd.descripcion','pd.descripcion as nombre','pd.cuerpo', 'd.nombre as tipodoc', 'a.nombre as area','pd.estado','pd.area_id','pd.tipo_documento_id','a.nemonico_doc')
+                ->select('pd.id', 'pd.descripcion','pd.descripcion as nombre','pd.cuerpo', 'd.nombre as tipodoc', 'a.nombre as area','pd.estado','pd.area_id','pd.tipo_documento_id','a.nemonico_doc','d.area')
                	->where( 
                     function($query){
                     	if ( Input::get('id') ) {

@@ -30,7 +30,7 @@ class Documento extends Base
 
     public static function getDocumento(){
         $r=DB::table('documentos')
-                ->select('id','nombre','estado')
+                ->select('id', DB::raw('CONCAT_WS( " " ,nombre,IF(area=0," Sin Siglas","")) as nombre'),'estado')
                 ->where( 
                     function($query){
                         if ( Input::get('estado') ) {
