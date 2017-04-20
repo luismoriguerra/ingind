@@ -7,16 +7,16 @@
 <style>
 
 html, body{
-    font-size: 13px;
-    line-height: 18px;
+    font-size: 11px;
+    line-height: 15px;
+    font-family: arial, sans-serif;
 }
 
 table, tr , td, th {
     text-align: left !important;
     border-collapse: collapse;
     border: 1px solid #ccc;
-    width: 100%;
-    font-size: 13px;
+    font-size: 11px;
     font-family: arial, sans-serif;
 }
 th, td {
@@ -33,22 +33,24 @@ hr {
 }
 
 .logo {
-     left: -40px;position: absolute;
+     left: 10px;position: absolute;
 }
 .logo img {
-    height: 100px;
+    height: 107px;
 }
 .nombre-municipio {
  position: absolute;
   top:  0px; 
-  left: 120px;
+  left: 190px;
   font-style: italic;
-   font-size: 15px;
+   font-size: 14px;
 }
 .nombre-anio {
-    text-align: center;
     font-style: italic;
-    font-size: 15px;
+    position: absolute;
+    top:  50px; 
+    left: 220px;
+    font-size: 14px;
     padding: 0px;
     margin: 10px;
 }
@@ -65,7 +67,7 @@ hr {
     text-decoration: underline;
 }
 .cuerpo-documento {
-    font-size: 15px;
+    font-size: 12px;
 }
 .tabla-cabecera {
     border: none;
@@ -77,17 +79,22 @@ hr {
 }
 .qr {
   position: absolute;
-  top:  -15px; 
+  top:  -30px; 
   left: 550px;
 }
 
 .body-rest{
-    margin-left: 2cm;       
+    margin-left: 1.8cm;       
 }
 .ul-style {
     list-style-type: none;
     margin: 0;
     padding: 0;
+}
+.ul-style li {
+    list-style-type: none;
+    margin: 0;
+    padding: 2;
 }
 </style>
 
@@ -106,28 +113,29 @@ hr {
            <div class="qr">{{ $imagen }}</div>
         </div>
         @if ($area!=1)
+        <br>
         <h2 class="nombre-documento">{{ $titulo }}</h2>
         @endif
         <div class="body-rest">
         @if ($conCabecera)
             <div class="tabla-cabecera">
                 <ul class="ul-style">
-                    <li><b>DE:</b> {{ $remitente }}</li>
+                    <li><b">DE&nbsp;&nbsp;&nbsp;</b><b style="padding-left: 5em;padding-right: 2em;">:</b> {{ $remitente }}</li>
                 </ul>
                 <ul class="ul-style">
-                    <li><b>A:</b> {{ $destinatario }}</li>
+                    <li><b>A&nbsp;&nbsp;</b><b style="padding-left: 6em;padding-right: 2em;">:</b> {{ $destinatario }}</li>
                 </ul>
                 @if(isset($copias))
                 <ul class="ul-style">
-                    <li><b>CC:</b> {{ $copias }}</li>
+                    <li><b>CC&nbsp;&nbsp;&nbsp;</b><b style="padding-left: 5em;padding-right: 2em;">:</b> {{ $copias }}</li>
                 </ul>
                 @endif
                 <ul class="ul-style">
-                    <li><b>ASUNTO:</b> {{ $asunto }}</li>
+                    <li><b>ASUNTO</b><b style="padding-left: 3em;padding-right: 2em;">:</b> {{ $asunto }}</li>
 
                 </ul>
                 <ul class="ul-style">
-                    <li><b>FECHA:</b> {{ $fecha }}</li>
+                    <li><b>FECHA&nbsp;&nbsp;&nbsp;</b><b style="padding-left: 3em;padding-right: 2em;">:</b> {{ $fecha }}</li>
 
                 </ul>
             </div>

@@ -199,24 +199,36 @@ class DocumentoDigitalController extends \BaseController {
             $copias = '';
             $destinatarios = '';
             if($DocumentoDigital->envio_total ==1){
-                $copias = '<ul></ul>';
+                $copias = '';
                 $destinatarios = 'Todas las Gerencias y Sub Gerencias';
             }else{
-                $copias.= '<ul>';
-                $destinatarios.= '<ul>';
+                $copias.= '';
+                $destinatarios.= '';
                 $DocDigitalArea = DocumentoDigitalArea::where('doc_digital_id', '=', $id)->where('estado', '=', 1)->get();
                 foreach($DocDigitalArea as $key => $value){
                     $persona2 = Persona::find($value->persona_id);
                     $area2 = Area::find($value->area_id);
                     $rol2= Rol::find($persona2->rol_id);
                     if($value->tipo ==1){
-                      $destinatarios.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - <span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span></li>';
+                        if($destinatarios!=""){
+                            $destinatarios.="<br><span>&nbsp;&nbsp;&nbsp;<span style='padding-left: 9em;'>";
+                        }
+                        else{
+                            $destinatarios.="<span>";
+                        }
+                        $destinatarios.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span>';
                     }else{
-                        $copias.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - <span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span></li>';
+                        if($copias!=""){
+                            $copias.="<br><span>&nbsp;&nbsp;&nbsp;<span style='padding-left: 9em;'>";
+                        }
+                        else{
+                            $copias.="<span>";
+                        }
+                        $copias.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span>';
                     }        
                 }
-                $destinatarios.= '</ul>';    
-                $copias.= '</ul>';          
+                //$destinatarios.= '</ul>';    
+                //$copias.= '</ul>';          
             }
 
             /*end get destinatario data*/
@@ -286,24 +298,36 @@ class DocumentoDigitalController extends \BaseController {
             $copias = '';
             $destinatarios = '';
             if($DocumentoDigital->envio_total ==1){
-                $copias = '<ul></ul>';
+                $copias = '';
                 $destinatarios = 'Todas las Gerencias y Sub Gerencias';
             }else{
-                $copias.= '<ul>';
-                $destinatarios.= '<ul>';
+                $copias.= '';
+                $destinatarios.= '';
                 $DocDigitalArea = DocumentoDigitalArea::where('doc_digital_id', '=', $id)->where('estado', '=', 1)->get();
                 foreach($DocDigitalArea as $key => $value){
                     $persona2 = Persona::find($value->persona_id);
                     $area2 = Area::find($value->area_id);
                     $rol2= Rol::find($persona2->rol_id);
                     if($value->tipo ==1){
-                      $destinatarios.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - <span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span></li>';
+                        if($destinatarios!=""){
+                            $destinatarios.="<br><span>&nbsp;&nbsp;&nbsp;<span style='padding-left: 9em;'>";
+                        }
+                        else{
+                            $destinatarios.="<span>";
+                        }
+                        $destinatarios.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span>';
                     }else{
-                        $copias.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - <span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span></li>';
-                    }  
+                        if($copias!=""){
+                            $copias.="<br><span>&nbsp;&nbsp;&nbsp;<span style='padding-left: 9em;'>";
+                        }
+                        else{
+                            $copias.="<span>";
+                        }
+                        $copias.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span>';
+                    }        
                 }
-                $destinatarios.= '</ul>';    
-                $copias.= '</ul>';          
+                //$destinatarios.= '</ul>';    
+                //$copias.= '</ul>';          
             }
 
             /*end get destinatario data*/
@@ -311,11 +335,13 @@ class DocumentoDigitalController extends \BaseController {
             $png = base64_encode($png);
             $png= "<img src='data:image/png;base64," . $png . "'>";
             $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
+            
             $fechabase=$DocumentoDigital->created_at;
             $fecha=explode(' ', $fechabase);
             $fechaa=explode('-', $fecha[0]);
             
             $cabecera=1;
+            
             if($DocumentoDigital->tipo_envio==4){
                 $cabecera=null;
             }
@@ -325,7 +351,7 @@ class DocumentoDigitalController extends \BaseController {
             if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==44){
                 $DocumentoDigital->area_id=1;
             }
-
+            
             $params = [
                 'titulo' => $DocumentoDigital->titulo,
                 'area' => $DocumentoDigital->area_id,
