@@ -171,6 +171,16 @@ hr {
             {{ $titulo }}
             </h2>
             <?php }    ?>
+            
+            <?php if ($posicion_fecha==4 and $tipo_envio==4)  { ?>  
+            <h4 class="fecha-documento-right">
+           {{ $fecha }}
+            </h4>
+            <?php }else if($posicion_fecha==3 and $tipo_envio==4) {?>
+            <h4 class="fecha-documento-left">
+            {{ $fecha }}
+            </h4>
+            <?php }   ?>
         </div>
         @endif
         <div class="body-rest">
