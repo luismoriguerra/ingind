@@ -251,12 +251,12 @@ class DocumentoDigitalController extends \BaseController {
             if($DocumentoDigital->tipo_envio==4){
                 $cabecera=null;
             }
-            if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==12){
-                $DocumentoDigital->area_id=1;
-            }
-            if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==44){
-                $DocumentoDigital->area_id=1;
-            }
+//            if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==12){
+//                $DocumentoDigital->area_id=1;
+//            }
+//            if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==44){
+//                $DocumentoDigital->area_id=1;
+//            }
 
             $vistaprevia='Documento Vista Previa';
             $documenttittle= $DocumentoDigital->titulo;
@@ -391,12 +391,12 @@ class DocumentoDigitalController extends \BaseController {
             if($DocumentoDigital->tipo_envio==4){
                 $cabecera=null;
             }
-            if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==12){
-                $DocumentoDigital->area_id=1;
-            }
-            if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==44){
-                $DocumentoDigital->area_id=1;
-            }
+//            if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==12){
+//                $DocumentoDigital->area_id=1;
+//            }
+//            if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==44){
+//                $DocumentoDigital->area_id=1;
+//            }
 
             $vistaprevia='';
             $documenttittle= $DocumentoDigital->titulo;
