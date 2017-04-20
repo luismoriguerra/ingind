@@ -80,6 +80,7 @@ class PlantillaDocumentoController extends \BaseController {
 
             $params = [
                 'nombre' => $Plantilladoc->nombre,
+                'vistaprevia'=>'',
                 'area' => $Plantilladoc->area_id,
                 'conCabecera' => 1,
                 'contenido' => $Plantilladoc->cuerpo,
