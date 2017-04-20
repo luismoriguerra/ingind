@@ -186,7 +186,12 @@ class DocumentoDigitalController extends \BaseController {
     {
 
         $DocumentoDigital = DocumentoDigital::find($id);
-
+        $sql= "SELECT d.posicion,d.posicion_fecha
+                FROM documentos d
+                INNER JOIN plantilla_doc pd ON d.id=pd.tipo_documento_id
+                WHERE pd.id=".$DocumentoDigital->plantilla_doc_id;
+        $oData = DB::select($sql);
+        
         if ($DocumentoDigital) {
             /*get remitente data*/
             $persona = Persona::find($DocumentoDigital->persona_id);
@@ -285,13 +290,16 @@ class DocumentoDigitalController extends \BaseController {
                 $documenttittle= $DocumentoDigital->titulo;
             }
             $params = [
+                'posicion'=>$oData[0]->posicion,
+                'posicion_fecha'=>$oData[0]->posicion_fecha,
+                'tipo_envio'=>$DocumentoDigital->tipo_envio,
                 'titulo' => $documenttittle,
                 'vistaprevia'=>$vistaprevia,
                 'area' => $DocumentoDigital->area_id,
                 'asunto' => $DocumentoDigital->asunto,
                 'conCabecera' => $cabecera,
                 'contenido' => $DocumentoDigital->cuerpo,
-                'fecha' => 'Lima,'.$fechaa[2].' de '.$meses[$fechaa[1]*1].' del '.$fechaa[0],
+                'fecha' => 'Independencia,'.$fechaa[2].' de '.$meses[$fechaa[1]*1].' del '.$fechaa[0],
                 'remitente' => $remitente,
                 'destinatario' => $destinatarios,
                 'imagen'=>$png,
@@ -317,7 +325,13 @@ class DocumentoDigitalController extends \BaseController {
     {
 
         $DocumentoDigital = DocumentoDigital::find($id);
-
+        
+                $sql= "SELECT d.posicion,d.posicion_fecha
+                FROM documentos d
+                INNER JOIN plantilla_doc pd ON d.id=pd.tipo_documento_id
+                WHERE pd.id=".$DocumentoDigital->plantilla_doc_id;
+                $oData = DB::select($sql);
+        
         if ($DocumentoDigital) {
             /*get remitente data*/
             $persona = Persona::find($DocumentoDigital->persona_id);
@@ -417,13 +431,16 @@ class DocumentoDigitalController extends \BaseController {
             }
 
             $params = [
+                'posicion'=>$oData[0]->posicion,
+                'posicion_fecha'=>$oData[0]->posicion_fecha,
+                'tipo_envio'=>$DocumentoDigital->tipo_envio,
                 'titulo' => $documenttittle,
                 'vistaprevia' => $vistaprevia,
                 'area' => $DocumentoDigital->area_id,
                 'asunto' => $DocumentoDigital->asunto,
                 'conCabecera' => $cabecera,
                 'contenido' => $DocumentoDigital->cuerpo,
-                'fecha' => 'Lima,'.$fechaa[2].' de '.$meses[$fechaa[1]*1].' del '.$fechaa[0],
+                'fecha' => 'Independencia,'.$fechaa[2].' de '.$meses[$fechaa[1]*1].' del '.$fechaa[0],
                 'remitente' => $remitente,
                 'destinatario' => $destinatarios,
                 'imagen'=>$png,

@@ -77,6 +77,31 @@ hr {
     font-size: 19px;
     text-decoration: underline; 
 }
+
+.nombre-documento-left {
+    text-align: left;
+    font-size: 19px;
+    text-decoration: underline; 
+}
+
+.nombre-documento-right {
+    text-align: right;
+    font-size: 19px;
+    text-decoration: underline; 
+}
+
+.fecha-documento-left {
+    text-align: left;
+    font-size: 12px;
+
+}
+
+.fecha-documento-right {
+    text-align: right;
+    font-size: 12px;
+
+}
+
 .cuerpo-documento {
     font-size: 12px;
 }
@@ -123,9 +148,29 @@ hr {
         @if ($area!=1)
         <br>
         <div class="body-rest">
-        <h2 class="nombre-documento">
-        {{ $titulo }}
-        </h2>
+            <?php if ($posicion_fecha==2 and $tipo_envio==4)  { ?>  
+            <h4 class="fecha-documento-right">
+           {{ $fecha }}
+            </h4>
+            <?php }else if($posicion_fecha==1 and $tipo_envio==4) {?>
+            <h4 class="fecha-documento-left">
+            {{ $fecha }}
+            </h4>
+            <?php }   ?>
+            
+           <?php if ($posicion==0) {   ?> 
+            <h2 class="nombre-documento">
+            {{ $titulo }}
+            </h2>
+           <?php } else if($posicion==2) { ?> 
+            <h2 class="nombre-documento-right">
+            {{ $titulo }}
+            </h2>
+            <?php } else if($posicion==1){ ?>
+            <h2 class="nombre-documento-left">
+            {{ $titulo }}
+            </h2>
+            <?php }    ?>
         </div>
         @endif
         <div class="body-rest">

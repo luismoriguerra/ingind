@@ -79,6 +79,9 @@ class PlantillaDocumentoController extends \BaseController {
         if ($Plantilladoc) {
 
             $params = [
+                'posicion'=>0,
+                'posicion_fecha'=>1,
+                'tipo_envio'=>1,
                 'nombre' => $Plantilladoc->nombre,
                 'vistaprevia'=>'',
                 'area' => $Plantilladoc->area_id,
