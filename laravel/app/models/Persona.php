@@ -852,6 +852,18 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         return $oData[0]->cantidad;
     }
     
+    public static function BuscarJefe1($area_id) {
+            
+        $sSql = '';
+        $sSql .= "SELECT COUNT(p.id) as cantidad
+                    FROM personas p
+                    WHERE  p.area_id=".$area_id." 
+                    AND p.rol_id IN (8,9) AND p.estado=1";
+
+        $oData = DB::select($sSql);
+        return $oData[0]->cantidad;
+    }
+    
             public static function ActualizarResponsable($area_id) {
             
             $sSql = 'UPDATE personas

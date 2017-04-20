@@ -10,7 +10,7 @@ $siglast="";
     }
 ?>
 <script>
-  var Documento={tipo_documento_id:0,tipoenvio:0,area:0};  
+  var Documento={tipo_documento_id:0,tipoenvio:0,csigla:0};  
   var SiglasArea='';
   var SiglasPersona='<?php echo $siglast; ?>'; 
   var CrearEditar=1;
@@ -59,7 +59,7 @@ $(document).ready(function() {
             document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+SiglasPersona+" - "+SiglasArea;
             Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':1},HTMLCargarCorrelativo);
             } 
-            else if( Documento.area==0){
+            else if( Documento.csigla==0){
             document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+" MDI";
             Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo); 
             }
@@ -206,7 +206,7 @@ HTMLPlantilla = function(data){
         CKEDITOR.instances.plantillaWord.setData( result.cuerpo );
         
         Documento.tipo_documento_id=result.tipo_documento_id;
-        Documento.area=result.area;
+        Documento.csigla=result.csigla;
         if(CrearEditar==1){
             document.querySelector("#lblDocumento").innerHTML= result.tipodoc+" - Nº ";
             SiglasArea= result.nemonico_doc;
