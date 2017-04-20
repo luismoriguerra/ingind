@@ -2,7 +2,8 @@
 <html>
 <head>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 <style>
 
@@ -20,7 +21,7 @@ table, tr , td, th {
     font-family: arial, sans-serif;
 }
 th, td {
-    padding: 5px;
+    padding: 2px;
 }
 hr {
     width: 100%;
@@ -86,16 +87,12 @@ hr {
 .body-rest{
     margin-left: 1.8cm;       
 }
-.ul-style {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+
+.row {
+  padding: 2;
+  margin: 0;
 }
-.ul-style li {
-    list-style-type: none;
-    margin: 0;
-    padding: 2;
-}
+
 </style>
 
 </head>
@@ -119,25 +116,27 @@ hr {
         <div class="body-rest">
         @if ($conCabecera)
             <div class="tabla-cabecera">
-                <ul class="ul-style">
-                    <li><b">DE&nbsp;&nbsp;&nbsp;</b><b style="padding-left: 5em;padding-right: 2em;">:</b> {{ $remitente }}</li>
-                </ul>
-                <ul class="ul-style">
-                    <li><b>A&nbsp;&nbsp;</b><b style="padding-left: 6em;padding-right: 2em;">:</b> {{ $destinatario }}</li>
-                </ul>
+                <div class="row">
+                    <b">DE&nbsp;&nbsp;&nbsp;</b><b style="padding-left: 5em;padding-right: 2em;">:</b> {{ $remitente }}
+                </div>
+                <div class="row">
+                    <b>A&nbsp;&nbsp;</b><b style="padding-left: 6em;padding-right: 2em;">:</b> {{ $destinatario }}
+                </div>
                 @if(isset($copias))
-                <ul class="ul-style">
-                    <li><b>CC&nbsp;&nbsp;&nbsp;</b><b style="padding-left: 5em;padding-right: 2em;">:</b> {{ $copias }}</li>
-                </ul>
+                <div class="row">
+                    <b>CC&nbsp;&nbsp;&nbsp;</b><b style="padding-left: 5em;padding-right: 2em;">:</b> {{ $copias }}
+                </div>
                 @endif
-                <ul class="ul-style">
-                    <li><b>ASUNTO</b><b style="padding-left: 3em;padding-right: 2em;">:</b> {{ $asunto }}</li>
+                <div class="row">
+                    <b>ASUNTO</b><b style="padding-left: 3em;padding-right: 2em;">:</b> 
+                    <span>
+                        {{ $asunto }}
+                    </span>
+                </div>
+                <div class="row">
+                    <b>FECHA&nbsp;&nbsp;&nbsp;</b><b style="padding-left: 3em;padding-right: 2em;">:</b> {{ $fecha }}
 
-                </ul>
-                <ul class="ul-style">
-                    <li><b>FECHA&nbsp;&nbsp;&nbsp;</b><b style="padding-left: 3em;padding-right: 2em;">:</b> {{ $fecha }}</li>
-
-                </ul>
+                </div>
             </div>
 
             <br><hr><br>
