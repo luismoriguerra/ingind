@@ -79,7 +79,7 @@ class DocumentoDigitalController extends \BaseController {
             }
 
             $DocDigital->tipo_envio = Input::get('tipoenvio');
-            if(Input::get('tipoenvio')==3){
+            if(Input::get('tipoenvio')==3 or Input::get('tipoenvio')==5){
                 $DocDigital->persona_id = Auth::user()->id;    
             }else{
                 $DocDigital->persona_id = $jefe[0]->id;                
@@ -147,7 +147,7 @@ class DocumentoDigitalController extends \BaseController {
             }
 
             $DocDigital->tipo_envio = Input::get('tipoenvio');
-            if(Input::get('tipoenvio')==3){
+            if(Input::get('tipoenvio')==3 or Input::get('tipoenvio')==5){
                 $DocDigital->persona_id = Auth::user()->id;    
             }else{
                 $DocDigital->persona_id = $jefe[0]->id;                
@@ -299,7 +299,7 @@ class DocumentoDigitalController extends \BaseController {
                 'asunto' => $DocumentoDigital->asunto,
                 'conCabecera' => $cabecera,
                 'contenido' => $DocumentoDigital->cuerpo,
-                'fecha' => 'Independencia,'.$fechaa[2].' de '.$meses[$fechaa[1]*1].' del '.$fechaa[0],
+                'fecha' => 'Independencia, '.$fechaa[2].' de '.$meses[$fechaa[1]*1].' del '.$fechaa[0],
                 'remitente' => $remitente,
                 'destinatario' => $destinatarios,
                 'imagen'=>$png,
@@ -440,7 +440,7 @@ class DocumentoDigitalController extends \BaseController {
                 'asunto' => $DocumentoDigital->asunto,
                 'conCabecera' => $cabecera,
                 'contenido' => $DocumentoDigital->cuerpo,
-                'fecha' => 'Independencia,'.$fechaa[2].' de '.$meses[$fechaa[1]*1].' del '.$fechaa[0],
+                'fecha' => 'Independencia, '.$fechaa[2].' de '.$meses[$fechaa[1]*1].' del '.$fechaa[0],
                 'remitente' => $remitente,
                 'destinatario' => $destinatarios,
                 'imagen'=>$png,
