@@ -17,8 +17,8 @@ $siglast="";
 $(document).ready(function() {
     
     slctGlobal.listarSlctFuncion('plantilladoc','cargar','slct_plantilla','simple',null,{'area':1,'activo':1});
-    slctGlobal.listarSlctFuncion('area','areasgerencia','slct_areas','multiple',null);
-    slctGlobal.listarSlctFuncion('area','areasgerencia','slct_copia','multiple',null);
+    slctGlobal.listarSlctFuncion('area','areasgerenciapersona','slct_areas','multiple',null);
+    slctGlobal.listarSlctFuncion('area','areasgerenciapersona','slct_copia','multiple',null);
     slctGlobalHtml('slct_tipoenvio','simple');
     slctGlobal.listarSlct('area','slct_areasp','simple',null,{estado:1});   
     /*slctGlobal.listarSlctFuncion('area','personasarea','slct_personaarea','simple',null);     */
@@ -268,9 +268,9 @@ HTMLEdit = function(data){
         copias = [];
         $.each(data,function(index, el) {
             if(el.tipo == 1 ){
-                originales.push(el.area_id);
+                originales.push(el.area_id+'|'+el.persona_id);
             }else if(el.tipo == 2){
-                copias.push(el.area_id);
+                copias.push(el.area_id+'|'+el.persona_id);
             }
         });
         $(".todassubg").removeClass('hidden');
@@ -315,17 +315,17 @@ AreaSeleccionadas = function(){
         areasSelect.push({'area_id':$('#slct_areasp').val(),'persona_id':$('#slct_personaarea').val(),'tipo':1});
     }else{ //gerencias
         $('#slct_areas  option:selected').each(function(index,el) {
-            var area_id = $(el).val();
-            var persona_id  = $(el).attr('data-relation').split('|');
-            areasSelect.push({'area_id':area_id,'persona_id':persona_id[1],'tipo':1});
+            var area_id = $(el).val().split('|')[0];
+            var persona_id  = $(el).val().split('|')[1];
+            areasSelect.push({'area_id':area_id,'persona_id':persona_id,'tipo':1});
         });
     }
 
     if($("#slct_copia").val() != ''){
         $('#slct_copia  option:selected').each(function(index,el) {
-            var area_id = $(el).val();
-            var persona_id  = $(el).attr('data-relation').split('|');
-            areasSelect.push({'area_id':area_id,'persona_id':persona_id[1],'tipo':2});
+            var area_id = $(el).val().split('|')[0];
+            var persona_id  = $(el).val().split('|')[1];
+            areasSelect.push({'area_id':area_id,'persona_id':persona_id,'tipo':2});
         });
     }
     return areasSelect;
