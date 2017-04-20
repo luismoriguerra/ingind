@@ -13,7 +13,19 @@
         </div>
         <div class="modal-body">
             <div class="row">
-              <div class="col-xs-5">
+              <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="control-label">Plantilla:
+                    </label>
+                    <select class="form-control" name="slct_plantilla" id="slct_plantilla">
+                        <!-- <option value='0' >Inactivo</option>
+                        <option value='1' selected>Activo</option> -->
+                    </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6">
                 <div class="form-group">
                     <label class="control-label">Titulo:
                        <!--  <a id="error_nombre" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Nombre">
@@ -34,17 +46,7 @@
                     <input type="hidden" id="txt_titulofinal" name="txt_titulofinal" value="">
                 </div>
               </div>
-              <div class="col-xs-2">
-                <div class="form-group">
-                    <label class="control-label">Plantilla:
-                    </label>
-                    <select class="form-control" name="slct_plantilla" id="slct_plantilla">
-                        <!-- <option value='0' >Inactivo</option>
-                        <option value='1' selected>Activo</option> -->
-                    </select>
-                </div>
-              </div>
-              <div class="col-xs-5">
+              <div class="col-xs-6">
                 <div class="form-group">
                   <label class="control-label">Tipo Envio:</label>
                     <select class="form-control" id="slct_tipoenvio" name="slct_tipoenvio">
@@ -61,13 +63,13 @@
               </div>
             </div>
             <div class="row asunto">
-              <div class="col-xs-7 form-group">
+              <div class="col-xs-6 form-group">
                 <div class="form-group">
                   <label class="control-label">Asunto: </label>
                   <textarea class="form-control" name="txt_asunto" id="txt_asunto" placeholder="Asunto .." rows="5"></textarea>
                 </div>
               </div>
-              <div class="col-xs-5">
+              <div class="col-xs-6">
                      <div class="radio todassubg hidden">
                           <label style="margin-left:-12px">
                               <input class="chk form-control" type="checkbox" name="chk_todasareas" id="chk_todasareas" value="allgesub"> Todas Las Gerencias y Sub Gerencias                                                                
@@ -154,7 +156,10 @@
               </div>
             </div> -->
             <div class="row">
-              <div class="col-xs-12">
+              <div class="col-xs-2">
+              &nbsp;
+              </div>
+              <div class="col-xs-7">
                 <div class="form-group">
                     <textarea id="plantillaWord" name="word" class="form-control" rows="6"></textarea>
                 </div>
