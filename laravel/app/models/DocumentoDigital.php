@@ -48,8 +48,11 @@ class DocumentoDigital extends Base {
                         DB::raw('(SELECT COUNT(r.id) FROM rutas r where r.doc_digital_id=dd.id) AS ruta'),
                         DB::raw('(SELECT COUNT(rdv.id) FROM rutas_detalle_verbo rdv where rdv.doc_digital_id=dd.id) AS rutadetallev'))
                    	->where( 
-                        function($query){                          if(Input::get('activo')){
+                        function($query){                          
+                            if(Input::get('activo')){
                                 $query->where('dd.estado','=','1');
+                            } else {
+                                 $query->where('dd.estado','=','1');
                             }
 /*                            $sql="  SELECT count(id) cant
                                     FROM cargo_persona
