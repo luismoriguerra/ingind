@@ -37,9 +37,9 @@
                          <label id="lblDocumento" style="margin-top:5px;float:right;">Documento Prueba Nº</label>
                       </div>
                       <div class="col-xs-3">
-                          <input type="text" class="form-control txttittle" placeholder="Ingrese Titulo" name="txt_titulo" id="txt_titulo">
+                          <input type="text" maxlength="6" class="form-control txttittle" placeholder="Ingrese Titulo" name="txt_titulo" id="txt_titulo">
                       </div>
-                      <div class="col-xs-3">
+                      <div class="col-xs-4">
                           <label id="lblArea" style="margin-top:5px;">-MDI</label>
                       </div>                      
                     </div>

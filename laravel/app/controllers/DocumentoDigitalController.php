@@ -157,7 +157,7 @@ class DocumentoDigitalController extends \BaseController {
             $DocDigital->save();
 
             if($DocDigital->id){
-                if(Input::get('tipoenvio')==3){
+                /*if(Input::get('tipoenvio')==3){
                     $DocDigitalArea = new DocumentoDigitalArea();
                     $DocDigitalArea->doc_digital_id = $DocDigital->id;
                     $DocDigitalArea->persona_id = $jefe[0]->id;
@@ -165,7 +165,7 @@ class DocumentoDigitalController extends \BaseController {
                     $DocDigitalArea->tipo = 1;
                     $DocDigitalArea->usuario_created_at = Auth::user()->id;
                     $DocDigitalArea->save();
-                }else{
+                }else{*/
                 	$areas_envio = json_decode(Input::get('areasselect'));
                 	foreach ($areas_envio as $key => $value) {
                 		$DocDigitalArea = new DocumentoDigitalArea();
@@ -175,8 +175,8 @@ class DocumentoDigitalController extends \BaseController {
                         $DocDigitalArea->tipo = $value->tipo;
                 		$DocDigitalArea->usuario_created_at = Auth::user()->id;
                 		$DocDigitalArea->save();
-                	}                    
-                }
+                	}
+                //}
             }
             return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente','nombre'=>$DocDigital->titulo,'iddocdigital'=>$DocDigital->id));
         }
@@ -252,9 +252,41 @@ class DocumentoDigitalController extends \BaseController {
             if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==44){
                 $DocumentoDigital->area_id=1;
             }
-            
+
+            $vistaprevia='Documento Vista Previa';
+            $documenttittle= $DocumentoDigital->titulo;
+            if(strlen($documenttittle)>60){
+                $dd=explode("-",$documenttittle);
+                $documenttittle='';
+                if( strlen( $dd[0] )<=40 ){
+                    for ($i=0; $i < count($dd) ; $i++) { 
+                        if( ($i+2)==count($dd) ){
+                            $documenttittle.="<br><br>".$dd[$i]."-".$dd[$i+1];
+                            $i++;
+                        }
+                        else{
+                            $documenttittle.=$dd[$i]."-";
+                        }
+                    }
+                }
+                else{
+                    for ($i=0; $i < count($dd) ; $i++) { 
+                        if( ($i+3)==count($dd) ){
+                            $documenttittle.="<br><br>".$dd[$i]."-".$dd[$i+1]."-".$dd[$i+2];
+                            $i++;$i++;
+                        }
+                        else{
+                            $documenttittle.=$dd[$i]."-";
+                        }
+                    }
+                }
+            }
+            else{
+                $documenttittle= $DocumentoDigital->titulo;
+            }
             $params = [
-                'titulo' => $DocumentoDigital->titulo.' (Documento Vista Previa)',
+                'titulo' => $documenttittle,
+                'vistaprevia'=>$vistaprevia,
                 'area' => $DocumentoDigital->area_id,
                 'asunto' => $DocumentoDigital->asunto,
                 'conCabecera' => $cabecera,
@@ -351,9 +383,42 @@ class DocumentoDigitalController extends \BaseController {
             if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==44){
                 $DocumentoDigital->area_id=1;
             }
-            
+
+            $vistaprevia='';
+            $documenttittle= $DocumentoDigital->titulo;
+            if(strlen($documenttittle)>60){
+                $dd=explode("-",$documenttittle);
+                $documenttittle='';
+                if( strlen( $dd[0] )<=40 ){
+                    for ($i=0; $i < count($dd) ; $i++) { 
+                        if( ($i+2)==count($dd) ){
+                            $documenttittle.="<br><br>".$dd[$i]."-".$dd[$i+1];
+                            $i++;
+                        }
+                        else{
+                            $documenttittle.=$dd[$i]."-";
+                        }
+                    }
+                }
+                else{
+                    for ($i=0; $i < count($dd) ; $i++) { 
+                        if( ($i+3)==count($dd) ){
+                            $documenttittle.="<br><br>".$dd[$i]."-".$dd[$i+1]."-".$dd[$i+2];
+                            $i++;$i++;
+                        }
+                        else{
+                            $documenttittle.=$dd[$i]."-";
+                        }
+                    }
+                }
+            }
+            else{
+                $documenttittle= $DocumentoDigital->titulo;
+            }
+
             $params = [
-                'titulo' => $DocumentoDigital->titulo,
+                'titulo' => $documenttittle,
+                'vistaprevia' => $vistaprevia,
                 'area' => $DocumentoDigital->area_id,
                 'asunto' => $DocumentoDigital->asunto,
                 'conCabecera' => $cabecera,

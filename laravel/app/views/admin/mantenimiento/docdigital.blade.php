@@ -14,6 +14,7 @@
     @include( 'admin.js.slct_global' )
     @include( 'admin.mantenimiento.js.docdigital_ajax' )
     @include( 'admin.mantenimiento.js.docdigital' )
+    @include( 'admin.mantenimiento.js.docdigitalform' )
 
 @stop
 @section('contenido')
@@ -76,7 +77,7 @@
                             </table>
 
                             <a class='btn btn-success btn-sm' class="btn btn-primary"
-                            data-toggle="modal" data-target="#NuevoDocDigital" data-titulo="Nuevo" onclick="Plantillas.CargarAreas(HTMLAreas);"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                            data-toggle="modal" data-target="#NuevoDocDigital" data-titulo="Nuevo" onclick="Plantillas.CargarAreas();NuevoDocumento();"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->

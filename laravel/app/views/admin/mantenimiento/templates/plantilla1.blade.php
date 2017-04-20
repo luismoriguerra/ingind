@@ -40,11 +40,21 @@ hr {
     height: 107px;
 }
 .nombre-municipio {
- position: absolute;
-  top:  0px; 
-  left: 190px;
-  font-style: italic;
-   font-size: 14px;
+    position: absolute;
+    top:  0px; 
+    left: 190px;
+    font-style: italic;
+    font-size: 14px;
+}
+.nombre-vistaprevia {
+    position: absolute;
+    top:  60px; 
+    left: 280px;
+    font-style: italic;
+    font-weight: bold;
+    color: red;
+    font-size: 14px;
+    text-decoration: underline; 
 }
 .nombre-anio {
     font-style: italic;
@@ -56,7 +66,7 @@ hr {
     margin: 10px;
 }
 .gerencia {
-     position: absolute;
+    position: absolute;
     top:  25px; 
     left: 150px;
     font-style: italic;
@@ -65,7 +75,7 @@ hr {
 .nombre-documento {
     text-align: center;
     font-size: 19px;
-    text-decoration: underline;
+    text-decoration: underline; 
 }
 .cuerpo-documento {
     font-size: 12px;
@@ -107,11 +117,16 @@ hr {
             <h4 class="nombre-municipio">MUNICIPALIDAD DISTRITAL DE INDEPENDENCIA</h4>
             <!--            <h4 class="gerencia">Gerencia x</h4>--><br><br><br><br><br>
             <h4 class="nombre-anio">“Año del Buen Servicio al Ciudadano”</h4>
+            <h4 class="nombre-vistaprevia">{{ $vistaprevia }}</h4>
            <div class="qr">{{ $imagen }}</div>
         </div>
         @if ($area!=1)
         <br>
-        <h2 class="nombre-documento">{{ $titulo }}</h2>
+        <div class="body-rest">
+        <h2 class="nombre-documento">
+        {{ $titulo }}
+        </h2>
+        </div>
         @endif
         <div class="body-rest">
         @if ($conCabecera)

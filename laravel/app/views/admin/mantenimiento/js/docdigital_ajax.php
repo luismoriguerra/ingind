@@ -153,7 +153,7 @@ var Plantillas={
             }
         });
     },
-    CargarAreas:function(evento){
+    CargarAreas:function(){
         $.ajax({
             url         : 'area/areasgerencia',
             type        : 'POST',
@@ -164,9 +164,6 @@ var Plantillas={
               /*  $("body").append('<div class="overlay"></div><div class="loading-img"></div>');*/
             },
             success : function(obj) {
-                if(obj.rst==1){
-                    evento(obj.datos);
-                }
                /* $(".overlay,.loading-img").remove();*/
             },
             error: function(){
