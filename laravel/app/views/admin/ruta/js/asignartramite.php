@@ -63,7 +63,7 @@ $(document).ready(function() {
 
     //$("[data-mask]").inputmask();
 
-    Asignar.Relacion(RelacionHTML);
+    //Asignar.Relacion(RelacionHTML);
 
     $('#asignarModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
