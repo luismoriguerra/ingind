@@ -146,7 +146,7 @@ hr {
            <div class="qr">{{ $imagen }}</div>
         </div>
         @if ($area!=1)
-        <br>
+        <br><br>
         <div class="body-rest">
             <?php if ($posicion_fecha==2 and $tipo_envio==4)  { ?>  
             <h4 class="fecha-documento-right">
