@@ -55,6 +55,7 @@
                       <option value="2">Gerencias</option>
                       <option value="3">Reporte Personal</option>
                       <option value="4">Doc Libre(s)</option>
+                      <option value="5">Persona a Persona</option>
                     </select>
                 </div>
 
