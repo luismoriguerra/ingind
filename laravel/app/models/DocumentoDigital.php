@@ -3,8 +3,8 @@
 class DocumentoDigital extends Base {
 	protected $fillable = [];
     public $table = "doc_digital";
-    public static $where =['id', 'titulo', 'asunto', 'cuerpo', 'plantilla_doc_id', 'area_id','persona_id'];
-    public static $selec =['id', 'titulo', 'asunto', 'cuerpo', 'plantilla_doc_id', 'area_id','persona_id'];
+    public static $where =['id', 'titulo', 'asunto', 'cuerpo', 'plantilla_doc_id', 'area_id','persona_id','updated_f_comentario','usuario_f_updated_at'];
+    public static $selec =['id', 'titulo', 'asunto', 'cuerpo', 'plantilla_doc_id', 'area_id','persona_id','updated_f_comentario','usuario_f_updated_at'];
 
     public static function getDocumentosDigitales(){
         if(Input::get('id')){
@@ -43,10 +43,14 @@ class DocumentoDigital extends Base {
             		->join('plantilla_doc as pd', 'dd.plantilla_doc_id', '=', 'pd.id')
                         ->leftjoin('personas as p','p.id','=','dd.usuario_created_at')
                         ->leftjoin('personas as p1','p1.id','=','dd.usuario_updated_at')
-                    ->select(DB::raw('CONCAT_WS(" ",p1.paterno,p1.materno,p1.nombre) as persona_u'),
+                    ->select(DB::raw('DATE(dd.created_at)as created_at'),DB::raw('CONCAT_WS(" ",p1.paterno,p1.materno,p1.nombre) as persona_u'),
                         DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona_c'),'dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla','dd.estado',
-                        DB::raw('(SELECT COUNT(r.id) FROM rutas r where r.doc_digital_id=dd.id) AS ruta'),
-                        DB::raw('(SELECT COUNT(rdv.id) FROM rutas_detalle_verbo rdv where rdv.doc_digital_id=dd.id) AS rutadetallev'))
+                        DB::raw('(SELECT COUNT(r.id) FROM rutas r where r.doc_digital_id=dd.id and r.estado=1) AS ruta'), 
+                        DB::raw('(SELECT COUNT(rdv.id) '
+                                . 'FROM rutas r '
+                                . 'INNER JOIN rutas_detalle as rd on r.id=rd.ruta_id and rd.estado=1 '
+                                . 'INNER JOIN rutas_detalle_verbo as rdv on rdv.ruta_detalle_id=rd.id and rdv.estado=1 '
+                                . 'where dd.id=r.doc_digital_id and r.estado=1) AS rutadetallev'))
                    	->where( 
                         function($query){                          
                             if(Input::get('activo')){
@@ -123,7 +127,17 @@ class DocumentoDigital extends Base {
         $oData = DB::select($sSql);
         return $oData;
     }
-
+    
+        public static function getEditarFecha( )
+    {   $created=Input::get('fecha').' '.date ("h:i:s"); 
+        $sSql="UPDATE doc_digital set "
+                ." usuario_f_updated_at=".Auth::user()->id
+                .", created_at='".$created
+                ."', updated_f_comentario='".Input::get('comentario')
+                ."' WHERE id=".Input::get('id');
+        $oData = DB::update($sSql);
+        return $oData;
+    }
 
     public static function getDocdigitalCount( $array )
     {   
