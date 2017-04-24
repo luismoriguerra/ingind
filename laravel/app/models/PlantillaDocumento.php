@@ -19,15 +19,24 @@ class PlantillaDocumento extends Base {
                         if ( Input::get('activo') ) {
                             $query->where('pd.estado','=','1');
                         }
+                        $usu_id=Auth::user()->id;
 
                         $sql="  SELECT count(id) cant
                                 FROM cargo_persona
                                 WHERE estado=1
                                 AND cargo_id=12
-                                AND persona_id=".Auth::user()->id;
+                                AND persona_id=".$usu_id;
                         $csql=DB::select($sql);
                         if( $csql[0]->cant==0 ){
-                            $query->where('pd.area_id','=',Auth::user()->area_id);
+                            //$query->where('pd.area_id','=',Auth::user()->area_id);
+                            $query->whereRaw('pd.area_id IN (
+                                SELECT DISTINCT(a.id)
+                                FROM area_cargo_persona acp
+                                INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                                INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                WHERE acp.estado=1
+                                AND cp.persona_id= '.$usu_id.'
+                            )');
                         }
 
 
