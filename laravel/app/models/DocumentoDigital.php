@@ -57,11 +57,8 @@ class DocumentoDigital extends Base {
                     ->select(DB::raw('DATE(dd.created_at)as created_at'),DB::raw('CONCAT_WS(" ",p1.paterno,p1.materno,p1.nombre) as persona_u'),
                         DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona_c'),'dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla','dd.estado',
                         DB::raw('(SELECT COUNT(r.id) FROM rutas r where r.doc_digital_id=dd.id and r.estado=1) AS ruta'), 
-                        DB::raw('(SELECT COUNT(rdv.id) '
-                                . 'FROM rutas r '
-                                . 'INNER JOIN rutas_detalle as rd on r.id=rd.ruta_id and rd.estado=1 '
-                                . 'INNER JOIN rutas_detalle_verbo as rdv on rdv.ruta_detalle_id=rd.id and rdv.estado=1 '
-                                . 'where dd.id=r.doc_digital_id and r.estado=1) AS rutadetallev'))
+                        DB::raw('(SELECT COUNT(r.id) FROM rutas r where r.doc_digital_id=dd.id) AS ruta'),
+                        DB::raw('(SELECT COUNT(rdv.id) FROM rutas_detalle_verbo rdv where rdv.doc_digital_id=dd.id) AS rutadetallev'))
                    	->where( 
                         function($query){                          
                             if(Input::get('activo')){
