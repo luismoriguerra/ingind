@@ -224,7 +224,12 @@ class Reporte extends Eloquent
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
                 INNER JOIN tiempos t ON t.id=rd.tiempo_id
                 INNER JOIN flujos f ON f.id=r.flujo_id
-                ".$array['referido']." JOIN referidos re ON re.ruta_id=r.id AND re.norden=(rd.norden-1)
+                ".$array['referido']." JOIN 
+                (SELECT re2.ruta_id,re2.referido,re2.norden
+                    FROM referidos re2
+                    INNER JOIN rutas ru2 ON ru2.id=re2.ruta_id AND ru2.estado=1
+                    INNER JOIN rutas_detalle rd2 ON rd2.id=re2.ruta_detalle_id AND rd2.condicion=0 AND rd2.estado=1
+                ) re ON re.ruta_id=r.id AND re.norden=(rd.norden-1)
                 WHERE r.estado=1 
                 AND rd.fecha_inicio<=CURRENT_TIMESTAMP()
                 AND rd.fecha_inicio!='' ".
@@ -235,9 +240,8 @@ class Reporte extends Eloquent
                 $array['solicitante'].
                 $array['proceso'].
                 $array['tiempo_final'].
-                " GROUP BY rd.id
-                ORDER BY rd.fecha_inicio DESC ".
                 $array['limit'];
+                //ORDER BY rd.fecha_inicio DESC
        $r= DB::select($sql);
         return $r;
     }
