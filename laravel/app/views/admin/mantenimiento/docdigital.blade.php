@@ -5,6 +5,9 @@
     @parent
     {{ HTML::script('lib/ckeditor/ckeditor.js') }}
     {{ HTML::style('css/admin/plantilla.css') }}
+    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
+    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
+    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
     {{ HTML::style('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css') }}
     {{ HTML::script('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js') }}
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
@@ -48,6 +51,7 @@
                                         <th style="width: 30%">Actualizó</th>
                                         <th style="width: 30%">Titulo</th>
                                         <th style="width: 30%">Asunto</th>
+                                        <th style="width: 30%">Fecha Creación</th>
                                         <th style="width: 30%">Plantilla</th>
                                        {{--  <th style="width: 19%">Area Recepcion</th>
                                         <th style="width: 19">Persona Recepcion</th> --}}
@@ -65,6 +69,7 @@
                                         <th style="width: 30%">Actualizó</th>
                                         <th style="width: 30%">Titulo</th>
                                         <th style="width: 30%">Asunto</th>
+                                        <th style="width: 30%">Fecha Creación</th>
                                         <th style="width: 30%">Plantilla</th>
                         {{--                 <th style="width: 19%">Area Recepcion</th>
                                         <th style="width: 19">Persona Recepcion</th> --}}
@@ -89,4 +94,5 @@
 
 @section('formulario')
      @include( 'admin.mantenimiento.form.docdigital' )
+     @include( 'admin.mantenimiento.form.editarfechadoc' )
 @stop

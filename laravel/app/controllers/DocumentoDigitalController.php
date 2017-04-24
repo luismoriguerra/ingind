@@ -32,6 +32,33 @@ class DocumentoDigitalController extends \BaseController {
             );
         }
     }
+    
+        public function postEditarfecha()
+    {
+        if (Request::ajax() && Input::has('id') && Input::has('fecha') && Input::has('comentario') )  {
+            $a      = new DocumentoDigital;
+            $listar = Array();
+            $listar = $a->getEditarFecha();
+            
+            if($listar==1){
+            $created=Input::get('fecha').' '.date ("h:i:s");     
+            $DocDigital = new DocumentoFechaH;
+            $DocDigital->documento_id = Input::get('id');
+            $DocDigital->fecha_documento = $created;
+            $DocDigital->comentario = Input::get('comentario');
+            $DocDigital->usuario_created_at = Auth::user()->id;
+            $DocDigital->save();
+            
+            return Response::json(
+                array(
+                    'rst' => 1,
+                    'msj' => 'Registro Editado correctamente',
+                )
+            );
+            }
+
+        }
+    }
 
     public function postCambiarestadodoc()
     {
@@ -157,6 +184,14 @@ class DocumentoDigitalController extends \BaseController {
             $DocDigital->save();
 
             if($DocDigital->id){
+                
+                    $created=Input::get('fecha').' '.date ("h:i:s");     
+                    $DocHistorial = new DocumentoFechaH;
+                    $DocHistorial->documento_id = $DocDigital->id;
+                    $DocHistorial->fecha_documento = $DocDigital->created_at;
+                    $DocHistorial->comentario ='Inicio';
+                    $DocHistorial->usuario_created_at = Auth::user()->id;
+                    $DocHistorial->save();
                 /*if(Input::get('tipoenvio')==3){
                     $DocDigitalArea = new DocumentoDigitalArea();
                     $DocDigitalArea->doc_digital_id = $DocDigital->id;
