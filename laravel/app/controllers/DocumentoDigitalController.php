@@ -92,12 +92,12 @@ class DocumentoDigitalController extends \BaseController {
                     ->get();
 
             $DocDigital = DocumentoDigital::find(Input::get('iddocdigital'));
-            $DocDigital->titulo = Input::get('titulofinal');
-            $DocDigital->correlativo = Input::get('titulo');
+            //$DocDigital->titulo = Input::get('titulofinal');
+            //$DocDigital->correlativo = Input::get('titulo');
             $DocDigital->asunto = Input::get('asunto');
             $DocDigital->cuerpo = $html;
             $DocDigital->plantilla_doc_id = Input::get('plantilla');
-            $DocDigital->area_id = Auth::user()->area_id;
+            //$DocDigital->area_id = Auth::user()->area_id;
 
             if(Input::has('chk_todasareas') && Input::get('chk_todasareas') == 'allgesub'){
                 $DocDigital->envio_total = 1;
