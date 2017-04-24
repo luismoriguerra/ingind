@@ -59,7 +59,7 @@ var Plantillas={
             success : function(obj) {
                 $(".overlay, .loading-img").remove();
                 if(obj.rst==1){
-                    Plantillas.Cargar();
+                    Plantillas.Cargar(HTMLCargar);
                     msjG.mensaje('success',obj.msj,4000);
                     $('#fechaModal .modal-footer [data-dismiss="modal"]').click();
 
@@ -94,7 +94,7 @@ var Plantillas={
             },
             success : function(obj) {
                 if(obj.rst==1){
-                    HTMLCargar(obj.datos);
+                    evento(obj.datos);
                    /* PlantillaObj=obj.datos;*/
                 }
                 $(".overlay,.loading-img").remove();
