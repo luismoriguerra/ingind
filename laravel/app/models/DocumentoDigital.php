@@ -56,14 +56,14 @@ class DocumentoDigital extends Base {
                         ->leftjoin('personas as p1','p1.id','=','dd.usuario_updated_at')
                     ->select(DB::raw('DATE(dd.created_at)as created_at'),DB::raw('CONCAT_WS(" ",p1.paterno,p1.materno,p1.nombre) as persona_u'),
                         DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona_c'),'dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla','dd.estado'
-//                        ,DB::raw('(SELECT COUNT(r.id) '
-//                                . 'FROM rutas r '
-//                                . 'INNER JOIN rutas_detalle as rd on r.id=rd.ruta_id and rd.estado=1 and rd.condicion=0'
-//                                . ' INNER JOIN rutas_detalle_verbo as rdv on rdv.ruta_detalle_id=rd.id and rdv.estado=1 '
-//                                . 'where r.estado=1 AND dd.id=rdv.doc_digital_id ) AS rutadetallev'),
-//                        DB::raw('(SELECT COUNT(r.id) '
-//                                . 'FROM rutas r '
-//                                . 'where r.estado=1 AND dd.id=r.doc_digital_id ) AS ruta')    
+                        ,DB::raw('(SELECT COUNT(r.id) '
+                                . 'FROM rutas r '
+                                . 'INNER JOIN rutas_detalle as rd on r.id=rd.ruta_id and rd.estado=1 and rd.condicion=0'
+                                . ' INNER JOIN rutas_detalle_verbo as rdv on rdv.ruta_detalle_id=rd.id and rdv.estado=1 '
+                                . 'where r.estado=1 AND dd.id=rdv.doc_digital_id ) AS rutadetallev'),
+                        DB::raw('(SELECT COUNT(r.id) '
+                                . 'FROM rutas r '
+                                . 'where r.estado=1 AND dd.id=r.doc_digital_id ) AS ruta')    
                             )
                    	
                    	->where( 
@@ -93,8 +93,8 @@ class DocumentoDigital extends Base {
                             /* }*/
                         }
                     )
-//                    ->orderBy('ruta','desc') 
-//                    ->orderBy('rutadetallev','desc')
+                    ->orderBy('ruta','desc') 
+                    ->orderBy('rutadetallev','desc')
                     ->get();            
         } 
     }
