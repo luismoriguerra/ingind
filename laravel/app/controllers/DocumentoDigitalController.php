@@ -246,8 +246,10 @@ class DocumentoDigitalController extends \BaseController {
                 $destinatarios.= '';
                 $DocDigitalArea = DocumentoDigitalArea::where('doc_digital_id', '=', $id)->where('estado', '=', 1)->get();
                 $salto=9;
+                $nb="&nbsp;";
                 if($tamano==5){
                     $salto=6;
+                    $nb="";
                 }
                 foreach($DocDigitalArea as $key => $value){
                     $persona2 = Persona::find($value->persona_id);
@@ -255,7 +257,7 @@ class DocumentoDigitalController extends \BaseController {
                     $rol2= Rol::find($persona2->rol_id);
                     if($value->tipo ==1){
                         if($destinatarios!=""){
-                            $destinatarios.="<br><span>&nbsp;&nbsp;&nbsp;<span style='padding-left: ".$salto."em;'>";
+                            $destinatarios.="<br><span>&nbsp;&nbsp;".$nb."<span style='padding-left: ".$salto."em;'>";
                         }
                         else{
                             $destinatarios.="<span>";
@@ -263,7 +265,7 @@ class DocumentoDigitalController extends \BaseController {
                         $destinatarios.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span>';
                     }else{
                         if($copias!=""){
-                            $copias.="<br><span>&nbsp;&nbsp;&nbsp;<span style='padding-left: ".$salto."em;'>";
+                            $copias.="<br><span>&nbsp;&nbsp;".$nb."<span style='padding-left: ".$salto."em;'>";
                         }
                         else{
                             $copias.="<span>";
