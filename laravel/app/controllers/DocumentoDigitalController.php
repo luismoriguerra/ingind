@@ -248,7 +248,7 @@ class DocumentoDigitalController extends \BaseController {
                 $salto=9;
                 $nb="&nbsp;";
                 if($tamano==5){
-                    $salto=6;
+                    $salto=7;
                     $nb="";
                 }
                 foreach($DocDigitalArea as $key => $value){
