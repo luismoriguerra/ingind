@@ -96,7 +96,7 @@ class DocumentoDigitalController extends \BaseController {
             //$DocDigital->correlativo = Input::get('titulo');
             $DocDigital->asunto = Input::get('asunto');
             $DocDigital->cuerpo = $html;
-            $DocDigital->plantilla_doc_id = Input::get('plantilla');
+//            $DocDigital->plantilla_doc_id = Input::get('plantilla');
             //$DocDigital->area_id = Auth::user()->area_id;
 
             if(Input::has('chk_todasareas') && Input::get('chk_todasareas') == 'allgesub'){
@@ -106,11 +106,11 @@ class DocumentoDigitalController extends \BaseController {
             }
 
             $DocDigital->tipo_envio = Input::get('tipoenvio');
-            if(Input::get('tipoenvio')==3 or Input::get('tipoenvio')==5){
-                $DocDigital->persona_id = Auth::user()->id;    
-            }else{
-                $DocDigital->persona_id = $jefe[0]->id;                
-            }
+//            if(Input::get('tipoenvio')==3 or Input::get('tipoenvio')==5){
+//                $DocDigital->persona_id = Auth::user()->id;    
+//            }else{
+//                $DocDigital->persona_id = $jefe[0]->id;                
+//            }
             
             $DocDigital->usuario_updated_at = Auth::user()->id;
             $DocDigital->save();

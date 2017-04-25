@@ -149,6 +149,7 @@ $(document).ready(function() {
 
 NuevoDocumento=function(){
     CrearEditar=1;
+    $("#txt_titulo").removeAttr("disabled");
 }
 
 TipoEnvio=function(){
@@ -299,6 +300,7 @@ HTMLEdit = function(data){
         document.querySelector("#txt_asunto").value = data[0].asunto;
         document.querySelector("#txt_iddocdigital").value = data[0].id;
         TipoEnvio();
+        $("#txt_titulo").attr("disabled","true");
         $("#NuevoDocDigital").modal('show');
     }
 }

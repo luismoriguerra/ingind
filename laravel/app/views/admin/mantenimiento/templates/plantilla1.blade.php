@@ -298,13 +298,13 @@ hr {
 
 .fecha-documento-left {
     text-align: left;
-    font-size: 15px;
+    font-size: 14px;
 
 }
 
 .fecha-documento-right {
     text-align: right;
-    font-size: 15px;
+    font-size: 14px;
 
 }
  </style>   
