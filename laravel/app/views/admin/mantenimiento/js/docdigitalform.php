@@ -157,6 +157,7 @@ TipoEnvio=function(){
     $(".areaspersona").removeClass('hidden');
     $(".personasarea").removeClass('hidden');
     $(".asunto").removeClass('hidden');
+    $(".asuntolbl").text('Asunto:');
     $(".personasarea").removeClass('hidden');
     $(".todassubg").removeClass('hidden');
 
@@ -168,6 +169,7 @@ TipoEnvio=function(){
         $(".araesgerencia").addClass('hidden');
         $(".areaspersona").addClass('hidden');
         $(".asunto").addClass('hidden');
+        $(".asuntolbl").text('Descripción del Documento:');
         $(".personasarea").addClass('hidden');
     }
     else{ //gerencia

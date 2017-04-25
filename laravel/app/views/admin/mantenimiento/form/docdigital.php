@@ -63,14 +63,14 @@
 
               </div>
             </div>
-            <div class="row asunto">
+            <div class="row">
               <div class="col-xs-6 form-group">
                 <div class="form-group">
-                  <label class="control-label">Asunto: </label>
+                  <label class="control-label asuntolbl">Asunto: </label>
                   <textarea class="form-control" name="txt_asunto" id="txt_asunto" placeholder="Asunto .." rows="5"></textarea>
                 </div>
               </div>
-              <div class="col-xs-6">
+              <div class="col-xs-6 asunto">
                      <div class="radio todassubg hidden">
                           <label style="margin-left:-12px">
                               <input class="chk form-control" type="checkbox" name="chk_todasareas" id="chk_todasareas" value="allgesub"> Todas Las Gerencias y Sub Gerencias                                                                
