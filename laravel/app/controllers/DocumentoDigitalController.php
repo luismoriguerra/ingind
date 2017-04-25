@@ -247,7 +247,7 @@ class DocumentoDigitalController extends \BaseController {
                 $DocDigitalArea = DocumentoDigitalArea::where('doc_digital_id', '=', $id)->where('estado', '=', 1)->get();
                 $salto=9;
                 if($tamano==5){
-                    $salto=7;
+                    $salto=6;
                 }
                 foreach($DocDigitalArea as $key => $value){
                     $persona2 = Persona::find($value->persona_id);
