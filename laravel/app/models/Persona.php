@@ -228,7 +228,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         else if (Input::has('area_documento')) {
             $id = Input::get('ruta_detalle_id');
             $rd = RutaDetalle::find($id);
-            $where = " AND (p.area_id =".$rd->area_id." or FIND_IN_SET(".$rd->area_id.","
+            $where = " AND (p.area_id =".$rd->area_id." or FIND_IN_SET(p.area_id,"
                     . "(SELECT p2.area_responsable "
                     . "FROM personas p2 "
                     . "WHERE p2.area_id=".$rd->area_id." AND rol_id IN (8,6,9) AND p2.estado=1"

@@ -69,9 +69,11 @@ HTMLCargar=function(datos){
 
         if(data.estado == 1){
             html+="<td><a class='btn btn-primary btn-sm' onclick='editDocDigital("+data.id+"); return false;' data-titulo='Editar'><i class='glyphicon glyphicon-pencil'></i> </a></td>";
-            html+="<td><a class='btn btn-default btn-sm' onclick='openPrevisualizarPlantilla("+data.id+",1); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'></i> </a></td>";
+            html+="<td><a class='btn btn-default btn-sm' onclick='openPlantilla("+data.id+",4,0); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A4</i> </a><br>"+
+                   "<a class='btn btn-default btn-sm' onclick='openPlantilla("+data.id+",5,0); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A5</i> </a></td>";
             if($.trim(data.ruta) != 0 || $.trim(data.rutadetallev)!= 0){
-                html+="<td><a class='btn btn-default btn-sm' onclick='openImprimirPlantilla("+data.id+",2); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'></i> </a></td>";
+                html+="<td><a class='btn btn-default btn-sm' onclick='openPlantilla("+data.id+",4,1); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A4</i> </a>"+
+                       "<a class='btn btn-default btn-sm' onclick='openPlantilla("+data.id+",5,1); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A5</i> </a></td>";
                 html+="<td></td>";
             }else{
                 html+="<td></td>";

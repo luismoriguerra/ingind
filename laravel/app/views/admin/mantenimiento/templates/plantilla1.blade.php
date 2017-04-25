@@ -14,11 +14,12 @@ html, body{
 }
 
 table, tr , td, th {
-    text-align: left !important;
+/*    text-align: left !important;
     border-collapse: collapse;
-    border: 1px solid #ccc;
+    border: 1px #ccc; */
     font-size: 11px;
-    font-family: arial, sans-serif;
+/*    font-family: arial, sans-serif;*/
+    width: 100% !important;
 }
 th, td {
     padding: 2px;
@@ -132,7 +133,7 @@ hr {
 
 </head>
 <body>
-
+<?php if ($tamano==4) {   ?> 
     <div>
 
         <div>
@@ -217,6 +218,180 @@ hr {
             </div>            
         </div>
     </div>
+<?php } else if($tamano==5){?>
+ <style>
+/*    table, tr , td, th {
+    text-align: right !important;
+    border-collapse: collapse;
+    border: 5px solid #ccc;
+    font-size: 11px;
+    font-family: arial, sans-serif;
+    width: 100% !important;
 
+}*/
+.body-rest{
+    margin-left: 1cm;       
+}
+.qr {
+  position: absolute;
+  top:  -22px; 
+  left: 370px;
+}
+
+.logo{
+     left: -30px;position: absolute;
+}
+.logo img {
+    height: 85px;
+}
+
+.nombre-municipio {
+    position: absolute;
+    top:  0px; 
+    left: 100px;
+    font-style: italic;
+    font-size: 11.3px;
+}
+.nombre-vistaprevia {
+    position: absolute;
+    top:  60px; 
+    left: 180px;
+    font-style: italic;
+    font-weight: bold;
+    color: red;
+    font-size: 12px;
+    text-decoration: underline; 
+}
+.nombre-anio {
+    font-style: italic;
+    position: absolute;
+    top:  50px; 
+    left: 140px;
+    font-size: 12px;
+    padding: 0px;
+    margin: 10px;
+}
+
+.nombre-documento {
+    text-align: center;
+    font-size: 15px;
+    text-decoration: underline; 
+}
+
+.nombre-documento-left {
+    text-align: left;
+    font-size: 15px;
+    text-decoration: underline; 
+}
+
+.nombre-documento-right {
+    text-align: right;
+    font-size: 15px;
+    text-decoration: underline; 
+}
+
+.nombre-documento-right {
+    text-align: right;
+    font-size: 15px;
+    text-decoration: underline; 
+}
+
+.fecha-documento-left {
+    text-align: left;
+    font-size: 15px;
+
+}
+
+.fecha-documento-right {
+    text-align: right;
+    font-size: 15px;
+
+}
+ </style>   
+ <div>
+
+        <div>
+            <div class="logo">
+                <img align="left" src="img/logo_muni.jpg">
+            </div> 
+            <h4 class="nombre-municipio">MUNICIPALIDAD DISTRITAL DE INDEPENDENCIA</h4>
+            <!--            <h4 class="gerencia">Gerencia x</h4>--><br><br><br><br><br>
+            <h4 class="nombre-anio">“Año del Buen Servicio al Ciudadano”</h4>
+            <h4 class="nombre-vistaprevia">{{ $vistaprevia }}</h4>
+           <div class="qr">{{ $imagen }}</div>
+        </div>
+        @if ($area!=1)
+        <br><br>
+        <div class="body-rest">
+            <?php if ($posicion_fecha==2 and $tipo_envio==4)  { ?>  
+            <h4 class="fecha-documento-right">
+           {{ $fecha }}
+            </h4>
+            <?php }else if($posicion_fecha==1 and $tipo_envio==4) {?>
+            <h4 class="fecha-documento-left">
+            {{ $fecha }}
+            </h4>
+            <?php }   ?>
+            
+           <?php if ($posicion==0) {   ?> 
+            <h2 class="nombre-documento">
+            {{ $titulo }}
+            </h2>
+           <?php } else if($posicion==2) { ?> 
+            <h2 class="nombre-documento-right">
+            {{ $titulo }}
+            </h2>
+            <?php } else if($posicion==1){ ?>
+            <h2 class="nombre-documento-left">
+            {{ $titulo }}
+            </h2>
+            <?php }    ?>
+            
+            <?php if ($posicion_fecha==4 and $tipo_envio==4)  { ?>  
+            <h4 class="fecha-documento-right">
+           {{ $fecha }}
+            </h4>
+            <?php }else if($posicion_fecha==3 and $tipo_envio==4) {?>
+            <h4 class="fecha-documento-left">
+            {{ $fecha }}
+            </h4>
+            <?php }   ?>
+        </div>
+        @endif
+        <div class="body-rest">
+        @if ($conCabecera)
+            <div class="tabla-cabecera">
+                <div class="row">
+                    <b>DE&nbsp;&nbsp;&nbsp;</b><b style="padding-left: 3em;padding-right: 1em;">:</b> {{ $remitente }}
+                </div>
+                <div class="row">
+                    <b>A&nbsp;&nbsp;</b><b style="padding-left: 4em;padding-right: 1em;">:</b> {{ $destinatario }}
+                </div>
+                @if(isset($copias))
+                <div class="row">
+                    <b>CC&nbsp;&nbsp;&nbsp;</b><b style="padding-left: 3em;padding-right: 1em;">:</b> {{ $copias }}
+                </div>
+                @endif
+                <div class="row">
+                    <b>ASUNTO</b><b style="padding-left: 1em;padding-right: 1em;">:</b> 
+                    <span>
+                        {{ $asunto }}
+                    </span>
+                </div>
+                <div class="row">
+                    <b>FECHA&nbsp;&nbsp;&nbsp;</b><b style="padding-left: 1em;padding-right: 1em;">:</b> {{ $fecha }}
+
+                </div>
+            </div>
+
+            <br><hr><br>
+        @endif
+
+            <div class='cuerpo-documento'>
+                {{ $contenido }}
+            </div>            
+        </div>
+    </div>
+<?php } ?>
 </body>
 </html>

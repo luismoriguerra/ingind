@@ -187,14 +187,8 @@ HTML_Ckeditor=function(){
     CKEDITOR.replace( 'plantillaWord' );
 };
 
-openPrevisualizarPlantilla=function(id){
-    window.open("documentodig/vistaprevia/"+id,
-                "PrevisualizarPlantilla",
-                "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
-};
-
-openImprimirPlantilla=function(id){
-    window.open("documentodig/imprimirprevia/"+id,
+openPlantilla=function(id,tamano,tipo){
+    window.open("documentodig/vista/"+id+"/"+tamano+"/"+tipo,
                 "PrevisualizarPlantilla",
                 "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
 };
