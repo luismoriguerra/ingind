@@ -248,8 +248,8 @@ class DocumentoDigitalController extends \BaseController {
                 $salto=9;
                 $nb="&nbsp;";
                 if($tamano==5){
-                    $salto=7;
-                    $nb="";
+                    $salto=6;
+                    $nb="&nbsp;";
                 }
                 foreach($DocDigitalArea as $key => $value){
                     $persona2 = Persona::find($value->persona_id);
