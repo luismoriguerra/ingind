@@ -162,6 +162,14 @@ class DocumentoDigital extends Base {
         $oData = DB::update($sSql);
         return $oData;
     }
+    
+            public static function getCambiarEstadoDoc( )
+    {   
+        $sSql="UPDATE doc_digital set "
+                ." titulo=CONCAT_WS('|',titulo,now()), estado='0' WHERE id=".Input::get('id');
+        $oData = DB::update($sSql);
+        return $oData;
+    }
 
     public static function getDocdigitalCount( $array )
     {   
