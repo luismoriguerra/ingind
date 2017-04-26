@@ -26,8 +26,11 @@ var Plantillas={
                 if(obj.rst==1){
                     $('#t_plantilla').dataTable().fnDestroy();
                     Plantillas.Cargar(HTMLCargar);
-                    alertBootstrap('success', obj.msj, 6);
+                    alertBootstrap('success', obj.msj, 8);
                     $("#NuevoDocDigital").modal('hide');
+                }
+                else if(obj.rst==3){
+                    alertBootstrap('danger', obj.msj+' => '+obj.correlativo, 6);
                 }
                 else{
                     $.each(obj.msj,function(index,datos){

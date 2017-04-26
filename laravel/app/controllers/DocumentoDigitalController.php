@@ -158,7 +158,7 @@ class DocumentoDigitalController extends \BaseController {
                     ->whereIn('rol_id', array(8,9,6))
                     ->where('estado',1)
                     ->get();
-
+            DB::beginTransaction();
             $DocDigital = new DocumentoDigital;
             $DocDigital->titulo = Input::get('titulofinal');
             $DocDigital->asunto = Input::get('asunto');
@@ -181,7 +181,41 @@ class DocumentoDigitalController extends \BaseController {
             }
 
             $DocDigital->usuario_created_at = Auth::user()->id;
-            $DocDigital->save();
+
+            $cantidad=true;
+            $conteo=0;
+            $correlativoinicial=str_pad(Input::get('titulo'),6,"0",STR_PAD_LEFT);
+            $correlativoaux=Input::get('titulo');
+            while ( $cantidad==true ) {
+                $cantidad=false;
+                try {
+                    $DocDigital->save();
+                } catch (Exception $e) {
+                    $d=explode("duplicate",strtolower($e));
+                    if(count($d)>1){
+                        $cantidad=true;
+                        $DocDigital->correlativo++;
+                        $correlativoaux=str_pad($DocDigital->correlativo,6,"0",STR_PAD_LEFT);
+                        $DocDigital->titulo=str_replace($correlativoinicial,$correlativoaux,$DocDigital->titulo);
+                    }
+                    else{
+                        $conteo=6;
+                    }
+                }
+                $conteo++;
+                if($conteo==5){
+                    $cantidad=false;
+                }
+            }
+
+            if($conteo==5){
+                DB::rollback();
+                return Response::json(array('rst'=>3, 'msj'=>'Registro Inválido revise sus datos seleccionados','correlativo'=>$correlativoaux."|".$correlativoinicial));
+            }
+            elseif($conteo==6){
+                DB::rollback();
+                return Response::json(array('rst'=>3, 'msj'=>'Registro Inválido o Existe un problema con el servidor, revise sus datos seleccionados','correlativo'=>$correlativoaux."|".$correlativoinicial));
+            }
 
             if($DocDigital->id){
                 
@@ -213,7 +247,8 @@ class DocumentoDigitalController extends \BaseController {
                 	}
                 //}
             }
-            return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente','nombre'=>$DocDigital->titulo,'iddocdigital'=>$DocDigital->id));
+            DB::commit();
+            return Response::json(array('rst'=>1, 'msj'=>'Su documento generado es: '.$DocDigital->titulo,'iddocdigital'=>$DocDigital->id));
         }
     }
 
