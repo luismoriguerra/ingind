@@ -127,6 +127,17 @@ class DocumentoDigital extends Base {
                 ORDER BY dd.correlativo DESC LIMIT 1";
     	$r= DB::select($sql);
         return (isset($r[0])) ? $r[0] : $r2[0];}
+        
+        else if(Input::get('tipo_corre')==0){
+    	$año= date("Y");
+        $r2=array(array('correlativo'=>'000001','ano'=>$año));
+    	/*$sql = "SELECT LPAD(id+1,6,'0') as correlativo,'$año' ano FROM doc_digital ORDER BY id DESC LIMIT 1";*/
+        $sql = "SELECT IFNULL(LPAD(MAX(dd.correlativo)+1,6,'0'),LPAD(1,6,'0')) as correlativo from doc_digital dd 
+                INNER JOIN plantilla_doc pd on dd.plantilla_doc_id=pd.id and pd.tipo_documento_id=".Input::get('tipo_doc')." WHERE dd.estado=1 
+                AND YEAR(dd.created_at)=YEAR(CURDATE())
+                ORDER BY dd.correlativo DESC LIMIT 1";
+    	$r= DB::select($sql);
+        return (isset($r[0])) ? $r[0] : $r2[0];}
     }
     
          public static function getListarCount( $array )

@@ -55,17 +55,21 @@ $(document).ready(function() {
         TipoEnvio();
 
         if(CrearEditar==1){
-            if($(this).val()==3 || $(this).val()==5){
-            document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+SiglasPersona+" - "+SiglasArea;
-            Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':1},HTMLCargarCorrelativo);
-            } 
-            else if( Documento.csigla==0){
-            document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+" MDI";
-            Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo); 
+            if(Documento.csigla!=0){
+                if($(this).val()==3 || $(this).val()==5){
+                     document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+SiglasPersona+" - "+SiglasArea;
+                     Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':1},HTMLCargarCorrelativo);
+                     } 
+
+                else {
+                    document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+SiglasArea;
+                    Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo);
+                     }         
             }
             else {
-            document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+SiglasArea;
-            Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo);
+                
+                 document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+"MDI";
+                 Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':0},HTMLCargarCorrelativo); 
             }
         }
     });
@@ -179,11 +183,15 @@ TipoEnvio=function(){
 };
 
 Editar=function(){
+    if(validaDocumentos()){
     Plantillas.AgregarEditar(AreaSeleccionadas(),1);
+    }
 };
 
 Agregar=function(){
+    if(validaDocumentos()){
     Plantillas.AgregarEditar(AreaSeleccionadas(),0);
+    }
 };
 
 HTML_Ckeditor=function(){
@@ -208,19 +216,25 @@ HTMLPlantilla = function(data){
             document.querySelector("#lblDocumento").innerHTML= result.tipodoc+" - Nº ";
             SiglasArea= result.nemonico_doc;
             document.querySelector('#txt_area_plantilla').value = result.area_id;
-            
-            if( Documento.tipoenvio==3  || Documento.tipoenvio==5){
-            document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+SiglasPersona+" - "+SiglasArea;
-            Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':1},HTMLCargarCorrelativo);
-            } 
-            else if( result.area==0){
-            document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+" MDI";
-            Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo); 
+
+            if(result.csigla!=0){
+                    if( Documento.tipoenvio==3  || Documento.tipoenvio==5){
+                    document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+SiglasPersona+" - "+SiglasArea;
+                    Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':1},HTMLCargarCorrelativo);
+                    }
+                    else {
+                    document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+SiglasArea;
+                    Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo);
+                    }
+                              }
+            else{
+                  document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+"MDI";
+                  Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':0},HTMLCargarCorrelativo); 
+
             }
-            else {
-            document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+SiglasArea;
-            Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo);
-            }
+
+
+
         }
     }
 }
@@ -342,5 +356,19 @@ function addZeros (n, length)
     return n >= 0 ? zeros : "-" + zeros;
 }
 eventoSlctGlobalSimple=function(){
+}
+
+validaDocumentos = function(){
+    var r=true;
+    if( $("#formNuevoDocDigital #slct_plantilla").val()=='' ){
+        alert("Seleccione Plantilla");
+        r=false;
+    }
+    
+    if( $("#formNuevoDocDigital #slct_tipoenvio").val()=='0' ){
+        alert("Seleccione Tipo de Envio");
+        r=false;
+    }
+    return r;
 }
 </script>
