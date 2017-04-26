@@ -73,8 +73,8 @@ class DocumentoDigitalController extends \BaseController {
                     'msj' => 'Registro actualizado correctamente',
                 )
             );
-            }
         }
+    }
     }
 
     public function postEditar()
@@ -321,7 +321,7 @@ class DocumentoDigitalController extends \BaseController {
                  $size=115;
             }
             
-            $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistaprevia/".$id);
+            $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vista/".$id."/".$tamano."/".$tipo);
             $png = base64_encode($png);
             $png= "<img src='data:image/png;base64," . $png . "'>";
             $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
