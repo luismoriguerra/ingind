@@ -166,7 +166,11 @@ class DocumentoDigital extends Base {
             public static function getCambiarEstadoDoc( )
     {   
         $sSql="UPDATE doc_digital set "
-                ." titulo=CONCAT_WS('|',titulo,now()), estado='0' WHERE id=".Input::get('id');
+                ." titulo=CONCAT_WS('|',titulo,now()), 
+                    estado='0',
+                    usuario_updated_at='".Auth::user()->id."', 
+                    updated_at= now() 
+                    WHERE id=".Input::get('id');
         $oData = DB::update($sSql);
         return $oData;
     }
