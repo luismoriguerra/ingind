@@ -257,12 +257,12 @@ class DocumentoDigitalController extends \BaseController {
                     $rol2= Rol::find($persona2->rol_id);
                     if($value->tipo ==1){
                         if($destinatarios!=""){
-                            $destinatarios.="<br><span>&nbsp;&nbsp;".$nb."<span style='padding-left: ".$salto."em;'>";
+                            /*$destinatarios.="<br><span>&nbsp;&nbsp;".$nb."<span style='padding-left: ".$salto."em;'>";*/
                         }
                         else{
                             $destinatarios.="<span>";
                         }
-                        $destinatarios.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span>';
+                        $destinatarios.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span><br>';
                     }else{
                         if($copias!=""){
                             $copias.="<br><span>&nbsp;&nbsp;".$nb."<span style='padding-left: ".$salto."em;'>";
