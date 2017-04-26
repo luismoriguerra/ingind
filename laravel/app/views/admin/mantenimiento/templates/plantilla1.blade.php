@@ -35,15 +35,16 @@ hr {
 }
 
 .logo {
-     left: 10px;position: absolute;
+     left: 70px;position: absolute;top: -17px;
 }
 .logo img {
-    height: 107px;
+    height: 117px;
+    width: 100px;
 }
 .nombre-municipio {
     position: absolute;
     top:  0px; 
-    left: 190px;
+    left: 208px;
     font-style: italic;
     font-size: 14px;
 }
@@ -61,7 +62,7 @@ hr {
     font-style: italic;
     position: absolute;
     top:  50px; 
-    left: 220px;
+    left: 240px;
     font-size: 14px;
     padding: 0px;
     margin: 10px;
@@ -116,8 +117,8 @@ hr {
 }
 .qr {
   position: absolute;
-  top:  -30px; 
-  left: 550px;
+  top: -21px; 
+  left: 580px;
 }
 
 .body-rest{
@@ -128,26 +129,153 @@ hr {
   padding: 2;
   margin: 0;
 }
+@page {
+    margin-bottom: 60px;
+    margin-top: 130px;
+}
+header { 
+    position: fixed;
+    left: 0px;
+    top: -100px;
+    right: 0px;
+    height: 130px;
+}
+footer {
+    position: fixed;
+    left: 0px;
+    bottom: -5px;
+    right: 0px;
+    height: 10px;
+    border-bottom: 2px solid #ddd;
+}
+footer .page:after {
+    content: counter(page);
+}
+footer p {
+    text-align: right;
+}
+footer .izq {
+    text-align: left;
+}
 
 </style>
 
 </head>
+
+<footer class="body-rest">
+    <table>
+      <tr>
+        <td>
+            <p class="izq">
+              JLSF
+            </p>
+        </td>
+        <td>
+          <p class="page">
+            Página
+          </p>
+        </td>
+      </tr>
+    </table>
+</footer>
+<?php if ($tamano==4) {   ?> 
+<header>
+    <div class="logo">
+        <img align="left" src="img/logo_muni.png">
+    </div> 
+    <h4 class="nombre-municipio">MUNICIPALIDAD DISTRITAL DE INDEPENDENCIA</h4>
+    <!--            <h4 class="gerencia">Gerencia x</h4>-->
+    <h4 class="nombre-anio">“Año del Buen Servicio al Ciudadano”</h4>
+    <h4 class="nombre-vistaprevia">{{ $vistaprevia }}</h4>
+   <div class="qr">{{ $imagen }}</div>
+</header>
+<?php } else if($tamano==5){?>
+<style type="text/css">
+.qr {
+  position: absolute;
+  top: -21px; 
+  left: 370px;
+}
+.logo {
+     left: 10px;position: absolute;top: -17px;
+}
+.logo img {
+    height: 117px;
+    width: 80px;
+}
+.nombre-municipio {
+    position: absolute;
+    top:  0px; 
+    left: 100px;
+    font-style: italic;
+    font-size: 11.3px;
+}
+.nombre-vistaprevia {
+    position: absolute;
+    top:  60px; 
+    left: 180px;
+    font-style: italic;
+    font-weight: bold;
+    color: red;
+    font-size: 12px;
+    text-decoration: underline; 
+}
+.nombre-anio {
+    font-style: italic;
+    position: absolute;
+    top:  50px; 
+    left: 120px;
+    font-size: 12px;
+    padding: 0px;
+    margin: 10px;
+}
+.body-rest{
+    margin-left: 1cm;       
+}
+.nombre-documento {
+    text-align: center;
+    font-size: 15px;
+    text-decoration: underline; 
+}
+.nombre-documento-left {
+    text-align: left;
+    font-size: 15px;
+    text-decoration: underline; 
+}
+.nombre-documento-right {
+    text-align: right;
+    font-size: 15px;
+    text-decoration: underline; 
+}
+.nombre-documento-right {
+    text-align: right;
+    font-size: 15px;
+    text-decoration: underline; 
+}
+.fecha-documento-left {
+    text-align: left;
+    font-size: 14px;
+}
+.fecha-documento-right {
+    text-align: right;
+    font-size: 14px;
+}
+</style>
+<header>
+    <div class="logo">
+        <img align="left" src="img/logo_muni.png">
+    </div> 
+    <h4 class="nombre-municipio">MUNICIPALIDAD DISTRITAL DE INDEPENDENCIA</h4>
+    <!--            <h4 class="gerencia">Gerencia x</h4>--><br><br><br><br><br>
+    <h4 class="nombre-anio">“Año del Buen Servicio al Ciudadano”</h4>
+    <h4 class="nombre-vistaprevia">{{ $vistaprevia }}</h4>
+   <div class="qr">{{ $imagen }}</div>
+</header>
+<?php } ?>
 <body>
 <?php if ($tamano==4) {   ?> 
     <div>
-
-        <div>
-            <div class="logo">
-                <img align="left" src="img/logo_muni.jpg">
-            </div> 
-            <h4 class="nombre-municipio">MUNICIPALIDAD DISTRITAL DE INDEPENDENCIA</h4>
-            <!--            <h4 class="gerencia">Gerencia x</h4>--><br><br><br><br><br>
-            <h4 class="nombre-anio">“Año del Buen Servicio al Ciudadano”</h4>
-            <h4 class="nombre-vistaprevia">{{ $vistaprevia }}</h4>
-           <div class="qr">{{ $imagen }}</div>
-        </div>
         @if ($area!=1)
-        <br><br>
         <div class="body-rest">
             <?php if ($posicion_fecha==2 and $tipo_envio==4)  { ?>  
             <h4 class="fecha-documento-right">
@@ -210,7 +338,7 @@ hr {
                 </div>
             </div>
 
-            <br><hr><br>
+            <br><hr>
         @endif
 
             <div class='cuerpo-documento'>
@@ -219,109 +347,8 @@ hr {
         </div>
     </div>
 <?php } else if($tamano==5){?>
- <style>
-/*    table, tr , td, th {
-    text-align: right !important;
-    border-collapse: collapse;
-    border: 5px solid #ccc;
-    font-size: 11px;
-    font-family: arial, sans-serif;
-    width: 100% !important;
-
-}*/
-.body-rest{
-    margin-left: 1cm;       
-}
-.qr {
-  position: absolute;
-  top:  -22px; 
-  left: 370px;
-}
-
-.logo{
-     left: -30px;position: absolute;
-}
-.logo img {
-    height: 85px;
-}
-
-.nombre-municipio {
-    position: absolute;
-    top:  0px; 
-    left: 100px;
-    font-style: italic;
-    font-size: 11.3px;
-}
-.nombre-vistaprevia {
-    position: absolute;
-    top:  60px; 
-    left: 180px;
-    font-style: italic;
-    font-weight: bold;
-    color: red;
-    font-size: 12px;
-    text-decoration: underline; 
-}
-.nombre-anio {
-    font-style: italic;
-    position: absolute;
-    top:  50px; 
-    left: 140px;
-    font-size: 12px;
-    padding: 0px;
-    margin: 10px;
-}
-
-.nombre-documento {
-    text-align: center;
-    font-size: 15px;
-    text-decoration: underline; 
-}
-
-.nombre-documento-left {
-    text-align: left;
-    font-size: 15px;
-    text-decoration: underline; 
-}
-
-.nombre-documento-right {
-    text-align: right;
-    font-size: 15px;
-    text-decoration: underline; 
-}
-
-.nombre-documento-right {
-    text-align: right;
-    font-size: 15px;
-    text-decoration: underline; 
-}
-
-.fecha-documento-left {
-    text-align: left;
-    font-size: 14px;
-
-}
-
-.fecha-documento-right {
-    text-align: right;
-    font-size: 14px;
-
-}
- </style>   
  <div>
-
-        <div>
-            <div class="logo">
-                <img align="left" src="img/logo_muni.jpg">
-            </div> 
-            <h4 class="nombre-municipio">MUNICIPALIDAD DISTRITAL DE INDEPENDENCIA</h4>
-            <!--            <h4 class="gerencia">Gerencia x</h4>--><br><br><br><br><br>
-            <h4 class="nombre-anio">“Año del Buen Servicio al Ciudadano”</h4>
-            <h4 class="nombre-vistaprevia">{{ $vistaprevia }}</h4>
-           <div class="qr">{{ $imagen }}</div>
-        </div>
         @if ($area!=1)
-        <br><br>
         <div class="body-rest">
             <?php if ($posicion_fecha==2 and $tipo_envio==4)  { ?>  
             <h4 class="fecha-documento-right">

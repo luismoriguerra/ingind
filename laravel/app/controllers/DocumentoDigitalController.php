@@ -219,7 +219,7 @@ class DocumentoDigitalController extends \BaseController {
 
     public function getVista($id,$tamano,$tipo)
     {
-
+        ini_set("max_execution_time", 300);
         $DocumentoDigital = DocumentoDigital::find($id);
         $sql= "SELECT d.posicion,d.posicion_fecha
                 FROM documentos d
@@ -279,12 +279,12 @@ class DocumentoDigitalController extends \BaseController {
 
             /*end get destinatario data*/
             if($tamano==4){
-                $size=150;}
+                $size=122;}
             else if($tamano==5){
-                 $size=120;
+                 $size=115;
             }
             
-            $png = QrCode::format('png')->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistaprevia/".$id);
+            $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistaprevia/".$id);
             $png = base64_encode($png);
             $png= "<img src='data:image/png;base64," . $png . "'>";
             $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
@@ -310,7 +310,7 @@ class DocumentoDigitalController extends \BaseController {
                  $vistaprevia='';
             }
             $documenttittle= $DocumentoDigital->titulo;
-            if(strlen($documenttittle)>60){
+            if(strlen($documenttittle)>60 AND $tamano==4){
                 $dd=explode("-",$documenttittle);
                 $documenttittle='';
                 if( strlen( $dd[0] )<=40 ){
@@ -328,6 +328,32 @@ class DocumentoDigitalController extends \BaseController {
                     for ($i=0; $i < count($dd) ; $i++) { 
                         if( ($i+3)==count($dd) ){
                             $documenttittle.="<br><br>".$dd[$i]."-".$dd[$i+1]."-".$dd[$i+2];
+                            $i++;$i++;
+                        }
+                        else{
+                            $documenttittle.=$dd[$i]."-";
+                        }
+                    }
+                }
+            }
+            else if(strlen($documenttittle)>50 AND $tamano==5){
+                $dd=explode("-",$documenttittle);
+                $documenttittle='';
+                if( strlen( $dd[0] )<=40 ){
+                    for ($i=0; $i < count($dd) ; $i++) { 
+                        if( ($i+3)==count($dd) ){
+                            $documenttittle.="<br><br>".$dd[$i]."-".$dd[$i+1]."-".$dd[$i+2];
+                            $i++;
+                        }
+                        else{
+                            $documenttittle.=$dd[$i]."-";
+                        }
+                    }
+                }
+                else{
+                    for ($i=0; $i < count($dd) ; $i++) { 
+                        if( ($i+4)==count($dd) ){
+                            $documenttittle.="<br><br>".$dd[$i]."-".$dd[$i+1]."-".$dd[$i+2]."-".$dd[$i+3];
                             $i++;$i++;
                         }
                         else{
