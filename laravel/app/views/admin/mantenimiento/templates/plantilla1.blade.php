@@ -175,7 +175,7 @@ footer .izq {
       <tr>
         <td>
             <p class="izq">
-              JLSF
+              
             </p>
         </td>
         <td>
