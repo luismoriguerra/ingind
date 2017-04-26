@@ -129,6 +129,14 @@ hr {
   margin: 0;
 }
 
+.c1{
+    width: 20% !important
+}
+
+.c2{
+    width: 80% !important;text-align: left !important
+}
+
 </style>
 
 </head>
@@ -187,16 +195,43 @@ hr {
         <div class="body-rest">
         @if ($conCabecera)
             <div class="tabla-cabecera">
-                <div class="row">
-                    <b">DE&nbsp;&nbsp;&nbsp;</b><b style="padding-left: 5em;padding-right: 2em;">:</b> {{ $remitente }}
-                </div>
-                <div class="row">
+               <table style="width: 100% !important">
+                   <tr>
+                       <td class="c1">
+                            <b>DE&nbsp;</b><b style="padding-left: 5em;padding-right: 2em;">:</b>
+                       </td>
+                       <td class="c2">
+                            {{ $remitente }}
+                       </td>
+                   </tr>
+               </table>
+                <table style="width: 100% !important">
+                   <tr>
+                       <td class="c1">
+                            <b>A&nbsp;&nbsp;&nbsp;</b><b style="padding-left: 5em;padding-right: 2em;">:</b>
+                       </td>
+                       <td class="c2">
+                            {{ $destinatario }}
+                       </td>
+                   </tr>
+               </table>
+               {{--  <div class="row">
                     <b>A&nbsp;&nbsp;</b><b style="padding-left: 6em;padding-right: 2em;">:</b> {{ $destinatario }}
-                </div>
+                </div> --}}
                 @if(isset($copias))
-                <div class="row">
+                {{-- <div class="row">
                     <b>CC&nbsp;&nbsp;&nbsp;</b><b style="padding-left: 5em;padding-right: 2em;">:</b> {{ $copias }}
-                </div>
+                </div> --}}
+                <table style="width: 100% !important">
+                   <tr>
+                       <td class="c1">
+                            <b>CC&nbsp;</b><b style="padding-left: 5em;padding-right: 2em;">:</b>
+                       </td>
+                       <td class="c2">
+                            {{ $copias }}
+                       </td>
+                   </tr>
+               </table>                
                 @endif
                 <div class="row">
                     <b>ASUNTO</b><b style="padding-left: 3em;padding-right: 2em;">:</b> 
