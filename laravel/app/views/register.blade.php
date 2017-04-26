@@ -187,7 +187,7 @@
 
                             </div>
                         </div>  
-                        {{-- <button type="submit" class="btn btnEnviar">Enviar<img src="http://www.e-quipu.pe/static/img/trabaja-con-nosotros/check.png"></button> --}}
+                        {{-- <button type="submit" class="btn btnEnviar">Enviar<img src="img/web/check.png"></button> --}}
                         <div class="submitWrap">
                             <!-- <a href="#">RegÃ&shy;strate</a> -->
                             {{ Form::submit('Regístrate', array('class' => 'btn btn-primary btnEnviar')) }}

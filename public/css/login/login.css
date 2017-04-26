@@ -72,7 +72,8 @@ a {
 .logoPersonaje {
 	margin: 0 auto;
     display: block;
-    width: 40%;
+    width: 160px;
+    height: 180px;
     margin-bottom: 5%;
 }
 

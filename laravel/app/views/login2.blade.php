@@ -26,7 +26,7 @@
 		<div id="mainWrap">
 			<div id="loggit">
 				<h2 class="titulo">{{-- <i class="fa fa-lock"></i> --}} MUN. INDEPENDENCIA</h2>
-				<img src="http://www.e-quipu.pe/static/application/bootstrap_jade/dist/images/emprendedor.png" class="img-circle logoPersonaje">
+				<img src="img/logo_muni.png" class="img-circle logoPersonaje">
 				{{-- {{ HTML::image('img/mindependencia.jpg', 'a picture', array('class' => 'logoPersonaje','class' => 'img-circle')) }} --}}
 				<h3 id="mensaje_msj"  class="label-success">
 				<?=	Session::get('msj'); ?>			
