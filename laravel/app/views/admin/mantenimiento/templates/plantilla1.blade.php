@@ -22,6 +22,7 @@ html, body{
     
 }
 table{
+    font-size: 11px;
     width: 100% !important;
 }
 th, td {
