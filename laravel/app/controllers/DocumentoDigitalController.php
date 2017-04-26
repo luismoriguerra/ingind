@@ -63,15 +63,17 @@ class DocumentoDigitalController extends \BaseController {
     public function postCambiarestadodoc()
     {
         if (Request::ajax() && Input::has('id') && Input::has('estado')) {
-            $DocDigital = DocumentoDigital::find(Input::get('id'));
-            $DocDigital->estado = Input::get('estado');
-            $DocDigital->save();
+            $a      = new DocumentoDigital;
+            $listar = Array();
+            $listar =$a->getCambiarEstadoDoc();
+            if($listar=1){
             return Response::json(
                 array(
                     'rst' => 1,
                     'msj' => 'Registro actualizado correctamente',
                 )
             );
+            }
         }
     }
 
