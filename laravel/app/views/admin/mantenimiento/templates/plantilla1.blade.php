@@ -13,12 +13,15 @@ html, body{
     font-family: arial, sans-serif;
 }
 
-table, tr , td, th {
+ tr , td, th {
 /*    text-align: left !important;
     border-collapse: collapse;
     border: 1px #ccc; */
     font-size: 11px;
 /*    font-family: arial, sans-serif;*/
+    
+}
+table{
     width: 100% !important;
 }
 th, td {
