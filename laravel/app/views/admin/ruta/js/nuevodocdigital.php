@@ -137,7 +137,7 @@ HTMLCargar=function(datos,campos){
         html+="<td>"+data.plantilla+"</td>";
         html+="<td><a class='btn btn-success btn-sm' c_text='"+c_text+"' c_id='"+c_id+"'  id='"+data.id+"' title='"+data.titulo+"' onclick='SelectDocDig(this)'><i class='glyphicon glyphicon-ok'></i> </a></td>";
         if($.trim(data.ruta) != 0  || $.trim(data.rutadetallev) != 0){
-            html+="<td><a class='btn btn-primary btn-sm' id='"+data.id+"' onclick='openPlantilla(this,0,4,0)'><i class='fa fa-eye'></i> </a></td>";
+            html+="<td><a class='btn btn-primary btn-sm' id='"+data.id+"' onclick='openPlantilla(this,0,4,1)'><i class='fa fa-eye'></i> </a></td>";
         }else{
              html+="<td></td>";
         }
