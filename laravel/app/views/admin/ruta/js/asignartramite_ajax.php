@@ -5,6 +5,7 @@ var Asignar={
             url         : 'ruta/fechaactual',
             type        : 'POST',
             cache       : false,
+            async       : false,
             dataType    : 'json',
             data        : {estado:1},
             beforeSend : function() {
@@ -106,13 +107,13 @@ var Asignar={
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
             success : function(obj) {
+                Asignar.FechaActual(hora);
                 if(obj.rst==1){
                     $("#tb_ruta_flujo").html("");
                     $(".natural, .juridica, .area").css("display","none");
                     $("#form_asignar input[type='hidden'],#form_asignar input[type='text'],#form_asignar select,#form_asignar textarea").not('.mant').val("");
                     $('#form_asignar select').multiselect('refresh');  
                     $("#formNuevoDocDigital input[type='hidden'],#formNuevoDocDigital input[type='text'],#formNuevoDocDigital select,#form_asignar textarea").val("");
-                    Asignar.FechaActual(hora);
                         $("#msj").html('<div class="alert alert-dismissable alert-success">' +
                         '<i class="fa fa-ban"></i>' +
                         '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>' +
@@ -177,13 +178,13 @@ var Asignar={
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
             success : function(obj) {
+                Asignar.FechaActual(hora);
                 if(obj.rst==1){
                     $("#tb_ruta_flujo").html("");
                     $(".natural, .juridica, .area").css("display","none");
                     $("#form_asignarGestion input[type='hidden'],#form_asignarGestion input[type='text'],#form_asignarGestion select,#form_asignarGestion textarea").not('.mant').val("");
                     $(".tablaSelecAreaTiempo").addClass('hidden');
                     $('#form_asignarGestion select').multiselect('rebuild');   
-                    Asignar.FechaActual(hora);
                     $("#msj").html('<div class="alert alert-dismissable alert-success">' +
                         '<i class="fa fa-ban"></i>' +
                         '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>' +
