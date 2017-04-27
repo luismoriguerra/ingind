@@ -423,6 +423,22 @@ class CargarController extends BaseController
             //$file=file('/home/m1ndepen/public_html/procesosmuni/public/txt/asignacion/'.$archivoNuevo);
             
             $file=file('/var/www/html/ingind/public/txt/asignacion/'.$archivoNuevo);
+            $tipoTramite['01']='EN TRAMITE';
+            $tipoTramite['02']='ANULADO';
+            $tipoTramite['03']='RESUELTO';
+            $tipoTramite['04']='ARCHIVADO';
+            $tipoTramite['05']='CUSTODIA';
+            $tipoTramite['06']='1º RESOLUCION ( ATENDIDO )';
+            $tipoTramite['07']='2º RESOLUCIÓN ( RESOL. RECONSD.)';
+            $tipoTramite['08']='3º RESOLUCION ( RESOL. APELACION )';
+            $tipoTramite['09']='4º RESOLUCION ( ABANDONO )';
+            $tipoTramite['10']='5º RESOLUCION ( RECONS. ABANDNO )';
+            $tipoTramite['11']='6º RESOLUCION ( APELAC. ABANDONO )';
+            $tipoTramite['12']='FORMULARIOS';
+            $tipoTramite['13']='DOCUMENTACION INTERNA';
+            $tipoTramite['14']='ENVIAR EL ANEXO AL EXPEDIENTE ORIGINAL';
+            $tipoTramite['15']='ATENDIDO';
+            $tipoTramite['16']='EN PROCESO';
                 for($i=0; $i < count($file); $i++) {
                     $detfile=explode("\t",$file[$i]);
 
@@ -446,7 +462,7 @@ class CargarController extends BaseController
                                 $ainterna->id!=36 AND $ainterna->id!=40
                         )
                         {
-                            $arrayExist[]=$detfile[0]."; No se puede ingresar el tipo de tramite DS ni EX para sub gerencias a excepción de logistica";
+                            $arrayExist[]=$detfile[0]."; No se puede ingresar el tipo de tramite DS ni EX para sub gerencias";
                         }
                         else{
                         $exist=TablaRelacion::where('id_union','=',$detfile[0])
@@ -455,6 +471,9 @@ class CargarController extends BaseController
 
                             if( count($exist)>0 ){
                                 $arrayExist[]=$detfile[0]."; Tramite ya existe";
+                            }
+                            elseif( $tipoTramite[$detfile[15]]=='ANULADO' ){
+                                $arrayExist[]=$detfile[0]."; No se puede ingresar trámite anulado";
                             }
                             else{
 
