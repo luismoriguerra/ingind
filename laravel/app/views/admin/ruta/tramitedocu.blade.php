@@ -5,27 +5,21 @@
     @parent
     {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
-    {{ HTML::style('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css') }}
-
+    {{ HTML::style('lib/jquery-bootstrap-validator/bootstrapValidator.min.css') }}
+    
     {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
-    {{ HTML::script('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js') }}
+    {{ HTML::script('lib/jquery-bootstrap-validator/bootstrapValidator.min.js') }}
 
     {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
-    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
+    {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }}
     {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
 
-
-{{--         <meta name="token" id="token" value="{{ csrf_token() }}"> --}}
-        {{ HTML::script('http://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.js') }}
-{{--         {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js') }}
-        {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.2/vue-resource.min.js') }} --}}
-        <script src='https://www.google.com/recaptcha/api.js'></script>
+    {{ HTML::script('lib/jquery.validate.js') }}
+    <script src='lib/recaptcha/api.js'></script>
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-{{--     @include( 'admin.ruta.js.ruta_ajax' )
-    @include( 'admin.ruta.js.validar_ajax' ) --}}
     @include( 'admin.ruta.js.tramitedocu_ajax' )
     @include( 'admin.ruta.js.tramitedocu' )
     @include( 'admin.ruta.js.ruta_ajax' )
