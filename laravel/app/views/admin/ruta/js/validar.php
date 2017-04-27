@@ -1,6 +1,8 @@
 <script type="text/javascript">
 temporalBandeja=0;
 valposg=0;
+var fechaTG='<?php echo date("Y-m-d") ?>';
+var horaTG='<?php echo date("H:i:s") ?>';
 var areasG=[]; // texto area
 var areasGId=[]; // id area
 var theadArea=[]; // cabecera area
@@ -122,46 +124,48 @@ $(document).ready(function() {
 });
 
 hora=function(){
-var fecha = new Date()
-var anio = fecha.getFullYear()
-var mes = fecha.getMonth()
-var dia = fecha.getDate()
-var hora = fecha.getHours()
-var minuto = fecha.getMinutes()
-var segundo = fecha.getSeconds()
+    tiempo=horaTG.split(":");
+    tiempo[1]=tiempo[1]*1+1;
+    if(tiempo[1]*1==60){
+        tiempo[0]=tiempo[0]*1+1;
+        tiempo[1]='0';
+    }
 
-if (dia < 10) {dia = "0" + dia}
-if (mes < 9) {mes = "0" + (mes*1+1)}
-if (hora < 10) {hora = "0" + hora}
-if (minuto < 10) {minuto = "0" + minuto}
-if (segundo < 10) {segundo = "0" + segundo}
-var horita = anio+"-"+mes+"-"+dia+" "+hora + ":" + minuto + ":" + segundo;
-$("#txt_respuesta").val(horita);
-$("#div_cumple>span").html("CUMPLIENDO TIEMPO");
-$("#txt_alerta").val("0");
-$("#txt_alerta_tipo").val("0");
+    if(tiempo[0]*1<10){
+    tiempo[0] = "0" + tiempo[0]*1;
+    }
 
-$("#div_cumple").removeClass("progress-bar-danger").removeClass("progress-bar-warning").addClass("progress-bar-success");
+    if(tiempo[1]*1<10){
+    tiempo[1] = "0" + tiempo[1]*1;
+    }
     
-    if ( fechaAux!='' && fechaAux < $("#txt_respuesta").val() ) {
-        $("#txt_alerta").val("1");
-        $("#txt_alerta_tipo").val("2");
-        $("#div_cumple").removeClass("progress-bar-success").removeClass("progress-bar-warning").addClass("progress-bar-danger");
-        $("#div_cumple>span").html("NO CUMPLE TIEMPO ALERTA");
-    }
-    else if ( fechaAux!='' ) {
-        $("#txt_alerta").val("1");
-        $("#txt_alerta_tipo").val("3");
-        $("#div_cumple").removeClass("progress-bar-success").removeClass("progress-bar-danger").addClass("progress-bar-warning");
-        $("#div_cumple>span").html("ALERTA ACTIVADA");
-    }
-    else if ( $("#txt_fecha_max").val() < $("#txt_respuesta").val() ) {
-        $("#txt_alerta").val("1");
-        $("#txt_alerta_tipo").val("1");
-        $("#div_cumple").removeClass("progress-bar-success").removeClass("progress-bar-warning").addClass("progress-bar-danger");
-        $("#div_cumple>span").html("NO CUMPLE TIEMPO");
-    }
-tiempo = setTimeout('hora()',1000);
+    horaTG=tiempo.join(":");
+    $("#txt_respuesta").val(fechaTG+" "+horaTG);
+    $("#div_cumple>span").html("CUMPLIENDO TIEMPO");
+    $("#txt_alerta").val("0");
+    $("#txt_alerta_tipo").val("0");
+
+    $("#div_cumple").removeClass("progress-bar-danger").removeClass("progress-bar-warning").addClass("progress-bar-success");
+        
+        if ( fechaAux!='' && fechaAux < $("#txt_respuesta").val() ) {
+            $("#txt_alerta").val("1");
+            $("#txt_alerta_tipo").val("2");
+            $("#div_cumple").removeClass("progress-bar-success").removeClass("progress-bar-warning").addClass("progress-bar-danger");
+            $("#div_cumple>span").html("SE DETIENE FUERA DEL TIEMPO");
+        }
+        else if ( fechaAux!='' ) {
+            $("#txt_alerta").val("1");
+            $("#txt_alerta_tipo").val("3");
+            $("#div_cumple").removeClass("progress-bar-success").removeClass("progress-bar-danger").addClass("progress-bar-warning");
+            $("#div_cumple>span").html("SE DETIENE DENTRO DEL TIEMPO");
+        }
+        else if ( $("#txt_fecha_max").val() < $("#txt_respuesta").val() ) {
+            $("#txt_alerta").val("1");
+            $("#txt_alerta_tipo").val("1");
+            $("#div_cumple").removeClass("progress-bar-success").removeClass("progress-bar-warning").addClass("progress-bar-danger");
+            $("#div_cumple>span").html("NO CUMPLE TIEMPO");
+        }
+tiempo = setTimeout('hora()',60000);
 }
 
 validacheck=function(val,idcheck){

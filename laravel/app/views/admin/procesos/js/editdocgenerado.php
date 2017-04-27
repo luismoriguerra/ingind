@@ -1,6 +1,8 @@
 <script type="text/javascript">
 temporalBandeja=0;
 valposg=0;
+var fechaTG='<?php echo date("Y-m-d") ?>';
+var horaTG='<?php echo date("H:i:s") ?>';
 var areasG=[]; // texto area
 var areasGId=[]; // id area
 var theadArea=[]; // cabecera area
@@ -88,8 +90,49 @@ MostrarAjax=function(){
 }
 
 hora=function(){
-    Bandeja.FechaActual();
-tiempo = setTimeout('hora()',5000);
+    //Bandeja.FechaActual();
+    tiempo=horaTG.split(":");
+    tiempo[1]=tiempo[1]*1+1;
+    if(tiempo[1]*1==60){
+        tiempo[0]=tiempo[0]*1+1;
+        tiempo[1]='0';
+    }
+
+    if(tiempo[0]*1<10){
+    tiempo[0] = "0" + tiempo[0]*1;
+    }
+
+    if(tiempo[1]*1<10){
+    tiempo[1] = "0" + tiempo[1]*1;
+    }
+    
+    horaTG=tiempo.join(":");
+    $("#txt_respuesta").val(fechaTG+" "+horaTG);
+    $("#div_cumple>span").html("CUMPLIENDO TIEMPO");
+    $("#txt_alerta").val("0");
+    $("#txt_alerta_tipo").val("0");
+
+    $("#div_cumple").removeClass("progress-bar-danger").removeClass("progress-bar-warning").addClass("progress-bar-success");
+        
+        if ( fechaAux!='' && fechaAux < $("#txt_respuesta").val() ) {
+            $("#txt_alerta").val("1");
+            $("#txt_alerta_tipo").val("2");
+            $("#div_cumple").removeClass("progress-bar-success").removeClass("progress-bar-warning").addClass("progress-bar-danger");
+            $("#div_cumple>span").html("SE DETIENE FUERA DEL TIEMPO");
+        }
+        else if ( fechaAux!='' ) {
+            $("#txt_alerta").val("1");
+            $("#txt_alerta_tipo").val("3");
+            $("#div_cumple").removeClass("progress-bar-success").removeClass("progress-bar-danger").addClass("progress-bar-warning");
+            $("#div_cumple>span").html("SE DETIENE DENTRO DEL TIEMPO");
+        }
+        else if ( $("#txt_fecha_max").val() < $("#txt_respuesta").val() ) {
+            $("#txt_alerta").val("1");
+            $("#txt_alerta_tipo").val("1");
+            $("#div_cumple").removeClass("progress-bar-success").removeClass("progress-bar-warning").addClass("progress-bar-danger");
+            $("#div_cumple>span").html("NO CUMPLE TIEMPO");
+        }
+tiempo = setTimeout('hora()',60000);
 }
 
 activar=function(id,ruta_detalle_id,td){//establecer como visto
