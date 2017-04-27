@@ -186,6 +186,7 @@ class DocumentoDigitalController extends \BaseController {
 
             $cantidad=true;
             $conteo=0;
+            $conteoMax=10;
             $correlativoinicial=str_pad(Input::get('titulo'),6,"0",STR_PAD_LEFT);
             $correlativoaux=Input::get('titulo');
             while ( $cantidad==true ) {
@@ -201,20 +202,20 @@ class DocumentoDigitalController extends \BaseController {
                         $DocDigital->titulo=str_replace($correlativoinicial,$correlativoaux,$DocDigital->titulo);
                     }
                     else{
-                        $conteo=6;
+                        $conteo=$conteoMax+1;
                     }
                 }
                 $conteo++;
-                if($conteo==5){
+                if($conteo==$conteoMax){
                     $cantidad=false;
                 }
             }
 
-            if($conteo==5){
+            if($conteo==$conteoMax){
                 DB::rollback();
                 return Response::json(array('rst'=>3, 'msj'=>'Registro Inválido revise sus datos seleccionados','correlativo'=>$correlativoaux."|".$correlativoinicial));
             }
-            elseif($conteo==6){
+            elseif($conteo==$conteoMax+1){
                 DB::rollback();
                 return Response::json(array('rst'=>3, 'msj'=>'Registro Inválido o Existe un problema con el servidor, revise sus datos seleccionados','correlativo'=>$correlativoaux."|".$correlativoinicial));
             }
