@@ -10,9 +10,14 @@ var Asignar={
             beforeSend : function() {
             },
             success : function(obj) {
-                $("#txt_fecha_inicio").val(obj.fecha);
-                $("#txt_fecha_inicio2").val(obj.fecha);
-                $("#txt_fecha_inicio3").val(obj.fecha);
+                $("#txt_fecha_inicio").val(obj.fecha+' '+obj.hora);
+                $("#txt_fecha_inicio2").val(obj.fecha+' '+obj.hora);
+                $("#txt_fecha_inicio3").val(obj.fecha+' '+obj.hora);
+                fechaTG=obj.fecha;
+                horaTG=obj.hora;
+                clearInterval(TiempoFinalTG);
+                TiempoFinalTG='';
+                evento();
             },
             error: function(){
             }
@@ -107,7 +112,7 @@ var Asignar={
                     $("#form_asignar input[type='hidden'],#form_asignar input[type='text'],#form_asignar select,#form_asignar textarea").not('.mant').val("");
                     $('#form_asignar select').multiselect('refresh');  
                     $("#formNuevoDocDigital input[type='hidden'],#formNuevoDocDigital input[type='text'],#formNuevoDocDigital select,#form_asignar textarea").val("");
-                    hora();
+                    Asignar.FechaActual(hora);
                         $("#msj").html('<div class="alert alert-dismissable alert-success">' +
                         '<i class="fa fa-ban"></i>' +
                         '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>' +

@@ -1,7 +1,8 @@
 <script type="text/javascript">
 temporalBandeja=0;
-var fechaTG='<?php echo date("Y-m-d") ?>';
-var horaTG='<?php echo date("H:i:s") ?>';
+var fechaTG='';
+var horaTG='';
+var TiempoFinalTG='';
 var areasG=[]; // texto area
 var areasGId=[]; // id area
 var theadArea=[]; // cabecera area
@@ -160,7 +161,7 @@ $(document).ready(function() {
 
     $("#btn_guardar_todo").click(guardarTodo);
     $("#btn_guardar_todo2").click(guardarProcesoGestion);
-    hora();
+    Asignar.FechaActual(hora);
     //$("#areasasignacion").DataTable();
 });
 
@@ -193,7 +194,6 @@ tpersona=function(valor){//1->natural,2->juridica,3->a.i. y 4->org social
 }
 
 hora=function(){
-//Asignar.FechaActual("");
     tiempo=horaTG.split(":");
     tiempo[1]=tiempo[1]*1+1;
     if(tiempo[1]*1==60){
@@ -213,7 +213,7 @@ hora=function(){
 $("#txt_fecha_inicio").val(fechaTG+" "+horaTG);
 $("#txt_fecha_inicio2").val(fechaTG+" "+horaTG);
 $("#txt_fecha_inicio3").val(fechaTG+" "+horaTG);
-tiempo = setTimeout('hora()',60000);
+TiempoFinalTG = setTimeout('hora()',60000);
 }
 
 eventoFG=function(evento){
