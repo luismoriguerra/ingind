@@ -548,7 +548,7 @@ class RutaDetalleController extends \BaseController
                 }*/
                 DB::commit();
                 /******************************************Validación del Documento***********************************************/
-            if( Input::get('verbog') OR Input::get('codg') OR Input::get('obsg') ){
+            /*if( Input::get('verbog') OR Input::get('codg') OR Input::get('obsg') ){
                 for($i=0; $i<count($coddocg); $i++){
                     if($coddocg[$i]!='undefined'){
                         $url ='https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=sincro&documento_id='.$coddocg[$i];
@@ -580,7 +580,7 @@ class RutaDetalleController extends \BaseController
                         }
                     }
                 }
-            }
+            }*/
                 /*********************************************************************************************************************/
                     return Response::json(array(
                         'rst'=>1,
@@ -591,7 +591,7 @@ class RutaDetalleController extends \BaseController
             else{
                 DB::commit();
                 /******************************************Validación del Documento***********************************************/
-            if( Input::get('verbog') OR Input::get('codg') OR Input::get('obsg') ){
+            /*if( Input::get('verbog') OR Input::get('codg') OR Input::get('obsg') ){
                 for($i=0; $i<count($coddocg); $i++){
                     if($coddocg[$i]!='undefined'){
                         $url ='https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=sincro&documento_id='.$coddocg[$i];
@@ -623,7 +623,7 @@ class RutaDetalleController extends \BaseController
                         }
                     }
                 }
-            }
+            }*/
                 /*********************************************************************************************************************/
                 return Response::json(
                     array(

@@ -6,10 +6,10 @@
     {{ HTML::script('lib/ckeditor/ckeditor.js') }}
     {{ HTML::style('css/admin/plantilla.css') }}
     {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
-    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
+    {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }}
     {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
-    {{ HTML::style('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css') }}
-    {{ HTML::script('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js') }}
+    {{ HTML::script('lib/jquery-bootstrap-validator/bootstrapValidator.min.css') }}
+    {{ HTML::script('lib/jquery-bootstrap-validator/bootstrapValidator.min.js') }}
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
 

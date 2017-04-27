@@ -8,13 +8,13 @@
 
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
 
-    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
+    {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }}
     {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
 
-    {{ HTML::script('http://malsup.github.com/jquery.form.js') }} 
+    {{ HTML::script('lib/jquery-form/jquery-form.js') }} 
 
-        @include( 'admin.js.slct_global_ajax' )
+    @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
     
     @include( 'admin.mantenimiento.js.area_ajax' )

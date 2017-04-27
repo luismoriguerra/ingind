@@ -9,7 +9,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="Guilherme Solinscki">
 
-		<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+		<script src="lib/socket/socket1.2.js"></script>
 		<style>
 			body {
 			    font-family: "Courier New", Courier, monospace;
@@ -41,7 +41,7 @@
 			}
 		</style>
 		<script type="text/javascript">
-            var socket = io('http://procesos.munindependencia.pe:3000');
+            var socket = io('http://proceso.munindependencia.pe:3000');
   			//var socket = io('http://ingind:3000');
   			 	
   			socket.emit('join', { room:  'admin' });
