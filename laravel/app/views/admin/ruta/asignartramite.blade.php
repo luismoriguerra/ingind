@@ -7,12 +7,11 @@
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
     {{ HTML::script('lib/datetime/js/bootstrap-datetimepicker.min.js') }}
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="lib/jquery-ui-1.11.2/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="lib/jquery-ui-1.11.2/jquery-ui.min.css">
 
   {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }}
     {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
-  {{--   {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }} --}}
   
     {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
     {{ HTML::script('lib/ckeditor/ckeditor.js') }}

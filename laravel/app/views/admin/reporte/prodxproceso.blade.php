@@ -8,8 +8,8 @@
     {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
 
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="lib/jquery-ui-1.11.2/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="lib/jquery-ui-1.11.2/jquery-ui.min.css">
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
