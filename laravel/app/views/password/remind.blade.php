@@ -18,8 +18,8 @@
         {{ HTML::script('lib/jquery-ui-1.11.2/jquery-ui.min.js') }}
         {{ HTML::script('lib/bootstrap-3.3.1/js/bootstrap.min.js') }}
         {{ HTML::style('css/login/login.css') }}
-        {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js') }}
-        {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.2/vue-resource.min.js') }}
+        {{ HTML::script('lib/cloudflare/cloudflare-vue-1.0.24.js') }}
+        {{ HTML::script('lib/cloudflare/cloudflare-vue-0.7.2.js') }}
 
         <style type="text/css">
             .titulo {

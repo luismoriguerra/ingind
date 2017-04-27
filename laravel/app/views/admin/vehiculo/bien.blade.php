@@ -9,9 +9,6 @@
     {{ HTML::style('lib/datepicker.css') }}
     {{ HTML::script('lib/bootstrap-datepicker.js') }}
 
-{{--     {{ HTML::style('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css') }}
-   {{ HTML::script('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js') }} --}}
-
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
     @include( 'admin.vehiculo.js.bien_ajax' )

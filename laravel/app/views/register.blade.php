@@ -20,16 +20,16 @@
 
         {{ HTML::script('lib/jquery-2.1.3.min.js') }}
         {{ HTML::script('lib/jquery-ui-1.11.2/jquery-ui.min.js') }}
-        {{ HTML::script('http://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.js') }}
+        {{ HTML::script('lib/jquery.validate.js') }}
         {{ HTML::script('lib/bootstrap-3.3.1/js/bootstrap.min.js') }}
         {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
-        {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
+        {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }}
         {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
         {{ HTML::style('css/login/login.css') }}
-        {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js') }}
-        {{ HTML::script('https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.2/vue-resource.min.js') }}
+        {{ HTML::script('lib/cloudflare/cloudflare-vue-1.0.24.js') }}
+        {{ HTML::script('lib/cloudflare/cloudflare-vue-0.7.2.js') }}
         {{ HTML::script('lib/icheck.js') }}
-        <script src='https://www.google.com/recaptcha/api.js'></script>
+        <script src='lib/recaptcha/api.js'></script>
 
         <style type="text/css">
             .padding-10{

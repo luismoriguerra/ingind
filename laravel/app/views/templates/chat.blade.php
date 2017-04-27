@@ -92,7 +92,7 @@
 
 <script>
 var user_id="{{ Auth::user()->id }}";
-var socket = io('http://procesos.munindependencia.pe:3000');
+var socket = io('http://proceso.munindependencia.pe:3000');
 
 $(document).on('click', '.open-chat-button', function(event) {
     event.preventDefault();
