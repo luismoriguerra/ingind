@@ -183,7 +183,7 @@ var Asignar={
                     $("#form_asignarGestion input[type='hidden'],#form_asignarGestion input[type='text'],#form_asignarGestion select,#form_asignarGestion textarea").not('.mant').val("");
                     $(".tablaSelecAreaTiempo").addClass('hidden');
                     $('#form_asignarGestion select').multiselect('rebuild');   
-                    hora();
+                    Asignar.FechaActual(hora);
                     $("#msj").html('<div class="alert alert-dismissable alert-success">' +
                         '<i class="fa fa-ban"></i>' +
                         '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>' +
