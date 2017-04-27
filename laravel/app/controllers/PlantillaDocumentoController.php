@@ -79,6 +79,7 @@ class PlantillaDocumentoController extends \BaseController {
         if ($Plantilladoc) {
 
             $params = [
+                'tamano'=>4,
                 'posicion'=>0,
                 'posicion_fecha'=>1,
                 'tipo_envio'=>1,
