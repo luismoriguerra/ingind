@@ -14,9 +14,10 @@ var tiempoG=[];
 var verboG=[];
 var posicionDetalleVerboG=0;
 $(document).ready(function() {
+    Asignar.FechaActual(hora);
     $('[data-toggle="tooltip"]').tooltip(); 
 
-       $('[data-toggle="popover"]').popover(); 
+    $('[data-toggle="popover"]').popover(); 
                 slctGlobal.listarSlct('area','areasTodas','multiple',null,{estado:1,areagestion:1});
                 slctGlobalHtml('select_tipoenvio','simple');
     $( "#tabs" ).tabs();
@@ -63,10 +64,6 @@ $(document).ready(function() {
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
     slctGlobal.listarSlct2('documento','slct_documento_modal',data);
-
-    //$("[data-mask]").inputmask();
-
-    //Asignar.Relacion(RelacionHTML);
 
     $('#asignarModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
@@ -146,8 +143,6 @@ $(document).ready(function() {
 
       pintarTiempoG(tid);
 
-
-
       $("#form_ruta_verbo #txt_nombre").val(text);
       $("#form_ruta_verbo").append('<input type="hidden" value="'+id+'" id="txt_area_id_modal">');
     });
@@ -161,7 +156,6 @@ $(document).ready(function() {
 
     $("#btn_guardar_todo").click(guardarTodo);
     $("#btn_guardar_todo2").click(guardarProcesoGestion);
-    Asignar.FechaActual(hora);
     //$("#areasasignacion").DataTable();
 });
 
