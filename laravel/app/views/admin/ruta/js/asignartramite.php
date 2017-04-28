@@ -1,7 +1,8 @@
 <script type="text/javascript">
 temporalBandeja=0;
-var fechaTG='<?php echo date("Y-m-d") ?>';
-var horaTG='<?php echo date("H:i:s") ?>';
+var fechaTG='';
+var horaTG='';
+var TiempoFinalTG='';
 var areasG=[]; // texto area
 var areasGId=[]; // id area
 var theadArea=[]; // cabecera area
@@ -13,9 +14,10 @@ var tiempoG=[];
 var verboG=[];
 var posicionDetalleVerboG=0;
 $(document).ready(function() {
+    Asignar.FechaActual(hora);
     $('[data-toggle="tooltip"]').tooltip(); 
 
-       $('[data-toggle="popover"]').popover(); 
+    $('[data-toggle="popover"]').popover(); 
                 slctGlobal.listarSlct('area','areasTodas','multiple',null,{estado:1,areagestion:1});
                 slctGlobalHtml('select_tipoenvio','simple');
     $( "#tabs" ).tabs();
@@ -62,10 +64,6 @@ $(document).ready(function() {
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
     slctGlobal.listarSlct2('documento','slct_documento_modal',data);
-
-    //$("[data-mask]").inputmask();
-
-    //Asignar.Relacion(RelacionHTML);
 
     $('#asignarModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
@@ -145,8 +143,6 @@ $(document).ready(function() {
 
       pintarTiempoG(tid);
 
-
-
       $("#form_ruta_verbo #txt_nombre").val(text);
       $("#form_ruta_verbo").append('<input type="hidden" value="'+id+'" id="txt_area_id_modal">');
     });
@@ -160,7 +156,6 @@ $(document).ready(function() {
 
     $("#btn_guardar_todo").click(guardarTodo);
     $("#btn_guardar_todo2").click(guardarProcesoGestion);
-    hora();
     //$("#areasasignacion").DataTable();
 });
 
@@ -193,7 +188,6 @@ tpersona=function(valor){//1->natural,2->juridica,3->a.i. y 4->org social
 }
 
 hora=function(){
-//Asignar.FechaActual("");
     tiempo=horaTG.split(":");
     tiempo[1]=tiempo[1]*1+1;
     if(tiempo[1]*1==60){
@@ -213,7 +207,7 @@ hora=function(){
 $("#txt_fecha_inicio").val(fechaTG+" "+horaTG);
 $("#txt_fecha_inicio2").val(fechaTG+" "+horaTG);
 $("#txt_fecha_inicio3").val(fechaTG+" "+horaTG);
-tiempo = setTimeout('hora()',60000);
+TiempoFinalTG = setTimeout('hora()',60000);
 }
 
 eventoFG=function(evento){

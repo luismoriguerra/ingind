@@ -68,11 +68,13 @@ class RutaController extends \BaseController
     }
 
     public function postFechaactual(){
-        $fh=date("Y-m-d H:i:s");
+        $f=date("Y-m-d");
+        $h=date("H:i:s",strtotime("-1 minute"));
         return Response::json(
                 array(
                     'rst'   => 1,
-                    'fecha'   => $fh
+                    'fecha'   => $f,
+                    'hora'    => $h
                 )
             );
     }

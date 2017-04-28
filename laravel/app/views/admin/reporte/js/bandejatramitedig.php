@@ -1,8 +1,9 @@
 <script type="text/javascript">
 temporalBandeja=0;
 valposg=0;
-var fechaTG='<?php echo date("Y-m-d") ?>';
-var horaTG='<?php echo date("H:i:s") ?>';
+var fechaTG='';
+var horaTG='';
+var TiempoFinalTG='';
 var areasG=[]; // texto area
 var areasGId=[]; // id area
 var theadArea=[]; // cabecera area
@@ -131,7 +132,7 @@ $(document).ready(function() {
     slctGlobalHtml('slct_tipo_respuesta,#slct_tipo_respuesta_detalle','simple');
 
     $("#btn_guardar_todo").click(guardarTodo);
-    hora();
+    Bandeja.FechaActual(hora);
 
     $('#expedienteModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
@@ -242,7 +243,7 @@ hora=function(){
             $("#div_cumple").removeClass("progress-bar-success").removeClass("progress-bar-warning").addClass("progress-bar-danger");
             $("#div_cumple>span").html("NO CUMPLE TIEMPO");
         }
-tiempo = setTimeout('hora()',60000);
+TiempoFinalTG = setTimeout('hora()',60000);
 }
 
 activar=function(id,ruta_detalle_id,td,ruta_id=''){//establecer como visto
