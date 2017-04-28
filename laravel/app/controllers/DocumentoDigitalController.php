@@ -9,7 +9,31 @@ class DocumentoDigitalController extends \BaseController {
             return Response::json(array('rst'=>1,'datos'=>$documento_digital));
         }
     }
-
+    
+        public function postEditartitulo()
+    {
+        if (Request::ajax() ) {
+            
+            $documento_digital = DocumentoDigital::find(Input::get('id'));
+            $documento_digital->titulo = Input::get('titulo');
+            $documento_digital->save();
+            
+            if(Input::get('ruta')==1){
+                
+            }
+            
+            if(Input::get('rutadetallev')==1){
+                
+            }
+            return Response::json(
+                array(
+                    'rst' => 1,
+                    'msj' => 'Registro Actualizado correctamente',
+                )
+            );
+        }
+    }
+    
     public function postCorrelativo()
     {
         if ( Request::ajax() ) {
@@ -255,7 +279,184 @@ class DocumentoDigitalController extends \BaseController {
         }
     }
 
-    public function getVista($id,$tamano,$tipo)
+    public function getVistaprevia($id,$tamano=4,$tipo=1)
+    {   $tipo=1;
+        ini_set("max_execution_time", 300);
+        $DocumentoDigital = DocumentoDigital::find($id);
+        $sql= "SELECT d.posicion,d.posicion_fecha
+                FROM documentos d
+                INNER JOIN plantilla_doc pd ON d.id=pd.tipo_documento_id
+                WHERE pd.id=".$DocumentoDigital->plantilla_doc_id;
+        $oData = DB::select($sql);
+        
+        if ($DocumentoDigital) {
+            /*get remitente data*/
+            $persona = Persona::find($DocumentoDigital->persona_id);
+            $area = Area::find($DocumentoDigital->area_id);
+            $rol= Rol::find($persona->rol_id);
+            $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." - <span style='font-size:11px'>(".$rol->nombre.") ".$area->nombre."</span>";
+            /*end get remitente data */
+
+            /*get destinatario data*/
+            $copias = '';
+            $destinatarios = '';
+            if($DocumentoDigital->envio_total ==1){
+                $copias = '';
+                $destinatarios = 'Todas las Gerencias y Sub Gerencias';
+            }else{
+                $copias.= '';
+                $destinatarios.= '';
+                $DocDigitalArea = DocumentoDigitalArea::where('doc_digital_id', '=', $id)->where('estado', '=', 1)->get();
+                $salto=9;
+                $nb="&nbsp;";
+
+                foreach($DocDigitalArea as $key => $value){
+                    $persona2 = Persona::find($value->persona_id);
+                    $area2 = Area::find($value->area_id);
+                    $rol2= Rol::find($persona2->rol_id);
+                    if($value->tipo ==1){
+                        if($destinatarios!=""){
+                            /*$destinatarios.="<br><span>&nbsp;&nbsp;".$nb."<span style='padding-left: ".$salto."em;'>";*/
+                        }
+                        else{
+                            $destinatarios.="<span>";
+                        }
+                        $destinatarios.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span><br>';
+                    }else{
+                        if($copias!=""){
+                            /*$copias.="<br><span>&nbsp;&nbsp;".$nb."<span style='padding-left: ".$salto."em;'>";*/
+                        }
+                        else{
+                            $copias.="<span>";
+                        }
+                        $copias.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span><br>';
+                    }        
+                }
+                //$destinatarios.= '</ul>';    
+                //$copias.= '</ul>';          
+            }
+
+            /*end get destinatario data*/
+            if($tamano==4){
+                $size=122;}
+            else if($tamano==5){
+                 $size=115;
+            }
+            
+            $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vista/".$id."/".$tamano."/".$tipo);
+            $png = base64_encode($png);
+            $png= "<img src='data:image/png;base64," . $png . "'>";
+            $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
+            
+            $fechabase=$DocumentoDigital->created_at;
+            $fecha=explode(' ', $fechabase);
+            $fechaa=explode('-', $fecha[0]);
+            
+            $cabecera=1;
+            
+            if($DocumentoDigital->tipo_envio==4){
+                $cabecera=null;
+            }
+//            if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==12){
+//                $DocumentoDigital->area_id=1;
+//            }
+//            if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==44){
+//                $DocumentoDigital->area_id=1;
+//            }
+
+            $vistaprevia='';
+            
+            $documenttittle= $DocumentoDigital->titulo;
+            if(strlen($documenttittle)>60 AND $tamano==4){
+                $dd=explode("-",$documenttittle);
+                $documenttittle='';
+                if( strlen( $dd[0] )<=40 ){
+                    for ($i=0; $i < count($dd) ; $i++) { 
+                        if( ($i+2)==count($dd) ){
+                            $documenttittle.="<br><br>".$dd[$i]."-".$dd[$i+1];
+                            $i++;
+                        }
+                        else{
+                            $documenttittle.=$dd[$i]."-";
+                        }
+                    }
+                }
+                else{
+                    for ($i=0; $i < count($dd) ; $i++) { 
+                        if( ($i+3)==count($dd) ){
+                            $documenttittle.="<br><br>".$dd[$i]."-".$dd[$i+1]."-".$dd[$i+2];
+                            $i++;$i++;
+                        }
+                        else{
+                            $documenttittle.=$dd[$i]."-";
+                        }
+                    }
+                }
+            }
+            else if(strlen($documenttittle)>50 AND $tamano==5){
+                $dd=explode("-",$documenttittle);
+                $documenttittle='';
+                if( strlen( $dd[0] )<=40 ){
+                    for ($i=0; $i < count($dd) ; $i++) { 
+                        if( ($i+3)==count($dd) ){
+                            $documenttittle.="<br><br>".$dd[$i]."-".$dd[$i+1]."-".$dd[$i+2];
+                            $i++;
+                        }
+                        else{
+                            $documenttittle.=$dd[$i]."-";
+                        }
+                    }
+                }
+                else{
+                    for ($i=0; $i < count($dd) ; $i++) { 
+                        if( ($i+4)==count($dd) ){
+                            $documenttittle.="<br><br>".$dd[$i]."-".$dd[$i+1]."-".$dd[$i+2]."-".$dd[$i+3];
+                            $i++;$i++;
+                        }
+                        else{
+                            $documenttittle.=$dd[$i]."-";
+                        }
+                    }
+                }
+            }
+            else{
+                $documenttittle= $DocumentoDigital->titulo;
+            }
+            $params = [
+                'tamano'=>$tamano,
+                'posicion'=>$oData[0]->posicion,
+                'posicion_fecha'=>$oData[0]->posicion_fecha,
+                'tipo_envio'=>$DocumentoDigital->tipo_envio,
+                'titulo' => $documenttittle,
+                'vistaprevia'=>$vistaprevia,
+                'area' => $DocumentoDigital->area_id,
+                'asunto' => $DocumentoDigital->asunto,
+                'conCabecera' => $cabecera,
+                'contenido' => $DocumentoDigital->cuerpo,
+                'fecha' => 'Independencia, '.$fechaa[2].' de '.$meses[$fechaa[1]*1].' del '.$fechaa[0],
+                'remitente' => $remitente,
+                'destinatario' => $destinatarios,
+                'imagen'=>$png,
+            ];  
+            if($copias != '' && $copias != '<ul></ul>'){ 
+                $params['copias'] = $copias;                
+            }
+            $params = $params;
+            
+            $view = \View::make('admin.mantenimiento.templates.plantilla1', $params);
+            $html = $view->render();
+
+            $pdf = App::make('dompdf');
+            $pdf->loadHTML($html);
+            $pdf->setPaper('a'.$tamano)->setOrientation('portrait');
+
+            return $pdf->stream();
+            //\PDFF::loadHTML($html)->setPaper('a4')->setOrientation('landscape')->setWarnings(false)->stream();
+        }
+
+    }
+    
+        public function getVista($id,$tamano,$tipo)
     {
         ini_set("max_execution_time", 300);
         $DocumentoDigital = DocumentoDigital::find($id);
@@ -436,7 +637,6 @@ class DocumentoDigitalController extends \BaseController {
         }
 
     }
-
 
     function dataEjemploPlantilla() {
         return [
