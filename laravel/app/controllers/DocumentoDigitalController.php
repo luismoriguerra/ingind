@@ -279,10 +279,8 @@ class DocumentoDigitalController extends \BaseController {
         }
     }
 
-    public function getVistaprevia($id,$tamano,$tipo)
-    {
-        $tamano=4;
-        $tipo=1;
+    public function getVistaprevia($id,$tamano=4,$tipo=1)
+    {   $tipo=1;
         ini_set("max_execution_time", 300);
         $DocumentoDigital = DocumentoDigital::find($id);
         $sql= "SELECT d.posicion,d.posicion_fecha
