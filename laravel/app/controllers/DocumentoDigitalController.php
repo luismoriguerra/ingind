@@ -351,7 +351,7 @@ class DocumentoDigitalController extends \BaseController {
             if(strlen($documenttittle)>60 AND $tamano==4){
                 $dd=explode("-",$documenttittle);
                 $documenttittle='';
-                if( strlen( $dd[0] )<=40 ){
+                if( strlen( $dd[0] )<=40 AND count($dd)<=4 ){
                     for ($i=0; $i < count($dd) ; $i++) { 
                         if( ($i+2)==count($dd) ){
                             $documenttittle.="<br><br>".$dd[$i]."-".$dd[$i+1];
@@ -377,7 +377,7 @@ class DocumentoDigitalController extends \BaseController {
             else if(strlen($documenttittle)>50 AND $tamano==5){
                 $dd=explode("-",$documenttittle);
                 $documenttittle='';
-                if( strlen( $dd[0] )<=40 ){
+                if( strlen( $dd[0] )<=40 AND count($dd)<=4 ){
                     for ($i=0; $i < count($dd) ; $i++) { 
                         if( ($i+3)==count($dd) ){
                             $documenttittle.="<br><br>".$dd[$i]."-".$dd[$i+1]."-".$dd[$i+2];
