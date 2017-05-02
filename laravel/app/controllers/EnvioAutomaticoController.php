@@ -21,7 +21,7 @@ class EnvioAutomaticoController extends \BaseController {
 
         $n = 1;
 
-        $hoy = date('Y-m-d');$hoy = date('2017-05-01');
+        $hoy = date('Y-m-d');$hoy = '2017-05-01';
         $dia_validar = date('w', strtotime($hoy));
         if ($dia_validar == 1) {
 
