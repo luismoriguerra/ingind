@@ -19,11 +19,22 @@ class DocumentoDigitalController extends \BaseController {
             $documento_digital->save();
             
             if(Input::get('ruta')==1){
+                $tb = TablaRelacion::where('doc_digital_id','=',Input::get('id'))->get();
                 
+                foreach ($tb as $tabla_relacion){
+                    $tabla_relacion->id_union = Input::get('titulo');
+                    $tabla_relacion->save();
+                    
+                }
             }
             
             if(Input::get('rutadetallev')==1){
+                $rdv = RutaDetalleVerbo::where('doc_digital_id','=',Input::get('id'))->get();
                 
+                foreach ($rdv as $rutadetallev){
+                    $rutadetallev->documento = Input::get('titulo');
+                    $rutadetallev->save();
+                }
             }
             return Response::json(
                 array(
