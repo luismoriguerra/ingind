@@ -9,7 +9,42 @@ class DocumentoDigitalController extends \BaseController {
             return Response::json(array('rst'=>1,'datos'=>$documento_digital));
         }
     }
-
+  
+        public function postEditartitulo()
+    {
+        if (Request::ajax() ) {
+            
+            $documento_digital = DocumentoDigital::find(Input::get('id'));
+            $documento_digital->titulo = Input::get('titulo');
+            $documento_digital->save();
+            
+            if(Input::get('ruta')==1){
+                $tb = TablaRelacion::where('doc_digital_id','=',Input::get('id'))->get();
+                
+                foreach ($tb as $tabla_relacion){
+                    $tabla_relacion->id_union = Input::get('titulo');
+                    $tabla_relacion->save();
+                    
+                }
+            }
+            
+            if(Input::get('rutadetallev')==1){
+                $rdv = RutaDetalleVerbo::where('doc_digital_id','=',Input::get('id'))->get();
+                
+                foreach ($rdv as $rutadetallev){
+                    $rutadetallev->documento = Input::get('titulo');
+                    $rutadetallev->save();
+                }
+            }
+            return Response::json(
+                array(
+                    'rst' => 1,
+                    'msj' => 'Registro Actualizado correctamente',
+                )
+            );
+        }
+    }
+    
     public function postCorrelativo()
     {
         if ( Request::ajax() ) {
