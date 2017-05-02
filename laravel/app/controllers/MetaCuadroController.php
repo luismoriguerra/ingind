@@ -460,7 +460,7 @@ class MetaCuadroController extends \BaseController {
                 $file = Input::get('pago_archivo');
                 
                 for ($i=0; $i < count($length); $i++) {
-                    $url = "file/meta/a".date("Y")."/".date("Y-m-d")."-".$nombre[$i].'.';
+                    $url = "file/meta/a".date("Y")."/".date("Y-m-d")."-".$nombre[$i];
                      $this->fileToFile($file[$i],'a'.date("Y"), $url);
                     
                     $ruta='a'.date('Y').'/'.date("Y-m-d").'-'.$nombre[$i];
