@@ -11,6 +11,10 @@ class Ruta extends Eloquent
         $codigounico="";
         $codigounico=Input::get('codigo');
         $id_documento='';
+        if( Input::get('fecha_inicio')=='0000-00-00 00:00:00' ){
+            Input::get('fecha_inicio')=date('Y-m-d H:i:s');
+        }
+
         if( Input::has('documento_id') ){
             $id_documento=Input::get('documento_id');
         }
