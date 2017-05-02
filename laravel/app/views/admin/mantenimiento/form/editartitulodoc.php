@@ -1,5 +1,5 @@
 <!-- /.modal -->
-<div class="modal fade" id="fechaModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="tituloModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header logo">
@@ -9,21 +9,17 @@
         <h4 class="modal-title">New message</h4>
       </div>
       <div class="modal-body">
-        <form id="form_fechas_modal" name="form_fechas_modal" action="" method="post">
+        <form id="form_titulos_modal" name="form_titulos_modal" action="" method="post">
           <div class="form-group">
             <label class="control-label">Documento:</label>
-            <input type="text" class="form-control" name="txt_documento" id="txt_documento" disabled="">
+            <input type="text" class="form-control" name="txt_titulo" id="txt_titulo">
           </div>
-          <div class="form-group">
-            <label class="control-label">Fecha:</label>
-            <input type="text" class="form-control fecha" name="txt_fecha" id="txt_fecha" readonly="">
-          </div>
-          <div class="form-group">
+<!--          <div class="form-group">
             <label class="control-label">Comentario:
             </label>
               <textarea type="text" class="form-control" name="txt_comentario" id="txt_comentario"></textarea> 
           </div>
-
+-->
 
         </form>
       </div>

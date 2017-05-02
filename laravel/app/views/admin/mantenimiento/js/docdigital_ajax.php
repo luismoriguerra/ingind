@@ -46,6 +46,51 @@ var Plantillas={
         });
     },
             
+    AgregarEditarTitulo:function(AE){
+        var datos = $("#form_titulos_modal").serialize().split("txt_").join("").split("slct_").join("");
+        var accion = (AE==1) ? "documentodig/editartitulo" : "documentodig/creartitulo";
+
+        $.ajax({
+            url         : accion,
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : datos,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay, .loading-img").remove();
+                if(obj.rst==1){
+                    Plantillas.Cargar(HTMLCargar);
+                    msjG.mensaje('success',obj.msj,4000);
+                    $('#tituloModal .modal-footer [data-dismiss="modal"]').click();
+
+                }
+                if(obj.rst==2){
+                    msjG.mensaje('warning',obj.msj,4000);
+
+                } 
+                else {
+                    var cont = 0;
+
+                    $.each(obj.msj, function(index, datos){
+                        cont++;
+                         if(cont==1){
+                            alert(datos[0]);
+                       }
+
+                    });
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
+            }
+        });
+
+    },  
+            
     AgregarEditarFecha:function(AE){
         var datos = $("#form_fechas_modal").serialize().split("txt_").join("").split("slct_").join("");
         var accion = (AE==1) ? "documentodig/editarfecha" : "documentodig/crearfecha";
