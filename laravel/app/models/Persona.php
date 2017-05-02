@@ -868,7 +868,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         return $oData[0]->cantidad;
     }
     
-            public static function ActualizarResponsable($area_id) {
+    public static function ActualizarResponsable($area_id) {
             
             $sSql = 'UPDATE personas
                      SET responsable_asigt=0,
@@ -876,6 +876,18 @@ class Persona extends Base implements UserInterface, RemindableInterface {
                      WHERE area_id= '.$area_id;
             
                 DB::update($sSql);
-            }
+    }
+            
+    public static function RequestActividades() {
+
+        $sSql = "SELECT ap.fecha_inicio,ap.dtiempo_final,ap.actividad
+                 FROM actividad_personal ap
+                 INNER JOIN personas p on ap.persona_id=p.id and p.estado=1
+                 WHERE ap.area_id=".Input::get('area_id'). 
+                 " AND DATE(ap.fecha_inicio) BETWEEN '".Input::get('inicio')."' AND '".Input::get('fin')."'";
+
+        $oData = DB::select($sSql);
+        return $oData;
+    }
 
 }
