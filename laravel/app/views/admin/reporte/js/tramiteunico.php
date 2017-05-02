@@ -4,7 +4,6 @@ $(document).ready(function(){
     $("[data-toggle='offcanvas']").click();
     var data = {estado:1};
     var ids = [];
-    $("#btn_close").click(Close);
 
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
@@ -28,11 +27,10 @@ valida=function(nro){
 }
 
 reportet=function(){
-        $("#btn_close").click();
+//$("#btn_close").click();
     if( valida(1) ){
         var datos=$("#form_1").serialize().split("txt_").join("").split("slct_").join("");
         Tramite.mostrar( datos,HTMLreportet,'t' );
-        $("#reported_tab_"+Pest).hide();
     }
 }
 
@@ -44,9 +42,9 @@ detalle=function(ruta_id, boton){
         trs[i].style.backgroundColor="#f9f9f9";
     tr.style.backgroundColor = "#9CD9DE";
 
-    $("#form_"+Pest).append("<input type='hidden' id='txt_ruta_id' name='txt_ruta_id' value='"+ruta_id+"'>");
-    var datos=$("#form_"+Pest).serialize().split("txt_").join("").split("slct_").join("");
-    $("#form_"+Pest+" #txt_ruta_id").remove();
+    $("#form_1").append("<input type='hidden' id='txt_ruta_id' name='txt_ruta_id' value='"+ruta_id+"'>");
+    var datos=$("#form_1").serialize().split("txt_").join("").split("slct_").join("");
+    $("#form_1 #txt_ruta_id").remove();
     Tramite.mostrar( datos,HTMLreported,'d' );
 };
 
@@ -54,11 +52,11 @@ HTMLreportet=function(datos){
     var btnruta='';
     var html="";
 
-    $("#t_reportet_tab_"+Pest).dataTable().fnDestroy();
-    $("#t_reportet_tab_"+Pest+" tbody").html('');
+    $("#t_reportet_tab_1").dataTable().fnDestroy();
+    $("#t_reportet_tab_1 tbody").html('');
     /*******************DETALLE****************************/
-    $("#t_reported_tab_"+Pest).dataTable().fnDestroy();
-    $("#t_reported_tab_"+Pest+" tbody").html('');
+    $("#t_reported_tab_1").dataTable().fnDestroy();
+    $("#t_reported_tab_1 tbody").html('');
     /******************************************************/
 
     $.each(datos,function(index,data){
@@ -79,8 +77,8 @@ HTMLreportet=function(datos){
         html+="</tr>";
     });
 
-    $("#t_reportet_tab_"+Pest+" tbody").html(html);
-    $("#t_reportet_tab_"+Pest).dataTable({
+    $("#t_reportet_tab_1 tbody").html(html);
+    $("#t_reportet_tab_1").dataTable({
             "scrollY": "400px",
             "scrollCollapse": true,
             "scrollX": true,
@@ -89,7 +87,7 @@ HTMLreportet=function(datos){
             "bInfo": false,
             "visible": false,
     });
-    $("#reportet_tab_"+Pest).show();
+    $("#reportet_tab_1").show();
 };
 
 HTMLreported=function(datos){
@@ -100,8 +98,8 @@ HTMLreported=function(datos){
     var alerta='';
     var estado_final='';
 
-    $("#t_reported_tab_"+Pest+" tbody").html('');
-    $("#t_reported_tab_"+Pest).dataTable().fnDestroy();
+    $("#t_reported_tab_1 tbody").html('');
+    $("#t_reported_tab_1").dataTable().fnDestroy();
 
     $.each(datos,function(index,data){
         if (data.alerta=='0') alerta=alertOk;
@@ -141,8 +139,8 @@ HTMLreported=function(datos){
 
     });
 
-    $("#t_reported_tab_"+Pest+" tbody").html(html);
-    $("#t_reported_tab_"+Pest).dataTable({
+    $("#t_reported_tab_1 tbody").html(html);
+    $("#t_reported_tab_1").dataTable({
             "scrollY": "400px",
             "scrollCollapse": true,
             "scrollX": true,
@@ -151,7 +149,7 @@ HTMLreported=function(datos){
             "bInfo": false,
             "visible": false,
     });
-    $("#reported_tab_"+Pest).show();
+    $("#reported_tab_1").show();
 }
 
 

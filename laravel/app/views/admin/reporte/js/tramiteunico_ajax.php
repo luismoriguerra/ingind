@@ -2,7 +2,7 @@
 var Tramite={
     mostrar:function( data,evento,turl ){
         var url='';
-        else if( turl=='t' ){
+        if( turl=='t' ){
             url='reportef/tramite';
         }
         else if( turl=='d' ){
