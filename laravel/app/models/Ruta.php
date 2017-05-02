@@ -395,12 +395,16 @@ class Ruta extends Eloquent
         }
         else{
 
+        $fecha_inicio2= Input::get('fecha_inicio2');
+        if( $fecha_inicio2=='0000-00-00 00:00:00' ){
+            $fecha_inicio2=date('Y-m-d H:i:s');
+        }
         $tablaRelacion=new TablaRelacion;
         $tablaRelacion['software_id']=1;
 
         $tablaRelacion['id_union']=Input::get('codigo2');
         
-        $tablaRelacion['fecha_tramite']= Input::get('fecha_inicio2'); //Input::get('fecha_tramite');
+        $tablaRelacion['fecha_tramite']= $fecha_inicio2; //Input::get('fecha_tramite');
         $tablaRelacion['tipo_persona']=Input::get('tipo_persona2');
 
         if( Input::has('paterno2') AND Input::has('materno2') AND Input::has('nombre2') ){
@@ -446,7 +450,7 @@ class Ruta extends Eloquent
 
         $ruta= new Ruta;
         $ruta['tabla_relacion_id']=$tablaRelacion->id;
-        $ruta['fecha_inicio']= Input::get('fecha_inicio2');
+        $ruta['fecha_inicio']= $fecha_inicio2;
         $ruta['ruta_flujo_id']=$rutaFlujo->id;
         $ruta['flujo_id']=$rutaFlujo->flujo_id;
         $ruta['persona_id']=$rutaFlujo->persona_id;
@@ -536,7 +540,7 @@ class Ruta extends Eloquent
 */
                 $rutaDetalle['norden']=$index + 1;
                 if($index==0){
-                    $rutaDetalle['fecha_inicio']=Input::get('fecha_inicio2');
+                    $rutaDetalle['fecha_inicio']=$fecha_inicio2;
                 }
                 else{
                     $validaactivar=1;
@@ -559,7 +563,7 @@ class Ruta extends Eloquent
                 $rutaDetalle['dtiempo']=$rd->dtiempo;
                 $rutaDetalle['norden']=$rd->norden;
                 if($rd->norden==1){
-                    $rutaDetalle['fecha_inicio']=Input::get('fecha_inicio2');
+                    $rutaDetalle['fecha_inicio']=$fecha_inicio2;
                 }
                 else{
                     $validaactivar=1;
