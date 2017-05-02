@@ -105,7 +105,7 @@ class IndedocsController extends \BaseController {
     }
     
     
-        public static function postConsulta()
+        public function Consulta()
     {
         if ( Request::ajax() ) {
             
