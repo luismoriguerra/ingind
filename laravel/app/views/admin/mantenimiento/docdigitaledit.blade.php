@@ -8,16 +8,14 @@
     {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
     {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }}
     {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
-    {{ HTML::script('lib/jquery-bootstrap-validator/bootstrapValidator.min.css') }}
-    {{ HTML::script('lib/jquery-bootstrap-validator/bootstrapValidator.min.js') }}
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
     @include( 'admin.mantenimiento.js.docdigital_ajax' )
-    @include( 'admin.mantenimiento.js.docdigital' )
-    @include( 'admin.mantenimiento.js.docdigitalform' )
+    @include( 'admin.mantenimiento.js.docdigitaledit' )
+
 
 @stop
 @section('contenido')
@@ -56,9 +54,9 @@
                                        {{--  <th style="width: 19%">Area Recepcion</th>
                                         <th style="width: 19">Persona Recepcion</th> --}}
                                         <th style="width: 5%">Editar</th>
-                                        <th style="width: 5%">Vista Previa</th>
+<!--                                        <th style="width: 5%">Vista Previa</th>
                                         <th style="width: 5%">Vista Impresión</th>
-                                         <th style="width: 5%">Eliminar</th>
+                                         <th style="width: 5%">Eliminar</th>-->
                                     </tr>
                                 </thead>
                                 <tbody id="tb_doc_digital">
@@ -74,15 +72,15 @@
                         {{--                 <th style="width: 19%">Area Recepcion</th>
                                         <th style="width: 19">Persona Recepcion</th> --}}
                                          <th style="width: 5%">Editar</th>
-                                        <th style="width: 5%">Vista Previa</th>
+<!--                                        <th style="width: 5%">Vista Previa</th>
                                         <th style="width: 5%">Vista Impresión</th>
-                                        <th style="width: 5%">Eliminar</th>
+                                        <th style="width: 5%">Eliminar</th>-->
                                     </tr>
                                 </tfoot>
                             </table>
 
-                            <a class='btn btn-success btn-sm' class="btn btn-primary"
-                            data-toggle="modal" data-target="#NuevoDocDigital" data-titulo="Nuevo" onclick="Plantillas.CargarAreas();NuevoDocumento();"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+<!--                            <a class='btn btn-success btn-sm' class="btn btn-primary"
+                            data-toggle="modal" data-target="#NuevoDocDigital" data-titulo="Nuevo" onclick="Plantillas.CargarAreas();NuevoDocumento();"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>-->
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->
@@ -93,6 +91,6 @@
 @stop
 
 @section('formulario')
-     @include( 'admin.mantenimiento.form.docdigital' )
+     @include( 'admin.mantenimiento.form.editartitulodoc' )
      @include( 'admin.mantenimiento.form.editarfechadoc' )
 @stop

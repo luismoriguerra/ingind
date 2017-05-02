@@ -14,6 +14,17 @@ class DocumentoDigitalController extends \BaseController {
     {
         if (Request::ajax() ) {
             
+            $dd=DocumentoDigital::getVerificarTitulo();
+            
+            if($dd){
+                return Response::json(
+                array(
+                    'rst' => 2,
+                    'msj' => 'El título de Documento ya existe',
+                )
+                ); 
+            }
+            
             $documento_digital = DocumentoDigital::find(Input::get('id'));
             $documento_digital->titulo = Input::get('titulo');
             $documento_digital->save();

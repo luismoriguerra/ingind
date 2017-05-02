@@ -216,5 +216,15 @@ class DocumentoDigital extends Base {
         $oData = DB::select($sSql);
         return $oData;
     }
+    
+    public static function getVerificarTitulo()
+    {   
+        $sSql=" SELECT * 
+                FROM doc_digital 
+                WHERE titulo = '".Input::get('titulo')."'"
+                . "AND id !=".Input::get('id');
+        $oData = DB::select($sSql);
+        return $oData;
+    }
 
 }

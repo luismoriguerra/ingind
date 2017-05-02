@@ -22,7 +22,7 @@ class EnvioAutomaticoController extends \BaseController {
         $n = 1;
 
         $hoy = date('Y-m-d');
-        $dia_validar = date('w', strtotime($hoy));
+        $dia_validar = date('w', strtotime($hoy));$dia_validar=1;
         if ($dia_validar == 1) {
 
             $listar = Area::getAreaNotificacion();
@@ -68,10 +68,14 @@ class EnvioAutomaticoController extends \BaseController {
             $sSql .= " WHERE p.estado=1 AND p.rol_id NOT IN (8,9)";
 
 
-            $sSql .= " AND p.area_id=".$value->id;
+            $sSql .= " AND (p.area_id=".$value->id." OR FIND_IN_SET(p.area_id,
+                        (SELECT p2.area_responsable
+                         FROM personas p2 
+                         WHERE p2.rol_id IN (6,8,9) AND p2.estado=1 AND p2.area_id=".$value->id."
+                        )))";
 
             $sSql .= " GROUP BY p.id";
-
+            
             $oData['cabecera'] = $cabecera;
             $oData['data'] = DB::select($sSql);
 
