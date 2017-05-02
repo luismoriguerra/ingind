@@ -22,7 +22,7 @@ class EnvioAutomaticoController extends \BaseController {
         $n = 1;
 
         $hoy = date('Y-m-d');
-        $dia_validar = date('w', strtotime($hoy));$dia_validar=1;
+        $dia_validar = date('w', strtotime($hoy));
         if ($dia_validar == 1) {
 
             $listar = Area::getAreaNotificacion();
