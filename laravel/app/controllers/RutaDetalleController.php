@@ -198,7 +198,7 @@ class RutaDetalleController extends \BaseController
                 DB::beginTransaction();
                 for($i = 0; $i < 2; $i++){                    
                     if($i==1){ //paso anterios
-                        $rd = RutaDetalle::where('ruta_id',Input::get('ruta_id'))->where('norden',Input::get('orden') - 1)->get()[0];
+                        $rd = RutaDetalle::where('ruta_id',Input::get('ruta_id'))->where('condicion',0)->where('norden',Input::get('orden') - 1)->get()[0];
                         $rd->condicion=3;
                         $rd->save();
                     }else{ //paso actual == 0
