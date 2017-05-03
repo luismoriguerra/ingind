@@ -18,6 +18,8 @@ class PlantillaDocumento extends Base {
                         }
                         if ( Input::get('activo') ) {
                             $query->where('pd.estado','=','1');
+                        }else {
+                            $query->where('pd.estado','=','1');
                         }
                         $usu_id=Auth::user()->id;
 
