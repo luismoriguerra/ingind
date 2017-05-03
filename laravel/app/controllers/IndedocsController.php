@@ -105,15 +105,12 @@ class IndedocsController extends \BaseController {
     }
     
     
-        public function Consulta()
+        public function postConsulta()
     {
-        if ( Request::ajax() ) {
             
             $actividad=Persona::RequestActividades();
             return Response::json(array('rst'=>1,'datos'=>$actividad)); 
-
-        }
 	
     }
-
+    
  }
