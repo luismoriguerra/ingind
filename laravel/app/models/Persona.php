@@ -880,7 +880,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
             
     public static function RequestActividades() {
 
-        $sSql = "SELECT ap.fecha_inicio,ap.dtiempo_final,ap.actividad
+        $sSql = "SELECT p.dni,p.area_id,ap.fecha_inicio,ap.dtiempo_final,ap.actividad
                  FROM actividad_personal ap
                  INNER JOIN personas p on ap.persona_id=p.id and p.estado=1
                  WHERE ap.area_id=".Input::get('area_id'). 
