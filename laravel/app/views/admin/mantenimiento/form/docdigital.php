@@ -51,11 +51,12 @@
                   <label class="control-label">Tipo Envio:</label>
                     <select class="form-control" id="slct_tipoenvio" name="slct_tipoenvio">
                       <option value="0">::Seleccionar::</option>
-                      <option value="1">Personas</option>
-                      <option value="2">Gerencias</option>
-                      <option value="3">Reporte Personal</option>
-                      <option value="4">Doc Libre(s)</option>
+                      <option value="1">Gerencia a Persona</option>
+                      <option value="2">Gerencia a Gerencia</option>
+                      <option value="3">Persona a Jefe</option>
+                      <option value="4">Documento Libre(s)</option>
                       <option value="5">Persona a Persona</option>
+                      <option value="6">Persona a Persona Sin Siglas</option>
                     </select>
                 </div>
 
