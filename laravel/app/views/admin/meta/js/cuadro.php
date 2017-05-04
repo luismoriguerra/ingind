@@ -300,7 +300,7 @@
 
                         html += "<tr>" +
                                 "<td>" + pos_ap + "<input type='hidden' name='c_id[]' id='c_id' value='" + d_p_id[i] + "'></td></td> " +
-                                "<td><a target='_blank' href='documentodig/vistaprevia/" + d_p_doc_digital_id[i] + "'>" + d_p_nombre[i] + "</a></td>";
+                                "<td><a target='_blank' href='documentodig/vista/" + d_p_doc_digital_id[i] + "/4/0'>" + d_p_nombre[i] + "</a></td>";
                         if (data.pf >= Cuadro.fecha_actual) {
                         html += '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\'' + d_p_id[i] + '\',this)">' +
                                 '<i class="fa fa-trash fa-lg"></i>' +
@@ -407,7 +407,7 @@
 
                         html += "<tr>" +
                                 "<td>" + pos_d + "<input type='hidden' name='c_id[]' id='c_id' value='" + d_d_id[i] + "'></td></td> " +
-                                "<td><a target='_blank' href='documentodig/vistaprevia/" + d_d_doc_digital_id[i] + "'>" + d_d_nombre[i] + "</a></td>" ;
+                                "<td><a target='_blank' href='documentodig/vista/" + d_d_doc_digital_id[i] + "/4/0'>" + d_d_nombre[i] + "</a></td>" ;
                         if (data.df >= Cuadro.fecha_actual) {
                         html += '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\'' + d_d_id[i] + '\',this)">' +
                                 '<i class="fa fa-trash fa-lg"></i>' +
@@ -514,7 +514,7 @@
 
                         html += "<tr>" +
                                 "<td>" + pos_a + "<input type='hidden' name='c_id[]' id='c_id' value='" + d_a_id[i] + "'></td></td> " +
-                                "<td><a target='_blank' href='documentodig/vistaprevia/" + d_a_doc_digital_id[i] + "'>" + d_a_nombre[i] + "</a></td>" ;
+                                "<td><a target='_blank' href='documentodig/vista/" + d_a_doc_digital_id[i] + "/4/0'>" + d_a_nombre[i] + "</a></td>" ;
                         if (data.af >= Cuadro.fecha_actual) {
                         html += '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\'' + d_a_id[i] + '\',this)">' +
                                 '<i class="fa fa-trash fa-lg"></i>' +
@@ -681,7 +681,7 @@
 
                         html += "<tr>" +
                                 "<td>" + pos_m + "<input type='hidden' name='c_id[]' id='c_id' value='" + d_m_id[i] + "'></td></td> " +
-                                "<td><a target='_blank' href='documentodig/vistaprevia/" + d_m_doc_digital_id[i] + "'>" + d_m_nombre[i] + "</a></td>" ;
+                                "<td><a target='_blank' href='documentodig/vista/" + d_m_doc_digital_id[i] + "/4/0'>" + d_m_nombre[i] + "</a></td>" ;
                         if (data.mf >= Cuadro.fecha_actual) {
                         html += '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\'' + d_m_id[i] + '\',this)">' +
                                 '<i class="fa fa-trash fa-lg"></i>' +
@@ -804,7 +804,7 @@
             html += "<td>" + data.plantilla + "</td>";
             if ($.trim(data.ruta) != 0 || $.trim(data.rutadetallev) != 0) {
                 html += "<td><a class='btn btn-success btn-sm' c_tipo_id='" + c_tipo_id + "' c_avance_id='" + c_avance_id + "' c_form='" + c_form + "' c_text='" + c_text + "' c_id='" + c_id + "'  id='" + data.id + "' title='" + data.titulo + "' onclick='SelectDocDig(this)'><i class='glyphicon glyphicon-ok'></i> </a></td>";
-                html += "<td><a class='btn btn-primary btn-sm' id='" + data.id + "' onclick='openPrevisualizarPlantilla(this,0)'><i class='fa fa-eye'></i> </a></td>";
+                html += "<td><a class='btn btn-primary btn-sm' id='" + data.id + "' onclick='openPlantilla(this,0,4,0)'><i class='fa fa-eye'></i> </a></td>";
             } else {
                 html += "<td></td>";
                 html += "<td></td>";
@@ -844,15 +844,15 @@
 
     }
 
-    openPrevisualizarPlantilla = function (obj, id) {
-        var iddoc = id;
-        if (id == 0 || id == '') {
-            iddoc = obj.getAttribute('id');
-        }
-        window.open("documentodig/vistaprevia/" + iddoc,
+openPlantilla=function(obj,id,tamano,tipo){
+    var iddoc = id;
+    if(id==0 || id ==''){
+        iddoc=obj.getAttribute('id');
+    }
+    window.open("documentodig/vista/"+iddoc+"/"+tamano+"/"+tipo,
                 "PrevisualizarPlantilla",
                 "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
-    };
+};
     
     Detalle=function(id){
         var dataG=[];
