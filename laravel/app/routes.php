@@ -199,3 +199,4 @@ Route::controller('Biencaracteristica', 'BienCaracteristicaController');
 Route::controller('Eventocaracteristica', 'CaracteristicaEventoController');
 Route::controller('Categoriaevento', 'CategoriaEventoController');
 Route::controller('meta', 'MetaController');
+Route::controller('reportetramite', 'ReporteTramiteController');

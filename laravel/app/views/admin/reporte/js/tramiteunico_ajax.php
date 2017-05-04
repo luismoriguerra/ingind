@@ -3,10 +3,10 @@ var Tramite={
     mostrar:function( data,evento,turl ){
         var url='';
         if( turl=='t' ){
-            url='reportef/tramite';
+            url='reportetramite/tramiteunico';
         }
         else if( turl=='d' ){
-            url='reportef/tramitedetalle';
+            url='reportetramite/tramitedetalle';
         }
         $.ajax({
             url         : url,

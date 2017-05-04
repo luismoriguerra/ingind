@@ -10,6 +10,9 @@
     
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
+    @include( 'admin.ruta.js.ruta_ajax' )
+    @include( 'admin.ruta.js.proceso' )
+    
     @include( 'admin.reporte.js.tramiteunico_ajax' )
     @include( 'admin.reporte.js.tramiteunico' )
 @stop
@@ -40,7 +43,7 @@
                         <div class="col-sm-12">
                             <div class="col-sm-3">
                                 <label class="control-label">Trámite:</label>
-                                <input type="text" class="form-control" placeholder="Tipo + Nro + Año  => Ej: EX {{ rand(3000,9999) }} {{ date("Y") }}" id="txt_tramite_1" name="txt_tramite_1"/>
+                                <input type="text" class="form-control" placeholder="Tipo + Nro + Año  => Ej: EX {{ rand(3000,9999) }} {{ date("Y") }}" id="txt_tramite" name="txt_tramite"/>
                             </div>
                             <div class="col-sm-2">
                                 <label class="control-label"></label>
@@ -59,8 +62,8 @@
                                 <th>Tramite</th>
                                 <th>Sumilla</th>
                                 <th>Estado</th>
-                                <th>Paso a la fecha</th>
                                 <th>Total de pasos</th>
+                                <th>Paso a la fecha</th>
                                 <th>Fecha Inicio</th>
                                 <th> [ ] </th>
                             </tr>
