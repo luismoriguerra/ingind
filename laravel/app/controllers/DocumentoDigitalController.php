@@ -316,7 +316,8 @@ class DocumentoDigitalController extends \BaseController {
             $persona = Persona::find($DocumentoDigital->persona_id);
             $area = Area::find($DocumentoDigital->area_id);
             $rol= Rol::find($persona->rol_id);
-            $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." - <span style='font-size:11px'>(".$rol->nombre.") ".$area->nombre."</span>";
+              $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." - <span style='font-size:11px'>".$area->nombre."</span>";
+//            $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." - <span style='font-size:11px'>(".$rol->nombre.") ".$area->nombre."</span>";
             /*end get remitente data */
 
             /*get destinatario data*/
@@ -346,7 +347,8 @@ class DocumentoDigitalController extends \BaseController {
                         else{
                             $destinatarios.="<span>";
                         }
-                        $destinatarios.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span><br>';
+                          $destinatarios.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">'.$area2->nombre.'</span><br>';
+//                        $destinatarios.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span><br>';
                     }else{
                         if($copias!=""){
                             /*$copias.="<br><span>&nbsp;&nbsp;".$nb."<span style='padding-left: ".$salto."em;'>";*/
@@ -354,7 +356,8 @@ class DocumentoDigitalController extends \BaseController {
                         else{
                             $copias.="<span>";
                         }
-                        $copias.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span><br>';
+                          $copias.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">'.$area2->nombre.'</span><br>';
+//                        $copias.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span><br>';
                     }        
                 }
                 //$destinatarios.= '</ul>';    
@@ -477,8 +480,9 @@ class DocumentoDigitalController extends \BaseController {
            /*get remitente data*/
            $persona = Persona::find($DocumentoDigital->persona_id);
            $area = Area::find($DocumentoDigital->area_id);
-           $rol= Rol::find($persona->rol_id);
-             $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." - <span style='font-size:11px'>(".$rol->nombre.") ".$area->nombre."</span>";
+//           $rol= Rol::find($persona->rol_id);
+               $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." - <span style='font-size:11px'> ".$area->nombre."</span>";
+//             $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." - <span style='font-size:11px'>(".$rol->nombre.") ".$area->nombre."</span>";
              /*end get remitente data */
  
              /*get destinatario data*/
@@ -497,7 +501,7 @@ class DocumentoDigitalController extends \BaseController {
                foreach($DocDigitalArea as $key => $value){
                    $persona2 = Persona::find($value->persona_id);
                    $area2 = Area::find($value->area_id);
-                   $rol2= Rol::find($persona2->rol_id);
+//                   $rol2= Rol::find($persona2->rol_id);
                    if($value->tipo ==1){
                        if($destinatarios!=""){
                            /*$destinatarios.="<br><span>&nbsp;&nbsp;".$nb."<span style='padding-left: ".$salto."em;'>";*/
@@ -505,7 +509,8 @@ class DocumentoDigitalController extends \BaseController {
                        else{
                            $destinatarios.="<span>";
                        }
-                       $destinatarios.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span><br>';
+                         $destinatarios.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">'.$area2->nombre.'</span><br>';
+//                       $destinatarios.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span><br>';
                    }else{
                        if($copias!=""){
                            /*$copias.="<br><span>&nbsp;&nbsp;".$nb."<span style='padding-left: ".$salto."em;'>";*/
@@ -513,7 +518,8 @@ class DocumentoDigitalController extends \BaseController {
                        else{
                            $copias.="<span>";
                        }
-                       $copias.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span><br>';
+                       $copias.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px"> '.$area2->nombre.'</span><br>';
+//                       $copias.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span><br>';
                    }        
                }
                //$destinatarios.= '</ul>';    
