@@ -72,7 +72,7 @@
                                                 <div class="col-sm-12">
                                                     <div class="col-sm-3">
                                                         <label class="control-label">Fecha Inicio de la Gestión:</label>
-                                                        <input type="text" class="form-control" name="txt_fecha_inicio" id="txt_fecha_inicio" readOnly>
+                                                        <input type="text" class="form-control mant" name="txt_fecha_inicio" id="txt_fecha_inicio" readOnly>
                                                     </div>
                                                      <div class="col-sm-8">
                                                         <label class="control-label">Proceso:</label>
@@ -242,7 +242,7 @@
                                                 <div class="col-sm-12 form-group">
                                                     <div class="col-sm-6">
                                                         <label class="control-label">Fecha Inicio de la Gestión:</label>
-                                                        <input type="text" class="form-control" name="txt_fecha_inicio2" id="txt_fecha_inicio2" readonly="">
+                                                        <input type="text" class="form-control mant" name="txt_fecha_inicio2" id="txt_fecha_inicio2" readonly="">
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <input class='form-control mant' type="hidden" name="slct_tipo_persona2" id="slct_tipo_persona2" value="3">
