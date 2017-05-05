@@ -109,7 +109,7 @@ class DocumentoDigital extends Base {
                 FROM doc_digital dd 
                 INNER JOIN plantilla_doc pd on dd.plantilla_doc_id=pd.id 
                 AND pd.tipo_documento_id=".Input::get('tipo_doc')." 
-                AND pd.area_id= ".Auth::user()->area_id.
+                AND pd.area_id= ".Input::get('area_id').
                 " WHERE dd.estado=1 
                 AND YEAR(dd.created_at)=YEAR(CURDATE())
                 ORDER BY dd.correlativo DESC LIMIT 1";
