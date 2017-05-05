@@ -308,6 +308,7 @@ footer .izq {
             {{ $titulo }}
             </h2>
             <?php } else if($posicion==1){ ?>
+            <br>
             <h2 class="nombre-documento-left">
             {{ $titulo }}
             </h2>
