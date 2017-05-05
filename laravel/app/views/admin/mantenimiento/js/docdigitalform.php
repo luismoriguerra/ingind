@@ -10,7 +10,7 @@ $siglast="";
     }
 ?>
 <script>
-  var Documento={tipo_documento_id:0,tipoenvio:0,csigla:0};  
+  var Documento={tipo_documento_id:0,tipoenvio:0,csigla:0,area_id:0};  
   var SiglasArea='';
   var SiglasPersona='<?php echo $siglast; ?>'; 
   var CrearEditar=1;
@@ -63,7 +63,7 @@ $(document).ready(function() {
 
                 else {
                     document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+SiglasArea;
-                    Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo);
+                    Plantillas.CargarCorrelativo({'area_id':Documento.area_id,'tipo_doc':Documento.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo);
                      }         
             }
             else {
@@ -212,6 +212,7 @@ HTMLPlantilla = function(data){
         
         Documento.tipo_documento_id=result.tipo_documento_id;
         Documento.csigla=result.csigla;
+        Documento.area_id=result.area_id;
         if(CrearEditar==1){
             document.querySelector("#lblDocumento").innerHTML= result.tipodoc+" - Nº ";
             SiglasArea= result.nemonico_doc;
@@ -224,7 +225,7 @@ HTMLPlantilla = function(data){
                     }
                     else {
                     document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+SiglasArea;
-                    Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo);
+                    Plantillas.CargarCorrelativo({'area_id':Documento.area_id,'tipo_doc':Documento.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo);
                     }
                               }
             else{
