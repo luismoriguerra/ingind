@@ -22,11 +22,11 @@ class MetaFechaVencimiento extends Base
                 ->select('id','estado', DB::raw('CONCAT(fecha, "-", substr(comentario,1,12),".") AS nombre'))
                 ->where( 
                     function($query){
-                        if ( Input::get('estado') ) {
+                        if ( Input::has('estado') ) {
                             $query->where('estado','=','1');
                             
                         }
-                        if ( Input::get('meta_cuadro_id') ) {
+                        if ( Input::has('meta_cuadro_id') ) {
                             $meta_cuadro_id = Input::get("meta_cuadro_id");
                             $query->where('tipo','=','1');
                             $query->where('meta_cuadro_id','=',$meta_cuadro_id);
