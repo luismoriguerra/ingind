@@ -33,8 +33,8 @@ class MetaCuadro extends Base
      
         public function getMetaCuadro($array )
     {
-        $sSql=" SELECT m.nombre,m.id as meta_id,m.fecha as mf,mc.actividad,mc.id as meta_cuadro_id,mc.fecha as af,mf1.comentario as d,
-			 mf1.id as id_d,mf1.fecha as df,mf2.comentario as p,mf2.id as id_p,mf2.fecha as pf,
+        $sSql=" SELECT m.nombre,m.id as meta_id,IFNULL(m.fecha_add,m.fecha) as mf,mc.actividad,mc.id as meta_cuadro_id,IFNULL(mc.fecha_add,mc.fecha) as af,mf1.comentario as d,
+			 mf1.id as id_d,IFNULL(mf1.fecha_add,mf1.fecha) as df,mf2.comentario as p,mf2.id as id_p,IFNULL(mf2.fecha_add,mf2.fecha) as pf,
 			(SELECT CONCAT_WS('|',GROUP_CONCAT(ma.ruta),GROUP_CONCAT(ma.id))
 			 FROM metas_archivo ma
 			 WHERE  ma.tipo_avance=4 AND ma.avance_id=mf2.id AND ma.estado=1
