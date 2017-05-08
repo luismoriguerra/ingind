@@ -3,8 +3,8 @@
 class Documento extends Base
 {
     public $table = "documentos";
-    public static $where =['id', 'nombre', 'estado'];
-    public static $selec =['id', 'nombre', 'estado'];
+    public static $where =['id', 'nombre', 'area', 'posicion', 'posicion_fecha', 'estado'];
+    public static $select =['id', 'nombre', 'area', 'posicion', 'posicion_fecha', 'estado'];
     
     public static function getCargarCount( $array )
     {
@@ -18,8 +18,32 @@ class Documento extends Base
 
     public static function getCargar( $array )
     {
-        $sSql=" SELECT doc.id, doc.nombre, doc.estado
+        $sSql=" SELECT doc.id, doc.nombre, doc.area, doc.posicion, doc.posicion_fecha, doc.estado,
+               (
+               CASE doc.area
+                    WHEN '0' THEN 'Sin Siglas'
+                    ELSE 'Con Siglas'
+                END
+               )as areas,
+                (
+                CASE doc.posicion
+                    WHEN '0' THEN 'Centro'
+                    WHEN '1' THEN 'Izquierda'
+                    ELSE 'Derecha'
+                END
+                ) as posiciones,
+                (
+                CASE doc.posicion_fecha
+                    WHEN '0' THEN 'Centro'
+                    WHEN '1' THEN 'Arriba Izquierda'
+                    WHEN '2' THEN 'Arriba Derecha'
+                    WHEN '3' THEN 'Abajo Izquierda'
+                    ELSE 'Abajo Derecha'
+                END
+                ) as posiciones_fecha
+
                 FROM documentos doc
+                                 
                 WHERE 1=1 ";
         $sSql.= $array['where'].
                 $array['order'].
@@ -30,7 +54,8 @@ class Documento extends Base
 
     public static function getDocumento(){
         $r=DB::table('documentos')
-                ->select('id', DB::raw('CONCAT_WS( " " ,nombre,IF(area=0," Sin Siglas","")) as nombre'),'estado')
+                ->select('id', DB::raw('CONCAT_WS( " " ,nombre,IF(area=0," Sin Siglas","")) as nombre'),'estado','area','posicion','posicion_fecha')
+
                 ->where( 
                     function($query){
                         if ( Input::get('estado') ) {

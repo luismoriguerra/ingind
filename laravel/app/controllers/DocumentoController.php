@@ -30,13 +30,31 @@ class DocumentoController extends \BaseController
                     $array['where'].=" AND doc.nombre LIKE '%".$nombre."%' ";
                 }
             }
-
+            if( Input::has("areas") ){
+                $area=Input::get("areas");
+                if( trim( $area )!='' ){
+                    $array['where'].=" AND doc.area=".$area;
+                }
+            }
+            if( Input::has("posiciones") ){
+                $posicion=Input::get("posiciones");
+                if( trim( $posicion )!='' ){
+                    $array['where'].=" AND doc.posicion=".$posicion;
+                }
+            }
+            if( Input::has("posiciones_fecha") ){
+                $posicion_fecha=Input::get("posiciones_fecha");
+                if( trim( $posicion_fecha )!='' ){
+                    $array['where'].=" AND doc.posicion_fecha=".$posicion_fecha;
+                }
+            }
             if( Input::has("estado") ){
                 $estado=Input::get("estado");
                 if( trim( $estado )!='' ){
                     $array['where'].=" AND doc.estado='".$estado."' ";
                 }
             }
+
 
             $array['order']=" ORDER BY doc.nombre ";
 
@@ -91,9 +109,12 @@ class DocumentoController extends \BaseController
             }
 
             $documento = new Documento;
-            $documento->nombre = Input::get('nombre');
-            $documento->estado = Input::get('estado');
-            $documento->usuario_created_at = Auth::user()->id;
+            $documento['nombre']  = Input::get('nombre');
+            $documento['area']    = Input::get('area');
+            $documento['posicion'] = Input::get('posicion');
+            $documento['posicion_fecha'] = Input::get('posicion_fecha');
+            $documento['estado'] = Input::get('estado');
+            $documento['usuario_created_at'] = Auth::user()->id;
             $documento->save();
 
             return Response::json(array('rst'=>1, 'msj'=>'Registro realizado correctamente', 'documento_id'=>$documento->id));
@@ -127,9 +148,12 @@ class DocumentoController extends \BaseController
 
             $documentoId = Input::get('id');
             $documento = Documento::find($documentoId);
-            $documento->nombre = Input::get('nombre');
-            $documento->estado = Input::get('estado');
-            $documento->usuario_updated_at = Auth::user()->id;
+            $documento['nombre'] = Input::get('nombre');
+            $documento['area']   = Input::get('area');
+            $documento['posicion'] = Input::get('posicion');
+            $documento['posicion_fecha'] = Input::get('posicion_fecha');
+            $documento['estado'] = Input::get('estado');
+            $documento['usuario_created_at'] = Auth::user()->id;
             $documento->save();
 
             return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
