@@ -29,7 +29,7 @@ class ReporteTramite extends Eloquent
     }
 
     public static function TramiteDetalle( $array ){
-        $sql="  SELECT rd.id, rd.ruta_id, IFNULL(a.nombre,'') as area, 
+        $sql="  SELECT rd.id, rd.ruta_id, IFNULL(a.nombre,'') as area, rd.condicion,
                 IFNULL(t.nombre,'') as tiempo, IFNULL(dtiempo,'') as dtiempo, 
                 IFNULL(rd.fecha_inicio,'') as fecha_inicio, IFNULL(dtiempo_final,'') as dtiempo_final, 
                 norden, alerta, alerta_tipo,

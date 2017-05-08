@@ -104,8 +104,8 @@ HTMLreported=function(datos){
 
     $.each(datos,function(index,data){
         if (data.alerta=='0') alerta=alertOk;
-        if (data.alerta=='1') alerta=alertError;
-        if (data.alerta=='2') alerta=alertCorregido;
+        if (data.alerta=='1' || data.condicion>1) alerta=alertError;
+        if (data.alerta=='2' || data.condicion==1) alerta=alertCorregido;
 
         
         estado_final='Pendiente';
