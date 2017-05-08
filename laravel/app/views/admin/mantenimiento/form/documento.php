@@ -9,16 +9,45 @@
         <h4 class="modal-title">New message</h4>
       </div>
       <div class="modal-body">
-        <form id="form_documentos_modal" name="form_documentos_modal" action="" method="post">
+        <form id="form_documentos_modal" name="f" action="" method="post">
 
           
 
           <div class="form-group">
             <label class="control-label">Nombre:</label>
-            <input type="text" class="form-control" placeholder="Ingrese Nombre" name="txt_nombre" id="txt_nombre">
+            <input type="text" class="form-control" name="txt_nombre" id="txt_nombre">
           </div>
 
-         
+         <div class="form-group">
+            <label class="control-label">Area:</label>
+            <select class="form-control" name="slct_area" id="slct_area">
+                <option value="">.::Seleccione::.</option>
+                <option value='0'>Sin Siglas</option>
+                <option value='1'>Con Siglas</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Posicion:</label>
+            <select class="form-control" name="slct_posicion" id="slct_posicion">
+                <option value="">.::Seleccione::.</option>
+                <option value='0'>Centro</option>
+                <option value='1'>Izquierda</option>
+                <option value='2'>Derecha</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Posicion Fecha:</label>
+            <select class="form-control" name="slct_posicion_fecha" id="slct_posicion_fecha">
+                <option value="">.::Seleccione::.</option>
+                <option value='0'>Centro</option>
+                <option value='1'>Arriba Izquierda</option>
+                <option value='2'>Aarriba Derecha</option>
+                <option value='3'>Abajo Izquierda</option>
+                <option value='4'>Abajo Derecha</option>
+          </select>
+          </div>
 
 
           <div class="form-group">
