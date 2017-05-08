@@ -175,7 +175,7 @@
                 if (index > 0) {
                     html = html.replace("rowspann", "rowspan='" + n + "'");
                 }
-                html += '<td rowspann >' + data.nombre + '</td>';
+                html += '<td rowspann >' + data.nombre + '<br>'+data.mf_me+'</td>';
                 n = 1;
             } else {
                 n++;
@@ -186,7 +186,7 @@
                 if (index > 0) {
                     html = html.replace("rowspana", "rowspan='" + a + "'");
                 }
-                html += '<td rowspana >' + data.actividad + '</td>';
+                html += '<td rowspana >' + data.actividad + '<br>'+data.af_ac+ '</td>';
                 a = 1;
             } else {
                 a++;
@@ -199,7 +199,7 @@
                     //  html= html.split('rowspanb').join("rowspan='"+b+"'");
                 }
                 html += '<td rowspanb >' + data.d + '</td>';
-                html += '<td rowspanb >' + data.df + '</td>';
+                html += '<td rowspanb >' + data.df_de + '</td>';
                 b = 1;
             } else {
                 b++;
@@ -211,7 +211,7 @@
                     html = html.replace(/rowspanc/g, "rowspan='" + c + "'");
                 }
                 html += '<td rowspanc >' + data.p + '</td>';
-                html += '<td rowspanc >' + data.pf + '</td>';
+                html += '<td rowspanc >' + data.pf_pa + '</td>';
                 c = 1;
             } else {
                 c++;
