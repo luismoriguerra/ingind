@@ -97,7 +97,7 @@
               </div>
             </div> -->
             <div class="row">
-              <div class="col-xs-12">
+              <div class="col-xs-7">
                 <div class="form-group">
                     <textarea id="plantillaWord" name="word" class="form-control" rows="6"></textarea>
                 </div>

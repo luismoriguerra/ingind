@@ -78,7 +78,8 @@ $(document).ready(function() {
 	    var text = $.trim( button.data('texto') );
 	    var id= $.trim( button.data('id') );
 	    var camposP = {'nombre':text,'id':id};
-        docdigital.Cargar(HTMLCargar,camposP);
+            var data={activo:1};
+        docdigital.Cargar(HTMLCargar,camposP,data);
     });
 
     function limpia(area) {
@@ -136,7 +137,7 @@ HTMLCargar=function(datos,campos){
         html+="<td>"+data.plantilla+"</td>";
         html+="<td><a class='btn btn-success btn-sm' c_text='"+c_text+"' c_id='"+c_id+"'  id='"+data.id+"' title='"+data.titulo+"' onclick='SelectDocDig(this)'><i class='glyphicon glyphicon-ok'></i> </a></td>";
         if($.trim(data.ruta) != 0  || $.trim(data.rutadetallev) != 0){
-            html+="<td><a class='btn btn-primary btn-sm' id='"+data.id+"' onclick='openPrevisualizarPlantilla(this,0)'><i class='fa fa-eye'></i> </a></td>";
+            html+="<td><a class='btn btn-primary btn-sm' id='"+data.id+"' onclick='openPlantilla(this,0,4,1)'><i class='fa fa-eye'></i> </a></td>";
         }else{
              html+="<td></td>";
         }
@@ -154,12 +155,12 @@ SelectDocDig = function(obj,id){
 	$("#listDocDigital").modal('hide');
 }
 
-openPrevisualizarPlantilla=function(obj,id){
+openPlantilla=function(obj,id,tamano,tipo){
     var iddoc = id;
     if(id==0 || id ==''){
         iddoc=obj.getAttribute('id');
     }
-    window.open("documentodig/vistaprevia/"+iddoc,
+    window.open("documentodig/vista/"+iddoc+"/"+tamano+"/"+tipo,
                 "PrevisualizarPlantilla",
                 "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
 };

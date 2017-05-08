@@ -123,6 +123,9 @@ class Area extends Base
                         if ( Input::get('estado') ) {
                             $query->where('estado','=','1');
                         }
+                        if ( Input::has('areagestionall') ){
+                            $query->where('area_gestion','>','0');
+                        }
                         if ( Input::has('areapersona') ){
 
                             if ( Input::has('areagerencia') ){
@@ -160,6 +163,15 @@ class Area extends Base
                 INNER JOIN area_cargo_persona acp ON acp.area_id=a.id AND acp.estado=1
                 INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1 AND cp.cargo_id=5
                 INNER JOIN personas p ON p.id=cp.persona_id AND p.estado = 1 AND p.rol_id IN (8,9) 
+                WHERE a.estado=1 AND a.area_gestion=1";
+        $result = DB::select($sql);
+        return ($result) ? $result : false;
+    }
+    
+    public static function getAreasGerenciaPersona(){
+        $sql = "SELECT CONCAT_WS('|',a.id,p.id) as id,a.nombre,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) concat 
+                FROM areas a 
+                INNER JOIN personas p ON (p.area_id=a.id OR FIND_IN_SET(a.id,p.area_responsable)) AND p.estado = 1 AND p.rol_id IN (8,9,6) 
                 WHERE a.estado=1 AND a.area_gestion=1";
         $result = DB::select($sql);
         return ($result) ? $result : false;

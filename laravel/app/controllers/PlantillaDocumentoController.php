@@ -79,7 +79,13 @@ class PlantillaDocumentoController extends \BaseController {
         if ($Plantilladoc) {
 
             $params = [
+                'tamano'=>4,
+                'posicion'=>0,
+                'posicion_fecha'=>1,
+                'tipo_envio'=>1,
                 'nombre' => $Plantilladoc->nombre,
+                'vistaprevia'=>'',
+                'area' => $Plantilladoc->area_id,
                 'conCabecera' => 1,
                 'contenido' => $Plantilladoc->cuerpo,
                 'titulo' =>  " N&ordm; 001-" . date('Y') . "-XX/XX"

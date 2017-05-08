@@ -2,15 +2,17 @@
 var cabeceraG=[]; // Cabecera del Datatable
 var columnDefsG=[]; // Columnas de la BD del datatable
 var targetsG=-1; // Posiciones de las columnas del datatable
-var MetasG={id:0,nombre:"",estado:1}; // Datos Globales
+var MetasG={id:0,nombre:"",area:"",estado:1}; // Datos Globales
 $(document).ready(function() {
     /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
         2: Descripción de cabecera
         3: Color Cabecera
     */
 
+    var data = {estado:1,areagestionall:1};
+    slctGlobal.listarSlct('area','slct_area_id','multiple',null,data);
     slctGlobalHtml('slct_estado','simple');
-    var idG={   nombre        :'onBlur|Nombre Meta|#DCE6F1', //#DCE6F1
+    var idG={   a          :'3|Nombre de Meta |#DCE6F1',
                 estado        :'2|Estado|#DCE6F1', //#DCE6F1
              };
 
@@ -45,6 +47,8 @@ $(document).ready(function() {
 
             $('#form_metas_modal #txt_nombre').val( MetasG.nombre );
             $('#form_metas_modal #slct_estado').val( MetasG.estado );
+             var opciones = MetasG.area.split(",");
+             slctGlobal.listarSlct('area','form_metas_modal #slct_area_id','multiple',opciones,data);
             $("#form_metas_modal").append("<input type='hidden' value='"+MetasG.id+"' name='id'>");
         }
              $('#form_metas_modal select').multiselect('rebuild');
@@ -52,6 +56,7 @@ $(document).ready(function() {
 
     $('#metaModal').on('hide.bs.modal', function (event) {
        $('#form_metas_modal input').val('');
+       $('#form_metas_modal select').val('');
      //   var modal = $(this);
        // modal.find('.modal-body input').val('');
     });
@@ -62,6 +67,7 @@ BtnEditar=function(btn,id){
     MetasG.id=id;
     MetasG.nombre=$(tr).find("td:eq(0)").text();
     MetasG.estado=$(tr).find("td:eq(1)>span").attr("data-estado");
+    MetasG.area=$(tr).find("td:eq(0) input[name='txt_area']").val();
     $("#BtnEditar").click();
 };
 
@@ -77,6 +83,9 @@ MostrarAjax=function(t){
 }
 
 GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
+    if(typeof(fn)!='undefined' && fn.col==0){
+         return row.nombre+"<input type='hidden'name='txt_area' value='"+row.area_multiple_id+"'>";
+    }
     if(typeof(fn)!='undefined' && fn.col==1){
         var estadohtml='';
         estadohtml='<span id="'+row.id+'" onClick="activar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-danger">Inactivo</span>';
@@ -108,7 +117,10 @@ Agregar = function(){
 };
 validaMetas = function(){
     var r=true;
-    
+    if( $("#form_metas_modal #slct_area_id").val()=='' ){
+        alert("Ingrese Área(s) de Meta");
+        r=false;
+    }
     return r;
 };
 </script>

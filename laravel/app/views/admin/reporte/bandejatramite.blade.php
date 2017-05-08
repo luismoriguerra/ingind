@@ -10,7 +10,7 @@
     {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }} 
     {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
 
-    {{ HTML::style('http://www.jqueryscript.net/css/jquerysctipttop.css') }}
+    {{ HTML::style('lib/jquerysctipttop.css') }}
 {{--     {{ HTML::script('lib/bootstrap-treetable/js/javascript.js') }} --}}
      
 
@@ -90,11 +90,11 @@
 }
 
 td.details-control {
-    background: url('http://www.datatables.net/examples/resources/details_open.png') no-repeat center center;
+    background: url('lib/web/details_open.png') no-repeat center center;
     cursor: pointer;
 }
 tr.shown td.details-control {
-    background: url('http://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
+    background: url('lib/web/details_close.png') no-repeat center center;
 }
 
 @media screen and (max-width: 767px) {

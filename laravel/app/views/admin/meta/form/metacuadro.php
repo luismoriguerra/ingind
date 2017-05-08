@@ -1,6 +1,6 @@
 <!-- /.modal -->
 <div class="modal fade" id="metacuadroModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header logo">
                 <button class="btn btn-sm btn-default pull-right" data-dismiss="modal">
@@ -38,13 +38,13 @@
                                 <li class="logo tab_1 active">
                                     <a href="#tab_1" data-toggle="tab">
                                         <button class="btn btn-primary btn-sm"><i class="fa fa-cloud fa-lg"></i> </button>
-                                        Actividad
+                                        Descripción
                                     </a>
                                 </li>
                                 <li class="logo tab_2">
                                     <a href="#tab_2" data-toggle="tab">
                                         <button class="btn btn-primary btn-sm"><i class="fa fa-cloud fa-lg"></i> </button>
-                                        Plan de Trabajo
+                                        Pasos
                                     </a>
                                 </li>
                             </ul>
@@ -60,6 +60,7 @@
                                                                 <th>N°&nbsp;<a class='btn btn-success btn-sm'
                                                                          onclick="AgregarFecha1()"><i class="fa fa-plus fa-lg"></i></a></th>
                                                                 <th>Fecha</th>
+                                                                <th>Fecha Adicional</th>
                                                                 <th>Descripción</th>
                                                             </tr>
                                                         </thead>
@@ -82,6 +83,7 @@
                                                                <th>N°&nbsp;<a class='btn btn-success btn-sm agregarfecha2'
                                                                          ><i class="fa fa-plus fa-lg"></i></a></th>
                                                                 <th>Fecha</th>
+                                                                <th>Fecha Adicional</th>
                                                                 <th>Paso</th>
                                                                 <th>Actividad</th>
                                                             </tr>

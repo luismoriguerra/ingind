@@ -1,5 +1,7 @@
 <script type="text/javascript">
 temporalBandeja=0;
+var fechaTG='<?php echo date("Y-m-d") ?>';
+var horaTG='<?php echo date("H:i:s") ?>';
 var areasG=[]; // texto area
 var areasGId=[]; // id area
 var theadArea=[]; // cabecera area
@@ -189,7 +191,26 @@ tpersona=function(valor){//1->natural,2->juridica,3->a.i. y 4->org social
 }
 
 hora=function(){
-Asignar.FechaActual("");
+//Asignar.FechaActual("");
+    tiempo=horaTG.split(":");
+    tiempo[1]=tiempo[1]*1+1;
+    if(tiempo[1]*1==60){
+        tiempo[0]=tiempo[0]*1+1;
+        tiempo[1]='0';
+    }
+
+    if(tiempo[0]*1<10){
+    tiempo[0] = "0" + tiempo[0]*1;
+    }
+
+    if(tiempo[1]*1<10){
+    tiempo[1] = "0" + tiempo[1]*1;
+    }
+    
+    horaTG=tiempo.join(":");
+$("#txt_fecha_inicio").val(fechaTG+" "+horaTG);
+$("#txt_fecha_inicio2").val(fechaTG+" "+horaTG);
+$("#txt_fecha_inicio3").val(fechaTG+" "+horaTG);
 tiempo = setTimeout('hora()',60000);
 }
 

@@ -5,8 +5,8 @@
     @parent
     {{ HTML::script('lib/ckeditor/ckeditor.js') }}
     {{ HTML::style('css/admin/plantilla.css') }}
-    {{ HTML::style('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css') }}
-    {{ HTML::script('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js') }}
+    {{ HTML::script('lib/jquery-bootstrap-validator/bootstrapValidator.min.css') }}
+    {{ HTML::script('lib/jquery-bootstrap-validator/bootstrapValidator.min.js') }}
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
     @include( 'admin.mantenimiento.js.plantilladocumento_ajax' )

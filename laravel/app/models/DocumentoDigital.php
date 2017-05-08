@@ -3,46 +3,77 @@
 class DocumentoDigital extends Base {
 	protected $fillable = [];
     public $table = "doc_digital";
-    public static $where =['id', 'titulo', 'asunto', 'cuerpo', 'plantilla_doc_id', 'area_id','persona_id'];
-    public static $selec =['id', 'titulo', 'asunto', 'cuerpo', 'plantilla_doc_id', 'area_id','persona_id'];
+    public static $where =['id', 'titulo', 'asunto', 'cuerpo', 'plantilla_doc_id', 'area_id','persona_id','updated_f_comentario','usuario_f_updated_at'];
+    public static $selec =['id', 'titulo', 'asunto', 'cuerpo', 'plantilla_doc_id', 'area_id','persona_id','updated_f_comentario','usuario_f_updated_at'];
 
     public static function getDocumentosDigitales(){
         if(Input::get('id')){
             return DB::table('doc_digital as dd')
                     ->join('plantilla_doc as pd', 'dd.plantilla_doc_id', '=', 'pd.id')
-                    ->join('doc_digital_area as dda', 'dda.doc_digital_id', '=', 'dd.id')
-                    ->join('areas as a','dda.area_id', '=', 'a.id')
-                    ->join('personas as p','dda.persona_id', '=', 'p.id')
+                    ->leftjoin('doc_digital_area as dda', function($leftjoin)
+                    {
+                        $leftjoin->on('dda.doc_digital_id', '=', 'dd.id')
+                                ->where('dda.estado', '=', 1);
+                    })
+                    ->leftjoin('areas as a','dda.area_id', '=', 'a.id')
+                    ->leftjoin('personas as p','dda.persona_id', '=', 'p.id')
                     ->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla', 'dd.plantilla_doc_id' ,'a.nombre as area','dda.area_id as area_id','p.nombre as pnombre','p.paterno as ppaterno','p.materno as pmaterno','dd.cuerpo','dd.tipo_envio','dda.persona_id','dda.tipo','dd.envio_total')
                     ->where( 
 
-                        function($query){
+                        function($query){                    
                             if ( Input::get('id') ) {
                                 $query->where('dd.id','=',Input::get('id'));
                             }
-                            $sql="  SELECT count(id) cant
-                                    FROM cargo_persona
-                                    WHERE estado=1
-                                    AND cargo_id=12
-                                    AND persona_id=".Auth::user()->id;
-                            $csql=DB::select($sql);
-                            if( $csql[0]->cant==0 ){
-                            $query->where('dd.area_id','=',Auth::user()->area_id);
+                            else{
+                                $usu_id=Auth::user()->id;
+                                $sql="  SELECT count(id) cant
+                                        FROM cargo_persona
+                                        WHERE estado=1
+                                        AND cargo_id=12
+                                        AND persona_id=".$usu_id;
+                                $csql=DB::select($sql);
+                                if( $csql[0]->cant==0 ){
+                                    //$query->where('dd.area_id','=',Auth::user()->area_id);
+                                    $query->whereRaw('dd.area_id IN (
+                                        SELECT DISTINCT(a.id)
+                                        FROM area_cargo_persona acp
+                                        INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                                        INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                        WHERE acp.estado=1
+                                        AND cp.persona_id= '.$usu_id.'
+                                    )');
+                                }
                             }
                             $query->where('dd.estado','=',1);
-                            $query->where('dda.estado','=',1);
                         }
                     )
                     ->orderBy('dd.id')
-                    ->get();            
+                    ->get();
         }else{
             return DB::table('doc_digital as dd')
             		->join('plantilla_doc as pd', 'dd.plantilla_doc_id', '=', 'pd.id')
-                    ->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla','dd.estado',
-                        DB::raw('(SELECT COUNT(r.id) FROM rutas r where r.doc_digital_id=dd.id) AS ruta'),
-                        DB::raw('(SELECT COUNT(rdv.id) FROM rutas_detalle_verbo rdv where rdv.doc_digital_id=dd.id) AS rutadetallev'))
+                        ->leftjoin('personas as p','p.id','=','dd.usuario_created_at')
+                        ->leftjoin('personas as p1','p1.id','=','dd.usuario_updated_at')
+                    ->select(DB::raw('DATE(dd.created_at)as created_at'),DB::raw('CONCAT_WS(" ",p1.paterno,p1.materno,p1.nombre) as persona_u'),
+                        DB::raw('CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona_c'),'dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla','dd.estado'
+                        ,DB::raw('(SELECT COUNT(r.id) '
+                                . 'FROM rutas r '
+                                . 'INNER JOIN rutas_detalle as rd on r.id=rd.ruta_id and rd.estado=1 and rd.condicion=0'
+                                . ' INNER JOIN rutas_detalle_verbo as rdv on rdv.ruta_detalle_id=rd.id and rdv.estado=1 '
+                                . 'where r.estado=1 AND dd.id=rdv.doc_digital_id ) AS rutadetallev'),
+                        DB::raw('(SELECT COUNT(r.id) '
+                                . 'FROM rutas r '
+                                . 'where r.estado=1 AND dd.id=r.doc_digital_id ) AS ruta')    
+                            )
+                   	
                    	->where( 
-                        function($query){
+                        function($query){                          
+                            if(Input::get('activo')){
+                                $query->where('dd.estado','=','1');
+                            } else {
+                                 $query->where('dd.estado','=','1');
+                            }
+                            $usu_id=Auth::user()->id;
 /*                            $sql="  SELECT count(id) cant
                                     FROM cargo_persona
                                     WHERE estado=1
@@ -50,7 +81,15 @@ class DocumentoDigital extends Base {
                                     AND persona_id=".Auth::user()->id;
                             $csql=DB::select($sql);
                             if( $csql[0]->cant==0 ){*/
-                                $query->where('dd.area_id','=',Auth::user()->area_id);
+                                //$query->where('dd.area_id','=',Auth::user()->area_id);
+                                $query->whereRaw('dd.area_id IN (
+                                        SELECT DISTINCT(a.id)
+                                        FROM area_cargo_persona acp
+                                        INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                                        INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                        WHERE acp.estado=1
+                                        AND cp.persona_id= '.$usu_id.'
+                                    )');
                             /* }*/
                         }
                     )
@@ -62,14 +101,43 @@ class DocumentoDigital extends Base {
 
 
     public static function Correlativo(){
+        if(Input::get('tipo_corre')==2){
     	$año= date("Y");
         $r2=array(array('correlativo'=>'000001','ano'=>$año));
     	/*$sql = "SELECT LPAD(id+1,6,'0') as correlativo,'$año' ano FROM doc_digital ORDER BY id DESC LIMIT 1";*/
-        $sql = "select LPAD(count(dd.id)+1,6,'0') as correlativo from doc_digital dd 
-                inner join plantilla_doc pd on dd.plantilla_doc_id=pd.id and pd.tipo_documento_id=".Input::get('tipo_doc')."
-                ORDER BY dd.id DESC LIMIT 1";
+        $sql = "SELECT IFNULL(LPAD(MAX(dd.correlativo)+1,6,'0'),LPAD(1,6,'0')) as correlativo 
+                FROM doc_digital dd 
+                INNER JOIN plantilla_doc pd on dd.plantilla_doc_id=pd.id 
+                AND pd.tipo_documento_id=".Input::get('tipo_doc')." 
+                AND pd.area_id= ".Input::get('area_id').
+                " WHERE dd.estado=1 
+                AND YEAR(dd.created_at)=YEAR(CURDATE())
+                ORDER BY dd.correlativo DESC LIMIT 1";
     	$r= DB::select($sql);
-    	return (isset($r[0])) ? $r[0] : $r2[0];
+        return (isset($r[0])) ? $r[0] : $r2[0];}
+        
+        else if(Input::get('tipo_corre')==1){
+    	$año= date("Y");
+        $r2=array(array('correlativo'=>'000001','ano'=>$año));
+    	/*$sql = "SELECT LPAD(id+1,6,'0') as correlativo,'$año' ano FROM doc_digital ORDER BY id DESC LIMIT 1";*/
+        $sql = "SELECT IFNULL(LPAD(MAX(dd.correlativo)+1,6,'0'),LPAD(1,6,'0')) as correlativo from doc_digital dd 
+                INNER JOIN plantilla_doc pd on dd.plantilla_doc_id=pd.id and pd.tipo_documento_id=".Input::get('tipo_doc')." and dd.persona_id= ".Auth::user()->id.
+                " WHERE dd.estado=1 
+                AND YEAR(dd.created_at)=YEAR(CURDATE())
+                ORDER BY dd.correlativo DESC LIMIT 1";
+    	$r= DB::select($sql);
+        return (isset($r[0])) ? $r[0] : $r2[0];}
+        
+        else if(Input::get('tipo_corre')==0){
+    	$año= date("Y");
+        $r2=array(array('correlativo'=>'000001','ano'=>$año));
+    	/*$sql = "SELECT LPAD(id+1,6,'0') as correlativo,'$año' ano FROM doc_digital ORDER BY id DESC LIMIT 1";*/
+        $sql = "SELECT IFNULL(LPAD(MAX(dd.correlativo)+1,6,'0'),LPAD(1,6,'0')) as correlativo from doc_digital dd 
+                INNER JOIN plantilla_doc pd on dd.plantilla_doc_id=pd.id and pd.tipo_documento_id=".Input::get('tipo_doc')." WHERE dd.estado=1 
+                AND YEAR(dd.created_at)=YEAR(CURDATE())
+                ORDER BY dd.correlativo DESC LIMIT 1";
+    	$r= DB::select($sql);
+        return (isset($r[0])) ? $r[0] : $r2[0];}
     }
     
          public static function getListarCount( $array )
@@ -94,7 +162,29 @@ class DocumentoDigital extends Base {
         $oData = DB::select($sSql);
         return $oData;
     }
-
+    
+        public static function getEditarFecha( )
+    {   $created=Input::get('fecha').' '.date ("h:i:s"); 
+        $sSql="UPDATE doc_digital set "
+                ." usuario_f_updated_at=".Auth::user()->id
+                .", created_at='".$created
+                ."', updated_f_comentario='".Input::get('comentario')
+                ."' WHERE id=".Input::get('id');
+        $oData = DB::update($sSql);
+        return $oData;
+    }
+    
+            public static function getCambiarEstadoDoc( )
+    {   
+        $sSql="UPDATE doc_digital set "
+                ." titulo=CONCAT_WS('|',titulo,now()), 
+                    estado='0',
+                    usuario_updated_at='".Auth::user()->id."', 
+                    updated_at= now() 
+                    WHERE id=".Input::get('id');
+        $oData = DB::update($sSql);
+        return $oData;
+    }
 
     public static function getDocdigitalCount( $array )
     {   
@@ -123,6 +213,16 @@ class DocumentoDigital extends Base {
                 $array['order'].
                 $array['limit'];
 
+        $oData = DB::select($sSql);
+        return $oData;
+    }
+    
+    public static function getVerificarTitulo()
+    {   
+        $sSql=" SELECT * 
+                FROM doc_digital 
+                WHERE titulo = '".Input::get('titulo')."'"
+                . "AND id !=".Input::get('id');
         $oData = DB::select($sSql);
         return $oData;
     }

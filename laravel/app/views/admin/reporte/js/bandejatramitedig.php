@@ -1,6 +1,9 @@
 <script type="text/javascript">
 temporalBandeja=0;
 valposg=0;
+var fechaTG='';
+var horaTG='';
+var TiempoFinalTG='';
 var areasG=[]; // texto area
 var areasGId=[]; // id area
 var theadArea=[]; // cabecera area
@@ -129,7 +132,7 @@ $(document).ready(function() {
     slctGlobalHtml('slct_tipo_respuesta,#slct_tipo_respuesta_detalle','simple');
 
     $("#btn_guardar_todo").click(guardarTodo);
-    hora();
+    Bandeja.FechaActual(hora);
 
     $('#expedienteModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
@@ -197,8 +200,50 @@ MostrarAjax=function(){
 }
 
 hora=function(){
-    Bandeja.FechaActual();
-tiempo = setTimeout('hora()',5000);
+
+    //Bandeja.FechaActual();
+    tiempo=horaTG.split(":");
+    tiempo[1]=tiempo[1]*1+1;
+    if(tiempo[1]*1==60){
+        tiempo[0]=tiempo[0]*1+1;
+        tiempo[1]='0';
+    }
+
+    if(tiempo[0]*1<10){
+    tiempo[0] = "0" + tiempo[0]*1;
+    }
+
+    if(tiempo[1]*1<10){
+    tiempo[1] = "0" + tiempo[1]*1;
+    }
+    
+    horaTG=tiempo.join(":");
+    $("#txt_respuesta").val(fechaTG+" "+horaTG);
+    $("#div_cumple>span").html("CUMPLIENDO TIEMPO");
+    $("#txt_alerta").val("0");
+    $("#txt_alerta_tipo").val("0");
+
+    $("#div_cumple").removeClass("progress-bar-danger").removeClass("progress-bar-warning").addClass("progress-bar-success");
+        
+        if ( fechaAux!='' && fechaAux < $("#txt_respuesta").val() ) {
+            $("#txt_alerta").val("1");
+            $("#txt_alerta_tipo").val("2");
+            $("#div_cumple").removeClass("progress-bar-success").removeClass("progress-bar-warning").addClass("progress-bar-danger");
+            $("#div_cumple>span").html("SE DETIENE FUERA DEL TIEMPO");
+        }
+        else if ( fechaAux!='' ) {
+            $("#txt_alerta").val("1");
+            $("#txt_alerta_tipo").val("3");
+            $("#div_cumple").removeClass("progress-bar-success").removeClass("progress-bar-danger").addClass("progress-bar-warning");
+            $("#div_cumple>span").html("SE DETIENE DENTRO DEL TIEMPO");
+        }
+        else if ( $("#txt_fecha_max").val() < $("#txt_respuesta").val() ) {
+            $("#txt_alerta").val("1");
+            $("#txt_alerta_tipo").val("1");
+            $("#div_cumple").removeClass("progress-bar-success").removeClass("progress-bar-warning").addClass("progress-bar-danger");
+            $("#div_cumple>span").html("NO CUMPLE TIEMPO");
+        }
+TiempoFinalTG = setTimeout('hora()',60000);
 }
 
 activar=function(id,ruta_detalle_id,td,ruta_id=''){//establecer como visto
@@ -402,7 +447,7 @@ mostrarDetalleHTML=function(datos){
                             imagenadd= '<input data-pos="'+(i*1+1)+'" type="text" readonly class="form-control txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'" id="documento_'+detalle[i].split("=>")[0]+'" name="documento_'+detalle[i].split("=>")[0]+'" value="" /><input type="hidden" id="txt_documento_id_'+detalle[i].split("=>")[0]+'" name="txt_documento_id_'+detalle[i].split("=>")[0]+'" value=""><input type="hidden" id="txt_doc_digital_id_'+detalle[i].split("=>")[0]+'" name="txt_doc_digital_id_'+detalle[i].split("=>")[0]+'" value="">'+
 
                                         '   <span class="btn btn-success" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="documento_'+detalle[i].split("=>")[0]+'" data-id="txt_doc_digital_id_'+detalle[i].split("=>")[0]+'"><i class="glyphicon glyphicon-file"></i></span>'+
-                                            '<span class="btn btn-success" data-toggle="modal" data-target="#NuevoDocDigital" id="btn_nuevo_docdigital" data-texto="documento_'+detalle[i].split("=>")[0]+'" data-id="txt_doc_digital_id_'+detalle[i].split("=>")[0]+'"><i class="glyphicon glyphicon-paperclip"></i></span>'+
+//                                            '<span class="btn btn-success" data-toggle="modal" data-target="#NuevoDocDigital" id="btn_nuevo_docdigital" data-texto="documento_'+detalle[i].split("=>")[0]+'" data-id="txt_doc_digital_id_'+detalle[i].split("=>")[0]+'"><i class="glyphicon glyphicon-paperclip"></i></span>'+
 
 
                                         '<span class="btn btn-primary" data-toggle="modal" data-target="#indedocsModal" data-texto="documento_'+detalle[i].split("=>")[0]+'" data-id="txt_documento_id_'+detalle[i].split("=>")[0]+'" id="btn_buscar_indedocs">'+

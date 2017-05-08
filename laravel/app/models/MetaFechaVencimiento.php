@@ -8,7 +8,7 @@ class MetaFechaVencimiento extends Base
     
     public static function getCargar($array )
     {
-        $sSql=" SELECT mf.id, mf.meta_cuadro_id, mf.tipo, mf.fecha , mf.comentario, mf.estado, mf.relacion_id
+        $sSql=" SELECT mf.id, mf.meta_cuadro_id, mf.tipo, mf.fecha ,IFNULL(mf.fecha_add,'') as fecha_add , mf.comentario, mf.estado, mf.relacion_id
                 FROM metas_fechavencimiento mf
                 WHERE 1=1  ";
         $sSql.= $array['where'];

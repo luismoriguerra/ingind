@@ -9,7 +9,53 @@ class DocumentoDigitalController extends \BaseController {
             return Response::json(array('rst'=>1,'datos'=>$documento_digital));
         }
     }
-
+  
+        public function postEditartitulo()
+    {
+        if (Request::ajax() ) {
+            
+            $dd=DocumentoDigital::getVerificarTitulo();
+            
+            if($dd){
+                return Response::json(
+                array(
+                    'rst' => 2,
+                    'msj' => 'El título de Documento ya existe',
+                )
+                ); 
+            }
+            
+            $documento_digital = DocumentoDigital::find(Input::get('id'));
+            $documento_digital->titulo = Input::get('titulo');
+            $documento_digital->save();
+            
+            if(Input::get('ruta')==1){
+                $tb = TablaRelacion::where('doc_digital_id','=',Input::get('id'))->get();
+                
+                foreach ($tb as $tabla_relacion){
+                    $tabla_relacion->id_union = Input::get('titulo');
+                    $tabla_relacion->save();
+                    
+                }
+            }
+            
+            if(Input::get('rutadetallev')==1){
+                $rdv = RutaDetalleVerbo::where('doc_digital_id','=',Input::get('id'))->get();
+                
+                foreach ($rdv as $rutadetallev){
+                    $rutadetallev->documento = Input::get('titulo');
+                    $rutadetallev->save();
+                }
+            }
+            return Response::json(
+                array(
+                    'rst' => 1,
+                    'msj' => 'Registro Actualizado correctamente',
+                )
+            );
+        }
+    }
+    
     public function postCorrelativo()
     {
         if ( Request::ajax() ) {
@@ -32,13 +78,41 @@ class DocumentoDigitalController extends \BaseController {
             );
         }
     }
+    
+        public function postEditarfecha()
+    {
+        if (Request::ajax() && Input::has('id') && Input::has('fecha') && Input::has('comentario') )  {
+            $a      = new DocumentoDigital;
+            $listar = Array();
+            $listar = $a->getEditarFecha();
+            
+            if($listar==1){
+            $created=Input::get('fecha').' '.date ("h:i:s");     
+            $DocDigital = new DocumentoFechaH;
+            $DocDigital->documento_id = Input::get('id');
+            $DocDigital->fecha_documento = $created;
+            $DocDigital->comentario = Input::get('comentario');
+            $DocDigital->usuario_created_at = Auth::user()->id;
+            $DocDigital->save();
+            
+            return Response::json(
+                array(
+                    'rst' => 1,
+                    'msj' => 'Registro Editado correctamente',
+                )
+            );
+            }
+
+        }
+    }
 
     public function postCambiarestadodoc()
     {
         if (Request::ajax() && Input::has('id') && Input::has('estado')) {
-            $DocDigital = DocumentoDigital::find(Input::get('id'));
-            $DocDigital->estado = Input::get('estado');
-            $DocDigital->save();
+            $a      = new DocumentoDigital;
+            $listar = Array();
+            $listar =$a->getCambiarEstadoDoc();
+            if($listar=1){
             return Response::json(
                 array(
                     'rst' => 1,
@@ -47,6 +121,7 @@ class DocumentoDigitalController extends \BaseController {
             );
         }
     }
+    }
 
     public function postEditar()
     {
@@ -54,17 +129,23 @@ class DocumentoDigitalController extends \BaseController {
             $html = Input::get('word', '');
 
             $jefe = DB::table('personas')
-                ->where('area_id', '=', Auth::user()->area_id)
-                ->whereIn('rol_id', array(8,9))
-                ->where('estado',1)
-                ->get();
-
+             ->where(         
+                        function($query){
+                            $query->where('area_id', '=', Auth::user()->area_id)
+                            ->orwhereRaw('FIND_IN_SET(' . Auth::user()->area_id . ',area_responsable)');
+                        }
+                    )
+                    ->whereIn('rol_id', array(8,9,6))
+                    ->where('estado',1)
+                    ->get();
+                    
             $DocDigital = DocumentoDigital::find(Input::get('iddocdigital'));
-            $DocDigital->titulo = Input::get('titulofinal');
+            //$DocDigital->titulo = Input::get('titulofinal');
+            //$DocDigital->correlativo = Input::get('titulo');
             $DocDigital->asunto = Input::get('asunto');
             $DocDigital->cuerpo = $html;
-            $DocDigital->plantilla_doc_id = Input::get('plantilla');
-            $DocDigital->area_id = Auth::user()->area_id;
+//            $DocDigital->plantilla_doc_id = Input::get('plantilla');
+            //$DocDigital->area_id = Auth::user()->area_id;
 
             if(Input::has('chk_todasareas') && Input::get('chk_todasareas') == 'allgesub'){
                 $DocDigital->envio_total = 1;
@@ -72,8 +153,14 @@ class DocumentoDigitalController extends \BaseController {
                 $DocDigital->envio_total = 0;
             }
 
-            $DocDigital->persona_id = $jefe[0]->id;
-            $DocDigital->usuario_created_at = Auth::user()->id;
+            $DocDigital->tipo_envio = Input::get('tipoenvio');
+//            if(Input::get('tipoenvio')==3 or Input::get('tipoenvio')==5){
+//                $DocDigital->persona_id = Auth::user()->id;    
+//            }else{
+//                $DocDigital->persona_id = $jefe[0]->id;                
+//            }
+            
+            $DocDigital->usuario_updated_at = Auth::user()->id;
             $DocDigital->save();
 
             if($DocDigital->id){
@@ -110,14 +197,20 @@ class DocumentoDigitalController extends \BaseController {
         if ( Request::ajax() ) {
             $html = Input::get('word', '');
             $jefe = DB::table('personas')
-                    ->where('area_id', '=', Auth::user()->area_id)
-                    ->whereIn('rol_id', array(8,9))
+             ->where(         
+                        function($query){
+                            $query->where('area_id', '=', Auth::user()->area_id)
+                            ->orwhereRaw('FIND_IN_SET(' . Auth::user()->area_id . ',area_responsable)');
+                        }
+                    )
+                    ->whereIn('rol_id', array(8,9,6))
                     ->where('estado',1)
                     ->get();
-
+            DB::beginTransaction();
             $DocDigital = new DocumentoDigital;
             $DocDigital->titulo = Input::get('titulofinal');
             $DocDigital->asunto = Input::get('asunto');
+            $DocDigital->correlativo = Input::get('titulo');
             $DocDigital->cuerpo = $html;
             $DocDigital->plantilla_doc_id = Input::get('plantilla');
             $DocDigital->area_id = Auth::user()->area_id;
@@ -129,17 +222,60 @@ class DocumentoDigitalController extends \BaseController {
             }
 
             $DocDigital->tipo_envio = Input::get('tipoenvio');
-            if(Input::get('tipoenvio')==3){
+            if(Input::get('tipoenvio')==3 or Input::get('tipoenvio')==5 or Input::get('tipoenvio')==6){
                 $DocDigital->persona_id = Auth::user()->id;    
             }else{
                 $DocDigital->persona_id = $jefe[0]->id;                
             }
 
             $DocDigital->usuario_created_at = Auth::user()->id;
-            $DocDigital->save();
+
+            $cantidad=true;
+            $conteo=0;
+            $conteoMax=10;
+            $correlativoinicial=str_pad(Input::get('titulo'),6,"0",STR_PAD_LEFT);
+            $correlativoaux=Input::get('titulo');
+            while ( $cantidad==true ) {
+                $cantidad=false;
+                try {
+                    $DocDigital->save();
+                } catch (Exception $e) {
+                    $d=explode("duplicate",strtolower($e));
+                    if(count($d)>1){
+                        $cantidad=true;
+                        $DocDigital->correlativo++;
+                        $correlativoaux=str_pad($DocDigital->correlativo,6,"0",STR_PAD_LEFT);
+                        $DocDigital->titulo=str_replace($correlativoinicial,$correlativoaux,$DocDigital->titulo);
+                    }
+                    else{
+                        $conteo=$conteoMax+1;
+                    }
+                }
+                $conteo++;
+                if($conteo==$conteoMax){
+                    $cantidad=false;
+                }
+            }
+
+            if($conteo==$conteoMax){
+                DB::rollback();
+                return Response::json(array('rst'=>3, 'msj'=>'Registro Inválido revise sus datos seleccionados','correlativo'=>$correlativoaux."|".$correlativoinicial));
+            }
+            elseif($conteo==$conteoMax+1){
+                DB::rollback();
+                return Response::json(array('rst'=>3, 'msj'=>'Registro Inválido o Existe un problema con el servidor, revise sus datos seleccionados','correlativo'=>$correlativoaux."|".$correlativoinicial));
+            }
 
             if($DocDigital->id){
-                if(Input::get('tipoenvio')==3){
+                
+                    $created=Input::get('fecha').' '.date ("h:i:s");     
+                    $DocHistorial = new DocumentoFechaH;
+                    $DocHistorial->documento_id = $DocDigital->id;
+                    $DocHistorial->fecha_documento = $DocDigital->created_at;
+                    $DocHistorial->comentario ='Inicio';
+                    $DocHistorial->usuario_created_at = Auth::user()->id;
+                    $DocHistorial->save();
+                /*if(Input::get('tipoenvio')==3){
                     $DocDigitalArea = new DocumentoDigitalArea();
                     $DocDigitalArea->doc_digital_id = $DocDigital->id;
                     $DocDigitalArea->persona_id = $jefe[0]->id;
@@ -147,7 +283,7 @@ class DocumentoDigitalController extends \BaseController {
                     $DocDigitalArea->tipo = 1;
                     $DocDigitalArea->usuario_created_at = Auth::user()->id;
                     $DocDigitalArea->save();
-                }else{
+                }else{*/
                 	$areas_envio = json_decode(Input::get('areasselect'));
                 	foreach ($areas_envio as $key => $value) {
                 		$DocDigitalArea = new DocumentoDigitalArea();
@@ -157,64 +293,161 @@ class DocumentoDigitalController extends \BaseController {
                         $DocDigitalArea->tipo = $value->tipo;
                 		$DocDigitalArea->usuario_created_at = Auth::user()->id;
                 		$DocDigitalArea->save();
-                	}                    
-                }
+                	}
+                //}
             }
-            return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente','nombre'=>$DocDigital->titulo,'iddocdigital'=>$DocDigital->id));
+            DB::commit();
+            return Response::json(array('rst'=>1, 'msj'=>'Su documento generado es: '.$DocDigital->titulo,'iddocdigital'=>$DocDigital->id));
         }
     }
 
-    public function getVistaprevia($id)
+    public function getVista($id,$tamano,$tipo)
     {
-
+        ini_set("max_execution_time", 300);
         $DocumentoDigital = DocumentoDigital::find($id);
-
+        $sql= "SELECT d.posicion,d.posicion_fecha
+                FROM documentos d
+                INNER JOIN plantilla_doc pd ON d.id=pd.tipo_documento_id
+                WHERE pd.id=".$DocumentoDigital->plantilla_doc_id;
+        $oData = DB::select($sql);
+        
         if ($DocumentoDigital) {
             /*get remitente data*/
             $persona = Persona::find($DocumentoDigital->persona_id);
             $area = Area::find($DocumentoDigital->area_id);
-            $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." <br>".$area->nombre;
+            $rol= Rol::find($persona->rol_id);
+              $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." - <span style='font-size:11px'>".$area->nombre."</span>";
+//            $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." - <span style='font-size:11px'>(".$rol->nombre.") ".$area->nombre."</span>";
             /*end get remitente data */
 
             /*get destinatario data*/
             $copias = '';
             $destinatarios = '';
             if($DocumentoDigital->envio_total ==1){
-                $copias = '<ul></ul>';
+                $copias = '';
                 $destinatarios = 'Todas las Gerencias y Sub Gerencias';
             }else{
-                $copias.= '<ul>';
-                $destinatarios.= '<ul>';
+                $copias.= '';
+                $destinatarios.= '';
                 $DocDigitalArea = DocumentoDigitalArea::where('doc_digital_id', '=', $id)->where('estado', '=', 1)->get();
+                $salto=9;
+                $nb="&nbsp;";
+                if($tamano==5){
+                    $salto=6;
+                    $nb="&nbsp;";
+                }
                 foreach($DocDigitalArea as $key => $value){
                     $persona2 = Persona::find($value->persona_id);
                     $area2 = Area::find($value->area_id);
+                    $rol2= Rol::find($persona2->rol_id);
                     if($value->tipo ==1){
-                      $destinatarios.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' <br>'.$area2->nombre.'</li>';
+                        if($destinatarios!=""){
+                            /*$destinatarios.="<br><span>&nbsp;&nbsp;".$nb."<span style='padding-left: ".$salto."em;'>";*/
+                        }
+                        else{
+                            $destinatarios.="<span>";
+                        }
+                          $destinatarios.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">'.$area2->nombre.'</span><br>';
+//                        $destinatarios.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span><br>';
                     }else{
-                        $copias.= '<li>'.$persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' <br>'.$area2->nombre.'</li>';
+                        if($copias!=""){
+                            /*$copias.="<br><span>&nbsp;&nbsp;".$nb."<span style='padding-left: ".$salto."em;'>";*/
+                        }
+                        else{
+                            $copias.="<span>";
+                        }
+                          $copias.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">'.$area2->nombre.'</span><br>';
+//                        $copias.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span><br>';
                     }        
                 }
-                $destinatarios.= '</ul>';    
-                $copias.= '</ul>';          
+                //$destinatarios.= '</ul>';    
+                //$copias.= '</ul>';          
             }
 
             /*end get destinatario data*/
-            $png = QrCode::format('png')->size(150)->generate("http://proceso.munindependencia.pe/documentodig/vistaprevia/".$id);
+            if($tamano==4){
+                $size=122;}
+            else if($tamano==5){
+                 $size=115;
+            }
+            
+            $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vista/".$id."/".$tamano."/".$tipo);
             $png = base64_encode($png);
             $png= "<img src='data:image/png;base64," . $png . "'>";
             $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
             
+            $fechabase=$DocumentoDigital->created_at;
+            $fecha=explode(' ', $fechabase);
+            $fechaa=explode('-', $fecha[0]);
+            
+            $cabecera=1;
+            
+            if($DocumentoDigital->tipo_envio==4){
+                $cabecera=null;
+            }
+//            if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==12){
+//                $DocumentoDigital->area_id=1;
+//            }
+//            if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==44){
+//                $DocumentoDigital->area_id=1;
+//            }
+            if($tipo==0){
+                $vistaprevia='Documento Vista Previa';}
+            else if($tipo==1){
+                 $vistaprevia='';
+            }
+            $documenttittle= $DocumentoDigital->titulo;
+            if(strlen($documenttittle)>=59 AND $tamano==4){
+                $maximo= substr($documenttittle, 0,59);
+                $min=substr($documenttittle, 59);
+                $parte1="";
+                $parte2="";
+                $dmaximo= explode("-",$maximo);
+                for ($i=0; $i < count($dmaximo); $i++) { 
+                    if( count($dmaximo)>($i+1) ){
+                        $parte1.=$dmaximo[$i]."-";
+                    }
+                    else{
+                        $parte2=$dmaximo[$i].$min;
+                    }
+                }
+                $documenttittle=$parte1."<br><br>".$parte2;
+            }
+            else if(strlen($documenttittle)>=47 AND $tamano==5){
+                $maximo= substr($documenttittle, 0,47);
+                $min=substr($documenttittle, 47);
+                $parte1="";
+                $parte2="";
+                $dmaximo= explode("-",$maximo);
+                for ($i=0; $i < count($dmaximo); $i++) { 
+                    if( count($dmaximo)>($i+1) ){
+                        $parte1.=$dmaximo[$i]."-";
+                    }
+                    else{
+                        $parte2=$dmaximo[$i].$min;
+                    }
+                }
+                $documenttittle=$parte1."<br><br>".$parte2;
+            }
+            else{
+                $documenttittle= $DocumentoDigital->titulo;
+            }
             $params = [
-                'titulo' => $DocumentoDigital->titulo,
+                'tamano'=>$tamano,
+                'posicion'=>$oData[0]->posicion,
+                'posicion_fecha'=>$oData[0]->posicion_fecha,
+                'tipo_envio'=>$DocumentoDigital->tipo_envio,
+                'titulo' => $documenttittle,
+                'vistaprevia'=>$vistaprevia,
+                'area' => $DocumentoDigital->area_id,
                 'asunto' => $DocumentoDigital->asunto,
-                'conCabecera' => 1,
+                'conCabecera' => $cabecera,
                 'contenido' => $DocumentoDigital->cuerpo,
-                'fecha' => 'Lima,'.date('d').' de '.$meses[date('m')*1].' del '.date('Y'),
+                'fecha' => 'Independencia, '.$fechaa[2].' de '.$meses[$fechaa[1]*1].' del '.$fechaa[0],
                 'remitente' => $remitente,
                 'destinatario' => $destinatarios,
                 'imagen'=>$png,
-            ];
+            ];  
             if($copias != '' && $copias != '<ul></ul>'){ 
                 $params['copias'] = $copias;                
             }
@@ -225,13 +458,194 @@ class DocumentoDigitalController extends \BaseController {
 
             $pdf = App::make('dompdf');
             $pdf->loadHTML($html);
-            $pdf->setPaper('a4')->setOrientation('portrait');
+            $pdf->setPaper('a'.$tamano)->setOrientation('portrait');
+
             return $pdf->stream();
             //\PDFF::loadHTML($html)->setPaper('a4')->setOrientation('landscape')->setWarnings(false)->stream();
         }
 
     }
 
+    public function getVistaprevia($id,$tamano=4,$tipo=1)
+   {   $tipo=1;
+       ini_set("max_execution_time", 300);
+       $DocumentoDigital = DocumentoDigital::find($id);
+       $sql= "SELECT d.posicion,d.posicion_fecha
+               FROM documentos d
+               INNER JOIN plantilla_doc pd ON d.id=pd.tipo_documento_id
+               WHERE pd.id=".$DocumentoDigital->plantilla_doc_id;
+       $oData = DB::select($sql);
+       
+       if ($DocumentoDigital) {
+           /*get remitente data*/
+           $persona = Persona::find($DocumentoDigital->persona_id);
+           $area = Area::find($DocumentoDigital->area_id);
+//           $rol= Rol::find($persona->rol_id);
+               $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." - <span style='font-size:11px'> ".$area->nombre."</span>";
+//             $remitente = $persona->nombre." ".$persona->paterno." ".$persona->materno." - <span style='font-size:11px'>(".$rol->nombre.") ".$area->nombre."</span>";
+             /*end get remitente data */
+ 
+             /*get destinatario data*/
+             $copias = '';
+             $destinatarios = '';
+             if($DocumentoDigital->envio_total ==1){
+                 $copias = '';
+                 $destinatarios = 'Todas las Gerencias y Sub Gerencias';
+             }else{
+                 $copias.= '';
+                 $destinatarios.= '';
+                 $DocDigitalArea = DocumentoDigitalArea::where('doc_digital_id', '=', $id)->where('estado', '=', 1)->get();
+                 $salto=9;
+                 $nb="&nbsp;";
+ 
+               foreach($DocDigitalArea as $key => $value){
+                   $persona2 = Persona::find($value->persona_id);
+                   $area2 = Area::find($value->area_id);
+//                   $rol2= Rol::find($persona2->rol_id);
+                   if($value->tipo ==1){
+                       if($destinatarios!=""){
+                           /*$destinatarios.="<br><span>&nbsp;&nbsp;".$nb."<span style='padding-left: ".$salto."em;'>";*/
+                       }
+                       else{
+                           $destinatarios.="<span>";
+                       }
+                         $destinatarios.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">'.$area2->nombre.'</span><br>';
+//                       $destinatarios.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span><br>';
+                   }else{
+                       if($copias!=""){
+                           /*$copias.="<br><span>&nbsp;&nbsp;".$nb."<span style='padding-left: ".$salto."em;'>";*/
+                       }
+                       else{
+                           $copias.="<span>";
+                       }
+                       $copias.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px"> '.$area2->nombre.'</span><br>';
+//                       $copias.= $persona2->nombre.' '.$persona2->paterno.' '.$persona2->materno.' - </span><span style="font-size:11px">('.$rol2->nombre.') '.$area2->nombre.'</span><br>';
+                   }        
+               }
+               //$destinatarios.= '</ul>';    
+               //$copias.= '</ul>';          
+           }
+ 
+           /*end get destinatario data*/
+           if($tamano==4){
+               $size=122;}
+           else if($tamano==5){
+                $size=115;
+           }
+           
+           $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vista/".$id."/".$tamano."/".$tipo);
+           $png = base64_encode($png);
+           $png= "<img src='data:image/png;base64," . $png . "'>";
+           $meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
+           
+           $fechabase=$DocumentoDigital->created_at;
+           $fecha=explode(' ', $fechabase);
+           $fechaa=explode('-', $fecha[0]);
+           
+           $cabecera=1;
+           
+           if($DocumentoDigital->tipo_envio==4){
+               $cabecera=null;
+           }
+ //            if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==12){
+ //                $DocumentoDigital->area_id=1;
+ //            }
+ //            if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==44){
+ //                $DocumentoDigital->area_id=1;
+ //            }
+ 
+           $vistaprevia='';
+           
+           $documenttittle= $DocumentoDigital->titulo;
+           if(strlen($documenttittle)>60 AND $tamano==4){
+               $dd=explode("-",$documenttittle);
+               $documenttittle='';
+               if( strlen( $dd[0] )<=40 ){
+                   for ($i=0; $i < count($dd) ; $i++) { 
+                       if( ($i+2)==count($dd) ){
+                           $documenttittle.="<br><br>".$dd[$i]."-".$dd[$i+1];
+                           $i++;
+                       }
+                       else{
+                           $documenttittle.=$dd[$i]."-";
+                       }
+                   }
+               }
+               else{
+                   for ($i=0; $i < count($dd) ; $i++) { 
+                       if( ($i+3)==count($dd) ){
+                           $documenttittle.="<br><br>".$dd[$i]."-".$dd[$i+1]."-".$dd[$i+2];
+                           $i++;$i++;
+                       }
+                       else{
+                           $documenttittle.=$dd[$i]."-";
+                       }
+                   }
+               }
+           }
+           else if(strlen($documenttittle)>50 AND $tamano==5){
+               $dd=explode("-",$documenttittle);
+               $documenttittle='';
+               if( strlen( $dd[0] )<=40 ){
+                   for ($i=0; $i < count($dd) ; $i++) { 
+                       if( ($i+3)==count($dd) ){
+                           $documenttittle.="<br><br>".$dd[$i]."-".$dd[$i+1]."-".$dd[$i+2];
+                           $i++;
+                       }
+                       else{
+                           $documenttittle.=$dd[$i]."-";
+                       }
+                   }
+               }
+               else{
+                   for ($i=0; $i < count($dd) ; $i++) { 
+                       if( ($i+4)==count($dd) ){
+                           $documenttittle.="<br><br>".$dd[$i]."-".$dd[$i+1]."-".$dd[$i+2]."-".$dd[$i+3];
+                           $i++;$i++;
+                       }
+                       else{
+                           $documenttittle.=$dd[$i]."-";
+                       }
+                   }
+               }
+           }
+           else{
+               $documenttittle= $DocumentoDigital->titulo;
+           }
+           $params = [
+               'tamano'=>$tamano,
+               'posicion'=>$oData[0]->posicion,
+               'posicion_fecha'=>$oData[0]->posicion_fecha,
+               'tipo_envio'=>$DocumentoDigital->tipo_envio,
+               'titulo' => $documenttittle,
+               'vistaprevia'=>$vistaprevia,
+               'area' => $DocumentoDigital->area_id,
+               'asunto' => $DocumentoDigital->asunto,
+               'conCabecera' => $cabecera,
+               'contenido' => $DocumentoDigital->cuerpo,
+               'fecha' => 'Independencia, '.$fechaa[2].' de '.$meses[$fechaa[1]*1].' del '.$fechaa[0],
+               'remitente' => $remitente,
+               'destinatario' => $destinatarios,
+               'imagen'=>$png,
+           ];  
+           if($copias != '' && $copias != '<ul></ul>'){ 
+               $params['copias'] = $copias;                
+           }
+           $params = $params;
+           
+           $view = \View::make('admin.mantenimiento.templates.plantilla1', $params);
+           $html = $view->render();
+ 
+           $pdf = App::make('dompdf');
+           $pdf->loadHTML($html);
+           $pdf->setPaper('a'.$tamano)->setOrientation('portrait');
+ 
+           return $pdf->stream();
+           //\PDFF::loadHTML($html)->setPaper('a4')->setOrientation('landscape')->setWarnings(false)->stream();
+       }
+ 
+   }
+    
     function dataEjemploPlantilla() {
         return [
             'titulo' => '(EJEMPLO) MEMORANDUM CIRCULAR N 016-2016-SG/MDC',

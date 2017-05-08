@@ -29,7 +29,7 @@
                 <div class="row bodyBottom">
                     <div class="contComments hacerComentario" style="margin-bottom: 5px"> 
                         <div class="replicate">
-                            <img class="comentarioPropio" src="http://www.e-quipu.pe/static/img/btnEnviarcomentario.png" @click.prevent="sendMessage">
+                            <img class="comentarioPropio" src="img/web/btnEnviarcomentario.png" @click.prevent="sendMessage">
                             <textarea @keyup.prevent="handleKeypress" id="messageBox" class="comentariohacer" placeholder="Escribe una respuesta..."></textarea>
                         </div>
                     </div>
@@ -101,7 +101,7 @@
         },
         ready: function () {
             //var socket = io('http://ingind:3000');
-            var socket = io('http://procesos.munindependencia.pe:3000');
+            var socket = io('http://proceso.munindependencia.pe:3000');
             socket.on('welcome', function (data) {
                 console.log(data.message);
                 socket.emit('join', { room:  user_id });

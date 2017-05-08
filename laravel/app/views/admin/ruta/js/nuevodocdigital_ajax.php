@@ -47,7 +47,7 @@ var docdigital={
             }
         });
     },
-    Cargar:function(evento,campos,data = ''){
+    Cargar:function(evento,campos,data){
         $.ajax({
             url         : 'documentodig/cargar',
             type        : 'POST',

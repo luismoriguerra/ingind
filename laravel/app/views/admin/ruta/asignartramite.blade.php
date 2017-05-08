@@ -7,12 +7,11 @@
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
     {{ HTML::script('lib/datetime/js/bootstrap-datetimepicker.min.js') }}
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="lib/jquery-ui-1.11.2/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="lib/jquery-ui-1.11.2/jquery-ui.min.css">
 
   {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }}
     {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
-  {{--   {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }} --}}
   
     {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
     {{ HTML::script('lib/ckeditor/ckeditor.js') }}
@@ -73,7 +72,7 @@
                                                 <div class="col-sm-12">
                                                     <div class="col-sm-3">
                                                         <label class="control-label">Fecha Inicio de la Gestión:</label>
-                                                        <input type="text" class="form-control" name="txt_fecha_inicio" id="txt_fecha_inicio" readOnly>
+                                                        <input type="text" class="form-control mant" name="txt_fecha_inicio" id="txt_fecha_inicio" readOnly>
                                                     </div>
                                                      <div class="col-sm-8">
                                                         <label class="control-label">Proceso:</label>
@@ -103,11 +102,11 @@
                                                                 <i class="glyphicon glyphicon-file"></i>
                                                             </span>
                                                         </a>
-                                                        <a data-toggle="tooltip" title="Crear Doc Digital">
+<!--                                                        <a data-toggle="tooltip" title="Crear Doc Digital">
                                                             <span class="btn btn-success" data-toggle="modal" data-target="#NuevoDocDigital" id="btn_nuevo_docdigital" data-texto="txt_codigo" data-id="txt_doc_digital_id">
                                                                 <i class="glyphicon glyphicon-paperclip"></i>
                                                             </span>
-                                                        </a>
+                                                        </a>-->
                                                         <span class="btn btn-primary" data-toggle="modal" data-target="#indedocsModal" data-texto="txt_codigo" data-id="txt_documento_id" id="btn_buscar_indedocs">
                                                             <i class="fa fa-search fa-lg"></i>
                                                         </span>
@@ -243,7 +242,7 @@
                                                 <div class="col-sm-12 form-group">
                                                     <div class="col-sm-6">
                                                         <label class="control-label">Fecha Inicio de la Gestión:</label>
-                                                        <input type="text" class="form-control" name="txt_fecha_inicio2" id="txt_fecha_inicio2" readonly="">
+                                                        <input type="text" class="form-control mant" name="txt_fecha_inicio2" id="txt_fecha_inicio2" readonly="">
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <input class='form-control mant' type="hidden" name="slct_tipo_persona2" id="slct_tipo_persona2" value="3">
@@ -298,11 +297,11 @@
                                                             <i class="glyphicon glyphicon-file"></i>
                                                             </span>
                                                         </a>
-                                                        <a data-toggle="tooltip" title="Crear Doc Digital">
+<!--                                                        <a data-toggle="tooltip" title="Crear Doc Digital">
                                                         <span class="btn btn-success" data-toggle="modal" data-target="#NuevoDocDigital" id="btn_nuevo_docdigital" data-texto="txt_codigo2" data-id="txt_doc_digital_id2">
                                                             <i class="glyphicon glyphicon-paperclip"></i>
                                                         </span>
-                                                         </a>
+                                                         </a>-->
                                                         <span class="btn btn-primary" data-toggle="modal" data-target="#indedocsModal" data-texto="txt_codigo2" data-id="txt_documento_id2" id="btn_buscar_indedocs">
                                                             <i class="fa fa-search fa-lg"></i>
                                                         </span>

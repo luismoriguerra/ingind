@@ -438,6 +438,21 @@ class AreaController extends \BaseController
 
         }
     }
+    
+        public function postAreasgerenciapersona()
+    {
+        if ( Request::ajax() ) {
+            $area = Area::getAreasGerenciaPersona();
+            return Response::json(
+                array(
+                'rst'=>1,
+                'datos'=>$area,
+                )
+            );    
+
+        }
+    }
+
 
     public function postPersonaarea(){
         if ( Request::ajax() ) {

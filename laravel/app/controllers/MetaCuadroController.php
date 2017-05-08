@@ -188,10 +188,12 @@ class MetaCuadroController extends \BaseController {
             
             $f1id = Input::get('f1id');
             $fecha1 = Input::get('fecha1');
+            $fecha1_add = Input::get('fecha1_add');
             $comentario1 = Input::get('comentario1');
             
             $f2id = Input::get('f2id');
             $fecha2 = Input::get('fecha2');
+            $fecha2_add = Input::get('fecha2_add');
             $comentario2 = Input::get('comentario2');
             $fecha_relacion2 = Input::get('fecha_relacion2');
             
@@ -200,6 +202,7 @@ class MetaCuadroController extends \BaseController {
                     $metafecha = new MetaFechaVencimiento;
                     $metafecha->meta_cuadro_id = $metacuadro->id;
                     $metafecha->fecha = $fecha1[$i];
+                    $metafecha->fecha_add = $fecha1_add[$i];
                     $metafecha->comentario = $comentario1[$i];
                     $metafecha->tipo = 1;
                 }
@@ -207,6 +210,7 @@ class MetaCuadroController extends \BaseController {
                     $metafechaId = $f1id[$i];
                     $metafecha = MetaFechaVencimiento::find($metafechaId);
                     $metafecha->fecha = $fecha1[$i];
+                    $metafecha->fecha_add = $fecha1_add[$i];
                     $metafecha->comentario = $comentario1[$i];
                     $metafecha->tipo = 1;
                 }
@@ -218,6 +222,7 @@ class MetaCuadroController extends \BaseController {
                     $metafecha = new MetaFechaVencimiento;
                     $metafecha->meta_cuadro_id = $metacuadro->id;
                     $metafecha->fecha = $fecha2[$i];
+                    $metafecha->fecha_add = $fecha2_add[$i];
                     $metafecha->comentario = $comentario2[$i];
                     $metafecha->relacion_id = $fecha_relacion2[$i];
                     $metafecha->tipo = 2;
@@ -226,6 +231,7 @@ class MetaCuadroController extends \BaseController {
                     $metafechaId = $f2id[$i];
                     $metafecha = MetaFechaVencimiento::find($metafechaId);
                     $metafecha->fecha = $fecha2[$i];
+                    $metafecha->fecha_add = $fecha2_add[$i];
                     $metafecha->comentario = $comentario2[$i];
                     $metafecha->relacion_id = $fecha_relacion2[$i];
                     $metafecha->tipo = 2;
@@ -274,10 +280,12 @@ class MetaCuadroController extends \BaseController {
 
             $f1id = Input::get('f1id');
             $fecha1 = Input::get('fecha1');
+            $fecha1_add = Input::get('fecha1_add');
             $comentario1 = Input::get('comentario1');
             
             $f2id = Input::get('f2id');
             $fecha2 = Input::get('fecha2');
+            $fecha2_add = Input::get('fecha2_add');
             $comentario2 = Input::get('comentario2');
             $fecha_relacion2 = Input::get('fecha_relacion2');
             
@@ -286,6 +294,7 @@ class MetaCuadroController extends \BaseController {
                     $metafecha = new MetaFechaVencimiento;
                     $metafecha->meta_cuadro_id = $metacuadro->id;
                     $metafecha->fecha = $fecha1[$i];
+                    $metafecha->fecha_add = $fecha1_add[$i];
                     $metafecha->comentario = $comentario1[$i];
                     $metafecha->tipo = 1;
                 }
@@ -293,6 +302,7 @@ class MetaCuadroController extends \BaseController {
                     $metafechaId = $f1id[$i];
                     $metafecha = MetaFechaVencimiento::find($metafechaId);
                     $metafecha->fecha = $fecha1[$i];
+                    $metafecha->fecha_add = $fecha1_add[$i];
                     $metafecha->comentario = $comentario1[$i];
                     $metafecha->tipo = 1;
                 }
@@ -304,6 +314,7 @@ class MetaCuadroController extends \BaseController {
                     $metafecha = new MetaFechaVencimiento;
                     $metafecha->meta_cuadro_id = $metacuadro->id;
                     $metafecha->fecha = $fecha2[$i];
+                    $metafecha->fecha_add = $fecha2_add[$i];
                     $metafecha->comentario = $comentario2[$i];
                     $metafecha->relacion_id = $fecha_relacion2[$i];
                     $metafecha->tipo = 2;
@@ -312,6 +323,7 @@ class MetaCuadroController extends \BaseController {
                     $metafechaId = $f2id[$i];
                     $metafecha = MetaFechaVencimiento::find($metafechaId);
                     $metafecha->fecha = $fecha2[$i];
+                    $metafecha->fecha_add = $fecha2_add[$i];
                     $metafecha->comentario = $comentario2[$i];
                     $metafecha->relacion_id = $fecha_relacion2[$i];
                     $metafecha->tipo = 2;
@@ -347,21 +359,7 @@ class MetaCuadroController extends \BaseController {
         }
     }
 
-    public function postListarmeta() {
-        if (Request::ajax()) {
-            $a = new MetaCuadro;
-            $listar = Array();
-            $listar = $a->getMeta();
 
-            return Response::json(
-                            array(
-                                'rst' => 1,
-                                'datos' => $listar
-                            )
-            );
-        }
-    }
-    
         public function postListarfecha1() {
         if (Request::ajax()) {
             $a = new MetaFechaVencimiento;
@@ -393,6 +391,7 @@ class MetaCuadroController extends \BaseController {
         if ($type=='jpeg') $type='jpg';
         if (strpos($type,'document')!==False) $type='docx';
         if (strpos($type, 'sheet') !== False) $type='xlsx';
+        if (strpos($type, 'pdf') !== False) $type='pdf';
         if ($type=='plain') $type='txt';
         list(, $file)      = explode(',', $file);
         $file = base64_decode($file);
@@ -473,7 +472,7 @@ class MetaCuadroController extends \BaseController {
                 $file = Input::get('pago_archivo');
                 
                 for ($i=0; $i < count($length); $i++) {
-                    $url = "file/meta/a".date("Y")."/".date("Y-m-d")."-".$nombre[$i].'.';
+                    $url = "file/meta/a".date("Y")."/".date("Y-m-d")."-".$nombre[$i];
                      $this->fileToFile($file[$i],'a'.date("Y"), $url);
                     
                     $ruta='a'.date('Y').'/'.date("Y-m-d").'-'.$nombre[$i];

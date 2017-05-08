@@ -103,5 +103,14 @@ class IndedocsController extends \BaseController {
 
       return Response::json( $retorno );
     }
+    
+    
+        public function postConsulta()
+    {
+            
+            $actividad=Persona::RequestActividades();
+            return Response::json(array('rst'=>1,'datos'=>$actividad)); 
 	
-}
+    }
+    
+ }

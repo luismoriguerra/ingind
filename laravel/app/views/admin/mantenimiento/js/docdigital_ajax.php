@@ -4,7 +4,7 @@ var Plantillas={
     AgregarEditar:function(areas,event){
         $("#formNuevoDocDigital input[name='word']").remove();
         $("#formNuevoDocDigital").append("<input type='hidden' value='"+CKEDITOR.instances.plantillaWord.getData()+"' name='word'>");
-        $("#txt_titulofinal").val($("#lblDocumento").text()+$("#txt_titulo").val()+$("#lblArea").text());
+        $("#txt_titulofinal").val($("#lblDocumento").text()+addZeros( $("#txt_titulo").val(),"6")+$("#lblArea").text());
         var datos=$("#formNuevoDocDigital").serialize().split("txt_").join("").split("slct_").join("");
         datos+="&areasselect="+JSON.stringify(areas);
         var accion="documentodig/crear";
@@ -26,8 +26,11 @@ var Plantillas={
                 if(obj.rst==1){
                     $('#t_plantilla').dataTable().fnDestroy();
                     Plantillas.Cargar(HTMLCargar);
-                    alertBootstrap('success', obj.msj, 6);
+                    alertBootstrap('success', obj.msj, 10);
                     $("#NuevoDocDigital").modal('hide');
+                }
+                else if(obj.rst==3){
+                    alertBootstrap('danger', obj.msj+' => '+obj.correlativo, 6);
                 }
                 else{
                     $.each(obj.msj,function(index,datos){
@@ -42,6 +45,91 @@ var Plantillas={
             }
         });
     },
+            
+    AgregarEditarTitulo:function(AE){
+        var datos = $("#form_titulos_modal").serialize().split("txt_").join("").split("slct_").join("");
+        var accion = (AE==1) ? "documentodig/editartitulo" : "documentodig/creartitulo";
+
+        $.ajax({
+            url         : accion,
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : datos,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay, .loading-img").remove();
+                if(obj.rst==1){
+                    Plantillas.Cargar(HTMLCargar);
+                    msjG.mensaje('success',obj.msj,4000);
+                    $('#tituloModal .modal-footer [data-dismiss="modal"]').click();
+
+                }
+                if(obj.rst==2){
+                    msjG.mensaje('warning',obj.msj,4000);
+
+                } 
+                else {
+                    var cont = 0;
+
+                    $.each(obj.msj, function(index, datos){
+                        cont++;
+                         if(cont==1){
+                            alert(datos[0]);
+                       }
+
+                    });
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
+            }
+        });
+
+    },  
+            
+    AgregarEditarFecha:function(AE){
+        var datos = $("#form_fechas_modal").serialize().split("txt_").join("").split("slct_").join("");
+        var accion = (AE==1) ? "documentodig/editarfecha" : "documentodig/crearfecha";
+
+        $.ajax({
+            url         : accion,
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : datos,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay, .loading-img").remove();
+                if(obj.rst==1){
+                    Plantillas.Cargar(HTMLCargar);
+                    msjG.mensaje('success',obj.msj,4000);
+                    $('#fechaModal .modal-footer [data-dismiss="modal"]').click();
+
+                } else {
+                    var cont = 0;
+
+                    $.each(obj.msj, function(index, datos){
+                        cont++;
+                         if(cont==1){
+                            alert(datos[0]);
+                       }
+
+                    });
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
+            }
+        });
+
+    },        
     Cargar:function(evento,data = ''){
         $.ajax({
             url         : 'documentodig/cargar',
@@ -153,7 +241,7 @@ var Plantillas={
             }
         });
     },
-    CargarAreas:function(evento){
+    CargarAreas:function(){
         $.ajax({
             url         : 'area/areasgerencia',
             type        : 'POST',
@@ -164,9 +252,6 @@ var Plantillas={
               /*  $("body").append('<div class="overlay"></div><div class="loading-img"></div>');*/
             },
             success : function(obj) {
-                if(obj.rst==1){
-                    evento(obj.datos);
-                }
                /* $(".overlay,.loading-img").remove();*/
             },
             error: function(){

@@ -13,7 +13,19 @@
         </div>
         <div class="modal-body">
             <div class="row">
-              <div class="col-xs-5">
+              <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="control-label">Plantilla:
+                    </label>
+                    <select class="form-control" name="slct_plantilla" id="slct_plantilla">
+                        <!-- <option value='0' >Inactivo</option>
+                        <option value='1' selected>Activo</option> -->
+                    </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6">
                 <div class="form-group">
                     <label class="control-label">Titulo:
                        <!--  <a id="error_nombre" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Nombre">
@@ -25,33 +37,26 @@
                          <label id="lblDocumento" style="margin-top:5px;float:right;">Documento Prueba Nº</label>
                       </div>
                       <div class="col-xs-3">
-                          <input type="text" class="form-control txttittle" placeholder="Ingrese Titulo" name="txt_titulo" id="txt_titulo">
+                          <input type="text" maxlength="6" class="form-control txttittle" placeholder="Ingrese Titulo" name="txt_titulo" id="txt_titulo">
                       </div>
-                      <div class="col-xs-3">
+                      <div class="col-xs-4">
                           <label id="lblArea" style="margin-top:5px;">-MDI</label>
                       </div>                      
                     </div>
                     <input type="hidden" id="txt_titulofinal" name="txt_titulofinal" value="">
                 </div>
               </div>
-              <div class="col-xs-2">
-                <div class="form-group">
-                    <label class="control-label">Plantilla:
-                    </label>
-                    <select class="form-control" name="slct_plantilla" id="slct_plantilla">
-                        <!-- <option value='0' >Inactivo</option>
-                        <option value='1' selected>Activo</option> -->
-                    </select>
-                </div>
-              </div>
-              <div class="col-xs-5">
+              <div class="col-xs-6">
                 <div class="form-group">
                   <label class="control-label">Tipo Envio:</label>
                     <select class="form-control" id="slct_tipoenvio" name="slct_tipoenvio">
                       <option value="0">::Seleccionar::</option>
-                      <option value="1">Personas</option>
-                      <option value="2">Gerencias</option>
-                      <option value="3">Reporte Personal</option>
+                      <option value="1">Gerencia a Persona</option>
+                      <option value="2">Gerencia a Gerencia</option>
+                      <option value="3">Persona a Jefe</option>
+                      <option value="4">Documento Libre(s)</option>
+                      <option value="5">Persona a Persona</option>
+                      <option value="6">Persona a Persona Sin Siglas</option>
                     </select>
                 </div>
 
@@ -60,13 +65,13 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-xs-7 form-group">
+              <div class="col-xs-6 form-group">
                 <div class="form-group">
-                  <label class="control-label">Asunto: </label>
+                  <label class="control-label asuntolbl">Asunto: </label>
                   <textarea class="form-control" name="txt_asunto" id="txt_asunto" placeholder="Asunto .." rows="5"></textarea>
-                </div>               
+                </div>
               </div>
-              <div class="col-xs-5">
+              <div class="col-xs-6 asunto">
                      <div class="radio todassubg hidden">
                           <label style="margin-left:-12px">
                               <input class="chk form-control" type="checkbox" name="chk_todasareas" id="chk_todasareas" value="allgesub"> Todas Las Gerencias y Sub Gerencias                                                                
@@ -153,7 +158,10 @@
               </div>
             </div> -->
             <div class="row">
-              <div class="col-xs-12">
+              <div class="col-xs-2">
+              &nbsp;
+              </div>
+              <div class="col-xs-7">
                 <div class="form-group">
                     <textarea id="plantillaWord" name="word" class="form-control" rows="6"></textarea>
                 </div>

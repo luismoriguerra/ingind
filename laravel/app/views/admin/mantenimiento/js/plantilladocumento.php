@@ -6,7 +6,7 @@ $(document).ready(function() {
 
      /*inicializate selects*/
     slctGlobal.listarSlct('documento','slct_tipodoc','simple',null,{estado:1});
-    slctGlobal.listarSlctFuncion('area','listara','slct_area','simple',null,{estado:1,areapersona:1,areagerencia:1});
+    slctGlobal.listarSlctFuncion('area','listara','slct_area','simple',null,{estado:1,areapersona:1,areagestionall:1});
     /*end inicializate selects*/
 
     $(document).on('click', '#btnEditar', function(event) {
@@ -147,10 +147,16 @@ Editar=function(){
 /*    }*/
 };
 activar=function(id){
+    var c= confirm("¿Está seguro de activar Plantilla?");
+    if(c){
     Plantillas.CambiarEstado(id,1);
+    }
 };
 desactivar=function(id){
+    var c= confirm("¿Está seguro de Desactivar Plantilla?");
+    if(c){
     Plantillas.CambiarEstado(id,0);
+    }
 };
 Agregar=function(){
    /* if(validaPlantilla()){*/

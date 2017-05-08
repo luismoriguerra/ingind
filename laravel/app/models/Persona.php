@@ -228,7 +228,11 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         else if (Input::has('area_documento')) {
             $id = Input::get('ruta_detalle_id');
             $rd = RutaDetalle::find($id);
-            $where = " AND p.area_id =".$rd->area_id;
+            $where = " AND (p.area_id =".$rd->area_id." or FIND_IN_SET(p.area_id,"
+                    . "(SELECT p2.area_responsable "
+                    . "FROM personas p2 "
+                    . "WHERE p2.area_id=".$rd->area_id." AND rol_id IN (8,6,9) AND p2.estado=1"
+                    . ")))";
             $select = " p.id,CONCAT(p.paterno,' ',substr(p.materno,1,4),'. ',substr(p.nombre,1,7)) nombre ";
         }
         $sql = "  SELECT $select
@@ -852,7 +856,19 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         return $oData[0]->cantidad;
     }
     
-            public static function ActualizarResponsable($area_id) {
+    public static function BuscarJefe1($area_id) {
+            
+        $sSql = '';
+        $sSql .= "SELECT COUNT(p.id) as cantidad
+                    FROM personas p
+                    WHERE  p.area_id=".$area_id." 
+                    AND p.rol_id IN (8,9) AND p.estado=1";
+
+        $oData = DB::select($sSql);
+        return $oData[0]->cantidad;
+    }
+    
+    public static function ActualizarResponsable($area_id) {
             
             $sSql = 'UPDATE personas
                      SET responsable_asigt=0,
@@ -860,6 +876,18 @@ class Persona extends Base implements UserInterface, RemindableInterface {
                      WHERE area_id= '.$area_id;
             
                 DB::update($sSql);
-            }
+    }
+            
+    public static function RequestActividades() {
+
+        $sSql = "SELECT p.dni,p.area_id,ap.fecha_inicio,ap.dtiempo_final,ap.actividad
+                 FROM actividad_personal ap
+                 INNER JOIN personas p on ap.persona_id=p.id and p.estado=1
+                 WHERE ap.area_id=".Input::get('area_id'). 
+                 " AND DATE(ap.fecha_inicio) BETWEEN '".Input::get('inicio')."' AND '".Input::get('fin')."'";
+
+        $oData = DB::select($sSql);
+        return $oData;
+    }
 
 }

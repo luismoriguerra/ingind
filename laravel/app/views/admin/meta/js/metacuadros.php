@@ -9,7 +9,7 @@ $(document).ready(function() {
         3: Color Cabecera
     */
     var datos={estado:1};
-    slctGlobal.listarSlctFuncion('metacuadro','listarmeta','slct_meta','simple',null,datos);
+    slctGlobal.listarSlct('meta','slct_meta', 'simple', null, datos);
      
     slctGlobalHtml('slct_estado','simple');
     var idG={   meta          :'3|Meta |#DCE6F1',
@@ -149,6 +149,7 @@ fecha1HTML=function(datos){
         html+="<tr>"+
              "<td>"+pos+"<input type='hidden' name='f1id[]' id='f1id' value='"+data.id+"'></td>"+
             "<td><input type='text' class='datepicker form-control fechaG' id='txt_fecha2' name='txt_fecha1[]' value='"+data.fecha+"'></td>"+
+            "<td><input type='text' class='datepicker form-control fechaG' id='txt_fecha2_add' name='txt_fecha1_add[]' value='"+data.fecha_add+"'></td>"+
             "<td><textarea class='form-control' id='txt_comentario1' name='txt_comentario1[]'>"+data.comentario+"</textarea></td>";
         html+="</tr>";
     });
@@ -166,6 +167,7 @@ fecha2HTML=function(datos){
         html+="<tr>"+
              "<td>"+pos+"<input type='hidden' name='f2id[]' id='f2id' value='"+data.id+"'></td>"+
             "<td><input type='text' class='datepicker form-control fechaG' id='txt_fecha2' name='txt_fecha2[]' value='"+data.fecha+"'></td>"+
+            "<td><input type='text' class='datepicker form-control fechaG' id='txt_fecha2_add' name='txt_fecha2_add[]' value='"+data.fecha_add+"'></td>"+
             "<td><textarea class='form-control' id='txt_comentario2' name='txt_comentario2[]'>"+data.comentario+"</textarea></td>"+
             "<td><select class='form-control fechar' name='slct_fecha_relacion2[]' id='slct_fecha_relacion2"+index+"'></select></td>";
         html+="</tr>";
@@ -185,6 +187,7 @@ AgregarFecha1 = function(){
           html+="<tr>"+
              "<td>#<input type='hidden' name='f1id[]' id='f1id' value=''></td>"+
             "<td><input type='text' class='datepicker form-control fechaG' id='txt_fecha1' name='txt_fecha1[]'></td>"+
+            "<td><input type='text' class='datepicker form-control fechaG' id='txt_fecha1_add' name='txt_fecha1_add[]'></td>"+
             "<td><textarea class='form-control' id='txt_comentario1' name='txt_comentario1[]'></textarea></td>";
         html+="</tr>";
         
@@ -197,6 +200,7 @@ AgregarFecha2 = function(meta_cuadro_id){
           html+="<tr>"+
              "<td>#<input type='hidden' name='f2id[]' id='f2id' value=''></td>"+
             "<td><input type='text' class='datepicker form-control fechaG' id='txt_fecha2' name='txt_fecha2[]'></td>"+
+            "<td><input type='text' class='datepicker form-control fechaG' id='txt_fecha2_add' name='txt_fecha2_add[]'></td>"+
             "<td><textarea class='form-control' id='txt_comentario2' name='txt_comentario2[]'></textarea></td>"+
             "<td><select class='form-control fecharelacion' name='slct_fecha_relacion2[]' id='slct_fecha_relacion2'></select></td>";
         html+="</tr>";

@@ -5,8 +5,11 @@
     @parent
     {{ HTML::script('lib/ckeditor/ckeditor.js') }}
     {{ HTML::style('css/admin/plantilla.css') }}
-    {{ HTML::style('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css') }}
-    {{ HTML::script('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js') }}
+    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
+    {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }}
+    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
+    {{ HTML::script('lib/jquery-bootstrap-validator/bootstrapValidator.min.css') }}
+    {{ HTML::script('lib/jquery-bootstrap-validator/bootstrapValidator.min.js') }}
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
 
@@ -14,6 +17,7 @@
     @include( 'admin.js.slct_global' )
     @include( 'admin.mantenimiento.js.docdigital_ajax' )
     @include( 'admin.mantenimiento.js.docdigital' )
+    @include( 'admin.mantenimiento.js.docdigitalform' )
 
 @stop
 @section('contenido')
@@ -43,13 +47,17 @@
                             <table id="t_doc_digital" class="table table-bordered">
                                 <thead>
                                     <tr>
+                                        <th style="width: 30%">Creador</th>
+                                        <th style="width: 30%">Actualizó</th>
                                         <th style="width: 30%">Titulo</th>
                                         <th style="width: 30%">Asunto</th>
+                                        <th style="width: 30%">Fecha Creación</th>
                                         <th style="width: 30%">Plantilla</th>
                                        {{--  <th style="width: 19%">Area Recepcion</th>
                                         <th style="width: 19">Persona Recepcion</th> --}}
                                         <th style="width: 5%">Editar</th>
                                         <th style="width: 5%">Vista Previa</th>
+                                        <th style="width: 5%">Vista Impresión</th>
                                          <th style="width: 5%">Eliminar</th>
                                     </tr>
                                 </thead>
@@ -57,20 +65,24 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
+                                        <th style="width: 30%">Creador</th>
+                                        <th style="width: 30%">Actualizó</th>
                                         <th style="width: 30%">Titulo</th>
                                         <th style="width: 30%">Asunto</th>
+                                        <th style="width: 30%">Fecha Creación</th>
                                         <th style="width: 30%">Plantilla</th>
                         {{--                 <th style="width: 19%">Area Recepcion</th>
                                         <th style="width: 19">Persona Recepcion</th> --}}
                                          <th style="width: 5%">Editar</th>
                                         <th style="width: 5%">Vista Previa</th>
+                                        <th style="width: 5%">Vista Impresión</th>
                                         <th style="width: 5%">Eliminar</th>
                                     </tr>
                                 </tfoot>
                             </table>
 
                             <a class='btn btn-success btn-sm' class="btn btn-primary"
-                            data-toggle="modal" data-target="#NuevoDocDigital" data-titulo="Nuevo" onclick="Plantillas.CargarAreas(HTMLAreas);"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                            data-toggle="modal" data-target="#NuevoDocDigital" data-titulo="Nuevo" onclick="Plantillas.CargarAreas();NuevoDocumento();"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->
@@ -82,4 +94,5 @@
 
 @section('formulario')
      @include( 'admin.mantenimiento.form.docdigital' )
+     @include( 'admin.mantenimiento.form.editarfechadoc' )
 @stop
