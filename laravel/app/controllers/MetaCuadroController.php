@@ -179,7 +179,8 @@ class MetaCuadroController extends \BaseController {
             $metacuadro = new MetaCuadro;
             $metacuadro->meta_id = Input::get('meta');
             $metacuadro->anio = Input::get('anio');
-            $metacuadro->fecha = Input::get('fecha');
+            if (trim(Input::get("fecha")) != '') {
+            $metacuadro->fecha = Input::get('fecha');}
             $metacuadro->actividad = Input::get('actividad');
             $metacuadro->estado = Input::get('estado');
             $metacuadro->usuario_created_at = Auth::user()->id;
@@ -201,16 +202,20 @@ class MetaCuadroController extends \BaseController {
                 if ($f1id[$i] == '') {
                     $metafecha = new MetaFechaVencimiento;
                     $metafecha->meta_cuadro_id = $metacuadro->id;
-                    $metafecha->fecha = $fecha1[$i];
-                    $metafecha->fecha_add = $fecha1_add[$i];
+                    if (trim($fecha1[$i]) != '') {
+                    $metafecha->fecha = $fecha1[$i];}
+                    if (trim($fecha1_add[$i]) != '') {
+                    $metafecha->fecha_add = $fecha1_add[$i];}
                     $metafecha->comentario = $comentario1[$i];
                     $metafecha->tipo = 1;
                 }
                 if (($f1id[$i] !== '')) {
                     $metafechaId = $f1id[$i];
                     $metafecha = MetaFechaVencimiento::find($metafechaId);
-                    $metafecha->fecha = $fecha1[$i];
-                    $metafecha->fecha_add = $fecha1_add[$i];
+                    if (trim($fecha1[$i]) != '') {
+                    $metafecha->fecha = $fecha1[$i];}
+                    if (trim($fecha1_add[$i]) != '') {
+                    $metafecha->fecha_add = $fecha1_add[$i];}
                     $metafecha->comentario = $comentario1[$i];
                     $metafecha->tipo = 1;
                 }
@@ -221,8 +226,10 @@ class MetaCuadroController extends \BaseController {
                 if ($f2id[$i] == '') {
                     $metafecha = new MetaFechaVencimiento;
                     $metafecha->meta_cuadro_id = $metacuadro->id;
-                    $metafecha->fecha = $fecha2[$i];
-                    $metafecha->fecha_add = $fecha2_add[$i];
+                    if (trim($fecha2[$i]) != '') {
+                    $metafecha->fecha = $fecha2[$i];}
+                    if (trim($fecha2_add[$i]) != '') {
+                    $metafecha->fecha_add = $fecha2_add[$i];}
                     $metafecha->comentario = $comentario2[$i];
                     $metafecha->relacion_id = $fecha_relacion2[$i];
                     $metafecha->tipo = 2;
@@ -230,8 +237,10 @@ class MetaCuadroController extends \BaseController {
                 if (($f2id[$i] !== '')) {
                     $metafechaId = $f2id[$i];
                     $metafecha = MetaFechaVencimiento::find($metafechaId);
-                    $metafecha->fecha = $fecha2[$i];
-                    $metafecha->fecha_add = $fecha2_add[$i];
+                    if (trim($fecha2[$i]) != '') {
+                    $metafecha->fecha = $fecha2[$i];}
+                    if (trim($fecha2_add[$i]) != '') {
+                    $metafecha->fecha_add = $fecha2_add[$i];}
                     $metafecha->comentario = $comentario2[$i];
                     $metafecha->relacion_id = $fecha_relacion2[$i];
                     $metafecha->tipo = 2;
@@ -271,7 +280,8 @@ class MetaCuadroController extends \BaseController {
             $metacuadroId = Input::get('id');
             $metacuadro = MetaCuadro::find($metacuadroId);
             $metacuadro->meta_id = Input::get('meta');
-            $metacuadro->fecha = Input::get('fecha');
+            if (trim(Input::get("fecha")) != '') {
+            $metacuadro->fecha = Input::get('fecha');}
             $metacuadro->anio = Input::get('anio');
             $metacuadro->actividad = Input::get('actividad');
             $metacuadro->estado = Input::get('estado');
@@ -293,16 +303,20 @@ class MetaCuadroController extends \BaseController {
                 if ($f1id[$i] == '') {
                     $metafecha = new MetaFechaVencimiento;
                     $metafecha->meta_cuadro_id = $metacuadro->id;
-                    $metafecha->fecha = $fecha1[$i];
-                    $metafecha->fecha_add = $fecha1_add[$i];
+                    if (trim($fecha1[$i]) != '') {
+                    $metafecha->fecha = $fecha1[$i];}
+                    if (trim($fecha1_add[$i]) != '') {
+                    $metafecha->fecha_add = $fecha1_add[$i];}
                     $metafecha->comentario = $comentario1[$i];
                     $metafecha->tipo = 1;
                 }
                 if (($f1id[$i] !== '')) {
                     $metafechaId = $f1id[$i];
                     $metafecha = MetaFechaVencimiento::find($metafechaId);
-                    $metafecha->fecha = $fecha1[$i];
-                    $metafecha->fecha_add = $fecha1_add[$i];
+                    if (trim($fecha1[$i]) != '') {
+                    $metafecha->fecha = $fecha1[$i];}
+                    if (trim($fecha1_add[$i]) != '') {
+                    $metafecha->fecha_add = $fecha1_add[$i];}
                     $metafecha->comentario = $comentario1[$i];
                     $metafecha->tipo = 1;
                 }
@@ -313,8 +327,10 @@ class MetaCuadroController extends \BaseController {
                 if ($f2id[$i] == '') {
                     $metafecha = new MetaFechaVencimiento;
                     $metafecha->meta_cuadro_id = $metacuadro->id;
-                    $metafecha->fecha = $fecha2[$i];
-                    $metafecha->fecha_add = $fecha2_add[$i];
+                    if (trim($fecha2[$i]) != '') {
+                    $metafecha->fecha = $fecha2[$i];}
+                    if (trim($fecha2_add[$i]) != '') {
+                    $metafecha->fecha_add = $fecha2_add[$i];}
                     $metafecha->comentario = $comentario2[$i];
                     $metafecha->relacion_id = $fecha_relacion2[$i];
                     $metafecha->tipo = 2;
@@ -322,8 +338,10 @@ class MetaCuadroController extends \BaseController {
                 if (($f2id[$i] !== '')) {
                     $metafechaId = $f2id[$i];
                     $metafecha = MetaFechaVencimiento::find($metafechaId);
-                    $metafecha->fecha = $fecha2[$i];
-                    $metafecha->fecha_add = $fecha2_add[$i];
+                    if (trim($fecha2[$i]) != '') {
+                    $metafecha->fecha = $fecha2[$i];}
+                    if (trim($fecha2_add[$i]) != '') {
+                    $metafecha->fecha_add = $fecha2_add[$i];}
                     $metafecha->comentario = $comentario2[$i];
                     $metafecha->relacion_id = $fecha_relacion2[$i];
                     $metafecha->tipo = 2;
