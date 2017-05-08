@@ -61,8 +61,15 @@ HTMLreportet=function(datos){
 
     $.each(datos,function(index,data){
         btnruta='<a onclick="cargarRutaId('+data.ruta_flujo_id+',2,'+data.id+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
+        clases1="class='success'";
+        clases2="";
+        if(data.detalle!=''){
+            clases1="";
+            clases2="class='success'";
+        }
         html+="<tr>"+
-            "<td>"+data.tramite+"</td>"+
+            "<td "+clases1+">"+data.tramite+"</td>"+
+            "<td "+clases2+">"+data.detalle+"</td>"+
             "<td>"+data.proceso+"</td>"+
             "<td>"+$.trim(data.sumilla)+"</td>"+
             "<td>"+data.estado+"</td>"+

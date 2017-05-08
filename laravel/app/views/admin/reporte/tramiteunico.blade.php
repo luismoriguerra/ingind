@@ -59,7 +59,8 @@
                     <table id="t_reportet_tab_1" class="table table-bordered" width="100%">
                         <thead>
                             <tr>
-                                <th>Tramite</th>
+                                <th>Tramite Asignado</th>
+                                <th>Tramite Bandeja</th>
                                 <th>Proceso</th>
                                 <th>Sumilla</th>
                                 <th>Estado</th>
