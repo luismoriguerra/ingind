@@ -4,27 +4,23 @@ class ReporteTramite extends Eloquent
 {
     public static function TramiteUnico( $array )
     {
-        $sql =" SELECT tr.id_union AS tramite, r.id, r.ruta_flujo_id, 
-                tr.sumilla as sumilla,
+        $sql =" SELECT tr.id_union AS tramite,IF(re.referido=tr.id_union,'',re.referido) detalle,
+                re.norden, r.id, r.ruta_flujo_id, tr.sumilla as sumilla,
                 IF( MIN( IF( rd.dtiempo_final IS NULL AND rd.fecha_inicio IS NOT NULL, 0, 1) ) = 0
-                        AND MAX( rd.alerta_tipo ) < 2, 'Inconcluso',
-                        IF( (MIN( IF( rd.dtiempo_final IS NOT NULL AND rd.fecha_inicio IS NOT NULL, 0, 1) ) = 0
-                                OR MIN( IF( rd.dtiempo_final IS NULL AND rd.fecha_inicio IS NULL, 0, 1) ) = 0)
-                                AND MAX( rd.alerta_tipo ) > 1, 'Trunco', 'Concluido'
-                        )
+                                AND MAX( rd.alerta_tipo ) < 2, 'Inconcluso',
+                                IF( (MIN( IF( rd.dtiempo_final IS NOT NULL AND rd.fecha_inicio IS NOT NULL, 0, 1) ) = 0
+                                                OR MIN( IF( rd.dtiempo_final IS NULL AND rd.fecha_inicio IS NULL, 0, 1) ) = 0)
+                                                AND MAX( rd.alerta_tipo ) > 1, 'Trunco', 'Concluido'
+                                )
                 ) estado,
-                GROUP_CONCAT( 
-                    IF( rd.dtiempo_final IS NULL,
-                        CONCAT( rd.norden,' (',a.nombre,')' ), NULL
-                    ) ORDER BY rd.norden
-                ) ult_paso,
-                COUNT(DISTINCT(rd.norden)) total_pasos,
+                f.nombre proceso,
                 IFNULL(r.fecha_inicio,'') AS fecha_inicio
-                FROM tablas_relacion tr 
-                INNER JOIN rutas r ON tr.id=r.tabla_relacion_id and r.estado=1
-                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1
-                INNER JOIN areas a ON a.id=rd.area_id
-                WHERE tr.estado=1".
+                FROM referidos re 
+                INNER JOIN rutas r ON r.id=re.ruta_id AND r.estado=1
+                INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1
+                INNER JOIN flujos f ON f.id=r.flujo_id
+                WHERE re.estado=1".
                 $array['where'].
                 "GROUP BY r.id";
 

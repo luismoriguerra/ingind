@@ -63,10 +63,9 @@ HTMLreportet=function(datos){
         btnruta='<a onclick="cargarRutaId('+data.ruta_flujo_id+',2,'+data.id+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
         html+="<tr>"+
             "<td>"+data.tramite+"</td>"+
+            "<td>"+data.proceso+"</td>"+
             "<td>"+$.trim(data.sumilla)+"</td>"+
             "<td>"+data.estado+"</td>"+
-            "<td>"+data.total_pasos+"</td>"+
-            "<td>"+$.trim(data.ult_paso).split(",")[0]+"</td>"+
             "<td>"+data.fecha_inicio+"</td>"+
             '<td><a onClick="detalle('+data.id+',this)" class="btn btn-primary btn-sm" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a> '+btnruta+'</td>';
         html+="</tr>";

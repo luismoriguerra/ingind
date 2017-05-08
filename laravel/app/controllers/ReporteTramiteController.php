@@ -10,7 +10,7 @@ class ReporteTramiteController extends BaseController
       if( Input::has('tramite') AND Input::get('tramite')!='' ){
         $tramite=explode(" ",trim(Input::get('tramite')));
         for($i=0; $i<count($tramite); $i++){
-          $array['where'].=" AND tr.id_union LIKE '%".$tramite[$i]."%' ";
+          $array['where'].=" AND re.referido LIKE '%".$tramite[$i]."%' ";
         }
       }
       

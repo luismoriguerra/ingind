@@ -60,10 +60,9 @@
                         <thead>
                             <tr>
                                 <th>Tramite</th>
+                                <th>Proceso</th>
                                 <th>Sumilla</th>
                                 <th>Estado</th>
-                                <th>Total de pasos</th>
-                                <th>Paso a la fecha</th>
                                 <th>Fecha Inicio</th>
                                 <th> [ ] </th>
                             </tr>
@@ -107,77 +106,6 @@
                         <tbody>
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </form>
-
-        <form name="form_ruta_flujo" id="form_ruta_flujo" style="display:none" method="POST" action="">
-            <div class="row form-group">
-                <div class="col-sm-12">
-                    <h1><span id="txt_titulo">Nueva Ruta</span>
-                    <small>
-                        <i class="fa fa-angle-double-right fa-lg"></i>
-                        <span id="texto_fecha_creacion">Fecha Creación:</span>
-                        <span id="fecha_creacion"></span>
-                    </small>
-                    </h1>
-                </div>
-                <div class="col-sm-12">
-                    <div class="col-sm-4">
-                        <label class="control-label">Dueño del Proceso:</label>
-                        <input class="form-control" type="text" id="txt_persona" name="txt_persona" readonly>
-                    </div>
-                    <div class="col-sm-4">
-                        <label class="control-label">Proceso:</label>
-                        <input class="form-control" type="text" id="txt_proceso" name="txt_proceso" readonly>
-                    </div>
-                    <div class="col-sm-4">
-                        <label class="control-label">Area del Dueño del Proceso:</label>
-                        <input class="form-control" type="text" id="txt_area" name="txt_area" readonly>
-                    </div>
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-sm-12">
-                    <div class="box-body">
-                        <table id="areasasignacion" class="table table-bordered" style="min-height:300px">
-                            <thead> 
-                                <tr class="head">
-                                    <th style="width:250px !important;min-width: 200px !important;" >
-                                    </th>
-                                    <th class="eliminadetalleg" style="min-width:1000px important!;">[]</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="body">
-                                    <td>
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr><th colspan="2">
-                                                </th></tr>
-                                                <tr class="head">
-                                                    <th>#</th>
-                                                    <th>Area</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tb_rutaflujodetalleAreas">
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr class="head">
-                                    <th>#</th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-sm-12">
-                    <a class="btn btn-default btn-sm btn-sm" id="btn_close">
-                        <i class="fa fa-remove fa-lg"></i>&nbsp;Close
-                    </a>
                 </div>
             </div>
         </form>

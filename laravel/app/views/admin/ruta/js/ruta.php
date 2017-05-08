@@ -1,6 +1,19 @@
 <script type="text/javascript">
+temporalBandeja=0;
+var areasG=[]; // texto area
+var areasGId=[]; // id area
+var theadArea=[]; // cabecera area
+var tbodyArea=[]; // cuerpo area
+var tfootArea=[]; // pie area
+var estadoG=[];
+
+var tiempoGId=[]; // id posicion del modal en base a una area.
+var tiempoG=[];
+var verboG=[];
+var posicionDetalleVerboG=0;
 $(document).ready(function() {
     var data={estado:1};
+
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
     slctGlobal.listarSlct2('documento','slct_documento_modal',data);
@@ -284,7 +297,6 @@ pintarAreasG=function(permiso){
     };
 
     $("#areasasignacion>thead>tr.head").append('<th class="eliminadetalleg" style="min-width:1000px important!;">[]</th>'); // aqui para darle el area global
-
     $("#tb_rutaflujodetalleAreas").html(htm);
 }
 
