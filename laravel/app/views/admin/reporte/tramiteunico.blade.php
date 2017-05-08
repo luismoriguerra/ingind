@@ -12,6 +12,8 @@
     @include( 'admin.js.slct_global' )
     @include( 'admin.ruta.js.ruta_ajax' )
     @include( 'admin.ruta.js.ruta' )
+    @include( 'admin.ruta.js.expediente_ajax' )
+    @include( 'admin.ruta.js.expediente' )
     
     @include( 'admin.reporte.js.tramiteunico_ajax' )
     @include( 'admin.reporte.js.tramiteunico' )
@@ -116,4 +118,5 @@
 @section('formulario')
     @include( 'admin.ruta.form.rutaflujo' )
     @include( 'admin.ruta.form.ruta' )
+    @include( 'admin.reporte.form.expediente' )
 @stop

@@ -40,4 +40,15 @@ class ReporteTramiteController extends BaseController
           )
       );
     }
+
+    public function postExpedienteunico()
+    {
+      $rst=ReporteTramite::ExpedienteUnico(); 
+      return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$rst
+            )
+        );
+    }
 }

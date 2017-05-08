@@ -27,7 +27,6 @@ valida=function(nro){
 }
 
 reportet=function(){
-//$("#btn_close").click();
     if( valida(1) ){
         var datos=$("#form_tramiteunico").serialize().split("txt_").join("").split("slct_").join("");
         Tramite.mostrar( datos,HTMLreportet,'t' );
@@ -61,6 +60,7 @@ HTMLreportet=function(datos){
 
     $.each(datos,function(index,data){
         btnruta='<a onclick="cargarRutaId('+data.ruta_flujo_id+',2,'+data.id+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
+        btnexpediente='<a onclick="expedienteUnico('+data.id+')" class="btn btn-default btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
         clases1="class='success'";
         clases2="";
         if(data.detalle!=''){
@@ -74,7 +74,7 @@ HTMLreportet=function(datos){
             "<td>"+$.trim(data.sumilla)+"</td>"+
             "<td>"+data.estado+"</td>"+
             "<td>"+data.fecha_inicio+"</td>"+
-            '<td><a onClick="detalle('+data.id+',this)" class="btn btn-primary btn-sm" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a> '+btnruta+'</td>';
+            '<td><a onClick="detalle('+data.id+',this)" class="btn btn-primary btn-sm" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a> '+btnruta+btnexpediente+'</td>';
         html+="</tr>";
     });
 
