@@ -59,13 +59,13 @@
                     <table id="t_reportet_tab_1" class="table table-bordered" width="100%">
                         <thead>
                             <tr>
-                                <th>Tramite Asignado</th>
-                                <th>Tramite Bandeja</th>
-                                <th>Proceso</th>
-                                <th>Sumilla</th>
-                                <th>Estado</th>
-                                <th>Fecha Inicio</th>
-                                <th> [ ] </th>
+                                <th style="width:15%;">Tramite Asignado</th>
+                                <th style="width:15%;">Tramite Bandeja</th>
+                                <th style="width:25%;">Proceso</th>
+                                <th style="width:25%;">Sumilla</th>
+                                <th style="width:5%;">Estado</th>
+                                <th style="width:10%;">Fecha Inicio</th>
+                                <th style="width:5%;"> [ ] </th>
                             </tr>
                         </thead>
                         <tbody>
