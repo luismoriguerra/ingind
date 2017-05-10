@@ -77,6 +77,10 @@ class Area extends Base
                             $query->where('area_gestion','>','0')
                             ->whereRaw('id!='.Auth::user()->area_id);
                         }
+                        if ( Input::has('areagestionf') ){
+                            $query->where('area_gestion_f','>','0')
+                            ->whereRaw('id!='.Auth::user()->area_id);
+                        }
                         $rst=$this->getRol();
                         foreach ($rst as $value) {
                         $array[] = $value->cargo_id;}           
