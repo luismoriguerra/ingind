@@ -106,8 +106,12 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
                    "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",5,0); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A5</i> </a>";
     }
     if(typeof(fn)!='undefined' && fn.col==8){
-        return "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",4,1); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A4</i> </a>"+
-                       "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",5,1); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A5</i> </a>";
+       if($.trim(row.ruta) != 0  || $.trim(row.rutadetallev) != 0){
+           return "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",4,1); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A4</i> </a>"+
+                  "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",5,1); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A5</i> </a>";
+       }else{
+            return "";
+       }
     }
 
 }
