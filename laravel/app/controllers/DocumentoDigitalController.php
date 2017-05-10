@@ -67,6 +67,17 @@ class DocumentoDigitalController extends \BaseController {
                 }
             }
             
+            if( Input::has("solo_area") ){
+                $usu_id=Auth::user()->id;
+                $array['where'].="and dd.area_id IN (
+                            SELECT DISTINCT(a.id)
+                            FROM area_cargo_persona acp
+                            INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                            INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                            WHERE acp.estado=1
+                            AND cp.persona_id='.$usu_id.'
+                        )";
+            }   
             $array['order']=" order by `created_at` desc ";
             
             if( Input::get("tipo")==1 ){
@@ -291,7 +302,7 @@ class DocumentoDigitalController extends \BaseController {
             $DocDigital->correlativo = Input::get('titulo');
             $DocDigital->cuerpo = $html;
             $DocDigital->plantilla_doc_id = Input::get('plantilla');
-            $DocDigital->area_id = Auth::user()->area_id;
+            $DocDigital->area_id = Input::get('area_plantilla');
 
             if(Input::has('chk_todasareas') && Input::get('chk_todasareas') == 'allgesub'){
                 $DocDigital->envio_total = 1;

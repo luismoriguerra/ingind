@@ -19,6 +19,7 @@
                     </div><!-- /.box-header -->
                   <form id="form_docdigitales" name="form_docdigitales" method="POST" action="">
                       <input type="hidden" name="tipo" id="tipo" value="1">
+                      <input type="hidden" name="solo_area" id="tipo" value="|">
                         <div class="box-body table-responsive">
                             <table id="t_docdigitales" class="table table-bordered table-striped">
                                 <thead>

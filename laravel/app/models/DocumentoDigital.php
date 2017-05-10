@@ -104,21 +104,13 @@ class DocumentoDigital extends Base {
     }
     
         public static function getCargarCount( $array )
-    {   
-            $usu_id=Auth::user()->id;
+    {           
         $sSql=' select COUNT(dd.id) cant
                 from `doc_digital` as `dd` 
                 inner join `plantilla_doc` as `pd` on `dd`.`plantilla_doc_id` = `pd`.`id` 
                 left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
                 left join `personas` as `p1` on `p1`.`id` = `dd`.`usuario_updated_at` 
-                where (`dd`.`estado` = 1  and dd.area_id IN (
-                                        SELECT DISTINCT(a.id)
-                                        FROM area_cargo_persona acp
-                                        INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
-                                        INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
-                                        WHERE acp.estado=1
-                                        AND cp.persona_id='.$usu_id.'
-                                    )) ';
+                WHERE `dd`.`estado`= 1 ';
         $sSql.= $array['where'];
         $oData = DB::select($sSql);
         return $oData[0]->cant;
@@ -126,8 +118,7 @@ class DocumentoDigital extends Base {
     
         public static function getCargar( $array )
     {  
-            $usu_id=Auth::user()->id;
-        $sSql=' select 1 as tipo,DATE(dd.created_at)as created_at, CONCAT_WS(" ",p1.paterno,p1.materno,p1.nombre) as persona_u,
+        $sSql=' select 1 as tipo,DATE(dd.created_at)as created_at, CONCAT_WS(" ",p1.paterno,p1.materno,p1.nombre) as persona_u,dd.tipo_envio,dd.area_id,
                 CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona_c,
                     (SELECT COUNT(r.id) 
                      FROM rutas r 
@@ -142,14 +133,7 @@ class DocumentoDigital extends Base {
                 inner join `plantilla_doc` as `pd` on `dd`.`plantilla_doc_id` = `pd`.`id` 
                 left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
                 left join `personas` as `p1` on `p1`.`id` = `dd`.`usuario_updated_at` 
-                where (`dd`.`estado` = 1  and dd.area_id IN (
-                                        SELECT DISTINCT(a.id)
-                                        FROM area_cargo_persona acp
-                                        INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
-                                        INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
-                                        WHERE acp.estado=1
-                                        AND cp.persona_id='.$usu_id.'
-                                    ))';
+                WHERE `dd`.`estado`= 1 ';
         $sSql.= $array['where'].
                 $array['order'].
                 $array['limit'];

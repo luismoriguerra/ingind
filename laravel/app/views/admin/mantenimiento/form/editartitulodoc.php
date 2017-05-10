@@ -10,10 +10,25 @@
       </div>
       <div class="modal-body">
         <form id="form_titulos_modal" name="form_titulos_modal" action="" method="post">
-          <div class="form-group">
-            <label class="control-label">Documento:</label>
-            <input type="text" class="form-control" name="txt_titulo" id="txt_titulo">
-          </div>
+                <div class="form-group">
+                    <label class="control-label">Titulo:
+                       <!--  <a id="error_nombre" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Nombre">
+                            <i class="fa fa-exclamation"></i>
+                        </a> -->
+                    </label>
+                    <div class="row">
+                      <div class="col-xs-5">
+                         <label id="lblDocumento" style="margin-top:5px;float:right;">Documento Prueba Nº</label>
+                      </div>
+                      <div class="col-xs-3">
+                          <input type="text" maxlength="6" class="form-control txttittle" placeholder="Ingrese Titulo" name="txt_titulo" id="txt_titulo">
+                      </div>
+                      <div class="col-xs-4">
+                          <label id="lblArea" style="margin-top:5px;">-MDI</label>
+                      </div>                      
+                    </div>
+                    <input type="hidden" id="txt_titulofinal" name="txt_titulofinal" value="">
+                </div>
 <!--          <div class="form-group">
             <label class="control-label">Comentario:
             </label>

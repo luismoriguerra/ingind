@@ -22,7 +22,7 @@
     <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Generar Documentos
+                Editar Título de Documento
                 <small> </small>
             </h1>
             <ol class="breadcrumb">
@@ -41,47 +41,27 @@
                         <div class="box-header">
                             <h3 class="box-title">Filtros</h3>
                         </div><!-- /.box-header -->
+                        <form id="form_docdigitales" name="form_docdigitales" method="POST" action="">
+                            <input type="hidden" id="tipo" name="tipo" value="1">
                         <div class="box-body table-responsive">
-                            <table id="t_doc_digital" class="table table-bordered">
+                            <table id="t_docdigitales" class="table table-bordered table-striped">
                                 <thead>
+                                <tr><th colspan="9" style="text-align:center;background-color:#A7C0DC;"><h2>Documentos Digitales</h2></th></tr>
                                     <tr>
-                                        <th style="width: 30%">Creador</th>
-                                        <th style="width: 30%">Actualizó</th>
-                                        <th style="width: 30%">Titulo</th>
-                                        <th style="width: 30%">Asunto</th>
-                                        <th style="width: 30%">Fecha Creación</th>
-                                        <th style="width: 30%">Plantilla</th>
-                                       {{--  <th style="width: 19%">Area Recepcion</th>
-                                        <th style="width: 19">Persona Recepcion</th> --}}
-                                        <th style="width: 5%">Editar</th>
-<!--                                        <th style="width: 5%">Vista Previa</th>
-                                        <th style="width: 5%">Vista Impresión</th>
-                                         <th style="width: 5%">Eliminar</th>-->
+                                    
                                     </tr>
                                 </thead>
-                                <tbody id="tb_doc_digital">
+                                <tbody>
                                 </tbody>
                                 <tfoot>
-                                    <tr>
-                                        <th style="width: 30%">Creador</th>
-                                        <th style="width: 30%">Actualizó</th>
-                                        <th style="width: 30%">Titulo</th>
-                                        <th style="width: 30%">Asunto</th>
-                                        <th style="width: 30%">Fecha Creación</th>
-                                        <th style="width: 30%">Plantilla</th>
-                        {{--                 <th style="width: 19%">Area Recepcion</th>
-                                        <th style="width: 19">Persona Recepcion</th> --}}
-                                         <th style="width: 5%">Editar</th>
-<!--                                        <th style="width: 5%">Vista Previa</th>
-                                        <th style="width: 5%">Vista Impresión</th>
-                                        <th style="width: 5%">Eliminar</th>-->
-                                    </tr>
+                                   
                                 </tfoot>
                             </table>
-
-<!--                            <a class='btn btn-success btn-sm' class="btn btn-primary"
-                            data-toggle="modal" data-target="#NuevoDocDigital" data-titulo="Nuevo" onclick="Plantillas.CargarAreas();NuevoDocumento();"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>-->
+<!--                            <a class='btn btn-primary btn-sm' class="btn btn-primary" 
+                            data-toggle="modal" data-target="#areaModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                            <a style="display:none" id="BtnEditar" data-toggle="modal" data-target="#areaModal" data-titulo="Editar"></a>-->
                         </div><!-- /.box-body -->
+                         </form>
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->
                 </div>
