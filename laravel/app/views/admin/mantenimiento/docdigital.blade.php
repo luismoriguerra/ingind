@@ -41,7 +41,7 @@
                     <!-- Inicia contenido -->
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Filtros</h3>
+                            <h3 class="box-title">Documentos del <?php $fin=date("Y-m-d"); $inicio=strtotime('-15 day', strtotime($fin)) ; echo $inicio = date('Y-m-d', $inicio); ?> al <?php echo $fin ?> y por Asignar a un trámite</h3>
                         </div><!-- /.box-header -->
                         <div class="box-body table-responsive">
                             <table id="t_doc_digital" class="table table-bordered">
@@ -83,6 +83,10 @@
 
                             <a class='btn btn-success btn-sm' class="btn btn-primary"
                             data-toggle="modal" data-target="#NuevoDocDigital" data-titulo="Nuevo" onclick="Plantillas.CargarAreas();NuevoDocumento();"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                            <a class='btn btn-primary btn-sm' class="btn btn-primary"
+                            data-toggle="modal" data-target="#docdigitalModal" data-titulo="Documentos Históricos" onClick='MostrarDocumentos(1);'><i class="fa fa-search fa-lg"></i>&nbsp;Documentos Históricos</a>
+                            <a class='btn btn-info btn-sm' class="btn btn-primary"
+                            data-toggle="modal" data-target="#docdigitalModal" data-titulo="Documentos Relacionados al Área" onClick='MostrarDocumentos(2);'><i class="fa fa-search fa-lg"></i>&nbsp;Documentos Relacionados al Área</a>    
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->
@@ -95,4 +99,5 @@
 @section('formulario')
      @include( 'admin.mantenimiento.form.docdigital' )
      @include( 'admin.mantenimiento.form.editarfechadoc' )
+     @include( 'admin.mantenimiento.form.docdigitalcompleto' )
 @stop

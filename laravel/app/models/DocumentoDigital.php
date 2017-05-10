@@ -50,6 +50,9 @@ class DocumentoDigital extends Base {
                     ->orderBy('dd.id')
                     ->get();
         }else{
+            $fin = date('Y-m-d');
+            $inicio = strtotime('-15 day', strtotime($fin));
+            $inicio = date('Y-m-d', $inicio);
             return DB::table('doc_digital as dd')
             		->join('plantilla_doc as pd', 'dd.plantilla_doc_id', '=', 'pd.id')
                         ->leftjoin('personas as p','p.id','=','dd.usuario_created_at')
@@ -93,12 +96,116 @@ class DocumentoDigital extends Base {
                             /* }*/
                         }
                     )
+                    ->havingRaw('((DATE(created_at) BETWEEN "'.$inicio.'" AND "'.$fin.'") OR (ruta=0 and rutadetallev=0))')
                     ->orderBy('ruta','desc') 
                     ->orderBy('rutadetallev','desc')
                     ->get();            
         } 
     }
+    
+        public static function getCargarCount( $array )
+    {   
+            $usu_id=Auth::user()->id;
+        $sSql=' select COUNT(dd.id) cant
+                from `doc_digital` as `dd` 
+                inner join `plantilla_doc` as `pd` on `dd`.`plantilla_doc_id` = `pd`.`id` 
+                left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
+                left join `personas` as `p1` on `p1`.`id` = `dd`.`usuario_updated_at` 
+                where (`dd`.`estado` = 1  and dd.area_id IN (
+                                        SELECT DISTINCT(a.id)
+                                        FROM area_cargo_persona acp
+                                        INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                                        INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                        WHERE acp.estado=1
+                                        AND cp.persona_id='.$usu_id.'
+                                    )) ';
+        $sSql.= $array['where'];
+        $oData = DB::select($sSql);
+        return $oData[0]->cant;
+    }
+    
+        public static function getCargar( $array )
+    {  
+            $usu_id=Auth::user()->id;
+        $sSql=' select 1 as tipo,DATE(dd.created_at)as created_at, CONCAT_WS(" ",p1.paterno,p1.materno,p1.nombre) as persona_u,
+                CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona_c,
+                    (SELECT COUNT(r.id) 
+                     FROM rutas r 
+                     where r.estado=1 AND dd.id=r.doc_digital_id) as ruta,
+                    (SELECT COUNT(r.id)
+                     FROM rutas r 
+                     INNER JOIN rutas_detalle as rd on r.id=rd.ruta_id and rd.estado=1 and rd.condicion=0
+                     INNER JOIN rutas_detalle_verbo as rdv on rdv.ruta_detalle_id=rd.id and rdv.estado=1
+                     where r.estado=1 AND dd.id=rdv.doc_digital_id) as rutadetallev,
+                     `dd`.`id`, `dd`.`titulo`, `dd`.`asunto`, `pd`.`descripcion` as `plantilla`, `dd`.`estado` 
+                from `doc_digital` as `dd` 
+                inner join `plantilla_doc` as `pd` on `dd`.`plantilla_doc_id` = `pd`.`id` 
+                left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
+                left join `personas` as `p1` on `p1`.`id` = `dd`.`usuario_updated_at` 
+                where (`dd`.`estado` = 1  and dd.area_id IN (
+                                        SELECT DISTINCT(a.id)
+                                        FROM area_cargo_persona acp
+                                        INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                                        INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                        WHERE acp.estado=1
+                                        AND cp.persona_id='.$usu_id.'
+                                    ))';
+        $sSql.= $array['where'].
+                $array['order'].
+                $array['limit'];
+        $oData = DB::select($sSql);
+        return $oData;
+    }
 
+      public static function getCargarRelacionAreaCount( $array )
+    {   
+            $usu_id=Auth::user()->id;
+        $sSql=' select COUNT(dd.id) cant
+                from `doc_digital` as `dd` 
+		INNER JOIN `doc_digital_area` `dda` on `dda`.`doc_digital_id`=`dd`.`id` AND
+		`dda`.`area_id` IN  (
+                                        SELECT DISTINCT(a.id)
+                                        FROM area_cargo_persona acp
+                                        INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                                        INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                        WHERE acp.estado=1
+                                        AND cp.persona_id='.$usu_id.'
+                                    )
+                inner join `plantilla_doc` as `pd` on `dd`.`plantilla_doc_id` = `pd`.`id` 
+                left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
+                left join `personas` as `p1` on `p1`.`id` = `dd`.`usuario_updated_at` 
+                where (`dd`.`estado` = 1) ';
+        $sSql.= $array['where'];
+        $oData = DB::select($sSql);
+        return $oData[0]->cant;
+    }
+    
+        public static function getCargarRelacionArea( $array )
+    {  
+            $usu_id=Auth::user()->id;
+        $sSql=' select 2 as tipo,DATE(dd.created_at)as created_at, CONCAT_WS(" ",p1.paterno,p1.materno,p1.nombre) as persona_u,
+                CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona_c,
+                     `dd`.`id`, `dd`.`titulo`, `dd`.`asunto`, `pd`.`descripcion` as `plantilla`, `dd`.`estado` 
+                from `doc_digital` as `dd` 
+		INNER JOIN `doc_digital_area` `dda` on `dda`.`doc_digital_id`=`dd`.`id` AND
+		`dda`.`area_id` IN  (
+                                        SELECT DISTINCT(a.id)
+                                        FROM area_cargo_persona acp
+                                        INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                                        INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                        WHERE acp.estado=1
+                                        AND cp.persona_id='.$usu_id.'
+                                    )
+                inner join `plantilla_doc` as `pd` on `dd`.`plantilla_doc_id` = `pd`.`id` 
+                left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
+                left join `personas` as `p1` on `p1`.`id` = `dd`.`usuario_updated_at` 
+                where (`dd`.`estado` = 1)';
+        $sSql.= $array['where'].
+                $array['order'].
+                $array['limit'];
+        $oData = DB::select($sSql);
+        return $oData;
+    }
 
     public static function Correlativo(){
         if(Input::get('tipo_corre')==2){

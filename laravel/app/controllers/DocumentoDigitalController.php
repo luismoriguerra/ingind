@@ -9,6 +9,84 @@ class DocumentoDigitalController extends \BaseController {
             return Response::json(array('rst'=>1,'datos'=>$documento_digital));
         }
     }
+    
+        public function postCargarcompleto()
+    {
+        if ( Request::ajax() ) {
+            /*********************FIJO*****************************/
+            $array=array();
+            $array['where']='';$array['usuario']=Auth::user()->id;
+            $array['limit']='';$array['order']='';
+            
+            if (Input::has('draw')) {
+                if (Input::has('order')) {
+                    $inorder=Input::get('order');
+                    $incolumns=Input::get('columns');
+                    $array['order']=  ' ORDER BY '.
+                                      $incolumns[ $inorder[0]['column'] ]['name'].' '.
+                                      $inorder[0]['dir'];
+                }
+
+                $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
+                $aParametro["draw"]=Input::get('draw');
+            }
+            /************************************************************/
+
+            if( Input::has("plantilla") ){
+                $plantilla=Input::get("plantilla");
+                if( trim( $plantilla )!='' ){
+                    $array['where'].=" AND pd.descripcion LIKE '%".$plantilla."%' ";
+                }
+            }
+
+            if( Input::has("asunto") ){
+                $asunto=Input::get("asunto");
+                if( trim( $asunto )!='' ){
+                    $array['where'].=" AND dd.asunto LIKE '%".$asunto."%' ";
+                }
+            }
+            
+            if( Input::has("titulo") ){
+                $titulo=Input::get("titulo");
+                if( trim( $titulo )!='' ){
+                    $array['where'].=" AND dd.titulo LIKE '%".$titulo."%' ";
+                }
+            }
+            
+            if( Input::has("persona_u") ){
+                $persona_u=Input::get("persona_u");
+                if( trim( $persona_u )!='' ){
+                    $array['where'].=" AND dd.usuario_updated_at LIKE '%".$persona_u."%' ";
+                }
+            }
+            
+            if( Input::has("persona_c") ){
+                $persona_c=Input::get("persona_c");
+                if( trim( $persona_c )!='' ){
+                    $array['where'].=" AND dd.usuario_created_at LIKE '%".$persona_c."%' ";
+                }
+            }
+            
+            $array['order']=" order by `created_at` desc ";
+            
+            if( Input::get("tipo")==1 ){
+                $cant  = DocumentoDigital::getCargarCount( $array );
+                $aData = DocumentoDigital::getCargar( $array );
+            }
+            if(Input::get("tipo")==2){
+                $cant  = DocumentoDigital::getCargarRelacionAreaCount( $array );
+                $aData = DocumentoDigital::getCargarRelacionArea( $array );
+            }
+            
+            $aParametro['rst'] = 1;
+            $aParametro["recordsTotal"]=$cant;
+            $aParametro["recordsFiltered"]=$cant;
+            $aParametro['data'] = $aData;
+            $aParametro['msj'] = "No hay registros aún";   
+            return Response::json($aParametro);
+
+        }
+    }
   
         public function postEditartitulo()
     {
