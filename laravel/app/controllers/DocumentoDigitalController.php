@@ -302,7 +302,7 @@ class DocumentoDigitalController extends \BaseController {
             $DocDigital->correlativo = Input::get('titulo');
             $DocDigital->cuerpo = $html;
             $DocDigital->plantilla_doc_id = Input::get('plantilla');
-            $DocDigital->area_id = Input::get('area_plantilla');
+            $DocDigital->area_id = Auth::user()->area_id;
 
             if(Input::has('chk_todasareas') && Input::get('chk_todasareas') == 'allgesub'){
                 $DocDigital->envio_total = 1;
