@@ -70,11 +70,15 @@ $(document).ready(function() {
 
     $('#fechaModal').on('hide.bs.modal', function (event) {
        $('#form_fechas_modal textarea').val('');
+    });
+    $('#fechaModal').on('hidden.bs.modal', function (event) {
        if(MostrarOcultarModalfecha==2){
         MostrarAjax('docdigitales');
-        $("#docdigitalModal").modal('show');}
-
+        $("#docdigitalModal").modal('show');
+        }
     });
+    
+    
     
         $('.fecha').daterangepicker({
         format: 'YYYY-MM-DD',
