@@ -70,6 +70,8 @@ $(document).ready(function() {
 
     $('#fechaModal').on('hide.bs.modal', function (event) {
        $('#form_fechas_modal textarea').val('');
+       if(MostrarOcultarModalfecha==2){
+        $("#docdigitalModal").modal('show');}
 
     });
     
@@ -85,13 +87,13 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
         return row.nemonico+"<input type='hidden' name='txt_imagen' value='"+row.imagen+"'><input type='hidden' name='txt_imagenc' value='"+row.imagenc+"'><input type='hidden' name='txt_imagenp' value='"+row.imagenp+"'>";
     }
     if(typeof(fn)!='undefined' && fn.col==4){
-        return row.created_at+"<br><span class='btn btn-warning' data-toggle='modal' data-target='#fechaModal' data-documento='"+row.titulo+"' data-id='"+row.id+"' data-fecha='"+row.created_at+"' id='btn_buscar_docs'>"+
+        return row.created_at+"<br><span onclick='FlotanteFecha(1); return false;' class='btn btn-warning' data-toggle='modal' data-target='#fechaModal' data-documento='"+row.titulo+"' data-id='"+row.id+"' data-fecha='"+row.created_at+"' id='btn_buscar_docs'>"+
                                                     '<i class="fa fa-pencil fa-xs"></i>'+
                                                 '</span>';
     }
     if(typeof(fn)!='undefined' && fn.col==6){
         if(row.tipo==1){
-            return "<a class='btn btn-primary btn-sm' onclick='editDocDigital("+row.id+"); return false;' data-titulo='Editar'><i class='glyphicon glyphicon-pencil'></i> </a>";
+            return "<a class='btn btn-primary btn-sm' onclick='editDocDigital("+row.id+",1); return false;' data-titulo='Editar'><i class='glyphicon glyphicon-pencil'></i> </a>";
         }
         if(row.tipo==2){
             return "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",4,0); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A4</i> </a>"+
@@ -155,7 +157,7 @@ HTMLCargar=function(datos){
         html+="<td>"+data.persona_u+"</td>";
         html+="<td>"+data.titulo+"</td>";
         html+="<td>"+data.asunto+"</td>";
-        html+="<td>"+data.created_at+"<br><span class='btn btn-warning btn-sm' data-toggle='modal' data-target='#fechaModal' data-documento='"+data.titulo+"' data-id='"+data.id+"' data-fecha='"+data.created_at+"' id='btn_buscar_docs'>"+
+        html+="<td>"+data.created_at+"<br><span onclick='FlotanteFecha(2); return false;' class='btn btn-warning btn-sm' data-toggle='modal' data-target='#fechaModal' data-documento='"+data.titulo+"' data-id='"+data.id+"' data-fecha='"+data.created_at+"' id='btn_buscar_docs'>"+
                                                     '<i class="fa fa-pencil"></i>'+
                                                 '</span>';
         html+="</td>";
@@ -219,7 +221,7 @@ MostrarDocumentos=function(tipo){
            $('#form_docdigitales_relaciones').hide();
            $('#form_docdigitales').show();
            $("#t_docdigitales").dataTable();
-           MostrarAjax('docdigitales'); 
+           MostrarAjax('docdigitales');
     }
     if(tipo==2){
            $('#form_docdigitales').hide();
@@ -227,6 +229,16 @@ MostrarDocumentos=function(tipo){
            $("#t_docdigitales_relaciones").dataTable();
            MostrarAjax('docdigitales_relaciones'); 
     }
+};
+
+FlotanteFecha=function(flotante){
+    if(flotante==1){
+    $("#docdigitalModal").modal('hide');
+    MostrarOcultarModalfecha=2;}
+    else {
+      MostrarOcultarModalfecha=1;  
+    }
+
 };
 
 </script>

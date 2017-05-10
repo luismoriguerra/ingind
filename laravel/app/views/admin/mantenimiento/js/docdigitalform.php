@@ -14,6 +14,8 @@ $siglast="";
   var SiglasArea='';
   var SiglasPersona='<?php echo $siglast; ?>'; 
   var CrearEditar=1;
+  var MostrarOcultarModal=1;
+  var MostrarOcultarModalfecha=1;
 $(document).ready(function() {
     
     slctGlobal.listarSlctFuncion('plantilladoc','cargar','slct_plantilla','simple',null,{'area':1,'activo':1});
@@ -107,6 +109,9 @@ $(document).ready(function() {
     };
 
     $('#NuevoDocDigital').on('hidden.bs.modal', function(){
+        if(MostrarOcultarModal==2){
+        $("#docdigitalModal").modal('show');}
+    
         limpia(this);
     });
 
@@ -152,6 +157,8 @@ $(document).ready(function() {
 });
 
 NuevoDocumento=function(){
+    MostrarOcultarModal=1;
+    MostrarOcultarModalfecha=1;
     CrearEditar=1;
     $("#txt_titulo").removeAttr("disabled");
 }
@@ -247,7 +254,14 @@ HTMLCargarCorrelativo=function(obj){
     $("#txt_titulo").val(correlativo);
 }
 
-editDocDigital = function(id){
+editDocDigital = function(id,flotante){
+    if(flotante==1){
+    $("#docdigitalModal").modal('hide');
+    MostrarOcultarModal=2;}
+    else {
+      MostrarOcultarModal=1;  
+    }
+    
     CrearEditar=0;
     Plantillas.CargarAreas();
     Plantillas.Cargar(HTMLEdit,{'id':id});
@@ -262,7 +276,7 @@ HTMLEdit = function(data){
             $('input').iCheck('uncheck');
         }
         /*personas area envio*/
-        if(data[0].tipo_envio == 1 || data[0].tipo_envio == 5){ //persona
+        if(data[0].tipo_envio == 1 || data[0].tipo_envio == 5 || data[0].tipo_envio == 6){ //persona
             $(".areaspersona,.personasarea").removeClass('hidden');
             $(".todassubg").addClass('hidden');
             $("#slct_areasp").val(data[0].area_id);

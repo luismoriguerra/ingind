@@ -1,5 +1,5 @@
 <!-- /.modal -->
-<div class="modal fade" id="NuevoDocDigital" role="dialog" aria-hidden="true" style="z-index:10001">
+<div class="modal fade" id="NuevoDocDigital" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <form id="formNuevoDocDigital" name="formNuevoDocDigital" method="post">
