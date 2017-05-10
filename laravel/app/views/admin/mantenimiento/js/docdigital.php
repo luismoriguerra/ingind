@@ -71,6 +71,7 @@ $(document).ready(function() {
     $('#fechaModal').on('hide.bs.modal', function (event) {
        $('#form_fechas_modal textarea').val('');
        if(MostrarOcultarModalfecha==2){
+        MostrarAjax('docdigitales');
         $("#docdigitalModal").modal('show');}
 
     });

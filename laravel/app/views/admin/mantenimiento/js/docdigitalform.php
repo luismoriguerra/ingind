@@ -110,6 +110,7 @@ $(document).ready(function() {
 
     $('#NuevoDocDigital').on('hidden.bs.modal', function(){
         if(MostrarOcultarModal==2){
+        MostrarAjax('docdigitales');
         $("#docdigitalModal").modal('show');}
     
         limpia(this);
