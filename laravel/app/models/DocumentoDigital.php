@@ -50,9 +50,6 @@ class DocumentoDigital extends Base {
                     ->orderBy('dd.id')
                     ->get();
         }else{
-            $fin = date('Y-m-d');
-            $inicio = strtotime('-15 day', strtotime($fin));
-            $inicio = date('Y-m-d', $inicio);
             return DB::table('doc_digital as dd')
             		->join('plantilla_doc as pd', 'dd.plantilla_doc_id', '=', 'pd.id')
                         ->leftjoin('personas as p','p.id','=','dd.usuario_created_at')
@@ -93,10 +90,23 @@ class DocumentoDigital extends Base {
                                         WHERE acp.estado=1
                                         AND cp.persona_id= '.$usu_id.'
                                     )');
+                                $fin = date('Y-m-d');
+                                $inicio = strtotime('-15 day', strtotime($fin));
+                                $inicio = date('Y-m-d', $inicio);
+                                $query->whereRaw('  ((DATE(dd.created_at) BETWEEN "'.$inicio.'" AND "'.$fin.'")
+                                                    or ((SELECT COUNT(r.id) 
+                                                    FROM rutas r 
+                                                    where r.estado=1 AND dd.id=r.doc_digital_id)=0 AND 
+
+                                                    (SELECT COUNT(r.id)
+                                                    FROM rutas r 
+                                                    INNER JOIN rutas_detalle as rd on r.id=rd.ruta_id and rd.estado=1 and rd.condicion=0
+                                                    INNER JOIN rutas_detalle_verbo as rdv on rdv.ruta_detalle_id=rd.id and rdv.estado=1
+                                                    where r.estado=1 AND dd.id=rdv.doc_digital_id)=0
+                                                    ))');
                             /* }*/
                         }
                     )
-                    ->havingRaw('((DATE(created_at) BETWEEN "'.$inicio.'" AND "'.$fin.'") OR (ruta=0 and rutadetallev=0))')
                     ->orderBy('ruta','desc') 
                     ->orderBy('rutadetallev','desc')
                     ->get();            
