@@ -46,11 +46,11 @@ class DocumentoDigitalController extends \BaseController {
                 }
             }
             
-            if( Input::has("titulo") ){
-                $titulo=Input::get("titulo");
-                if( trim( $titulo )!='' ){
-                    $array['where'].=" AND dd.titulo LIKE '%".$titulo."%' ";
-                }
+            if( Input::has("titulo") AND Input::get('titulo')!='' ){
+                 $titulo=explode(" ",trim(Input::get('titulo')));
+                    for($i=0; $i<count($titulo); $i++){
+                       $array['where'].=" AND dd.titulo LIKE '%".$titulo[$i]."%' ";
+                    }
             }
             
             if( Input::has("persona_u") ){
