@@ -56,14 +56,14 @@ class DocumentoDigitalController extends \BaseController {
             if( Input::has("persona_u") ){
                 $persona_u=Input::get("persona_u");
                 if( trim( $persona_u )!='' ){
-                    $array['where'].=" AND dd.usuario_updated_at LIKE '%".$persona_u."%' ";
+                    $array['where'].=" AND CONCAT_WS(' ',p1.paterno,p1.materno,p1.nombre) LIKE '%".$persona_u."%' ";
                 }
             }
             
             if( Input::has("persona_c") ){
                 $persona_c=Input::get("persona_c");
                 if( trim( $persona_c )!='' ){
-                    $array['where'].=" AND dd.usuario_created_at LIKE '%".$persona_c."%' ";
+                    $array['where'].=" AND CONCAT_WS(' ',p.paterno,p.materno,p.nombre) LIKE '%".$persona_c."%' ";
                 }
             }
             
