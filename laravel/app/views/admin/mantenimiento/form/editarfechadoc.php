@@ -16,7 +16,7 @@
           </div>
           <div class="form-group">
             <label class="control-label">Fecha:</label>
-            <input type="text" class="form-control fecha" name="txt_fecha" id="txt_fecha" onfocus="blur()">
+            <input type="text" class="form-control fechaG" name="txt_fecha" id="txt_fecha" onfocus="blur()">
           </div>
           <div class="form-group">
             <label class="control-label">Comentario:
