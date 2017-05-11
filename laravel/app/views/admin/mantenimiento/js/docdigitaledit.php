@@ -31,23 +31,22 @@ $(document).ready(function() {
     $('#tituloModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
       var tipo_envio = button.data('tipoenvio'); // extrae del atributo data-
-      var area_id = button.data('areaid'); // extrae del atributo data-
       var documento = button.data('documento'); // extrae del atributo data-
       var ruta = button.data('ruta'); // extrae del atributo data-
       var rutadetallev = button.data('rutadetallev'); // extrae del atributo data-
       var id = button.data('id'); // extrae del atributo data-
-      
+
         var titulo = documento.split("-");
         var titulofinal= documento.split(titulo[2]+"-");
 
         document.querySelector("#lblDocumento").innerHTML= titulo[0]+" - Nº ";
         if( tipo_envio==3 ||  tipo_envio==5){
             SiglasArea= $.trim( titulofinal[1].split(titulofinal[1].split("-")[0]+"-")[1] );
-            document.querySelector("#lblArea").innerHTML= " - "+titulo[2]+" - "+SiglasPersona+" - "+SiglasArea;
+            document.querySelector("#lblArea").innerHTML= " - "+titulo[2]+" - "+titulo[3]+" - "+titulo[4];
         }
         else{
             SiglasArea= $.trim( titulofinal[1] );
-            document.querySelector("#lblArea").innerHTML= " - "+titulo[2]+" - "+SiglasArea;
+            document.querySelector("#lblArea").innerHTML= " - "+titulo[2]+" - "+titulo[3];
         }
         var tnombre= $.trim($.trim( titulo[1] ).substring(2));
        $('#form_titulos_modal #txt_titulo').val(tnombre);
@@ -64,8 +63,6 @@ $(document).ready(function() {
             $("#form_titulos_modal").append("<input type='hidden' value='"+id+"' name='id'>");
             $("#form_titulos_modal").append("<input type='hidden' value='"+ruta+"' name='ruta'>");
             $("#form_titulos_modal").append("<input type='hidden' value='"+rutadetallev+"' name='rutadetallev'>");
-            $("#form_titulos_modal").append("<input type='hidden' value='"+tipo_envio+"' name='tipo_envio'>");
-            $("#form_titulos_modal").append("<input type='hidden' value='"+area_id+"' name='area_id'>");
     });
 
     $('#tituloModal').on('hide.bs.modal', function (event) {
@@ -93,7 +90,7 @@ MostrarAjax=function(t){
 
 GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
     if(typeof(fn)!='undefined' && fn.col==6){
-        return "<span class='btn btn-warning' data-toggle='modal' data-target='#tituloModal' data-documento='"+row.titulo+"' data-id='"+row.id+"' data-ruta='"+row.ruta+"' data-rutadetallev='"+row.rutadetallev+"' data-tipoenvio='"+row.tipo_envio+"' data-areaid='"+row.area_id+"' id='btn_buscar_docs'>"+
+        return "<span class='btn btn-warning' data-toggle='modal' data-target='#tituloModal' data-documento='"+row.titulo+"' data-id='"+row.id+"' data-ruta='"+row.ruta+"' data-rutadetallev='"+row.rutadetallev+"' data-tipoenvio='"+row.tipo_envio+"' id='btn_buscar_docs'>"+
                                                     '<i class="fa fa-pencil fa-xs"></i>'+
                                                 '</span>';
     }
@@ -149,5 +146,15 @@ validaTitulos = function(){
     }
     return r;
 };
+
+function addZeros (n, length)
+{
+    var str = (n > 0 ? n : -n) + "";
+    var zeros = "";
+    for (var i = length - str.length; i > 0; i--)
+        zeros += "0";
+    zeros += str;
+    return n >= 0 ? zeros : "-" + zeros;
+}
 
 </script>

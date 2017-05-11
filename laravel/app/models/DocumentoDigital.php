@@ -128,7 +128,7 @@ class DocumentoDigital extends Base {
     
         public static function getCargar( $array )
     {  
-        $sSql=' select 1 as tipo,DATE(dd.created_at)as created_at, CONCAT_WS(" ",p1.paterno,p1.materno,p1.nombre) as persona_u,dd.tipo_envio,dd.area_id,
+        $sSql=' select 1 as tipo,DATE(dd.created_at)as created_at, CONCAT_WS(" ",p1.paterno,p1.materno,p1.nombre) as persona_u,dd.tipo_envio,
                 CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona_c,
                     (SELECT COUNT(r.id) 
                      FROM rutas r 
@@ -322,8 +322,32 @@ class DocumentoDigital extends Base {
     {   
         $sSql=" SELECT * 
                 FROM doc_digital 
-                WHERE titulo = '".Input::get('titulo')."'"
+                WHERE titulo = '".Input::get('titulofinal')."'"
                 . "AND id !=".Input::get('id');
+        $oData = DB::select($sSql);
+        return $oData;
+    }
+    
+        public static function getVerificarCorrelativo($csigla,$tipo_envio,$tipo_documento,$persona_id,$area_id)
+    {   
+        $sSql=" SELECT COUNT(dd.id) as cant
+                from doc_digital dd 
+                INNER JOIN plantilla_doc pd on dd.plantilla_doc_id=pd.id ";
+        if($csigla!=0){
+            if($tipo_envio=3 OR $tipo_envio=5){
+            $sSql.="and pd.tipo_documento_id='".$tipo_documento."' and dd.persona_id='".$persona_id."'";
+            }   
+            else{
+            $sSql.="and pd.tipo_documento_id='".$tipo_documento."' and pd.area_id='".$area_id."'";
+            }  
+         }
+        else {
+            $sSql.="and pd.tipo_documento_id='".$tipo_documento."'";
+            }
+            
+         $sSql.="WHERE dd.estado=1 
+                and dd.correlativo='".$correlativo."'
+                AND YEAR(dd.created_at)=YEAR(CURDATE())";
         $oData = DB::select($sSql);
         return $oData;
     }

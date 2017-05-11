@@ -47,9 +47,10 @@ var Plantillas={
     },
             
     AgregarEditarTitulo:function(AE){
+        $("#txt_titulofinal").val($("#lblDocumento").text()+addZeros($("#form_titulos_modal #txt_titulo").val(),"6")+$("#lblArea").text());
         var datos = $("#form_titulos_modal").serialize().split("txt_").join("").split("slct_").join("");
         var accion = (AE==1) ? "documentodig/editartitulo" : "documentodig/creartitulo";
-
+        
         $.ajax({
             url         : accion,
             type        : 'POST',
@@ -62,7 +63,7 @@ var Plantillas={
             success : function(obj) {
                 $(".overlay, .loading-img").remove();
                 if(obj.rst==1){
-                    Plantillas.Cargar(HTMLCargar);
+                    MostrarAjax("docdigitales");
                     msjG.mensaje('success',obj.msj,4000);
                     $('#tituloModal .modal-footer [data-dismiss="modal"]').click();
 

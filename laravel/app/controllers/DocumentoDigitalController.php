@@ -122,27 +122,54 @@ class DocumentoDigitalController extends \BaseController {
             }
             
             $documento_digital = DocumentoDigital::find(Input::get('id'));
-            $documento_digital->titulo = Input::get('titulofinal');
-            $documento_digital->save();
+            $plantilla = Plantilla::find($documento_digital->plantilla_doc_id);
+            $documento= Documento::find($plantilla->tipo_documento_id);
             
-            if(Input::get('ruta')==1){
-                $tb = TablaRelacion::where('doc_digital_id','=',Input::get('id'))->get();
-                
-                foreach ($tb as $tabla_relacion){
-                    $tabla_relacion->id_union = Input::get('titulofinal');
-                    $tabla_relacion->save();
-                    
-                }
+            $cant=DocumentoDigital::getVerificarCorrelativo($documento->area,$documento->id,$documento_digital->persona_id,$plantilla->area_id);
+            var_dump($cant);exit();
+            if($cant>=1){
+                return Response::json(
+                array(
+                    'rst' => 2,
+                    'msj' => 'El correlativo de Documento ya existe',
+                )
+                ); 
             }
             
-            if(Input::get('rutadetallev')==1){
-                $rdv = RutaDetalleVerbo::where('doc_digital_id','=',Input::get('id'))->get();
+            if(Input::get('ruta')==1 OR Input::get('rutadetallev')==1){
+                    if(Input::get('ruta')==1){
+                        $tb = TablaRelacion::where('doc_digital_id','=',Input::get('id'))->get();
                 
-                foreach ($rdv as $rutadetallev){
-                    $rutadetallev->documento = Input::get('titulofinal');
-                    $rutadetallev->save();
-                }
+                        foreach ($tb as $tabla_relacion){
+                        $tabla_relacion->id_union = Input::get('titulofinal');
+                        $tabla_relacion->save();
+                        }
+                    }
+            
+                    if(Input::get('rutadetallev')==1){
+                        $rdv = RutaDetalleVerbo::where('doc_digital_id','=',Input::get('id'))->get();
+                        $s= Sustento::where('ruta_detalle_verbo_id','=',$rdv->id)->get();
+                        $s= Referido::where('ruta_detalle_id','=',$rdv->ruta_detalle_id)->get();
+                        
+                        foreach ($rdv as $rutadetallev){
+                        $rutadetallev->documento = Input::get('titulofinal');
+                        $rutadetallev->save();
+                        }
+                        foreach ($s as $sustento){
+                        $sustento->sustento = Input::get('titulofinal');
+                        $sustento->save();
+                        }
+                        foreach ($r as $referido){
+                        $sustento->referido = Input::get('titulofinal');
+                        $sustento->save();
+                        }
+                    }
+            }else {
+                  $documento_digital->titulo = Input::get('titulofinal');
+                  $documento_digital->correlativo = Input::get('titulo');
+                  $documento_digital->save();  
             }
+            
             return Response::json(
                 array(
                     'rst' => 1,

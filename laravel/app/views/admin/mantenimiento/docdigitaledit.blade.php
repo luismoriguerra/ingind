@@ -72,5 +72,5 @@
 
 @section('formulario')
      @include( 'admin.mantenimiento.form.editartitulodoc' )
-     @include( 'admin.mantenimiento.form.editarfechadoc' )
+<!--     @include( 'admin.mantenimiento.form.editarfechadoc' )-->
 @stop
