@@ -6,7 +6,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 <style>
-
+.rotar1  
+    {  
+      -webkit-transform: rotate(-25deg);  
+      -moz-transform: rotate(-25deg);  
+      -ms-transform: rotate(-25deg);  
+      -o-transform: rotate(-25deg);  
+      transform: rotate(-25deg);  
+       
+      -webkit-transform-origin: 50% 50%;  
+      -moz-transform-origin: 50% 50%;  
+      -ms-transform-origin: 50% 50%;  
+      -o-transform-origin: 50% 50%;  
+      transform-origin: 50% 50%;  
+       
+      font-size: 50px;  
+      width: 600px;  
+      position: absolute; 
+      right: -70px;
+      top: 230px;  
+      font-size: 40px; 
+      opacity: 0.12;
+    } 
 html, body{
     font-size: 11px;
     line-height: 15px;
@@ -200,6 +221,7 @@ footer .izq {
     <h4 class="nombre-anio">“Año del Buen Servicio al Ciudadano”</h4>
     <h4 class="nombre-vistaprevia">{{ $vistaprevia }}</h4>
    <div class="qr">{{ $imagen }}</div>
+    <div class="rotar1"><?php if($vistaprevia!=''){echo "Documento No Válido";} ?></div> 
 </header>
 <?php } else if($tamano==5){?>
 <style type="text/css">
@@ -282,6 +304,7 @@ footer .izq {
     <h4 class="nombre-anio">“Año del Buen Servicio al Ciudadano”</h4>
     <h4 class="nombre-vistaprevia">{{ $vistaprevia }}</h4>
    <div class="qr">{{ $imagen }}</div>
+   <div class="rotar1"><?php if($vistaprevia!=''){echo "Documento No Válido";} ?></div> 
 </header>
 <?php } ?>
 <body>
