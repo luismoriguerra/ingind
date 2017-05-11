@@ -200,3 +200,4 @@ Route::controller('Eventocaracteristica', 'CaracteristicaEventoController');
 Route::controller('Categoriaevento', 'CategoriaEventoController');
 Route::controller('meta', 'MetaController');
 Route::controller('reportetramite', 'ReporteTramiteController');
+Route::controller('mensajedetalle', 'MensajeDetalleController');

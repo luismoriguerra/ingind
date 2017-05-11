@@ -1118,6 +1118,39 @@ AgregarImagenUsuario=function(){
             processData: false
         });
 }
+RegistrarMensajeVisto=function(mid){
+        $("#form_mensajes_modal").append("<input type='hidden' value='"+mid+"' name='mid'>");
+        var datos = $("#form_mensajes_modal").serialize().split("txt_").join("").split("slct_").join("");
+
+        $.ajax({
+            url         : 'mensajedetalle/guardarvisto',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : datos,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay, .loading-img").remove();
+
+                if (obj.rst==1) {
+       
+                    msjG.mensaje('success',obj.msj,4000);
+                    $('#mensajeModal .modal-footer [data-dismiss="modal"]').click();
+                } else {
+                    $.each(obj.msj, function(index, datos) {
+                        $("#error_"+index).attr("data-original-title",datos);
+                        $('#error_'+index).css('display','');
+                    });
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
+            }
+        });
+}
 
 /**
  * Utilitarios msjG

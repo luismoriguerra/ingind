@@ -46,3 +46,4 @@
             </aside>
 
             @include( 'layouts.form.imagen' )
+            @include( 'layouts.form.mensaje' )

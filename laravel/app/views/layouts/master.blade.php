@@ -64,7 +64,42 @@
        @yield('formulario')
     </body>
 	<script>
+        var MensajeG9973=0;
+        $(document).ready(function() { 
+        '<?php   $ssql="  SELECT m.id as m_id,m.contenido,m.titulo,md.id as dm_id
+                          FROM mensajes m
+                          LEFT JOIN mensajes_detalle md ON m.id=md.mensaje_id AND DATE(m.created_at)=CURDATE() AND md.usuario_created_at=".Auth::user()->id;
+                $mensaje= DB::select($ssql);?>';
+                        
+        var contenido='<?php echo $mensaje[0]->contenido?>';
+        var titulo='<?php echo $mensaje[0]->titulo?>';
+        var dm_id='<?php echo $mensaje[0]->dm_id?>';    
+        var id='<?php echo $mensaje[0]->m_id?>';
+        if(dm_id==null || dm_id==''){
+                
+                $('#mensajeModal').on('show.bs.modal', function (event) {
+                    MensajeG9973=id;
+                    $("#form_mensajes_modal #contenido").html(contenido);
+                        var modal = $(this); //captura el modal
+                        modal.find('.modal-title').text(titulo);
+                        $('#form_mensajes_modal [data-toggle="tooltip"]').css("display","none");
+                        $("#form_mensajes_modal input[type='hidden']").remove();
+                        
+                        modal.find('.modal-footer .btn-primary').text('Confirmar Lectura');
+                        modal.find('.modal-footer .btn-primary').attr('onClick','RegistrarMensajeVisto('+MensajeG9973+');');
+                        
+                });
 
+                $('#mensajeModal').on('hide.bs.modal', function (event) {
+//               $('#form_mensajes_modal input').val('');
+                });
+                $("#mensajeModal").modal({
+                        keyboard: false,
+                        backdrop: false
+                    });
+             
+        }
+        });   
      /*   $('.').perfectScrollbar();*/
         $('.myscroll').perfectScrollbar({
             suppressScrollX : true
