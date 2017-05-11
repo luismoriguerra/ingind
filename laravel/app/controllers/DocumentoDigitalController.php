@@ -53,6 +53,13 @@ class DocumentoDigitalController extends \BaseController {
                     }
             }
             
+            if( Input::has("created_at") ){
+                $created_at=Input::get("created_at");
+                if( trim( $created_at )!='' ){
+                    $array['where'].=" AND DATE(dd.created_at) = '".$created_at."' ";
+                }
+            }
+            
             if( Input::has("persona_u") ){
                 $persona_u=Input::get("persona_u");
                 if( trim( $persona_u )!='' ){
@@ -115,14 +122,14 @@ class DocumentoDigitalController extends \BaseController {
             }
             
             $documento_digital = DocumentoDigital::find(Input::get('id'));
-            $documento_digital->titulo = Input::get('titulo');
+            $documento_digital->titulo = Input::get('titulofinal');
             $documento_digital->save();
             
             if(Input::get('ruta')==1){
                 $tb = TablaRelacion::where('doc_digital_id','=',Input::get('id'))->get();
                 
                 foreach ($tb as $tabla_relacion){
-                    $tabla_relacion->id_union = Input::get('titulo');
+                    $tabla_relacion->id_union = Input::get('titulofinal');
                     $tabla_relacion->save();
                     
                 }
@@ -132,7 +139,7 @@ class DocumentoDigitalController extends \BaseController {
                 $rdv = RutaDetalleVerbo::where('doc_digital_id','=',Input::get('id'))->get();
                 
                 foreach ($rdv as $rutadetallev){
-                    $rutadetallev->documento = Input::get('titulo');
+                    $rutadetallev->documento = Input::get('titulofinal');
                     $rutadetallev->save();
                 }
             }
