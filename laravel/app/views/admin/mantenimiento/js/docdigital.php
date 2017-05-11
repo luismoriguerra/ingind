@@ -35,7 +35,7 @@ $(document).ready(function() {
                 persona_u        :'onBlur|Actualizó|#DCE6F1', //#DCE6F1
                 titulo      :'onBlur|Título|#DCE6F1', //#DCE6F1
                 asunto        :'onBlur|Asunto|#DCE6F1', //#DCE6F1
-                created_at        :'onBlur|Fecha Creación|#DCE6F1', //#DCE6F1
+                created_at        :'onChange|Fecha Creación|#DCE6F1|fechaG', //#DCE6F1
                 plantilla        :'onBlur|Plantilla|#DCE6F1', //#DCE6F1
                 c        :'1|Vista Previa|#DCE6F1', //#DCE6F1
              };
@@ -80,7 +80,7 @@ $(document).ready(function() {
     
     
     
-        $('.fecha').daterangepicker({
+        $('.fechaG').daterangepicker({
         format: 'YYYY-MM-DD',
         singleDatePicker: true,
         showDropdowns: true
