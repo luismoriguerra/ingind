@@ -24,7 +24,7 @@
         </form>
       </div>
       <div class="modal-footer">
-          <span style="color: red;text-align: left !important;font-size:15px !important;">*Confirmar la lectura del mensaje para que no aparesca nuevamente.</span>
+          <span style="color: red;text-align: left !important;font-size:15px !important;">*Confirmar la lectura del mensaje para que no aparezca nuevamente.</span>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Guardar</button>
       </div>
