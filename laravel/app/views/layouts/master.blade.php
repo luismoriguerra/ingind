@@ -68,7 +68,7 @@
         $(document).ready(function() { 
         <?php   $ssql="  SELECT m.id as m_id,m.contenido,m.titulo,md.id as dm_id
                           FROM mensajes m
-                          LEFT JOIN mensajes_detalle md ON m.id=md.mensaje_id AND md.usuario_created_at=".Auth::user()->id."
+                          LEFT JOIN mensajes_detalle md ON m.id=md.mensaje_id AND md.usuario_created_at=".Auth::user()->id." AND md.estado=1
 			  WHERE DATE(m.created_at)=CURDATE() AND m.estado=1";
         $mensaje= DB::select($ssql);
         if(count($mensaje)==0){
