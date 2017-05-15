@@ -39,14 +39,14 @@ $(document).ready(function() {
         var titulo = documento.split("-");
         var titulofinal= documento.split(titulo[2]+"-");
 
-        document.querySelector("#lblDocumento").innerHTML= titulo[0]+" - Nº ";
+        document.querySelector("#lblDocumento").innerHTML= titulo[0]+"- Nº ";
         if( tipo_envio==3 ||  tipo_envio==5){
             SiglasArea= $.trim( titulofinal[1].split(titulofinal[1].split("-")[0]+"-")[1] );
-            document.querySelector("#lblArea").innerHTML= " - "+titulo[2]+" - "+titulo[3]+" - "+titulo[4];
+            document.querySelector("#lblArea").innerHTML= " -"+titulo[2]+"- "+$.trim(titulo[3])+" -"+titulo[4];
         }
         else{
-            SiglasArea= $.trim( titulofinal[1] );
-            document.querySelector("#lblArea").innerHTML= " - "+titulo[2]+" - "+titulo[3];
+            SiglasArea= $.trim( titulofinal[1] ); 
+            document.querySelector("#lblArea").innerHTML= " -"+titulo[2]+"- "+$.trim(titulo[3]);
         }
         var tnombre= $.trim($.trim( titulo[1] ).substring(2));
        $('#form_titulos_modal #txt_titulo').val(tnombre);

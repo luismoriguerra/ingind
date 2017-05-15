@@ -122,11 +122,13 @@ class DocumentoDigitalController extends \BaseController {
             }
             
             $documento_digital = DocumentoDigital::find(Input::get('id'));
-            $plantilla = Plantilla::find($documento_digital->plantilla_doc_id);
+            $plantilla = PlantillaDocumento::find($documento_digital->plantilla_doc_id);
             $documento= Documento::find($plantilla->tipo_documento_id);
             
-            $cant=DocumentoDigital::getVerificarCorrelativo($documento->area,$documento->id,$documento_digital->persona_id,$plantilla->area_id);
-            var_dump($cant);exit();
+            $cant=DocumentoDigital::getVerificarCorrelativo($documento->area,
+            $documento_digital->tipo_envio,$documento->id,$documento_digital->persona_id,
+            $plantilla->area_id,Input::get('titulo'),Input::get('id'));
+      
             if($cant>=1){
                 return Response::json(
                 array(
@@ -164,11 +166,11 @@ class DocumentoDigitalController extends \BaseController {
                         $sustento->save();
                         }
                     }
-            }else {
+            }
                   $documento_digital->titulo = Input::get('titulofinal');
                   $documento_digital->correlativo = Input::get('titulo');
                   $documento_digital->save();  
-            }
+            
             
             return Response::json(
                 array(

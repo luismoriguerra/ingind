@@ -328,28 +328,28 @@ class DocumentoDigital extends Base {
         return $oData;
     }
     
-        public static function getVerificarCorrelativo($csigla,$tipo_envio,$tipo_documento,$persona_id,$area_id)
+        public static function getVerificarCorrelativo($csigla,$tipo_envio,$tipo_documento,$persona_id,$area_id,$correlativo,$id)
     {   
         $sSql=" SELECT COUNT(dd.id) as cant
                 from doc_digital dd 
                 INNER JOIN plantilla_doc pd on dd.plantilla_doc_id=pd.id ";
         if($csigla!=0){
             if($tipo_envio=3 OR $tipo_envio=5){
-            $sSql.="and pd.tipo_documento_id='".$tipo_documento."' and dd.persona_id='".$persona_id."'";
+            $sSql.="and pd.tipo_documento_id=".$tipo_documento." and dd.persona_id=".$persona_id."";
             }   
             else{
-            $sSql.="and pd.tipo_documento_id='".$tipo_documento."' and pd.area_id='".$area_id."'";
+            $sSql.="and pd.tipo_documento_id=".$tipo_documento." and pd.area_id=".$area_id;
             }  
          }
         else {
-            $sSql.="and pd.tipo_documento_id='".$tipo_documento."'";
+            $sSql.="and pd.tipo_documento_id=".$tipo_documento;
             }
             
-         $sSql.="WHERE dd.estado=1 
+         $sSql.=" WHERE dd.estado=1 
                 and dd.correlativo='".$correlativo."'
-                AND YEAR(dd.created_at)=YEAR(CURDATE())";
+                AND YEAR(dd.created_at)=YEAR(CURDATE()) AND dd.id!=".$id;
         $oData = DB::select($sSql);
-        return $oData;
+        return $oData[0]->cant;
     }
 
 }
