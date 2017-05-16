@@ -33,8 +33,10 @@ class MetaCuadro extends Base
      
         public function getMetaCuadro($array )
     {
-        $sSql=" SELECT m.nombre,m.id as meta_id,IFNULL(m.fecha_add,m.fecha) as mf,m.fecha as mf_me,mc.actividad,mc.id as meta_cuadro_id,IFNULL(mc.fecha_add,mc.fecha) as af,mc.fecha as af_ac,mf1.comentario as d,
-			 mf1.id as id_d,IFNULL(mf1.fecha_add,mf1.fecha) as df,mf1.fecha as df_de,mf2.comentario as p,mf2.id as id_p,IFNULL(mf2.fecha_add,mf2.fecha) as pf,mf2.fecha as pf_pa,
+        $sSql=" SELECT   m.id as meta_id,m.nombre,IFNULL(m.fecha_add,m.fecha) as mf,m.fecha as mf_me,
+			 mc.id as meta_cuadro_id,mc.actividad,IFNULL(mc.fecha_add,mc.fecha) as af,mc.fecha as af_ac,
+                         mf1.id as id_d,mf1.comentario as d,IFNULL(mf1.fecha_add,mf1.fecha) as df,mf1.fecha as df_de,
+                         mf2.id as id_p,mf2.comentario as p,IFNULL(mf2.fecha_add,mf2.fecha) as pf,mf2.fecha as pf_pa,
 			(SELECT CONCAT_WS('|',GROUP_CONCAT(ma.ruta),GROUP_CONCAT(ma.id))
 			 FROM metas_archivo ma
 			 WHERE  ma.tipo_avance=4 AND ma.avance_id=mf2.id AND ma.estado=1
@@ -65,8 +67,12 @@ class MetaCuadro extends Base
 			(SELECT CONCAT_WS('|',GROUP_CONCAT(ma.ruta),GROUP_CONCAT(ma.id))
 			 FROM metas_archivo ma
 			 WHERE  ma.tipo_avance=1 AND ma.avance_id=m.id AND ma.estado=1
-                       GROUP BY ma.avance_id) as a_m,
-                      (SELECT CONCAT_WS('|',GROUP_CONCAT(dd.titulo),GROUP_CONCAT(md.id),GROUP_CONCAT(md.doc_digital_id))
+                         GROUP BY ma.avance_id) as a_m,
+			(SELECT CONCAT_WS('|',GROUP_CONCAT(ma.ruta),GROUP_CONCAT(ma.id))
+			 FROM metas_archivo ma
+			 WHERE  ma.tipo_avance=5 AND ma.avance_id=m.id AND ma.estado=1
+                         GROUP BY ma.avance_id) as a_q,
+                        (SELECT CONCAT_WS('|',GROUP_CONCAT(dd.titulo),GROUP_CONCAT(md.id),GROUP_CONCAT(md.doc_digital_id))
 			 FROM metas_docdigital md
 			 INNER JOIN doc_digital dd ON md.doc_digital_id=dd.id
 			 WHERE  md.tipo_avance=1 AND md.avance_id=m.id AND md.estado=1

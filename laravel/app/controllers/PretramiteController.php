@@ -117,16 +117,18 @@ class PretramiteController extends BaseController {
         $pretramite['clasificador_tramite_id'] = $array_data->idclasitramite;
 
         if($array_data->idempresa){
-        	$pretramite['empresa_id'] = $array_data->idempresa;        	
+        	$pretramite['empresa_id'] = $array_data->idempresa;  
+                $pretramite['persona_id'] = $array_data->persona_id;                 
         }else{
-        	$pretramite['persona_id'] =  $array_data->cbo_persona;
+        	$pretramite['persona_id'] =  $array_data->persona_id;
         }
 
         $pretramite['tipo_solicitante_id'] = $array_data->cbo_tiposolicitante;
         $pretramite['tipo_documento_id'] = $array_data->cbo_tipodoc;
         $pretramite['documento'] = $array_data->tipodoc;
         $pretramite['nro_folios'] = $array_data->numfolio;
-        //$pretramite['area_id'] = $array_data->idarea;
+        if($array_data->idarea){
+        $pretramite['area_id'] = $array_data->idarea;}
 /*        $pretramite['fecha_pretramite'] = date();*/
         $pretramite['usuario_created_at'] = Auth::user()->id;
         $pretramite->save();
@@ -139,12 +141,13 @@ class PretramiteController extends BaseController {
 		       	$tramite['pretramite_id'] = $pretramite->id;
 
 		        if($pretramite->empresa_id){
-		        	$tramite['empresa_id'] = $pretramite->empresa_id;      	
+		        	$tramite['empresa_id'] = $pretramite->empresa_id;  
+                                $tramite['persona_id'] = $pretramite->persona_id; 
 		        }else{
 		        	$tramite['persona_id'] = $pretramite->persona_id;
 		        }
-
-		        $tramite['area_id'] = $pretramite->area_id;
+                        if($pretramite->area_id){
+                        $tramite['area_id'] = $pretramite->area_id;}
 		        $tramite['clasificador_tramite_id'] = $pretramite->clasificador_tramite_id;
 		        $tramite['tipo_solicitante_id'] = $pretramite->tipo_solicitante_id;
 		        $tramite['tipo_documento_id'] = $pretramite->tipo_documento_id;
@@ -164,7 +167,7 @@ class PretramiteController extends BaseController {
                             WHERE area_id='".$tramite->area_id."' 
                             AND estado=1";
                     $area_interna=DB::select($sql);*/
-                    $clasificador = ClasificadorTramite::find($array_data->idclasitramite);
+                    $clasificador = ClasificadorTramite::find($array_data->idclasitramite);      
                     $ruta_flujo = RutaFlujo::find($clasificador->ruta_flujo_id);
                     $ruta_flujo_id = $ruta_flujo->id;
 		        	/* end get ruta flujo*/

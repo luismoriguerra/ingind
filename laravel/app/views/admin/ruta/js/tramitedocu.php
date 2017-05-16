@@ -116,6 +116,9 @@ $(document).ready(function() {
         }else if(tiposolicitante == 2){
             Bandeja.getEmpresasByPersona({'estado':1},ValidacionEmpresa);
         }
+        else {
+            alert("Seleccionar Tipo de Solicitante");
+        }
     });
 
     $(document).on('click', '#btnAgregarP', function(event) {
@@ -381,6 +384,8 @@ poblateData = function(tipo,data){
     /*  */
 
     if(tipo == 'empresa'){
+        document.querySelector('#txt_idarea').value=data.area_id;console.log(data);
+        document.querySelector('#txt_persona_id').value=data.persona_id;
         document.querySelector('#txt_idempresa').value=data.id;
         document.querySelector('#txt_ruc').value=data.ruc;
         document.querySelector('#txt_tipoempresa').value=data.tipo_id;
@@ -396,6 +401,8 @@ poblateData = function(tipo,data){
     }
 
     if(tipo== 'persona'){
+        document.querySelector('#txt_idarea').value=data.area_id;
+        document.querySelector('#txt_persona_id').value=data.id;
         document.querySelector('#txt_userdni2').value=data.dni;
         document.querySelector('#txt_usernomb2').value=data.nombre;
         document.querySelector('#txt_userapepat2').value=data.paterno;
@@ -408,7 +415,7 @@ poblateData = function(tipo,data){
     if(tipo== 'tramite'){
         document.querySelector('#txt_nombretramite').value=data.nombre;
         document.querySelector('#txt_idclasitramite').value=data.id;
-/*        document.querySelector('#txt_idarea').value=data.areaid;*/
+//        document.querySelector('#txt_idarea').value=data.areaid;
     }
 
 }
@@ -419,15 +426,21 @@ consultar = function(){
 
     var data = {};
     data.estado = 1;
-    if(busqueda){
-       data.buscar = busqueda.value;
-    }
-    if(tipotramite){
+    if( $("#cbo_tipotramite").val()!==""){
+        if(busqueda){
+        data.buscar = busqueda.value;
+        }
+        if(tipotramite){
         data.tipotra = tipotramite.value;
+        }
+        Bandeja.getClasificadoresTramite(data,HTMLClasificadores);
+        $(".rowArea").addClass('hidden');
+        $('#buscartramite').modal('show');
     }
-    Bandeja.getClasificadoresTramite(data,HTMLClasificadores);
-    $(".rowArea").addClass('hidden');
-    $('#buscartramite').modal('show');
+    else{
+       alert("Seleccione tipo de documento"); 
+    }
+    
 }
 
 HTMLClasificadores = function(data){

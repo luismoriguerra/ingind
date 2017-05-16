@@ -145,7 +145,7 @@ td, th{
                         <span class="btn btn-primary btn-sm" id="btnTipoSolicitante">BUSCAR TIPO SOLICITANTE</span>
                     </div>
 
-                    <div class="persona hidden">
+<!--                    <div class="persona hidden">
                       <div class="col-md-2">
                         <span>SELECCIONE PERSONA:</span>
                       </div>
@@ -170,7 +170,7 @@ td, th{
                       {{-- <div class="col-md-1">
                         <span class="btn btn-success btn-sm">Agregar Empresa <i class="glyphicon glyphicon-plus"></i></span>
                       </div> --}}
-                    </div>
+                    </div>-->
                 </div>
 
                 <div class="col-md-12" style="margin-top:10px">
@@ -198,6 +198,7 @@ td, th{
                           <input type="text" name="txt_nombretramite" id="txt_nombretramite" class="form-control" disabled>
                           <input type="hidden" name="txt_idclasitramite" id="txt_idclasitramite" class="form-control">
                           <input type="hidden" name="txt_idarea" id="txt_idarea" class="form-control">
+                          <input type="hidden" name="txt_persona_id" id="txt_persona_id">
                         </div>
                       </div>
                       <div class="col-md-5  form-group">
