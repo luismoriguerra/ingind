@@ -315,9 +315,9 @@ guardarTodo=function(){
     else if( $.trim($("#txt_codigo").val())==''){
         alert("Ingrese Nro Trámite");
     }
-    else if( $.trim($("#txt_referente").val())!='' && $("#txt_referente").val().length>50 ){
-        alert("Referencia supera el maximo de 50 caracteres, Revisar e ingresar solo el documento a referirse.");
-    }
+//    else if( $.trim($("#txt_referente").val())!='' && $("#txt_referente").val().length>50 ){
+//        alert("Referencia supera el maximo de 50 caracteres, Revisar e ingresar solo el documento a referirse.");
+//    }
     else if( $("#slct_tipo_persona").val()=='' ){
         alert("Seleccione Tipo Persona");
     }
@@ -795,9 +795,9 @@ guardarProcesoGestion = function(){
     else if( $.trim($("#txt_codigo2").val())==''){
         alert("Ingrese Nro Trámite");
     }
-    else if( $.trim($("#txt_referente2").val())!='' && $("#txt_referente2").val().length>50 ){
-        alert("Referencia supera el maximo de 50 caracteres, Revisar e ingresar solo el documento a referirse.");
-    }
+//    else if( $.trim($("#txt_referente2").val())!='' && $("#txt_referente2").val().length>50 ){
+//        alert("Referencia supera el maximo de 50 caracteres, Revisar e ingresar solo el documento a referirse.");
+//    }
     else if( $("#slct_tipo_persona2").val()=='' ){
         alert("Seleccione Tipo Persona");
     }
