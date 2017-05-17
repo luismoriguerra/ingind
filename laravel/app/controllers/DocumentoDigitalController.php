@@ -252,7 +252,7 @@ class DocumentoDigitalController extends \BaseController {
     {
         if ( Request::ajax() ) {
             $html = Input::get('word', '');
-
+            $html=str_replace('http://proceso.munindependencia.pe/', '', $html);
             $jefe = DB::table('personas')
              ->where(         
                         function($query){
@@ -321,6 +321,7 @@ class DocumentoDigitalController extends \BaseController {
     {
         if ( Request::ajax() ) {
             $html = Input::get('word', '');
+            $html=str_replace('http://proceso.munindependencia.pe/', '', $html);
             $jefe = DB::table('personas')
              ->where(         
                         function($query){
