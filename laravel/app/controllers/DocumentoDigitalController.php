@@ -151,7 +151,7 @@ class DocumentoDigitalController extends \BaseController {
                     if(Input::get('rutadetallev')==1){
                         $rdv = RutaDetalleVerbo::where('doc_digital_id','=',Input::get('id'))->get();
                         $s= Sustento::where('ruta_detalle_verbo_id','=',$rdv->id)->get();
-                        $s= Referido::where('ruta_detalle_id','=',$rdv->ruta_detalle_id)->get();
+                        $r= Referido::where('ruta_detalle_id','=',$rdv->ruta_detalle_id)->get();
                         
                         foreach ($rdv as $rutadetallev){
                         $rutadetallev->documento = Input::get('titulofinal');
@@ -162,8 +162,8 @@ class DocumentoDigitalController extends \BaseController {
                         $sustento->save();
                         }
                         foreach ($r as $referido){
-                        $sustento->referido = Input::get('titulofinal');
-                        $sustento->save();
+                        $referido->referido = Input::get('titulofinal');
+                        $referido->save();
                         }
                     }
             }
