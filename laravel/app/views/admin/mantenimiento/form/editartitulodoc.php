@@ -27,7 +27,7 @@
                           <label id="lblArea" style="margin-top:5px;">-MDI</label>
                       </div>                      
                     </div>
-                    <input type="text" id="txt_titulofinal" name="txt_titulofinal" value="">
+                    <input type="hidden" id="txt_titulofinal" name="txt_titulofinal" value="">
                 </div>
 <!--          <div class="form-group">
             <label class="control-label">Comentario:

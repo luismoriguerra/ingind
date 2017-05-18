@@ -48,7 +48,7 @@ $(document).ready(function() {
       var modal = $(this); //captura el modal
       modal.find('.modal-title').text('Editar Título');
       $('#form_titulos_modal [data-toggle="tooltip"]').css("display","none");
-      $("#form_titulos_modal input[type='hidden']").remove();
+//      $("#form_titulos_modal input[type='hidden']").remove();
 
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','EditarTitulo();');
