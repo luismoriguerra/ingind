@@ -37,19 +37,13 @@ $(document).ready(function() {
       var id = button.data('id'); // extrae del atributo data-
 
         var titulo = documento.split("-");
-        var titulofinal= documento.split(titulo[2]+"-");
-
         document.querySelector("#lblDocumento").innerHTML= titulo[0]+"- Nº ";
-        if( tipo_envio==3 ||  tipo_envio==5){
-            SiglasArea= $.trim( titulofinal[1].split(titulofinal[1].split("-")[0]+"-")[1] );
-            document.querySelector("#lblArea").innerHTML= " -"+titulo[2]+"- "+$.trim(titulo[3])+" -"+titulo[4];
+        $('#form_titulos_modal #txt_titulo').val($.trim($.trim( titulo[1] ).substring(2)));
+        var area=' ';
+        for(i=2;i<titulo.length;i++){
+            area+="-"+titulo[i];
         }
-        else{
-            SiglasArea= $.trim( titulofinal[1] ); 
-            document.querySelector("#lblArea").innerHTML= " -"+titulo[2]+"- "+$.trim(titulo[3]);
-        }
-        var tnombre= $.trim($.trim( titulo[1] ).substring(2));
-       $('#form_titulos_modal #txt_titulo').val(tnombre);
+        document.querySelector("#lblArea").innerHTML=area;    
         
       var modal = $(this); //captura el modal
       modal.find('.modal-title').text('Editar Título');
