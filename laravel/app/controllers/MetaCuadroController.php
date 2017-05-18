@@ -442,7 +442,9 @@ class MetaCuadroController extends \BaseController {
                 $docid = Input::get('doc_id');
                 $avance_id=Input::get('avance_id');
                 $tipo_avance=Input::get('tipo_avance');
-                
+                if (Input::has("fecha_id")) {
+                    $fecha_id = Input::get("fecha_id");
+                }
            
                 for ($i=0; $i < count($length); $i++) {
 
@@ -450,6 +452,7 @@ class MetaCuadroController extends \BaseController {
                     $archivo->avance_id = $avance_id[$i];
                     $archivo->tipo_avance = $tipo_avance[$i];
                     $archivo->doc_digital_id = $docid[$i];
+                    $archivo->fecha_id=$fecha_id[$i];
                     $archivo->usuario_created_at = Auth::user()->id;
                     $archivo->save();
                 }
@@ -486,7 +489,9 @@ class MetaCuadroController extends \BaseController {
                 $nombre = Input::get('pago_nombre');
                 $avance_id=Input::get('avance_id');
                 $tipo_avance=Input::get('tipo_avance');
-                
+                if (Input::has("fecha_id")) {
+                    $fecha_id = Input::get("fecha_id");
+                }
                 $file = Input::get('pago_archivo');
                 
                 for ($i=0; $i < count($length); $i++) {
@@ -498,6 +503,7 @@ class MetaCuadroController extends \BaseController {
                     $archivo->avance_id = $avance_id[$i];
                     $archivo->tipo_avance = $tipo_avance[$i];
                     $archivo->ruta = $ruta;
+                    $archivo->fecha_id=$fecha_id[$i];
                     $archivo->usuario_created_at = Auth::user()->id;
                     $archivo->save();
                 }

@@ -1,6 +1,10 @@
 <script type="text/javascript">
     var Pest=1;
     var Cuadro = {fecha_actual: ""}; // Datos Globales
+    var arr_fecha = ["01-01", "01-15","02-01", "02-15","03-01", "03-15","04-01", "04-15","05-01", "05-15","06-01", "06-15",
+                     "07-01", "07-15","08-01", "08-15","09-01", "09-15","10-01", "10-15","11-01", "11-15","12-01", "12-15",
+                     "01-01", "01-15","02-01", "02-15","03-01", "03-15","04-01", "04-15","05-01", "05-15","06-01", "06-15",
+                     "07-01", "07-15","08-01", "08-15","09-01", "09-15","10-01", "10-15","11-01", "11-15","12-01", "12-15"];
     $(document).ready(function () {
 
         var datos = {estado: 1,cuadro:1};
@@ -26,8 +30,9 @@
             var id = $.trim(button.data('id'));
             var avance_id = $.trim(button.data('avanceid'));
             var tipo_id = $.trim(button.data('tipoid'));
+            var fecha_id = $.trim(button.data('fechaid'));
             var form = $.trim(button.data('form'));
-            var camposP = {'nombre': text, 'id': id, 'avance_id': avance_id, 'form': form, 'tipo_id': tipo_id};
+            var camposP = {'nombre': text, 'id': id, 'avance_id': avance_id, 'form': form, 'tipo_id': tipo_id, 'fecha_id': fecha_id};
             Usuario.Cargar(HTMLCargar, camposP);
         });
 
@@ -136,6 +141,33 @@
         $("#t_marchivo" + cont4).append(html);
 
     };
+    var aq = 0;
+    AgregarQ = function (cont4_1, avance_id,fecha_id) {
+        aq++;
+        var html = '';
+        html += "<tr>" +
+                "<td>#" +
+                "<input type='hidden' name='tipo_avance[]' id='tipo_avance' value='5'>" +
+                "<input type='hidden' name='fecha_id[]' id='fecha_id' value='"+fecha_id+"'>" +
+                "<input type='hidden' name='avance_id[]' id='avance_id' value='" + avance_id + "'></td> " +
+                "<td>";
+        html += '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre' + aq + '""  name="pago_nombre[]" value="">' +
+                '<input type="text" style="display: none;" id="pago_archivo' + aq + '" name="pago_archivo[]">' +
+                '<label class="btn btn-default btn-flat margin btn-xs">' +
+                '<i class="fa fa-file-pdf-o fa-lg"></i>' +
+                '<i class="fa fa-file-word-o fa-lg"></i>' +
+                '<i class="fa fa-file-image-o fa-lg"></i>' +
+                '<input type="file" style="display: none;" onchange="onPagos(event,' + aq + ',\'#t_qarchivo' + cont4_1 + '\');" >' +
+                '</label>';
+        html += "</td>" +
+                '<td><a id="btnDelete"  name="btnDelete" class="btn btn-danger btn-xs btnDelete">' +
+                '<i class="fa fa-trash fa-lg"></i>' +
+                '</a></td>';
+        html += "</tr>";
+
+        $("#t_qarchivo" + cont4_1).append(html);
+
+    };
 
     HTMLreporte = function (datos) {
         var html = "";
@@ -150,6 +182,7 @@
         a2 = 1;
         b1 = 1;
         c1 = 1;
+        n2 = 1;
 
         aux_meta_id = '';
         aux_meta_cuadro_id = '';
@@ -157,6 +190,7 @@
         aux_id_p = '';
 
         aux_meta_id1 = '';
+        aux_meta_id2 = '';
         aux_meta_cuadro_id1 = '';
         aux_meta_cuadro_id2 = '';
         aux_id_d1 = '';
@@ -167,6 +201,7 @@
         cont3 = 0;
         cont3_1 = 0;
         cont4 = 0;
+        cont4_1 = 0;
         $.each(datos, function (index, data) {
 
             html += '<tr>';
@@ -216,7 +251,165 @@
             } else {
                 c++;
             }
+            
+            if (aux_meta_id2 !== data.meta_id) {
+                aux_meta_id2 = data.meta_id;
+                if (index > 0) {
+                    html = html.replace("rowspann2", "rowspan='" + n2 + "'");
+                }
+                cont4_1++;
+                html += '<td rowspann2 >'
+//        if( data.d_p==null && data.pf>=Cuadro.fecha_actual){
+                html+= '<div>';
+                var di=data.pf_pa.split('-');
+                var df=data.mf_me.split('-');
+                if(di[2]<=15){
+                    var did='15';
+                    var dim=di[1];
+                    var dia=di[0];
+                }else { 
+                    did='01'; 
+                    if(di[1]==12){ 
+                        var dia=parseInt(di[0])+1;
+                        dim='01';
+                    }else {
+                        dim=pad((parseInt(di[1])+1),2); 
+                        var dia=di[0];
+                         }
+                      }
+                if(df[2]<=15){
+                    var dfa=df[0];
+                    var dfd='01';
+                    var dfm=df[1];
+                }else {
+                    var dfa=df[0];
+                    var dfd='15';
+                    var dfm=df[1];
+                }
+                if(df[0]!=di[0]){
+                    var pi = arr_fecha.indexOf(dim+'-'+did);
+                    var pf = arr_fecha.indexOf(dfm+'-'+dfd,arr_fecha.indexOf(dfm+'-'+dfd)+1);
+                }else {
+                     pi = arr_fecha.indexOf(dim+'-'+did);
+                     pf = arr_fecha.indexOf(dfm+'-'+dfd);
+                      }
+                
+                for (j = pi; j <= pf; j++) {
+                    if(j<=23){ var anio=dia;} else { var anio=dfa;}
+                    var d = Date.parse(anio+"-"+arr_fecha[j]+" 00:00:00 GMT") / 1000;       
+                    html+=  '<form name="form_qarchivo' + cont4_1 +j+ '" id="form_qarchivo' + cont4_1 +j+ '" enctype=”multipart/form-data”>' +
+                        '<table id="t_qarchivo' + cont4_1 +j+'" class="table table-bordered">' +
+                        '<thead class="bg-aqua disabled color-palette">' +
+                        '<tr>' +
+                        '<th>N°</th>' +
+                        '<th>Archivo<br>'+anio+"-"+arr_fecha[j]+'</th>';
+                if (anio+"-"+arr_fecha[j] >= Cuadro.fecha_actual) {    
+                    html+= '<th><a class="btn btn-default btn-xs"' +
+                        'onclick="AgregarQ(' + cont4_1+j+ ',' + data.meta_id + ',' + d + ')"><i class="fa fa-plus fa-lg"></i></a></th>';
+                 }
+                    html+= ' </tr>' +
+                        ' </thead>' +
+                        ' <tbody id="tb_qarchivo' + cont4_1 +j+ '">';
+                if (data.a_q != null) {
+                    var a_q = data.a_q.split('|');
+                    var a_q_nombre = a_q[0].split(',');
+                    var a_q_id = a_q[1].split(',');
+                    var a_q_fechaid = a_q[2].split(',');
+                    pos_aq = 1;
+                    for (i = 0; i < a_q_nombre.length; i++) {
+                        if(a_q_fechaid[i]==d){
+                        var nombre = a_q_nombre[i].split('/');
+                        html += "<tr>" +
+                                "<td>" + pos_aq + "<input type='hidden' name='c_id[]' id='c_id' value='" + a_q_id[i] + "'></td></td> " +
+                                "<td><a target='_blank' href='file/meta/" + a_q_nombre[i] + "'>" + nombre[1] + "</a></td>";
+                        if (anio+"-"+arr_fecha[j] >= Cuadro.fecha_actual) {
+                        html+='<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="Eliminar(\'' + a_q_id[i] + '\',\'' + nombre[0] + '\',\'' + nombre[1] + '\',this)">' +
+                                '<i class="fa fa-trash fa-lg"></i>' +
+                                '</a></td>';
+                        }
+                        html += "</tr>";
+                        pos_aq++;
+                        }
+                    }
+                }
+                html += ' </tbody>' +
+                        '</table>' +
+                        '</form>';
+            if (anio+"-"+arr_fecha[j] >= Cuadro.fecha_actual) {  
+                html += '<a class="btn btn-default btn-xs" id="guardar"  style="width: 100%;margin-top:10px;margin-bottom:10px" onClick="Guardar(\'#form_qarchivo' + cont4_1 +j+ '\')">' +
+                        '<i class="fa fa-save fa-lg">    </i>&nbsp;Guardar' +
+                        '</a>';
+            }else {
+                    html += '<br>';
+                  }
+              }
+  
 
+
+                html += '</div>';
+//        }                      
+//        if( data.d_p==null && data.pf>=Cuadro.fecha_actual){
+                html += '<div>' ;
+                for (j = pi; j <= pf; j++) {
+                    if(j<=23){ var anio=dia;} else { var anio=dfa;}
+                    var d = Date.parse(anio+"-"+arr_fecha[j]+" 00:00:00 GMT") / 1000;  
+                html +='<form name="form_qdocumento' + cont4_1 +j+ '" id="form_qdocumento' + cont4_1 +j+ '" enctype=”multipart/form-data”>' +
+                        '<table id="t_qdocumento' + cont4_1 +j+ '" class="table table-bordered" >' +
+                        '<thead class="bg-teal disabled color-palette">' +
+                        '<tr>' +
+                        '<th>N°</th>' +
+                        '<th>Documento<br>'+anio+"-"+arr_fecha[j]+'</th>';
+                if (anio+"-"+arr_fecha[j] >= Cuadro.fecha_actual) {
+                    html += '<th><span class="btn btn-default btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="5" data-form="#t_qdocumento' + cont4_1 +j+ '" data-avanceid="' + data.meta_id + '" data-fechaid="' + d + '" data-id="txt_doc_digital_id">' +
+                            '<i class="glyphicon glyphicon-file"></i>' +
+                            '</span></th>';
+                }
+                html += ' </tr>' +
+                        ' </thead>' +
+                        ' <tbody id="tb_adocumento' + cont4_1 +j+ '">';
+                if (data.d_q != null) {
+                    var d_q = data.d_q.split('|');
+                    var d_q_nombre = d_q[0].split(',');
+                    var d_q_id = d_q[1].split(',');
+                    var d_q_doc_digital_id = d_q[2].split(',');
+                    var d_q_fechaid = d_q[3].split(',');
+                    pos_aq = 1;
+                    for (i = 0; i < d_q_nombre.length; i++) {
+                        if(d_q_fechaid[i]==d){    
+                        html += "<tr>" +
+                                "<td>" + pos_aq + "<input type='hidden' name='c_id[]' id='c_id' value='" + d_q_id[i] + "'></td></td> " +
+                                "<td><a target='_blank' href='documentodig/vista/" + d_q_doc_digital_id[i] + "/4/1'>" + d_q_nombre[i] + "</a></td>" ;
+                        if (anio+"-"+arr_fecha[j] >= Cuadro.fecha_actual) {
+                        html += '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\'' + d_q_id[i] + '\',this)">' +
+                                '<i class="fa fa-trash fa-lg"></i>' +
+                                '</a></td>';
+                        }
+                        html += "</tr>";
+                        pos_aq++;
+                    }
+                    }
+                }
+
+                html += ' </tbody>' +
+                        '</table>' +
+                        '</form>';
+                if (anio+"-"+arr_fecha[j] >= Cuadro.fecha_actual) {
+                    html += '<a class="btn btn-default btn-xs" id="guardar"  style="width: 100%;margin-top:10px;margin-bottom:10px;" onClick="GuardarDoc(\'#form_qdocumento' + cont4_1 +j+'\')">' +
+                            '<i class="fa fa-save fa-lg"></i>&nbsp;Guardar' +
+                            '</a>';
+                }else {
+                    html += '<br>';
+                  } 
+                }
+
+                    
+                html += '</div>';
+//                    }
+                html +='</td>';
+                n2 = 1;
+            } else {
+                n2++;
+            }
             if (aux_id_p1 !== data.id_p) {
                 aux_id_p1 = data.id_p;
                 if (index > 0) {
@@ -300,7 +493,7 @@
 
                         html += "<tr>" +
                                 "<td>" + pos_ap + "<input type='hidden' name='c_id[]' id='c_id' value='" + d_p_id[i] + "'></td></td> " +
-                                "<td><a target='_blank' href='documentodig/vista/" + d_p_doc_digital_id[i] + "/4/0'>" + d_p_nombre[i] + "</a></td>";
+                                "<td><a target='_blank' href='documentodig/vista/" + d_p_doc_digital_id[i] + "/4/1'>" + d_p_nombre[i] + "</a></td>";
                         if (data.pf >= Cuadro.fecha_actual) {
                         html += '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\'' + d_p_id[i] + '\',this)">' +
                                 '<i class="fa fa-trash fa-lg"></i>' +
@@ -407,7 +600,7 @@
 
                         html += "<tr>" +
                                 "<td>" + pos_d + "<input type='hidden' name='c_id[]' id='c_id' value='" + d_d_id[i] + "'></td></td> " +
-                                "<td><a target='_blank' href='documentodig/vista/" + d_d_doc_digital_id[i] + "/4/0'>" + d_d_nombre[i] + "</a></td>" ;
+                                "<td><a target='_blank' href='documentodig/vista/" + d_d_doc_digital_id[i] + "/4/1'>" + d_d_nombre[i] + "</a></td>" ;
                         if (data.df >= Cuadro.fecha_actual) {
                         html += '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\'' + d_d_id[i] + '\',this)">' +
                                 '<i class="fa fa-trash fa-lg"></i>' +
@@ -514,7 +707,7 @@
 
                         html += "<tr>" +
                                 "<td>" + pos_a + "<input type='hidden' name='c_id[]' id='c_id' value='" + d_a_id[i] + "'></td></td> " +
-                                "<td><a target='_blank' href='documentodig/vista/" + d_a_doc_digital_id[i] + "/4/0'>" + d_a_nombre[i] + "</a></td>" ;
+                                "<td><a target='_blank' href='documentodig/vista/" + d_a_doc_digital_id[i] + "/4/1'>" + d_a_nombre[i] + "</a></td>" ;
                         if (data.af >= Cuadro.fecha_actual) {
                         html += '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\'' + d_a_id[i] + '\',this)">' +
                                 '<i class="fa fa-trash fa-lg"></i>' +
@@ -535,7 +728,7 @@
                 } 
                 html += '</div>';
 //                    }
-                        '</td>';
+                 html +=  '</td>';
                 a1 = 1;
             } else {
                 a1++;
@@ -681,7 +874,7 @@
 
                         html += "<tr>" +
                                 "<td>" + pos_m + "<input type='hidden' name='c_id[]' id='c_id' value='" + d_m_id[i] + "'></td></td> " +
-                                "<td><a target='_blank' href='documentodig/vista/" + d_m_doc_digital_id[i] + "/4/0'>" + d_m_nombre[i] + "</a></td>" ;
+                                "<td><a target='_blank' href='documentodig/vista/" + d_m_doc_digital_id[i] + "/4/1'>" + d_m_nombre[i] + "</a></td>" ;
                         if (data.mf >= Cuadro.fecha_actual) {
                         html += '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\'' + d_m_id[i] + '\',this)">' +
                                 '<i class="fa fa-trash fa-lg"></i>' +
@@ -719,7 +912,8 @@
         html = html.replace(/rowspanb1/g, "rowspan='" + b1 + "'");
         html = html.replace("rowspana1", "rowspan='" + a1 + "'");
         html = html.replace("rowspana2", "rowspan='" + a2 + "'");
-        html = html.replace("rowspann1", "rowspan='" + n + "'");
+        html = html.replace("rowspann1", "rowspan='" + n1 + "'");
+        html = html.replace("rowspann2", "rowspan='" + n2 + "'");
 
         $("#tb_reporte").html(html);
         $("#reporte").show();
@@ -786,6 +980,7 @@
         var c_id = campos.id;
         var c_avance_id = campos.avance_id;
         var c_tipo_id = campos.tipo_id;
+        var c_fecha_id = campos.fecha_id;
         var c_form = campos.form;
 
         console.log(datos);
@@ -803,8 +998,8 @@
             html += "<td>" + data.asunto + "</td>";
             html += "<td>" + data.plantilla + "</td>";
             if ($.trim(data.ruta) != 0 || $.trim(data.rutadetallev) != 0) {
-                html += "<td><a class='btn btn-success btn-sm' c_tipo_id='" + c_tipo_id + "' c_avance_id='" + c_avance_id + "' c_form='" + c_form + "' c_text='" + c_text + "' c_id='" + c_id + "'  id='" + data.id + "' title='" + data.titulo + "' onclick='SelectDocDig(this)'><i class='glyphicon glyphicon-ok'></i> </a></td>";
-                html += "<td><a class='btn btn-primary btn-sm' id='" + data.id + "' onclick='openPlantilla(this,0,4,0)'><i class='fa fa-eye'></i> </a></td>";
+                html += "<td><a class='btn btn-success btn-sm' c_fecha_id='" + c_fecha_id + "' c_tipo_id='" + c_tipo_id + "' c_avance_id='" + c_avance_id + "' c_form='" + c_form + "' c_text='" + c_text + "' c_id='" + c_id + "'  id='" + data.id + "' title='" + data.titulo + "' onclick='SelectDocDig(this)'><i class='glyphicon glyphicon-ok'></i> </a></td>";
+                html += "<td><a class='btn btn-primary btn-sm' id='" + data.id + "' onclick='openPlantilla(this,0,4,1)'><i class='fa fa-eye'></i> </a></td>";
             } else {
                 html += "<td></td>";
                 html += "<td></td>";
@@ -821,6 +1016,7 @@
         var form = obj.getAttribute('c_form');
         var avance_id = obj.getAttribute('c_avance_id');
         var tipo_id = obj.getAttribute('c_tipo_id');
+        var fecha_id = obj.getAttribute('c_fecha_id');
         $("#listDocDigital").modal('hide');
 //	$("#"+obj.getAttribute('c_text')).val(nombre);
 //	$("#"+obj.getAttribute('c_id')).val(id);
@@ -828,6 +1024,7 @@
         var html = '';
         html += "<tr>" +
                 "<td>#" +
+                "<input type='hidden' name='fecha_id[]' id='fecha_id' value='"+fecha_id+"'>" +
                 "<input type='hidden' name='tipo_avance[]' id='tipo_avance' value='" + tipo_id + "'>" +
                 "<input type='hidden' name='avance_id[]' id='avance_id' value='" + avance_id + "'></td></td> " +
                 "<input type='hidden' name='doc_id[]' id='doc_id' value='" + id + "'></td></td> " +
@@ -984,4 +1181,18 @@ HTMLreported=function(datos){
     $("#reported_tab_"+Pest).show();
 };
 
+CalcularMeses= function(inicio,fin){
+
+  aF1 = inicio.split("-");
+  aF2 = fin.split("-");
+  var a_f=aF2[0]*1;
+  var m_f=aF2[1]*1;
+  var a_i=aF1[0]*1;
+  var m_i=aF1[1]*1;
+  numMeses = a_f*12 + m_f - (a_i*12 + m_i);
+  if (aF2[2]<aF1[2]){
+    numMeses = numMeses - 1;
+  }
+ return numMeses;
+};
 </script>

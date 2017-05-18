@@ -68,10 +68,15 @@ class MetaCuadro extends Base
 			 FROM metas_archivo ma
 			 WHERE  ma.tipo_avance=1 AND ma.avance_id=m.id AND ma.estado=1
                          GROUP BY ma.avance_id) as a_m,
-			(SELECT CONCAT_WS('|',GROUP_CONCAT(ma.ruta),GROUP_CONCAT(ma.id))
+			(SELECT CONCAT_WS('|',GROUP_CONCAT(ma.ruta),GROUP_CONCAT(ma.id),GROUP_CONCAT(ma.fecha_id))
 			 FROM metas_archivo ma
 			 WHERE  ma.tipo_avance=5 AND ma.avance_id=m.id AND ma.estado=1
                          GROUP BY ma.avance_id) as a_q,
+			(SELECT CONCAT_WS('|',GROUP_CONCAT(dd.titulo),GROUP_CONCAT(md.id),GROUP_CONCAT(md.doc_digital_id),GROUP_CONCAT(md.fecha_id))
+			 FROM metas_docdigital md
+			 INNER JOIN doc_digital dd ON md.doc_digital_id=dd.id
+			 WHERE  md.tipo_avance=5 AND md.avance_id=m.id AND md.estado=1
+			 GROUP BY md.avance_id) as d_q,
                         (SELECT CONCAT_WS('|',GROUP_CONCAT(dd.titulo),GROUP_CONCAT(md.id),GROUP_CONCAT(md.doc_digital_id))
 			 FROM metas_docdigital md
 			 INNER JOIN doc_digital dd ON md.doc_digital_id=dd.id

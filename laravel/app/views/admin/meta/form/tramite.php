@@ -16,8 +16,8 @@
 
                             </form>
                             <form id="form_tramite" name="form_tramite" method="POST" action="">
-                                <div class="box-body table-responsive">
-                                    <table id="t_tramite" class="table table-bordered table-striped">
+                                <div class="box-body table-responsive" style="overflow: auto; height: 388px; width: 100%;">
+                                    <table id="t_tramite" class="table table-bordered no-footer dataTable">
                                         <thead id="tt_tramite">
                                             <tr>
                                                 <th>Trámite</th>
