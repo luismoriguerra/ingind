@@ -57,23 +57,23 @@
                             <table id="t_reporte" class="table table-bordered2" >
                                 <thead>
                                     <tr>
-                                        <th colspan="4" style="text-align:center; background-color:#FCD790; width: 30% !important;">Meta</th>
-                                        <th colspan="2" style="text-align:center; background-color:#F5DF9D; width: 30% !important;">Plan de Trabajo</th>
-                                        <th colspan="6" style="text-align:center; background-color:#DEFAFA; width: 40% !important;">Avances</th>
+                                        <th colspan="4" style="text-align:center; background-color:#FCD790; width: 30%;">Meta</th>
+                                        <th colspan="2" style="text-align:center; background-color:#F5DF9D; width: 30%;">Plan de Trabajo</th>
+                                        <th colspan="6" style="text-align:center; background-color:#DEFAFA; width: 40%;">Avances</th>
                                     </tr>
                                     <tr>
-                                        <th style="text-align:center;background-color:#FCD790; width: 5% !important;">Meta</th>
-                                        <th style="text-align:center;background-color:#FCD790; width: 10% !important;">Actividad</th>
-                                        <th style="text-align:center;background-color:#FCD790; width: 20% !important;">Descripción</th>
-                                        <th style="text-align:center;background-color:#FCD790; width: 5% !important;">Fecha</th>
-                                        <th style="text-align:center;background-color:#F5DF9D; width: 20% !important;">Paso</th>
-                                        <th style="text-align:center;background-color:#F5DF9D; width: 5% !important;">Fecha</th>
-                                        <th style="text-align:center;background-color:#DEFAFA; width: 10% !important;">Informe Quincenal</th>
-                                        <th style="text-align:center;background-color:#DEFAFA; width: 10% !important;">Avance de Paso</th>
-                                        <th style="text-align:center;background-color:#DEFAFA; width: 10% !important;">Avance de Descripción</th>
-                                        <th style="text-align:center;background-color:#DEFAFA; width: 10% !important;">Avance de Actividad</th>
-                                        <th style="text-align:center;background-color:#DEFAFA; width: 10% !important;">Proceso</th>
-                                        <th style="text-align:center;background-color:#DEFAFA; width: 5% !important;">Avance de Meta</th>
+                                        <th style="text-align:center;background-color:#FCD790; width: 10%;">Meta</th>
+                                        <th style="text-align:center;background-color:#FCD790; width: 10%;">Actividad</th>
+                                        <th style="text-align:center;background-color:#FCD790; width: 20%;">Descripción</th>
+                                        <th style="text-align:center;background-color:#FCD790; width: 5%;">Fecha</th>
+                                        <th style="text-align:center;background-color:#F5DF9D; width: 20%;">Paso</th>
+                                        <th style="text-align:center;background-color:#F5DF9D; width: 5%;">Fecha</th>
+                                        <th style="text-align:center;background-color:#DEFAFA; width: 10%;">Informe Quincenal</th>
+                                        <th style="text-align:center;background-color:#DEFAFA; width: 10%;">Avance de Paso</th>
+                                        <th style="text-align:center;background-color:#DEFAFA; width: 10%;">Avance de Descripción</th>
+                                        <th style="text-align:center;background-color:#DEFAFA; width: 10%;">Avance de Actividad</th>
+                                        <th style="text-align:center;background-color:#DEFAFA; width: 10%;">Proceso</th>
+                                        <th style="text-align:center;background-color:#DEFAFA; width: 5%;">Avance de Meta</th>
                                       
                                     </tr>
                                 </thead>

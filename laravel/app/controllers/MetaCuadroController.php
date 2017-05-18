@@ -442,7 +442,7 @@ class MetaCuadroController extends \BaseController {
                 $docid = Input::get('doc_id');
                 $avance_id=Input::get('avance_id');
                 $tipo_avance=Input::get('tipo_avance');
-                if (Input::has("fecha_id")) {
+                if (Input::has("fecha_id") ) {
                     $fecha_id = Input::get("fecha_id");
                 }
            
@@ -452,7 +452,8 @@ class MetaCuadroController extends \BaseController {
                     $archivo->avance_id = $avance_id[$i];
                     $archivo->tipo_avance = $tipo_avance[$i];
                     $archivo->doc_digital_id = $docid[$i];
-                    $archivo->fecha_id=$fecha_id[$i];
+                    if (Input::has("fecha_id")) {
+                    $archivo->fecha_id=$fecha_id[$i];}
                     $archivo->usuario_created_at = Auth::user()->id;
                     $archivo->save();
                 }
@@ -503,7 +504,8 @@ class MetaCuadroController extends \BaseController {
                     $archivo->avance_id = $avance_id[$i];
                     $archivo->tipo_avance = $tipo_avance[$i];
                     $archivo->ruta = $ruta;
-                    $archivo->fecha_id=$fecha_id[$i];
+                     if (Input::has("fecha_id")) {
+                     $archivo->fecha_id=$fecha_id[$i];}
                     $archivo->usuario_created_at = Auth::user()->id;
                     $archivo->save();
                 }

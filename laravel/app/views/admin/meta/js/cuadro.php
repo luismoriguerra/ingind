@@ -1023,9 +1023,11 @@
 
         var html = '';
         html += "<tr>" +
-                "<td>#" +
-                "<input type='hidden' name='fecha_id[]' id='fecha_id' value='"+fecha_id+"'>" +
-                "<input type='hidden' name='tipo_avance[]' id='tipo_avance' value='" + tipo_id + "'>" +
+                "<td>#" ;
+        if(tipo_id==5){
+          html += "<input type='hidden' name='fecha_id[]' id='fecha_id' value='"+fecha_id+"'>" ;  
+        }
+        html += "<input type='hidden' name='tipo_avance[]' id='tipo_avance' value='" + tipo_id + "'>" +
                 "<input type='hidden' name='avance_id[]' id='avance_id' value='" + avance_id + "'></td></td> " +
                 "<input type='hidden' name='doc_id[]' id='doc_id' value='" + id + "'></td></td> " +
                 "<td>";
