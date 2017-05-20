@@ -1,6 +1,7 @@
 <?php
 $personat=Auth::user()->nombre." ".Auth::user()->paterno." ".Auth::user()->materno;
 $dpersonat=explode(" ",$personat);
+$aniot=date("Y");
 $siglast="";
 
     for ($i=0; $i < count($dpersonat); $i++) { 
@@ -13,6 +14,7 @@ $siglast="";
   var Documento={tipo_documento_id:0,tipoenvio:0,csigla:0,area_id:0};  
   var SiglasArea='';
   var SiglasPersona='<?php echo $siglast; ?>'; 
+  var AnioG='<?php echo $aniot; ?>';
   var CrearEditar=1;
   var MostrarOcultarModal=1;
   var MostrarOcultarModalfecha=1;
@@ -59,18 +61,18 @@ $(document).ready(function() {
         if(CrearEditar==1){
             if(Documento.csigla!=0){
                 if($(this).val()==3 || $(this).val()==5){
-                     document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+SiglasPersona+" - "+SiglasArea;
+                     document.querySelector("#lblArea").innerHTML= " - "+AnioG+" - "+SiglasPersona+" - "+SiglasArea;
                      Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':1},HTMLCargarCorrelativo);
                      } 
 
                 else {
-                    document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+SiglasArea;
+                    document.querySelector("#lblArea").innerHTML= " - "+AnioG+" - "+SiglasArea;
                     Plantillas.CargarCorrelativo({'area_id':Documento.area_id,'tipo_doc':Documento.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo);
                      }         
             }
             else {
                 
-                 document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+"MDI";
+                 document.querySelector("#lblArea").innerHTML= " - "+AnioG+" - "+"MDI";
                  Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':0},HTMLCargarCorrelativo); 
             }
         }
@@ -228,16 +230,16 @@ HTMLPlantilla = function(data){
 
             if(result.csigla!=0){
                     if( Documento.tipoenvio==3  || Documento.tipoenvio==5){
-                    document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+SiglasPersona+" - "+SiglasArea;
+                    document.querySelector("#lblArea").innerHTML= " - "+AnioG+" - "+SiglasPersona+" - "+SiglasArea;
                     Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':1},HTMLCargarCorrelativo);
                     }
                     else {
-                    document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+SiglasArea;
+                    document.querySelector("#lblArea").innerHTML= " - "+AnioG+" - "+SiglasArea;
                     Plantillas.CargarCorrelativo({'area_id':Documento.area_id,'tipo_doc':Documento.tipo_documento_id,'tipo_corre':2},HTMLCargarCorrelativo);
                     }
                               }
             else{
-                  document.querySelector("#lblArea").innerHTML= " - "+new Date().getFullYear()+" - "+"MDI";
+                  document.querySelector("#lblArea").innerHTML= " - "+AnioG+" - "+"MDI";
                   Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':0},HTMLCargarCorrelativo); 
 
             }
