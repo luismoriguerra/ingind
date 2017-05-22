@@ -14,6 +14,12 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group padding-10">
+                                    <label class="control-label">Persona:</label>
+                                    <input type="hidden" id='txt_persona_id2' name='txt_persona_id2'  class="form-control">
+                                    <input type="text" id='txt_persona2' name='txt_persona2' readonly="" class="form-control">
+                                    <input class="btn btn-sm btn-primary" type="button" value='Buscar' id="btnSeleccionarPersona">
+                                </div>
+                                   <div class="form-group padding-10">
                                     <label class="control-label">Ruc:</label>
                                     <input type="text" id="txt_ruc2" name="txt_ruc2" maxlength="11" class="form-control pull-right" placeholder="Ruc:" autocomplete="off">
                                 </div>

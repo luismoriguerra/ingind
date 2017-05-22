@@ -30,7 +30,7 @@ $(document).ready(function() {
     slctGlobal.listarSlct2('rol','slct_rol_modal',data);
     slctGlobal.listarSlct2('verbo','slct_verbo_modal',data);
     slctGlobal.listarSlct2('documento','slct_documento_modal',data);
-             $('#rutaModal').on('show.bs.modal', function (event) {
+    $('#rutaModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
       var text = $.trim( button.data('text') );
       var id= $.trim( button.data('id') );
@@ -109,7 +109,7 @@ $(document).ready(function() {
     });
 
 
-      $(document).on('click', '#btnTipoSolicitante', function(event) {
+    $(document).on('click', '#btnTipoSolicitante', function(event) {
         var tiposolicitante = $("#cbo_tiposolicitante").val();
         if(tiposolicitante == 1){
             Bandeja.GetPersons({'apellido_nombre':1},HTMLPersonas);
@@ -127,9 +127,17 @@ $(document).ready(function() {
         /* Act on the event */
     });
 
-     $(document).on('click', '#btnAgregarEmpresa', function(event) {
+    $(document).on('click', '#btnAgregarEmpresa', function(event) {
         $("#empresasbyuser").modal('hide');
         $("#crearEmpresa").modal('show');
+        /* Act on the event */
+    });
+    
+    $(document).on('click', '#btnSeleccionarPersona', function(event) {
+//        $("#crearEmpresa").modal('hide');
+        
+        $("#selectPersona").modal('show');
+        Bandeja.GetPersons({'apellido_nombre':1},HTMLPersonas);
         /* Act on the event */
     });
 
@@ -139,7 +147,7 @@ $(document).ready(function() {
         window.scrollTo(0,document.body.scrollHeight);
     });
     
-     $('#buscartramite').on('hide.bs.modal', function (event) {
+    $('#buscartramite').on('hide.bs.modal', function (event) {
 //      var modal = $(this); //captura el modal
 //      $("#form_ruta_tiempo input[type='hidden']").remove();
 //      $("#form_ruta_verbo input[type='hidden']").remove();
@@ -370,8 +378,8 @@ selectUser = function(obj){
     }else{
         alert('Seleccione persona');
     }
-}
-   
+    }
+
 poblateData = function(tipo,data){
 /*    if(tipo == 'usuario'){*/
      /*   var result = JSON.parse(DataUser);*/
@@ -384,7 +392,7 @@ poblateData = function(tipo,data){
     /*  */
 
     if(tipo == 'empresa'){
-        document.querySelector('#txt_idarea').value=data.area_id;console.log(data);
+        document.querySelector('#txt_idarea').value=data.area_id;
         document.querySelector('#txt_persona_id').value=data.persona_id;
         document.querySelector('#txt_idempresa').value=data.id;
         document.querySelector('#txt_ruc').value=data.ruc;
@@ -407,8 +415,17 @@ poblateData = function(tipo,data){
         document.querySelector('#txt_usernomb2').value=data.nombre;
         document.querySelector('#txt_userapepat2').value=data.paterno;
         document.querySelector('#txt_userapemat2').value=data.materno;
+        document.querySelector('#txt_usertelf2').value=data.telefono;
+        document.querySelector('#txt_userdirec2').value=data.direccion;
         $('.usuarioSeleccionado').removeClass('hidden');
         $('.empresa').addClass('hidden');
+    }
+    
+    if(tipo== 'selectpersona'){
+        document.querySelector('#FrmCrearEmpresa #txt_persona_id2').value=data.id;
+        document.querySelector('#FrmCrearEmpresa #txt_persona2').value=data.nombre+" "+data.paterno+" "+data.materno;
+        document.querySelector('#txt_idclasitramite').value=data.id;
+//        document.querySelector('#txt_idarea').value=data.areaid;
     }
 
 
@@ -525,7 +542,10 @@ HTMLRequisitos = function(data,tramite){
 
 generarPreTramite = function(){
     var tipodoc = document.querySelector('#cbo_tipodoc').value;
-    if(tipodoc){
+    var nom_tramite=$("#txt_nombretramite").val();
+    var ruc=$("#txt_ruc").val();
+    var dni=$("#txt_userdni2").val(); 
+    if(tipodoc && nom_tramite &&(ruc || dni)){
         datos=$("#FormCrearPreTramite").serialize().split("txt_").join("").split("slct_").join("").split("%5B%5D").join("[]").split("+").join(" ").split("%7C").join("|").split("&");
         data = '{';
         for (var i = 0; i < datos.length ; i++) {

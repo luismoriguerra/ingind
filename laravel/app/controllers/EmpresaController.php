@@ -41,6 +41,7 @@ class EmpresaController extends BaseController
 
             $empresa      = new Empresa;
             $empresa['ruc'] = Input::get('ruc2');
+            $empresa['persona_id']=Input::get('persona_id2');
             $empresa['razon_social'] = Input::get('razonsocial2');
             $empresa['nombre_comercial'] = Input::get('nombcomer');
             $empresa['direccion_fiscal'] = Input::get('direcfiscal');

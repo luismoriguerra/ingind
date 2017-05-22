@@ -276,7 +276,12 @@ var Bandeja={
             },
             success : function(obj) {
                 if(obj.rst==1){
+                    if($("#cbo_tiposolicitante").val()==2){
+                      poblateData('selectpersona',obj.datos[0]);   
+                    }
+                    else {
                     poblateData('persona',obj.datos[0]);
+                }
                 }
             },
             error: function(){
