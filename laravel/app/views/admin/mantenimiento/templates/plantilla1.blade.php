@@ -312,16 +312,16 @@ footer .izq {
     <div>
         @if ($area!=1)
         <div class="body-rest">
-            <?php if ($posicion_fecha==2 and $tipo_envio==4)  { ?>  
+            <?php if ($posicion_fecha==2 and ($tipo_envio==4 or $tipo_envio==7))  { ?>  
             <h4 class="fecha-documento-right">
            {{ $fecha }}
             </h4>
-            <?php }else if($posicion_fecha==1 and $tipo_envio==4) {?>
+            <?php }else if($posicion_fecha==1 and ($tipo_envio==4 or $tipo_envio==7)) {?>
             <h4 class="fecha-documento-left">
             {{ $fecha }}
             </h4>
             <?php }   ?>
-            
+            <?php if ($tipo_envio!=7) {?>
            <?php if ($posicion==0) {   ?> 
             <h2 class="nombre-documento">
             {{ $titulo }}
@@ -335,13 +335,13 @@ footer .izq {
             <h2 class="nombre-documento-left">
             {{ $titulo }}
             </h2>
-            <?php }    ?>
+            <?php }  }  ?>
             
-            <?php if ($posicion_fecha==4 and $tipo_envio==4)  { ?>  
+            <?php if ($posicion_fecha==4 and ($tipo_envio==4 or $tipo_envio==7))  { ?>  
             <h4 class="fecha-documento-right">
            {{ $fecha }}
             </h4>
-            <?php }else if($posicion_fecha==3 and $tipo_envio==4) {?>
+            <?php }else if($posicion_fecha==3 and ($tipo_envio==4 or $tipo_envio==7)) {?>
             <h4 class="fecha-documento-left">
             {{ $fecha }}
             </h4>
@@ -425,7 +425,7 @@ footer .izq {
             {{ $fecha }}
             </h4>
             <?php }   ?>
-            
+             <?php if ($tipo_envio!=7) {?>
            <?php if ($posicion==0) {   ?> 
             <h2 class="nombre-documento">
             {{ $titulo }}
@@ -438,7 +438,7 @@ footer .izq {
             <h2 class="nombre-documento-left">
             {{ $titulo }}
             </h2>
-            <?php }    ?>
+             <?php } }   ?>
             
             <?php if ($posicion_fecha==4 and $tipo_envio==4)  { ?>  
             <h4 class="fecha-documento-right">

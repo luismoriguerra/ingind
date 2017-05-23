@@ -57,6 +57,7 @@
                       <option value="4">Documento Libre(s)</option>
                       <option value="5">Persona a Persona</option>
                       <option value="6">Persona a Persona Sin Siglas</option>
+                      <option value="7">Documento Libre(s) sin Numeración</option>
                     </select>
                 </div>
 

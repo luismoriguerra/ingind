@@ -179,7 +179,7 @@ TipoEnvio=function(){
         $(".araesgerencia").addClass('hidden');
         $(".todassubg").addClass('hidden');
     }
-    else if($("#slct_tipoenvio").val() == 4){
+    else if($("#slct_tipoenvio").val() == 4 || $("#slct_tipoenvio").val() == 7){
         $(".araesgerencia").addClass('hidden');
         $(".areaspersona").addClass('hidden');
         $(".asunto").addClass('hidden');
@@ -271,7 +271,7 @@ editDocDigital = function(id,flotante){
 }
 
 HTMLEdit = function(data){
-
+    Documento.tipo_documento_id=data[0].tipo_documento_id;
     if(data.length > 0){
         if(data[0].envio_total == 1){
             $('input').iCheck('check');
@@ -386,6 +386,21 @@ validaDocumentos = function(){
     if( $("#formNuevoDocDigital #slct_tipoenvio").val()=='0' ){
         alert("Seleccione Tipo de Envio");
         r=false;
+    }
+    if( Documento.tipo_documento_id==124 ) {
+        if($("#formNuevoDocDigital #slct_tipoenvio").val()!='7'){
+        alert("No escogió correctamente para generar documento sin numeración");
+        r=false;
+        }
+        
+    }
+    
+    if( $("#formNuevoDocDigital #slct_tipoenvio").val()=='7' ) {
+        if(Documento.tipo_documento_id!=124){
+        alert("No escogió correctamente para generar documento sin numeración");
+        r=false;
+        }
+        
     }
     return r;
 }

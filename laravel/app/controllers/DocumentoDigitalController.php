@@ -508,7 +508,7 @@ class DocumentoDigitalController extends \BaseController {
             
             $cabecera=1;
             
-            if($DocumentoDigital->tipo_envio==4){
+            if($DocumentoDigital->tipo_envio==4 || $DocumentoDigital->tipo_envio==7){
                 $cabecera=null;
             }
 //            if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==12){
@@ -670,7 +670,7 @@ class DocumentoDigitalController extends \BaseController {
            
            $cabecera=1;
            
-           if($DocumentoDigital->tipo_envio==4){
+           if($DocumentoDigital->tipo_envio==4 || $DocumentoDigital->tipo_envio==7){
                $cabecera=null;
            }
  //            if($DocumentoDigital->tipo_envio==4 AND $DocumentoDigital->area_id==12){
