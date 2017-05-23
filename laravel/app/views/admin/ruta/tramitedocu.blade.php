@@ -131,8 +131,22 @@ td, th{
               <h3>Tramite Documentario</h3>
 
               <form id="FormCrearPreTramite" method="post">
-
-                <div class="col-md-12 tipoSolicitante">
+                <div class="col-md-12" style="margin-top:10px">
+                    <div class="col-md-2" style="padding-top: 5px;">
+                      <span>TIPO DOCUMENTO: </span>
+                    </div>
+                    <div class="col-md-3">
+                      <select class="form-control" id="cbo_tipodocumento" name="cbo_tipodocumento">
+                          <option value>.::Seleccione::.</option>
+                          <option value="1">Documento Simple</option>
+                          <option value="2">Expediente</option>
+                      </select>
+                    </div>
+                    <div class="col-md-4">
+                      
+                    </div>
+                </div>
+                <div class="col-md-12 tipoSolicitante" style="margin-top:10px">
                     <div class="col-md-2" style="padding-top: 5px">
                         <span>TIPO SOLICITANTE:</span>
                     </div>
@@ -252,7 +266,8 @@ td, th{
                           <span>TIPO EMPRESA: </span>
                         </div>
                         <div class="col-md-8">
-                          <input type="text" name="txt_tipoempresa" id="txt_tipoempresa" class="form-control" disabled>
+                          <input type="hidden" name="txt_tipoempresa" id="txt_tipoempresa" class="form-control" disabled>
+                          <input type="text" name="txt_tipo" id="txt_tipo" class="form-control" disabled>
                         </div>
                       </div>
                     </div>

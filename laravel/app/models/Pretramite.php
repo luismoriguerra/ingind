@@ -61,15 +61,16 @@ class Pretramite extends Eloquent {
 
     public static function getEmpresasUser(){
         $sql = '';
-    	$sql.= "select e.*,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) as representante,p.dni as dnirepre,p.area_id  
-                                from empresas e 
-				LEFT JOIN empresa_persona ep on e.id=ep.empresa_id and ep.estado=1 
-				LEFT JOIN personas p on e.persona_id=p.id
-				where e.estado=1 GROUP BY e.id";
+    	$sql.= "select e.*,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) as representante,p.dni as dnirepre,p.area_id,
+		CASE e.tipo_id WHEN 1 THEN 'Natural' WHEN 2 THEN 'Juridico' WHEN 3 THEN 'Organizacion Social' END as tipo  
+                from empresas e 
+                LEFT JOIN empresa_persona ep on e.id=ep.empresa_id and ep.estado=1 
+                LEFT JOIN personas p on e.persona_id=p.id
+                where e.estado=1 GROUP BY e.id";
 
-        if(Input::has('persona')){
-            $sql.=" and ep.persona_id=".Input::get('persona');
-        }
+//        if(Input::has('persona')){
+//            $sql.=" and ep.persona_id=".Input::get('persona');
+//        }
 
         $r= DB::select($sql);
         return $r; 

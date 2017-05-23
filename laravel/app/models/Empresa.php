@@ -90,7 +90,7 @@ class Empresa extends Base
 
 
     public static function getEmpresa(){
-        $sql="SELECT e.*,p.area_id
+        $sql="SELECT e.*,p.area_id,CASE e.tipo_id WHEN 1 THEN 'Natural' WHEN 2 THEN 'Juridico' WHEN 3 THEN 'Organizacion Social' END as tipo
                 FROM empresas e 
                 INNER JOIN empresa_persona ep ON ep.empresa_id=e.id AND ep.estado=1
                 INNER JOIN personas p ON e.persona_id=p.id WHERE e.id='".Input::get('id')."'";

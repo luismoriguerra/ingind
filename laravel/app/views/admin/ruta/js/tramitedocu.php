@@ -17,6 +17,7 @@ $(document).ready(function() {
     /*end Inicializar tramites*/
 
     /*inicializate selects*/
+    slctGlobalHtml('cbo_tipodocumento','simple');
     slctGlobal.listarSlct('documento','cbo_tipodoc','simple',null,data); 
     slctGlobal.listarSlct('tipotramite','cbo_tipotramite','simple',null,data);
     slctGlobal.listarSlct('persona','cbo_persona','simple',null,{estado_persona:1});
@@ -160,6 +161,13 @@ $(document).ready(function() {
     $(document).on('click', '.btnEnviar', function(event) {
         generarUsuario();
     });
+    
+    $("#cbo_tiposolicitante").change(function(){
+          $('.empresa').addClass('hidden');
+          $('#txt_ruc').val(''); 
+          $('#txt_userdni2').val(''); 
+          $('.usuarioSeleccionado').addClass('hidden');  
+	});
 });
 
 CargarPreTramites = function(){
@@ -303,7 +311,7 @@ ValidacionEmpresa = function(data){
         $.each(data,function(index, el) {
             html+='<tr id='+el.id+'>';
             html+='<td name="ruc">'+el.ruc+'</td>';
-            html+='<td name="tipo_id">'+el.tipo_id+'</td>';
+            html+='<td name="tipo_id">'+el.tipo+'</td>';
             html+='<td name="razon_social">'+el.razon_social+'</td>';
             html+='<td name="nombre_comercial">'+el.nombre_comercial+'</td>';
             html+='<td name="direccion_fiscal">'+el.direccion_fiscal+'</td>';
@@ -390,13 +398,13 @@ poblateData = function(tipo,data){
     /*    user_telf.value=data.;
         user_direc.value=data.;*/
     /*  */
-
     if(tipo == 'empresa'){
         document.querySelector('#txt_idarea').value=data.area_id;
         document.querySelector('#txt_persona_id').value=data.persona_id;
         document.querySelector('#txt_idempresa').value=data.id;
         document.querySelector('#txt_ruc').value=data.ruc;
         document.querySelector('#txt_tipoempresa').value=data.tipo_id;
+        document.querySelector('#txt_tipo').value=data.tipo;
         document.querySelector('#txt_razonsocial').value=data.razon_social;
         document.querySelector('#txt_nombcomercial').value=data.nombre_comercial;
         document.querySelector('#txt_domiciliofiscal').value=data.direccion_fiscal;
@@ -543,9 +551,10 @@ HTMLRequisitos = function(data,tramite){
 generarPreTramite = function(){
     var tipodoc = document.querySelector('#cbo_tipodoc').value;
     var nom_tramite=$("#txt_nombretramite").val();
+     var nom_tipodocumento=$("#cbo_tipodocumento").val();
     var ruc=$("#txt_ruc").val();
     var dni=$("#txt_userdni2").val(); 
-    if(tipodoc && nom_tramite &&(ruc || dni)){
+    if(tipodoc && nom_tramite && nom_tipodocumento &&(ruc || dni)){
         datos=$("#FormCrearPreTramite").serialize().split("txt_").join("").split("slct_").join("").split("%5B%5D").join("[]").split("+").join(" ").split("%7C").join("|").split("&");
         data = '{';
         for (var i = 0; i < datos.length ; i++) {

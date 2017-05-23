@@ -125,6 +125,7 @@ class PretramiteController extends BaseController {
 
         $pretramite['tipo_solicitante_id'] = $array_data->cbo_tiposolicitante;
         $pretramite['tipo_documento_id'] = $array_data->cbo_tipodoc;
+        $pretramite['tipo_tramite_id'] = $array_data->cbo_tipodocumento;
         $pretramite['documento'] = $array_data->tipodoc;
         $pretramite['nro_folios'] = $array_data->numfolio;
         if($array_data->idarea){
@@ -160,7 +161,12 @@ class PretramiteController extends BaseController {
 		        $tramite->save();
 
 		        	$codigo = str_pad($tramite->id, 7, "0", STR_PAD_LEFT).'-'.date('Y'); //cod
-
+                        if($array_data->cbo_tipodocumento==1)   {
+                            $codigo= 'DS - '.$codigo;
+                        } 
+                        if($array_data->cbo_tipodocumento==2)   {
+                            $codigo= 'EX - '.$codigo;
+                        } 
 		        	/*get ruta flujo*/
                   /*  $sql="SELECT flujo_id
                             FROM areas_internas
