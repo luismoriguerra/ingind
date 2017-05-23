@@ -387,7 +387,7 @@ validaDocumentos = function(){
         alert("Seleccione Tipo de Envio");
         r=false;
     }
-    if( Documento.tipo_documento_id==124 ) {
+    if( Documento.tipo_documento_id==127 ) {
         if($("#formNuevoDocDigital #slct_tipoenvio").val()!='7'){
         alert("No escogió correctamente para generar documento sin numeración");
         r=false;
@@ -396,7 +396,7 @@ validaDocumentos = function(){
     }
     
     if( $("#formNuevoDocDigital #slct_tipoenvio").val()=='7' ) {
-        if(Documento.tipo_documento_id!=124){
+        if(Documento.tipo_documento_id!=127){
         alert("No escogió correctamente para generar documento sin numeración");
         r=false;
         }
