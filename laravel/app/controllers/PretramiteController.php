@@ -113,7 +113,7 @@ class PretramiteController extends BaseController {
 	{
 		$array_data = json_decode(Input::get('info'));
 		$pretramite = new Pretramite;
-
+        $codigo = Pretramite::Correlativo($array_data->cbo_tipodocumento);        //var_dump($codigo);exit();      
         $pretramite['clasificador_tramite_id'] = $array_data->idclasitramite;
 
         if($array_data->idempresa){
@@ -122,7 +122,7 @@ class PretramiteController extends BaseController {
         }else{
         	$pretramite['persona_id'] =  $array_data->persona_id;
         }
-
+        $pretramite['correlativo'] = $codigo->correlativo;
         $pretramite['tipo_solicitante_id'] = $array_data->cbo_tiposolicitante;
         $pretramite['tipo_documento_id'] = $array_data->cbo_tipodoc;
         $pretramite['tipo_tramite_id'] = $array_data->cbo_tipodocumento;
@@ -159,14 +159,15 @@ class PretramiteController extends BaseController {
 		        $tramite['fecha_tramite'] = date('Y-m-d H:i:s');
 		        $tramite['usuario_created_at'] = Auth::user()->id;
 		        $tramite->save();
-
-		        	$codigo = str_pad($tramite->id, 7, "0", STR_PAD_LEFT).'-'.date('Y'); //cod
+                               
+//		        	$codigo = str_pad($tramite->id, 7, "0", STR_PAD_LEFT).'-'.date('Y'); //cod
                         if($array_data->cbo_tipodocumento==1)   {
-                            $codigo= 'DS - '.$codigo;
+                            $codigo= 'DS - '.$codigo->correlativo.' - '.date('Y') ;
                         } 
                         if($array_data->cbo_tipodocumento==2)   {
-                            $codigo= 'EX - '.$codigo;
-                        } 
+                            $codigo= 'EX - '.$codigo->correlativo.' - '.date('Y');
+                        }
+//                        var_dump($codigo);exit();
 		        	/*get ruta flujo*/
                   /*  $sql="SELECT flujo_id
                             FROM areas_internas

@@ -150,7 +150,7 @@ var Bandeja={
                     msjG.mensaje("success","Registrado",3000); 
                     $('.usuarioSeleccionado').addClass('hidden');
                     $('.empresa').addClass('hidden');
-                    $('#cbo_tiposolicitante,#cbo_tipotramite,#cbo_tipodoc,#cbo_persona,#cbo_empresa').multiselect('refresh');
+                    $('#cbo_tiposolicitante,#cbo_tipotramite,#cbo_tipodoc,#cbo_persona,#cbo_empresa,#cbo_tipodocumento').multiselect('refresh');
                     $('.persona,.emp').addClass('hidden');         
                 }
             },

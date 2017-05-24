@@ -125,4 +125,19 @@ class Pretramite extends Eloquent {
                 ->get();  
         return $areas;
     }
+    
+        public static function Correlativo($tipo_tramite_id){
+        
+    	$año= date("Y");
+        $r2=array(array('correlativo'=>'000001','ano'=>$año));
+    	/*$sql = "SELECT LPAD(id+1,6,'0') as correlativo,'$año' ano FROM doc_digital ORDER BY id DESC LIMIT 1";*/
+        $sql = "SELECT IFNULL(LPAD(MAX(p.correlativo)+1,6,'0'),LPAD(1,6,'0')) as correlativo 
+                FROM pretramites p 
+                WHERE p.estado=1 and p.tipo_tramite_id=".$tipo_tramite_id." 
+                AND YEAR(p.created_at)=YEAR(CURDATE())
+                ORDER BY p.correlativo DESC LIMIT 1";
+    	$r= DB::select($sql);
+        return (isset($r[0])) ? $r[0] : $r2[0];
+        
+    }
 }
