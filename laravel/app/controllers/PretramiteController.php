@@ -116,7 +116,7 @@ class PretramiteController extends BaseController {
         $codigo = Pretramite::Correlativo($array_data->cbo_tipodocumento);        //var_dump($codigo);exit();      
         $pretramite['clasificador_tramite_id'] = $array_data->idclasitramite;
 
-        if($array_data->idempresa){
+        if($array_data->idempresa AND $array_data->cbo_tiposolicitante==2){
         	$pretramite['empresa_id'] = $array_data->idempresa;  
                 $pretramite['persona_id'] = $array_data->persona_id;                 
         }else{
@@ -141,7 +141,7 @@ class PretramiteController extends BaseController {
         		$tramite = new Tramite;
 		       	$tramite['pretramite_id'] = $pretramite->id;
 
-		        if($pretramite->empresa_id){
+		        if($pretramite->empresa_id AND $array_data->cbo_tiposolicitante==2 ){
 		        	$tramite['empresa_id'] = $pretramite->empresa_id;  
                                 $tramite['persona_id'] = $pretramite->persona_id; 
 		        }else{
