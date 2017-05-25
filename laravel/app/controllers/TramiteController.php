@@ -14,7 +14,17 @@ class TramiteController extends BaseController {
 	}
 
 	public function postListartramites(){
-		$rst=Tramite::getAllTramites();
+                $array=array();
+                $array['where']='';
+                
+            if( Input::has("buscar") AND Input::get('buscar')!='' ){
+                 $buscar=explode(" ",trim(Input::get('buscar')));
+                    for($i=0; $i<count($buscar); $i++){
+                       $array['where'].=" AND tr.id_union LIKE '%".$buscar[$i]."%' ";
+                    }
+            }
+                
+		$rst=Tramite::getAllTramites($array);
           return Response::json(
               array(
                   'rst'=>1,
