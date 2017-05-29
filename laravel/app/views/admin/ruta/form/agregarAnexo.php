@@ -43,31 +43,36 @@
 
                 <div class="row">
                   <div class="col-md-12">
-                      <div class="col-md-4 form-group">
+                      <div class="col-md-6 form-group">
                           <label>Cod. Tramite:</label>
-                          <input class="form-control" type="text" name="txt_codtramite" id="txt_codtramite" value="" readonly="readonly">
+                          <input class="form-control" type="text" name="txt_tramite" id="txt_tramite" value="" readonly="readonly">
+                          <input class="form-control" type="hidden" name="txt_codtramite" id="txt_codtramite" value="" readonly="readonly">
                       </div>
-                      <div class="col-md-4 form-group">
+                      <div class="col-md-6 form-group">
                            <label>Fecha Ingreso:</label>
-                           <textarea class="form-control" type="text" name="txt_fechaingreso" id="txt_fechaingreso" value="" readonly="readonly"></textarea>
-                      </div>
-                      <div class="col-md-4 form-group">
-                            <label>#Tipo Doc:</label>
-                            <select class="form-control" id="cbo_tipodoc" name="cbo_tipodoc"></select>
+                           <input class="form-control" type="text" name="txt_fechaingreso" id="txt_fechaingreso" value="" readonly="readonly">
                       </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-12">
-                      <div class="col-md-4 form-group">
-                          <label>Nombre Tramite:</label>
-                          <textarea class="form-control" type="text" name="txt_nombtramite" id="txt_nombtramite" value="" readonly="readonly"></textarea>
+                      <div class="col-md-6 form-group">
+                            <label>#Tipo Doc:</label>
+                            <select class="form-control" id="cbo_tipodoc" name="cbo_tipodoc"></select>
                       </div>
-                      <div class="col-md-4 form-group">
+                      <div class="col-md-6 form-group">
+                          <label>Nombre Tramite:</label>
+                          <input class="form-control" type="text" name="txt_nombtramite" id="txt_nombtramite" value="" readonly="readonly">
+                      </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                      <div class="col-md-6 form-group">
                            <label>#Num Documento:</label>
                            <input class="form-control" type="text" name="txt_numdocA" id="txt_numdocA" value="" readonly="readonly">
                       </div>
-                      <div class="col-md-4 form-group">
+                      <div class="col-md-6 form-group">
                            <label>#Folio:</label>
                           <input class="form-control" type="text" name="txt_folio" id="txt_folio" value="">
                       </div>
@@ -80,17 +85,18 @@
                         <span class="btn btn-primary btn-md" name="btnImagen" id="btnImagen" value="" style="width: 100%">Cargar Imagen <i class="glyphicon glyphicon-upload"></i></span>
                          <img class="img-circle img-anexo" style="height: 142px;width: 100%;border-radius: 8px;border: 1px solid grey;margin-top: 5px;padding: 8px" :src="index.img">                          
                       </div>
-                      <div class="col-md-4">
+                      <div class="col-md-8">
+                      <label>Observaciones:</label>
+                      <textarea class="form-control" id="txt_observ" name="txt_observ" rows="5" placeholder=""></textarea>
+                    </div>
+<!--                      <div class="col-md-4">
                         <span class="btn btn-success btn-md hidden" name="spanRuta" id="spanRuta" value=""></span>                   
-                      </div>
+                      </div>-->
                   </div>
                 </div>
-                <div class="row observ hidden">
+                <div class="row observ ">
                   <div class="col-md-12">
-                    <div class="col-md-12 form-group">
-                      <label>Observaciones:</label>
-                      <textarea class="form-control" id="txt_observ" name="txt_observ" rows="5" placeholder="SE ANEXO EL REQUISITO A ALTRAMITE DE  LICENCIA DE FUNCIONAMIENTO ALIMENTARIO"></textarea>
-                    </div>
+
                   </div>
                 </div>
                 <div class="row form-group">
