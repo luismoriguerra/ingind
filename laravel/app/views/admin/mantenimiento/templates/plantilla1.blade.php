@@ -170,7 +170,7 @@ footer {
     left: 0px;
     bottom: -5px;
     right: 0px;
-    height: 10px;
+    height: 5px;
     border-bottom: 2px solid #ddd;
 }
 footer .page:after {
