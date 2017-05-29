@@ -4,7 +4,7 @@ $(document).ready(function() {
     /*Inicializar tramites*/
 
     UsuarioId='<?php echo Auth::user()->id; ?>';
-    var data={estado:1,persona:UsuarioId};
+    var data={estado:1};
     Bandeja.MostrarTramites(data,HTMLTramites);
     /*end Inicializar tramites*/
 
@@ -14,78 +14,15 @@ $(document).ready(function() {
        /* $(area).find('input[type="text"],input[type="email"],textarea,select').val('');*/
         $('#spanRuta').addClass('hidden');
         $('.img-anexo').attr('src','index.img');
-        $('#txt_folio,#txt_anexoid').val('');
-        $('#FormNuevoAnexo').data('bootstrapValidator').resetForm();
+        $('#txt_folio,#txt_anexoid,#txt_observ').val('');
+        $('#cbo_tipodoc').multiselect('destroy');
+        slctGlobal.listarSlct('documento','cbo_tipodoc','simple',null,{estado:1},1);
     };
 
     $('#addAnexo').on('hidden.bs.modal', function(){
         limpia(this);
     });
 
-    /*validaciones*/
-    $('#FormNuevoAnexo').bootstrapValidator({
-        feedbackIcons: {
-            valid: 'glyphicon glyphicon-ok',
-            invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh',
-        },
-        excluded: ':disabled',
-         fields: {
-            txt_codtramite: {
-                validators: {
-                    notEmpty: {
-                        message: 'campo requerido'
-                    },
-                    digits:{
-                        message: 'dato numerico'
-                    }
-                },
-            },
-            txt_fechaingreso: {
-                validators: {
-                    notEmpty: {
-                        message: 'campo requerido'
-                    }
-                }
-            },
-            cbo_tipodoc: {
-                validators: {
-                    choice: {
-                        message: 'selecciona un tipo',
-                        min:1
-                    }
-                }
-            },
-            txt_nombtramite: {
-                validators: {
-                    notEmpty: {
-                        message: 'campo requerido'
-                    }
-                }
-            },
-            txt_numdocA: {
-                validators: {
-                    notEmpty: {
-                        message: 'campo requerido'
-                    },
-                    digits:{
-                        message: 'dato numerico'
-                    }
-                }
-            },
-            txt_folio: {
-                validators: {
-                    notEmpty: {
-                        message: 'campo requerido'
-                    },
-                    digits:{
-                        message: 'dato numerico'
-                    }
-                }
-            }
-        }
-    });
-    /*end validaciones */
 
     $("form[name='FormNuevoAnexo']").submit(function(e) {
         e.preventDefault();
@@ -142,18 +79,19 @@ mostrarTramites = function(){
 HTMLTramites = function(data){
     if(data.length > 0){
         $("#t_reporte").dataTable().fnDestroy();
-        var html ='';
+        var html ='';pos=1;
         $.each(data,function(index, el) {
-            html+="<tr id="+el.codigo+" numdoc="+el.numdoc+">"+
-                "<td name='codigo'>"+el.codigo +"</td>"+
+            html+="<tr id="+el.codigo+" numdoc="+el.numdoc+" tramite="+el.id_union+">"+
+                "<td name='item'>"+pos+"</td>"+  
+                "<td name='codigo'>"+el.id_union +"</td>"+
                 "<td name='nombre'>"+el.tramite+"</td>"+
                 "<td name='fechaingreso'>"+el.fecha_ingreso+"</td>"+
                 "<td name='persona'>"+el.persona+"</td>"+
-                "<td name='estado'>"+el.estado+"</td>"+
                 "<td name='observacion'>"+el.observacion+"</td>"+
                 "<td><span class='btn btn-primary btn-sm' onClick='seleccionado(this),mostrarAnexos(this)'><i class='glyphicon glyphicon-th-list'></i></span></td>"+
                 "<td><span class='btn btn-primary btn-sm' idtramite='"+el.codigo+"' onclick='selectTramitetoDetail(this)'><i class='glyphicon glyphicon-search'></i></span></td>"+
-            "</tr>";            
+            "</tr>"; 
+            pos++;
         });
         $("#tb_reporte").html(html);
         $("#t_reporte").dataTable(
@@ -185,6 +123,7 @@ selectTramitetoDetail = function(obj){
 
 HTMLDetalleTramite = function(data){
     var result = data[0];
+    document.querySelector('#spanTramite').innerHTML=result.id_union;
     document.querySelector('#spanTipoTramite').innerHTML=result.tipotramite;
     document.querySelector('#spanTipoDoc').innerHTML=result.tipodoc;
     document.querySelector('#spanNombreTramite').innerHTML=result.tramite;
@@ -233,9 +172,10 @@ seleccionado = function(obj){
         var idtramite = obj.parentNode.parentNode.getAttribute("id");
         var nombret = document.querySelectorAll("#t_reporte tr[id='"+idtramite+"'] td[name='nombre']");
         var numdoc = obj.parentNode.parentNode.getAttribute("numdoc");
-
+        var tramite = obj.parentNode.parentNode.getAttribute("tramite");
         document.querySelector('#txt_idtramite').value=idtramite;
         document.querySelector('#txt_codtramite').value=idtramite;
+        document.querySelector('#txt_tramite').value=tramite;
         $('#txt_nombtramite').val(nombret[0].innerHTML);
         $('#txt_fechaingreso').val(new Date().toLocaleString());
         document.querySelector('#txt_numdocA').value= numdoc;
@@ -277,13 +217,13 @@ HTMLAnexos = function(data,$tipo_busqueda = ''){
     if(data.length > 0){
         $("#t_anexo").dataTable().fnDestroy();
         var html ='';
+        pos=1;
         $.each(data,function(index, el) {
             html+="<tr idanexo="+el.codigoanexo+">";
-            html+="<td name='codigo'>"+el.codigoanexo +"</td>";
+            html+="<td name='codigo'>"+pos +"</td>";
             html+="<td name='nombre'>"+el.nombreanexo+"</td>";
             html+="<td name='fechaingreso'>"+el.fechaingreso+"</td>";
             html+="<td name='persona'>"+el.usuarioregistrador+"</td>";
-            html+="<td name='estado'>"+el.estado+"</td>";
             html+="<td name='observacion'>"+el.observacion+"</td>";
             html+="<td name='area'>"+el.area+"</td>";
             html+="<td><span class='btn btn-primary btn-sm' idanexo='"+el.codigoanexo+"' onclick='selectAnexotoDetail(this)'><i class='glyphicon glyphicon-search'></i></span></td>";
@@ -295,7 +235,8 @@ HTMLAnexos = function(data,$tipo_busqueda = ''){
                  html+="<td><span class='btn btn-danger btn-sm' idanexo='"+el.codigoanexo+"' onclick='deleteAnexo(this)'><i class='glyphicon glyphicon-trash'></i></span></td>";          
             }
 
-            html+="</tr>";      
+            html+="</tr>";   
+            pos++;
         });
         $("#tb_anexo").html(html);
         $("#t_anexo").dataTable(
@@ -400,9 +341,9 @@ HTMLEdit = function(data){
         document.querySelector('#txt_numdocA').value=result.numdoc;
         document.querySelector('#txt_folio').value=result.folios;
         document.querySelector('#txt_anexoid').value=result.codanexo;
-
+        document.querySelector('#txt_observ').value=result.observ;
         var ids = [];
-        ids.push(result.idtipodoc);
+        ids.push(result.documento_id);
         $('#cbo_tipodoc').multiselect('destroy');
         slctGlobal.listarSlct('documento','cbo_tipodoc','simple',ids,{estado:1},1);
 

@@ -147,11 +147,11 @@ td, th{
                             <table id="t_reporte" class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>COD</th>
+                                        <th>ITEM</th>
                                         <th>NOMBRE DEL TRAMITE</th>
+                                        <th>TRAMITE</th>
                                         <th>FECHA DE INGRESO</th>
                                         <th>USUARIO REGISTRADOR</th>
-                                        <th>ESTADO</th>
                                         <th>OBSERVACION</th>
                                         <th>LISTAR ANEXO</th>
                                         <th>VISUALIZADO</th>
@@ -207,7 +207,6 @@ td, th{
                                           <th>NOMBRE DEL ANEXO</th>
                                           <th>FECHA DE INGRESO</th>
                                           <th>USUARIO REGISTRADOR</th>
-                                          <th>ESTADO</th>
                                           <th>OBSERVACION</th>
                                           <th>AREA</th>
                                           <th>DETALLE</th>

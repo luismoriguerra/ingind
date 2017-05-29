@@ -53,8 +53,8 @@ class AnexoController extends BaseController {
 			$anexofind=Anexo::find($data['txt_anexoid']);
 			if($anexofind){ //editar
 				$anexofind['nro_folios'] = $data['txt_folio'];
-				
-
+				 $anexofind['obeservacion'] = $data['txt_observ'];
+                                 $anexofind['documento_id'] = $data['cbo_tipodoc'];
 				/*if($anexofind->persona_id != Auth::user()->id){
 					$anexofind['usuario_atendio'] = Auth::user()->id;
 					$anexofind['fecha_recepcion'] = date('Y-m-d H:i:s');					
@@ -86,12 +86,17 @@ class AnexoController extends BaseController {
 			       	$anexo['tramite_id'] = $data['txt_codtramite'];
 			        $anexo['persona_id'] = Auth::user()->id;
 			        $anexo['fecha_anexo'] = date('Y-m-d H:i:s');
+                                $anexo['documento_id'] = $data['cbo_tipodoc'];
 			        $anexo['nombre'] = $data['txt_nombtramite'];
 			        $anexo['nro_folios'] = $data['txt_folio'];
+                                $anexo['obeservacion'] = $data['txt_observ'];
 			        $anexo['imagen'] = $name;
 			        $anexo['usuario_created_at'] = Auth::user()->id;
-			        $anexo->save();
-
+			        
+                                $codigo=Anexo::Correlativo();
+                                $codigo='AN-'.$codigo->correlativo.'-'.date('Y');
+                                var_dump($codigo);Exit();
+                                $anexo->save();
 			        return Response::json(
 			            array(
 			            'rst'=>1,

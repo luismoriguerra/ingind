@@ -549,12 +549,26 @@ HTMLRequisitos = function(data,tramite){
 }
 
 generarPreTramite = function(){
-    var tipodoc = document.querySelector('#cbo_tipodoc').value;
-    var nom_tramite=$("#txt_nombretramite").val();
-     var nom_tipodocumento=$("#cbo_tipodocumento").val();
-    var ruc=$("#txt_ruc").val();
-    var dni=$("#txt_userdni2").val(); 
-    if(tipodoc && nom_tramite && nom_tipodocumento &&(ruc || dni)){
+
+    if($("#cbo_tipodocumento").val()==''){
+        alert('Selecciona Tipo');
+    }
+    else if($("#cbo_tiposolicitante").val()==''){
+        alert('Selecciona Tipo de Solicitante');
+    }
+    else if($("#cbo_tipotramite").val()==''){
+        alert('Seleccione Tipo de Trámite');
+    }
+    else if($("#cbo_tipodoc").val()==''){
+        alert('Seleccione Tipo de Documento');
+    }
+    else if($("#txt_nombretramite").val()==''){
+        alert('Seleccione Nombre de trámite');
+    }
+    else if($("#txt_ruc").val()=='' && $("#txt_userdni2").val()==''){
+        alert('Seleccione Empresa o Persona');
+    }
+        else{
         datos=$("#FormCrearPreTramite").serialize().split("txt_").join("").split("slct_").join("").split("%5B%5D").join("[]").split("+").join(" ").split("%7C").join("|").split("&");
         data = '{';
         for (var i = 0; i < datos.length ; i++) {
@@ -563,9 +577,7 @@ generarPreTramite = function(){
         }
         data+='"}';
         Bandeja.GuardarPreTramite(data);
-        
-    }else{
-        alert('complete data');
+       
     }
 }
 

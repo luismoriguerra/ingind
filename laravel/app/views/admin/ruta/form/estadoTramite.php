@@ -46,6 +46,12 @@
            </div> -->
           <fieldset class="yellow-fieldset" style="max-width: 100% !important;border: 3px solid #999;padding:24px;">
             <div class="row">
+              <div class="col-md-12">
+                <label>TRAMITE:</label>
+                <span id="spanTramite">DOC. SIMPLE</span>
+              </div>
+            </div>
+              <div class="row">
               <div class="col-md-6">
                 <label>TIPO TRAMITE:</label>
                 <span id="spanTipoTramite">DOC. SIMPLE</span>

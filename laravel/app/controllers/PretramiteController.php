@@ -162,10 +162,10 @@ class PretramiteController extends BaseController {
                                
 //		        	$codigo = str_pad($tramite->id, 7, "0", STR_PAD_LEFT).'-'.date('Y'); //cod
                         if($array_data->cbo_tipodocumento==1)   {
-                            $codigo= 'DS - '.$codigo->correlativo.' - '.date('Y') ;
+                            $codigo= 'DS-'.$codigo->correlativo.'-'.date('Y') ;
                         } 
                         if($array_data->cbo_tipodocumento==2)   {
-                            $codigo= 'EX - '.$codigo->correlativo.' - '.date('Y');
+                            $codigo= 'EX-'.$codigo->correlativo.'-'.date('Y');
                         }
 //                        var_dump($codigo);exit();
 		        	/*get ruta flujo*/
@@ -202,7 +202,7 @@ class PretramiteController extends BaseController {
 			        else{
 				        $tablaRelacion=new TablaRelacion;
 				        $tablaRelacion['software_id']=1;
-
+                                        $tablaRelacion['tramite_id']=$tramite->id;
 				        $tablaRelacion['id_union']=$codigo;
 				        
 				        $tablaRelacion['fecha_tramite']= $tramite->fecha_tramite; //Input::get('fecha_tramite');
