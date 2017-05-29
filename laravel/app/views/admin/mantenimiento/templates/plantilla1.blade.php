@@ -155,7 +155,7 @@ hr {
   margin: 0;
 }
 @page {
-    margin-bottom: 30px;
+    margin-bottom: 80px;
     margin-top: 130px;
 }
 header { 
