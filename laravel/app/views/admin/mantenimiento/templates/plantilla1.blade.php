@@ -168,7 +168,7 @@ header {
 footer {
     position: fixed;
     left: 0px;
-    bottom: -5px;
+    bottom: 1px;
     right: 0px;
     height: 5px;
     border-bottom: 2px solid #ddd;
