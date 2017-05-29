@@ -156,7 +156,7 @@ hr {
 }
 @page {
     margin-bottom: 60px;
-    margin-top: 130px;
+    margin-top: 150px;
 }
 header { 
     position: fixed;
@@ -168,7 +168,7 @@ header {
 footer {
     position: fixed;
     left: 0px;
-    bottom: -5px;
+    bottom: -20px;
     right: 0px;
     height: 10px;
     border-bottom: 2px solid #ddd;
