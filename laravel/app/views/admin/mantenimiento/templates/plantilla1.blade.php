@@ -156,7 +156,7 @@ hr {
 }
 @page {
     margin-bottom: 60px;
-    margin-top: 100px;
+    margin-top: 150px;
 }
 header { 
     position: fixed;
