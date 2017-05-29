@@ -168,9 +168,9 @@ header {
 footer {
     position: fixed;
     left: 0px;
-    bottom: 1px;
+    bottom: -6px;
     right: 0px;
-    height: 5px;
+    height: 2px;
     border-bottom: 2px solid #ddd;
 }
 footer .page:after {
