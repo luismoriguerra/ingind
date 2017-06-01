@@ -9,6 +9,21 @@
       </div>
       <div class="modal-body">
         <form id="FormNuevoAnexo" name="FormNuevoAnexo" method="post" action="" enctype="multipart/form-data">
+            <div class="row">
+                 <div class="col-md-12">
+                    <div class="col-md-6 form-group">
+                        <label>Tipo:</label>
+                        <select class="form-control" id="cbo_tiposolicitante" name="cbo_tiposolicitante">
+                              <option value="-1">Selecciona</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <br>
+                        <span class="btn btn-primary btn-sm" id="btnTipoSolicitante">BUSCAR TIPO SOLICITANTE</span>
+                    </div>
+                     </div>
+                
+            </div>
             <input type="hidden" id="txt_anexoid" name="txt_anexoid">
                 <div class="usuario hidden">
                   <div class="row">

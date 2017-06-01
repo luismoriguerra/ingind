@@ -95,7 +95,12 @@ class AnexoController extends BaseController {
 			        
                                 $codigo=Anexo::Correlativo();
                                 $codigo='AN-'.$codigo->correlativo.'-'.date('Y');
-                                var_dump($codigo);Exit();
+                                
+
+                                $tablarelacion = TablaRelacion::where('tramite_id','=',$data['txt_codtramite'])->first();
+                                $ruta = Ruta::where('tabla_relacion_id','=',$tablarelacion->id)->first();
+                                $rutadetalle = RutaDetalle::where('ruta_id','=',$ruta->id)->first();
+                                var_dump($rutadetalle->id);exit();
                                 $anexo->save();
 			        return Response::json(
 			            array(

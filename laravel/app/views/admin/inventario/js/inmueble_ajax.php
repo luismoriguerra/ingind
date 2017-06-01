@@ -30,7 +30,7 @@ var Bandeja={
             },
             success : function(obj) {
                 if(obj.rst==1){
-                    $("#FormInventario input[type='hidden'],#FormInventario input[type='text'],#form_asignarGestion select,#FormInventario textarea").val("");
+                    $("#FormInventario input[type='hidden'],#FormInventario input[type='text'],#form_asignarGestion select,#FormInventario textarea").not('.mant').val("");
                     $('#FormInventario select').multiselect('refresh'); 
                     msjG.mensaje('success',obj.msj,4000);
                 }

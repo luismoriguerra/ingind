@@ -10,13 +10,14 @@ $(document).ready(function() {
 
 
     
-    poblateDataUser('');
+    poblateDataUser();
     /*Inicializar tramites*/
     var data={'estado':1};
     /*end Inicializar tramites*/
 
     /*inicializate selects*/
     slctGlobal.listarSlct('local','slct_local','simple',null,data); 
+
     slctGlobalHtml('slct_estado','simple');
     slctGlobalHtml('slct_modalidad','simple');
 /*    slctGlobal.listarSlct('tipotramite','cbo_tipotramite','simple',null,data);
@@ -47,13 +48,16 @@ $(document).ready(function() {
     });
 });
 
-poblateDataUser = function(data){
-    DataUser = '<?php echo Auth::user(); ?>';
-    var result = JSON.parse(DataUser);
-    document.querySelector("#txt_useresponsable").value = result.paterno + " " + result.materno + " " + result.nombre;
-    document.querySelector("#txt_apenomb").value = result.paterno + " " + result.materno + " " + result.nombre;
-}
+poblateDataUser = function(){
+    var nombrecompleto= '<?php echo Auth::user()->paterno?>'+' '+'<?php echo Auth::user()->materno?>'+' '+'<?php echo Auth::user()->nombre?>'; 
+    var area= '<?php echo Auth::user()->area_id?>'
+    $('#txt_userresponsable').val(nombrecompleto);
+    var data={'estado':1};
+    slctGlobal.listarSlct('area','slct_area','simple',area,data);
 
+}
+eventoSlctGlobalSimple=function(){
+};
 
 registrarInmueble = function(){
     if( $("#txt_dependencia").val()=='' ){

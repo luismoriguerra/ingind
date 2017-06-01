@@ -237,4 +237,6 @@ td, th{
      @include( 'admin.ruta.form.estadoAnexo' )
      @include( 'admin.ruta.form.agregarAnexo' )
      @include( 'admin.ruta.form.voucheranexo' )
+     @include( 'admin.ruta.form.empresasbyuser' )
+     @include( 'admin.ruta.form.selectPersona' )
 @stop

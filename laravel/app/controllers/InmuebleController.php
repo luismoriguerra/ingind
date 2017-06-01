@@ -38,7 +38,7 @@ class InmuebleController extends \BaseController {
 				$Inmueble['cod_interno'] = Input::get('codinterno'); 
 				$Inmueble['inventario_apertura_id'] = $Aperturas[0]->id;
 				$Inmueble['descripcion'] = Input::get('descripcion'); 
-				$Inmueble['area_id'] = Auth::user()->area_id;
+				$Inmueble['area_id'] = Input::get('area');
 				$Inmueble['persona_id'] = Auth::user()->id;
 				$Inmueble['inventario_local_id'] = Input::get('local');
 				$Inmueble['modalidad_id'] = Input::get('modalidad');

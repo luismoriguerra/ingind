@@ -7,7 +7,7 @@ $(document).ready(function() {
     var data={estado:1};
     Bandeja.MostrarTramites(data,HTMLTramites);
     /*end Inicializar tramites*/
-
+    slctGlobal.listarSlctFuncion('tiposolicitante','listar?pretramite=1','cbo_tiposolicitante','simple',null,{'estado':1,'validado':1});
     slctGlobal.listarSlct('documento','cbo_tipodoc','simple',null,data);
 
     function limpia(area) {
@@ -45,7 +45,7 @@ $(document).ready(function() {
     $(document).on('click', '#btnImagen', function(event) {
         $('#txt_file').click();
     });
-
+    
     $(document).on('change', '#txt_file', function(event) {
         readURLI(this,'file');
     });

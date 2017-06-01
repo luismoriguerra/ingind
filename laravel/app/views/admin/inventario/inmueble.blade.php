@@ -147,13 +147,13 @@ td, th{
                     <div class="col-md-9">
                       <div class="col-md-2"><span>ENTIDAD: </span></div>
                       <div class="col-md-10">
-                        <input type="text" class="form-control" name="txt_entidad" id="txt_entidad" value="MUNICIPALIDAD DISTRITAL DE INDEPENDENCIA" readonly="readonly" style="text-align: center">
+                        <input type="text" class="form-control mant" name="txt_entidad" id="txt_entidad" value="MUNICIPALIDAD DISTRITAL DE INDEPENDENCIA" readonly="readonly" style="text-align: center">
                       </div>
                     </div>
                     <div class="col-md-3">
                       <div class="col-md-2"><span>FECHA: </span></div>
                       <div class="col-md-10">
-                        <input type="text" class="form-control" name="txt_fecha" id="txt_fecha" value="" readonly="readonly">
+                        <input type="text" class="form-control mant" name="txt_fecha" id="txt_fecha" value="" readonly="readonly">
                       </div>
                     </div>    
                   </div>
@@ -167,15 +167,15 @@ td, th{
                           <span>USUARIO RESPONSABLE: </span>
                         </div>
                         <div class="col-md-8">
-                          <input type="text" name="txt_userresponsable" id="txt_useresponsable" class="form-control" value="">
+                          <input type="text" name="txt_userresponsable" id="txt_userresponsable" class="form-control mant"  readonly="">
                         </div>
                       </div>
                       <div class="col-md-6">
-                        <div class="col-md-4">
-                           <span>APELLIDOS Y NOMBRES: </span>
+                        <div class="col-md-2">
+                           <span>Área: </span>
                         </div>
-                        <div class="col-md-8">
-                          <input type="text" name="txt_apenomb" id="txt_apenomb" class="form-control" value="">
+                        <div class="col-md-10">
+                          <select class="form-control" name="slct_area" id="slct_area" ></select>
                         </div> 
                       </div>
                     </div>
