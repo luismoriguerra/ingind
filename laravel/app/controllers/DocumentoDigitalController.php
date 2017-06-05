@@ -297,16 +297,44 @@ class DocumentoDigitalController extends \BaseController {
                     $dd->save();
                 }
 
-                $areas_envio = json_decode(Input::get('areasselect'));
-                foreach ($areas_envio as $key => $value) {
-                    $DocDigitalArea = new DocumentoDigitalArea();
-                    $DocDigitalArea->doc_digital_id = $DocDigital->id;
-                    $DocDigitalArea->persona_id = $value->persona_id;
-                    $DocDigitalArea->area_id = $value->area_id;
-                    $DocDigitalArea->tipo = $value->tipo;
-                    $DocDigitalArea->usuario_created_at = Auth::user()->id;
-                    $DocDigitalArea->save();
-                }                    
+                	$areas_envio = json_decode(Input::get('areasselect'));
+                        if(count($areas_envio)>=10){
+                            foreach ($areas_envio as $key => $value) {
+                                $validacion=Area::find($value->area_id);
+                                if($validacion->area_gestion_f==1){
+                                    if(Input::get('tipoenvio')==2){
+                                        if($value->area_id!=Auth::user()->area_id){
+                                            $DocDigitalArea = new DocumentoDigitalArea();
+                                            $DocDigitalArea->doc_digital_id = $DocDigital->id;
+                                            $DocDigitalArea->persona_id = $value->persona_id;
+                                            $DocDigitalArea->area_id = $value->area_id;
+                                            $DocDigitalArea->tipo = $value->tipo;
+                                            $DocDigitalArea->usuario_created_at = Auth::user()->id;
+                                            $DocDigitalArea->save();
+                                        }
+                                    }else {
+                                        $DocDigitalArea = new DocumentoDigitalArea();
+                                        $DocDigitalArea->doc_digital_id = $DocDigital->id;
+                                        $DocDigitalArea->persona_id = $value->persona_id;
+                                        $DocDigitalArea->area_id = $value->area_id;
+                                        $DocDigitalArea->tipo = $value->tipo;
+                                        $DocDigitalArea->usuario_created_at = Auth::user()->id;
+                                        $DocDigitalArea->save();
+                                    }
+                                }
+                            }
+                        }else {
+                            foreach ($areas_envio as $key => $value) {
+                            
+                		$DocDigitalArea = new DocumentoDigitalArea();
+                		$DocDigitalArea->doc_digital_id = $DocDigital->id;
+                		$DocDigitalArea->persona_id = $value->persona_id;
+                		$DocDigitalArea->area_id = $value->area_id;
+                                $DocDigitalArea->tipo = $value->tipo;
+                		$DocDigitalArea->usuario_created_at = Auth::user()->id;
+                		$DocDigitalArea->save();
+                            }
+                        }                    
             }
 
             return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
@@ -411,15 +439,43 @@ class DocumentoDigitalController extends \BaseController {
                     $DocDigitalArea->save();
                 }else{*/
                 	$areas_envio = json_decode(Input::get('areasselect'));
-                	foreach ($areas_envio as $key => $value) {
+                        if(count($areas_envio)>=10){
+                            foreach ($areas_envio as $key => $value) {
+                                $validacion=Area::find($value->area_id);
+                                if($validacion->area_gestion_f==1){
+                                    if(Input::get('tipoenvio')==2){
+                                        if($value->area_id!=Auth::user()->area_id){
+                                            $DocDigitalArea = new DocumentoDigitalArea();
+                                            $DocDigitalArea->doc_digital_id = $DocDigital->id;
+                                            $DocDigitalArea->persona_id = $value->persona_id;
+                                            $DocDigitalArea->area_id = $value->area_id;
+                                            $DocDigitalArea->tipo = $value->tipo;
+                                            $DocDigitalArea->usuario_created_at = Auth::user()->id;
+                                            $DocDigitalArea->save();
+                                        }
+                                    }else {
+                                        $DocDigitalArea = new DocumentoDigitalArea();
+                                        $DocDigitalArea->doc_digital_id = $DocDigital->id;
+                                        $DocDigitalArea->persona_id = $value->persona_id;
+                                        $DocDigitalArea->area_id = $value->area_id;
+                                        $DocDigitalArea->tipo = $value->tipo;
+                                        $DocDigitalArea->usuario_created_at = Auth::user()->id;
+                                        $DocDigitalArea->save();
+                                    }
+                                }
+                            }
+                        }else {
+                            foreach ($areas_envio as $key => $value) {
+                            
                 		$DocDigitalArea = new DocumentoDigitalArea();
                 		$DocDigitalArea->doc_digital_id = $DocDigital->id;
                 		$DocDigitalArea->persona_id = $value->persona_id;
                 		$DocDigitalArea->area_id = $value->area_id;
-                        $DocDigitalArea->tipo = $value->tipo;
+                                $DocDigitalArea->tipo = $value->tipo;
                 		$DocDigitalArea->usuario_created_at = Auth::user()->id;
                 		$DocDigitalArea->save();
-                	}
+                            }
+                        }
                 //}
             }
             DB::commit();
