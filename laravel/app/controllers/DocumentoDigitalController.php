@@ -486,6 +486,7 @@ class DocumentoDigitalController extends \BaseController {
     public function getVista($id,$tamano,$tipo)
     {
         ini_set("max_execution_time", 300);
+        ini_set('memory_limit','512M');
         $DocumentoDigital = DocumentoDigital::find($id);
         $sql= "SELECT d.posicion,d.posicion_fecha
                 FROM documentos d
@@ -651,6 +652,7 @@ class DocumentoDigitalController extends \BaseController {
     public function getVistaprevia($id,$tamano=4,$tipo=1)
    {   $tipo=1;
        ini_set("max_execution_time", 300);
+       ini_set('memory_limit','512M');
        $DocumentoDigital = DocumentoDigital::find($id);
        $sql= "SELECT d.posicion,d.posicion_fecha
                FROM documentos d
