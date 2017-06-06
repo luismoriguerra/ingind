@@ -109,6 +109,26 @@ var Bandeja={
                 msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);*/
             }
         });
-    }
+    },
+    GetPersons:function(data,evento){
+        $.ajax({
+            url         : 'persona/listar',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : data,
+            beforeSend : function() {
+            },
+            success : function(obj) {
+                if(obj.rst==1){
+                    evento(obj.datos);
+                    /*poblateData('persona',obj.datos[0]);*/
+                }
+            },
+            error: function(){
+                msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);
+            }
+        });
+    },
 };
 </script>

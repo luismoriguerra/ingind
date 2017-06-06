@@ -49,7 +49,11 @@ $(document).ready(function() {
     $(document).on('change', '#txt_file', function(event) {
         readURLI(this,'file');
     });
-
+    
+    $(document).on('click', '#btnTipoSolicitante', function(event) {
+            Bandeja.GetPersons({'apellido_nombre':1},HTMLPersonas);
+        
+    });
     function readURLI(input, tipo) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -423,5 +427,43 @@ exportPDFTramite = function(obj){
         event.preventDefault();
     }
 }
+
+HTMLPersonas = function(data){
+     $('#t_persona').dataTable().fnDestroy();
+    if(data.length > 1){
+        var html = '';
+        $.each(data,function(index, el) {
+            html+="<tr id='trid_"+el.id+"'>";
+            html+='<td class="nombre">'+el.name+'</td>';
+            html+='<td class="paterno">'+el.paterno+'</td>';
+            html+='<td class="materno">'+el.materno+'</td>';
+            html+='<td class="nombre_comercial">'+el.dni+'</td>';
+            html+='<td class="direccion_fiscal">'+el.email+'</td>';
+           /* html+='<td name="telefono">'+el.telefono+'</td>';*/
+            html+='<td><span class="btn btn-primary btn-sm" id-user='+el.id+' onClick="selectUser(this,'+el.id+')">Seleccionar</span></td>';
+            html+='</tr>';
+        });
+        $('#tb_persona').html(html);
+        $("#t_persona").dataTable(); 
+        $('#selectPersona').modal('show'); 
+    }else{
+        $(".empresa").addClass('hidden');
+        alert('Error');
+    }
+}
+
+selectUser = function(boton,id){
+
+        var paterno=$("#t_persona #trid_"+id+" .paterno").text();
+        var materno=$("#t_persona #trid_"+id+" .materno").text();
+        var nombre=$("#t_persona #trid_"+id+" .nombre").text();
+        $("#txt_persona").val(paterno+" "+materno+" "+nombre);
+        $("#paterno2").val(paterno);
+        $("#materno2").val(materno);
+        $("#nombre2").val(nombre);
+        $("#txt_persona_id").val(id);
+        $('#selectPersona').modal('hide');
+    
+    }
    
 </script>
