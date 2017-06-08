@@ -818,7 +818,8 @@ function HTMLExpedienteUnico(data){
 
     mostrarRuta = function(obj){
         var ruta_flujo_id = obj.getAttribute('ruta_flujo_id');
-        cargarRutaId(ruta_flujo_id,2);
+        var ruta_id=document.querySelector("#ruta_id").value;
+        cargarRutaId(ruta_flujo_id,2,ruta_id);
     }
 
     cargarRutaId=function(ruta_flujo_id,permiso,ruta_id){
