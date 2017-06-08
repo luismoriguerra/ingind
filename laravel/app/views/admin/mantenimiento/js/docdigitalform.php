@@ -92,7 +92,7 @@ $(document).ready(function() {
 
     $(document).on('change','#slct_areasp',function(event){
         $('#slct_personaarea').multiselect('destroy');
-        slctGlobal.listarSlctFuncion('area','personaarea','slct_personaarea','simple',null,{'area_id':$(this).val()});  
+        slctGlobal.listarSlctFuncion('area','personaarea','slct_personaarea','multiple',null,{'area_id':$(this).val()});  
         $(".personasarea").removeClass('hidden');
     });
 
@@ -286,9 +286,12 @@ HTMLEdit = function(data){
             $('#slct_areasp').multiselect('refresh');
 
             var ids = [];
-            ids.push(data[0].persona_id);
+            
+            $.each(data,function(index, el) {
+                ids.push(el.persona_id);
+            });
             $('#slct_personaarea').multiselect('destroy');
-            slctGlobal.listarSlctFuncion('area','personaarea','slct_personaarea','simple',ids,{'area_id':data[0].area_id});  
+            slctGlobal.listarSlctFuncion('area','personaarea','slct_personaarea','multiple',ids,{'area_id':data[0].area_id});  
         }else{ //gerencia
             $(".araesgerencia").removeClass('hidden');
         }

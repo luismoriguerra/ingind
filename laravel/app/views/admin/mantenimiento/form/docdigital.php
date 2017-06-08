@@ -95,7 +95,7 @@
                 <div class="form-group personasarea hidden">
                     <label class="control-label">Seleccione persona:
                     </label>
-                    <select class="form-control" name="slct_personaarea" id="slct_personaarea">
+                    <select class="form-control" name="slct_personaarea" id="slct_personaarea" multiple>
                     </select>
                 </div>
 
