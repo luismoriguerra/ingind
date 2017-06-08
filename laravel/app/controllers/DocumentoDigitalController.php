@@ -325,7 +325,7 @@ class DocumentoDigitalController extends \BaseController {
                             }
                         }else {
                             foreach ($areas_envio as $key => $value) {
-                                if(Input::get('tipoenvio')==1 or Input::get('tipoenvio')==5 or Input::get('tipoenvio')==6 ){
+                                if((Input::get('tipoenvio')==1 or Input::get('tipoenvio')==5 or Input::get('tipoenvio')==6) AND $value->tipo!=2){
                                     foreach($value->persona_id as $personas){
                                         $DocDigitalArea = new DocumentoDigitalArea();
                                         $DocDigitalArea->doc_digital_id = $DocDigital->id;
