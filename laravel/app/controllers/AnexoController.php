@@ -78,6 +78,7 @@ class AnexoController extends BaseController {
 			        )
 			    );
 			}else{ //guardar
+                                DB::beginTransaction();
 				$name = md5($img['name']).'_'.$data['txt_codtramite'].'.jpeg';
 				$root = public_path().'/img/anexo/'.$name;
 
@@ -106,7 +107,7 @@ class AnexoController extends BaseController {
                                 
 
                          
-        DB::beginTransaction();
+        
         $codigounico="";
         $codigounico=$codigo;
 
@@ -260,31 +261,34 @@ class AnexoController extends BaseController {
         $conteo=0;$array['fecha']=''; // inicializando valores para desglose
 
         $tiempoG = 1;
-        $areaG = $rutadetalle->area_id;
+        $areaG = array(52,$rutadetalle->area_id);
         $copiaG = 0 ;
+        $tipoenvio=2;
 
+            foreach ($areaG as $index => $val) {
+  
                 $rutaDetalle = new RutaDetalle;
                 $rutaDetalle['ruta_id']=$ruta->id;
-                $rutaDetalle['area_id']=$areaG;
+                $rutaDetalle['area_id']=$val;
                 $rutaDetalle['tiempo_id']=2;         
 /*
                 if (is_array($tiempo)){
-                    $rutaDetalle['dtiempo']=$tiempo[0];                    
+                    $rutaDetalle['dtiempo']=$tiempo[$index];                    
                 }else{*/
                     $rutaDetalle['dtiempo']=$tiempoG;
 /*                }
 */
-                $rutaDetalle['norden']=0 + 1;
-                if(0==0){
+                $rutaDetalle['norden']=$index + 1;
+                if($index==0){
                     $rutaDetalle['fecha_inicio']=$fecha_inicio2;
                 }
                 else{
                     $validaactivar=1;
                 }
 
-                if (0 < 2) {
+                if ($index < 2) {
                      $rutaDetalle['estado_ruta']=1;
-                }elseif(0 >= 2){
+                }elseif($index >= 2){
                      $rutaDetalle['estado_ruta']=2;
                 }
                 $rutaDetalle['usuario_created_at']= Auth::user()->id;
@@ -369,7 +373,7 @@ class AnexoController extends BaseController {
                     $cartaDesglose['ruta_detalle_id']=$rutaDetalle->id;
                     $cartaDesglose->save();
                 /*************************************************************/
-                if( 0==0 AND Input::has('carta_id') ){
+                if( $index==0 AND Input::has('carta_id') ){
                     $rutaDetalleVerbo = new RutaDetalleVerbo;
                     $rutaDetalleVerbo['ruta_detalle_id']= $rutaDetalle->id;
                     $rutaDetalleVerbo['nombre']= '-';
@@ -415,8 +419,8 @@ class AnexoController extends BaseController {
                         }
                     }*/
                     $array_verbos = [];
-                    if(0==0){
-                        $array_verbos = [1,5,4];
+                    if($index==0){
+                        $array_verbos = [4];
                         /*foreach ($array_verbos as $key => $value) {
                             $verbo = Verbo::find($value);
 
@@ -442,7 +446,7 @@ class AnexoController extends BaseController {
                             $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
                             $rutaDetalleVerbo->save();                           
                         }*/
-                    }elseif( Input::get('select_tipoenvio')==1 && $copiaG==0){ //con retorno
+                    }elseif( $tipoenvio==1 && $copiaG==0){ //con retorno
                         $array_verbos = [2,1,5,4];
          /*               foreach ($array_verbos as $key => $value) {
                             $verbo = Verbo::find($value);
@@ -469,8 +473,8 @@ class AnexoController extends BaseController {
                             $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
                             $rutaDetalleVerbo->save();                           
                         }*/
-                    }else if(Input::get('select_tipoenvio')==2  or $copiaG==1){ //sin retorno
-                        $array_verbos = [2,14];
+                    }else if($tipoenvio==2  or $copiaG==1){ //sin retorno
+                        $array_verbos = [2,14]; 
          /*               foreach ($array_verbos as $key => $value) {
                             $verbo = Verbo::find($value);
 
@@ -497,7 +501,7 @@ class AnexoController extends BaseController {
                         $rutaDetalleVerbo['condicion']= 0;
 
                         if($value == 5){
-                            $Area = Area::find($areaG);
+                            $Area = Area::find($val);
                             if($Area->area_gestion == 1){
                                 $rutaDetalleVerbo['rol_id']= 8;     
                             }elseif($Area->area_gestion == 2){
@@ -513,19 +517,15 @@ class AnexoController extends BaseController {
                         $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
                         $rutaDetalleVerbo->save();                           
                     }
-            
+            }
+
             DB::commit();
             return  array(
                     'rst'=>1,
                     'msj'=>'Registro realizado con éxito'
             );
         }
-			        return Response::json(
-			            array(
-			            'rst'=>1,
-			            'msj'=>'Registro realizado correctamente',
-			            )
-			        );
+
 			    }
 			}
 
