@@ -239,7 +239,7 @@ td, th{
                         <div class="col-md-12 form-group">
                           <span>Piso:</span>
                           <select class="form-control" id="slct_piso" name="slct_piso">                          
-                          <option value="">.::Seleccione::.</option><option value="1">Piso 1</option></select>
+                          <option value="">.::Seleccione::.</option><option value="1">Piso 1</option><option value="2">Piso 2</option><option value="3">Piso 3</option><option value="4">Piso 4</option></select>
                         </div><div class="col-md-12 form-group">
                           <span>Oficina:</span>
                           <input type="text" name="txt_oficina" id="txt_oficina" class="form-control">
