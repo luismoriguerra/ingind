@@ -8,6 +8,7 @@ $(document).ready(function() {
         showMeridian: false,
         time:false,
         minView:3,
+        startView:3,
         autoclose: true,
         todayBtn: false
     });
@@ -16,13 +17,14 @@ $(document).ready(function() {
 
     $("#generar").click(function (){
         var area_id = $('#slct_area_id').val();
+        var sino = $('#slct_sino').val();
         $('#area_id').val(area_id);
         var fecha_ini=$('#fecha_ini').val();
         var fecha_fin=$('#fecha_fin').val();
         
             if($.trim(area_id)!==''){
                 if ( fecha_ini!=="" && fecha_fin!=="" && (fecha_ini<=fecha_fin)) {
-                    var  dataG = {area_id:area_id.join(','),fecha_ini:fecha_ini,fecha_fin:fecha_fin};
+                    var  dataG = {area_id:area_id.join(','),fecha_ini:fecha_ini,fecha_fin:fecha_fin,sino:sino};
                     Proceso.CuadroProceso(dataG);
 
                 } else {
@@ -42,25 +44,29 @@ GeneraHref=function(){
         $('#area_id').val(area_id);
         var fecha_ini=$('#fecha_ini').val();
         var fecha_fin=$('#fecha_fin').val();
+        var sino = $('#slct_sino').val();
         
         if($.trim(area_id)!==''){
         $("#btnexport").removeAttr('href');
         if ( fecha_ini!=="" && fecha_fin!=="" && (fecha_ini<=fecha_fin)) {
-            data = {fecha_fin:fecha_fin,fecha_ini:fecha_ini,area_id:$("#slct_area_id").val().join(',')};
-            window.location='reporte/exportcuadroproceso?fecha_ini='+data.fecha_ini+'&fecha_fin='+data.fecha_fin+'&area_id='+data.area_id;
+            data = {sino:sino,fecha_fin:fecha_fin,fecha_ini:fecha_ini,area_id:$("#slct_area_id").val().join(',')};
+            window.location='reporte/exportcuadroproceso?fecha_ini='+data.fecha_ini+'&fecha_fin='+data.fecha_fin+'&sino='+data.sino+'&area_id='+data.area_id;
         } else {
             alert("Seleccione Fecha correctamente");
         }}
         else {  alert("Seleccione Área"); }
 }
 
-HTMLCProceso=function(datos,cabecera){
+HTMLCProceso=function(datos,cabecera,sino){
     var html="";var html_cabecera="";
     var alerta_tipo= '';
     $('#t_proceso').dataTable().fnDestroy();
     pos=0;
-    html_cabecera+="<tr>"+
-             "<th colspan='3'></th>";
+    if(sino==1){
+        html_cabecera+="<tr><th colspan='3'></th>";
+    }else {
+        html_cabecera+="<tr><th colspan='2'></th>";
+    }
     var n=0;
     $.each(cabecera,function(index,cabecera){
        html_cabecera+="<th>"+cabecera+"</th>";
@@ -71,9 +77,10 @@ HTMLCProceso=function(datos,cabecera){
     html_cabecera+="</tr>";
     
     html_cabecera+="<tr>"+
-             "<th>N°</th>"+
-             "<th>Area</th>"+
-             "<th>Proceso</th>";
+             "<th>N°</th>";
+    if(sino==1){
+    html_cabecera+="<th>Área</th>";}
+    html_cabecera+="<th>Proceso</th>";
     var n=0;
     
     $.each(cabecera,function(index,cabecera){
@@ -87,9 +94,12 @@ HTMLCProceso=function(datos,cabecera){
     $.each(datos,function(index,data){
         pos++;
         html+="<tr>"+
-            "<td>"+pos+"</td>"+
-            "<td>"+data.area+"</td>"+
-            "<td>"+data.proceso+"</td>";
+            "<td>"+pos+"</td>";
+        if(sino==1){
+            html+="<td>"+data.area+"</td>";}
+        
+            html+="<td>"+data.proceso+"</td>";
+        
         var i;
         for(i=1;i<=n;i++){ 
             html+='<td>'+$.trim(data['r'+i])+'</td>';

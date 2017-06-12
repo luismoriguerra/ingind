@@ -169,7 +169,8 @@ class ReporteController extends BaseController
             array(
                 'rst'=>1,
                 'datos'=>$oData['data'],
-                'cabecera'=>$oData['cabecera']
+                'cabecera'=>$oData['cabecera'],
+                'sino'=>$oData['sino']
             )
         );
    }
@@ -2536,11 +2537,18 @@ class ReporteController extends BaseController
           'font-name'=>'Bookman Old Style',
           'font-size'=>8,
         );
-        array_unshift($rst['cabecera'],'','','');
+        
         array_push($rst['cabecera'],'Total');
-        array_unshift($rst['cabecera1'],'N°','Área','Proceso');
         array_push($rst['cabecera1'],'N° de P.');
         
+        if($rst['sino']==0){
+            array_unshift($rst['cabecera'],'','');
+            array_unshift($rst['cabecera1'],'N°','Proceso');
+        }else{
+            array_unshift($rst['cabecera'],'','','');
+            array_unshift($rst['cabecera1'],'N°','Área','Proceso');
+        }
+               
         $this->exportExcelCuadroProceso($propiedades,'',$rst['cabecera'],$rst['cabecera1'],$rst['data']); 
 
     }

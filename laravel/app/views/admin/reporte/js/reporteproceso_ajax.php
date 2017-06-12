@@ -14,7 +14,7 @@ var Proceso={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){  
-                    HTMLCProceso(obj.datos,obj.cabecera);
+                    HTMLCProceso(obj.datos,obj.cabecera,obj.sino);
                     
                 }
             },

@@ -38,9 +38,17 @@
         <fieldset>
             <div class="row form-group" >
                 <div class="col-md-12">
-                    <div class="col-md-4"><input type="hidden" id="area_id" name="area_id">
+                    <div class="col-md-4">
+                        <input type="hidden" id="area_id" name="area_id">
                         <label class="control-label">Area:</label>
                         <select class="form-control" name="slct_area_id[]" id="slct_area_id" multiple>
+                        </select>
+                    </div>
+                    <div class="col-md-3" style="display: none">
+                        <label class="control-label">¿Desea mostrar Área?</label>
+                        <select class="form-control" name="slct_sino" id="slct_sino" class="form-control">
+                            <option value="0" selected="">NO</option>
+                            <option value="1">SI</option>
                         </select>
                     </div>
                     <div class="col-md-2">
@@ -59,7 +67,6 @@
                         <div class="col-md-6" >
                             <label class="control-label" style="color: white">aaaaa</label>
                             <a class='btn btn-success' id="btnexport" name="btnexport"><i class="glyphicon glyphicon-download-alt">Exportar</i></a>
-                        </div>
                     </div>
                 </div>
             </div>
