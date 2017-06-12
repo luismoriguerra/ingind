@@ -19,6 +19,7 @@ $(document).ready(function() {
     slctGlobal.listarSlct('local','slct_local','simple',null,data); 
 
     slctGlobalHtml('slct_estado','simple');
+    slctGlobalHtml('slct_piso','simple');
     slctGlobalHtml('slct_modalidad','simple');
 /*    slctGlobal.listarSlct('tipotramite','cbo_tipotramite','simple',null,data);
     slctGlobal.listarSlct('persona','cbo_persona','simple',null,{estado_persona:1});
@@ -41,13 +42,20 @@ $(document).ready(function() {
     });
      /*validaciones*/
 
-
-
     $(document).on('click', '.btnEnviar', function(event) {
         generarUsuario();
     });
-});
 
+    $('#sincod').on('ifChanged', function(event){
+            if(event.target.checked == true){
+                $("#txt_codpatrimonial").prop('disabled',true);
+
+            }else{
+                $("#txt_codpatrimonial").prop('disabled',false);
+            }
+        
+});
+});
 poblateDataUser = function(){
     var nombrecompleto= '<?php echo Auth::user()->paterno?>'+' '+'<?php echo Auth::user()->materno?>'+' '+'<?php echo Auth::user()->nombre?>'; 
     var area= '<?php echo Auth::user()->area_id?>'

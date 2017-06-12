@@ -220,7 +220,7 @@ td, th{
                         <div class="col-md-12 form-group">
                           <span>Codigo Patrimonial: </span>
                           <input type="text" name="txt_codpatrimonial" id="txt_codpatrimonial" class="form-control">
-                        </div>
+                        <input type="checkbox" name="sincod" id="sincod" value="1">Sin código</div>
                         <div class="col-md-12 form-group">
                           <span>Codigo Interno:</span>
                           <input type="text" name="txt_codinterno" id="txt_codinterno" class="form-control">
@@ -237,6 +237,10 @@ td, th{
                           </select>
                         </div>
                         <div class="col-md-12 form-group">
+                          <span>Piso:</span>
+                          <select class="form-control" id="slct_piso" name="slct_piso">                          
+                          <option value="">.::Seleccione::.</option><option value="1">Piso 1</option></select>
+                        </div><div class="col-md-12 form-group">
                           <span>Oficina:</span>
                           <input type="text" name="txt_oficina" id="txt_oficina" class="form-control">
                         </div>
