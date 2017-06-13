@@ -62,6 +62,7 @@ HTMLCProceso=function(datos,cabecera,sino){
     var alerta_tipo= '';
     $('#t_proceso').dataTable().fnDestroy();
     pos=0;
+    contarproceso0=0;
     if(sino==1){
         html_cabecera+="<tr><th colspan='3'></th>";
     }else {
@@ -105,8 +106,14 @@ HTMLCProceso=function(datos,cabecera,sino){
             html+='<td>'+$.trim(data['r'+i])+'</td>';
         }
         
+        if(data.rt==0){
+                contarproceso0++;
+        }
+        
         html+='<td>'+data.rt+"</td>";
     });
+    var totalcero=contarproceso0;
+    var totalmascero=pos-contarproceso0;
 
     html+="</tr>";
     $("#tb_proceso").html(html);
@@ -117,6 +124,19 @@ HTMLCProceso=function(datos,cabecera,sino){
             "pageLength": 10,
             }
     ); 
+    var htmlca='';
+    var htmlresumen='';
+    htmlca+="<tr><th>Resumen</th><th>Cantidad</th></tr>";
+    htmlresumen+="<tr><td>Cantidad de Procesos con 0 trámites</td><td>"+totalcero+"</td></tr>";
+    htmlresumen+="<tr><td>Cantidad de Procesos con trámites</td><td>"+totalmascero+"</td></tr>";
+    $("#tt_resumen").html(htmlca);
+    $("#tb_resumen").html(htmlresumen);
+//    $("#t_resumen").dataTable(
+//            {
+//            "order": [[ 0, "asc" ],[1, "asc"]],
+//            "pageLength": 10,
+//            }
+//    ); 
 };
 
 ActPest=function(nro){

@@ -70,6 +70,7 @@
                     </div>
                 </div>
             </div>
+            </div>
         </fieldset>
 
         <div class="box-body">
@@ -83,6 +84,15 @@
                                 </tr>
                             </thead>
                             <tbody id="tb_proceso">
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="box-body table-responsive">
+                        <table id="t_resumen" class="table table-bordered">
+                            <thead id="tt_resumen">
+                            </thead>
+                            <tbody id="tb_resumen">
                             </tbody>
                         </table>
                     </div>
