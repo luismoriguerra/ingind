@@ -48,7 +48,7 @@
                         <select class="form-control" name="slct_area_id[]" id="slct_area_id" multiple>
                         </select>
                     </div>
-                    <div class="col-md-3" style="display: none">
+                    <div class="col-md-3">
                         <label class="control-label">¿Desea mostrar Área?</label>
                         <select class="form-control" name="slct_sino" id="slct_sino" class="form-control">
                             <option value="0" selected="">NO</option>
