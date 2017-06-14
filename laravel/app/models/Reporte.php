@@ -594,7 +594,7 @@ class Reporte extends Eloquent
         if(Input::get('sino')==1){
             $sSql.=",a.nombre as area";
         }     
-        $sSql .= ",r.ruta_flujo_id,f.nombre as proceso";
+        $sSql .= ",rf.id as ruta_flujo_id,f.nombre as proceso";
         $sSql .= $cl;
         $sSql .= ",count(r.id) rt";
         $sSql .= " FROM flujos f 
