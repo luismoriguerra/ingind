@@ -24,7 +24,7 @@ class Anexo extends Base {
     }
 
     public static function getDetalleAnexobyId(){
-        $sql = "select ta.documento_id,ta.id codanexo,ta.fecha_anexo fechaanexo,ta.tramite_id codtramite,ta.estado estado,ta.obeservacion observ,ta.fecha_recepcion frecepcion,p.dni dnipersona,p.nombre nombrepersona,p.paterno apepersona,p.materno apempersona,
+        $sql = "select ta.persona_id,ta.documento_id,ta.id codanexo,ta.fecha_anexo fechaanexo,ta.tramite_id codtramite,ta.estado estado,ta.obeservacion observ,ta.fecha_recepcion frecepcion,p.dni dnipersona,p.nombre nombrepersona,p.paterno apepersona,p.materno apempersona,
             ct.nombre_clasificador_tramite nombretramite,t.fecha_tramite fechatramite,'' area,e.ruc ruc,e.tipo_id tipoempresa,e.razon_social razonsocial,
             e.nombre_comercial nombcomercial,e.direccion_fiscal direcfiscal,e.telefono etelefono,
             CONCAT_WS(' ',p2.nombre,p2.paterno,p2.materno) representantelegal,t.tipo_documento_id idtipodoc,d.nombre tipodoc,t.documento numdoc,ta.nro_folios folios,ta.imagen img 

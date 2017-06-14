@@ -570,51 +570,45 @@ class Reporte extends Eloquent
         public static function CuadroProceso() {
         $sSql = '';
         $cl = '';
-//        $left = '';
-//        $f_fecha = '';
+        $left = '';
+        $f_fecha = '';
         $cabecera = [];
         $cabecera1 = [];
 
-//        if (Input::has('fecha_ini') && Input::get('fecha_ini') && Input::has('fecha_fin') && Input::get('fecha_fin')) {
+        if (Input::has('fecha_ini') && Input::get('fecha_ini') && Input::has('fecha_fin') && Input::get('fecha_fin')) {
             $fecha_ini=Input::get('fecha_ini');
             $fecha_fin=Input::get('fecha_fin');
-//            $f_fecha .= "AND DATE_FORMAT(r.created_at,'%Y-%m') BETWEEN '" . $fecha_ini . "' AND '" . $fecha_fin . "' ";
-//        }
+            $f_fecha .= "AND DATE_FORMAT(r.created_at,'%Y-%m') BETWEEN '" . $fecha_ini . "' AND '" . $fecha_fin . "' ";
+        }
 
         $n = 1;
         for($i=$fecha_ini;$i<=$fecha_fin;$i = date("Y-m", strtotime($i ."+ 1 month"))){
-            $cl .= ",COUNT(IF(DATE_FORMAT(r.created_at,'%Y-%m')='".$i."',r.id,null)) r$n";
-//            $left .= "LEFT JOIN rutas r$n on r$n.id=r.id AND DATE_FORMAT(r$n.created_at,'%Y-%m')='".$i."'";
+            $cl .= ",count(r$n.id) r$n";
+            $left .= "LEFT JOIN rutas r$n on r$n.id=r.id AND DATE_FORMAT(r$n.created_at,'%Y-%m')='".$i."'";
             $n++;
             array_push($cabecera,$i);
             array_push($cabecera1, 'N° de P.');
         }
 
-        $sSql .= "SELECT 1 as norden";
-        
+        $sSql .= "SELECT 1 as norden";   
         if(Input::get('sino')==1){
-            $sSql.=",a.nombre AS area";}   
-            
-        $sSql .= ",f.nombre as proceso";
+            $sSql.=",a.nombre as area";
+        }     
+        $sSql .= ",r.ruta_flujo_id,f.nombre as proceso";
         $sSql .= $cl;
-        $sSql .= ",COUNT(IF(DATE_FORMAT(r.created_at,'%Y-%m') BETWEEN '" . $fecha_ini . "' AND '" . $fecha_fin . "',r.id,null)) rt";
-        $sSql .= " FROM rutas_flujo rf
-                  LEFT JOIN rutas r on r.ruta_flujo_id=rf.id AND r.estado=1
-                  INNER JOIN flujos f on rf.flujo_id=f.id and f.estado=1
-                  INNER JOIN areas a on a.id=f.area_id ";
-        $sSql .= " WHERE rf.estado=1 ";
-
+        $sSql .= ",count(r.id) rt";
+        $sSql .= " FROM flujos f 
+                    INNER JOIN rutas_flujo rf ON rf.flujo_id=f.id AND rf.estado=1
+                    INNER JOIN areas a on a.id=f.area_id 
+                    LEFT JOIN rutas r ON r.ruta_flujo_id=rf.id AND r.estado=1 ".$f_fecha;
+        $sSql .=$left;
+        $sSql.="WHERE f.estado=1 ";
         if (Input::has('area_id') && Input::get('area_id')) {
             $id_area = Input::get('area_id');
             $sSql .= " AND a.id IN ($id_area)";
         }
+            $sSql .= " GROUP BY rf.id "; 
         
-        if(Input::get('sino')==1){
-            $sSql .= " GROUP BY f.id "; 
-        }else{
-            $sSql .= " GROUP BY f.id,a.id ";
-        }
-
         
         $oData['cabecera'] = $cabecera;
         $oData['cabecera1'] = $cabecera1;

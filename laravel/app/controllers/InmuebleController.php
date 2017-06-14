@@ -35,8 +35,9 @@ class InmuebleController extends \BaseController {
 			if($fechaAct >= $fechaini && $fechaAct <= $fechafin){
 				$Inmueble = new Inmueble();
                                 if(Input::has('codpatrimonial')){
-                                $Inmueble['cod_patrimonial'] = Input::get('codpatrimonial'); }
-                                else {$Inmueble['cod_patrimonial'] = 0;}
+                                    $Inmueble['cod_patrimonial'] = Input::get('codpatrimonial'); 
+                                }else {
+                                    $Inmueble['cod_patrimonial'] = '0-'.$Inmueble->id;}
 				$Inmueble['cod_interno'] = Input::get('codinterno'); 
 				$Inmueble['inventario_apertura_id'] = $Aperturas[0]->id;
 				$Inmueble['descripcion'] = Input::get('descripcion'); 

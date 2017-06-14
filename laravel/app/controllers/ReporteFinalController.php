@@ -60,7 +60,10 @@ class ReporteFinalController extends BaseController
       }
 
       if( Input::has('ruta_flujo_id') AND Input::get('ruta_flujo_id')!='' ){
-        $array['ruta_flujo_id']=" AND r.ruta_flujo_id='".Input::get('ruta_flujo_id')."' ";
+        $array['ruta_flujo_id'].=" AND r.ruta_flujo_id='".Input::get('ruta_flujo_id')."' ";
+      }
+      if( Input::has('fecha_ini') AND Input::get('fecha_ini')!='' AND Input::has('fecha_fin') AND Input::get('fecha_fin')!=''){
+        $array['ruta_flujo_id'].=" AND DATE_FORMAT(r.fecha_inicio,'%Y-%m') BETWEEN '".Input::get('fecha_ini')."' AND '".Input::get('fecha_fin')."'  ";
       }
 
       if( Input::has('tramite_1') AND Input::get('tramite_1')!='' ){
