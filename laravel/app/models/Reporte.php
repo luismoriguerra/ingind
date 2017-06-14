@@ -596,7 +596,7 @@ class Reporte extends Eloquent
         }     
         $sSql .= ",rf.id as ruta_flujo_id,f.nombre as proceso";
         $sSql .= $cl;
-        $sSql .= ",count(r.id) rt
+        $sSql .= ",count(DISTINCT(r.id))  rt
                 ,count( DISTINCT( IF(rd.alerta>0,rd.id,NULL) ) ) ft
                 ,count(DISTINCT(rfd.area_id)) areas
                 ,count( DISTINCT( IF( rd.alerta>0,rd.area_id,NULL ) ) ) alertas";
