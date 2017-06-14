@@ -583,7 +583,7 @@ class Reporte extends Eloquent
 
         $n = 1;
         for($i=$fecha_ini;$i<=$fecha_fin;$i = date("Y-m", strtotime($i ."+ 1 month"))){
-            $cl .= ",count(r$n.id) r$n";
+            $cl .= ",count(DISTINCT(r$n.id)) r$n";
             $left .= "LEFT JOIN rutas r$n on r$n.id=r.id AND DATE_FORMAT(r$n.created_at,'%Y-%m')='".$i."'";
             $n++;
             array_push($cabecera,$i);
