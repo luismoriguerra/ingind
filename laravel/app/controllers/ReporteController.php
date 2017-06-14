@@ -175,6 +175,17 @@ class ReporteController extends BaseController
         );
    }
    
+           public function postDetallecuadroproceso()
+   {
+        $oData=Reporte::DetalleCuadroProceso();
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$oData,
+            )
+        );
+   }
+   
         public function postCargaractividad()
    {
         $oData=Persona::CargarActividad();

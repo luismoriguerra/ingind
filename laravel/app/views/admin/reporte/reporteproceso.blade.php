@@ -167,6 +167,26 @@
                     </div>
                 </form>
                     </div>
+                   <div class="col-xl-12">
+
+                            <form id="form_detallecuadro" name="form_detallecuadro" method="POST" action="">
+                                <div class="box-body table-responsive" style="overflow: auto; height: 388px; width: 100%;">
+                                    <table id="t_detallecuadro" class="table table-bordered no-footer dataTable">
+                                        <thead id="tt_detallecuadro">
+                                            <tr>
+                                                <th>Flujo</th>
+                                                <th>Área</th>
+                                                <th>N orden</th>
+                                                <th>Total</th>
+                                                <th>T. F.</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tb_detallecuadro">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
                                             <div class="col-xl-12">
                             <form id="form_1" name="form_1">
 

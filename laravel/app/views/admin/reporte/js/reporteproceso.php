@@ -160,9 +160,9 @@ HTMLCProceso=function(datos,cabecera,sino){
     pos=0;
     contarproceso0=0;
     if(sino==1){
-        html_cabecera+="<tr><th colspan='5'></th>";
+        html_cabecera+="<tr><th colspan='6'></th>";
     }else {
-        html_cabecera+="<tr><th colspan='4'></th>";
+        html_cabecera+="<tr><th colspan='5'></th>";
     }
     var n=0;
     $.each(cabecera,function(index,cabecera){
@@ -171,12 +171,12 @@ HTMLCProceso=function(datos,cabecera,sino){
     });
     
     html_cabecera+="<th colspan='1'>TOTAL</th>";
-    html_cabecera+="<th colspan='3'>ÍNDICES</th>";
+    html_cabecera+="<th colspan='5'>ÍNDICES</th>";
     html_cabecera+="</tr>";
     
     html_cabecera+="<tr>"+
              "<th>N°</th>";
-    html_cabecera+="<th></th><th></th>";
+    html_cabecera+="<th></th><th></th><th></th>";
     if(sino==1){
     html_cabecera+="<th>Área</th>";}
     html_cabecera+="<th>Proceso</th>";
@@ -200,6 +200,7 @@ HTMLCProceso=function(datos,cabecera,sino){
         html+="<tr>"+
             "<td>"+pos+"</td>"+
             '<td><a onclick="cargarRutaId('+data.ruta_flujo_id+',2,null,this)" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>'+
+            '<td><a onclick="cargardetalle('+data.ruta_flujo_id+',this)" class="btn btn-info btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>'+
             '<td><a onclick="Detalle('+data.ruta_flujo_id+',this)" class="btn btn-warning btn-sm"><i class="glyphicon glyphicon-list-alt"></i> </a></td>';
         if(sino==1){
             html+="<td>"+data.area+"</td>";}
@@ -758,6 +759,41 @@ detalle=function(ruta_id, boton){
         var dataG=[];
         dataG = {ruta_flujo_id:id,fecha_ini:fecha_ini,fecha_fin:fecha_fin};
         Proceso.MostrarTramites(dataG);
-        $('#tramiteModal').modal('show');
+};
+
+    cargardetalle=function(id){
+        var dataG=[];
+        dataG = {ruta_flujo_id:id};
+        Proceso.DetalleCuadroProceso(dataG);
+     
+};
+HTMLCargaDetalleCuadroProceso=function(datos){
+    var html ='';
+    var alerta_tipo= '';
+
+    $('#form_detallecuadro #t_detallecuadro').dataTable().fnDestroy();
+    pos=0;
+    
+
+    $.each(datos,function(index,data){
+//        btnruta='<a onclick="cargarRutaId('+data.ruta_flujo_id+',2,'+data.id+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
+        html+="<tr>"+
+            "<td>"+data.flujo+"</td>"+
+            "<td>"+data.area+"</td>"+
+            "<td>"+data.norden+"</td>"+
+            "<td>"+data.total+"</td>"+
+            "<td>"+data.tf+"</td>";
+        html+="</tr>";
+    });
+
+    $("#form_detallecuadro #tb_detallecuadro").html(html);
+    $("#form_detallecuadro #t_detallecuadro").dataTable(
+                         {
+            "order": [[ 0, "asc" ],[1, "asc"]],
+            "pageLength": 10,
+        }
+    );
+
+
 };
 </script>
