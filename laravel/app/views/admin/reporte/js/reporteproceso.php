@@ -215,8 +215,12 @@ HTMLCProceso=function(datos,cabecera,sino){
         if(data.rt==0){
                 contarproceso0++;
         }
-        var porcentaje_faltas=(data.ft*100)/data.rt;
-        var porcentaje_alertas=(data.alertas*100)/data.areas;
+        var porcentaje_faltas=0;
+        var porcentaje_alertas=0;
+        if(data.ft!=0 && data.rt!=0){
+            porcentaje_faltas=(data.ft*100)/data.rt;}
+        if(data.alertas!=0 && data.areas!=0){
+        porcentaje_alertas=(data.alertas*100)/data.areas;}
         html+='<td>'+data.rt+"</td>";
         html+='<td>'+data.ft+"</td>";
         html+='<td>'+porcentaje_faltas+"%</td>";
