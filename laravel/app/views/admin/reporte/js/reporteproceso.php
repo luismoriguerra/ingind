@@ -223,10 +223,10 @@ HTMLCProceso=function(datos,cabecera,sino){
         porcentaje_alertas=(data.alertas*100)/data.areas;}
         html+='<td>'+data.rt+"</td>";
         html+='<td>'+data.ft+"</td>";
-        html+='<td>'+porcentaje_faltas+"%</td>";
+        html+='<td>'+porcentaje_faltas.toFixed(2)+"%</td>";
         html+='<td>'+data.areas+"</td>";
         html+='<td>'+data.alertas+"</td>";
-        html+='<td>'+porcentaje_alertas+"%</td>";
+        html+='<td>'+porcentaje_alertas.toFixed(2)+"%</td>";
     });
     var totalcero=contarproceso0;
     var totalmascero=pos-contarproceso0;
