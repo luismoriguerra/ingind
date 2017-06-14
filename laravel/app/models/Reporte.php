@@ -596,11 +596,16 @@ class Reporte extends Eloquent
         }     
         $sSql .= ",rf.id as ruta_flujo_id,f.nombre as proceso";
         $sSql .= $cl;
-        $sSql .= ",count(r.id) rt";
+        $sSql .= ",count(r.id) rt
+                ,count( DISTINCT( IF(rd.alerta>0,rd.id,NULL) ) ) ft
+                ,count(DISTINCT(rfd.area_id)) areas
+                ,count( DISTINCT( IF( rd.alerta>0,rd.area_id,NULL ) ) ) alertas";
         $sSql .= " FROM flujos f 
                     INNER JOIN rutas_flujo rf ON rf.flujo_id=f.id AND rf.estado=1
+                    INNER JOIN rutas_flujo_detalle rfd ON rfd.ruta_flujo_id=rf.id AND rfd.estado=1
                     INNER JOIN areas a on a.id=f.area_id 
-                    LEFT JOIN rutas r ON r.ruta_flujo_id=rf.id AND r.estado=1 ".$f_fecha;
+                    LEFT JOIN rutas r ON r.ruta_flujo_id=rf.id AND r.estado=1 ".$f_fecha.
+                    " LEFT JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 ";
         $sSql .=$left;
         $sSql.="WHERE f.estado=1 ";
         if (Input::has('area_id') && Input::get('area_id')) {

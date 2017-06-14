@@ -170,7 +170,8 @@ HTMLCProceso=function(datos,cabecera,sino){
        n++;
     });
     
-    html_cabecera+="<th colspan='2'>TOTAL</th>";
+    html_cabecera+="<th colspan='1'>TOTAL</th>";
+    html_cabecera+="<th colspan='3'>ÍNDICES</th>";
     html_cabecera+="</tr>";
     
     html_cabecera+="<tr>"+
@@ -187,6 +188,11 @@ HTMLCProceso=function(datos,cabecera,sino){
     });
 
     html_cabecera+="<th>N° T. Total</th>";
+    html_cabecera+="<th>Faltas Cometidas</th>";
+    html_cabecera+="<th>% F. C.</th>";
+    html_cabecera+="<th>Áreas Involucradas</th>";
+    html_cabecera+="<th>Alertas</th>";
+    html_cabecera+="<th>% Alertas</th>";
     html_cabecera+="</tr>";
     
     $.each(datos,function(index,data){
@@ -208,8 +214,14 @@ HTMLCProceso=function(datos,cabecera,sino){
         if(data.rt==0){
                 contarproceso0++;
         }
-        
+        var porcentaje_faltas=(data.ft*100)/data.rt;
+        var porcentaje_alertas=(data.alertas*100)/data.areas;
         html+='<td>'+data.rt+"</td>";
+        html+='<td>'+data.ft+"</td>";
+        html+='<td>'+porcentaje_faltas+"%</td>";
+        html+='<td>'+data.areas+"</td>";
+        html+='<td>'+data.alertas+"</td>";
+        html+='<td>'+porcentaje_alertas+"%</td>";
     });
     var totalcero=contarproceso0;
     var totalmascero=pos-contarproceso0;
