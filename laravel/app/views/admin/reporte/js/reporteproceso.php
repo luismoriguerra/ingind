@@ -193,7 +193,7 @@ HTMLCProceso=function(datos,cabecera,sino){
         pos++;
         html+="<tr>"+
             "<td>"+pos+"</td>"+
-            '<td><a onclick="cargarRutaId('+data.ruta_flujo_id+',2)" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>'+
+            '<td><a onclick="cargarRutaId('+data.ruta_flujo_id+',2,null,this)" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>'+
             '<td><a onclick="Detalle('+data.ruta_flujo_id+',this)" class="btn btn-warning btn-sm"><i class="glyphicon glyphicon-list-alt"></i> </a></td>';
         if(sino==1){
             html+="<td>"+data.area+"</td>";}
@@ -289,7 +289,13 @@ HTMLCargaActividades=function(datos,envio_actividad,exonera){
 
 };
 
-cargarRutaId=function(ruta_flujo_id,permiso,ruta_id){
+cargarRutaId=function(ruta_flujo_id,permiso,ruta_id,boton){
+    var tr = boton.parentNode.parentNode;
+    var trs = tr.parentNode.children;
+    for(var i =0;i<trs.length;i++)
+        trs[i].style.backgroundColor="#f9f9f9";
+    tr.style.backgroundColor = "#9CD9DE";
+    
     $("#txt_ruta_flujo_id_modal").remove();
     $("#form_ruta_flujo").append('<input type="hidden" id="txt_ruta_flujo_id_modal" value="'+ruta_flujo_id+'">');
     $("#txt_titulo").text("Vista");
