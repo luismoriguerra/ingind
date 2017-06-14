@@ -2542,10 +2542,10 @@ class ReporteController extends BaseController
         array_push($rst['cabecera1'],'N° de P.');
         
         if($rst['sino']==0){
-            array_unshift($rst['cabecera'],'','');
+            array_unshift($rst['cabecera'],'','','');
             array_unshift($rst['cabecera1'],'N°','Proceso');
         }else{
-            array_unshift($rst['cabecera'],'','','');
+            array_unshift($rst['cabecera'],'','','','');
             array_unshift($rst['cabecera1'],'N°','Área','Proceso');
         }
                
@@ -2612,8 +2612,8 @@ class ReporteController extends BaseController
 
         if($key == 0){ // set style to header
           end($value);       
-          $objPHPExcel->getActiveSheet()->getStyle('A1:'.$head[key($value)].'1')->applyFromArray($styleThinBlackBorderAllborders);
-          $objPHPExcel->getActiveSheet()->getStyle('A2:'.$head[key($value)].'2')->applyFromArray($styleThinBlackBorderAllborders);
+          $objPHPExcel->getActiveSheet()->getStyle('A1:'.$head[key($value)-1].'1')->applyFromArray($styleThinBlackBorderAllborders);
+          $objPHPExcel->getActiveSheet()->getStyle('A2:'.$head[key($value)-1].'2')->applyFromArray($styleThinBlackBorderAllborders);
         }
 
         foreach($value as $index => $val){
@@ -2622,7 +2622,12 @@ class ReporteController extends BaseController
           if($index == 'norden' && $key > 0){ //set orden in excel
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue($head[$cont].($key + 1), $key-1);                
           }else{ //poblate info
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($head[$cont].($key + 1), $val);
+               if ($index=='ruta_flujo_id' ){
+                  $objPHPExcel->setActiveSheetIndex(0)->setCellValue($head[$cont].($key + 1), $val); 
+                  $cont--;
+               }
+               else {
+               $objPHPExcel->setActiveSheetIndex(0)->setCellValue($head[$cont].($key + 1), $val);}
           }
 
           $cont++;
