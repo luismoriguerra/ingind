@@ -176,7 +176,7 @@ HTMLCProceso=function(datos,cabecera,sino){
     
     html_cabecera+="<tr>"+
              "<th>N°</th>";
-    html_cabecera+="<th></th><th></th><th></th>";
+    html_cabecera+="<th>Ruta</th><th>Detalle</th><th>Trámites</th>";
     if(sino==1){
     html_cabecera+="<th>Área</th>";}
     html_cabecera+="<th>Proceso</th>";
