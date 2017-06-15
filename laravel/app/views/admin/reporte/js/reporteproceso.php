@@ -327,7 +327,7 @@ cargarRutaId=function(ruta_flujo_id,permiso,ruta_id,boton){
     $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
     $("#form_ruta_flujo").css("display","");
     Ruta.CargarDetalleRuta(ruta_flujo_id,permiso,CargarDetalleRutaHTML,ruta_id);
-    $("#form_tramite_detalle").css("display","");
+    $("#form_tramite_detalle").css("display","none");
     $("#form_tramite").css("display","none");
     $("#form_detallecuadro").css("display","none");
 
