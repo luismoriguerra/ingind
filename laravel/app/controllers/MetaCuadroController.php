@@ -100,6 +100,13 @@ class MetaCuadroController extends \BaseController {
                     $array['where'] .= " AND mc.actividad LIKE '%" . $actividad . "%' ";
                 }
             }
+            
+            if (Input::has("meta")) {
+                $meta = Input::get("meta");
+                if (trim($meta) != '') {
+                    $array['where'] .= " AND m.nombre LIKE '%" . $meta . "%' ";
+                }
+            }
 
             if (Input::has("estado")) {
                 $estado = Input::get("estado");
