@@ -201,7 +201,7 @@ HTMLCProceso=function(datos,cabecera,sino){
             "<td>"+pos+"</td>"+
             '<td><a onclick="cargarRutaId('+data.ruta_flujo_id+',2,null,this)" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>'+
             '<td><a onclick="cargardetalle('+data.ruta_flujo_id+',this)" class="btn btn-info btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>'+
-            '<td><a onclick="Detalle('+data.ruta_flujo_id+',this)" class="btn btn-warning btn-sm"><i class="glyphicon glyphicon-list-alt"></i> </a></td>';
+            '<td><a onclick="Detalle('+data.ruta_flujo_id+',null)" class="btn btn-warning btn-sm"><i class="glyphicon glyphicon-list-alt"></i> </a></td>';
         if(sino==1){
             html+="<td>"+data.area+"</td>";}
         
@@ -212,9 +212,9 @@ HTMLCProceso=function(datos,cabecera,sino){
             html+='<td style="text-align:center;">'+$.trim(data['r'+i])+
                   '<table>'+
                   '<tr>'+
-                  '<td><a onclick="Detalle('+data.ruta_flujo_id+',this)" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>'+
-                  '<td><a onclick="Detalle('+data.ruta_flujo_id+',this)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>'+
-                  '<td><a onclick="Detalle('+data.ruta_flujo_id+',this)" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>'+
+                  '<td><a onclick="Detalle('+data.ruta_flujo_id+',\''+cabecera[i-1]+'\')" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>'+
+                  '<td><a onclick="Detalle('+data.ruta_flujo_id+')" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>'+
+                  '<td><a onclick="Detalle('+data.ruta_flujo_id+')" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>'+
                   '</tr>'+
                   '</table></td>';
         }
@@ -770,11 +770,16 @@ detalle=function(ruta_id, boton){
     $("#form_ruta_flujo").css("display","none");
 };
 
-    Detalle=function(id){
+    Detalle=function(id,fechames){
         var fecha_ini=$('#fecha_ini').val();
         var fecha_fin=$('#fecha_fin').val();
         var dataG=[];
-        dataG = {ruta_flujo_id:id,fecha_ini:fecha_ini,fecha_fin:fecha_fin};
+        if(fechames==null){
+            dataG = {ruta_flujo_id:id,fecha_ini:fecha_ini,fecha_fin:fecha_fin};alert("b");
+            
+        }else {
+            dataG = {ruta_flujo_id:id,fechames:fechames};alert("a");
+        }
         Proceso.MostrarTramites(dataG);
         $("#form_tramite").css("display","");
         $("#form_tramite_detalle").css("display","none");
