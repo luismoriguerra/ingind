@@ -166,12 +166,12 @@ HTMLCProceso=function(datos,cabecera,sino){
     }
     var n=0;
     $.each(cabecera,function(index,cabecera){
-       html_cabecera+="<th>"+cabecera+"</th>";
+       html_cabecera+="<th style='text-align:center'>"+cabecera+"</th>";
        n++;
     });
     
-    html_cabecera+="<th colspan='1'>TOTAL</th>";
-    html_cabecera+="<th colspan='5'>ÍNDICES</th>";
+    html_cabecera+="<th colspan='1' style='text-align:center'>Total</th>";
+    html_cabecera+="<th colspan='5' style='text-align:center'>Índices</th>";
     html_cabecera+="</tr>";
     
     html_cabecera+="<tr>"+
@@ -179,7 +179,7 @@ HTMLCProceso=function(datos,cabecera,sino){
     html_cabecera+="<th>Ruta</th><th>Detalle</th><th>Trámites</th>";
     if(sino==1){
     html_cabecera+="<th>Área</th>";}
-    html_cabecera+="<th>Proceso</th>";
+    html_cabecera+="<th style='text-align:center'>Proceso</th>";
     var n=0;
     
     $.each(cabecera,function(index,cabecera){
@@ -209,7 +209,14 @@ HTMLCProceso=function(datos,cabecera,sino){
         
         var i;
         for(i=1;i<=n;i++){ 
-            html+='<td>'+$.trim(data['r'+i])+'</td>';
+            html+='<td style="text-align:center;">'+$.trim(data['r'+i])+
+                  '<table>'+
+                  '<tr>'+
+                  '<td><a onclick="Detalle('+data.ruta_flujo_id+',this)" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>'+
+                  '<td><a onclick="Detalle('+data.ruta_flujo_id+',this)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>'+
+                  '<td><a onclick="Detalle('+data.ruta_flujo_id+',this)" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>'+
+                  '</tr>'+
+                  '</table></td>';
         }
         
         if(data.rt==0){
@@ -242,9 +249,9 @@ HTMLCProceso=function(datos,cabecera,sino){
     ); 
     var htmlca='';
     var htmlresumen='';
-    htmlca+="<tr><th>Resumen</th><th>Cantidad</th></tr>";
-    htmlresumen+="<tr><td>Cantidad de Procesos con 0 trámites</td><td>"+totalcero+"</td></tr>";
-    htmlresumen+="<tr><td>Cantidad de Procesos con trámites</td><td>"+totalmascero+"</td></tr>";
+    htmlca+="<tr><th style='text-align:center'>Resumen</th><th style='text-align:center'>Cantidad</th></tr>";
+    htmlresumen+="<tr><td>Cantidad de Procesos con 0 trámites</td><td style='text-align:right'>"+totalcero+"</td></tr>";
+    htmlresumen+="<tr><td>Cantidad de Procesos con trámites</td><td style='text-align:right'>"+totalmascero+"</td></tr>";
     $("#tt_resumen").html(htmlca);
     $("#tb_resumen").html(htmlresumen);
 //    $("#t_resumen").dataTable(
@@ -318,8 +325,11 @@ cargarRutaId=function(ruta_flujo_id,permiso,ruta_id,boton){
     $("#txt_titulo").text("Vista");
     $("#texto_fecha_creacion").text("Fecha Vista:");
     $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
-    $("#form_ruta_flujo .form-group").css("display","");
+    $("#form_ruta_flujo").css("display","");
     Ruta.CargarDetalleRuta(ruta_flujo_id,permiso,CargarDetalleRutaHTML,ruta_id);
+    $("#form_tramite_detalle").css("display","");
+    $("#form_tramite").css("display","none");
+    $("#form_detallecuadro").css("display","none");
 
 }
 CargarDetalleRutaHTML=function(permiso,datos){
@@ -707,7 +717,7 @@ HTMLreported=function(datos){
             "bInfo": false,
             "visible": false,
     });
-    $("#reported_tab_1").show();
+   
 };
 HTMLCargaTramites=function(datos){
     var html ='';
@@ -740,7 +750,6 @@ HTMLCargaTramites=function(datos){
         }
     );
 
-
 };
 
 detalle=function(ruta_id, boton){
@@ -755,6 +764,10 @@ detalle=function(ruta_id, boton){
     var datos=$("#form_1").serialize().split("txt_").join("").split("slct_").join("");
     $("#form_1 #txt_ruta_id").remove();
     Tramite.mostrar( datos,HTMLreported,'d' );
+    $("#form_tramite_detalle").css("display","");
+    $("#form_tramite").css("display","");
+    $("#form_detallecuadro").css("display","none");
+    $("#form_ruta_flujo").css("display","none");
 };
 
     Detalle=function(id){
@@ -763,12 +776,20 @@ detalle=function(ruta_id, boton){
         var dataG=[];
         dataG = {ruta_flujo_id:id,fecha_ini:fecha_ini,fecha_fin:fecha_fin};
         Proceso.MostrarTramites(dataG);
+        $("#form_tramite").css("display","");
+        $("#form_tramite_detalle").css("display","none");
+        $("#form_detallecuadro").css("display","none");
+        $("#form_ruta_flujo").css("display","none");
 };
 
     cargardetalle=function(id){
         var dataG=[];
         dataG = {ruta_flujo_id:id};
         Proceso.DetalleCuadroProceso(dataG);
+     $("#form_detallecuadro").css("display","");
+     $("#form_tramite_detalle").css("display","none");
+     $("#form_tramite").css("display","none");
+     $("#form_ruta_flujo").css("display","none");
      
 };
 HTMLCargaDetalleCuadroProceso=function(datos){
@@ -797,7 +818,6 @@ HTMLCargaDetalleCuadroProceso=function(datos){
             "pageLength": 10,
         }
     );
-
 
 };
 </script>
