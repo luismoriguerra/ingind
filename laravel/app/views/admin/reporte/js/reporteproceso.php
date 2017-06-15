@@ -775,10 +775,10 @@ detalle=function(ruta_id, boton){
         var fecha_fin=$('#fecha_fin').val();
         var dataG=[];
         if(fechames==null){
-            dataG = {ruta_flujo_id:id,fecha_ini:fecha_ini,fecha_fin:fecha_fin};alert("b");
+            dataG = {ruta_flujo_id:id,fecha_ini:fecha_ini,fecha_fin:fecha_fin};
             
         }else {
-            dataG = {ruta_flujo_id:id,fechames:fechames};alert("a");
+            dataG = {ruta_flujo_id:id,fechames:fechames};
         }
         Proceso.MostrarTramites(dataG);
         $("#form_tramite").css("display","");
