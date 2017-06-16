@@ -603,7 +603,8 @@ class Reporte extends Eloquent
         $sSql .= " FROM flujos f 
                     INNER JOIN rutas_flujo rf ON rf.flujo_id=f.id AND rf.estado=1
                     INNER JOIN rutas_flujo_detalle rfd ON rfd.ruta_flujo_id=rf.id AND rfd.estado=1
-                    INNER JOIN areas a on a.id=f.area_id 
+                    INNER JOIN rutas_flujo_detalle rfd2 ON rf.id=rfd2.ruta_flujo_id AND rfd.norden=1 AND rfd.estado=1
+                    INNER JOIN areas a on a.id=rfd2.area_id 
                     LEFT JOIN rutas r ON r.ruta_flujo_id=rf.id AND r.estado=1 ".$f_fecha.
                     " LEFT JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 ";
         $sSql .=$left;
