@@ -180,15 +180,15 @@ td, th{
                       </div>
                     </div>
                     <div class="row form-group">
-                      <div class="col-md-4">
+<!--                      <div class="col-md-4">
                         <div class="col-md-4">
                           <span>DEPENDENCIA: </span>
                         </div>
                         <div class="col-md-8">
                           <input type="text" name="txt_dependencia" id="txt_dependencia" class="form-control" value="">
                         </div>
-                      </div>
-                      <div class="col-md-4">
+                      </div>-->
+                      <div class="col-md-6">
                         <div class="col-md-4">
                            <span>UBICACION: </span>
                         </div>
@@ -196,7 +196,7 @@ td, th{
                           <input type="text" name="txt_ubicacion" id="txt_ubicacion" class="form-control" value="">
                         </div> 
                       </div>
-                      <div class="col-md-4">
+                      <div class="col-md-6">
                         <div class="col-md-4">
                           <span>MODALIDAD: </span>
                         </div>
@@ -226,7 +226,7 @@ td, th{
                           <input type="text" name="txt_codinterno" id="txt_codinterno" class="form-control">
                         </div>
                         <div class="col-md-12 form-group">
-                          <span>Descripcion:</span>
+                          <span>Observación:</span>
                           <textarea class="form-control" name="txt_descripcion" id="txt_descripcion" rows="5"></textarea>
                         </div>
                       </div>
