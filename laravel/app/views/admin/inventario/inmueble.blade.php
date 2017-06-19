@@ -205,7 +205,7 @@ td, th{
                              <option value="">Seleccione modalidad</option>
                              <option value="1">FUNCIONARIO</option>
                              <option value="2">CAP</option>
-                             <option value="3">CAS</option>
+                             <option value="3">CAS</option><option value="4">TERCERO</option><option value="5">728</option>
                            </select>
                         </div>
                       </div>
@@ -226,8 +226,11 @@ td, th{
                           <input type="text" name="txt_codinterno" id="txt_codinterno" class="form-control">
                         </div>
                         <div class="col-md-12 form-group">
-                          <span>Observación:</span>
-                          <textarea class="form-control" name="txt_descripcion" id="txt_descripcion" rows="5"></textarea>
+                          <span>Descripción y/o Nombre del bien:</span>
+                          <input class="form-control" name="txt_descripcion" id="txt_descripcion">
+                        </div> <div class="col-md-12 form-group">
+                          <span>Observación</span>
+                          <input class="form-control" name="txt_observacion" id="txt_observacion">
                         </div>
                       </div>
                       <div class="col-md-4">

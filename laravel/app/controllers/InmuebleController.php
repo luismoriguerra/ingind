@@ -37,6 +37,7 @@ class InmuebleController extends \BaseController {
 				$Inmueble['cod_interno'] = Input::get('codinterno'); 
 				$Inmueble['inventario_apertura_id'] = $Aperturas[0]->id;
 				$Inmueble['descripcion'] = Input::get('descripcion'); 
+                                $Inmueble['observacion'] = Input::get('observacion'); 
 				$Inmueble['area_id'] = Input::get('area');
                                 $Inmueble['piso'] = Input::get('piso');
 				$Inmueble['persona_id'] = Auth::user()->id;
@@ -93,7 +94,8 @@ class InmuebleController extends \BaseController {
 					$Inmueble_area['inventario_local_id']=$Inmueble->inventario_local_id;
 					$Inmueble_area['area_id']=$Inmueble->area_id;
 					$Inmueble_area['color']=$Inmueble->color;
-					$Inmueble_area['observacion']=$Inmueble->descripcion;
+					$Inmueble_area['observacion']=$Inmueble->observacion;
+                                        $Inmueble_area['descripcion']=$Inmueble->descripcion;
 					$Inmueble_area->save();
 
 					$rst = 1;

@@ -68,10 +68,8 @@ eventoSlctGlobalSimple=function(){
 };
 
 registrarInmueble = function(){
-    if( $("#txt_dependencia").val()=='' ){
-        alert("Ingrese Dependencia");
-    }
-    else if( $.trim($("#slct_modalidad").val())==''){
+
+     if( $.trim($("#slct_modalidad").val())==''){
         alert("Seleccione modalidad");
     }
     else if( $.trim($("#slct_local").val()) == '' ){
@@ -83,13 +81,13 @@ registrarInmueble = function(){
     else if( $("#txt_ubicacion").val()=='' ){
         alert("Ingrese Ubicacion");
     }
-   else if( $("#txt_codpatrimonial").val()=='2'){
+   else if( $("#txt_codpatrimonial").val()==''){
        alert("Ingrese Codigo Patrimonial");
    }
-   else if( $("#txt_codinterno").val()=='2'){
+   else if( $("#txt_codinterno").val()==''){
        alert("Ingrese Codigo Interno");
    }
-   else if($("#txt_descripcion").val()=='1'){
+   else if($("#txt_descripcion").val()==''){
        alert("Ingrese Descripcion");
    }
    else{
