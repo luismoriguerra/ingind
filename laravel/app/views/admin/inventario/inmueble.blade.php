@@ -219,7 +219,7 @@ td, th{
                       <div class="col-md-4">
                         <div class="col-md-12 form-group">
                           <span>Codigo Patrimonial: </span>
-                          <input type="text" name="txt_codpatrimonial" id="txt_codpatrimonial" class="form-control">
+                          <input type="text" name="txt_codpatrimonial" id="txt_codpatrimonial" class="form-control" maxlength="12">
                         <input type="checkbox" name="sincod" id="sincod" value="1">Sin código</div>
                         <div class="col-md-12 form-group">
                           <span>Codigo Interno:</span>
@@ -227,10 +227,10 @@ td, th{
                         </div>
                         <div class="col-md-12 form-group">
                           <span>Descripción y/o Nombre del bien:</span>
-                          <input class="form-control" name="txt_descripcion" id="txt_descripcion">
+                          <input type="text" class="form-control" name="txt_descripcion" id="txt_descripcion">
                         </div> <div class="col-md-12 form-group">
                           <span>Observación</span>
-                          <input class="form-control" name="txt_observacion" id="txt_observacion">
+                          <input type="text" class="form-control" name="txt_observacion" id="txt_observacion">
                         </div>
                       </div>
                       <div class="col-md-4">

@@ -8,7 +8,6 @@ $(document).ready(function() {
                 showDropdowns: true
     });
 
-
     
     poblateDataUser();
     /*Inicializar tramites*/
@@ -49,6 +48,7 @@ $(document).ready(function() {
     $('#sincod').on('ifChanged', function(event){
             if(event.target.checked == true){
                 $("#txt_codpatrimonial").prop('disabled',true);
+                $("#txt_codpatrimonial").val('');
 
             }else{
                 $("#txt_codpatrimonial").prop('disabled',false);
@@ -81,7 +81,7 @@ registrarInmueble = function(){
     else if( $("#txt_ubicacion").val()=='' ){
         alert("Ingrese Ubicacion");
     }
-   else if( $("#txt_codpatrimonial").val()==''){
+   else if( $("#txt_codpatrimonial").val()=='' &&  $('#sincod').prop('checked')==false  ){
        alert("Ingrese Codigo Patrimonial");
    }
    else if( $("#txt_codinterno").val()==''){

@@ -76,6 +76,8 @@ var lastday = new Date(2017,new Date().getMonth(),last);
 var month =firstday.getMonth()+1;
 var lastmonth = lastday.getMonth()+1;
 
+var fecha='<?php echo date("Y-m-d")?>'
+alert(fecha);
 function initDatePicker(){
     $('.fechaInicio').datepicker({
         format: 'yyyy-mm-dd',

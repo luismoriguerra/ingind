@@ -346,6 +346,11 @@ HTMLEdit = function(data){
         document.querySelector('#txt_folio').value=result.folios;
         document.querySelector('#txt_anexoid').value=result.codanexo;
         document.querySelector('#txt_observ').value=result.observ;
+        $("#txt_persona").val(result.apepersona+" "+result.apempersona+" "+result.nombrepersona);
+        $("#paterno2").val(result.apepersona);
+        $("#materno2").val(result.apempersona);
+        $("#nombre2").val(result.nombrepersona);
+        $("#txt_persona_id").val(result.persona_id);
         var ids = [];
         ids.push(result.documento_id);
         $('#cbo_tipodoc').multiselect('destroy');
