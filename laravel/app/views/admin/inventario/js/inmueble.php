@@ -20,6 +20,7 @@ $(document).ready(function() {
     slctGlobalHtml('slct_estado','simple');
     slctGlobalHtml('slct_piso','simple');
     slctGlobalHtml('slct_modalidad','simple');
+    slctGlobalHtml('slct_oficina','simple');
 /*    slctGlobal.listarSlct('tipotramite','cbo_tipotramite','simple',null,data);
     slctGlobal.listarSlct('persona','cbo_persona','simple',null,{estado_persona:1});
     slctGlobal.listarSlct('empresa','cbo_empresa','simple',null,{estado:1});    
@@ -89,6 +90,9 @@ registrarInmueble = function(){
    }
    else if($("#txt_descripcion").val()==''){
        alert("Ingrese Descripcion");
+   }
+      else if($("#slct_oficina").val()==''){
+       alert("Seleccione Oficina");
    }
    else{
     Bandeja.guardarInmueble();

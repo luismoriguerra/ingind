@@ -204,7 +204,7 @@ td, th{
                            <select class="form-control" id="slct_modalidad" name="slct_modalidad">
                              <option value="">Seleccione modalidad</option>
                              <option value="1">FUNCIONARIO</option>
-                             <option value="2">CAP</option>
+                             <option value="2">CAP (276)</option>
                              <option value="3">CAS</option><option value="4">TERCERO</option><option value="5">728</option>
                            </select>
                         </div>
@@ -245,7 +245,12 @@ td, th{
                           <option value="">.::Seleccione::.</option><option value="1">Piso 1</option><option value="2">Piso 2</option><option value="3">Piso 3</option><option value="4">Piso 4</option></select>
                         </div><div class="col-md-12 form-group">
                           <span>Oficina:</span>
-                          <input type="text" name="txt_oficina" id="txt_oficina" class="form-control">
+                          <select class="form-control" id="slct_oficina" name="slct_oficina">
+                            <option value="">Seleccione</option>
+                            <option value="1">AMBIENTE COMÚN</option>                          
+                            <option value="2">PASADIZO</option>
+                            <option value="3">DESPACHO Y/O JEFATURA</option>
+                          </select>
                         </div>
                         <div class="col-md-12 form-group">
                           <span>Marca: </span>
