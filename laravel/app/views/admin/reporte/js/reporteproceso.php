@@ -162,9 +162,9 @@
         pos = 0;
         contarproceso0 = 0;
         if (sino == 1) {
-            html_cabecera += "<tr><th colspan='6'></th>";
-        } else {
             html_cabecera += "<tr><th colspan='5'></th>";
+        } else {
+            html_cabecera += "<tr><th colspan='4'></th>";
         }
         var n = 0;
         $.each(cabecera, function (index, cabecera) {
@@ -178,7 +178,7 @@
 
         html_cabecera += "<tr>" +
                 "<th>N°</th>";
-        html_cabecera += "<th>Ruta</th><th>Detalle</th><th>Trámites</th>";
+        html_cabecera += "<th>Ruta</th><th>Detalle</th>";
         if (sino == 1) {
             html_cabecera += "<th>Área</th>";
         }
@@ -203,8 +203,7 @@
             html += "<tr>" +
                     "<td>" + pos + "</td>" +
                     '<td><a onclick="cargarRutaId(' + data.ruta_flujo_id + ',2,null,this)" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>' +
-                    '<td><a onclick="cargardetalle(' + data.ruta_flujo_id + ',this)" class="btn btn-info btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>' +
-                    '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',null)" class="btn btn-warning btn-sm"><i class="glyphicon glyphicon-list-alt"></i> </a></td>';
+                    '<td><a onclick="cargardetalle(' + data.ruta_flujo_id + ',this)" class="btn btn-info btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>' ;
             if (sino == 1) {
                 html += "<td>" + data.area + "</td>";
             }
@@ -213,14 +212,20 @@
 
             var i;
             for (i = 1; i <= n; i++) {
-                html += '<td style="text-align:center;">' + $.trim(data['r' + i]) +
+                html += '<td style="text-align:center;">' +
                         '<table>' +
+                        '<tr>' +
+                        '<td style="text-align:center">'+ $.trim(data['r' + i]) +'</td>' +
+                        '<td style="text-align:center">'+ $.trim(data['p' + i]) +'</td>' +
+                        '<td style="text-align:center"></td>' +
+                        '</tr>' +
                         '<tr>' +
                         '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\')" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
                         '<td><a onclick="Detalle(' + data.ruta_flujo_id + ')" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
                         '<td><a onclick="Detalle(' + data.ruta_flujo_id + ')" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
                         '</tr>' +
-                        '</table></td>';
+                        '</table>'+
+                        '</td>';
             }
 
             if (data.rt == 0) {
@@ -234,7 +239,21 @@
             if (data.alertas != 0 && data.areas != 0) {
                 porcentaje_alertas = (data.alertas * 100) / data.areas;
             }
-            html += '<td>' + data.rt + "</td>";
+            
+            html += '<td style="text-align:center;">' +
+                        '<table>' +
+                        '<tr>' +
+                        '<td style="text-align:center">'+ data.rt +'</td>' +
+                        '<td style="text-align:center">'+ data.pt +'</td>' +
+                        '<td style="text-align:center"></td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',null)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
+                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',null)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
+                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',null)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
+                        '</tr>' +
+                        '</table>'+
+                        '</td>';
             html += '<td>' + data.ft + "</td>";
             html += '<td>' + porcentaje_faltas.toFixed(2) + "%</td>";
             html += '<td>' + data.areas + "</td>";

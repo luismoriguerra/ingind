@@ -584,7 +584,9 @@ class Reporte extends Eloquent
         $n = 1;
         for($i=$fecha_ini;$i<=$fecha_fin;$i = date("Y-m", strtotime($i ."+ 1 month"))){
             $cl .= ",count(DISTINCT(r$n.id)) r$n";
+            $cl .= ",count(DISTINCT(IF(ISNULL(rd$n.dtiempo_final),r$n.id,NULL))) p$n";
             $left .= "LEFT JOIN rutas r$n on r$n.id=r.id AND DATE_FORMAT(r$n.created_at,'%Y-%m')='".$i."'";
+            $left .= " LEFT JOIN rutas_detalle rd$n on r$n.id=rd$n.ruta_id ";
             $n++;
             array_push($cabecera,$i);
             array_push($cabecera1, 'N° de P.');
@@ -597,6 +599,7 @@ class Reporte extends Eloquent
         $sSql .= ",rf.id as ruta_flujo_id,f.nombre as proceso";
         $sSql .= $cl;
         $sSql .= ",count(DISTINCT(r.id))  rt
+                ,count(DISTINCT(IF(ISNULL(rd.dtiempo_final),r.id,NULL))) pt
                 ,count( DISTINCT( IF(rd.alerta>0,rd.id,NULL) ) ) ft
                 ,count(DISTINCT(rfd.area_id)) areas
                 ,count( DISTINCT( IF( rd.alerta>0,rd.area_id,NULL ) ) ) alertas";
