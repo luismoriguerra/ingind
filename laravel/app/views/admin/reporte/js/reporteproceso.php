@@ -220,9 +220,9 @@
                         '<td style="text-align:center"></td>' +
                         '</tr>' +
                         '<tr>' +
-                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\')" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
-                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\')" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
-                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\')" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
+                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',1)" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
+                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',2)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
+                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',3)" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
                         '</tr>' +
                         '</table>'+
                         '</td>';
@@ -248,9 +248,9 @@
                         '<td style="text-align:center"></td>' +
                         '</tr>' +
                         '<tr>' +
-                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',null)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
-                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',null)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
-                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',null)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
+                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',null,1)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
+                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',null,2)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
+                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',null,3)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
                         '</tr>' +
                         '</table>'+
                         '</td>';
@@ -817,15 +817,15 @@
         $("#form_ruta_flujo").css("display", "none");
     };
 
-    Detalle = function (id, fechames) {
+    Detalle = function (id, fechames,tramite) {
         var fecha_ini = $('#fecha_ini').val();
         var fecha_fin = $('#fecha_fin').val();
         var dataG = [];
         if (fechames == null) {
-            dataG = {ruta_flujo_id: id, fecha_ini: fecha_ini, fecha_fin: fecha_fin};
+            dataG = {ruta_flujo_id: id, fecha_ini: fecha_ini, fecha_fin: fecha_fin, tramite: tramite};
 
         } else {
-            dataG = {ruta_flujo_id: id, fechames: fechames};
+            dataG = {ruta_flujo_id: id, fechames: fechames, tramite: tramite};
         }
         Proceso.MostrarTramites(dataG);
         $("#form_tramite").css("display", "");
@@ -834,9 +834,17 @@
         $("#form_ruta_flujo").css("display", "none");
     };
 
-    cargardetalle = function (id) {
+    cargardetalle = function (id,boton) {
+        var tr = boton.parentNode.parentNode;
+        var trs = tr.parentNode.children;
+        for (var i = 0; i < trs.length; i++)
+            trs[i].style.backgroundColor = "#f9f9f9";
+        tr.style.backgroundColor = "#9CD9DE";
+        
+        var fecha_ini = $('#fecha_ini').val();
+        var fecha_fin = $('#fecha_fin').val();
         var dataG = [];
-        dataG = {ruta_flujo_id: id};
+        dataG = {ruta_flujo_id: id ,fecha_ini: fecha_ini, fecha_fin: fecha_fin};
         Proceso.DetalleCuadroProceso(dataG);
         $("#form_detallecuadro").css("display", "");
         $("#form_tramite_detalle").css("display", "none");

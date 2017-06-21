@@ -630,7 +630,7 @@ class Reporte extends Eloquent
         $sSql.="SELECT f.nombre flujo,a.nombre area,rd.norden, count( DISTINCT(r.id) ) total, count( IF(rd.alerta>0,r.id,NULL) ) tf
                 FROM flujos f 
                 INNER JOIN rutas_flujo rf ON rf.flujo_id=f.id AND rf.estado=1
-                INNER JOIN rutas r ON r.ruta_flujo_id=rf.id AND r.estado=1 AND DATE_FORMAT(r.fecha_inicio,'%Y-%m') BETWEEN '2017-01' AND '2017-06'
+                INNER JOIN rutas r ON r.ruta_flujo_id=rf.id AND r.estado=1 AND DATE_FORMAT(r.fecha_inicio,'%Y-%m') BETWEEN '".Input::get('fecha_ini')."' AND '".Input::get('fecha_fin')."'
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1
                 INNER JOIN areas a ON a.id=rd.area_id
                 WHERE f.estado=1";
