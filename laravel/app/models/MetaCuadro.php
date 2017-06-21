@@ -101,7 +101,7 @@ class MetaCuadro extends Base
                 FROM metas_cuadro mc
                 INNER JOIN metas m on mc.meta_id=m.id
                 LEFT JOIN metas_fechavencimiento mf1 on mc.id=mf1.meta_cuadro_id and mf1.tipo=1 and mf1.estado=1
-                LEFT JOIN metas_fechavencimiento mf2 on mc.id=mf2.meta_cuadro_id and mf2.relacion_id=mf1.id and mf2.estado=2
+                LEFT JOIN metas_fechavencimiento mf2 on mc.id=mf2.meta_cuadro_id and mf2.relacion_id=mf1.id and mf2.estado=1 and mf2.tipo=2
                 WHERE mc.estado=1
                 ";
         $sSql.= $array['where'];
