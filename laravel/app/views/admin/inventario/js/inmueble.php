@@ -1,7 +1,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
     Bandeja.FechaActual("");
-
+    Bandeja.CargarInmueble();  
      $('#fecha_nacimiento').daterangepicker({
                 format: 'YYYY-MM-DD',
                 singleDatePicker: true,
@@ -98,4 +98,29 @@ registrarInmueble = function(){
     Bandeja.guardarInmueble();
     }
 }
+HTMLcargarinmueble=function(datos){
+    var html="";
+    var alerta_tipo= '';
+   
+    $('#t_reporte').dataTable().fnDestroy();
+    pos=0;
+    $.each(datos,function(index,data){
+        pos++;
+        
+        html+="<tr id="+data.norden+">"+
+            "<td>"+pos+'</td>'+
+            "<td>"+data.cod_patrimonial+"</td>"+
+            "<td>"+data.cod_interno+"</td>"+
+            "<td>"+data.descripcion+"</td>";
+            
+        html+="</tr>";
+    });
+    $("#tb_reporte").html(html);
+    $("#t_reporte").dataTable(
+             {
+            "order": [[ 0, "asc" ],[1, "asc"]],
+            "pageLength": 10,
+        }
+    ); 
+  };  
 </script>

@@ -295,25 +295,17 @@ td, th{
                 </div>
               </form>
 
-              <div class="col-md-12 form-group hidden">
+              <div class="col-md-12 form-group">
                 <div class="box-body table-responsive">
                   <div class="row form-group" id="reporte" style="">
                       <div class="col-sm-12">
                           <table id="t_reporte" class="table table-bordered table-striped">
                               <thead>
                                   <tr>
-                                      <th>Persona</th>
+                                      <th>Item</th>
                                       <th>Codigo Patrimonial</th>
                                       <th>Codigo Interno</th>
                                       <th>Descripcion</th>
-                                      <th>Local</th>
-                                      <th>Oficina</th>
-                                      <th>Marca</th>
-                                      <th>Modelo</th>
-                                      <th>Tipo</th>
-                                      <th>Color</th>
-                                      <th>Serie</th>
-                                      <th>Estado</th>
                                   </tr>
                               </thead>
                               <tbody id="tb_reporte">
