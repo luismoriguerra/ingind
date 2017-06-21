@@ -58,7 +58,7 @@ var Proceso={
     },
         MostrarTramites:function( dataG){
         $.ajax({
-            url         : 'reportef/tramite',
+            url         : 'reporte/reportetramite',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',

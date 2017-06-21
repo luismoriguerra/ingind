@@ -186,6 +186,33 @@ class ReporteController extends BaseController
         );
    }
    
+       public function postReportetramite()
+    {
+      $array=array();
+      $fecha='';
+      $array['fecha']='';$array['ruta_flujo_id']='';$array['tramite']='';
+      
+      if( Input::has('ruta_flujo_id') AND Input::get('ruta_flujo_id')!='' ){
+        $array['ruta_flujo_id'].=" AND r.ruta_flujo_id='".Input::get('ruta_flujo_id')."' ";
+      }
+      if( Input::has('fecha_ini') AND Input::get('fecha_ini')!='' AND Input::has('fecha_fin') AND Input::get('fecha_fin')!=''){
+        $array['fecha'].=" AND DATE_FORMAT(r.fecha_inicio,'%Y-%m') BETWEEN '".Input::get('fecha_ini')."' AND '".Input::get('fecha_fin')."'  ";
+      }
+      
+      if( Input::has('fechames') AND Input::get('fechames')!=''){
+        $array['fecha'].=" AND DATE_FORMAT(r.fecha_inicio,'%Y-%m') = '".Input::get('fechames')."'";
+      }
+
+      
+      $r = Reporte::ReporteTramite( $array );
+      return Response::json(
+          array(
+              'rst'=>1,
+              'datos'=>$r
+          )
+      );
+    }
+   
         public function postCargaractividad()
    {
         $oData=Persona::CargarActividad();

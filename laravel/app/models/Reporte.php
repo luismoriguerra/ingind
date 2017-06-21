@@ -640,5 +640,57 @@ class Reporte extends Eloquent
         $r=DB::select($sSql);
         return $r;
     }
+    
+        public static function ReporteTramite( $array ){
+
+        $sql =" SELECT tr.id_union AS tramite, r.id, r.ruta_flujo_id, 
+                ts.nombre AS tipo_persona,
+                IF(tr.tipo_persona=1 or tr.tipo_persona=6,
+                    CONCAT(IFNULL(tr.paterno,''),' ',IFNULL(tr.materno,''),', ',IFNULL(tr.nombre,'')),
+                    IF(tr.tipo_persona=2,
+                        CONCAT(tr.razon_social,' | RUC:',tr.ruc),
+                        IF(tr.tipo_persona=3,
+                            a.nombre,
+                            IF(tr.tipo_persona=4 or tr.tipo_persona=5,
+                                tr.razon_social,''
+                            )
+                        )
+                    )
+                ) AS persona,
+                IFNULL(tr.sumilla,'') as sumilla,
+                IF( MIN( IF( rd.dtiempo_final IS NULL AND rd.fecha_inicio IS NOT NULL, 0, 1) ) = 0
+                        AND MAX( rd.alerta_tipo ) < 2, 'Inconcluso',
+                        IF( (MIN( IF( rd.dtiempo_final IS NOT NULL AND rd.fecha_inicio IS NOT NULL, 0, 1) ) = 0
+                                OR MIN( IF( rd.dtiempo_final IS NULL AND rd.fecha_inicio IS NULL, 0, 1) ) = 0)
+                                AND MAX( rd.alerta_tipo ) > 1, 'Trunco', 'Concluido'
+                        )
+                ) estado,
+                GROUP_CONCAT( 
+                    IF( rd.dtiempo_final IS NULL,
+                        CONCAT( rd.norden,' (',a2.nombre,')' ), NULL
+                    ) ORDER BY rd.norden
+                ) ult_paso,
+                COUNT(rd.id) total_pasos,
+                IFNULL(r.fecha_inicio,'') AS fecha_inicio,
+                IF( IFNULL(tr.persona_autoriza_id,'')!='',(SELECT CONCAT(paterno,' ',materno,', ',nombre) FROM personas where id=tr.persona_autoriza_id),'' ) autoriza,
+                IF( IFNULL(tr.persona_responsable_id,'')!='',(SELECT CONCAT(paterno,' ',materno,', ',nombre) FROM personas where id=tr.persona_responsable_id),'' ) responsable,
+                COUNT( IF( rd.alerta=0,rd.id,NULL ) ) ok,
+                COUNT( IF( rd.alerta=1,rd.id,NULL ) ) error,
+                COUNT( IF( rd.alerta=2,rd.id,NULL ) ) corregido
+                FROM tablas_relacion tr 
+                INNER JOIN rutas r ON tr.id=r.tabla_relacion_id and r.estado=1
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1
+                INNER JOIN areas a2 ON rd.area_id=a2.id
+                LEFT JOIN tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
+                LEFT JOIN areas a ON a.id=tr.area_id
+                WHERE tr.estado=1".
+                $array['ruta_flujo_id'].
+                $array['fecha'].
+                $array['tramite'].
+                "GROUP BY r.id";
+
+        $r= DB::select($sql);
+        return $r;
+    }
 }
 ?>

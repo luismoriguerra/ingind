@@ -221,8 +221,8 @@
                         '</tr>' +
                         '<tr>' +
                         '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\')" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
-                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ')" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
-                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ')" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
+                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\')" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
+                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\')" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
                         '</tr>' +
                         '</table>'+
                         '</td>';
