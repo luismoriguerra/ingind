@@ -217,12 +217,10 @@
                         '<tr>' +
                         '<td style="text-align:center">'+ $.trim(data['r' + i]) +'</td>' +
                         '<td style="text-align:center">'+ $.trim(data['p' + i]) +'</td>' +
-                        '<td style="text-align:center"></td>' +
                         '</tr>' +
                         '<tr>' +
                         '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',1)" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
                         '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',2)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
-                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',3)" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
                         '</tr>' +
                         '</table>'+
                         '</td>';
@@ -250,7 +248,6 @@
                         '<tr>' +
                         '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',null,1)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
                         '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',null,2)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
-                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',null,3)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
                         '</tr>' +
                         '</table>'+
                         '</td>';
