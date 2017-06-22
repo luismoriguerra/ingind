@@ -777,6 +777,7 @@
                     "<td>" + data.fecha_inicio_referido + "</td>" +
                     "<td>" + data.tramite_referido + "</td>" +
                     "<td>" + data.persona_referido + "</td>" +
+                    "<td>" + data.sumilla_referido + "</td>" +
                     "<td>" + data.tramite + "</td>" +
                     "<td>" + data.tipo_persona + "</td>" +
                     "<td>" + data.persona + "</td>" +

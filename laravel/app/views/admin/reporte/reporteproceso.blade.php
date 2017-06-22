@@ -216,13 +216,14 @@
                             <table id="t_tramite" class="table table-bordered no-footer dataTable">
                                 <thead id="tt_tramite">
                                     <tr>
-                                        <th colspan="3" style='background-color:#DEFAFA;text-align:center'>Referente Trámite</th>
+                                        <th colspan="4" style='background-color:#DEFAFA;text-align:center'>Referente Trámite</th>
                                         <th colspan="9" style='background-color:#FCD790;text-align:center'>Trámite</th>
                                     </tr>
                                     <tr>
                                         <th>Fecha de inicio</th>
                                         <th>Trámite</th>
                                         <th>Nombre del Administrado</th>
+                                        <th>Sumilla</th>
                                         <th>Trámite</th>
                                         <th>Tipo Sol</th>
                                         <th>Nombre del Administrado</th>
