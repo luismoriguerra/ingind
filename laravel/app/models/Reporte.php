@@ -643,7 +643,7 @@ class Reporte extends Eloquent
     
         public static function ReporteTramite( $array ){
 
-        $sql =" SELECT  IFNULL(trR.sumilla,'') as sumilla_referido,trr.fecha_tramite fecha_inicio_referido,trr.id_union tramite_referido,tr.id_union AS tramite, r.id, r.ruta_flujo_id, 
+        $sql =" SELECT  IFNULL(trr.sumilla,'') as sumilla_referido,trr.fecha_tramite fecha_inicio_referido,trr.id_union tramite_referido,tr.id_union AS tramite, r.id, r.ruta_flujo_id, 
                 ts.nombre AS tipo_persona,
                 IF(trr.tipo_persona=1 or trr.tipo_persona=6,
                     CONCAT(IFNULL(trr.paterno,''),' ',IFNULL(trr.materno,''),', ',IFNULL(trr.nombre,'')),
