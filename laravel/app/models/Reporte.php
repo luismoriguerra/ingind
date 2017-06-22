@@ -643,8 +643,20 @@ class Reporte extends Eloquent
     
         public static function ReporteTramite( $array ){
 
-        $sql =" SELECT tr.id_union AS tramite, r.id, r.ruta_flujo_id, 
+        $sql =" SELECT  trr.fecha_tramite fecha_inicio_referido,trr.id_union tramite_referido,tr.id_union AS tramite, r.id, r.ruta_flujo_id, 
                 ts.nombre AS tipo_persona,
+                IF(trr.tipo_persona=1 or trr.tipo_persona=6,
+                    CONCAT(IFNULL(trr.paterno,''),' ',IFNULL(trr.materno,''),', ',IFNULL(trr.nombre,'')),
+                    IF(trr.tipo_persona=2,
+                        CONCAT(trr.razon_social,' | RUC:',trr.ruc),
+                        IF(trr.tipo_persona=3,
+                            a.nombre,
+                            IF(trr.tipo_persona=4 or trr.tipo_persona=5,
+                                trr.razon_social,''
+                            )
+                        )
+                    )
+                ) AS persona_referido,
                 IF(tr.tipo_persona=1 or tr.tipo_persona=6,
                     CONCAT(IFNULL(tr.paterno,''),' ',IFNULL(tr.materno,''),', ',IFNULL(tr.nombre,'')),
                     IF(tr.tipo_persona=2,
@@ -681,6 +693,8 @@ class Reporte extends Eloquent
                 INNER JOIN rutas r ON tr.id=r.tabla_relacion_id and r.estado=1
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1
                 INNER JOIN areas a2 ON rd.area_id=a2.id
+                LEFT JOIN referidos re ON re.ruta_id=r.id and re.tipo=0
+		LEFT JOIN tablas_relacion trr ON trr.id=re.tabla_relacion_id
                 LEFT JOIN tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
                 LEFT JOIN areas a ON a.id=tr.area_id
                 WHERE tr.estado=1".

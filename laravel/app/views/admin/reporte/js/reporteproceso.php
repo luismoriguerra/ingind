@@ -774,6 +774,9 @@
         $.each(datos, function (index, data) {
 //        btnruta='<a onclick="cargarRutaId('+data.ruta_flujo_id+',2,'+data.id+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
             html += "<tr>" +
+                    "<td>" + data.fecha_inicio_referido + "</td>" +
+                    "<td>" + data.tramite_referido + "</td>" +
+                    "<td>" + data.persona_referido + "</td>" +
                     "<td>" + data.tramite + "</td>" +
                     "<td>" + data.tipo_persona + "</td>" +
                     "<td>" + data.persona + "</td>" +
