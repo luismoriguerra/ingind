@@ -216,10 +216,13 @@
                             <table id="t_tramite" class="table table-bordered no-footer dataTable">
                                 <thead id="tt_tramite">
                                     <tr>
+                                        <th colspan="9" style='text-align:center'>Trámite</th>
+                                    </tr>
+                                    <tr>
                                         <th>Trámite</th>
                                         <th>Tipo Sol</th>
-                                        <th>Solicitante</th>
-                                        <th>Sumilla</th>
+                                        <th>Nombre del Administrado</th>
+                                        <th>Asunto</th>
                                         <th>Estado</th>
                                         <th>Paso a la fecha</th>
                                         <th>Total de pasos</th>
