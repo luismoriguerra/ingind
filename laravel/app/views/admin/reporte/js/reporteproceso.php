@@ -772,8 +772,22 @@
 
 
         $.each(datos, function (index, data) {
+        var style='';
+
+//        if(data.estado=='Trunco'){
+//           style='background-color:#ff6666;';   
+//        }
+        if(data.fecha_valida>'<?php echo date('Y-m-d H:m:s'); ?>' ){
+           style='background-color:#99ff99;';   
+        }
+        else if(data.fecha_valida<'<?php echo date('Y-m-d H:m:s'); ?>'){
+           style='background-color:#ff9999;';   
+        }
+        if(data.estado=='Concluido'){
+          style='background-color:#D1E1FF;';
+        }
 //        btnruta='<a onclick="cargarRutaId('+data.ruta_flujo_id+',2,'+data.id+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
-            html += "<tr>" +
+            html += "<tr  style='"+style+"' >" +
                     "<td>" + data.fecha_inicio_referido + "</td>" +
                     "<td>" + data.tramite_referido + "</td>" +
                     "<td>" + data.persona_referido + "</td>" +
@@ -801,12 +815,6 @@
     };
 
     detalle = function (ruta_id, boton) {
-        $("#btn_close").click();
-        var tr = boton.parentNode.parentNode;
-        var trs = tr.parentNode.children;
-        for (var i = 0; i < trs.length; i++)
-            trs[i].style.backgroundColor = "#f9f9f9";
-        tr.style.backgroundColor = "#9CD9DE";
 
         $("#form_1").append("<input type='hidden' id='txt_ruta_id' name='txt_ruta_id' value='" + ruta_id + "'>");
         var datos = $("#form_1").serialize().split("txt_").join("").split("slct_").join("");
