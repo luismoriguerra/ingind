@@ -774,10 +774,10 @@
         $.each(datos, function (index, data) {
         var style='';
 
-        if(data.fecha_valida>='<?php echo date('Y-m-d H:m:s'); ?>' ){
+        if(data.fecha_valida<'<?php echo date('Y-m-d H:m:s'); ?>' ){
            style='background-color:#99ff99;';   //verde
         }
-        else if(data.fecha_valida<'<?php echo date('Y-m-d H:m:s'); ?>'){
+        else if(data.fecha_valida>='<?php echo date('Y-m-d H:m:s'); ?>'){
            style='background-color:#ff9999;';   //rojo
         }
         if(data.estado=='Concluido'){
