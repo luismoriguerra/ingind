@@ -216,7 +216,7 @@
                         '<table>' +
                         '<tr>' +
                         '<td style="text-align:center">'+ $.trim(data['r' + i]) +'</td>' +
-                        '<td style="text-align:center">'+ $.trim(data['p' + i]) +'</td>' +
+                        '<td style="text-align:center;border-left: 1px solid #999999;">'+ $.trim(data['p' + i]) +'</td>' +
                         '</tr>' +
                         '<tr>' +
                         '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',1)" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
@@ -242,7 +242,7 @@
                         '<table>' +
                         '<tr>' +
                         '<td style="text-align:center">'+ data.rt +'</td>' +
-                        '<td style="text-align:center">'+ data.pt +'</td>' +
+                        '<td style="text-align:center;border-left: 1px solid #999999;">'+ data.pt +'</td>' +
                         '<td style="text-align:center"></td>' +
                         '</tr>' +
                         '<tr>' +
