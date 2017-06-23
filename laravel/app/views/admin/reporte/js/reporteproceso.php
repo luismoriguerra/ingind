@@ -774,17 +774,17 @@
         $.each(datos, function (index, data) {
         var style='';
 
-//        if(data.estado=='Trunco'){
-//           style='background-color:#ff6666;';   
-//        }
-        if(data.fecha_valida>'<?php echo date('Y-m-d H:m:s'); ?>' ){
-           style='background-color:#99ff99;';   
+        if(data.fecha_valida>='<?php echo date('Y-m-d H:m:s'); ?>' ){
+           style='background-color:#99ff99;';   //verde
         }
         else if(data.fecha_valida<'<?php echo date('Y-m-d H:m:s'); ?>'){
-           style='background-color:#ff9999;';   
+           style='background-color:#ff9999;';   //rojo
         }
         if(data.estado=='Concluido'){
-          style='background-color:#D1E1FF;';
+          style='background-color:#D1E1FF;'; //azul
+        }
+        if(data.estado=='Trunco'){
+           style='background-color:#ff9999;';   //rojo
         }
 //        btnruta='<a onclick="cargarRutaId('+data.ruta_flujo_id+',2,'+data.id+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
             html += "<tr  style='"+style+"' >" +
