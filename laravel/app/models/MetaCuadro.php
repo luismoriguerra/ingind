@@ -3,8 +3,8 @@
 class MetaCuadro extends Base
 {
     public $table = "metas_cuadro";
-    public static $where =['id' , 'meta_id' , 'anio', 'actividad', 'fecha', 'estado'];
-    public static $selec =['id' , 'meta_id' , 'anio', 'actividad', 'fecha', 'estado'];
+    public static $where =['id' , 'meta_id' , 'anio', 'actividad', 'fecha','fecha_add', 'estado'];
+    public static $selec =['id' , 'meta_id' , 'anio', 'actividad', 'fecha','fecha_add', 'estado'];
     
     public static function getCargarCount( $array )
     {
@@ -19,7 +19,7 @@ class MetaCuadro extends Base
 
     public static function getCargar( $array )
     {
-        $sSql=" SELECT mc.id,mc.meta_id, mc.actividad,mc.fecha, mc.anio, mc.estado,m.nombre as meta
+        $sSql=" SELECT mc.id,mc.meta_id, mc.actividad,mc.fecha,IFNULL(mc.fecha_add,'') as fecha_add, mc.anio, mc.estado,m.nombre as meta
                 FROM metas_cuadro mc
                 INNER JOIN metas m on mc.meta_id=m.id
                 WHERE 1=1 ";

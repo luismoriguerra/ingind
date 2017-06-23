@@ -2,7 +2,7 @@
 var cabeceraG=[]; // Cabecera del Datatable
 var columnDefsG=[]; // Columnas de la BD del datatable
 var targetsG=-1; // Posiciones de las columnas del datatable
-var MetacuadrosG={id:0,actividad:"",fecha:"",anio:"",estado:1}; // Datos Globales
+var MetacuadrosG={id:0,actividad:"",fecha:"",fecha_add:"",anio:"",estado:1}; // Datos Globales
 $(document).ready(function() {
     /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
         2: Descripción de cabecera
@@ -53,6 +53,7 @@ $(document).ready(function() {
 
             $('#form_metacuadros_modal #txt_actividad').val( MetacuadrosG.actividad );
             $('#form_metacuadros_modal #txt_fecha').val( MetacuadrosG.fecha );
+            $('#form_metacuadros_modal #txt_fecha_add').val(MetacuadrosG.fecha_add);
             $('#form_metacuadros_modal #txt_anio').val( MetacuadrosG.anio );
             $('#form_metacuadros_modal #slct_estado').val( MetacuadrosG.estado );
             $('#form_metacuadros_modal #slct_meta').val( MetacuadrosG.meta );
@@ -76,6 +77,7 @@ BtnEditar=function(btn,id){
     MetacuadrosG.id=id;
     MetacuadrosG.actividad=$(tr).find("td:eq(1)").text();
     MetacuadrosG.fecha=$(tr).find("td:eq(2)").text();
+    MetacuadrosG.fecha_add=$(tr).find("td:eq(0) input[name='txt_fecha_add']").val();
     MetacuadrosG.meta=$(tr).find("td:eq(0) input[name='txt_meta']").val();
     MetacuadrosG.anio=$(tr).find("td:eq(3)").text();
     MetacuadrosG.estado=$(tr).find("td:eq(4)>span").attr("data-estado");
@@ -106,7 +108,8 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
         return estadohtml;
     }
     if(typeof(fn)!='undefined' && fn.col==0){
-        return row.meta+"<input type='hidden' name='txt_meta' value='"+row.meta_id+"'>";
+        return row.meta+"<input type='hidden' name='txt_meta' value='"+row.meta_id+"'>"+
+                "<input type='hidden' name='txt_fecha_add' value='"+row.fecha_add+"'>";
     }
 }
 
