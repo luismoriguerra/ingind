@@ -57,34 +57,38 @@ function initClockPicker(){
    );
 }
 
+<?php  
+    function inicio_fin_semana(){
+    $fecha=date('Y-m-d');
+    $diaInicio="Monday";
+    $diaFin="Sunday";
 
-var today = new Date(); // get current date
-var first;
-var last = 0;
+    $strFecha = strtotime($fecha);
 
-if(today.getDay()!=0){
-    first = (today.getDate() - today.getDay()) + 1;
-    var sumlast = 7 - today.getDay();
-    last = today.getDate() + sumlast;
-}else{
-    first = (today.getDate() - today.getDay()) - 6;
-    last = today.getDate();
-}
+    $fechaInicio = date('Y-m-d',strtotime('last '.$diaInicio,$strFecha));
+    $fechaFin = date('Y-m-d',strtotime('next '.$diaFin,$strFecha));
 
-var firstday = new Date(2017,new Date().getMonth(),first);
-var lastday = new Date(2017,new Date().getMonth(),last);
-var month =firstday.getMonth()+1;
-var lastmonth = lastday.getMonth()+1;
+    if(date("l",$strFecha)==$diaInicio){
+        $fechaInicio= date("Y-m-d",$strFecha);
+    }
+    if(date("l",$strFecha)==$diaFin){
+        $fechaFin= date("Y-m-d",$strFecha);
+    }
+    return Array("fechaInicio"=>$fechaInicio,"fechaFin"=>$fechaFin);
+    }
+    $fechas=inicio_fin_semana();
+?>
+var fecha_inicio='<?php echo $fechas['fechaInicio'];?>';
+var fecha_fin='<?php echo $fechas['fechaFin'];?>';
 
-var fecha='<?php echo date("Y-m-d")?>'
 function initDatePicker(){
     $('.fechaInicio').datepicker({
         format: 'yyyy-mm-dd',
         language: 'es',
         multidate: 1,
         todayHighlight:true,
-       startDate: firstday.getFullYear()+"-"+month+"-"+firstday.getDate(),
-       endDate: lastday.getFullYear()+"-"+lastmonth+"-"+lastday.getDate(),
+       startDate: '<?php echo $fechas['fechaInicio'];?>',
+       endDate:'<?php echo $fechas['fechaFin'];?>',
      /*  daysOfWeekDisabled: '0', //bloqueo domingos*/
         onSelect: function (date, el) {
         }
