@@ -124,7 +124,8 @@ class InmuebleController extends \BaseController {
      */
     public function postCargar() {
         if (Request::ajax()) {
-            $inmueble = Inmueble::getCargar();
+            $area=Auth::user()->area_id;
+            $inmueble = Inmueble::getCargar($area);
             return Response::json(
                             array(
                                 'rst' => 1,

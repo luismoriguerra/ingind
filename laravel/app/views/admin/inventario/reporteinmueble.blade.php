@@ -52,8 +52,7 @@
                         </div>
                     </div>
                 </fieldset>
-            </div><!-- /.box -->
-            <div class="box-body table-responsive">
+                <div class="box-body table-responsive">
                 <div class="row form-group" id="reporte" style="display:none;">
                     <div class="col-sm-12">
                         <div class="box-body table-responsive">
@@ -61,18 +60,11 @@
                                 <thead>
                                     <tr>
                                         <th>N°</th>
-                                        <th>Documento</th>
-                                        <th>Paso</th>
-                                        <th>Fecha de Asignación</th>
-                                        <th>Fecha Final</th>
-                                        <th>Fecha de Gestión</th>
-                                        <th>Tiempo</th>
-                                        <th>Nombres y Apellidos</th>
-                                        <th>Fecha de Aviso</th>
-                                        <th>Tipo de aviso</th>
-                                        <th>Proceso</th>
-                                        <th>Asunto</th>
-                                        <th>Area</th>
+                                        <th>Área</th>
+                                        <th>Persona</th>
+                                        <th>Código Patrimonial</th>
+                                        <th>Código Interno</th>
+                                        <th>Descripción</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_reporte">
@@ -83,6 +75,8 @@
                 </div>
                 
             </div><!-- /.box -->
+            </div><!-- /.box -->
+            
             <!-- Finaliza contenido -->
         </div>
     </section><!-- /.content -->

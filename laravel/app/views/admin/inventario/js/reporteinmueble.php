@@ -1,32 +1,22 @@
 <script type="text/javascript">
 $(document).ready(function() {
 
-    $('#fecha').daterangepicker({
-        format: 'YYYY-MM-DD',
-        singleDatePicker: false
-    });
     var data = {estado:1};
     var ids = [];
 
     function DataToFilter(){
-        area_id = $('#slct_area_id').val();
-        tipo_id = $('#slct_tipo_id').val();
-        var fecha=$("#fecha").val();
+        var area_id = $('#slct_area_id').val();
         var data = [];
-        if ( fecha!=="") {
             if ($.trim(area_id)!=='') {
-                data.push({area_id:area_id,fecha:fecha,tipo_id:tipo_id});
+                data.push({area_id:area_id});
             } else {
                 alert("Seleccione Área");
             }
-        } else {
-            alert("Seleccione Fecha");
-        }
         return data;
     }
 
     slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);
-    slctGlobalHtml('slct_tipo_id','simple');
+
     $("#generar").click(function (){
         var data = DataToFilter();            
         if(data.length > 0){
@@ -37,9 +27,8 @@ $(document).ready(function() {
     $(document).on('click', '#btnexport', function(event) {
         var data = DataToFilter();
         if(data.length > 0){
-            tipo_id = $('#slct_tipo_id').val();
             var area = data[0]['area_id'].join('","');
-            $(this).attr('href','reporte/exportnotincumplimiento'+'?fecha='+data[0]['fecha']+'&area_id='+area+'&tipo_id='+tipo_id);            
+            $(this).attr('href','reporte/exportreporteinventario'+'?area_id='+area);            
         }else{
             event.preventDefault();
         }
@@ -56,18 +45,11 @@ HTMLreporte=function(datos){
         cont=cont+1;
         html+="<tr>"+
             "<td>"+ cont +"</td>"+
-            "<td>"+data.documento+"</td>"+
-            "<td>"+data.paso+"</td>"+
-            "<td>"+data.fechaAsignada+"</td>"+
-            "<td>"+data.fechaFinal+"</td>"+
-            "<td>"+data.fechaGestion+"</td>"+
-            "<td>"+data.tiempo+"</td>"+
+            "<td>"+data.area+"</td>"+
             "<td>"+data.persona+"</td>"+
-            "<td>"+data.fecha_aviso+"</td>"+
-            "<td>"+data.tipo_aviso+"</td>"+
-            "<td>"+ data.proceso +"</td>"+
-             "<td>"+ data.asunto +"</td>"+
-            "<td>"+ data.area +"</td>";
+            "<td>"+data.cod_patrimonial+"</td>"+
+            "<td>"+data.cod_interno+"</td>"+
+            "<td>"+data.descripcion+"</td>";
         html+="</tr>";
     });
     $("#tb_reporte").html(html);

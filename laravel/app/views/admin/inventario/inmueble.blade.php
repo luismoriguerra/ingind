@@ -302,7 +302,7 @@ td, th{
                           <table id="t_reporte" class="table table-bordered table-striped">
                               <thead>
                                   <tr>
-                                      <th>Item</th>
+                                      <th>N°</th><th>Persona</th>
                                       <th>Codigo Patrimonial</th>
                                       <th>Codigo Interno</th>
                                       <th>Descripcion</th>
