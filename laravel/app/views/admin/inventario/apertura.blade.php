@@ -12,7 +12,7 @@
     {{ HTML::script('http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js') }}
 
     {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
-    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
+    {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }} 
     {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
 
     {{ HTML::script('http://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.js') }}
