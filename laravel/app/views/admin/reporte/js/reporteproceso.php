@@ -246,7 +246,7 @@
                         '<td style="text-align:center"></td>' +
                         '</tr>' +
                         '<tr>' +
-                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',null,1)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
+                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',null,1)" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
                         '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',null,2)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
                         '</tr>' +
                         '</table>'+
@@ -798,7 +798,7 @@
                     "<td>" + data.sumilla + "</td>" +
                     "<td>" + data.estado + "</td>" +
                     "<td>" + $.trim(data.ult_paso).split(",")[0].split('|')[0] + "</td>" +
-                    "<td>" + $.trim(data.ult_paso).split(",")[0].split('|')[1] + "</td>" +
+                    "<td>" + $.trim( $.trim(data.ult_paso).split(",")[0].split('|')[1] ) + "</td>" +
                     "<td>" + data.total_pasos + "</td>" +
                     '<td><a onClick="detalle(' + data.id + ',this)" class="btn btn-primary btn-sm" data-id="' + data.id + '" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a> </td>';
             html += "</tr>";
