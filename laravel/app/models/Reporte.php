@@ -586,7 +586,7 @@ class Reporte extends Eloquent
             $cl .= ",count(DISTINCT(r$n.id)) r$n";
             $cl .= ",count(DISTINCT(IF(ISNULL(rd$n.dtiempo_final),r$n.id,NULL))) p$n";
             $left .= "LEFT JOIN rutas r$n on r$n.id=r.id AND DATE_FORMAT(r$n.created_at,'%Y-%m')='".$i."'";
-            $left .= " LEFT JOIN rutas_detalle rd$n on r$n.id=rd$n.ruta_id ";
+            $left .= " LEFT JOIN rutas_detalle rd$n on r$n.id=rd$n.ruta_id AND  rd$n.estado=1 ";
             $n++;
             array_push($cabecera,$i);
             array_push($cabecera1, 'N° de P.');
@@ -600,7 +600,7 @@ class Reporte extends Eloquent
         $sSql .= $cl;
         $sSql .= ",count(DISTINCT(r.id))  rt
                 ,count(DISTINCT(IF(ISNULL(rd.dtiempo_final),r.id,NULL))) pt
-                ,count( DISTINCT( IF(rd.alerta>0,rd.id,NULL) ) ) ft
+                ,count( DISTINCT( IF(rd.alerta>0,r.id,NULL) ) ) ft
                 ,count(DISTINCT(rfd.area_id)) areas
                 ,count( DISTINCT( IF( rd.alerta>0,rd.area_id,NULL ) ) ) alertas";
         $sSql .= " FROM flujos f 
@@ -683,11 +683,10 @@ class Reporte extends Eloquent
                 ) estado,
                 GROUP_CONCAT( 
                     IF( rd.dtiempo_final IS NULL,
-                        CONCAT( rd.norden,' (',a2.nombre,')' ), NULL
+                        CONCAT( rd.norden,' (',a2.nombre,')','|',rd.fecha_inicio ), NULL
                     ) ORDER BY rd.norden
                 ) ult_paso,
-                COUNT(rd.id) total_pasos,
-                IFNULL(r.fecha_inicio,'') AS fecha_inicio,
+                MAX(rd.norden) total_pasos,
                 IF( IFNULL(tr.persona_autoriza_id,'')!='',(SELECT CONCAT(paterno,' ',materno,', ',nombre) FROM personas where id=tr.persona_autoriza_id),'' ) autoriza,
                 IF( IFNULL(tr.persona_responsable_id,'')!='',(SELECT CONCAT(paterno,' ',materno,', ',nombre) FROM personas where id=tr.persona_responsable_id),'' ) responsable,
                 COUNT( IF( rd.alerta=0,rd.id,NULL ) ) ok,
@@ -698,7 +697,7 @@ class Reporte extends Eloquent
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1
                 INNER JOIN areas a2 ON rd.area_id=a2.id
                 LEFT JOIN referidos re ON re.ruta_id=r.id and re.tipo=0
-		LEFT JOIN tablas_relacion trr ON trr.id=re.tabla_relacion_id
+                LEFT JOIN tablas_relacion trr ON trr.id=re.tabla_relacion_id
                 LEFT JOIN tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
                 LEFT JOIN areas a ON a.id=tr.area_id
                 WHERE tr.estado=1".
