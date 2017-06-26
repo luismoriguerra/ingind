@@ -219,7 +219,7 @@ td, th{
                       <div class="col-md-4">
                         <div class="col-md-12 form-group">
                           <span>Codigo Patrimonial: </span>
-                          <input type="text" name="txt_codpatrimonial" id="txt_codpatrimonial" class="form-control" maxlength="12">
+                          <input type="text" name="txt_codpatrimonial" id="txt_codpatrimonial" class="form-control" maxlength="12" onKeyPress="return msjG.validaNumeros(event);">
                         <input type="checkbox" name="sincod" id="sincod" value="1">Sin código</div>
                         <div class="col-md-12 form-group">
                           <span>Codigo Interno:</span>
@@ -298,7 +298,7 @@ td, th{
               <div class="col-md-12 form-group">
                 <div class="box-body table-responsive">
                   <div class="row form-group" id="reporte" style="">
-                      <div class="col-sm-12">
+                      <div class="col-sm-12"><h3 style="text-align:center; "><b>Bienes del Área: </b><?php echo Auth::user()->areas->nombre; ?></h3>
                           <table id="t_reporte" class="table table-bordered table-striped">
                               <thead>
                                   <tr>
