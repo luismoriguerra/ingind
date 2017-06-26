@@ -797,9 +797,9 @@
                     "<td>" + data.persona + "</td>" +
                     "<td>" + data.sumilla + "</td>" +
                     "<td>" + data.estado + "</td>" +
-                    "<td>" + $.trim(data.ult_paso).split(",")[0] + "</td>" +
+                    "<td>" + $.trim(data.ult_paso).split(",")[0].split('|')[0] + "</td>" +
+                    "<td>" + $.trim(data.ult_paso).split(",")[0].split('|')[1] + "</td>" +
                     "<td>" + data.total_pasos + "</td>" +
-                    "<td>" + data.fecha_inicio + "</td>" +
                     '<td><a onClick="detalle(' + data.id + ',this)" class="btn btn-primary btn-sm" data-id="' + data.id + '" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a> </td>';
             html += "</tr>";
         });

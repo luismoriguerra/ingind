@@ -230,8 +230,8 @@
                                         <th>Asunto</th>
                                         <th>Estado</th>
                                         <th>Paso a la fecha</th>
-                                        <th>Total de pasos</th>
                                         <th>Fecha Inicio</th>
+                                        <th>Total de pasos</th>
                                         <th>[]</th>
                                     </tr>
                                 </thead>
