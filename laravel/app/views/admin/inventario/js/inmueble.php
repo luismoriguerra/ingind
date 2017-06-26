@@ -109,6 +109,7 @@ HTMLcargarinmueble=function(datos){
         
         html+="<tr id="+data.norden+">"+
             "<td>"+pos+'</td>'+
+            "<td>"+data.persona+"</td>"+
             "<td>"+data.cod_patrimonial+"</td>"+
             "<td>"+data.cod_interno+"</td>"+
             "<td>"+data.descripcion+"</td>";

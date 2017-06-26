@@ -1329,6 +1329,60 @@ class ReporteController extends BaseController
         );
     }
     
+        public function postReporteinventario(){
+        $area = '';
+
+          if(Input::get('area_id')){
+            $area=implode('","',Input::get('area_id'));
+          }
+
+        $result = Inmueble::getCargar($area);
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$result
+            )
+        );
+    }
+    
+        public function getExportreporteinventario(){
+
+        $area=Input::get('area_id');
+            if(Input::get('tipo_id')){
+                $tipo=Input::get('tipo_id');
+            }
+
+        $rst = Inmueble::getCargar($area);
+        
+
+        $propiedades = array(
+          'creador'=>'Gerencia Modernizacion',
+          'subject'=>'Reporte de Inventario',
+          'tittle'=>'Personal',
+          'font-name'=>'Bookman Old Style',
+          'font-size'=>8,
+        );
+
+        $cabecera = array(
+          'N°',
+          'ÁREA',
+          'PERSONA',
+          'LOCAL',
+          'CÓDIGO PATRIMONIAL',
+          'CÓDIGO INTERNO',
+          'DESCRIPCIÓN',
+          'OFICINA',
+          'MARCA',
+          'MODELO',
+          'TIPO',
+          'COLOR',
+          'SERIE',
+          'SITUACION',
+          'OBSERVACIÓN'
+        );
+        $this->exportExcel($propiedades,'',$cabecera,$rst);
+    }
+    
         public function postNotificacionactividad(){
         $fecha = '';
         $area = '';

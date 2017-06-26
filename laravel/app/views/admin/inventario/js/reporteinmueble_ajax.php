@@ -3,7 +3,7 @@ var Consulta, ConsultaDetalle, ConsultaDetalle2;
 var Accion={
     mostrar:function( data){
         $.ajax({
-            url         : 'reporte/notificacionincumplimiento',
+            url         : 'reporte/reporteinventario',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
