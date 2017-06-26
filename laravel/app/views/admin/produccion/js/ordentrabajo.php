@@ -76,7 +76,7 @@ function initClockPicker(){
     }
     return Array("fechaInicio"=>$fechaInicio,"fechaFin"=>$fechaFin);
     }
-    $fechas=inicio_fin_semana();
+    $fechas=inicio_fin_semana(); 
 ?>
 var fecha_inicio='<?php echo $fechas['fechaInicio'];?>';
 var fecha_fin='<?php echo $fechas['fechaFin'];?>';
