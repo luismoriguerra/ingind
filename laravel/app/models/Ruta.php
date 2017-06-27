@@ -138,6 +138,20 @@ class Ruta extends Eloquent
         if($tablarelacion_id!=''){
             $referido['tabla_relacion_id']=$tablarelacion_id;
         }
+        else{
+            $detalle=explode("-",$tablaRelacion->id_union);
+            if( $detalle[0]=='DS' or $detalle[0]=='EX' or $detalle[0]=='AN' ){
+                $sql="  SELECT id
+                        FROM tablas_relacion
+                        WHERE id_union='$tablaRelacion->id_union'
+                        ORDER BY id
+                        LIMIT 0,1";
+                $rsql=DB::select($sql);
+                if( count($rsql)>0 ){
+                    $referido['tabla_relacion_id']=$rsql[0]->id;
+                }
+            }
+        }
 
         if( Input::has('doc_digital_id')){
                $referido['doc_digital_id']=Input::get('doc_digital_id');
