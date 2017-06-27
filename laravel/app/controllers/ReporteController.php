@@ -1377,8 +1377,8 @@ class ReporteController extends BaseController
           'TIPO',
           'COLOR',
           'SERIE',
-          'SITUACION',
-          'OBSERVACIÓN'
+          'OBSERVACIÓN',
+          'SITUACIÓN'
         );
         $this->exportExcel($propiedades,'',$cabecera,$rst);
     }
