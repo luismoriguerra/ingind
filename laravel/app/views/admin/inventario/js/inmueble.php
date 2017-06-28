@@ -79,8 +79,8 @@ registrarInmueble = function(){
      else if( $.trim($("#slct_estado").val()) == '' ){
         alert("Seleccione estado");
     }
-    else if( $("#txt_ubicacion").val()=='' ){
-        alert("Ingrese Ubicacion");
+    else if( $("#slct_piso").val()=='' ){
+        alert("Seleccione Piso");
     }
    else if( $("#txt_codpatrimonial").val()=='' &&  $('#sincod').prop('checked')==false  ){
        alert("Ingrese Codigo Patrimonial");
