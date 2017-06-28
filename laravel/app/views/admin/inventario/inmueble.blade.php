@@ -191,7 +191,7 @@ td, th{
                            <span>UBICACION: </span>
                         </div>
                         <div class="col-md-8">
-                          <input type="text" name="txt_ubicacion" id="txt_ubicacion" class="form-control" value="">
+                          <input type="text" name="txt_ubicacion" id="txt_ubicacion" class="form-control" value="d">
                         </div> 
                       </div>
                       <div class="col-md-6">
