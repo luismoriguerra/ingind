@@ -6,7 +6,7 @@ class Inmueble extends \Eloquent {
     public $table = "inventario_inmueble";
 
     public static function getCargar($area) {
-        $sql = "SELECT 1 as norden,a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) persona,il.nombre as 'local',ii.cod_patrimonial,ii.cod_interno, ii.descripcion,ii.oficina,ii.marca,ii.modelo,
+        $sql = "SELECT 1 as norden,a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) persona,il.nombre as 'local',ii.piso,ii.cod_patrimonial,ii.cod_interno, ii.descripcion,ii.oficina,ii.marca,ii.modelo,
                 ii.tipo,ii.color,ii.serie,ii.observacion,
                 CASE ii.situacion
                 WHEN 1 THEN 'MUY BUENO'
