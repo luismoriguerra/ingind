@@ -24,11 +24,9 @@
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-{{--     @include( 'admin.ruta.js.ruta_ajax' )
-    @include( 'admin.ruta.js.validar_ajax' ) --}}
     @include( 'admin.inventario.js.inmueble_ajax' )
     @include( 'admin.inventario.js.inmueble' )
-{{--     @include( 'admin.ruta.js.ruta_ajax' ) --}}
+
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -188,7 +186,7 @@ td, th{
                           <input type="text" name="txt_dependencia" id="txt_dependencia" class="form-control" value="">
                         </div>
                       </div>-->
-                      <div class="col-md-6">
+                      <div class="col-md-6 hidden">
                         <div class="col-md-4">
                            <span>UBICACION: </span>
                         </div>
@@ -324,11 +322,5 @@ td, th{
     </section><!-- /.content -->
 @stop
 @section('formulario')
-  @include( 'admin.ruta.form.crearUsuario' )
-  @include( 'admin.ruta.form.crearEmpresa' )
-  @include( 'admin.ruta.form.selectPersona' )
-  @include( 'admin.ruta.form.buscartramite' )
-  @include( 'admin.ruta.form.empresasbyuser' )
-  @include( 'admin.ruta.form.rutaflujo' )
-  @include( 'admin.ruta.form.ruta' )
+  @include( 'admin.inventario.form.confirmacion' )
 @stop
