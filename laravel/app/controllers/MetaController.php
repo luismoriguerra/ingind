@@ -39,10 +39,17 @@ class MetaController extends \BaseController
             }
             /************************************************************/
 
-            if( Input::has("nombre") ){
-                $nombre=Input::get("nombre");
+            if( Input::has("meta") ){
+                $nombre=Input::get("meta");
                 if( trim( $nombre )!='' ){
                     $array['where'].=" AND m.nombre LIKE '%".$nombre."%' ";
+                }
+            }
+            
+            if( Input::has("fecha") ){
+                $fecha=Input::get("fecha");
+                if( trim( $fecha )!='' ){
+                    $array['where'].=" AND m.fecha = '".$fecha."' ";
                 }
             }
 
@@ -117,6 +124,11 @@ class MetaController extends \BaseController
             $meta = new Meta;
             $area_id = implode(",",Input::get('area_id'));
             $meta->nombre = Input::get('nombre');
+            if(Input::has('fecha') AND trim(Input::get('fecha'))!=''){
+                $meta->fecha = Input::get('fecha');
+            } else {
+                $meta->fecha = null;
+            }
             $meta->area_multiple_id =$area_id;
             $meta->estado = Input::get('estado');
             $meta->usuario_created_at = Auth::user()->id;
@@ -155,6 +167,11 @@ class MetaController extends \BaseController
             $metaId = Input::get('id');
             $meta = Meta::find($metaId);
             $meta->nombre = Input::get('nombre');
+            if(Input::has('fecha') AND trim(Input::get('fecha'))!=''){
+                $meta->fecha = Input::get('fecha');
+            } else {
+                $meta->fecha = null;
+            }
             $meta->area_multiple_id =$area_id;
             $meta->estado = Input::get('estado');
             $meta->usuario_updated_at = Auth::user()->id;

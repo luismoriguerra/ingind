@@ -16,7 +16,7 @@ class Meta extends Base {
     }
 
     public static function getCargar($array) {
-        $sSql = " SELECT m.id, m.nombre, m.estado,m.area_multiple_id
+        $sSql = " SELECT m.id, m.nombre,m.fecha, m.estado,m.area_multiple_id
                 FROM metas m
                 WHERE 1=1 ";
         $sSql .= $array['where'] .

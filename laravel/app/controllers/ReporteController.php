@@ -1368,6 +1368,7 @@ class ReporteController extends BaseController
           'ÁREA',
           'PERSONA',
           'LOCAL',
+          'PISO',
           'CÓDIGO PATRIMONIAL',
           'CÓDIGO INTERNO',
           'DESCRIPCIÓN',
