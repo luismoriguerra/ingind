@@ -25,10 +25,10 @@ class InmuebleController extends \BaseController {
             $Aperturas = DB::table('inventario_apertura')->where('estado', 1)->get();
             $fechaini = strtotime(date('Y-m-d', strtotime($Aperturas[0]->fecha_inicio)));
             $fechafin = strtotime(date('Y-m-d', strtotime($Aperturas[0]->fecha_fin)));
-            $fechaAct = strtotime(date('Y-m-d', strtotime(Input::get('fecha'))));
+            $fechaAct = strtotime(date('Y-m-d', strtotime(date('Y-m-d'))));
             $rst = 0;
             $msj = '';
-
+            
             if ($fechaAct >= $fechaini && $fechaAct <= $fechafin) {
                 $Inmueble = new Inmueble();
                 $Inmueble['cod_interno'] = Input::get('codinterno');
