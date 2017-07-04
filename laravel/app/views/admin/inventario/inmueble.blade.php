@@ -239,7 +239,8 @@ td, th{
                             <option value="">Seleccione</option>
                             <option value="1">AMBIENTE COMÚN</option>                          
                             <option value="2">PASADIZO</option>
-                            <option value="3">DESPACHO Y/O JEFATURA</option>
+                            <option value="3">DESPACHO Y/O JEFATURA</option><option value="4">BIBLIOTECA</option>
+                            <option value="5">CASA REFUGIO</option>
                           </select>
                         </div>
                         <div class="col-md-12 form-group">
