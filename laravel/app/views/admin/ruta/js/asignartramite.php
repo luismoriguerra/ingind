@@ -766,7 +766,7 @@ cargarTabla = function(){
                 html+= "        <input class='form-control chk_copias' type='checkbox' name='chk_copias' id='chk_copias' value='copias'/>";
                 html+="    </td>";
                 html+= "</tr>";
-                slctGlobal.listarSlct('area','select_area'+i+'','simple',null,{estado:1,areagestionf:1,omitir:1});
+                slctGlobal.listarSlct('area','select_area'+i+'','simple',null,{estado:1,areagestion:1});
             }
             $("#tb_numareas").html(html);
             $(".tablaSelecAreaTiempo").removeClass('hidden');
