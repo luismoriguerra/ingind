@@ -666,12 +666,19 @@ class Persona extends Base implements UserInterface, RemindableInterface {
 
     public static function OrdenTrabjbyPersona() {
         $sSql = '';
-        $sSql .= "SELECT a.nombre area,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) persona,CONCAT_WS(' ',p1.nombre,p1.paterno,p1.materno) as asignador,ap.id norden,ap.actividad,ap.fecha_inicio,ap.dtiempo_final,ABS(ap.ot_tiempo_transcurrido) ot_tiempo_transcurrido ,SEC_TO_TIME(ABS(ap.ot_tiempo_transcurrido) * 60) formato 
+        $left='';
+        $variable='';
+        if (Input::has('distinto') && Input::get('distinto')) {
+            $left=" LEFT JOIN actividad_personal ap1 ON ap.id=ap1.actividad_asignada_id and ap1.estado=1 ";
+            $variable=" COUNT(ap1.id)  as resultado,IFNULL(GROUP_CONCAT(ap1.actividad),'') as descripcion_resultado, ";
+        }
+        
+        $sSql .= "SELECT ".$variable." a.nombre area,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) persona,CONCAT_WS(' ',p1.nombre,p1.paterno,p1.materno) as asignador,ap.id norden,ap.actividad,ap.fecha_inicio,ap.dtiempo_final,ABS(ap.ot_tiempo_transcurrido) ot_tiempo_transcurrido ,SEC_TO_TIME(ABS(ap.ot_tiempo_transcurrido) * 60) formato 
                 FROM  actividad_personal ap 
                 INNER JOIN areas a ON a.id=ap.area_id AND a.estado=1
                 INNER JOIN personas p ON p.id=ap.persona_id AND p.estado=1
-                INNER JOIN personas p1 on ap.usuario_created_at=p1.id AND p1.estado=1
-                WHERE ap.estado=1";
+                INNER JOIN personas p1 on ap.usuario_created_at=p1.id AND p1.estado=1 ". $left;
+        $sSql .=" WHERE ap.estado=1";
 
         if (Input::has('fecha') && Input::get('fecha')) {
             $fecha = Input::get('fecha');
@@ -680,19 +687,19 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         }
 
         if (Input::has('usuario_id') && Input::get('usuario_id')) {
-            $sSql .= " AND ap.persona_id='" . Input::get('usuario_id') . "'  ";
+            $sSql .= " AND ap.persona_id='" . Input::get('usuario_id') . "'  AND ap.tipo=1 ";
         }
 
         if (Input::has('distinto') && Input::get('distinto')) {
 
-            $sSql .= " AND ap.persona_id != ap.usuario_created_at ";
+            $sSql .= " AND ap.tipo=2 ";
 
             if (Input::has('area_id') && Input::get('area_id')) {
                 $area_id = Input::get('area_id');
                 $sSql .= " AND ap.area_id IN ($area_id) ";
             }
         }
-
+        $sSql .= "GROUP BY ap.id";
         $oData = DB::select($sSql);
         return $oData;
     }
@@ -709,7 +716,6 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         $sSql = '';
         $cl = '';
         $left = '';
-        ;
         $f_fecha = '';
         $cabecera = [];
 
@@ -737,7 +743,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         $sSql .= ",COUNT(ap.id) AS f_total,IFNULL(SEC_TO_TIME(ABS(SUM(ap.ot_tiempo_transcurrido)) * 60),'00:00')  h_total,IFNULL(GROUP_CONCAT(ap.id),'0') id_total";
         $sSql .= " FROM personas p
                  INNER JOIN areas a on p.area_id=a.id
-                 LEFT JOIN actividad_personal ap on ap.persona_id=p.id AND ap.estado=1 AND ap.usuario_created_at=ap.persona_id " . $f_fecha;
+                 LEFT JOIN actividad_personal ap on ap.persona_id=p.id AND ap.estado=1 AND ap.tipo=1 " . $f_fecha;
         $sSql .= $left;
         $sSql .= " WHERE p.estado=1  AND p.rol_id NOT IN (8,9)";
 
@@ -812,7 +818,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         $sSql .= ",p.envio_actividad";
         $sSql .= " FROM personas p
                  INNER JOIN areas a on p.area_id=a.id
-                 LEFT JOIN actividad_personal ap on ap.persona_id=p.id AND ap.estado=1 AND ap.usuario_created_at=ap.persona_id " . $f_fecha;
+                 LEFT JOIN actividad_personal ap on ap.persona_id=p.id AND ap.estado=1 AND ap.tipo=1 " . $f_fecha;
         $sSql .= $left;
         $sSql .= " WHERE p.estado=1 AND p.rol_id NOT IN (8,9)";
 

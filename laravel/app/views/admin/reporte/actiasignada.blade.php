@@ -92,6 +92,8 @@
                                  <th>Tiempo Transcurrido</th>
                                  <th>Formato</th>
                                  <th>Jefe(a)</th>
+                                 <th>Resultados</th>
+                                 <th>Descripción</th>
                                  </tr>
                             </thead>
                             <tbody id="tb_ordenest">

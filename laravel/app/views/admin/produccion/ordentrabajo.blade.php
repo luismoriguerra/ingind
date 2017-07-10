@@ -17,6 +17,7 @@
     @include( 'admin.js.slct_global' )
     @include( 'admin.produccion.js.ordentrabajo_ajax' )
     @include( 'admin.produccion.js.ordentrabajo' )
+    @include( 'admin.produccion.js.actividadesasignadas' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -103,7 +104,7 @@
                                         <div class="row">
                                             <div class="col-md-3 form-group">
                                                 <label>Actividad:</label>
-                                                <textarea class="form-control" id="txt_actividad" name="txt_actividad" rows="2"> </textarea>
+                                                <textarea class="form-control" id="txt_actividad" name="txt_actividad" rows="10"> </textarea>
                                                {{--  <input type="text" class="form-control" id="txt_actividad" name="txt_actividad"> --}}
                                             </div>
                                             <div class="col-md-3 form-group">
@@ -131,7 +132,75 @@
                                             <div class="col-md-3 form-group">
                                                 <label>Tiempo Transcurrido:</label>
                                                 <input type="text" class="form-control ttranscurrido" id="txt_ttranscurrido" name="txt_ttranscurrido" readonly="readonly">
-                                            </div>                                                    
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <div class="col-md-10 form-group">
+                                                    <label>Actividad Asignada:</label>
+                                                    <input type="hidden" id="txt_actividad_asignado_id" name="txt_actividad_asignado_id" readonly="">
+                                                    <input type="text" class="form-control" id="txt_actividad" name="txt_actividad_asignado" disabled="">
+                                                </div>
+                                                <div class="col-md-1 form-group">
+                                                <label>-</label>
+                                                <span class="btn btn-primary" data-toggle="modal" data-target="#actiasignadaModal" id="btn_buscar" onclick="MostrarActividad(this)">
+                                                            <i class="fa fa-search fa-lg"></i>
+                                                </span>
+                                                </div>
+                                                <div class="col-md-1 form-group">
+                                                <label>-</label>
+                                                <span class="btn btn-danger" onclick="BorrarAsignado(this)" id="btn_borrar">
+                                                            <i class="fa fa-eraser fa-lg"></i>
+                                                </span>
+                                                </div>
+                                            </div>
+                                           <div class="col-md-5 form-group">
+                                                <div class="col-md-8 form-group">
+                                                <label>Documentos:</label>
+                                                <form name="form_ddocumento" id="form_ddocumento" enctype="”multipart/form-data”">
+                                                    <table id="t_ddocumento" class="table table-bordered">
+                                                        <thead class="bg-teal disabled color-palette">
+                                                            <tr>
+                                                                <th>N°</th>
+                                                                <th>Documento</th>
+                                                                <th><span class="btn btn-default btn-xs" data-toggle="modal" data-target="#docdigitalModal"  onClick='MostrarDocumentos(this);' id="btn_list_digital" data-texto="txt_codigo"    data-id="txt_doc_digital_id"><i class="glyphicon glyphicon-file"></i></span></th> 
+                                                            </tr> 
+                                                        </thead> 
+                                                        <tbody id="tb_ddocumento">
+                                                            <tr style="display: none">
+                                                                <td><input type="hidden" value="0"></td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </form>
+                                                </div>
+                                                <div class="col-md-4 form-group">
+                                                <label>Cantidad:</label>
+                                                <input type="text" class="form-control" id="txt_cantidad" name="txt_cantidad" value="0">
+                                                </div>
+                                           </div>
+                                            <div class="col-md-3 form-group">
+                                                <label>Archivos:</label>
+                                                <form name="form_darchivo" id="form_darchivo" enctype="”multipart/form-data”">
+                                                    <table id="t_darchivo" class="table table-bordered">
+                                                        <thead class="bg-aqua disabled color-palette">
+                                                            <tr>
+                                                                <th>Archivo</th>
+                                                                <th>
+                                                                    <a class="btn btn-default btn-xs" onclick="AgregarD(this)"><i class="fa fa-plus fa-lg"></i></a>
+                                                                </th> 
+                                                            </tr> 
+                                                        </thead> 
+                                                        <tbody id="tb_darchivo"> 
+                                                            <tr style="display: none">
+                                                                <td><input type="hidden" value="0"></td>
+                                                                <td><input type="hidden" value="0"></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </form>
+                                            </div>
+
                                         </div>
                                     </fieldset>
 
@@ -139,7 +208,7 @@
                                         <div class="row">
                                             <div class="col-md-3 form-group">
                                                 <label>Actividad:</label>
-                                                <textarea class="form-control" id="txt_actividad" name="txt_actividad" rows="2"></textarea>
+                                                <textarea class="form-control" id="txt_actividad" name="txt_actividad" rows="10"></textarea>
                                                {{--  <input type="text" class="form-control" id="txt_actividad" name="txt_actividad"> --}}
                                             </div>
                                             <div class="col-md-3 form-group">
@@ -171,9 +240,77 @@
                                             <div class="col-md-1 form-group visible-lg visible-md">
                                                 <span id="btnDelete" name="btnDelete" class="btn btn-danger  btn-sm btnDelete" style="margin-top: 36%;"><i class="glyphicon glyphicon-remove"></i></span>
                                             </div>
+                                            <div class="col-md-8 form-group">
+                                                <div class="col-md-10 form-group">
+                                                    <label>Actividad Asignada:</label>
+                                                    <input type="hidden" id="txt_actividad_asignado_id" name="txt_actividad_asignado_id" readonly="">
+                                                    <input type="text" class="form-control" id="txt_actividad_asignado" name="txt_actividad_asignado" disabled="">
+                                                </div>
+                                                <div class="col-md-1 form-group">
+                                                <label>-</label>
+                                                <span class="btn btn-primary" data-toggle="modal" data-target="#actiasignadaModal"  id="btn_buscar" onclick="MostrarActividad(this)">
+                                                            <i class="fa fa-search fa-lg"></i>
+                                                </span>
+                                                </div>
+                                                <div class="col-md-1 form-group">
+                                                <label>-</label>
+                                                <span class="btn btn-danger" onclick="BorrarAsignado(this)" id="btn_borrar">
+                                                            <i class="fa fa-eraser fa-lg"></i>
+                                                </span>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-5 form-group">
+                                                <div class="col-md-8 form-group">
+                                                <label>Documentos:</label>
+                                                <form name="form_ddocumento" id="form_ddocumento" enctype="”multipart/form-data”">
+                                                    <table id="t_ddocumento" class="table table-bordered">
+                                                        <thead class="bg-teal disabled color-palette">
+                                                            <tr>
+                                                                <th>N°</th>
+                                                                <th>Documento</th>
+                                                                <th><span class="btn btn-default btn-xs" data-toggle="modal" data-target="#docdigitalModal"  data-form="this" onClick='MostrarDocumentos(this);' id="btn_list_digital" data-texto="txt_codigo"    data-id="txt_doc_digital_id"><i class="glyphicon glyphicon-file"></i></span></th> 
+                                                            </tr> 
+                                                        </thead> 
+                                                        <tbody id="tb_ddocumento"> 
+                                                            <tr style="display: none">
+                                                                <td><input type="hidden" value="0"></td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </form>
+                                                </div>
+                                                <div class="col-md-4 form-group">
+                                                <label>Cantidad:</label>
+                                                <input type="text" class="form-control mant" id="txt_cantidad" name="txt_cantidad" value="0">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 form-group validoarchivo">
+                                                <label>Archivos:</label>
+                                                <form name="form_darchivo" id="form_darchivo" enctype="”multipart/form-data”">
+                                                    <table id="t_darchivo" class="table table-bordered">
+                                                        <thead class="bg-aqua disabled color-palette">
+                                                            <tr>
+                                                                <th>Archivo</th>
+                                                                <th>
+                                                                    <a class="btn btn-default btn-xs" onclick="AgregarD(this)"><i class="fa fa-plus fa-lg"></i></a>
+                                                                </th> 
+                                                            </tr> 
+                                                        </thead> 
+                                                        <tbody id="tb_darchivo"> 
+                                                            <tr style="display: none">
+                                                                <td><input type="hidden" value="0"></td>
+                                                                <td><input type="hidden" value="0"></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </form>
+                                            </div>
                                             <div class="col-md-1 col-sm-12 col-xs-12 form-group visible-sm visible-xs">
                                                 <span id="btnDelete" name="btnDelete" class="btn btn-danger  btn-sm btnDelete" style="width: 100%">Eliminar</span>
-                                            </div>                                                            
+                                            </div>
                                         </div>
                                     </fieldset>
                                 </div>
@@ -223,4 +360,6 @@
 
 @section('formulario')
     @include( 'admin.produccion.form.confirmacion' )
+    @include( 'admin.mantenimiento.form.docdigitalcompleto' )
+    @include( 'admin.produccion.form.actividadesasignadas' )
 @stop

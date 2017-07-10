@@ -1,6 +1,6 @@
 <?php
 
-class VerboController extends \BaseController
+class ActividadPersonalController extends \BaseController
 {
     protected $_errorController;
     /**
@@ -39,24 +39,23 @@ class VerboController extends \BaseController
             }
             /************************************************************/
 
-            if( Input::has("nombre") ){
-                $nombre=Input::get("nombre");
-                if( trim( $nombre )!='' ){
-                    $array['where'].=" AND v.nombre LIKE '%".$nombre."%' ";
+            if( Input::has("actividad") ){
+                $actividad=Input::get("actividad");
+                if( trim( $actividad )!='' ){
+                    $array['where'].=" AND ap.actividad LIKE '%".$actividad."%' ";
                 }
             }
 
-            if( Input::has("estado") ){
-                $estado=Input::get("estado");
-                if( trim( $estado )!='' ){
-                    $array['where'].=" AND v.estado='".$estado."' ";
-                }
+            if( Input::has("asignado") ){
+                    $array['where'].=" AND ap.estado=1";
+                    $array['where'].=" AND ap.tipo=2";
+                    $array['where'].=" AND ap.persona_id=".Auth::user()->id;
             }
 
-            $array['order']=" ORDER BY v.nombre ";
+            $array['order']=" ORDER BY ap.actividad ";
 
-            $cant  = Verbo::getCargarCount( $array );
-            $aData = Verbo::getCargar( $array );
+            $cant  = ActividadPersonal::getCargarCount( $array );
+            $aData = ActividadPersonal::getCargar( $array );
 
             $aParametro['rst'] = 1;
             $aParametro["recordsTotal"]=$cant;
@@ -73,120 +72,5 @@ class VerboController extends \BaseController
      *
      * @return Response
      */
-   public function postListar()
-    {
-        if ( Request::ajax() ) {
-            $a      = new Verbo;
-            $listar = Array();
-            $listar = $a->getVerbo();
-
-            return Response::json(
-                array(
-                    'rst'   => 1,
-                    'datos' => $listar
-                )
-            );
-        }
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * POST /rol/crear
-     *
-     * @return Response
-     */
-
-    public function postCrear()
-    {
-        if ( Request::ajax() ) {
-            $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
-            $required = 'required';
-            $reglas = array(
-                'nombre' => $required.'|'.$regex,
-            );
-
-            $mensaje= array(
-                'required' => ':attribute Es requerido',
-                'regex'    => ':attribute Solo debe ser Texto',
-            );
-
-            $validator = Validator::make(Input::all(), $reglas, $mensaje);
-
-            if ( $validator->fails() ) {
-                return Response::json( array('rst'=>2, 'msj'=>$validator->messages()) );
-            }
-
-            $verbo = new Verbo;
-            $verbo->nombre = Input::get('nombre');
-            $verbo->estado = Input::get('estado');
-            $verbo->usuario_created_at = Auth::user()->id;
-            $verbo->save();
-
-            return Response::json(array('rst'=>1, 'msj'=>'Registro realizado correctamente', 'verbo_id'=>$verbo->id));
-        }
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * POST /rol/editar
-     *
-     * @return Response
-     */
-   public function postEditar()
-    {
-        if ( Request::ajax() ) {
-            $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
-            $required = 'required';
-            $reglas = array(
-                'nombre' => $required.'|'.$regex,
-            );
-
-            $mensaje= array(
-                'required' => ':attribute Es requerido',
-                'regex'    => ':attribute Solo debe ser Texto',
-            );
-
-            $validator = Validator::make(Input::all(), $reglas, $mensaje);
-
-            if ( $validator->fails() ) {
-                return Response::json( array('rst'=>2, 'msj'=>$validator->messages()) );
-            }
-
-            $verboId = Input::get('id');
-            $verbo = Verbo::find($verboId);
-            $verbo->nombre = Input::get('nombre');
-            $verbo->estado = Input::get('estado');
-            $verbo->usuario_updated_at = Auth::user()->id;
-            $verbo->save();
-
-            return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
-        }
-    }
-
-    /**
-     * Changed the specified resource from storage.
-     * POST /rol/cambiarestado
-     *
-     * @return Response
-     */
-    public function postCambiarestado()
-    {
-
-        if ( Request::ajax() ) {
-
-            $verbo = Verbo::find(Input::get('id'));
-            $verbo->usuario_created_at = Auth::user()->id;
-            $verbo->estado = Input::get('estado');
-            $verbo->save();
-           
-            return Response::json(
-                array(
-                'rst'=>1,
-                'msj'=>'Registro actualizado correctamente',
-                )
-            );    
-
-        }
-    }
 
 }

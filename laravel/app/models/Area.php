@@ -256,7 +256,7 @@ class Area extends Base
         
         if(Input::has('distinto') && Input::get('distinto')){
            
-            $sSql.= " AND ap.persona_id != ap.usuario_created_at ";
+            $sSql.= " AND ap.tipo=2 ";
         }
         
         $sSql.="  GROUP BY ap.area_id,ap.persona_id";

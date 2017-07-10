@@ -1,5 +1,26 @@
 <script type="text/javascript">
-$(document).ready(function() { 
+var TablaDocumento; // Datos Globales
+var cabeceraG1=[]; // Cabecera del Datatable
+var columnDefsG1=[]; // Columnas de la BD del datatable
+var targetsG1=-1; // Posiciones de las columnas del datatable
+
+$(document).ready(function() {
+    
+    var idG1={  persona_c        :'onBlur|Creador|#DCE6F1', //#DCE6F1
+                titulo      :'onBlur|Título|#DCE6F1', //#DCE6F1
+                asunto        :'onBlur|Asunto|#DCE6F1', //#DCE6F1
+                c        :'1|Vista Previa|#DCE6F1', //#DCE6F1
+                d        :'1|Seleccionar|#DCE6F1', //#DCE6F1
+             };
+
+    var resG1=dataTableG.CargarCab(idG1);
+    cabeceraG1=resG1; // registra la cabecera
+    var resG1=dataTableG.CargarCol(cabeceraG1,columnDefsG1,targetsG1,1,'docdigitales_relaciones','t_docdigitales_relaciones');
+    columnDefsG1=resG1[0]; // registra las columnas del datatable
+    targetsG1=resG1[1]; // registra los contadores
+    
+    
+    
     Area_id = '<?php echo Auth::user()->area_id; ?>';
     id = '<?php echo Auth::user()->id; ?>';
     Rol_id='<?php echo Auth::user()->rol_id; ?>';
@@ -31,7 +52,10 @@ $(document).ready(function() {
         initClockPicker();
         $("#txt_ttotal").val(CalcGlobalH());
     }); 
-
+    $(document).on('click', '.btnDeleteitem', function (event) {
+            $(this).parent().parent().remove();
+    });
+    
     $(document).on('click', '.btnDelete', function(event) {
         $(this).parent().parent().parent().remove();
         initDatePicker();
@@ -145,26 +169,55 @@ CalcGlobalH = function(){
     var min = calcGlobal % 60;
     return horas + ':' + min;
 }
-
-guardarTodo = function(){
+mostrarConfirmacion = function(){
     var calcG = CalcGlobalH();
     $("#txt_ttotal").val(CalcGlobalH());
-    var r = confirm("Usted a generado" + calcG.split(':')[0] + "hora(s) con" + calcG.split(':')[1] + "minuto(s),Desea Guardar?");
-    if (r == true) {
+    $("#spanMensaje").text("Usted a generado " + calcG.split(':')[0] + "hora(s) con " + calcG.split(':')[1] + " minuto(s),Desea Guardar?");
+    $("#ConfirmacionModal").modal('show');
+}
+
+guardarTodo = function(){
+//    var calcG = CalcGlobalH();
+//    $("#txt_ttotal").val(CalcGlobalH());
+//    var r = confirm("Usted a generado " + calcG.split(':')[0] + "hora(s) con " + calcG.split(':')[1] + " minuto(s),Desea Guardar?");
+//    if (r == true) {
         var actividades = $(".valido textarea[id='txt_actividad']").map(function(){return $(this).val();}).get();
         var finicio = $(".valido input[id='txt_fechaInicio']").map(function(){return $(this).val();}).get();
         var ffin = $(".valido input[id='txt_fechaFin']").map(function(){return $(this).val();}).get();
         var hinicio = $(".valido input[id='txt_horaInicio']").map(function(){return $(this).val();}).get();
+        var cantidad = $(".valido input[id='txt_cantidad']").map(function(){return $(this).val();}).get();
         var hfin = $(".valido input[id='txt_horaFin']").map(function(){return $(this).val();}).get();
         var ttranscurrido = $(".valido input[id='txt_ttranscurrido']").map(function(){return $(this).val();}).get();
         var persona = document.querySelector("#slct_personasA").value;
+        
+        var tbarchivo =[];
+        var tablaarchivo = $(".valido table[id='t_darchivo']").map(function(){
+//            console.log(this);
+            tbarchivo =[];
+            tbarchivo.push($(this).find("tbody tr").map(function(){
+                            return $(this).find('input:eq(0)').val()+'|'+$(this).find('input:eq(1)').val();
+                        }).get());
+//            console.log(tbarchivo);
+            return tbarchivo;
+        }).get();
 
-        if(actividades.length > 0){
-            var data = [];
-            var personaid = '';
-            if(persona){
-                personaid=persona;
-            }
+        var tbdocumento=[];
+        var tabladocumento = $(".valido table[id='t_ddocumento']").map(function(){
+            tbdocumento=[];
+            tbdocumento.push( $(this).find("tbody tr").map(function(){
+                return $(this).find('input:eq(0)').val();
+            }).get());
+          return tbdocumento;
+        }).get();
+    
+        var data = [];
+        var personaid = '';
+        if(persona){
+            personaid=persona;
+        }
+
+        var incompletas = [];
+        var orden = 0;
 
             for(var i=0; i < actividades.length;i++){
                 if(actividades[i] != '' && finicio[i] != '' && ffin[i] != '' && hfin[i]!='' && hinicio[i]!=''){
@@ -173,21 +226,30 @@ guardarTodo = function(){
                         'finicio' : finicio[i],
                         'ffin' : finicio[i],
                         'hinicio' : hinicio[i],
-                        'hfin' : hinicio[i],
-                        'ttranscurrido' : '00:00',
-                        'persona':personaid
+                        'hfin' : hfin[i],
+                        'ttranscurrido' : ttranscurrido[i],
+                        'persona':personaid,
+                        'cantidad':cantidad[i],
+                        'archivo':tablaarchivo[i],
+                        'documento':tabladocumento[i],
+                        'tipo':'2',
                     });                    
+                }else{
+                    orden = i + 1;
+                    incompletas.push(orden);
                 }
             }
-            if(persona!=''){
-            Asignar.guardarOrdenTrabajo(data);
-            }else {
+            if(incompletas.length > 0){
+                alert('Complete los datos en su(s) actividad(es): '+incompletas.join(',') + ' o elimine,para poder completar su registro');          
+            }
+            else if(persona==''){
                 alert("Seleccione al trabajador que se le asignará la(s) actividad(es)");
             }
-        }else{
-            alert('complete todos los campos porfavor');
-        }
-    }
+            else {
+                Asignar.guardarOrdenTrabajo(data); 
+            }
+
+//    }
 };
 
 HTMLcargarordentrabajodia=function(datos){
@@ -209,6 +271,9 @@ HTMLcargarordentrabajodia=function(datos){
             "<td>"+data.actividad+"</td>"+
             "<td><input type='text' class='datepicker form-control fechaInicio' id='txt_fechaInicio' name='txt_fechaInicio' onchange='fecha(this,2)' value='"+fecha_inicio[0]+"'></td>"+
             "<td><input type='numeric' class='form-control horaInicio' id='txt_horaInicio' name='txt_horaInicio' onchange='CalcularHrs(this,2)' value='"+hinicio+"' data-mask></td>"+
+            "<td><input type='text' class='datepicker form-control fechaFin' id='txt_fechaFin' name='txt_fechaFin'  disabled='disabled' value='"+dtiempo_final[0]+"'></td>"+
+            "<td><input type='numeric' class='form-control horaFin' id='txt_horaFin' name='txt_horaFin' onchange='CalcularHrs(this,2)' value='"+hfin+"' data-mask></td>"+
+            "<td><input type='text' class='form-control ttranscurrido' id='txt_ttranscurrido' name='txt_ttranscurrido' value='"+formato+"' readonly='readonly'></td>"+
             "<td align='center'><span class='btn btn-success btn-md' onClick='EditarActividad("+data.norden+","+pos+")' > Editar</a></td>";
         html+="</tr>";
     });
@@ -237,7 +302,135 @@ EditarActividad=function(id,pos){
      Asignar.EditarActividad(dataG,pos);  
     
 };
+MostrarDocumentos=function(obj){
+    var tabla=obj.parentNode.parentNode.parentNode.parentNode;
+            TablaDocumento=tabla;
+           $('#form_docdigitales').hide();
+           $('#form_docdigitales_relaciones').show();
+           $("#t_docdigitales_relaciones").dataTable();
+           MostrarAjax('docdigitales_relaciones'); 
+    
+};
+
+MostrarAjax=function(t){
+
+    if( t=="docdigitales_relaciones" ){
+        if( columnDefsG1.length>0 ){
+            dataTableG.CargarDatos(t,'documentodig','cargarcompleto',columnDefsG1);
+        }
+        else{
+            alert('Faltas datos');
+        }
+    }
+    if( t=="actiasignada" ){
+        if( columnDefsG.length>0 ){
+            dataTableG.CargarDatos(t,'actividadpersonal','cargar',columnDefsG);
+        }
+        else{
+            alert('Faltas datos');
+        }
+    }
+}
+
+GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
+
+    if(typeof(fn)!='undefined' && fn.col==1){
+        return '<span id="2616" onclick="CargarActividad('+row.id+',\''+row.actividad+'\')" class="btn btn-success"><i class="fa fa-lg fa-check"></i></span>';
+    }
+    if(typeof(fn)!='undefined' && fn.col==3){
+        return "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",4,0); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A4</i> </a>"+
+                   "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",5,0); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A5</i> </a>";
+    }
+    if(typeof(fn)!='undefined' && fn.col==4){
+        return "<a class='btn btn-success btn-sm' onclick='SelectDocDig(this,"+row.id+",\""+row.titulo+"\")'><i class='glyphicon glyphicon-ok'></i> </a>";
+    }
+    if(typeof(fn)!='undefined' && fn.col==8){
+       if($.trim(row.ruta) != 0  || $.trim(row.rutadetallev) != 0){
+           return "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",4,1); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A4</i> </a>"+
+                  "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",5,1); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A5</i> </a>";
+       }else{
+            return "";
+       }
+    }
+
+}
+
+    AgregarD = function (obj) {
+        var tabla=obj.parentNode.parentNode.parentNode.parentNode;
+        var html = '';
+        html += "<tr>";
+        html += "<td>";
+        html += '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre"  name="pago_nombre[]" value="">' +
+                '<input type="text"  style="display: none;" id="pago_archivo" name="pago_archivo[]">' +
+                '<label class="btn btn-default btn-flat margin btn-xs">' +
+                '<i class="fa fa-file-pdf-o fa-lg"></i>' +
+                '<i class="fa fa-file-word-o fa-lg"></i>' +
+                '<i class="fa fa-file-image-o fa-lg"></i>' +
+                '<input type="file" style="display: none;" onchange="onPagos(event,this);" >' +
+                '</label>';
+        html += "</td>" +
+                '<td><a id="btnDeleteitem"  name="btnDeleteitem" class="btn btn-danger btn-xs btnDeleteitem">' +
+                '<i class="fa fa-trash fa-lg"></i>' +
+                '</a></td>';
+        html += "</tr>";
+        $(tabla).find("tbody").append(html);
+    }
+    
+    
+    onPagos = function (event,obj) {
+        var tr=obj.parentNode.parentNode;
+       console.log(tr);
+        var files = event.target.files || event.dataTransfer.files;
+        if (!files.length)
+            return;
+        var image = new Image();
+        var reader = new FileReader();
+        reader.onload = (e) => {
+            $(tr).find('input:eq(1)').val(e.target.result);
+        };
+        reader.readAsDataURL(files[0]);
+        $(tr).find('input:eq(0)').val(files[0].name);
+        console.log(files[0].name);
+    }
+    
+    SelectDocDig = function (obj,id,titulo) {
+        $("#docdigitalModal").modal('hide');
+
+        var html = '';
+        html += "<tr>" +
+                "<td>#" ;
+        html += "<input type='hidden' name='doc_id[]' id='doc_id' value='" + id + "'></td> " +
+                "<td>";
+        html += '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre"  name="pago_nombre[]" value="' + titulo + '">';
+        html += "</td>" +
+                '<td><a id="btnDeleteitem"  name="btnDeleteitem" class="btn btn-danger btn-xs btnDeleteitem" onclick="Contar(this,2)">' +
+                '<i class="fa fa-trash fa-lg"></i>' +
+                '</a></td>';
+        html += "</tr>";
+        Contar(TablaDocumento,1);
+        $(TablaDocumento).find("tbody").append(html);
 
 
+    }
+    
+    openPlantilla=function(id,tamano,tipo){
+    window.open("documentodig/vista/"+id+"/"+tamano+"/"+tipo,
+                "PrevisualizarPlantilla",
+                "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
+};
+Contar=function(obj,tipo){
+    if(tipo==1){
+     var div=obj.parentNode.parentNode.parentNode;
+     var cantidad=$(div).children('div')[1];
+     var val=parseInt($(cantidad).find('input:eq(0)').val());
+     $(cantidad).find('input:eq(0)').val(val+1);
+    }
+    if(tipo==2){
+     var div=obj.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+     var cantidad=$(div).children('div')[1];
+     var val=parseInt($(cantidad).find('input:eq(0)').val());
+     $(cantidad).find('input:eq(0)').val(val-1);
+    }
+};
 
 </script>

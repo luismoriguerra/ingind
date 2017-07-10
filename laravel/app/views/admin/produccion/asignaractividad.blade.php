@@ -68,7 +68,7 @@
                                     <input type="text" class="form-control" id="txt_ttotal" name="txt_ttotal" readonly="readonly">                                            
                                 </div>
                                 <div class="col-md-3 col-xs-4 col-sm-4">
-                                    <span class="btn btn-primary btn-success" id="btnGuardar" onclick="guardarTodo()">Guardar  <i class="glyphicon glyphicon-plus"></i></span>                                            
+                                    <span class="btn btn-primary btn-success" id="btnGuardar" onclick="mostrarConfirmacion()">Guardar  <i class="glyphicon glyphicon-plus"></i></span>                                            
                                 </div>
                                 <div class="col-md-5 col-xs-5 col-sm-5 selectbyPerson hidden">
                                     <div class="col-md-4">
@@ -91,7 +91,7 @@
                                     <input type="text" class="form-control" id="" name="" readonly="readonly">                                            
                                 </div>
                                 <div class="col-md-3 col-xs-4 col-sm-4">
-                                    <span class="btn btn-primary btn-success" onclick="guardarTodo()">Guardar  <i class="glyphicon glyphicon-plus"></i></span>                                            
+                                    <span class="btn btn-primary btn-success" onclick="mostrarConfirmacion()">Guardar  <i class="glyphicon glyphicon-plus"></i></span>                                            
                                 </div>
                             </div>
                         </div>
@@ -101,23 +101,23 @@
                                 <div class="ordenesT">
                                     <fieldset class="yellow-fieldset valido">
                                         <div class="row">
-                                            <div class="col-md-7 form-group">
+                                            <div class="col-md-3 form-group">
                                                 <label>Actividad:</label>
-                                                <textarea class="form-control" id="txt_actividad" name="txt_actividad" rows="2"> </textarea>
+                                                <textarea class="form-control" id="txt_actividad" name="txt_actividad" rows="6"> </textarea>
                                                {{--  <input type="text" class="form-control" id="txt_actividad" name="txt_actividad"> --}}
                                             </div>
-                                            <div class="col-md-5 form-group">
+                                            <div class="col-md-3 form-group">
                                                 <label>Fecha Inicio / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
                                                         <input type="text" class="datepicker form-control fechaInicio" id="txt_fechaInicio" name="txt_fechaInicio" onchange="fecha(this)">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="numeric" class="form-control horaInicio" id="txt_horaInicio" name="txt_horaInicio" onchange="CalcularHrs(this);hora(this)" data-mask>
+                                                        <input type="numeric" class="form-control horaInicio" id="txt_horaInicio" name="txt_horaInicio" onchange="CalcularHrs(this)" data-mask>
                                                     </div>                                                    
                                                 </div>
                                             </div>
-<!--                                            <div class="col-md-3 form-group">
+                                            <div class="col-md-3 form-group">
                                                 <label>Fecha Final / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
@@ -127,22 +127,71 @@
                                                         <input type="numeric" class="form-control horaFin" id="txt_horaFin" name="txt_horaFin" onchange="CalcularHrs(this)" data-mask>
                                                     </div>                                                    
                                                 </div>
-                                            </div>   
+                                            </div>
                                             <div class="col-md-3 form-group">
                                                 <label>Tiempo Transcurrido:</label>
-                                                <input type="text" class="form-control ttranscurrido" id="txt_ttranscurrido" name="txt_ttranscurrido" readonly="readonly" value="00:00">
-                                            </div>                                                -->
+                                                <input type="text" class="form-control ttranscurrido" id="txt_ttranscurrido" name="txt_ttranscurrido" readonly="readonly">
+                                            </div>
+                                           <div class="col-md-5 form-group">
+                                                <div class="col-md-8 form-group">
+                                                <label>Documentos:</label>
+                                                <form name="form_ddocumento" id="form_ddocumento" enctype="”multipart/form-data”">
+                                                    <table id="t_ddocumento" class="table table-bordered">
+                                                        <thead class="bg-teal disabled color-palette">
+                                                            <tr>
+                                                                <th>N°</th>
+                                                                <th>Documento</th>
+                                                                <th><span class="btn btn-default btn-xs" data-toggle="modal" data-target="#docdigitalModal"  onClick='MostrarDocumentos(this);' id="btn_list_digital" data-texto="txt_codigo"    data-id="txt_doc_digital_id"><i class="glyphicon glyphicon-file"></i></span></th> 
+                                                            </tr> 
+                                                        </thead> 
+                                                        <tbody id="tb_ddocumento">
+                                                            <tr style="display: none">
+                                                                <td><input type="hidden" value="0"></td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </form>
+                                                </div>
+                                                <div class="col-md-4 form-group">
+                                                <label>Cantidad:</label>
+                                                <input type="text" class="form-control" id="txt_cantidad" name="txt_cantidad" value="0">
+                                                </div>
+                                           </div>
+                                            <div class="col-md-3 form-group">
+                                                <label>Archivos:</label>
+                                                <form name="form_darchivo" id="form_darchivo" enctype="”multipart/form-data”">
+                                                    <table id="t_darchivo" class="table table-bordered">
+                                                        <thead class="bg-aqua disabled color-palette">
+                                                            <tr>
+                                                                <th>Archivo</th>
+                                                                <th>
+                                                                    <a class="btn btn-default btn-xs" onclick="AgregarD(this)"><i class="fa fa-plus fa-lg"></i></a>
+                                                                </th> 
+                                                            </tr> 
+                                                        </thead> 
+                                                        <tbody id="tb_darchivo"> 
+                                                            <tr style="display: none">
+                                                                <td><input type="hidden" value="0"></td>
+                                                                <td><input type="hidden" value="0"></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </form>
+                                            </div>
+
                                         </div>
                                     </fieldset>
 
                                     <fieldset class="yellow-fieldset template-orden margin-top-10 hidden">
                                         <div class="row">
-                                            <div class="col-md-7 form-group">
+                                            <div class="col-md-3 form-group">
                                                 <label>Actividad:</label>
-                                                <textarea class="form-control" id="txt_actividad" name="txt_actividad" rows="2"></textarea>
+                                                <textarea class="form-control" id="txt_actividad" name="txt_actividad" rows="6"></textarea>
                                                {{--  <input type="text" class="form-control" id="txt_actividad" name="txt_actividad"> --}}
                                             </div>
-                                            <div class="col-md-4 form-group">
+                                            <div class="col-md-3 form-group">
                                                 <label>Fecha Inicio / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
@@ -153,7 +202,7 @@
                                                     </div>                                                      
                                                 </div>
                                             </div>
-<!--                                            <div class="col-md-3 form-group">
+                                            <div class="col-md-3 form-group">
                                                 <label>Fecha Final / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
@@ -166,14 +215,62 @@
                                             </div>
                                             <div class="col-md-2 form-group">
                                                 <label>Tiempo Transcurrido:</label>
-                                                <input type="text" class="form-control ttranscurrido" id="txt_ttranscurrido" name="txt_ttranscurrido" readonly="readonly" value="00:00">
-                                            </div>-->
+                                                <input type="text" class="form-control ttranscurrido" id="txt_ttranscurrido" name="txt_ttranscurrido" readonly="readonly">
+                                            </div>
                                             <div class="col-md-1 form-group visible-lg visible-md">
                                                 <span id="btnDelete" name="btnDelete" class="btn btn-danger  btn-sm btnDelete" style="margin-top: 36%;"><i class="glyphicon glyphicon-remove"></i></span>
                                             </div>
+                                            <div class="col-md-5 form-group">
+                                                <div class="col-md-8 form-group">
+                                                <label>Documentos:</label>
+                                                <form name="form_ddocumento" id="form_ddocumento" enctype="”multipart/form-data”">
+                                                    <table id="t_ddocumento" class="table table-bordered">
+                                                        <thead class="bg-teal disabled color-palette">
+                                                            <tr>
+                                                                <th>N°</th>
+                                                                <th>Documento</th>
+                                                                <th><span class="btn btn-default btn-xs" data-toggle="modal" data-target="#docdigitalModal"  data-form="this" onClick='MostrarDocumentos(this);' id="btn_list_digital" data-texto="txt_codigo"    data-id="txt_doc_digital_id"><i class="glyphicon glyphicon-file"></i></span></th> 
+                                                            </tr> 
+                                                        </thead> 
+                                                        <tbody id="tb_ddocumento"> 
+                                                            <tr style="display: none">
+                                                                <td><input type="hidden" value="0"></td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </form>
+                                                </div>
+                                                <div class="col-md-4 form-group">
+                                                <label>Cantidad:</label>
+                                                <input type="text" class="form-control mant" id="txt_cantidad" name="txt_cantidad" value="0">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 form-group validoarchivo">
+                                                <label>Archivos:</label>
+                                                <form name="form_darchivo" id="form_darchivo" enctype="”multipart/form-data”">
+                                                    <table id="t_darchivo" class="table table-bordered">
+                                                        <thead class="bg-aqua disabled color-palette">
+                                                            <tr>
+                                                                <th>Archivo</th>
+                                                                <th>
+                                                                    <a class="btn btn-default btn-xs" onclick="AgregarD(this)"><i class="fa fa-plus fa-lg"></i></a>
+                                                                </th> 
+                                                            </tr> 
+                                                        </thead> 
+                                                        <tbody id="tb_darchivo"> 
+                                                            <tr style="display: none">
+                                                                <td><input type="hidden" value="0"></td>
+                                                                <td><input type="hidden" value="0"></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </form>
+                                            </div>
                                             <div class="col-md-1 col-sm-12 col-xs-12 form-group visible-sm visible-xs">
                                                 <span id="btnDelete" name="btnDelete" class="btn btn-danger  btn-sm btnDelete" style="width: 100%">Eliminar</span>
-                                            </div>                                                            
+                                            </div>
                                         </div>
                                     </fieldset>
                                 </div>
@@ -198,6 +295,9 @@
                                         <th>Actividad</th>
                                         <th>Fecha Inicio</th>
                                         <th>Hora Inicio</th>
+                                        <th>Fecha Fin</th>
+                                        <th>Hora Fin</th>
+                                        <th>Tiempo Transcurrido</th>
                                         <th>[]</th>
                                     </tr>
                                 </thead>
@@ -221,4 +321,7 @@
 
 @section('formulario')
 {{--      @include( 'admin.mantenimiento.form.cargo' ) --}}
+    @include( 'admin.produccion.form.confirmacion' )
+    @include( 'admin.mantenimiento.form.docdigitalcompleto' )
+    @include( 'admin.produccion.form.actividadesasignadas' )
 @stop

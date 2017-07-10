@@ -1,21 +1,22 @@
 <!-- /.modal -->
-<div class="modal fade" id="procesoModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="actiasignadaModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header logo">
         <button class="btn btn-sm btn-default pull-right" data-dismiss="modal">
             <i class="fa fa-close"></i>
         </button>
-        <h4 class="modal-title">Procesos</h4>
+        <h4 class="modal-title">Actividades Asignadas</h4>
       </div>
       <div class="modal-body">
           <div class="row form-group">
               <div class="col-sm-12">
-              <form id="form_proceso" name="form_proceso" method="POST" action="">
+              <form id="form_actiasignada" name="form_actiasignada" method="POST" action="">
+                   <input type="hidden" name="asignado" id="asignado" value="1">
                   <div class="box-body table-responsive">
-                      <table id="t_proceso" class="table table-bordered table-striped">
+                      <table id="t_actiasignada" class="table table-bordered table-striped">
                           <thead>
-                              <tr><th colspan="1" style="text-align:center;background-color:#A7C0DC;"><h2>Procesos</h2></th></tr>
+                              <tr><th colspan="2" style="text-align:center;background-color:#A7C0DC;"><h2>Actividades Asignadas</h2></th></tr>
                               <tr></tr>
                           </thead>
                           <tbody>
