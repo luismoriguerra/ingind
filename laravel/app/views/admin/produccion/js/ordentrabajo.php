@@ -259,7 +259,8 @@ guardarTodo = function(){
         if(incompletas.length > 0){
             alert('Complete los datos en su(s) actividad(es): '+incompletas.join(',') + ' o elimine,para poder completar su registro');          
         }else{
-             Asignar.guardarOrdenTrabajo(data);   
+             Asignar.guardarOrdenTrabajo(data); 
+             $("#ConfirmacionModal").modal('hide');
         }
 /*    }*/
 }

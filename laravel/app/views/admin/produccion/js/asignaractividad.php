@@ -247,6 +247,7 @@ guardarTodo = function(){
             }
             else {
                 Asignar.guardarOrdenTrabajo(data); 
+                $("#ConfirmacionModal").modal('hide'); 
             }
 
 //    }
