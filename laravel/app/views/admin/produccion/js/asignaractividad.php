@@ -82,7 +82,7 @@ function initClockPicker(){
 }
 
 function initDatePicker(){
-    $('.fechaInicio').datepicker({
+    $('.fechaG').datepicker({
         format: 'yyyy-mm-dd',
         language: 'es',
         multidate: 1,
@@ -224,7 +224,7 @@ guardarTodo = function(){
                     data.push({
                         'actividad' : actividades[i],
                         'finicio' : finicio[i],
-                        'ffin' : finicio[i],
+                        'ffin' : ffin[i],
                         'hinicio' : hinicio[i],
                         'hfin' : hfin[i],
                         'ttranscurrido' : ttranscurrido[i],

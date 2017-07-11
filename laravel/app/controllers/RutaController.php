@@ -163,7 +163,8 @@ class RutaController extends \BaseController
                     DB::beginTransaction();
                     $ttranscurrido = $value['ttranscurrido'];
                     $minTrascurrido = explode(':', $ttranscurrido)[0] * 60 + explode(':', $ttranscurrido)[1];
-
+                    $adicional= (((strtotime($value['ffin'])-strtotime($value['finicio']))/ 86400)*24)*60;
+                    $minTrascurrido=$adicional+$minTrascurrido;
                     $acti_personal = new ActividadPersonal();
                     $acti_personal->actividad = $value['actividad'];
                     $acti_personal->fecha_inicio = date("Y-m-d", strtotime($value['finicio']))." ".explode(' ',$value['hinicio'])[0];

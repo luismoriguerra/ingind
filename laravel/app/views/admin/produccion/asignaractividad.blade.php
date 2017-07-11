@@ -61,13 +61,13 @@
                     <div class="box">
                         <div class="col-md-12 visible-lg visible-md filtros" style="margin-top:10px">
                             <div class="row">
-                                <div class="col-md-1 col-xs-3 col-sm-3">
+                                <div class="col-md-1 col-xs-3 col-sm-3 hidden">
                                     <label>Total Hrs:</label>
                                 </div>
-                                <div class="col-md-3 col-xs-4 col-sm-4">
+                                <div class="col-md-3 col-xs-4 col-sm-4 hidden">
                                     <input type="text" class="form-control" id="txt_ttotal" name="txt_ttotal" readonly="readonly">                                            
                                 </div>
-                                <div class="col-md-3 col-xs-4 col-sm-4">
+                                <div class="col-md-7 col-xs-4 col-sm-4">
                                     <span class="btn btn-primary btn-success" id="btnGuardar" onclick="mostrarConfirmacion()">Guardar  <i class="glyphicon glyphicon-plus"></i></span>                                            
                                 </div>
                                 <div class="col-md-5 col-xs-5 col-sm-5 selectbyPerson hidden">
@@ -84,10 +84,10 @@
                         </div>
                         <div class="col-md-12 visible-sm visible-xs filtros" style="margin-top:10px;margin-bottom: 10px;">
                             <div class="row">
-                                <div class="col-md-1 col-xs-3 col-sm-3">
+                                <div class="col-md-1 col-xs-3 col-sm-3 hidden">
                                     <label>Total Hrs:</label>
                                 </div>
-                                <div class="col-md-3 col-xs-4 col-sm-4">
+                                <div class="col-md-3 col-xs-4 col-sm-4 hidden">
                                     <input type="text" class="form-control" id="" name="" readonly="readonly">                                            
                                 </div>
                                 <div class="col-md-3 col-xs-4 col-sm-4">
@@ -106,29 +106,29 @@
                                                 <textarea class="form-control" id="txt_actividad" name="txt_actividad" rows="6"> </textarea>
                                                {{--  <input type="text" class="form-control" id="txt_actividad" name="txt_actividad"> --}}
                                             </div>
-                                            <div class="col-md-3 form-group">
+                                            <div class="col-md-4 form-group">
                                                 <label>Fecha Inicio / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class="datepicker form-control fechaInicio" id="txt_fechaInicio" name="txt_fechaInicio" onchange="fecha(this)">
+                                                        <input type="text" class="datepicker form-control fechaInicio fechaG" id="txt_fechaInicio" name="txt_fechaInicio" onchange="fecha(this)">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
                                                         <input type="numeric" class="form-control horaInicio" id="txt_horaInicio" name="txt_horaInicio" onchange="CalcularHrs(this)" data-mask>
                                                     </div>                                                    
                                                 </div>
                                             </div>
-                                            <div class="col-md-3 form-group">
+                                            <div class="col-md-4 form-group">
                                                 <label>Fecha Final / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class="datepicker form-control fechaFin" id="txt_fechaFin" name="txt_fechaFin"  disabled="disabled">
+                                                        <input type="text" class="datepicker form-control fechaFin fechaG" id="txt_fechaFin" name="txt_fechaFin" onchange="fecha(this)">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
                                                         <input type="numeric" class="form-control horaFin" id="txt_horaFin" name="txt_horaFin" onchange="CalcularHrs(this)" data-mask>
                                                     </div>                                                    
                                                 </div>
                                             </div>
-                                            <div class="col-md-3 form-group">
+                                            <div class="col-md-3 form-group hidden">
                                                 <label>Tiempo Transcurrido:</label>
                                                 <input type="text" class="form-control ttranscurrido" id="txt_ttranscurrido" name="txt_ttranscurrido" readonly="readonly">
                                             </div>
@@ -191,29 +191,29 @@
                                                 <textarea class="form-control" id="txt_actividad" name="txt_actividad" rows="6"></textarea>
                                                {{--  <input type="text" class="form-control" id="txt_actividad" name="txt_actividad"> --}}
                                             </div>
-                                            <div class="col-md-3 form-group">
+                                            <div class="col-md-4 form-group">
                                                 <label>Fecha Inicio / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class="datepicker form-control fechaInicio" id="txt_fechaInicio" name="txt_fechaInicio" onchange="fecha(this)">
+                                                        <input type="text" class="datepicker form-control fechaInicio fechaG" id="txt_fechaInicio" name="txt_fechaInicio" onchange="fecha(this)">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
                                                         <input type="numeric" class="form-control horaInicio" id="txt_horaInicio" name="txt_horaInicio" onchange="CalcularHrs(this)" data-mask>
                                                     </div>                                                      
                                                 </div>
                                             </div>
-                                            <div class="col-md-3 form-group">
+                                            <div class="col-md-4 form-group">
                                                 <label>Fecha Final / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class="datepicker form-control fechaFin" id="txt_fechaFin" name="txt_fechaFin" disabled="disabled">
+                                                        <input type="text" class="datepicker form-control fechaFin fechaG" id="txt_fechaFin" name="txt_fechaFin" onchange="fecha(this)">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
                                                         <input type="numeric" class="form-control horaFin" id="txt_horaFin" name="txt_horaFin" onchange="CalcularHrs(this)" data-mask>
                                                     </div>                                                      
                                                 </div>
                                             </div>
-                                            <div class="col-md-2 form-group">
+                                            <div class="col-md-2 form-group hidden">
                                                 <label>Tiempo Transcurrido:</label>
                                                 <input type="text" class="form-control ttranscurrido" id="txt_ttranscurrido" name="txt_ttranscurrido" readonly="readonly">
                                             </div>
