@@ -153,12 +153,16 @@ class DocumentoDigital extends Base {
 
       public static function getCargarRelacionAreaCount( $array )
     {   
-            $usu_id=Auth::user()->id;
-            $area_id=Auth::user()->area_id;
+        $documentos_area="";
+        $usu_id=Auth::user()->id;
+        $area_id=Auth::user()->area_id;
+        if(Auth::user()->rol_id!=8 AND Auth::user()->rol_id !=9){
+           $documentos_area="`dd`.`area_id`=".$area_id." OR "; 
+        }
         $sSql=' select COUNT(DISTINCT dd.id) cant
                 from `doc_digital` as `dd` 
 		INNER JOIN `doc_digital_area` `dda` on `dda`.`doc_digital_id`=`dd`.`id` AND `dda`.`estado`=1 AND
-		( `dd`.`area_id`='.$area_id.' OR `dda`.`area_id` IN  (
+		( '.$documentos_area.' `dda`.`area_id` IN  (
                                         SELECT DISTINCT(a.id)
                                         FROM area_cargo_persona acp
                                         INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
@@ -176,15 +180,19 @@ class DocumentoDigital extends Base {
     }
     
         public static function getCargarRelacionArea( $array )
-    {  
-            $usu_id=Auth::user()->id;
-            $area_id=Auth::user()->area_id;
+    {   
+        $documentos_area="";
+        $usu_id=Auth::user()->id;
+        $area_id=Auth::user()->area_id;
+        if(Auth::user()->rol_id!=8 AND Auth::user()->rol_id !=9){
+           $documentos_area="`dd`.`area_id`=".$area_id." OR "; 
+        }
         $sSql=' select 2 as tipo,DATE(dd.created_at)as created_at, CONCAT_WS(" ",p1.paterno,p1.materno,p1.nombre) as persona_u,
                 CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona_c,
                      `dd`.`id`, `dd`.`titulo`, `dd`.`asunto`, `pd`.`descripcion` as `plantilla`, `dd`.`estado` 
                 from `doc_digital` as `dd` 
 		INNER JOIN `doc_digital_area` `dda` on `dda`.`doc_digital_id`=`dd`.`id` AND `dda`.`estado`=1 AND
-		( `dd`.`area_id`='.$area_id.' OR `dda`.`area_id` IN  (
+		( '.$documentos_area.' `dda`.`area_id` IN  (
                                         SELECT DISTINCT(a.id)
                                         FROM area_cargo_persona acp
                                         INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
