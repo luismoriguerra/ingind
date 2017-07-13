@@ -1329,6 +1329,56 @@ class ReporteController extends BaseController
         );
     }
     
+    public function postHistoricoinventario(){
+            $array=array();
+            $array['where'] = '';
+
+            if( Input::has("fecha") ){
+                $fecha=Input::get("fecha");
+                    list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+                    $array['where'].=" AND date(ii.created_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+            }
+
+        $result = Inmueble::getCargarHistorico($array);
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$result
+            )
+        );
+    }
+    
+        public function getExporthistoricoinventario(){
+
+        $array=array();
+        $array['where'] = '';
+
+        if( Input::has("fecha") ){
+                $fecha=Input::get("fecha");
+                 list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+                 $array['where'].=" AND date(ii.created_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+        }
+        $rst = Inmueble::getCargarHistorico($array);
+        
+
+        $propiedades = array(
+          'creador'=>'Gerencia Modernizacion',
+          'subject'=>'Reporte de Inventario',
+          'tittle'=>'Personal',
+          'font-name'=>'Bookman Old Style',
+          'font-size'=>8,
+        );
+
+        $cabecera = array(
+          'N°',
+          'ÁREA',
+          'CÓDIGO PATRIMONIAL',
+          'CÓDIGO INTERNO',
+          'ÚLTIMO'
+        );
+        $this->exportExcel($propiedades,'',$cabecera,$rst);
+    }
+    
         public function postReporteinventario(){
         $area = '';
 
