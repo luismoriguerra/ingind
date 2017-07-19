@@ -30,7 +30,15 @@ class InmuebleController extends \BaseController {
             $msj = '';
             
             if ($fechaAct >= $fechaini && $fechaAct <= $fechafin) {
-                $Inmueble = new Inmueble();
+                $inmueble_valida = DB::table('inventario_inmueble')
+                                    ->whereIn('cod_patrimonial', array(Input::get('codpatrimonial')))->first();
+                   
+                if($inmueble_valida){
+                  $Inmueble=Inmueble::find($inmueble_valida->id);  
+                } else {
+                   $Inmueble = new Inmueble();  
+                }
+
                 $Inmueble['cod_interno'] = Input::get('codinterno');
                 $Inmueble['inventario_apertura_id'] = $Aperturas[0]->id;
                 $Inmueble['descripcion'] = Input::get('descripcion');
@@ -77,23 +85,48 @@ class InmuebleController extends \BaseController {
                     $inm_area = DB::table('inventario_inmueble_area')
                                     ->whereIn('cod_patrimonial', array($Inmueble->cod_patrimonial))->get();
                     foreach ($inm_area as $key => $value) {
-                        if ($value->estado = 1) {
+                        if ($value->ultimo = 1) {
                             $update = InmuebleArea::find($value->id);
-                            $update['estado'] = 0;
+                            $update['ultimo'] = 0;
                             $update->save();
                         }
                     }
                     /* last area o registry of inmueble */
 
                     $Inmueble_area = new InmuebleArea();
+                    $Inmueble_area['inventario_apertura_id'] = $Inmueble->inventario_apertura_id;
+                    $Inmueble_area['modalidad_id'] = $Inmueble->modalidad_id;
                     $Inmueble_area['cod_patrimonial'] = $Inmueble->cod_patrimonial;
                     $Inmueble_area['cod_interno'] = $Inmueble->cod_interno;
                     $Inmueble_area['inventario_inmueble_id'] = $Inmueble->id;
                     $Inmueble_area['inventario_local_id'] = $Inmueble->inventario_local_id;
                     $Inmueble_area['area_id'] = $Inmueble->area_id;
+                    $Inmueble_area['piso'] = $Inmueble->piso;
+                    $Inmueble_area['persona_id'] = Auth::user()->id;
                     $Inmueble_area['color'] = $Inmueble->color;
                     $Inmueble_area['observacion'] = $Inmueble->observacion;
                     $Inmueble_area['descripcion'] = $Inmueble->descripcion;
+                    $Inmueble_area['serie'] = $Inmueble->serie;
+                    $Inmueble_area['fecha_creacion'] = $Inmueble->fecha_creacion;
+                    $Inmueble_area['situacion'] = $Inmueble->situacion;
+                    $Inmueble_area['created_at'] = $Inmueble->created_at;
+                    $Inmueble_area['usuario_created_at'] = Auth::user()->id;
+                    
+                   if (Input::has('oficina')) {
+                        $Inmueble_area['oficina'] = Input::get('oficina');
+                    }
+
+                    if (Input::has('marca')) {
+                        $Inmueble_area['marca'] = Input::get('marca');
+                    }
+
+                    if (Input::has('modelo')) {
+                        $Inmueble_area['modelo'] = Input::get('modelo');
+                    }
+
+                    if (Input::has('tipo')) {
+                        $Inmueble_area['tipo'] = Input::get('tipo');
+                    }
                     $Inmueble_area->save();
 
                     $rst = 1;

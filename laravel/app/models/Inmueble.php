@@ -31,7 +31,7 @@ class Inmueble extends \Eloquent {
         $sql='';
         $sql.=" SELECT 1 as norden,a.nombre as area,iia.cod_patrimonial,iia.cod_interno,CASE WHEN iia.estado=1 THEN 'X' ELSE '' END as ultimo 
                 FROM inventario_inmueble ii
-                INNER JOIN inventario_inmueble_area iia ON iia.inventario_inmueble_id=ii.id
+                INNER JOIN inventario_inmueble_area iia ON iia.inventario_inmueble_id=ii.id AND iia.estado=1
                 INNER JOIN areas a ON a.id=iia.area_id
                 WHERE ii.estado=1";
         $sql.= $array['where'];
