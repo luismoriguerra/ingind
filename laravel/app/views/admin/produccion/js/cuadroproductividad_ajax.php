@@ -15,7 +15,7 @@ var Usuario={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){  
-                    HTMLCPActividad(obj.datos,obj.cabecera);
+                    HTMLCPActividad(obj.datos,obj.cabecera,obj.validar);
                     
                 }
             },

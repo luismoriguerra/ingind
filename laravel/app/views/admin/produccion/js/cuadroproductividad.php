@@ -47,7 +47,7 @@ GeneraHref=function(){
         else {  alert("Seleccione Área"); }
 }
 
-HTMLCPActividad=function(datos,cabecera){
+HTMLCPActividad=function(datos,cabecera,validar){
   var html="";var html_cabecera="";
     var alerta_tipo= '';
     $('#t_produccion').dataTable().fnDestroy();
@@ -91,14 +91,17 @@ HTMLCPActividad=function(datos,cabecera){
          hora = data['h'+i].substring(0,5);
         }
         
-         if(data['v'+i]>=360 || data.envio_actividad==0 || data['e'+i]>=1){
+        if(data['v'+i]>=360 || data.envio_actividad==0 || data['e'+i]>=1){
          var style=';background-color:#7BF7AE';
         }
         else if(data['v'+i]>0 && data['v'+i]<360 && data.envio_actividad==1){
          var style=';background-color:#FFA027';
         }
         else if(data['v'+i]==0 && data.envio_actividad==1){
-          var style=';background-color:#FE4E4E';   
+            var style=';background-color:#FE4E4E';   
+        }
+        if((validar[i-1]==6 || validar[i-1]==0) && (data.envio_actividad!=0 && data['e'+i]!=1)){alert("a");
+            var style=';background-color:#ffff66';   
         }
         html+='<td style="cursor:pointer'+style+'" onclick="Detalle(\''+$.trim(data['id'+i])+'\',\''+data.envio_actividad+'\',\''+data['e'+i]+'\')">'+$.trim(data['f'+i])+'</td>'+
             '<td style="cursor:pointer'+style+'" onclick="Detalle(\''+$.trim(data['id'+i])+'\',\''+data.envio_actividad+'\',\''+data['e'+i]+'\')">'+$.trim(hora)+"</td>";
@@ -156,21 +159,37 @@ HTMLCargaActividades=function(datos,envio_actividad,exonera){
         pos++;
         var horas = Math.floor( data.ot_tiempo_transcurrido / 60);
         var min = data.ot_tiempo_transcurrido % 60;
+        if(data.archivo!=null){
+            var archivo=data.archivo.split(',');
+        }else {archivo='';}
+        if(data.documento!=null){
+        var documento=data.documento.split(',');
+        } else {documento='';}
+        if(data.n_documento!=null){
+        var n_documento=data.n_documento.split(',');
+        }else {n_documento='';}
         html+="<tr>"+
             "<td>"+pos+"</td>"+
            "<td>"+data.actividad+"</td>"+
             "<td>"+data.fecha_inicio+"</td>"+
             "<td>"+data.dtiempo_final+"</td>"+
             "<td>"+Math.abs(data.ot_tiempo_transcurrido) + " min"+"</td>"+
-             "<td>"+horas + ":" + min +"</td>";
+            "<td>"+horas + ":" + min +"</td>"+
+            "<td>"+data.cantidad+"</td>"+
+            "<td>";
+            for(i=0;i<documento.length;i++){
+            html+="<a target='_blank' href='documentodig/vista/" + documento[i] + "/4/0'>" + n_documento[i] + "</a><br>";
+            }
+        html+= "</td>"+
+            "<td>";
+            for(i=0;i<archivo.length;i++){
+            html+="<a target='_blank' href='file/actividad/" +archivo[i]+"'>" +archivo[i]+ "</a><br>";
+            }
+        html+= "</td>";
         html+="</tr>";
     });
     
     MostrarMensajes(envio_actividad,exonera);
-    
-
-    
-
     $("#form_actividad #tb_actividad").html(html);
     $("#form_actividad #t_actividad").dataTable(
                          {
