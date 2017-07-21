@@ -100,7 +100,7 @@ HTMLCPActividad=function(datos,cabecera,validar){
         else if(data['v'+i]==0 && data.envio_actividad==1){
             var style=';background-color:#FE4E4E';   
         }
-        if((validar[i-1]==6 || validar[i-1]==0) && (data.envio_actividad!=0 && data['e'+i]!=1)){alert("a");
+        if((validar[i-1]==6 || validar[i-1]==0) && (data.envio_actividad!=0 && data['e'+i]!=1)){
             var style=';background-color:#ffff66';   
         }
         html+='<td style="cursor:pointer'+style+'" onclick="Detalle(\''+$.trim(data['id'+i])+'\',\''+data.envio_actividad+'\',\''+data['e'+i]+'\')">'+$.trim(data['f'+i])+'</td>'+
