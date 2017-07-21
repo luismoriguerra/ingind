@@ -718,6 +718,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         $left = '';
         $f_fecha = '';
         $cabecera = [];
+        $validar = [];
 
         if (Input::has('fecha') && Input::get('fecha')) {
             $fecha = Input::get('fecha');
@@ -733,7 +734,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
             $cl .= ",COUNT(ap$n.id) AS f$n,IFNULL(SEC_TO_TIME(ABS(SUM(ap$n.ot_tiempo_transcurrido)) * 60),'00:00')  h$n,IFNULL(GROUP_CONCAT(ap$n.id),'0') id$n,IFNULL(SUM(ap$n.ot_tiempo_transcurrido),0) v$n,ExoneraFecha(STR_TO_DATE('" . date("d-m-Y", $i) . "','%d-%m-%Y'),p.id) as e$n";
             $left .= "LEFT JOIN actividad_personal ap$n on ap$n.id=ap.id AND  DATE(ap.fecha_inicio) = STR_TO_DATE('" . date("d-m-Y", $i) . "','%d-%m-%Y')";
             $n++;
-
+            array_push($validar,date('w', strtotime(date_format($fecha, 'Y-m-d'))));
             array_push($cabecera, date_format($fecha, 'Y-m-d'));
             date_add($fecha, date_interval_create_from_date_string('1 days'));
         }
@@ -756,7 +757,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
 
         
         $oData['cabecera'] = $cabecera;
-
+        $oData['validar'] = $validar;
         $oData['data'] = DB::select($sSql);
         return $oData;
     }
@@ -764,8 +765,12 @@ class Persona extends Base implements UserInterface, RemindableInterface {
     public static function CargarActividad() {
         $id_actividad = Input::get('id');
         $sSql = '';
-        $sSql .= "SELECT ap.id norden,ap.actividad,ap.fecha_inicio,ap.dtiempo_final,ABS(ap.ot_tiempo_transcurrido) ot_tiempo_transcurrido ,SEC_TO_TIME(ABS(ap.ot_tiempo_transcurrido) * 60) formato "
-                . " FROM actividad_personal ap WHERE ap.id IN ($id_actividad)";
+        $sSql .= "SELECT GROUP_CONCAT( DISTINCT dd.titulo) as n_documento,GROUP_CONCAT( DISTINCT apa.ruta) as archivo,GROUP_CONCAT(DISTINCT apd.doc_digital_id) as documento,IFNULL(ap.cantidad,'') as cantidad,ap.id norden,ap.actividad,ap.fecha_inicio,ap.dtiempo_final,ABS(ap.ot_tiempo_transcurrido) ot_tiempo_transcurrido ,SEC_TO_TIME(ABS(ap.ot_tiempo_transcurrido) * 60) formato "
+                . " FROM actividad_personal ap"
+                . " LEFT JOIN actividad_personal_archivo apa ON apa.actividad_personal_id=ap.id"
+                . " LEFT JOIN actividad_personal_docdigital apd ON apd.actividad_personal_id=ap.id "
+                . " LEFT JOIN doc_digital dd ON dd.id=apd.doc_digital_id  "
+                . "WHERE ap.id IN ($id_actividad) GROUP BY ap.id";
 
         $oData = DB::select($sSql);
         return $oData;
@@ -789,6 +794,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         $f_fecha = '';
         $cabecera = [];
         $cabecera1 = [];
+        $validar=[];
 
         if (Input::has('fecha') && Input::get('fecha')) {
             $fecha = Input::get('fecha');
@@ -801,10 +807,10 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         $fecha = date_create($fechaIni);
         $n = 1;
         for ($i = $fechaIni_; $i <= $fechaFin_; $i += 86400) {
-            $cl .= ",ExoneraFecha(STR_TO_DATE('" . date("d-m-Y", $i) . "','%d-%m-%Y'),p.id) as e$n ,COUNT(ap$n.id) AS f$n,IFNULL(SEC_TO_TIME(ABS(SUM(ap$n.ot_tiempo_transcurrido)) * 60),'00:00')  h$n";
+            $cl .= ",WEEKDAY(STR_TO_DATE('" . date("d-m-Y", $i) . "','%d-%m-%Y')) as v$n,ExoneraFecha(STR_TO_DATE('" . date("d-m-Y", $i) . "','%d-%m-%Y'),p.id) as e$n ,COUNT(ap$n.id) AS f$n,IFNULL(SEC_TO_TIME(ABS(SUM(ap$n.ot_tiempo_transcurrido)) * 60),'00:00')  h$n";
             $left .= "LEFT JOIN actividad_personal ap$n on ap$n.id=ap.id AND  DATE(ap.fecha_inicio) = STR_TO_DATE('" . date("d-m-Y", $i) . "','%d-%m-%Y')";
             $n++;
-
+            array_push($validar,date('w', strtotime(date_format($fecha, 'Y-m-d'))));
             array_push($cabecera, date_format($fecha, 'Y-m-d'));
             array_push($cabecera, date_format($fecha, 'Y-m-d'));
             array_push($cabecera1, 'N° de Acti');
@@ -832,6 +838,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
 
         $oData['cabecera'] = $cabecera;
         $oData['cabecera1'] = $cabecera1;
+        $oData['validar'] = $validar;
         $oData['data'] = DB::select($sSql);
         return $oData;
     }
