@@ -202,3 +202,4 @@ Route::controller('meta', 'MetaController');
 Route::controller('reportetramite', 'ReporteTramiteController');
 Route::controller('mensajedetalle', 'MensajeDetalleController');
 Route::controller('actividadpersonal', 'ActividadPersonalController');
+Route::controller('bandeja', 'BandejaController');

@@ -29,21 +29,12 @@ $(document).ready(function() {
       var button = $(event.relatedTarget); // captura al boton
       var text = $.trim( button.data('text') );
       var id= $.trim( button.data('id') );
-      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
       var modal = $(this); //captura el modal
       $("#form_ruta_tiempo #txt_nombre").val(text);
       $("#form_ruta_tiempo").append('<input type="hidden" value="'+id+'" id="txt_area_id_modal">');
-      /*alert(id);
-      for(i=0; i<areasGId.length; i++){
-        alert(areasGId[i]+"=="+id);
-        if(areasGId[i]==id){
-            alert("encontrado "+areasGId[i]);
-        }
-      }*/
+
       var position=tiempoGId.indexOf(id);
       var posicioninicial=areasGId.indexOf(id);
-      //alert("tiempo= "+position +" | areapos="+posicioninicial);
       var tid=0;
       var validapos=0;
       var detalle=""; var detalle2="";
@@ -93,8 +84,6 @@ $(document).ready(function() {
 
       pintarTiempoG(tid);
 
-
-
       $("#form_ruta_verbo #txt_nombre").val(text);
       $("#form_ruta_verbo").append('<input type="hidden" value="'+id+'" id="txt_area_id_modal">');
     });
@@ -116,20 +105,17 @@ $(document).ready(function() {
     RolIdG='<?php echo Auth::user()->rol_id; ?>';
     UsuarioId='<?php echo Auth::user()->id; ?>';
 
-    slctGlobal.listarSlct('lista/tipovizualizacion','slct_tipo_visualizacion','multiple',null,null);    
-
     if( RolIdG==8 || RolIdG==9 ){
         var data={estado_persona:1,solo_area:1};
-        //slctGlobal.listarSlct('persona','cboPersona','simple',null,data);
-       // slctGlobal.listarSlct('persona','slct_persona','simple',null,data);
     }else{
         $("#btnAdd").addClass('hidden');
     }
 
-    Bandeja.MostrarAjax();
+    //Bandeja.MostrarAjax();
+    Bandeja.Cargar(HTMLCargarBandeja);
 
     slctGlobal.listarSlct('ruta_detalle','slct_area2_id','simple');
-    slctGlobalHtml('slct_tipo_respuesta,#slct_tipo_respuesta_detalle','simple');
+    //slctGlobalHtml('slct_tipo_respuesta,#slct_tipo_respuesta_detalle','simple');
 
     $("#btn_guardar_todo").click(guardarTodo);
     hora();
@@ -138,10 +124,7 @@ $(document).ready(function() {
       var button = $(event.relatedTarget); // captura al boton
       var text = $.trim( button.data('text') );
       var id= $.trim( button.data('id') );
-      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
       var modal = $(this); //captura el modal
-      
     });
 
     $('#expedienteModal').on('hide.bs.modal', function (event) {
@@ -197,7 +180,7 @@ Limpiar=function(text){
 
 MostrarAjax=function(){
     Close();
-    Bandeja.MostrarAjax();
+    Bandeja.Cargar(HTMLCargarBandeja);
 }
 
 hora=function(){
@@ -246,18 +229,17 @@ hora=function(){
 tiempo = setTimeout('hora()',60000);
 }
 
-activar=function(id,ruta_detalle_id,td,ruta_id=''){//establecer como visto
+activar=function(ruta_detalle_id,td,ruta_id=''){//establecer como visto
     var tr = td;
-    $(tr).attr('onClick','desactivar('+id+','+ruta_detalle_id+',this)');
+    $(tr).attr('onClick','desactivar('+ruta_detalle_id+',this)');
     $(tr).removeClass('unread');
     $(tr).find('i').removeClass('fa-ban').addClass('fa-eye');
 
-    Bandeja.CambiarEstado(ruta_detalle_id, id,1);
-    //tambien debera cargar un detalle en la parte de abajo
-    desactivar(id,ruta_detalle_id,td,ruta_id);
+    Bandeja.CambiarEstado(ruta_detalle_id, 1,1);
+    desactivar(ruta_detalle_id,td,ruta_id);
 };
 
-desactivar=function(id,ruta_detalle_id,td,rutaid = ''){//establecer como no visto
+desactivar=function(ruta_detalle_id,td,ruta_id = ''){//establecer como no visto
     var tr = td;
     var trs = tr.parentNode.children;
     for(var i =0;i<trs.length;i++)
@@ -266,251 +248,8 @@ desactivar=function(id,ruta_detalle_id,td,rutaid = ''){//establecer como no vist
     $(tr).attr("style","background-color:#9CD9DE;");
 
     var data ={ruta_detalle_id:ruta_detalle_id};
-    mostrarDetallle(ruta_detalle_id,rutaid);
-    
+    //mostrarDetallle(ruta_detalle_id,rutaid);
 };
-
-validacheck=function(val,idcheck){
-    var verboaux="";
-    var validacheck=0;
-    var usuario=idcheck.split("_")[3];
-    if( usuario=='' || usuario=='0' || ( usuario!='' && usuario==UsuarioId ) || ( RolIdG==8 || RolIdG==9 ) ){
-        if( val>0 ){
-            $("#t_detalle_verbo input[type='checkbox']").removeAttr('disabled');
-        }
-        disabled=false;
-        $("#t_detalle_verbo input[type='checkbox']").each(
-            function( index ) { 
-                if ( val>0 && $(this).is(':checked') && $(this).attr("class")=='check'+val ) {
-                    disabled=true;
-                }
-                    verboaux+= "|"+$(this).val();
-                    if( val>0 && $(this).attr("class")!='check0' && $(this).attr("class")!='check'+val ){
-                        $(this).attr("disabled","true");
-                        $(this).removeAttr("checked");
-                    }
-            }
-        );
-
-        if(disabled==false && val>0){
-            $("#t_detalle_verbo input[type='checkbox']").removeAttr('disabled');
-        }
-    }
-    else{
-        $("#"+idcheck).removeAttr("checked");
-        alert(".::Ud no cuenta con permisos para realizar esta tarea::.");
-    }
-}
-
-
-mostrarDetallle=function(id,rtid = ''){ //OK
-    $("#form_ruta_detalle>.form-group").css("display","");
-    $("#form_ruta_detalle>#ruta_detalle_id").remove();
-    $("#form_ruta_detalle").append("<input type='hidden' id='ruta_detalle_id' name='ruta_detalle_id' value='"+id+"'>");
-     $("#form_ruta_detalle>#ruta_id").remove();
-    $("#form_ruta_detalle").append("<input type='hidden' id='ruta_id' name='ruta_id' value='"+rtid+"'>");
-    var datos={ruta_detalle_id:id};
-    if( RolIdG==8 || RolIdG==9 ){
-        var dataG={estado_persona:1,area_documento:1,ruta_detalle_id:id};
-        $("#slct_persona").multiselect('destroy');
-        slctGlobal.listarSlctAsi('persona','slct_persona','simple',[datos.persona_id],dataG);
-    }
-    Validar.mostrarDetalle(datos,mostrarDetalleHTML);
-}
-
-mostrarDetalleHTML=function(datos){
-    fechaAux="";
-    var data={ flujo_id:datos.flujo_id, estado:1,fecha_inicio:datos.fecha_inicio }
-    var ids = [];
-    $('#slct_tipo_respuesta,#slct_tipo_respuesta_detalle').multiselect('destroy');
-
-    /*add new ruta detalle verbo*/
-    var filtro={estado:1};
-    slctGlobal.listarSlct2('documento','cbotipoDoc',filtro);
-    slctGlobal.listarSlct2('rol','cboRoles',filtro);
-    /*Bandeja.poblarCombo('documento','cbotipoDoc',filtro,HTMLCombo);
-    Bandeja.poblarCombo('rol','cboRoles',filtro,HTMLCombo);*/
-    /*add new ruta detalle verbo*/
-
-
-    /*ruta flujo id para visualizar la ruta */
-    $("#VisualizarR").attr('ruta_flujo_id',datos.ruta_flujo_id);
-    /*end ruta flujo id para visualizar la ruta*/
-
-    /*puede regresar al paso anterior*/
- /*   var hora_fin_mayor =  new Date(datos.hora_fin_mayor);
-    var hora_fin_menor =  new Date(datos.hora_fin_menor);
-    var hora_actual = new Date(datos.fecha_actual);
-    var hora_fecha_inicio = new Date(datos.fecha_inicio);
-    if((hora_fecha_inicio.getHours() <= 13 && hora_fin_menor < hora_actual) || (hora_fecha_inicio.getHours() > 13 && hora_fin_mayor < hora_actual)){*/
-    $("#RetornarP").removeClass('hidden');
-   /* }else{
-        $("#RetornarP").addClass('hidden');
-    }*/
-    /*fin puede regresar al paso anterior*/
-
-    if( RolIdG==8 || RolIdG==9 ){
-    
-    CartaDesgloseG=datos.carta_deglose_id;
-//    
-//        $("#slct_persona").attr("data-id",datos.carta_deglose_id);
-//        $("#slct_persona").val('');
-//        $('#slct_persona').multiselect('rebuild');
-        $("#slct_persona").val(datos.persona_id);
-        $('#slct_persona').multiselect('rebuild');
-    }
-    else{ $('#slct_persona').multiselect('destroy'); 
-        $("#slct_persona").val(datos.persona_responsable);
-    }
-    //$('#slct_tipo_respuesta,#slct_tipo_respuesta_detalle').attr('disabled',"true");
-    slctGlobal.listarSlct('tiporespuesta','slct_tipo_respuesta','simple',ids,data,0,'#slct_tipo_respuesta_detalle','TR');
-    slctGlobal.listarSlct('tiporespuestadetalle','slct_tipo_respuesta_detalle','simple',ids,data,1);
-    $("#form_ruta_detalle [data-target='#expedienteModal']").attr("data-id",datos.id_tr);
-
-    $("#form_ruta_detalle #txt_fecha_tramite").val(datos.fecha_tramite);
-    $("#form_ruta_detalle #txt_sumilla").val(datos.sumilla);
-    $("#form_ruta_detalle #txt_solicitante").val(datos.solicitante);
-
-    $("#form_ruta_detalle #txt_flujo").val(datos.flujo);
-    $("#form_ruta_detalle #txt_area").val(datos.area);
-    $("#form_ruta_detalle #txt_id_doc").val(datos.id_doc);
-    $("#form_ruta_detalle #txt_orden").val(datos.norden);
-    $("#form_ruta_detalle #txt_fecha_inicio").val(datos.fecha_inicio);
-    $("#form_ruta_detalle #txt_tiempo").val(datos.tiempo);
-
-    $("#form_ruta_detalle>#txt_fecha_max").remove();
-    $("#form_ruta_detalle").append("<input type='hidden' id='txt_fecha_max' name='txt_fecha_max' value='"+datos.fecha_max+"'>");
-
-  /*  $("#t_detalle_verbo").html("");*/
-    var detalle="";
-    var html="";
-    var imagen="";
-    var obs="";
-    var cod="";
-    var rol="";
-    var verbo="";
-    var documento="";
-    var orden="";
-    var archivo="";
-
-    $("#t_detalle_verbo").html("");
-        if ( datos.verbo!='' ) {
-            detalle=datos.verbo.split("|");
-            html="";
-            referidos = 0;
-            for (var i = 0; i < detalle.length; i++) {
-
-                imagen = "<i class='fa fa-check fa-lg'></i>";
-                imagenadd = "<ul><li>"+detalle[i].split("=>")[4].split("^").join("</li><li>")+"</li></ul>";
-                obs = detalle[i].split("=>")[5];
-
-                rol = detalle[i].split("=>")[6];
-                verbo = detalle[i].split("=>")[7];
-                documento = detalle[i].split("=>")[8];
-                rol_id= detalle[i].split("=>")[14];
-
-                if(detalle[i].split("=>")[13] == 1 && detalle[i].split("=>")[2]=="Pendiente" && (RolIdG==8 || RolIdG==9)){
-                    orden = '<span id="btnDelete" name="btnDelete" class="btn btn-danger  btn-xs btnDelete" onclick="eliminardv('+detalle[i].split("=>")[0]+')"><i class="glyphicon glyphicon-trash"></i></span>';
-                }else{
-                    orden = detalle[i].split("=>")[9];
-                }
-                
-                archivo="";
-                denegar=false;
-
-                persona=detalle[i].split("=>")[10];
-                fecha ='';
-                if( detalle[i].split("=>")[2]!="Pendiente" ){
-                    fecha=detalle[i].split("=>")[11];
-                }
-                else if( detalle[i].split("=>")[2]=="Pendiente" && (RolIdG==8 || RolIdG==9)){
-                    persona="<select class='slcPersona' data-id='"+detalle[i].split("=>")[0]+"' onChange='ActualizarPersona(this);'>"+$("#slct_persona").html()+"</select>";
-                }
-
-                if(detalle[i].split("=>")[2]=="Pendiente"){
-                    if(detalle[i].split("=>")[3]=="NO"){
-                        valorenviado=0;
-                    }
-                    else{
-                        valorenviado=detalle[i].split("=>")[3]*1;
-                    }
-
-                    if( datos.maximo!=0 && valorenviado!=0 && valorenviado!=datos.maximo ){
-                        denegar=true;
-                    }
-                    /*imagenadd=  '<div class="input-group success">'+
-                                '   <div class="input-group-addon btn btn-success" onclick="adicionaDetalleVerbo('+detalle[i].split("=>")[0]+');">'+
-                                '       <i class="fa fa-plus fa-lg"></i>'+
-                                '   </div>'+
-                                '   <input type="text" class="txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'" data-inputmask="'+"'alias'"+': '+"'email'"+'" data-mask/>'+
-                                '</div>';*/
-                    if(denegar==true){
-                        imagen="";
-                    }
-                    else{
-
-                        obs = "<textarea class='area"+valorenviado+"' name='area_"+detalle[i].split("=>")[0]+"' id='area_"+detalle[i].split("=>")[0]+"'></textarea>";
-                        imagen="<input type='checkbox' class='check"+valorenviado+"' onChange='validacheck("+valorenviado+",this.id);' value='"+detalle[i].split("=>")[0]+"' name='chk_verbo_"+detalle[i].split("=>")[0]+"' id='chk_verbo_"+detalle[i].split("=>")[0]+"_"+$.trim(detalle[i].split("=>")[12])+"'>";
-                        imagenadd= '<input disabled type="text" class="form-control txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'"/>';
-                        if(verbo=="Generar"){
-                            imagenadd= '<input data-pos="'+(i*1+1)+'" type="text" readonly class="form-control txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'" id="documento_'+detalle[i].split("=>")[0]+'" name="documento_'+detalle[i].split("=>")[0]+'" value="" /><input type="hidden" id="txt_documento_id_'+detalle[i].split("=>")[0]+'" name="txt_documento_id_'+detalle[i].split("=>")[0]+'" value="">'+
-                                        '<span class="btn btn-primary" data-toggle="modal" data-target="#indedocsModal" data-texto="documento_'+detalle[i].split("=>")[0]+'" data-id="txt_documento_id_'+detalle[i].split("=>")[0]+'" id="btn_buscar_indedocs">'+
-                                            '<i class="fa fa-search fa-lg"></i>'+
-                                         '</span>'+
-                                         '<span class="btn btn-warning" onClick="Liberar(\'documento_'+detalle[i].split("=>")[0]+'\')" >'+
-                                            '<i class="fa fa-pencil fa-lg"></i>'+
-                                         '</span>';
-                            archivo='<input class="form-control" id="archivo_'+detalle[i].split("=>")[0]+'" name="archivo_'+detalle[i].split("=>")[0]+'" type="file">';
-                        }
-                    }
-                }
-
-
-                if(verbo=="Generar"){
-                    referidos+=1;
-                    html+= "<tr class='referidos' count="+referidos+">";
-                }else{
-                    html+= "<tr>";
-                }
-
-                html+=    "<td style='vertical-align : middle;'>"+orden+"</td>";
-                html+=    "<td style='vertical-align : middle;'>"+detalle[i].split("=>")[3]+"</td>";
-                html+=    "<td style='vertical-align : middle;'>"+rol+"</td>";
-                html+=    "<td style='vertical-align : middle;'>"+verbo+"</td>";
-                html+=    "<td style='vertical-align : middle;'>"+documento+"</td>";
-                html+=    "<td style='vertical-align : middle;'>"+detalle[i].split("=>")[1]+"</td>";
-                html+=    "<td style='vertical-align : middle;' id='td_"+detalle[i].split("=>")[0]+"'>"+imagenadd+"</td>";
-                html+=    "<td style='vertical-align : middle;'>"+obs+"</td>";
-                            //"<td>"+archivo+"</td>"+
-                html+=    "<td style='vertical-align : middle;'>"+persona+"</td>";
-                html+=    "<td style='vertical-align : middle;'>"+fecha+"</td>";
-                html+=    "<td style='vertical-align : middle;'>"+imagen+"</td>";
-                html+= "</tr>";
-                $("#t_detalle_verbo").append(html);
-                html = "";
-               /* if( $.trim( detalle[i].split("=>")[12] )!='' && (RolIdG==8 || RolIdG==9) ){
-                    $("#t_detalle_verbo select[data-id='"+detalle[i].split("=>")[0]+"'] option[value='"+detalle[i].split("=>")[12]+"']").attr("selected",true);
-                }*/
-                if($.trim( detalle[i].split("=>")[15] )!='' && (RolIdG==8 || RolIdG==9)){
-                    $("#t_detalle_verbo select[data-id='"+detalle[i].split("=>")[0]+"'] option[value='"+detalle[i].split("=>")[15]+"']").attr('selected',true);
-                    console.log($("#t_detalle_verbo select[data-id='"+detalle[i].split("=>")[0]+"'] option[value='"+detalle[i].split("=>")[15]+"']").html());
-                    console.log(detalle[i].split("=>")[0]);
-                    console.log('hola2');                   
-                }
-            }
-            //$(".slcPersona").html($("#slct_persona").html())
-            /*last referido*/
-            last_ref =0;
-            $('#t_detalle_verbo tr[class=referidos]').each(function () {
-                 last_ref=$(this).attr('count');
-            });
-            $('#t_detalle_verbo .referidos[count='+last_ref+']').addClass('danger');
-            $('#t_detalle_verbo .referidos[count='+last_ref+']').addClass('referidoSelect');
-            /*end last referido */
-            
-        }
-
-}
 
 Liberar=function(txt){
     $("#"+txt).removeAttr("readonly");
@@ -519,109 +258,7 @@ Liberar=function(txt){
     $("#"+txt).focus();
 }
 
-guardarTodo=function(){
-    var verboaux="";
-    var codaux="";
-    var obsaux="";
-    var coddocaux="";
-    var contcheck=0;
-    var conttotalcheck=0;
-    var alerta=false;
-    var codauxd="";
-    var validacheck=0;
-    $("#t_detalle_verbo input[type='checkbox']").each(
-        function( index ) { 
-            if ( $(this).is(':checked') && alerta==false ) {
-                codauxd="";
-                $("#td_"+$(this).val()+" input[type='text']").each(
-                    function( indx ) {
-                        if( $(this).val()!="" ){
-                            codauxd+="^"+$(this).val();
-                        }
-                    }
-                );
-                verboaux+="|"+$(this).val();
-                codaux+= "|"+codauxd.substr(1);
-                obsaux+="|"+$("#area_"+$(this).val()).val();
-                coddocaux+="|"+$("#txt_documento_id_"+$(this).val()).val();
-                contcheck++;
-
-                if( $("#documento_"+$(this).val()).val()=="" ){
-                    alert("Busque y Seleccione Nro del documento generado de la tarea "+$("#documento_"+$(this).val()).attr("data-pos"));
-                    alerta=true;
-                }
-            }
-            else if( !$(this).attr("disabled") ){
-                validacheck=1;
-            }
-            conttotalcheck++;
-        }
-    );
-
-    if(conttotalcheck>0){
-        verboaux=verboaux.substr(1);
-        var r_verbo = $(".referidoSelect").find('.check0').val();
-        $("#form_ruta_detalle>#vreferido").remove();
-        $("#form_ruta_detalle").append("<input type='hidden' id='vreferido' name='vreferido' value='"+r_verbo+"'>");
-
-        $("#form_ruta_detalle>#verbog").remove();
-        $("#form_ruta_detalle").append("<input type='hidden' id='verbog' name='verbog' value='"+verboaux+"'>");
-        codaux=codaux.substr(1);
-        $("#form_ruta_detalle>#codg").remove();
-        $("#form_ruta_detalle").append("<input type='hidden' id='codg' name='codg' value='"+codaux+"'>");
-        obsaux=obsaux.substr(1);
-        $("#form_ruta_detalle>#obsg").remove();
-        $("#form_ruta_detalle").append("<input type='hidden' id='obsg' name='obsg' value='"+obsaux+"'>");
-        coddocaux=coddocaux.substr(1);
-        $("#form_ruta_detalle>#coddocg").remove();
-        $("#form_ruta_detalle").append("<input type='hidden' id='coddocg' name='coddocg' value='"+coddocaux+"'>");
-    }
-
-    if( $("#slct_tipo_respuesta").val()=='' && conttotalcheck>0 && contcheck==0 && alerta==false ) {
-            alert("Seleccione al menos 1 check");
-    }
-    else if ( $("#slct_tipo_respuesta").val()=='' && validacheck==0 && alerta==false ) {
-        alert("Seleccione Tipo de Respuesta");
-    }
-    else if ( $("#slct_tipo_respuesta_detalle").val()=='' && validacheck==0 && alerta==false ) {
-        alert("Seleccione Detalle Tipo Respuesta");
-    }
-    else if ( $("#txt_observacion").val()=='' && validacheck==0 && alerta==false ) {
-        alert("Ingrese Descripción de respuesta de la Actividad");
-    }
-    else if ( $("#slct_tipo_respuesta").val()!='' && validacheck==1 && alerta==false 
-                && $("#slct_tipo_respuesta option[value='"+$("#slct_tipo_respuesta").val()+"']").attr("data-evento").split("_")[1]=='0'
-            ) {
-        alert("El tipo de respuesta seleccionada solo esta permitida cuando este activada todas las tareas habilitadas");
-    }
-    else if ( $("#slct_tipo_respuesta_detalle").val()=='' && $("#slct_tipo_respuesta").val()!='' ) {
-        alert("Seleccione Detalle Tipo Respuesta");
-    }
-    else if ( $("#txt_observacion").val()!='' && $("#slct_tipo_respuesta").val()=='' ) {
-        alert("La Descripción de respuesta de la Actividad, solo esta permitido cuando seleccione Tipo de respuesta");
-    }
-    else if( alerta==false ){
-        if( confirm("Favor de confirmar para actualizar su información") ){
-            if(validacheck==0 || $("#slct_tipo_respuesta").val()!=''){
-                $('#slct_tipo_visualizacion').multiselect('deselectAll');
-                $('#slct_tipo_visualizacion').multiselect('refresh');
-                Validar.guardarValidacion();
-            }
-            else{
-                Validar.guardarValidacion(mostrarDetallle,$("#form_ruta_detalle>#ruta_detalle_id").val() );
-            }
-        }
-    }
-}
-
 eventoSlctGlobalSimple=function(slct,valores){
-    if( slct=="slct_tipo_respuesta" ){
-        var detval=valores.split("|").join("").split("_");
-        fechaAux="";
-        if ( detval[1]==1 ) {
-        fechaAux=detval[2];
-        }
-    }
 }
 
 /*add new verb to generate*/
@@ -630,15 +267,11 @@ Addtr = function(e){
     var template = $("#tbldetalleverbo").find('.trNuevo').clone().removeClass('trNuevo').removeClass('hidden');
     $("#tbldetalleverbo tbody").append(template);
 }
-/*end add new verb to generate*/
 
-/*delete tr*/
 Deletetr = function(object){
     object.parentNode.parentNode.parentNode.remove();
 }
-/*end delete tr*/
 
-/*poblate combo*/
 HTMLCombo = function(obj,data){
     if(data){
          html='';
@@ -648,9 +281,7 @@ HTMLCombo = function(obj,data){
         $('#'+obj).html(html);
     } 
 }
-/*end poblate combo */
 
-/*save new ruta_detalle_verbo*/
 saveVerbo = function(){
     var id_rutadverbo = document.querySelector("#ruta_detalle_id");
     var condional = 0;
@@ -670,11 +301,8 @@ saveVerbo = function(){
         'orden':0,
     };
     Bandeja.Guardarrdv(JSON.stringify(data),mostrarDetallle);
-
 }
-/*end save new ruta_detalle_verbo */
 
-/*delete rdv*/
 eliminardv = function(id){
     if(id){
         var r = confirm("¿Estas seguro de eliminar?");
@@ -685,7 +313,6 @@ eliminardv = function(id){
         }
     }
 }
-/*end delete rdv*/
  
 expedienteUnico = function(){
     var rd_id=document.querySelector("#ruta_id").value;
@@ -734,7 +361,7 @@ function HTMLExpedienteUnico(data){
             var $table = $('#tree-table'),
             rows = $table.find('tr');
 
-        rows.each(function (index, row) {
+            rows.each(function (index, row) {
             var
                 $row = $(row),
                 level = $row.data('level'),
@@ -793,203 +420,177 @@ function HTMLExpedienteUnico(data){
             }
         };
     });
-    /*end tree-table*/
 
     }else{
         alert('no hay expediente unico');
     }
 }
 
-    /*return to last order*/
-    retornar = function(){
-        var r = confirm("¿Esta Seguro de retornar al paso anterior?");
-        if(r == true){
-            var rd_id=document.querySelector("#ruta_detalle_id").value;
-            var ruta_id=document.querySelector("#ruta_id").value;
-            var nroden=document.querySelector("#txt_orden").value;
-            Bandeja.retornarPaso({'ruta_detalle_id':rd_id,'ruta_id':ruta_id,'orden':nroden});            
-        }else{
-            alert('No es posible retornar al paso anterior');
+retornar = function(){
+    var r = confirm("¿Esta Seguro de retornar al paso anterior?");
+    if(r == true){
+        var rd_id=document.querySelector("#ruta_detalle_id").value;
+        var ruta_id=document.querySelector("#ruta_id").value;
+        var nroden=document.querySelector("#txt_orden").value;
+        Bandeja.retornarPaso({'ruta_detalle_id':rd_id,'ruta_id':ruta_id,'orden':nroden});            
+    }else{
+        alert('No es posible retornar al paso anterior');
+    }
+}
+
+mostrarRuta = function(obj){
+    var ruta_flujo_id = obj.getAttribute('ruta_flujo_id');
+    cargarRutaId(ruta_flujo_id,2);
+}
+
+cargarRutaId=function(ruta_flujo_id,permiso,ruta_id){
+    $("#txt_ruta_flujo_id_modal").remove();
+    $("#form_ruta_flujo").append('<input type="hidden" id="txt_ruta_flujo_id_modal" value="'+ruta_flujo_id+'">');
+    $("#txt_titulo").text("Vista");
+    $("#texto_fecha_creacion").text("Fecha Vista:");
+    $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
+    $("#form_ruta_flujo .form-group").css("display","");
+    Ruta.CargarDetalleRuta(ruta_flujo_id,permiso,CargarDetalleRutaHTML,ruta_id);
+}
+
+CargarDetalleRutaHTML=function(permiso,datos){
+    areasG="";  areasG=[]; // texto area
+    areasGId="";  areasGId=[]; // id area
+    estadoG="";  estadoG=[]; // Normal / Paralelo
+    theadArea="";  theadArea=[]; // cabecera area
+    tbodyArea="";  tbodyArea=[]; // cuerpo area
+    tfootArea="";  tfootArea=[]; // pie area
+
+    tiempoGId="";  tiempoGId=[]; // id posicion del modal en base a una area.
+    tiempoG="";  tiempoG=[];
+    verboG="";  verboG=[];
+    posicionDetalleVerboG=0;
+    validandoconteo=0;
+    $.each(datos,function(index,data){
+        validandoconteo++;
+        if(validandoconteo==1){
+            $("#txt_persona").val(data.persona);
+            $("#txt_proceso_1").val(data.flujo);
+            $("#txt_area_1").val(data.area);
+        }
+        adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta);
+    });
+    pintarAreasG(permiso);
+}
+
+AbreTv=function(val){
+    $("#areasasignacion [data-id='"+val+"']").click();
+}
+
+adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imagenc,imagenp,estruta){
+    valor=""+valor;
+    var adjunta=false; var position=areasGId.indexOf(valor);
+    if( position>=0 ){
+        adjunta=true;
+    }
+
+    var verboaux=verbo.split("|");
+    var verbo1=[];
+    var verbo2=[];
+    var verbo3=[];
+    var verbo4=[];
+    var verbo5=[];
+    var verbo6=[];
+    var imgfinal=imagen;
+    for(i=0;i<verboaux.length;i++ ){
+        verbo1.push(verboaux[i].split("^^")[0]);
+        verbo2.push(verboaux[i].split("^^")[1]);
+        verbo3.push(verboaux[i].split("^^")[2]);
+        verbo4.push(verboaux[i].split("^^")[3]);
+        verbo5.push(verboaux[i].split("^^")[4]);
+        verbo6.push(verboaux[i].split("^^")[5]);
+
+        if($.trim(verboaux[i].split("^^")[1])>0){
+            imgfinal=imagenc;
         }
     }
-    /*end return to last order*/
 
-    mostrarRuta = function(obj){
-        var ruta_flujo_id = obj.getAttribute('ruta_flujo_id');
-        cargarRutaId(ruta_flujo_id,2);
+    if(estruta>1){
+        imgfinal=imagenp;
     }
 
-    cargarRutaId=function(ruta_flujo_id,permiso,ruta_id){
-        $("#txt_ruta_flujo_id_modal").remove();
-        $("#form_ruta_flujo").append('<input type="hidden" id="txt_ruta_flujo_id_modal" value="'+ruta_flujo_id+'">');
-        $("#txt_titulo").text("Vista");
-        $("#texto_fecha_creacion").text("Fecha Vista:");
-        $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
-        $("#form_ruta_flujo .form-group").css("display","");
-        Ruta.CargarDetalleRuta(ruta_flujo_id,permiso,CargarDetalleRutaHTML,ruta_id);
+    estadoG.push(estruta);
+    areasG.push(valorText);
+    areasGId.push(valor);
+
+    if( adjunta==false ){
+        head='<th class="eliminadetalleg" style="width:110px;min-width:100px !important;">'+valorText+'</th>';
+        theadArea.push(head);
+
+        body=   '<tr>'+
+                    '<td class="areafinal" onclick="AbreTv('+valor+');" style="height:100px; background-image: url('+"'"+'img/admin/area/'+imgfinal+"'"+');">&nbsp;'+
+                    '<span class="badge bg-yellow">'+areasG.length+'</span>'+
+                    '</td>'+
+                '</tr>';
+        tbodyArea.push([]);
+        tbodyArea[ (tbodyArea.length-1) ].push(body);
+
+        foot=   '<th class="eliminadetalleg">'+
+                    '<div style="text-align:center;">'+
+                    '<a class="btn bg-olive btn-sm" data-toggle="modal" data-target="#rutaModal" data-id="'+valor+'" data-text="'+valorText+'">'+
+                        '<i class="fa fa-desktop fa-lg"></i>'+
+                    '</a>'+
+                    '</div>'+
+                '</th>';
+        tfootArea.push(foot);
+    }
+    else{
+
+        theadArea.push(0);
+        tfootArea.push(0);
+        tbodyArea.push([]);
+        tbodyArea[ (tbodyArea.length-1) ].push(position+"|"+tbodyArea[position].length );
+        body=   '<tr>'+
+                    '<td class="areafinal" onclick="AbreTv('+valor+');" style="height:100px; background-image: url('+"'"+'img/admin/area/'+imgfinal+"'"+');">&nbsp;'+
+                    '<span class="badge bg-yellow">'+areasG.length+'</span>'+
+                    '</td>'+
+                '</tr>';
+        tbodyArea[position].push(body);
+
     }
 
-    CargarDetalleRutaHTML=function(permiso,datos){
-        areasG="";  areasG=[]; // texto area
-        areasGId="";  areasGId=[]; // id area
-        estadoG="";  estadoG=[]; // Normal / Paralelo
-        theadArea="";  theadArea=[]; // cabecera area
-        tbodyArea="";  tbodyArea=[]; // cuerpo area
-        tfootArea="";  tfootArea=[]; // pie area
+      var position=tiempoGId.indexOf(valor);
+      var posicioninicial=areasGId.indexOf(valor);
+      //alert("tiempo= "+position +" | areapos="+posicioninicial);
+      var tid=0;
+      var validapos=0;
+      var detalle=""; var detalle2="";
+      
+      if(position>=0){
+        tid=position;
+      }
 
-        tiempoGId="";  tiempoGId=[]; // id posicion del modal en base a una area.
-        tiempoG="";  tiempoG=[];
-        verboG="";  verboG=[];
-        posicionDetalleVerboG=0;
-        validandoconteo=0;
-        $.each(datos,function(index,data){
-            validandoconteo++;
-            if(validandoconteo==1){
-                $("#txt_persona").val(data.persona);
-                $("#txt_proceso_1").val(data.flujo);
-                $("#txt_area_1").val(data.area);
-            }
-            adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta);
-        });
-        pintarAreasG(permiso);
-        //alertatodo();
-    }
+    if( tiempo!='_' || verbo!='' ){
+        if( adjunta==false ){ // primer registro
+            tiempoGId.push(valor);
+            tiempoG.push([]);
+            tid=tiempoG.length-1;
+            tiempoG[tid].push(posicioninicial+"_"+tiempo);
 
-    AbreTv=function(val){
-        $("#areasasignacion [data-id='"+val+"']").click();
-    }
-
-    adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imagenc,imagenp,estruta){
-        valor=""+valor;
-        var adjunta=false; var position=areasGId.indexOf(valor);
-        if( position>=0 ){
-            adjunta=true;
-        }
-
-        var verboaux=verbo.split("|");
-        var verbo1=[];
-        var verbo2=[];
-        var verbo3=[];
-        var verbo4=[];
-        var verbo5=[];
-        var verbo6=[];
-        var imgfinal=imagen;
-        for(i=0;i<verboaux.length;i++ ){
-            verbo1.push(verboaux[i].split("^^")[0]);
-            verbo2.push(verboaux[i].split("^^")[1]);
-            verbo3.push(verboaux[i].split("^^")[2]);
-            verbo4.push(verboaux[i].split("^^")[3]);
-            verbo5.push(verboaux[i].split("^^")[4]);
-            verbo6.push(verboaux[i].split("^^")[5]);
-
-            if($.trim(verboaux[i].split("^^")[1])>0){
-                imgfinal=imagenc;
-            }
-        }
-
-        if(estruta>1){
-            imgfinal=imagenp;
-        }
-
-        estadoG.push(estruta);
-        areasG.push(valorText);
-        areasGId.push(valor);
-
-        if( adjunta==false ){
-            head='<th class="eliminadetalleg" style="width:110px;min-width:100px !important;">'+valorText+'</th>';
-            theadArea.push(head);
-
-            body=   '<tr>'+
-                        '<td class="areafinal" onclick="AbreTv('+valor+');" style="height:100px; background-image: url('+"'"+'img/admin/area/'+imgfinal+"'"+');">&nbsp;'+
-                        '<span class="badge bg-yellow">'+areasG.length+'</span>'+
-                        '</td>'+
-                    '</tr>';
-            tbodyArea.push([]);
-            tbodyArea[ (tbodyArea.length-1) ].push(body);
-
-            foot=   '<th class="eliminadetalleg">'+
-                        '<div style="text-align:center;">'+
-                        '<a class="btn bg-olive btn-sm" data-toggle="modal" data-target="#rutaModal" data-id="'+valor+'" data-text="'+valorText+'">'+
-                            '<i class="fa fa-desktop fa-lg"></i>'+
-                        '</a>'+
-                        '</div>'+
-                    '</th>';
-            tfootArea.push(foot);
+            verboG.push([]);
+            verboG[tid].push(posicioninicial+"_"+verbo1.join("|")+"_"+verbo2.join("|")+"_"+verbo3.join("|")+"_"+verbo4.join("|")+"_"+verbo5.join("|")+"_"+verbo6.join("|"));
         }
         else{
+            var posicioninicialf=posicioninicial;
+            for(var i=1; i<tbodyArea[posicioninicial].length; i++){
+                posicioninicialf++;
+                validapos=areasGId.indexOf(valor,posicioninicialf);
+                posicioninicialf=validapos;
+                if( i>=tiempoG[tid].length ){
+                    //alert(tiempo+" | "+verbo+" | "+valor+" | "+posicioninicial+"-"+validapos);
+                    tiempoG[tid].push(validapos+"_"+tiempo);
 
-            theadArea.push(0);
-            tfootArea.push(0);
-            tbodyArea.push([]);
-            tbodyArea[ (tbodyArea.length-1) ].push(position+"|"+tbodyArea[position].length );
-            body=   '<tr>'+
-                        '<td class="areafinal" onclick="AbreTv('+valor+');" style="height:100px; background-image: url('+"'"+'img/admin/area/'+imgfinal+"'"+');">&nbsp;'+
-                        '<span class="badge bg-yellow">'+areasG.length+'</span>'+
-                        '</td>'+
-                    '</tr>';
-            tbodyArea[position].push(body);
-
-        }
-
-          var position=tiempoGId.indexOf(valor);
-          var posicioninicial=areasGId.indexOf(valor);
-          //alert("tiempo= "+position +" | areapos="+posicioninicial);
-          var tid=0;
-          var validapos=0;
-          var detalle=""; var detalle2="";
-          
-          if(position>=0){
-            tid=position;
-            //alert("actualizando");
-            /*detalle=tiempoG[tid][0].split("_");
-            detalle[0]=posicioninicial;
-            tiempoG[tid][0]=detalle.join("_");
-
-            detalle2=verboG[tid][0].split("_");
-            detalle2[0]=posicioninicial;
-            verboG[tid][0]=detalle2.join("_");
-            */
-          }
-          //else{
-            //alert("registrando");
-
-        if( tiempo!='_' || verbo!='' ){
-            if( adjunta==false ){ // primer registro
-                tiempoGId.push(valor);
-                tiempoG.push([]);
-                tid=tiempoG.length-1;
-                tiempoG[tid].push(posicioninicial+"_"+tiempo);
-
-                verboG.push([]);
-                verboG[tid].push(posicioninicial+"_"+verbo1.join("|")+"_"+verbo2.join("|")+"_"+verbo3.join("|")+"_"+verbo4.join("|")+"_"+verbo5.join("|")+"_"+verbo6.join("|"));
-            }
-          //}
-            else{
-                var posicioninicialf=posicioninicial;
-                for(var i=1; i<tbodyArea[posicioninicial].length; i++){
-                    posicioninicialf++;
-                    validapos=areasGId.indexOf(valor,posicioninicialf);
-                    posicioninicialf=validapos;
-                    if( i>=tiempoG[tid].length ){
-                        //alert(tiempo+" | "+verbo+" | "+valor+" | "+posicioninicial+"-"+validapos);
-                        tiempoG[tid].push(validapos+"_"+tiempo);
-
-                        verboG[tid].push(validapos+"_"+verbo1.join("|")+"_"+verbo2.join("|")+"_"+verbo3.join("|")+"_"+verbo4.join("|")+"_"+verbo5.join("|")+"_"+verbo6.join("|"));
-                    }
-                    /*else{
-                        detalle=tiempoG[tid][i].split("_");
-                        detalle[0]=validapos;
-                        tiempoG[tid][i]=detalle.join("_");
-
-                        detalle2=verboG[tid][i].split("_");
-                        detalle2[0]=validapos;
-                        verboG[tid][i]=detalle2.join("_");
-                    }*/
+                    verboG[tid].push(validapos+"_"+verbo1.join("|")+"_"+verbo2.join("|")+"_"+verbo3.join("|")+"_"+verbo4.join("|")+"_"+verbo5.join("|")+"_"+verbo6.join("|"));
                 }
             }
         }
     }
-
+}
 
 pintarAreasG=function(permiso){
     var htm=''; var click=""; var imagen=""; var clickeli="";
@@ -1050,12 +651,9 @@ pintarAreasG=function(permiso){
 
     $("#areasasignacion>thead>tr.head").append('<th class="eliminadetalleg" style="min-width:1000px important!;">[]</th>'); // aqui para darle el area global
     $("#tb_rutaflujodetalleAreas").html(htm);
-    }
+}
 
-
-
-
-    pintarTiempoG=function(tid){
+pintarTiempoG=function(tid){
     var htm="";var detalle="";var detalle2="";
     $("#tb_tiempo").html(htm);
     $("#tb_verbo").html(htm);
@@ -1156,5 +754,52 @@ pintarAreasG=function(permiso){
         //fin verbo
     }
 }
+
+HTMLCargarBandeja=function(result){
+    var html="";
+    $('#t_reporte_ajax').DataTable().destroy();
+
+    $.each(result.data,function(index,r){
+        visto=''; 
+        eventclick='activar('+r.ruta_detalle_id+',this,'+r.ruta_id+')';
+        icon='ban';
+        if(r.visto>0){
+            visto='unread';
+            eventclick='desactivar('+r.ruta_detalle_id+',this,'+r.ruta_id+')';
+            icon='eye';
+        }
+        console.log(eventclick);
+        html+="<tr class='"+visto+"' onClick='"+eventclick+"'>"+
+                "<td><i id='td_"+r.ruta_detalle_id+"' class='fa fa-"+icon+"'></i></td>"+
+                "<td>"+$.trim(r.id_union_ant)+"</td>"+
+                "<td>"+$.trim(r.id_union)+"</td>"+
+                "<td>"+$.trim(r.tiempo)+"</td>"+
+                "<td>"+$.trim(r.fecha_inicio)+"</td>"+
+                "<td>"+$.trim(r.tiempo_final)+"</td>"+
+                "<td>"+$.trim(r.norden)+"</td>"+
+                "<td>"+$.trim(r.proceso)+"</td>"+
+                "<td>"+$.trim(r.persona)+"</td>"+
+             "</tr>";
+    });
+
+    $("#t_reporte_ajax tbody").html(html); 
+    $("#t_reporte_ajax").DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": false,
+        "info": true,
+        "autoWidth": false,
+        "lengthMenu": [10],
+        "language": {
+            "info": "Mostrando página "+result.current_page+" / "+result.last_page+" de "+result.total+" registros",
+            "infoEmpty": "No éxite registro(s) aún",
+        },
+        "initComplete": function () {
+            $('#t_reporte_ajax_paginate ul').remove();
+            masterG.CargarPaginacion('HTMLCargarBandeja','Bandeja',result,'#t_reporte_ajax_paginate');
+        }
+    });
+};
 
 </script>
