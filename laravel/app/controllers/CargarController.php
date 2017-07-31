@@ -660,4 +660,178 @@ class CargarController extends BaseController
         }
     }
 
+
+
+    // (RA - 2017/07/07): Carga de Archivo para los Gastos Contables.
+    public function postCargargastos() //Importante el nombre del metodo debe sser igual al de la función AJAX.
+    {
+        ini_set('memory_limit','512M');
+        if (isset($_FILES['carga']) and $_FILES['carga']['size'] > 0) {
+
+            $uploadFolder = 'txt/contabilidad';
+            
+            if ( !is_dir($uploadFolder) ) {
+                mkdir($uploadFolder);
+            }
+
+            $nombreArchivo = explode(".",$_FILES['carga']['name']);
+            $tmpArchivo = $_FILES['carga']['tmp_name'];
+            $archivoNuevo = $nombreArchivo[0]."_u".Auth::user()->id."_".date("Ymd_his")."." . $nombreArchivo[1];
+            $file = $uploadFolder . '/' . $archivoNuevo;
+
+            //@unlink($file);
+
+            $m="Ocurrio un error al subir el archivo. No pudo guardarse.";
+            if (!move_uploaded_file($tmpArchivo, $file)) {
+                return Response::json(
+                    array(
+                        'upload' => FALSE,
+                        'rst'    => '2',
+                        'msj'    => $m,
+                        'error'  => $_FILES['archivo'],
+                    )
+                );
+            }
+
+            $array=array();
+            $arrayExist=array();
+
+            //$file=file('txt/contabilidad/'.$archivoNuevo);
+            $file=file('/var/www/html/ingind/public/txt/contabilidad/'.$archivoNuevo);
+
+            for($i=0; $i < count($file); $i++) {
+
+                 DB::beginTransaction();
+                if(trim($file[$i]) != ''){
+                $detfile=explode("\t",$file[$i]);
+
+                    for ($j=0; $j < count($detfile); $j++) { 
+                        $buscar=array(chr(13).chr(10), "\r\n", "\n","�", "\r","\n\n","\xEF","\xBB","\xBF");
+                        $reemplazar="";
+                        $detfile[$j]=trim(str_replace($buscar,$reemplazar,$detfile[$j]));
+                        $array[$i][$j]=$detfile[$j];
+                    }
+
+                    // Validar si existe dato
+                    if(($detfile[8] * 1) > 0)
+                        $ruc_proveeedor = $detfile[8];
+                    else
+                    {
+                        $bus_prov = Proveedor::where('id','=', 1)->first(); // busca por default el RUC de la Municipalidad
+                        $ruc_proveeedor = $bus_prov->ruc;
+                    }
+
+                    $proveedor = Proveedor::where('ruc','=', $ruc_proveeedor)->first();
+
+                    if( count($proveedor) == 0)
+                    {
+                        $proveedor = new Proveedor;
+                        $proveedor->ruc = $detfile[8];
+                        $proveedor->proveedor = $detfile[9];
+                        $proveedor->estado = 1;
+                        $proveedor->usuario_created_at = Auth::user()->id;
+                        $proveedor->save();
+                    }
+
+                    // Inserta Tabla contabilidad_gastos
+                        $conta_gastos = GastosContables::where( 'contabilidad_proveedores_id','=', $proveedor->id )
+                                                        ->where('nro_expede','=', $detfile[0])
+                                                        ->first();
+                        if( count($conta_gastos) == 0 )
+                        {
+                            // Usar este ejemplo para insertar datos ya que mantiene el ultimo valor ingresado.
+                            $conta_gastos = new GastosContables;
+                            $conta_gastos->contabilidad_proveedores_id = $proveedor->id;
+                            $conta_gastos->nro_expede = $detfile[0];
+                            $conta_gastos->estado = 1;
+                            $conta_gastos->usuario_created_at = Auth::user()->id;
+                            $conta_gastos->save();
+                        }
+                    // --
+
+                    if($detfile[1] != ''){
+                        if($detfile[1] == 'GC'){
+                            $monto_expede = $detfile[2];
+                        }elseif($detfile[1] == 'GD'){
+                            $monto_expede = $detfile[3];
+                        }else{
+                            $monto_expede = $detfile[4];
+                        }
+                    }
+
+                    $conta_gastos_deta = GastosDetallesContables::where( 'contabilidad_gastos_id','=', $conta_gastos->id )
+                                                        ->where('tipo_expede','=', $detfile[1])
+                                                        ->where('monto_expede','=', $monto_expede)
+                                                        ->where('fecha_documento','=', $detfile[5])
+                                                            ->where('documento','=', $detfile[6])
+                                                        ->where('nro_documento','=', $detfile[7])
+                                                            ->where('esp_d','=', $detfile[10])
+                                                            ->where('fecha_doc_b','=', $detfile[11])
+                                                            ->where('doc_b','=', $detfile[12])
+                                                        ->where('nro_doc_b','=', $detfile[13])
+                                                        ->where('persona_doc_b','=', $detfile[14])
+                                                        ->first();
+                    if( count($conta_gastos_deta) == 0 )
+                    {
+                        $obj = new GastosDetallesContables();
+                        $obj->contabilidad_gastos_id = $conta_gastos->id;
+                        $obj->tipo_expede = $detfile[1];
+
+                        if($monto_expede)
+                            $obj->monto_expede = $monto_expede;
+
+                        if($detfile[5]!='')
+                            $obj->fecha_documento = $detfile[5];
+
+                        if($detfile[6]!='')
+                            $obj->documento = $detfile[6];
+
+                        if($detfile[7]!='')
+                            $obj->nro_documento = $detfile[7];
+                        
+                        if($detfile[10]!='')
+                            $obj->esp_d = $detfile[10];
+
+                        if($detfile[11]!='')
+                            $obj->fecha_doc_b = $detfile[11];
+
+                        if($detfile[12]!='')
+                            $obj->doc_b = $detfile[12];
+
+                        if($detfile[13]!='')
+                            $obj->nro_doc_b = $detfile[13];
+                        
+                        if($detfile[14]!='')
+                            $obj->persona_doc_b = $detfile[14];
+
+                        if($detfile[15]!='')
+                            $obj->observacion = $detfile[15];
+
+                        $obj->estado = 1;
+                        $obj->usuario_created_at = Auth::user()->id;
+                        $obj->save();
+                    }
+                        // Muestra ultimos QUERY ejecutados
+                        //$log = DB::getQueryLog();
+                        //var_dump($obj);
+                }
+                DB::commit();
+
+            }// for del file
+
+            //exit;
+            return Response::json(
+                    array(
+                        'rst'       => '1',
+                        'msj'       => 'Archivo procesado correctamente',
+                        'file'      => $archivoNuevo,
+                        'upload'    => TRUE, 
+                        //'data'      => $array,
+                        'data'      => array(),
+                        'existe'    => 0//$arrayExist
+                    )
+            );
+        }
+    }
+
 }
