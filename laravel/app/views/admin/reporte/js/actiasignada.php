@@ -344,8 +344,13 @@ HTMLOrdenesTrabajo=function(datos){
 
         var horas = Math.floor( data.ot_tiempo_transcurrido / 60);
         var min = data.ot_tiempo_transcurrido % 60;
-
-        html+="<tr>"+
+        var style='';
+        if(data.resultado!=0){
+            style='background-color:#99ff99;';   //verde
+        }else {
+            style='background-color:#ff9999;';
+        }
+        html+="<tr style='"+style+"'>"+
             "<td>"+data.area+"</td>"+
             "<td>"+data.persona+"</td>"+
             "<td>"+data.actividad+"</td>"+
@@ -353,7 +358,9 @@ HTMLOrdenesTrabajo=function(datos){
             "<td>"+data.dtiempo_final+"</td>"+
             "<td>"+Math.abs(data.ot_tiempo_transcurrido) + " min"+"</td>"+
             "<td>"+horas + ":" + min +"</td>"+
-            "<td>"+data.asignador+"</td>";
+            "<td>"+data.asignador+"</td>"+
+            "<td>"+data.resultado+"</td>"+
+            "<td>"+data.descripcion_resultado+"</td>";
         html+="</tr>";
     });
     $("#tb_ordenest").html(html);

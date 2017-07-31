@@ -81,8 +81,9 @@ class Area extends Base
                             $query->where('area_gestion_f','>','0')
                             ->whereRaw('id!='.Auth::user()->area_id);
                         }
-                        if ( Input::has('sinalcaldia') ){
+                        if ( Input::has('omitir') ){
                             $query->where('id','!=','44');
+                            $query->where('id','!=','54');
                         }
                         $rst=$this->getRol();
                         foreach ($rst as $value) {
@@ -255,7 +256,7 @@ class Area extends Base
         
         if(Input::has('distinto') && Input::get('distinto')){
            
-            $sSql.= " AND ap.persona_id != ap.usuario_created_at ";
+            $sSql.= " AND ap.tipo=2 ";
         }
         
         $sSql.="  GROUP BY ap.area_id,ap.persona_id";

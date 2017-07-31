@@ -55,8 +55,9 @@ class DocumentoDigitalController extends \BaseController {
             
             if( Input::has("created_at") ){
                 $created_at=Input::get("created_at");
+                list($fechaIni,$fechaFin) = explode(" - ", $created_at);
                 if( trim( $created_at )!='' ){
-                    $array['where'].=" AND DATE(dd.created_at) = '".$created_at."' ";
+                    $array['where'].=" AND DATE(dd.created_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."'";
                 }
             }
             
@@ -77,14 +78,14 @@ class DocumentoDigitalController extends \BaseController {
             if( Input::has("solo_area") ){
                 $usu_id=Auth::user()->id;
                 $array['where'].="and dd.area_id IN (
-                            SELECT DISTINCT(a.id)
-                            FROM area_cargo_persona acp
-                            INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
-                            INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
-                            WHERE acp.estado=1
-                            AND cp.persona_id='.$usu_id.'
+                                        SELECT DISTINCT(a.id)
+                                        FROM area_cargo_persona acp
+                                        INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                                       INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                        WHERE acp.estado=1
+                                        AND cp.persona_id='.$usu_id.'
                         )";
-            }   
+            }  
             $array['order']=" order by `created_at` desc ";
             
             if( Input::get("tipo")==1 ){
@@ -380,8 +381,8 @@ class DocumentoDigitalController extends \BaseController {
             $DocDigital->correlativo = Input::get('titulo');
             $DocDigital->cuerpo = $html;
             $DocDigital->plantilla_doc_id = Input::get('plantilla');
-            $DocDigital->area_id = Auth::user()->area_id;
-
+            $plantilla= PlantillaDocumento::find(Input::get('plantilla'));
+            $DocDigital->area_id = $plantilla->area_id;
             if(Input::has('chk_todasareas') && Input::get('chk_todasareas') == 'allgesub'){
                 $DocDigital->envio_total = 1;
             }else{

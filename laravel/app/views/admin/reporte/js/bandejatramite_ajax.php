@@ -86,6 +86,15 @@ var Bandeja={
             }
         });
     },
+    Cargar:function(evento,pag){
+        if( typeof(pag)!='undefined' ){
+            $("#form_filtros").append("<input type='hidden' value='"+pag+"' name='page'>");
+        }
+        data=$("#form_filtros").serialize().split("txt_").join("").split("slct_").join("");
+        $("#form_filtros input[type='hidden']").remove();
+        url='bandeja/bandejatramite';
+        masterG.postAjax(url,data,evento);
+    },
     MostrarAjax:function(){
         var datos="";var estado=[];
         var fondo=[];var visto="";
@@ -268,41 +277,6 @@ var Bandeja={
                         $("#error_"+index).attr("data-original-title",datos);
                         $('#error_'+index).css('display','');
                     });
-                }
-            },
-            error: function(){
-                $(".overlay,.loading-img").remove();
-                msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);
-            }
-        });
-
-    },
-    MostrarUsuarios:function(ruta_detalle_id){//si AD es 1, establecer como visto
-        parametros = {ruta_detalle_id:ruta_detalle_id};
-        $.ajax({
-            url         : 'tramite/usuarios',
-            type        : 'POST',
-            cache       : false,
-            dataType    : 'json',
-            data        : parametros,
-            beforeSend : function() {
-                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
-            },
-            success : function(obj) {
-                $(".overlay,.loading-img").remove();
-                if(obj.rst==1){
-                    var html='';
-                    $.each(obj.datos,function(index,data){
-                        html+="<tr>";
-                        html+="<td>"+data.persona+"</td>";
-                        html+="<td>"+data.fecha+"</td>";
-                        html+="<td>"+data.estado+"</td>";
-                        html+="</tr>";
-                    });
-                    $("#tb_usuarios").html(html);
-                    $("#t_usuarios").dataTable();
-                    $('#usuarios_vieron_tramite').modal('show');
-
                 }
             },
             error: function(){

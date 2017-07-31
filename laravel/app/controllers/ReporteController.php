@@ -157,6 +157,7 @@ class ReporteController extends BaseController
             array(
                 'rst'=>1,
                 'datos'=>$oData['data'],
+                'validar' => $oData['validar'],
                 'cabecera'=>$oData['cabecera']
             )
         );
@@ -260,6 +261,90 @@ class ReporteController extends BaseController
           'FECHA FIN',
           'TIEMPO TRANSCURRIDO',
           'FORMATO'
+        );
+        $this->exportExcel($propiedades,'',$cabecera,$rst);
+    }
+    
+        public function getExportdocumentodigital(){
+            $array=array();
+            $array['where']='';
+            
+            if( Input::has("plantilla") ){
+                $plantilla=Input::get("plantilla");
+                if( trim( $plantilla )!='' ){
+                    $array['where'].=" AND pd.descripcion LIKE '%".$plantilla."%' ";
+                }
+            }
+
+            if( Input::has("asunto") ){
+                $asunto=Input::get("asunto");
+                if( trim( $asunto )!='' ){
+                    $array['where'].=" AND dd.asunto LIKE '%".$asunto."%' ";
+                }
+            }
+            
+            if( Input::has("titulo") AND Input::get('titulo')!='' ){
+                 $titulo=explode(" ",trim(Input::get('titulo')));
+                    for($i=0; $i<count($titulo); $i++){
+                       $array['where'].=" AND dd.titulo LIKE '%".$titulo[$i]."%' ";
+                    }
+            }
+            
+            if( Input::has("created_at") ){
+                $created_at=Input::get("created_at");
+                list($fechaIni,$fechaFin) = explode(" - ", $created_at);
+                if( trim( $created_at )!='' ){
+                    $array['where'].=" AND DATE(dd.created_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."'";
+                }
+            }
+            
+            if( Input::has("persona_u") ){
+                $persona_u=Input::get("persona_u");
+                if( trim( $persona_u )!='' ){
+                    $array['where'].=" AND CONCAT_WS(' ',p1.paterno,p1.materno,p1.nombre) LIKE '%".$persona_u."%' ";
+                }
+            }
+            
+            if( Input::has("persona_c") ){
+                $persona_c=Input::get("persona_c");
+                if( trim( $persona_c )!='' ){
+                    $array['where'].=" AND CONCAT_WS(' ',p.paterno,p.materno,p.nombre) LIKE '%".$persona_c."%' ";
+                }
+            }
+            
+            if( Input::has("solo_area") ){
+                $usu_id=Auth::user()->id;
+                $array['where'].="and dd.area_id IN (
+                                        SELECT DISTINCT(a.id)
+                                        FROM area_cargo_persona acp
+                                        INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                                       INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                        WHERE acp.estado=1
+                                        AND cp.persona_id='.$usu_id.'
+                        )";
+            }  
+            $array['order']=" order by `created_at` desc ";
+            
+
+        $rst= DocumentoDigital::getExportDocumento($array); 
+//        var_dump($rst);exit();
+
+        $propiedades = array(
+          'creador'=>'Gerencia Modernizacion',
+          'subject'=>'Mis Actividades',
+          'tittle'=>'Mis Actividades',
+          'font-name'=>'Bookman Old Style',
+          'font-size'=>8,
+        );
+
+        $cabecera = array(
+          'Nº',
+          'CREADOR',
+          'ACTUALIZÓ',
+          'TÍTULO',
+          'ASUNTO',
+          'FECHA CREACIÓN',
+          'PLANTILLA',
         );
         $this->exportExcel($propiedades,'',$cabecera,$rst);
     }
@@ -1327,6 +1412,56 @@ class ReporteController extends BaseController
                 'datos'=>$result
             )
         );
+    }
+    
+    public function postHistoricoinventario(){
+            $array=array();
+            $array['where'] = '';
+
+            if( Input::has("fecha") ){
+                $fecha=Input::get("fecha");
+                    list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+                    $array['where'].=" AND date(ii.created_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+            }
+
+        $result = Inmueble::getCargarHistorico($array);
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$result
+            )
+        );
+    }
+    
+        public function getExporthistoricoinventario(){
+
+        $array=array();
+        $array['where'] = '';
+
+        if( Input::has("fecha") ){
+                $fecha=Input::get("fecha");
+                 list($fechaIni,$fechaFin) = explode(" - ", $fecha);
+                 $array['where'].=" AND date(ii.created_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+        }
+        $rst = Inmueble::getCargarHistorico($array);
+        
+
+        $propiedades = array(
+          'creador'=>'Gerencia Modernizacion',
+          'subject'=>'Reporte de Inventario',
+          'tittle'=>'Personal',
+          'font-name'=>'Bookman Old Style',
+          'font-size'=>8,
+        );
+
+        $cabecera = array(
+          'N°',
+          'ÁREA',
+          'CÓDIGO PATRIMONIAL',
+          'CÓDIGO INTERNO',
+          'ÚLTIMO'
+        );
+        $this->exportExcel($propiedades,'',$cabecera,$rst);
     }
     
         public function postReporteinventario(){
@@ -2830,11 +2965,12 @@ class ReporteController extends BaseController
       array_unshift($data,(object) $cabecera1);
       array_unshift($data,(object) $cabecera);
       
-     
+
       foreach($data as $key => $value){          
         $cont = 0;
         $auxi=1;
         $auxi1=0;
+        $auxi2=0;
         $value_aux=json_decode(json_encode($value), true);
         if ($key>1){
         $auxi=$value->envio_actividad; 
@@ -2848,7 +2984,7 @@ class ReporteController extends BaseController
         }
         $a=0;
         foreach($value as $index => $val){
-          
+
           $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension($head[$cont])->setAutoSize(true);
           
           if($index == 'norden' && $key > 1){ //set orden in excel
@@ -2862,6 +2998,14 @@ class ReporteController extends BaseController
               { 
               $cont--;
               $auxi1=$value_aux[$index];
+              }
+          else if ( $index == 'v1' or $index == 'v2' or $index == 'v3' or $index == 'v4' or $index == 'v5' or $index == 'v6' or $index == 'v7' or $index == 'v8' or
+                $index == 'v9' or $index == 'v10' or $index == 'v11' or $index == 'v12' or $index == 'v13' or $index == 'v14' or $index == 'v15' or $index == 'v16' or
+                $index == 'v17' or $index == 'v18' or $index == 'v19' or $index == 'v20' or $index == 'v21' or $index == 'v22' or $index == 'v23' or $index == 'v24' or
+                $index == 'v25' or $index == 'v26' or $index == 'v27' or $index == 'v28' or $index == 'v29' or $index == 'v30' or $index == 'v31' or $index == 'v32')
+              { 
+              $cont--;
+              $auxi2=$value_aux[$index];
               }
           else{ //poblate info
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue($head[$cont].($key + 1), $val);
@@ -2880,12 +3024,19 @@ class ReporteController extends BaseController
                 $index != 'f25' && $index != 'f26' && $index != 'f27' && $index != 'f28' && $index != 'f29' && $index != 'f30' && $index != 'f31' && $index != 'f32'){
             $objPHPExcel->getActiveSheet()->getStyle($head[$cont-1].($key + 1).':'.$head[$cont].($key + 1), $val)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('FFA027');
             }
-            else if ($key>1 && $val==0 && substr($val, 3, 2)==0  && $index != 'persona' && $index != 'area' && $index != 'f_total' && $index != 'h_total' && 
+            else if ($key>1 && $val==0 && substr($val, 3, 2)==0  && $auxi2!=5 && $auxi2!=6 && $index != 'persona' && $index != 'area' && $index != 'f_total' && $index != 'h_total' && 
                 $index != 'f1' && $index != 'f2' && $index != 'f3' && $index != 'f4' && $index != 'f5' && $index != 'f6' && $index != 'f7' && $index != 'f8' &&
                 $index != 'f9' && $index != 'f10' && $index != 'f11' && $index != 'f12' && $index != 'f13' && $index != 'f14' && $index != 'f15' && $index != 'f16' &&
                 $index != 'f17' && $index != 'f18' && $index != 'f19' && $index != 'f20' && $index != 'f21' && $index != 'f22' && $index != 'f23' && $index != 'f24' &&
                 $index != 'f25' && $index != 'f26' && $index != 'f27' && $index != 'f28' && $index != 'f29' && $index != 'f30' && $index != 'f31' && $index != 'f32'){
             $objPHPExcel->getActiveSheet()->getStyle($head[$cont-1].($key + 1).':'.$head[$cont].($key + 1), $val)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('FE4E4E');
+            }
+            else if ($key>1 &&  $val==0 && ($auxi2==5 or $auxi2==6) && $index != 'persona' && $index != 'area' && $index != 'f_total' && $index != 'h_total' && 
+                $index != 'f1' && $index != 'f2' && $index != 'f3' && $index != 'f4' && $index != 'f5' && $index != 'f6' && $index != 'f7' && $index != 'f8' &&
+                $index != 'f9' && $index != 'f10' && $index != 'f11' && $index != 'f12' && $index != 'f13' && $index != 'f14' && $index != 'f15' && $index != 'f16' &&
+                $index != 'f17' && $index != 'f18' && $index != 'f19' && $index != 'f20' && $index != 'f21' && $index != 'f22' && $index != 'f23' && $index != 'f24' &&
+                $index != 'f25' && $index != 'f26' && $index != 'f27' && $index != 'f28' && $index != 'f29' && $index != 'f30' && $index != 'f31' && $index != 'f32'){
+            $objPHPExcel->getActiveSheet()->getStyle($head[$cont-1].($key + 1).':'.$head[$cont].($key + 1), $val)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('FFFF66');
             }
             
            }

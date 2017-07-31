@@ -131,7 +131,7 @@ class RutaController extends \BaseController
     {   
 
         if ( Input::has('info') ) {
-
+            
             /*validate date*/
             $dayweek = date('w');
             $sumlast = 7 - $dayweek;
@@ -163,17 +163,56 @@ class RutaController extends \BaseController
                     DB::beginTransaction();
                     $ttranscurrido = $value['ttranscurrido'];
                     $minTrascurrido = explode(':', $ttranscurrido)[0] * 60 + explode(':', $ttranscurrido)[1];
-
+                    $adicional= (((strtotime($value['ffin'])-strtotime($value['finicio']))/ 86400)*24)*60;
+                    $minTrascurrido=$adicional+$minTrascurrido;
                     $acti_personal = new ActividadPersonal();
                     $acti_personal->actividad = $value['actividad'];
                     $acti_personal->fecha_inicio = date("Y-m-d", strtotime($value['finicio']))." ".explode(' ',$value['hinicio'])[0];
                     $acti_personal->dtiempo_final = date("Y-m-d", strtotime($value['ffin']))." ".explode(' ',$value['hfin'])[0];
                     $acti_personal->ot_tiempo_transcurrido = $minTrascurrido;
+                    $acti_personal->cantidad = $value['cantidad'];
+                    $acti_personal->tipo = $value['tipo'];
+                    if(array_key_exists('actividadasignada', $value)){
+                    if(trim($value['actividadasignada'])!=''){
+                        $acti_personal->actividad_asignada_id = $value['actividadasignada'];
+                    }else {
+                        $acti_personal->actividad_asignada_id = null;
+                    }}else {
+                        $acti_personal->actividad_asignada_id = null;
+                    }
                     $acti_personal->persona_id = $Persona->id;
                     $acti_personal->area_id = $Persona->area_id;
                     $acti_personal->usuario_created_at = Auth::user()->id;
 
                     $acti_personal->save();
+                    
+                    if($acti_personal->id){
+//                        var_dump($value['archivo'][1]);exit();
+                            for($i=1;$i<count($value['archivo']);$i++){
+                                $dato=explode('|', $value['archivo'][$i]);
+                                
+                                $url = "file/actividad/".date("Y-m-d")."-".$dato[0];
+                                $this->fileToFile($dato[1], $url);
+                                $ruta=date("Y-m-d").'-'.$dato[0];
+                                
+                                $acti_personal_archivo = new ActividadPersonalArchivo();
+                                $acti_personal_archivo->actividad_personal_id=$acti_personal->id;
+                                $acti_personal_archivo->ruta=$ruta;
+                                $acti_personal_archivo->usuario_created_at = Auth::user()->id;
+                                $acti_personal_archivo->save();
+                            }
+                        
+                            for($i=1;$i<count($value['documento']);$i++){
+
+                                $acti_personal_archivo = new ActividadPersonalDocdigital();
+                                $acti_personal_archivo->actividad_personal_id=$acti_personal->id;
+                                $acti_personal_archivo->doc_digital_id=$value['documento'][$i];
+                                $acti_personal_archivo->usuario_created_at = Auth::user()->id;
+                                $acti_personal_archivo->save();
+                            }
+                        
+                    }
+                    
                     DB::commit();
                 }else{
                     $array_noregistrados[]=$fechaActual;
@@ -186,6 +225,27 @@ class RutaController extends \BaseController
                             'registro' => implode(",", $array_noregistrados)
                     );  
         }}
+    }
+    
+            public function fileToFile($file, $url){
+        if ( !is_dir('file') ) {
+            mkdir('file',0777);
+        }
+        if ( !is_dir('file/meta') ) {
+            mkdir('file/actividad',0777);
+        }
+
+        list($type, $file) = explode(';', $file);
+        list(, $type) = explode('/', $type);
+        if ($type=='jpeg') $type='jpg';
+        if (strpos($type,'document')!==False) $type='docx';
+        if (strpos($type, 'sheet') !== False) $type='xlsx';
+        if (strpos($type, 'pdf') !== False) $type='pdf';
+        if ($type=='plain') $type='txt';
+        list(, $file)      = explode(',', $file);
+        $file = base64_decode($file);
+        file_put_contents($url , $file);
+        return $url. $type;
     }
 
 }

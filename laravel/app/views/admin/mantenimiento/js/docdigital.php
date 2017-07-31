@@ -12,9 +12,10 @@ $(document).ready(function() {
                 persona_u        :'onBlur|Actualizó|#DCE6F1', //#DCE6F1
                 titulo      :'onBlur|Título|#DCE6F1', //#DCE6F1
                 asunto        :'onBlur|Asunto|#DCE6F1', //#DCE6F1
-                a        :'1|Fecha Creación|#DCE6F1', //#DCE6F1
+                created_at        :'onChange|Fecha Creación|#DCE6F1|fecharanG', //#DCE6F1
+                a        :'1|Editar Fecha|#DCE6F1', //#DCE6F1
                 plantilla        :'onBlur|Plantilla|#DCE6F1', //#DCE6F1
-                b        :'1|Editar|#DCE6F1', //#DCE6F1
+                b        :'1|Editar Doc.|#DCE6F1', //#DCE6F1
                 c        :'1|Vista Previa|#DCE6F1', //#DCE6F1
                 d        :'1|Vista Impresión|#DCE6F1', //#DCE6F1
                 
@@ -35,7 +36,7 @@ $(document).ready(function() {
                 persona_u        :'onBlur|Actualizó|#DCE6F1', //#DCE6F1
                 titulo      :'onBlur|Título|#DCE6F1', //#DCE6F1
                 asunto        :'onBlur|Asunto|#DCE6F1', //#DCE6F1
-                created_at        :'onChange|Fecha Creación|#DCE6F1|fechaG', //#DCE6F1
+                created_at        :'onChange|Fecha Creación|#DCE6F1|fecharanG', //#DCE6F1
                 plantilla        :'onBlur|Plantilla|#DCE6F1', //#DCE6F1
                 c        :'1|Vista Previa|#DCE6F1', //#DCE6F1
              };
@@ -78,38 +79,50 @@ $(document).ready(function() {
         }
     });
     
+    $(document).on('click', '#btnexport', function(event) {
+        var datos=$("#form_docdigitales").serialize().split("txt_").join("").split("slct_").join("");
+        console.log(datos);
+        $(this).attr('href','reporte/exportdocumentodigital'+'?datos='+datos);            
+
+    });
     
-    
-        $('.fechaG').daterangepicker({
+    $('.fechaG').daterangepicker({
         format: 'YYYY-MM-DD',
         singleDatePicker: true,
+        showDropdowns: true
+    });
+
+    
+    $('.fecharanG').daterangepicker({
+        format: 'YYYY-MM-DD',
+        singleDatePicker: false,
         showDropdowns: true
     });
 });
 
 GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
-    if(typeof(fn)!='undefined' && fn.col==1){
-        return row.nemonico+"<input type='hidden' name='txt_imagen' value='"+row.imagen+"'><input type='hidden' name='txt_imagenc' value='"+row.imagenc+"'><input type='hidden' name='txt_imagenp' value='"+row.imagenp+"'>";
-    }
-    if(typeof(fn)!='undefined' && fn.col==4){
-        return row.created_at+"<br><span onclick='FlotanteFecha(1); return false;' class='btn btn-warning' data-toggle='modal' data-target='#fechaModal' data-documento='"+row.titulo+"' data-id='"+row.id+"' data-fecha='"+row.created_at+"' id='btn_buscar_docs'>"+
+//    if(typeof(fn)!='undefined' && fn.col==1){
+//        return row.nemonico+"<input type='hidden' name='txt_imagen' value='"+row.imagen+"'><input type='hidden' name='txt_imagenc' value='"+row.imagenc+"'><input type='hidden' name='txt_imagenp' value='"+row.imagenp+"'>";
+//    }
+    if(typeof(fn)!='undefined' && fn.col==5){
+        return "<br><span onclick='FlotanteFecha(1); return false;' class='btn btn-warning' data-toggle='modal' data-target='#fechaModal' data-documento='"+row.titulo+"' data-id='"+row.id+"' data-fecha='"+row.created_at+"' id='btn_buscar_docs'>"+
                                                     '<i class="fa fa-pencil fa-xs"></i>'+
                                                 '</span>';
     }
     if(typeof(fn)!='undefined' && fn.col==6){
-        if(row.tipo==1){
-            return "<a class='btn btn-primary btn-sm' onclick='editDocDigital("+row.id+",1); return false;' data-titulo='Editar'><i class='glyphicon glyphicon-pencil'></i> </a>";
-        }
-        if(row.tipo==2){
-            return "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",4,0); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A4</i> </a>"+
+        return "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",4,0); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A4</i> </a>"+
                    "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",5,0); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A5</i> </a>";
-        }
+
     }
     if(typeof(fn)!='undefined' && fn.col==7){
+        return "<a class='btn btn-primary btn-sm' onclick='editDocDigital("+row.id+",1); return false;' data-titulo='Editar'><i class='glyphicon glyphicon-pencil'></i> </a>";
+    
+    }
+    if(typeof(fn)!='undefined' && fn.col==8){
         return "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",4,0); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A4</i> </a>"+
                    "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",5,0); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A5</i> </a>";
     }
-    if(typeof(fn)!='undefined' && fn.col==8){
+    if(typeof(fn)!='undefined' && fn.col==9){
        if($.trim(row.ruta) != 0  || $.trim(row.rutadetallev) != 0){
            return "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",4,1); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A4</i> </a>"+
                   "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",5,1); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A5</i> </a>";

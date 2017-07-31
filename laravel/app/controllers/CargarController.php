@@ -456,14 +456,14 @@ class CargarController extends BaseController
                         if( count($ainterna)==0 ){
                             $arrayExist[]=$detfile[0]."; No cuenta con Ruta revise cod area de plataforma ingresado.";
                         }
-                        elseif( strtoupper(substr($ainterna->nombre,0,3))=='SUB' AND 
-                                ( strtoupper($tdoc[0])=='DS' OR strtoupper($tdoc[0])=='EX' ) AND
-                                $ainterna->id!=20 AND $ainterna->id!=23 AND $ainterna->id!=29 AND 
-                                $ainterna->id!=36 AND $ainterna->id!=40
-                        )
-                        {
-                            $arrayExist[]=$detfile[0]."; No se puede ingresar el tipo de tramite DS ni EX para sub gerencias";
-                        }
+//                        elseif( strtoupper(substr($ainterna->nombre,0,3))=='SUB' AND 
+//                                ( strtoupper($tdoc[0])=='DS' OR strtoupper($tdoc[0])=='EX' ) AND
+//                                $ainterna->id!=20 AND $ainterna->id!=23 AND $ainterna->id!=29 AND 
+//                                $ainterna->id!=36 AND $ainterna->id!=40
+//                        )
+//                        {
+//                            $arrayExist[]=$detfile[0]."; No se puede ingresar el tipo de tramite DS ni EX para sub gerencias";
+//                        }
                         else{
                         $exist=TablaRelacion::where('id_union','=',$detfile[0])
                                             ->where('estado','=','1')

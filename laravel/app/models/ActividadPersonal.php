@@ -30,4 +30,26 @@ class ActividadPersonal extends Base
           
           return $result;
     }
+    
+        public static function getCargarCount( $array )
+    {
+        $sSql=" SELECT  COUNT(ap.id) cant
+                FROM actividad_personal ap
+                WHERE 1=1 ";
+        $sSql.= $array['where'];
+        $oData = DB::select($sSql);
+        return $oData[0]->cant;
+    }
+
+    public static function getCargar( $array )
+    {
+        $sSql=" SELECT ap.id, ap.actividad, ap.estado
+                FROM actividad_personal ap
+                WHERE 1=1 ";
+        $sSql.= $array['where'].
+                $array['order'].
+                $array['limit'];
+        $oData = DB::select($sSql);
+        return $oData;
+    }
 }

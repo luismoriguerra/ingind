@@ -17,11 +17,13 @@ var Asignar={
                      var dataG = [];
                     dataG = {fecha:'<?php echo date("Y-m-d") ?>'};
                     Asignar.CargarOrdenTrabajoDia(dataG);  
-                    $("#ConfirmacionModal").modal('hide');
-                    $(".ordenesT input[type='hidden'],.ordenesT input[type='numeric'],.ordenesT input[type='text'],.ordenesT select,.ordenesT textarea").val("");
+                    $(".ordenesT input[type='hidden'],.ordenesT input[type='numeric'],.ordenesT input[type='text'],.ordenesT select,.ordenesT textarea").not(".mant").val("");
                     $('.ordenesT select').multiselect('refresh');  
                     $(".filtros input[type='hidden'],.filtros input[type='text'],.filtros select,.filtros textarea").val("");
                     $('.filtros select').multiselect('refresh');
+                    $(".valido input[id='txt_cantidad']").val("0");
+                    $( ".valido .btnDelete" ).click();
+                    $(".valido .table tbody tr:visible").remove();
                     msjG.mensaje('success','Registrado Correctamente',4000);
                     if(obj.registro != ''){
                         msjG.mensaje('danger','Fechas no registradas: '+obj.registro,40000);                        

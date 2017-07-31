@@ -68,7 +68,8 @@ class TipoRespuesta extends Base
                     function($query){
                         if ( Input::get('estado') ) {
                             $query->where('tr.estado', '=', Input::get('estado') )
-                                ->where('ftr.estado', '=', Input::get('estado') );
+//                                ->where('ftr.estado', '=', Input::get('estado') )
+                                ;
                         }
 
                         if ( Input::get('flujo_id') ) {
