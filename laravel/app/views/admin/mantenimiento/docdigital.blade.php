@@ -6,13 +6,21 @@
     {{ HTML::script('lib/ckeditor/ckeditor.js') }}
     {{ HTML::style('css/admin/plantilla.css') }}
     {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
-    {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }}
-    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
-    {{ HTML::script('lib/jquery-bootstrap-validator/bootstrapValidator.min.css') }}
-    {{ HTML::script('lib/jquery-bootstrap-validator/bootstrapValidator.min.js') }}
     {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
+    {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
+     {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }}
 
+    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
+
+<!--    {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }}-->
+
+    {{ HTML::script('lib/jquery-bootstrap-validator/bootstrapValidator.min.css') }}
+    {{ HTML::script('lib/jquery-bootstrap-validator/bootstrapValidator.min.js') }}
+
+<!--{{ Html::style('lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}
+{{ Html::script('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}
+{{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}-->
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
     @include( 'admin.mantenimiento.js.docdigital_ajax' )

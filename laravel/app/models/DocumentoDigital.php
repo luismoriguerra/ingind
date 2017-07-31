@@ -150,6 +150,20 @@ class DocumentoDigital extends Base {
         $oData = DB::select($sSql);
         return $oData;
     }
+            public static function getExportDocumento( $array )
+    {  
+        $sSql=' select 1 as norden,CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona_c,CONCAT_WS(" ",p1.paterno,p1.materno,p1.nombre) as persona_u
+                    , `dd`.`titulo`
+                    , `dd`.`asunto`,DATE(dd.created_at)as created_at, `pd`.`descripcion` as `plantilla`
+                from `doc_digital` as `dd` 
+                inner join `plantilla_doc` as `pd` on `dd`.`plantilla_doc_id` = `pd`.`id` 
+                left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
+                left join `personas` as `p1` on `p1`.`id` = `dd`.`usuario_updated_at` 
+                WHERE `dd`.`estado`= 1 ';
+        $sSql.= $array['where'];
+        $oData = DB::select($sSql);
+        return $oData;
+    }
 
       public static function getCargarRelacionAreaCount( $array )
     {   

@@ -55,8 +55,9 @@ class DocumentoDigitalController extends \BaseController {
             
             if( Input::has("created_at") ){
                 $created_at=Input::get("created_at");
+                list($fechaIni,$fechaFin) = explode(" - ", $created_at);
                 if( trim( $created_at )!='' ){
-                    $array['where'].=" AND DATE(dd.created_at) = '".$created_at."' ";
+                    $array['where'].=" AND DATE(dd.created_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."'";
                 }
             }
             
