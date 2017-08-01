@@ -109,4 +109,31 @@ class MetaCuadro extends Base
         $oData = DB::select($sSql);
         return $oData;
     }
+    
+            public static function getCumplimientoMeta($array) {
+        $sql='';
+        $sql.=" SELECT m.nombre as meta,
+                mc.actividad,
+                mc.fecha
+                ,COUNT( DISTINCT ma.id) as archivo
+                ,COUNT( DISTINCT md.id) as documento
+                ,(IF(COUNT( DISTINCT ma.id)>=1,100,0)+
+                IF(COUNT( DISTINCT md.id)>=1,100,0))/2 as porcentaje,
+                CASE 
+                WHEN  (IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2=100 THEN 'SI' 
+                WHEN  (IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2=0 THEN 'NO' 
+                WHEN  (IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2=0 THEN 'NO'
+                ELSE 'x' END estado
+                FROM metas_cuadro mc
+                INNER JOIN metas m ON m.id=mc.meta_id
+                LEFT JOIN metas_archivo ma ON ma.avance_id=mc.id AND ma.tipo_avance=2 AND ma.estado=1
+                LEFT JOIN metas_docdigital md ON md.avance_id=mc.id AND md.tipo_avance=2 AND md.estado=1 ";
+        $sql.= "WHERE 1=1";
+        $sql.= $array['where'];
+        $sql.=" GROUP BY mc.id
+                ORDER BY m.id,mc.actividad
+                ";
+        $r =DB::select($sql);
+        return $r;
+    }
 }
