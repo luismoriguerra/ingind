@@ -152,6 +152,7 @@ var Usuario={
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
             success : function(obj) {
+                //console.debug(JSON.stringify(obj));
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){  
                     HTMLOrdenesTrabajo(obj.datos);

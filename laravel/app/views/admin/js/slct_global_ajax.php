@@ -196,6 +196,7 @@ var slctGlobal={
 var dataTableG={
     CargarCab:function(cab){
         var r=[];var clase='';var option=''; var visible=true;
+        console.debug(cab);
         $.each(cab, 
             function(id, val) {
                 var rand=Math.floor((Math.random() * 100) + 1);

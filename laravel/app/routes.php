@@ -201,5 +201,9 @@ Route::controller('Categoriaevento', 'CategoriaEventoController');
 Route::controller('meta', 'MetaController');
 Route::controller('reportetramite', 'ReporteTramiteController');
 Route::controller('mensajedetalle', 'MensajeDetalleController');
+
+Route::controller('proveedor', 'ProveedorController');
+Route::controller('reportegastos', 'ReporteGastosController');
+Route::controller('gastos', 'GastosController');
 Route::controller('actividadpersonal', 'ActividadPersonalController');
 Route::controller('bandeja', 'BandejaController');
