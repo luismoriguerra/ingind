@@ -206,7 +206,7 @@ class ProveedorController extends \BaseController
         }
     }
     
-    // MUESTRA SALDOS POR PAGAR
+    // MUESTRA LISTA DE SALDOS POR PAGAR POR CADA PROVEEDOR
     public function postMostrarsaldospagar()
     {
         if( Input::has("id") )
