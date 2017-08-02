@@ -112,17 +112,18 @@ class MetaCuadro extends Base
     
             public static function getCumplimientoMeta($array) {
         $sql='';
-        $sql.=" SELECT m.nombre as meta,
-                mc.actividad,
-                mc.fecha
-                ,COUNT( DISTINCT ma.id) as archivo
-                ,COUNT( DISTINCT md.id) as documento
-                ,(IF(COUNT( DISTINCT ma.id)>=1,100,0)+
-                IF(COUNT( DISTINCT md.id)>=1,100,0))/2 as porcentaje,
-                CASE 
-                WHEN  (IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2=100 THEN 'SI' 
+        $sql.=" SELECT 
+                m.nombre as meta
+                ,mc.actividad
+                ,mc.fecha
+                -- ,COUNT( DISTINCT ma.id) as archivo
+                -- ,COUNT( DISTINCT md.id) as documento
+                ,(IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2 as porcentaje
+                ,CASE 
+                WHEN  ((IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2<100) AND DATE_SUB(mc.fecha, INTERVAL 6 day)>CURDATE()  THEN 'A TIEMPO' 
+                WHEN  ((IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2<100) AND mc.fecha BETWEEN DATE_SUB(CURDATE(), INTERVAL 5 day) AND CURDATE()   THEN 'ALERTA' 
+                WHEN  (IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2=100 THEN 'SI'
                 WHEN  (IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2=0 THEN 'NO' 
-                WHEN  (IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2=0 THEN 'NO'
                 ELSE 'x' END estado
                 FROM metas_cuadro mc
                 INNER JOIN metas m ON m.id=mc.meta_id
