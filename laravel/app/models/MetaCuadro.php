@@ -123,12 +123,20 @@ class MetaCuadro extends Base
                 WHEN  ((IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2<100) AND DATE_SUB(mc.fecha, INTERVAL 6 day)>CURDATE()  THEN 'A TIEMPO' 
                 WHEN  ((IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2<100) AND mc.fecha BETWEEN DATE_SUB(CURDATE(), INTERVAL 5 day) AND CURDATE()   THEN 'ALERTA' 
                 WHEN  (IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2=100 THEN 'SI'
-                WHEN  (IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2=0 THEN 'NO' 
-                ELSE 'x' END estado
+                WHEN  (IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2<100 THEN 'NO' 
+                ELSE '' END estado,
+                -- COUNT(DISTINCT mf.id) desglose,
+                -- COUNT(DISTINCT ma1.id) archivo,
+                -- COUNT(DISTINCT md1.id) documento,
+                ((IF(COUNT( ma1.id)>1,1,COUNT( ma1.id))/COUNT( mf.id))+(IF(COUNT( md1.id)>1,1,COUNT( md1.id))/COUNT( mf.id))/2)*100 as des_por
                 FROM metas_cuadro mc
                 INNER JOIN metas m ON m.id=mc.meta_id
+                INNER JOIN metas_fechavencimiento mf ON mf.meta_cuadro_id=mc.id AND mf.tipo=1 and mf.estado=1
                 LEFT JOIN metas_archivo ma ON ma.avance_id=mc.id AND ma.tipo_avance=2 AND ma.estado=1
-                LEFT JOIN metas_docdigital md ON md.avance_id=mc.id AND md.tipo_avance=2 AND md.estado=1 ";
+                LEFT JOIN metas_docdigital md ON md.avance_id=mc.id AND md.tipo_avance=2 AND md.estado=1
+
+                LEFT JOIN metas_archivo ma1 ON ma1.avance_id=mf.id AND ma1.tipo_avance=3 AND ma1.estado=1
+                LEFT JOIN metas_docdigital md1 ON md1.avance_id=mf.id AND md1.tipo_avance=3 AND md1.estado=1 ";
         $sql.= "WHERE 1=1";
         $sql.= $array['where'];
         $sql.=" GROUP BY mc.id

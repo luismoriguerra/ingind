@@ -43,14 +43,28 @@ HTMLreporte=function(datos){
     $('#t_reporte').dataTable().fnDestroy();
     cont = 0;
     $.each(datos,function(index,data){
+        var style="";
+        if(data.estado=='SI'){
+            var style=';background-color:#7BF7AE';
+        }
+        else if(data.estado=='NO'){
+            var style=';background-color:#FE4E4E';  
+        }
+        else if(data.estado=='A TIEMPO'){
+            var style=';background-color:#ffff66'; 
+        }
+        else if(data.estado=='ALERTA'){
+        var style=';background-color:#FFA027';
+        }
         cont=cont+1;
-        html+="<tr>"+
+        html+="<tr style='"+style+"'>"+
             "<td>"+ cont +"</td>"+
             "<td>"+data.meta+"</td>"+
             "<td>"+data.actividad+"</td>"+
             "<td>"+data.fecha+"</td>"+
             "<td>"+data.estado+"</td>"+
-            "<td>"+data.porcentaje+"%</td>";
+            "<td>"+parseInt(data.porcentaje).toFixed(2)+" %</td>"+
+            "<td>"+parseInt(data.des_por).toFixed(2)+" %</td>";
         html+="</tr>";
     });
     $("#tb_reporte").html(html);

@@ -64,7 +64,8 @@
                                         <th>Actividad</th>
                                         <th>Vencimiento</th>
                                         <th>Cumplimiento</th>
-                                        <th>Porcentaje</th>
+                                        <th>Porcentaje Actividad</th>
+                                        <th>Porcentaje Desglose</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_reporte">
