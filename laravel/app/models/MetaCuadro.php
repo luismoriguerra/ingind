@@ -120,10 +120,11 @@ class MetaCuadro extends Base
                 -- ,COUNT( DISTINCT md.id) as documento
                 ,TRUNCATE((IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2,1) as porcentaje
                 ,CASE 
+                WHEN  (IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2=100 THEN 'SI'
+                WHEN  (IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2<99 AND CURDATE()>mc.fecha THEN 'NO' 
                 WHEN  ((IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2<100) AND DATE_SUB(mc.fecha, INTERVAL 6 day)>CURDATE()  THEN 'A TIEMPO' 
                 WHEN  ((IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2<100) AND mc.fecha BETWEEN DATE_SUB(CURDATE(), INTERVAL 5 day) AND CURDATE()   THEN 'ALERTA' 
-                WHEN  (IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2=100 THEN 'SI'
-                WHEN  (IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2<100 THEN 'NO' 
+
                 ELSE '' END estado,
                 -- COUNT(DISTINCT mf.id) desglose,
                 -- COUNT(DISTINCT ma1.id) archivo,
