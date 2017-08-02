@@ -65,8 +65,6 @@ HTMLreporte=function(datos){
             "<td>"+data.estado+"</td>"+
             "<td>"+data.porcentaje+" %</td>"+
             "<td>"+data.des_por+" %</td>";
-//            "<td>"+parseInt(data.porcentaje).toFixed(2)+" %</td>"+
-//            "<td>"+parseInt(data.des_por).toFixed(2)+" %</td>";
         html+="</tr>";
     });
     $("#tb_reporte").html(html);
