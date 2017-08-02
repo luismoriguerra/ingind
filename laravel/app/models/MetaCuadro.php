@@ -128,7 +128,7 @@ class MetaCuadro extends Base
                 -- COUNT(DISTINCT mf.id) desglose,
                 -- COUNT(DISTINCT ma1.id) archivo,
                 -- COUNT(DISTINCT md1.id) documento,
-                IF(COUNT(DISTINCT ma1.id)>1,1,COUNT(DISTINCT ma1.id))/COUNT(DISTINCT mf.id)/2 + IF(COUNT(DISTINCT md1.id)>1,1,COUNT(DISTINCT md1.id))/COUNT(DISTINCT mf.id)/2
+                IF(COUNT(DISTINCT ma1.id)>1,1,COUNT(DISTINCT ma1.id))/COUNT(DISTINCT mf.id)/2 + IF(COUNT(DISTINCT md1.id)>1,1,COUNT(DISTINCT md1.id))/COUNT(DISTINCT mf.id)/2 as por_des
                 FROM metas_cuadro mc
                 INNER JOIN metas m ON m.id=mc.meta_id
                 INNER JOIN metas_fechavencimiento mf ON mf.meta_cuadro_id=mc.id AND mf.tipo=1 and mf.estado=1
