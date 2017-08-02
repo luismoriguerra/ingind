@@ -105,7 +105,7 @@ class MetaCuadro extends Base
                 WHERE mc.estado=1
                 ";
         $sSql.= $array['where'];
-        $sSql.="ORDER BY m.id,mc.id,mf2.fecha,mf1.fecha DESC";
+        $sSql.="ORDER BY m.id,mc.id,id_d,mf2.fecha,mf1.fecha DESC";
         $oData = DB::select($sSql);
         return $oData;
     }
