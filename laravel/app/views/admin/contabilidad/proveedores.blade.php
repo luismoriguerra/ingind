@@ -23,7 +23,7 @@
 @section('contenido')
 <style type="text/css">
     .columntext{
-        width: 120px !important;
+        width: 100px !important;
     }
 </style>
     <!-- Content Header (Page header) -->

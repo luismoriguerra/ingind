@@ -49,7 +49,7 @@
                               </div>
                             </div>
 
-                            <div class="col-md-2 text-center">
+                            <div class="col-md-2 text-center" style="padding-left: 0px;">
                               <label class="control-label">&nbsp;Expediente</label>
                               
                               <div class="input-group">
@@ -58,7 +58,7 @@
                               </div>
                             </div>
 
-                            <div class="col-md-3 text-center">
+                            <div class="col-md-3 text-center" style="padding-left: 0px;">
                               <label class="control-label">&nbsp;Nombre Proveedor</label>
                               
                               <div class="input-group">
@@ -66,15 +66,16 @@
                                 <input type="text" class="form-control" placeholder="NOMBRE" name="txt_proveedor" id="txt_proveedor">
                               </div>
                             </div>
-                            <div class="col-md-3 text-center">
+                            
+                            <div class="col-md-2 text-center" style="padding-left: 0px; padding-right: 0px;">
                               <label class="control-label">&nbsp;Observaci&oacute;n</label>
                               <div class="input-group">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></span>
                                 <input type="text" class="form-control" placeholder="OBSERVACION" name="txt_observacion" id="txt_observacion">
                               </div>
                             </div>
-
-                             <div class="col-md-2">                            
+                            
+                             <div class="col-md-3  text-left">                            
                                 <label class="control-label" style="margin-top: 28px;">&nbsp;</label>
 
                                 <button type="button" class="btn btn-primary" id="generar" name="generar">
@@ -82,15 +83,28 @@
                                 </button>&nbsp;
                                 <button type="button" class="btn btn-default" id="limpiar" name="limpiar">
                                   <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-                                </button>
+                                </button>&nbsp;
+
+                                <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Export</i></a>
                              </div>
+                             
+
                         </div>
                     </div>
 
                     <div class="row form-group" >
                         <div class="col-md-12">
-                            <div class="col-md-3"></div>
-                            <label class="col-sm-1 control-label text-right" style="padding-top: 8px; padding-right: 0px;">Fechas</label>
+                            <!--
+                            <label class="col-md-1 control-label text-right" style="padding-top: 8px; padding-right: 0px;">Observaci&oacute;n</label>
+                            <div class="col-md-4">
+                              <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></span>
+                                <input type="text" class="form-control" placeholder="OBSERVACION" name="txt_observacion" id="txt_observacion">
+                              </div>
+                            </div>
+                            -->
+                            <div class="col-md-2"></div>
+                            <label class="col-md-1 control-label text-right" style="padding-top: 8px; padding-right: 0px;">Fechas</label>
                             <div class="col-md-2">                
                                 <div class="input-group">
                                   <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
@@ -103,7 +117,16 @@
                                   <input type="text" class="form-control fechas" placeholder="FINAL" id="fecha_fin" name="fecha_fin" />
                                 </div>
                             </div>
-                            <div class="col-md-4"></div>
+                            
+                            <div class="col-md-2" style="padding-left: 0px; padding-top: 6px;">
+                                <div class="checkbox">
+                                  <label>
+                                    <input type="checkbox" class="form-control checkbox" id="txt_saldos_pago" name="txt_saldos_pago" value="S"> Saldos de Pago
+                                  </label>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2"></div>
                         </div>
                     </div>
                     
@@ -113,18 +136,20 @@
                   <div class="row form-group" id="tramite_asignado" >
                     <div class="col-sm-12">
                       <div class="box-body table-responsive">
-                         <table id="t_ordenest_" class="table table-bordered">
+                         <table id="t_ordenest" class="table table-bordered">
                             <thead>
                                <tr>
-                                   <th width="4%">&nbsp;</th>
+                                   <!-- <th width="4%">&nbsp;</th> -->
                                    <th width="10%">Expediente</th>
                                    <th width="6%">Fase</th>
                                    <th width="11%">Monto S/.</th>
                                    <th width="10%">Fecha Doc.</th>
                                    <th>Documento</th>
+                                   <th>Nro. Doc.</th>
                                    <th>Ruc</th>
                                    <th>Proveedor</th>
-                                   <!-- <th>Observaci&oacute;n</th> -->
+                                   <th>Esp. D</th>
+                                   <th>Observaci&oacute;n</th>
                                </tr>
                             </thead>
                             <tbody id="tb_ordenest"></tbody>

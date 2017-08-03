@@ -34,16 +34,38 @@ $(document).ready(function() {
     });
 
     $("#limpiar").click(function (){
-        $('#form_reporte input').val('');
+        $('#form_reporte input').not('.checkbox').val('');
+        
         $("#tb_ordenest").html('');
         $('#div_detalle').hide();
         $("#tb_deta").html(html);
+    });
+
+    $(document).on('click', '#btnexport', function(event) {
+        if($.trim($("#txt_ruc").val())!=='' || 
+            $.trim($("#txt_nro_expede").val())!=='' || 
+            $.trim($("#txt_proveedor").val())!=='' || 
+            $.trim($("#txt_observacion").val())!=='' ||
+            $.trim($("#fecha_ini").val())!=='' ||
+            $.trim($("#fecha_fin").val())!=='')
+        {
+            var ruc = $("#txt_ruc").val();
+            var nro_expede = $("#txt_nro_expede").val();
+            var proveedor = $("#txt_proveedor").val();
+            var observacion = $("#txt_observacion").val();
+            var fecha_ini = $("#fecha_ini").val();
+            var fecha_fin = $("#fecha_fin").val();
+            var saldos_pago = $("#txt_saldos_pago").val();
+
+            $(this).attr('href','reportegastos/exportdetallegastos'+'?ruc='+ruc+'&nro_expede='+nro_expede+'&proveedor='+proveedor+'&observacion='+observacion+'&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+"&saldos_pago="+saldos_pago);
+        }else{
+            event.preventDefault();
+        }
     });
     
 });
 
 Regresar=function(){
-    
     $('#reporte').show();
     $('fieldset').show();
      $(".nav-tabs-custom").hide();
@@ -56,33 +78,30 @@ activarTabla=function(){
 
 HTMLMostrarReporte=function(datos){
   if(datos.length > 0){
-    //$('#t_ordenest').dataTable().fnDestroy();
+    $('#t_ordenest').dataTable().fnDestroy();
     var html ='';
     var con = 0;
     $.each(datos,function(index,data){
         con++;
-        if((con % 2) == 0) var clase = 'odd';
-        else var clase = 'even';
-
-        html+="<tr role='row' class='"+clase+"' id='reg"+con+"' >"+
-                '<td><span onclick="verAdicional('+con+')" style="cursor: pointer; margin-left: 6px;" class="glyphicon glyphicon-plus" aria-hidden="true"></span></td>'+
+        html+="<tr>"+
+                //'<td><span onclick="verAdicional('+con+')" style="cursor: pointer; margin-left: 6px;" class="glyphicon glyphicon-plus" aria-hidden="true"></span></td>'+
                 '<td>'+data.nro_expede+'</td>'+
                 "<td>"+data.tipo_expede+"</td>"+
                 "<td>"+data.monto_expede+"</td>"+
                 "<td>"+data.fecha_documento+"</td>"+
                 "<td>"+data.documento+"</td>"+
+                    "<td>"+data.nro_documento+"</td>"+
                 "<td>"+data.ruc+"</td>"+
-                "<td>"+data.proveedor+"</td>";
+                "<td>"+data.proveedor+"</td>"+
+                    "<td>"+data.esp_d+"</td>"+
+                "<td>"+data.observacion+"</td>";
         html+="</tr>";
 
-        //if($.trim(data.observacion)!=='')        
-        html+="<tr role='row' class='class_obs "+clase+"' style='display: none;' id='obs"+con+"'>";
-            html+="<td colspan='8'><div style='padding: 15px 15px; background-color: #F5F5F5;'><strong>Observación:</strong> "+data.observacion+"</div></td>";
-        html+="</tr>";
+        //html+="<tr role='row' class='class_obs "+clase+"' style='display: none;' id='obs"+con+"'>";
+        //    html+="<td colspan='8'><div style='padding: 15px 15px; background-color: #F5F5F5;'><strong>Observación:</strong> "+data.observacion+"</div></td>";
+        //html+="</tr>";
     });
     
-    $("#tb_ordenest").html(html);
-
     //$("#t_ordenest").DataTable();
     //console.debug(JSON.stringify(datos));
     //declaro como global
@@ -108,6 +127,13 @@ HTMLMostrarReporte=function(datos){
         "order": [[1, 'asc']]
     });
     */
+    $("#tb_ordenest").html(html);
+    $("#t_ordenest").dataTable(
+        {
+            "order": [[ 0, "asc" ],[1, "asc"]],
+        }
+    ); 
+    //$("#reporte").show();
     // --
 
   }else{
@@ -156,7 +182,6 @@ HTMLMostrarReporteDetalle=function(datos){
 
 verAdicional = function(id)
 {
-    //$(".class_obs").hide();
     $("#obs" + id ).slideToggle();
 }
 
