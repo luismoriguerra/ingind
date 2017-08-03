@@ -46,7 +46,7 @@ class TipoTramite extends Base
     {
         $sSql=" SELECT tt.id, tt.nombre_tipo_tramite nombre, tt.estado
                 FROM tipo_tramite tt
-                WHERE 1=1 ";
+                WHERE tt.estado<2 ";
         $oData = DB::select($sSql);
         return $oData;
     }

@@ -19,7 +19,7 @@ class ClasificadorTramite extends Base
                     FROM clasificador_tramite ct
                     
                     LEFT JOIN tipo_tramite tt ON tt.id=ct.tipo_tramite_id
-                    WHERE 1=1";
+                    WHERE ct.estado<2";
         $sSql.= $array['where'].
                 $array['order'].
                 $array['limit'];
@@ -32,7 +32,7 @@ class ClasificadorTramite extends Base
                 FROM clasificador_tramite ct
               
                 INNER JOIN tipo_tramite tt ON tt.id=ct.tipo_tramite_id
-                WHERE 1=1 ";
+                WHERE ct.estado<2 ";
         $sSql.= $array['where'];
         $oData = DB::select($sSql);
         return $oData[0]->cant;

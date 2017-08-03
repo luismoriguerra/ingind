@@ -131,10 +131,10 @@ class FlujoController extends \BaseController
                     $array['where'].=" AND f.tipo_flujo=1 ";
                 }
                 
-            if( Input::has("nombre") ){
-                $proceso=Input::get("nombre");
-                if( trim( $proceso )!='' ){
-                    $array['where'].=" AND f.nombre LIKE '%".$proceso."%' ";
+            if( Input::has("nombre")  AND Input::get('nombre')!='' ){
+                $proceso=explode(" ",trim(Input::get('nombre')));
+                 for($i=0; $i<count($proceso); $i++){
+                    $array['where'].=" AND f.nombre LIKE '%".$proceso[$i]."%' ";
                 }
             }
             
