@@ -661,6 +661,198 @@ class CargarController extends BaseController
     }
 
 
+    public function postCargarequerimiento()
+    {
+        ini_set('memory_limit','512M');
+        if (isset($_FILES['carga']) and $_FILES['carga']['size'] > 0) {
+
+            $uploadFolder = 'txt/requerimiento';
+            
+            if ( !is_dir($uploadFolder) ) {
+                mkdir($uploadFolder);
+            }
+
+            $nombreArchivo = explode(".",$_FILES['carga']['name']);
+            $tmpArchivo = $_FILES['carga']['tmp_name'];
+            $archivoNuevo = $nombreArchivo[0]."_u".Auth::user()->id."_".date("Ymd_his")."." . $nombreArchivo[1];
+            $file = $uploadFolder . '/' . $archivoNuevo;
+
+            //@unlink($file);
+
+            $m="Ocurrio un error al subir el archivo. No pudo guardarse.";
+            if (!move_uploaded_file($tmpArchivo, $file)) {
+                return Response::json(
+                    array(
+                        'upload' => FALSE,
+                        'rst'    => '2',
+                        'msj'    => $m,
+                        'error'  => $_FILES['archivo'],
+                    )
+                );
+            }
+
+            $array=array();
+            $arrayExist=array();
+
+            $file=file('txt/requerimiento/'.$archivoNuevo);
+//            $file=file('/var/www/html/ingind/public/txt/requerimiento/'.$archivoNuevo);
+            
+            $auxArea='';
+            $auxId='';
+
+            for($i=0; $i < count($file); $i++) {
+
+                 DB::beginTransaction();
+                if(trim($file[$i]) != ''){
+                $detfile=explode("\t",$file[$i]);
+                
+                    for ($j=0; $j < count($detfile); $j++) { 
+                        $buscar=array(chr(13).chr(10), "\r\n", "\n","�", "\r","\n\n","\xEF","\xBB","\xBF");
+                        $reemplazar="";
+                        $detfile[$j]=trim(str_replace($buscar,$reemplazar,$detfile[$j]));
+                        $array[$i][$j]=$detfile[$j];
+                    }
+
+                    if($detfile[1]!=$auxId OR $detfile[2]!=$auxArea){
+                            
+                            $auxId= $detfile[1];
+                            $auxArea=$detfile[2];
+
+                            // Encontrar área en procesos
+                            $area_id=$this->BuscarArea(utf8_encode($detfile[2]));
+                            $area= Area::find($area_id);
+                            
+                            if(!$area){$nemonico='XX';
+                            }else{ $nemonico=$area->nemonico_doc;}
+                            
+                            // Dar formato a  fechas
+                            $fecha=explode('/', $detfile[9]);
+                            $nuevaFecha=$fecha[2].'-'.$fecha[1].'-'.$fecha[0];
+
+                            $tablarelacion = new TablaRelacion;
+                            $tablarelacion->software_id = 1;
+                            $tablarelacion->id_union ='REQUERIMIENTO - N° '.str_pad($detfile[1], 6,'0',STR_PAD_LEFT).' - '.$detfile[0].' - '.$nemonico;
+                            $tablarelacion->sumilla = $detfile[3];
+                            $tablarelacion->estado = 1;
+                            $tablarelacion->usuario_created_at = Auth::user()->id;
+
+                            $tablarelacion->save();
+
+                            $rutaFlujo=RutaFlujo::find(4144);
+
+                            $ruta= new Ruta;
+                            $ruta['tabla_relacion_id']=$tablarelacion->id;
+                            $ruta['fecha_inicio']= date('Y-m-d h:m:s');
+                            $ruta['ruta_flujo_id']=$rutaFlujo->id;
+                            $ruta['flujo_id']=$rutaFlujo->flujo_id;
+                            $ruta['persona_id']=$rutaFlujo->persona_id;
+                            $ruta['area_id']=$rutaFlujo->area_id;
+                            $ruta['usuario_created_at']= Auth::user()->id;
+                            $ruta->save();
+                        
+                            $qrutaDetalle=DB::table('rutas_flujo_detalle')
+                                        ->where('ruta_flujo_id', '=', $rutaFlujo->id)
+                                        ->where('estado', '=', '1')
+                                        ->orderBy('norden','ASC')
+                                        ->get();
+                                
+                            foreach($qrutaDetalle as $rd){
+                                    $rutaDetalle = new RutaDetalle;
+                                    $rutaDetalle['ruta_id']=$ruta->id;
+                                    $rutaDetalle['area_id']=$rd->area_id;
+                                    $rutaDetalle['tiempo_id']=$rd->tiempo_id;
+                                    $rutaDetalle['dtiempo']=$rd->dtiempo;
+                                    $rutaDetalle['norden']=$rd->norden;
+                                    $rutaDetalle['estado_ruta']=$rd->estado_ruta;
+                                    
+                                    $rutaDetalle['usuario_created_at']= Auth::user()->id;
+                                    $rutaDetalle->save();
+                                    
+                                    if($rutaDetalle->norden==1){
+                                        $rutaDetalle['fecha_inicio']=$nuevaFecha;
+                                        $rutaDetalle->save();
+                                    }
+                                    
+                                    $qrutaDetalleVerbo=DB::table('rutas_flujo_detalle_verbo')
+                                    ->where('ruta_flujo_detalle_id', '=', $rd->id)
+                                    ->where('estado', '=', '1')
+                                    ->orderBy('orden', 'ASC')
+                                    ->get();
+                            if(count($qrutaDetalleVerbo)>0){
+                                foreach ($qrutaDetalleVerbo as $rdv) {
+                                    $rutaDetalleVerbo = new RutaDetalleVerbo;
+                                    $rutaDetalleVerbo['ruta_detalle_id']= $rutaDetalle->id;
+                                    $rutaDetalleVerbo['nombre']= $rdv->nombre;
+                                    $rutaDetalleVerbo['condicion']= $rdv->condicion;
+                                    $rutaDetalleVerbo['rol_id']= $rdv->rol_id;
+                                    $rutaDetalleVerbo['verbo_id']= $rdv->verbo_id;
+                                    $rutaDetalleVerbo['documento_id']= $rdv->documento_id;
+                                    $rutaDetalleVerbo['orden']= $rdv->orden;
+                                    $rutaDetalleVerbo['usuario_created_at']= Auth::user()->id;
+                                    $rutaDetalleVerbo->save();
+                                }
+                            }
+                            }
+                    }else {
+
+                                        if($detfile[4]=='2'){
+                                       
+                                        $rutaDetalle= RutaDetalle::where('norden','=',2)
+                                                                   ->where('ruta_id','=',$ruta->id)->first();
+                                        $rutaDetalle['fecha_inicio']=date('Y-m-d h:m:s');
+                                        $rutaDetalle->save();
+                                        }
+                                        
+                                        if($detfile[4]=='3'){
+                                       
+                                        $rutaDetalle= RutaDetalle::where('norden','=',3)
+                                                                   ->where('ruta_id','=',$ruta->id)->first();
+                                        $rutaDetalle['fecha_inicio']=date('Y-m-d h:m:s');
+                                        $rutaDetalle->save();
+                                        }
+                                        
+                                        if($detfile[4]=='4'){
+                                       
+                                        $rutaDetalle= RutaDetalle::where('norden','=',4)
+                                                                   ->where('ruta_id','=',$ruta->id)->first();
+                                        $rutaDetalle['fecha_inicio']=date('Y-m-d h:m:s');
+                                        $rutaDetalle->save();
+                                        }
+                                    
+                    }    
+
+                    
+//                    $proveedor = Proveedor::where('ruc','=', $ruc_proveeedor)->first();
+
+ 
+                    
+                    
+
+                    // --
+
+
+                        // Muestra ultimos QUERY ejecutados
+                        //$log = DB::getQueryLog();
+                        //var_dump($obj);
+                }
+                DB::commit();
+
+            }// for del file
+
+            //exit;
+            return Response::json(
+                    array(
+                        'rst'       => '1',
+                        'msj'       => 'Archivo procesado correctamente',
+                        'file'      => $archivoNuevo,
+                        'upload'    => TRUE, 
+                        //'data'      => $array,
+                        'data'      => array(),
+                        'existe'    => 0//$arrayExist
+                    )
+            );
+        }
+    }
 
     // (RA - 2017/07/07): Carga de Archivo para los Gastos Contables.
     public function postCargargastos() //Importante el nombre del metodo debe sser igual al de la función AJAX.
@@ -833,5 +1025,43 @@ class CargarController extends BaseController
             );
         }
     }
+    
+      public function BuscarArea($nombreArea){
+          
+            if($nombreArea=='Alcadía'){$area_id=44;}
+            if($nombreArea=='Gerencia de Administración y Finanzas'){$area_id=26;}
+            if($nombreArea=='Gerencia de Asesoria Legal'){$area_id=27;}
+            if($nombreArea=='GERENCIA DE DESARROLLO ECONOMICO LOCAL'){$area_id=9;}
+            if($nombreArea=='Gerencia de Desarrollo Social'){$area_id=15;}
+            if($nombreArea=='Gerencia de Desarrollo Urbano'){$area_id=24;}
+            if($nombreArea=='Gerencia de Planificación, Presupuesto y Racionalización'){$area_id=28;}
+            if($nombreArea=='Sub Gerencia de Logística'){$area_id=29;}
+            if($nombreArea=='Gerencia de Fiscalizacion y Control Municipal'){$area_id=10;}
+            if($nombreArea=='Gerencia de Gestion Ambiental'){$area_id=21;}
+            if($nombreArea=='Gerencia de Infraestructura Pública'){$area_id=25;}
+            if($nombreArea=='GERENCIA DE MODERNIZACION DE LA GESTION MUNICIPAL'){$area_id=94;}
+            if($nombreArea=='Sub Gerencia de Tesorería'){$area_id=42;}
+            if($nombreArea=='SUB GERENCIA DE CONTABILIDAD Y COSTOS'){$area_id=35;}
+            if($nombreArea=='Gerencia de Promoción de la Inversión y Cooperación'){$area_id=12;}
+            if($nombreArea=='Gerencia de Rentas'){$area_id=11;}
+            if($nombreArea=='Gerencia de Secretaría General'){$area_id=30;}
+            if($nombreArea=='Gerencia de Seguimiento y Evaluación'){$area_id=31;}
+            if($nombreArea=='Gerencia de Seguridad Ciudadana'){$area_id=19;}
+            if($nombreArea=='Gerencia Municipal'){$area_id=32;}
+            if($nombreArea=='Organo de Control Institucional'){$area_id=33;}
+            if($nombreArea=='Procuraduria Pública Municipal'){$area_id=34;}
+            if($nombreArea=='Sub Gerencia de Areas Verdes y Saneamiento Ambiental'){$area_id=22;}
+            if($nombreArea=='Sub Gerencia de Ejecutoria Coactiva'){$area_id=36;}
+            if($nombreArea=='SUB GERENCIA DE IMAGEN INSTUTICIONAL Y PARTICIPACIÓN VECINAL'){$area_id=13;}
+            if($nombreArea=='Sub Gerencia de Juventudes, Recreacion y Deportes'){$area_id=17;}
+            if($nombreArea=='Sub Gerencia de la Mujer, Educación, Cultura, Serv. Social, OMAPED, CIAM, Y DEMUNA'){$area_id=16;}
+            if($nombreArea=='Sub Gerencia de la Tecnológia de Información y la Comunicación'){$area_id=14;}
+            if($nombreArea=='Sub Gerencia de Limpieza Publica'){$area_id=23;}
+            if($nombreArea=='Sub Gerencia de Personal'){$area_id=53;}
+            if($nombreArea=='Sub Gerencia de Programas Alimentarios Y Salud'){$area_id=18;}
+            if($nombreArea=='SUB GERENCIA DE SERVICIOS GENERALES'){$area_id=38;}
+            if($nombreArea=='Sub Gerencia de Vigilancia Ciudadana e Informacion'){$area_id=20;}
+            return $area_id;
+        }
 
 }
