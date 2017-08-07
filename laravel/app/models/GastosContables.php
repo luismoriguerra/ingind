@@ -32,10 +32,14 @@ class GastosContables extends \Eloquent {
                     @MGG := (SELECT SUM(cgd3.monto_expede) 
                                         FROM contabilidad_gastos_detalle cgd3 
                                             WHERE cgd3.tipo_expede = 'GG' AND cgd3.contabilidad_gastos_id = v.id) AS total_gg,
-                    ROUND((@MGC - @MGG), 2) AS total_pagar
-				FROM contabilidad_gastos v
-				INNER JOIN contabilidad_proveedores vv ON v.contabilidad_proveedores_id = vv.id
+                    ROUND((@MGC - 
+                                IF(@MGG IS NULL, 0, @MGG)), 2) AS total_pagar_gc,
+                    ROUND((@MGC - 
+                                    IF(@MGD IS NULL, 0, @MGD)), 2) AS total_pagar_gd
+                FROM contabilidad_gastos v
+                INNER JOIN contabilidad_proveedores vv ON v.contabilidad_proveedores_id = vv.id
                 WHERE 1=1 ";
+
         $sSql.= $array['where'].
                 $array['order'].
                 $array['limit'];

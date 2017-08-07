@@ -212,6 +212,7 @@ class ProveedorController extends \BaseController
         if( Input::has("id") )
         {
             $id = Input::get('id'); // El id se carga de manera autimatica al metodo listarDatos();
+            
             $rst = GastosHistorialContables::listarSaldosPagar();
                       return Response::json(
                           array(

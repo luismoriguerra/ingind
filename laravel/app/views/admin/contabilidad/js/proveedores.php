@@ -153,7 +153,7 @@ verSaldosPagar = function(id){
             data: {id : id},
             dataType: 'json',
             beforeSend : function() {
-                $("#tb_saldos_pagar").html('<tr><td colspan="5" class="text-center">Cargando Registros...</td></tr>');
+                $("#tb_saldos_pagar").html('<tr><td colspan="6" class="text-center">Cargando Registros...</td></tr>');
             },
             success: function (obj) 
             {
@@ -167,14 +167,15 @@ verSaldosPagar = function(id){
                                    '<td>'+data.total_gc+'</td>'+
                                    '<td>'+data.total_gd+'</td>'+
                                    '<td>'+data.total_gg+'</td>'+
-                                   '<td>'+data.total_pagar.toFixed(2)+'</td>'+
+                                   '<td>'+data.total_pagar_gd.toFixed(2)+'</td>'+
+                                   '<td>'+data.total_pagar_gc.toFixed(2)+'</td>'+
                                '</tr>';
                         con++;
                     });
                 }
                 else
                 {
-                    html = '<tr><td colspan="5" class="text-center">No existe Saldos!</td></tr>';
+                    html = '<tr><td colspan="6" class="text-center">No existe Saldos!</td></tr>';
                 }
                 $("#tb_saldos_pagar").html(html);
             },
@@ -196,7 +197,7 @@ verSaldosPagar = function(id){
 var cabeceraG2=[]; // Cabecera del Datatable
 var columnDefsG2=[]; // Columnas de la BD del datatable
 var targetsG2=-1; // Posiciones de las columnas del datatable
-var dataG2={id:0, proveedor:"", nro_expede:"", monto_total:"", monto_historico:"", total_gc:"", total_gd:"", total_gg:"", total_pagar:""}; // Datos Globales
+var dataG2={id:0, proveedor:"", nro_expede:"", monto_total:"", monto_historico:"", total_gc:"", total_gd:"", total_gg:"", total_pagar_gc:"", total_pagar_gd:""}; // Datos Globales
 
 var name_controllerG = 'gastos';
 var name_frmG = 'gastos';
@@ -213,7 +214,8 @@ $(document).ready(function() {
                 total_gc        :'|Total GC|#DCE6F1',
                 total_gd        :'|Total GD|#DCE6F1',
                 total_gg        :'|Total GG|#DCE6F1',
-                total_pagar     :'|Total Pagar|#DCE6F1'
+                total_pagar_gd  :'|Total Pagar Devengado|#DCE6F1',
+                total_pagar_gc  :'|Total Pagar Compromiso|#DCE6F1'
             }
 
     var resG2=dataTableG.CargarCab(idG2);

@@ -5,34 +5,6 @@ class GastosHistorialContables extends \Eloquent {
     protected $fillable = [];
     public $table = "contabilidad_gastos_historicos";
 
-    /*
-    public static function insertFirt() {
-        $sSql = '';
-        $sSql .= "SELECT cg.nro_expede,
-								(SELECT SUM(cgd1.monto_expede)
-									FROM contabilidad_gastos_detalle cgd1
-										WHERE cgd1.tipo_expede = 'GC' AND cgd1.contabilidad_gastos_id = cg.id) AS gc,
-								(SELECT SUM(cgd2.monto_expede) 
-									FROM contabilidad_gastos_detalle cgd2
-										WHERE cgd2.tipo_expede = 'GD' AND cgd2.contabilidad_gastos_id = cg.id) AS gd,
-								(SELECT SUM(cgd3.monto_expede) 
-									FROM contabilidad_gastos_detalle cgd3
-										WHERE cgd3.tipo_expede = 'GG' AND cgd3.contabilidad_gastos_id = cg.id) AS gg
-					FROM contabilidad_gastos cg
-					INNER JOIN contabilidad_gastos_detalle cgd ON cg.id = cgd.contabilidad_gastos_id
-						WHERE cgd.estado = 1 ";
-
-        if (Input::has('contabilidad_gastos_id') && Input::get('contabilidad_gastos_id')) {
-            $contabilidad_gastos_id = Input::get('contabilidad_gastos_id');
-            $sSql .= " AND cgd.contabilidad_gastos_id = '".$contabilidad_gastos_id. "'";
-        }
-        $sSql .= " GROUP BY cg.nro_expede;";
-
-        $oData = DB::select($sSql);
-        return $oData;
-    }
-    */
-
     public static function listarDatos() {
         $sSql = '';
         $sSql .= "SELECT cg.nro_expede,
@@ -65,35 +37,46 @@ class GastosHistorialContables extends \Eloquent {
 
 
 
-    // MUESTRA SALDOS POR PAGAR
+    // MUESTRA LISTA DE SALDOS POR PAGAR POR CADA PROVEEDOR
     public static function listarSaldosPagar() {
         $sSql = '';
-        $sSql .= "SELECT v.id, v.contabilidad_proveedores_id, vv.proveedor, v.nro_expede,
-					@MGC := (SELECT SUM(cgd1.monto_expede)
-									FROM contabilidad_gastos_detalle cgd1 
-										WHERE cgd1.tipo_expede = 'GC' AND cgd1.contabilidad_gastos_id = v.id) AS total_gc,
-					@MGD := (SELECT SUM(cgd2.monto_expede) 
-										FROM contabilidad_gastos_detalle cgd2 
-											WHERE cgd2.tipo_expede = 'GD' AND cgd2.contabilidad_gastos_id = v.id) AS total_gd,
-					@MGG := (SELECT SUM(cgd3.monto_expede) 
-										FROM contabilidad_gastos_detalle cgd3 
-											WHERE cgd3.tipo_expede = 'GG' AND cgd3.contabilidad_gastos_id = v.id) AS total_gg,
-					ROUND((@MGC - @MGG), 2) AS total_pagar
-				FROM contabilidad_gastos v
-				INNER JOIN contabilidad_proveedores vv ON v.contabilidad_proveedores_id = vv.id ";
+        $sSql .= "SELECT cg.nro_expede, cp.ruc, cp.proveedor, 
+						@MGC := (SELECT SUM(cgd1.monto_expede)
+											FROM contabilidad_gastos_detalle cgd1 
+												WHERE cgd1.tipo_expede = 'GC' AND cgd1.contabilidad_gastos_id = cg.id) AS total_gc,
+						@MGD := (SELECT SUM(cgd2.monto_expede) 
+											FROM contabilidad_gastos_detalle cgd2 
+												WHERE cgd2.tipo_expede = 'GD' AND cgd2.contabilidad_gastos_id = cg.id) AS total_gd,
+						@MGG := (SELECT SUM(cgd3.monto_expede) 
+											FROM contabilidad_gastos_detalle cgd3 
+												WHERE cgd3.tipo_expede = 'GG' AND cgd3.contabilidad_gastos_id = cg.id) AS total_gg,
+						ROUND((@MGC - 
+									IF(@MGG IS NULL, 0, @MGG)), 2) AS total_pagar_gc,
+						ROUND((@MGC - 
+										IF(@MGD IS NULL, 0, @MGD)), 2) AS total_pagar_gd
+					FROM contabilidad_gastos_detalle cgd
+					INNER JOIN contabilidad_gastos cg ON cgd.contabilidad_gastos_id = cg.id
+					INNER JOIN contabilidad_proveedores cp ON cg.contabilidad_proveedores_id = cp.id ";
 
         if (Input::has('id') && Input::get('id')) {
             $id = Input::get('id');
-            $sSql .= " AND v.contabilidad_proveedores_id = '".$id. "'";
+            $sSql .= " AND cg.contabilidad_proveedores_id = '".$id. "'";
         }
-        $sSql .= " AND ((SELECT SUM(cgd1.monto_expede)
+        $sSql .= " AND (
+								(SELECT SUM(cgd1.monto_expede)
 									FROM contabilidad_gastos_detalle cgd1 
-										WHERE cgd1.tipo_expede = 'GC' AND cgd1.contabilidad_gastos_id = v.id) - 
-									(SELECT SUM(cgd3.monto_expede) 
-										FROM contabilidad_gastos_detalle cgd3 
-											WHERE cgd3.tipo_expede = 'GG' AND cgd3.contabilidad_gastos_id = v.id)) > 0";
+										WHERE cgd1.tipo_expede = 'GC' AND cgd1.contabilidad_gastos_id = cg.id) - 
+									IF((@W_MGC := 
+											(SELECT SUM(cgd3.monto_expede) 
+												FROM contabilidad_gastos_detalle cgd3 
+													WHERE cgd3.tipo_expede = 'GG' AND cgd3.contabilidad_gastos_id = cg.id)) IS NULL, 
+												0,
+											@W_MGC
+									)
+					) > 0 ";
 
-        $sSql .= " GROUP BY v.nro_expede;";
+        $sSql .= " GROUP BY cg.nro_expede, cp.ruc, cp.proveedor ";
+        $sSql .= " ORDER BY cg.nro_expede; ";
 
         $oData = DB::select($sSql);
         return $oData;

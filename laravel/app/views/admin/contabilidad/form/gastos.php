@@ -103,12 +103,13 @@
         <p>
             <table id="t_gastos_histo" class="table table-bordered">
                 <thead>
-                   <tr>
-                      <th width="30%">Expediente</th>
+                   <tr style="text-align: center;">
+                      <th width="20%">EXPEDIENTE</th>
                       <th width="15%">GC</th>
                       <th width="15%">GD</th>
                       <th width="15%">GG</th>
-                      <th width="15%">POR PAGAR</th>
+                      <th width="15%">DEVENGADO POR PAGAR</th>
+                      <th width="15%">COMPROMISO POR PAGAR</th>
                    </tr>
                 </thead>
                 <tbody id="tb_saldos_pagar">
