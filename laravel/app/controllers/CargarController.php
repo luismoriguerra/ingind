@@ -646,6 +646,9 @@ class CargarController extends BaseController {
 
     public function postCargarequerimiento() {
         ini_set('memory_limit', '512M');
+        ini_set('post_max_size', '64M');
+        ini_set('upload_max_filesize', '64M');
+        
         if (isset($_FILES['carga']) and $_FILES['carga']['size'] > 0) {
 
             $uploadFolder = 'txt/requerimiento';
