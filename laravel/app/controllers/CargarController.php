@@ -1054,7 +1054,7 @@ class CargarController extends BaseController {
                 DB::commit();
             }// for del file
             //exit;
-            
+                if($auxRutaId){
                $rdD= RutaDetalle::where('ruta_id','=',$auxRutaId)
                                 ->where('dtiempo_final','!=','')
                                 ->select(DB::raw('MAX(CONCAT_WS("|",norden,id)) as id'))->first() ; 
@@ -1062,7 +1062,9 @@ class CargarController extends BaseController {
                $idd=$idrdv[1]+1;
                $rd= RutaDetalle::find($idd);
                $rd['fecha_inicio']= $auxRutaFecha;
-               $rd->save();
+               $rd->save(); 
+                }
+               
                         
             return Response::json(
                             array(
