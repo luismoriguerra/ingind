@@ -676,8 +676,8 @@ class CargarController extends BaseController {
             $array = array();
             $arrayExist = array();
 
-            $file = file('txt/requerimiento/' . $archivoNuevo);
-//            $file=file('/var/www/html/ingind/public/txt/requerimiento/'.$archivoNuevo);
+            //$file = file('txt/requerimiento/' . $archivoNuevo);
+            $file=file('/var/www/html/ingind/public/txt/requerimiento/'.$archivoNuevo);
             $usuario_id = 1272;
             $auxArea = '';
             $auxId = '';
