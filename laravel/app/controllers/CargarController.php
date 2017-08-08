@@ -648,6 +648,7 @@ class CargarController extends BaseController {
         ini_set('memory_limit', '512M');
         ini_set('post_max_size', '64M');
         ini_set('upload_max_filesize', '64M');
+        ini_set('max_execution_time',300);
         
         if (isset($_FILES['carga']) and $_FILES['carga']['size'] > 0) {
 
@@ -688,7 +689,7 @@ class CargarController extends BaseController {
             $auxRutaFecha='';
             $area_id='';
             for ($i = 0; $i < count($file); $i++) {
-
+ 
                 DB::beginTransaction();
                 if (trim($file[$i]) != '') {
                     $detfile = explode("\t", $file[$i]);
@@ -703,198 +704,189 @@ class CargarController extends BaseController {
                     if (strpos($detfile[3], 'SERVICIO') == false) {
                         $vartipo = 1; // BIEN     
                     }
+                    
+                 // Encontrar área en procesos
+                $area_id = $this->BuscarArea(utf8_encode($detfile[2]));
+                $area = Area::find($area_id);
 
+                if (!$area) {
+                    $nemonico = 'XX';
+                } else {
+                    $nemonico = $area->nemonico_doc;
+                }
+                
+                    $tablaRelacion=DB::table('tablas_relacion as tr')
+                            ->join(
+                                'rutas as r',
+                                'tr.id','=','r.tabla_relacion_id'
+                            )
+                            ->where('tr.id_union', '=', 'REQUERIMIENTO - N° ' . str_pad($detfile[1], 6, '0', STR_PAD_LEFT) . ' - ' . $detfile[0] . ' - ' . $nemonico)
+                            ->where('tr.estado', '=', '1')
+                            ->where('r.estado', '=', '1')
+                            ->get();
 
-                    if (($detfile[1] != $auxId OR utf8_encode($detfile[2]) != $auxArea) and $detfile[4] != '0') {
-                        if($auxRutaId!=''){
-                           $rdD= RutaDetalle::where('ruta_id','=',$auxRutaId)
-                                            ->where('dtiempo_final','!=','')
-                                            ->select(DB::raw('MAX(CONCAT_WS("|",norden,id)) as id'))->first() ; 
-                           $idrdv=explode('|',$rdD->id);
-                           $idd=$idrdv[1]+1;
-                           $rd= RutaDetalle::find($idd);
-                           $rd['fecha_inicio']= $auxRutaFecha;
-                           $rd->save();
-                        }
-                        $auxId = $detfile[1];
-                        $auxArea = utf8_encode($detfile[2]);
-                        $auxRutaId='';
-                        $auxRutaFecha='';
-                        // Encontrar área en procesos
-                        $area_id = $this->BuscarArea(utf8_encode($detfile[2]));
-                        $area = Area::find($area_id);
+                    if(count($tablaRelacion)==0){
 
-                        if (!$area) {
-                            $nemonico = 'XX';
-                        } else {
-                            $nemonico = $area->nemonico_doc;
-                        }
+                    
 
-                        // Dar formato a  fechas
-                        $fecha = explode('/', $detfile[8]);
-                        $nuevaFecha = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' 15:00:00';
-                        
-                        $tablarelacion = new TablaRelacion;
-                        $tablarelacion->software_id = 1;
-                        $tablarelacion->id_union = 'REQUERIMIENTO - N° ' . str_pad($detfile[1], 6, '0', STR_PAD_LEFT) . ' - ' . $detfile[0] . ' - ' . $nemonico;
-                        $tablarelacion->sumilla = $detfile[3];
-                        $tablarelacion->estado = 1;
-                        $tablarelacion->fecha_tramite = $nuevaFecha;
-                        $tablarelacion->usuario_created_at = Auth::user()->id;
+                        if (($detfile[1] != $auxId OR utf8_encode($detfile[2]) != $auxArea) and $detfile[4] != '0') {
+                            if($auxRutaId!=''){
+                               $rdD= RutaDetalle::where('ruta_id','=',$auxRutaId)
+                                                ->where('dtiempo_final','!=','')
+                                                ->select(DB::raw('MAX(CONCAT_WS("|",norden,id)) as id'))->first() ; 
+                               $idrdv=explode('|',$rdD->id);
+                               $idd=$idrdv[1]+1;
+                               $rd= RutaDetalle::find($idd);
+                               $rd['fecha_inicio']= $auxRutaFecha;
+                               $rd->save();
+                            }
+                            $auxId = $detfile[1];
+                            $auxArea = utf8_encode($detfile[2]);
+                            $auxRutaId='';
+                            $auxRutaFecha='';
+                            // Encontrar área en procesos
+                            $area_id = $this->BuscarArea(utf8_encode($detfile[2]));
+                            $area = Area::find($area_id);
 
-                        $tablarelacion->save();
-
-                        /*                         * ************ ENCONTRAR RUTA DE ÁREA *************** */
-
-
-                        $area_id = $this->BuscarArea(utf8_encode($detfile[2]));
-                        $Ssql = '';
-                        $Ssql .= "SELECT rf.id
-                                    FROM rutas_flujo rf
-                                    INNER JOIN rutas_flujo_detalle rfd ON  rfd.ruta_flujo_id=rf.id
-                                    INNER  JOIN flujos f ON  f.id=rf.flujo_id
-                                    WHERE rfd.norden=1 AND rfd.area_id=" . $area_id .
-                                " AND f.nombre LIKE '%REQUERIMIENTO%' 
-                                    AND f.nombre LIKE '%DIRECTO%'";
-
-                        if ($vartipo == 1) {
-                            $Ssql .= "AND  f.nombre LIKE '%BIENES%' ";
-                        } else {
-                            $Ssql .= "AND  f.nombre LIKE '%SERVICIO%' ";
-                        }
-                        $rutaflujo_id = DB::select($Ssql);
-                        $rutaFlujo = RutaFlujo::find($rutaflujo_id[0]->id);
-
-                        $ruta = new Ruta;
-                        $ruta['tabla_relacion_id'] = $tablarelacion->id;
-                        $ruta['fecha_inicio'] = $nuevaFecha;
-                        $ruta['ruta_flujo_id'] = $rutaFlujo->id;
-                        $ruta['flujo_id'] = $rutaFlujo->flujo_id;
-                        $ruta['persona_id'] = $rutaFlujo->persona_id;
-                        $ruta['area_id'] = $rutaFlujo->area_id;
-                        $ruta['usuario_created_at'] = Auth::user()->id;
-                        $ruta->save();
-                        $auxRutaId=$ruta->id;
-                        $auxRutaFecha=$ruta->fecha_inicio;
-                        
- /*                             * **********Agregado de referidos************ */
-                            $referido = new Referido;
-                            $referido['ruta_id'] = $ruta->id;
-                            $referido['tabla_relacion_id'] = $tablarelacion->id;
-                            $referido['tipo'] = 0;
-                            $referido['referido'] = $tablarelacion->id_union;
-                            $referido['fecha_hora_referido'] = $tablarelacion->created_at;
-                            $referido['usuario_referido'] = $tablarelacion->usuario_created_at;
-                            $referido['usuario_created_at'] = $usuario_id;
-                            $referido->save();
-                            
-                        $qrutaDetalle = DB::table('rutas_flujo_detalle')
-                                ->where('ruta_flujo_id', '=', $rutaFlujo->id)
-                                ->where('estado', '=', '1')
-                                ->orderBy('norden', 'ASC')
-                                ->get();
-
-                        foreach ($qrutaDetalle as $rd) {
-                            $rutaDetalle = new RutaDetalle;
-                            $rutaDetalle['ruta_id'] = $ruta->id;
-                            $rutaDetalle['area_id'] = $rd->area_id;
-                            $rutaDetalle['tiempo_id'] = $rd->tiempo_id;
-                            $rutaDetalle['dtiempo'] = $rd->dtiempo;
-                            $rutaDetalle['norden'] = $rd->norden;
-                            $rutaDetalle['estado_ruta'] = $rd->estado_ruta;
-
-                            $rutaDetalle['usuario_created_at'] = Auth::user()->id;
-                            $rutaDetalle->save();
-
-                            if ($rutaDetalle->norden == 1) {
-                                $rutaDetalle['fecha_inicio'] = $nuevaFecha;
-                                $rutaDetalle['dtiempo_final'] = $nuevaFecha;
-                                $rutaDetalle['tipo_respuesta_id'] = 1;
-                                $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
-                                $rutaDetalle['observacion'] = '';
-                                $rutaDetalle->save();
+                            if (!$area) {
+                                $nemonico = 'XX';
+                            } else {
+                                $nemonico = $area->nemonico_doc;
                             }
 
-                            $qrutaDetalleVerbo = DB::table('rutas_flujo_detalle_verbo')
-                                    ->where('ruta_flujo_detalle_id', '=', $rd->id)
+                            // Dar formato a  fechas
+                            $fecha = explode('/', $detfile[8]);
+                            $nuevaFecha = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' 15:00:00';
+
+                            $tablarelacion = new TablaRelacion;
+                            $tablarelacion->software_id = 1;
+                            $tablarelacion->id_union = 'REQUERIMIENTO - N° ' . str_pad($detfile[1], 6, '0', STR_PAD_LEFT) . ' - ' . $detfile[0] . ' - ' . $nemonico;
+                            $tablarelacion->sumilla = $detfile[3];
+                            $tablarelacion->estado = 1;
+                            $tablarelacion->fecha_tramite = $nuevaFecha;
+                            $tablarelacion->usuario_created_at = Auth::user()->id;
+
+                            $tablarelacion->save();
+
+                            /*                         * ************ ENCONTRAR RUTA DE ÁREA *************** */
+
+
+                            $area_id = $this->BuscarArea(utf8_encode($detfile[2]));
+                            $Ssql = '';
+                            $Ssql .= "SELECT rf.id
+                                        FROM rutas_flujo rf
+                                        INNER JOIN rutas_flujo_detalle rfd ON  rfd.ruta_flujo_id=rf.id
+                                        INNER  JOIN flujos f ON  f.id=rf.flujo_id
+                                        WHERE rfd.norden=1 AND rfd.area_id=" . $area_id .
+                                    " AND f.nombre LIKE '%REQUERIMIENTO%' 
+                                        AND f.nombre LIKE '%DIRECTO%'";
+
+                            if ($vartipo == 1) {
+                                $Ssql .= "AND  f.nombre LIKE '%BIENES%' ";
+                            } else {
+                                $Ssql .= "AND  f.nombre LIKE '%SERVICIO%' ";
+                            }
+                            $rutaflujo_id = DB::select($Ssql);
+                            $rutaFlujo = RutaFlujo::find($rutaflujo_id[0]->id);
+
+                            $ruta = new Ruta;
+                            $ruta['tabla_relacion_id'] = $tablarelacion->id;
+                            $ruta['fecha_inicio'] = $nuevaFecha;
+                            $ruta['ruta_flujo_id'] = $rutaFlujo->id;
+                            $ruta['flujo_id'] = $rutaFlujo->flujo_id;
+                            $ruta['persona_id'] = $rutaFlujo->persona_id;
+                            $ruta['area_id'] = $rutaFlujo->area_id;
+                            $ruta['usuario_created_at'] = Auth::user()->id;
+                            $ruta->save();
+                            $auxRutaId=$ruta->id;
+                            $auxRutaFecha=$ruta->fecha_inicio;
+
+     /*                             * **********Agregado de referidos************ */
+                                $referido = new Referido;
+                                $referido['ruta_id'] = $ruta->id;
+                                $referido['tabla_relacion_id'] = $tablarelacion->id;
+                                $referido['tipo'] = 0;
+                                $referido['referido'] = $tablarelacion->id_union;
+                                $referido['fecha_hora_referido'] = $tablarelacion->created_at;
+                                $referido['usuario_referido'] = $tablarelacion->usuario_created_at;
+                                $referido['usuario_created_at'] = $usuario_id;
+                                $referido->save();
+
+                            $qrutaDetalle = DB::table('rutas_flujo_detalle')
+                                    ->where('ruta_flujo_id', '=', $rutaFlujo->id)
                                     ->where('estado', '=', '1')
-                                    ->orderBy('orden', 'ASC')
+                                    ->orderBy('norden', 'ASC')
                                     ->get();
-                            if (count($qrutaDetalleVerbo) > 0) {
-                                foreach ($qrutaDetalleVerbo as $rdv) {
-                                    $rutaDetalleVerbo = new RutaDetalleVerbo;
-                                    $rutaDetalleVerbo['ruta_detalle_id'] = $rutaDetalle->id;
-                                    $rutaDetalleVerbo['nombre'] = $rdv->nombre;
-                                    $rutaDetalleVerbo['condicion'] = $rdv->condicion;
-                                    $rutaDetalleVerbo['rol_id'] = $rdv->rol_id;
-                                    $rutaDetalleVerbo['verbo_id'] = $rdv->verbo_id;
-                                    $rutaDetalleVerbo['documento_id'] = $rdv->documento_id;
-                                    $rutaDetalleVerbo['orden'] = $rdv->orden;
-                                    $rutaDetalleVerbo['usuario_created_at'] = Auth::user()->id;
-                                    $rutaDetalleVerbo->save();
+
+                            foreach ($qrutaDetalle as $rd) {
+                                $rutaDetalle = new RutaDetalle;
+                                $rutaDetalle['ruta_id'] = $ruta->id;
+                                $rutaDetalle['area_id'] = $rd->area_id;
+                                $rutaDetalle['tiempo_id'] = $rd->tiempo_id;
+                                $rutaDetalle['dtiempo'] = $rd->dtiempo;
+                                $rutaDetalle['norden'] = $rd->norden;
+                                $rutaDetalle['estado_ruta'] = $rd->estado_ruta;
+
+                                $rutaDetalle['usuario_created_at'] = Auth::user()->id;
+                                $rutaDetalle->save();
+
+                                if ($rutaDetalle->norden == 1) {
+                                    $rutaDetalle['fecha_inicio'] = $nuevaFecha;
+                                    $rutaDetalle['dtiempo_final'] = $nuevaFecha;
+                                    $rutaDetalle['tipo_respuesta_id'] = 1;
+                                    $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
+                                    $rutaDetalle['observacion'] = '';
+                                    $rutaDetalle->save();
+                                }
+
+                                $qrutaDetalleVerbo = DB::table('rutas_flujo_detalle_verbo')
+                                        ->where('ruta_flujo_detalle_id', '=', $rd->id)
+                                        ->where('estado', '=', '1')
+                                        ->orderBy('orden', 'ASC')
+                                        ->get();
+                                if (count($qrutaDetalleVerbo) > 0) {
+                                    foreach ($qrutaDetalleVerbo as $rdv) {
+                                        $rutaDetalleVerbo = new RutaDetalleVerbo;
+                                        $rutaDetalleVerbo['ruta_detalle_id'] = $rutaDetalle->id;
+                                        $rutaDetalleVerbo['nombre'] = $rdv->nombre;
+                                        $rutaDetalleVerbo['condicion'] = $rdv->condicion;
+                                        $rutaDetalleVerbo['rol_id'] = $rdv->rol_id;
+                                        $rutaDetalleVerbo['verbo_id'] = $rdv->verbo_id;
+                                        $rutaDetalleVerbo['documento_id'] = $rdv->documento_id;
+                                        $rutaDetalleVerbo['orden'] = $rdv->orden;
+                                        $rutaDetalleVerbo['usuario_created_at'] = Auth::user()->id;
+                                        $rutaDetalleVerbo->save();
+                                    }
+                                }
+                                if($rutaDetalle->norden == 1){
+
+                                $rutaDetalleVerbo = RutaDetalleVerbo::where('ruta_detalle_id', '=', $rutaDetalle->id)
+                                                ->where('estado', '=', 1)->get();
+                                foreach ($rutaDetalleVerbo as $r) {
+                                    $rdv = RutaDetalleVerbo::find($r->id);
+                                    if ($rdv->verbo_id == 1 and utf8_encode($detfile[7])!='') {
+                                        $rdv['documento'] = utf8_encode($detfile[7]);
+                                    }
+                                    $rdv['finalizo'] = 1;
+                                    $rdv['observacion'] = 'AUTOMATICO';
+                                    $rdv['usuario_created_at'] = 1272;
+                                    $rdv['usuario_updated_at'] = 1272;
+                                    $rdv['updated_at'] = $nuevaFecha;
+                                    $rdv->save();
+                                }
                                 }
                             }
-                            if($rutaDetalle->norden == 1){
+                        } else {
+    //                        $fecha = explode('/', $detfile[9]);
+    //                        $nuevaFecha = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' 08:00:00';
 
-                            $rutaDetalleVerbo = RutaDetalleVerbo::where('ruta_detalle_id', '=', $rutaDetalle->id)
-                                            ->where('estado', '=', 1)->get();
-                            foreach ($rutaDetalleVerbo as $r) {
-                                $rdv = RutaDetalleVerbo::find($r->id);
-                                if ($rdv->verbo_id == 1 and utf8_encode($detfile[7])!='') {
-                                    $rdv['documento'] = utf8_encode($detfile[7]);
+                            $rutaDetalle = array();
+                            $auxRutaFecha=$nuevaFecha;
+                            if ($detfile[4] == '2') {
+                                $varposicion=2;
+                                if($area_id==26){
+                                    $varposicion = 1;
                                 }
-                                $rdv['finalizo'] = 1;
-                                $rdv['observacion'] = 'AUTOMATICO';
-                                $rdv['usuario_created_at'] = 1272;
-                                $rdv['usuario_updated_at'] = 1272;
-                                $rdv['updated_at'] = $nuevaFecha;
-                                $rdv->save();
-                            }
-                            }
-                        }
-                    } else {
-//                        $fecha = explode('/', $detfile[9]);
-//                        $nuevaFecha = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' 08:00:00';
-                        
-                        $rutaDetalle = array();
-                        $auxRutaFecha=$nuevaFecha;
-                        if ($detfile[4] == '2') {
-                            $varposicion=2;
-                            if($area_id==26){
-                                $varposicion = 1;
-                            }
-
-                            $rutaDetalle = RutaDetalle::where('norden', '=', $varposicion)
-                                            ->where('ruta_id', '=', $ruta->id)->first();
-                            $rutaDetalle['fecha_inicio'] = $nuevaFecha;
-                            $rutaDetalle['dtiempo_final'] = $nuevaFecha;
-                            $rutaDetalle['tipo_respuesta_id'] = 1;
-                            $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
-                            $rutaDetalle['observacion'] = '';
-                            $rutaDetalle->save();
-                        }
-
-                        if ($detfile[4] == '3') {
-                            $varposicion=3;
-                            if($area_id==26){
-                                $varposicion = 2;
-                            }
-                            $rutaDetalle = RutaDetalle::where('norden', '=', $varposicion)
-                                            ->where('ruta_id', '=', $ruta->id)->first();
-                            $rutaDetalle['fecha_inicio'] = $nuevaFecha;
-                            $rutaDetalle['dtiempo_final'] = $nuevaFecha;
-                            $rutaDetalle['tipo_respuesta_id'] = 1;
-                            $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
-                            $rutaDetalle['observacion'] = '';
-                            $rutaDetalle->save();
-                        }
-
-                        if ($detfile[4] == '4') {
-                            $varposicion=4;
-                            if ($area_id == 26) {
-                                $varposicion=3;
-                            }
-                            if (utf8_encode($detfile[5]) == 'Gerencia de Planificación, Presupuesto y Racionalización') {
 
                                 $rutaDetalle = RutaDetalle::where('norden', '=', $varposicion)
                                                 ->where('ruta_id', '=', $ruta->id)->first();
@@ -904,123 +896,155 @@ class CargarController extends BaseController {
                                 $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
                                 $rutaDetalle['observacion'] = '';
                                 $rutaDetalle->save();
-                            }else {
-                     
-                                    $Ssql="SELECT MAX(id) as id "
-                                            . "FROM referidos "
-                                            . "WHERE ruta_id=".$ruta->id;
-                                    $refe=DB::select($Ssql);
-                                    
-                                    $referido = Referido::find($refe[0]->id);
-                                    $referido['referido'] = utf8_encode($detfile[7]).'|'.$referido->referido;
-                                    $referido->save();
-                                
-                                
                             }
-                        }
 
-                        if ($detfile[4] == '5') {
-                            $varposicion=4;
-                            if ($area_id == 26) {
+                            if ($detfile[4] == '3') {
                                 $varposicion=3;
-                            }
-                            $rutaDetalle = RutaDetalle::where('norden', '=', $varposicion)
-                                            ->where('ruta_id', '=', $ruta->id)->first();
-                            $rutaDetalle['fecha_inicio'] = $nuevaFecha;
-                            $rutaDetalle['dtiempo_final'] = $nuevaFecha;
-                            $rutaDetalle['tipo_respuesta_id'] = 1;
-                            $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
-                            $rutaDetalle['observacion'] = '';
-                            $rutaDetalle->save();
-                        }
-
-                        if ($detfile[4] == '6' or $detfile[4] == '8') {
-                           
-                            $varposicion = 7;
-                            if($area_id==26){
-                                $varposicion = 6;
-                            }
-                            if($area_id==29){
-                                $varposicion = 5;
-                            }
-                            if ($vartipo == 1) {
-                                 if($area_id==29 or $area_id==38 or $area_id==26){
-                                    $varposicion = 7;
-                                 }else{
-                                    $varposicion = 8;
-                                 }
-                            }
-                            $rutaDetalle = RutaDetalle::where('norden', '=', $varposicion)
-                                            ->where('ruta_id', '=', $ruta->id)->first();
-                            $rutaDetalle['fecha_inicio'] = $nuevaFecha;
-                            $rutaDetalle['dtiempo_final'] = $nuevaFecha;
-                            $rutaDetalle['tipo_respuesta_id'] = 1;
-                            $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
-                            $rutaDetalle['observacion'] = '';
-                            $rutaDetalle->save();
-                        }
-
-                        if ($detfile[4] == '7') {
-
-                            $varposicion = 8;
-                            if($area_id==26){
-                                $varposicion = 7;
-                            }
-                            if($area_id==29){
-                                $varposicion = 6;
-                            }
-                            if ($vartipo == 1) {
-                                  if($area_id==29 or $area_id==38 or $area_id==26){
-                                      $varposicion = 8;
-                                  }else{
-                                      $varposicion = 9;
-                                      
-                                  }
-                            }
-                            $rutaDetalle = RutaDetalle::where('norden', '=', $varposicion)
-                                            ->where('ruta_id', '=', $ruta->id)->first();
-                            $rutaDetalle['fecha_inicio'] = $nuevaFecha;
-                            $rutaDetalle['dtiempo_final'] = $nuevaFecha;
-                            $rutaDetalle['tipo_respuesta_id'] = 1;
-                            $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
-                            $rutaDetalle['observacion'] = '';
-                            $rutaDetalle->save();
-                        }
-
-                        if (count($rutaDetalle) > 0) {
-                            $rutaDetalleVerbo = RutaDetalleVerbo::where('ruta_detalle_id', '=', $rutaDetalle->id)
-                                            ->where('estado', '=', 1)->get();
-                            foreach ($rutaDetalleVerbo as $r) {
-                                $rdv = RutaDetalleVerbo::find($r->id);
-                                if ($rdv->verbo_id == 1 and utf8_encode($detfile[7])!='') {
-                                    $rdv['documento'] = utf8_encode($detfile[7]);
-                                     /** **********Agregado de referidos************ */
-                                    $referido = new Referido;
-                                    $referido['ruta_id'] = $ruta->id;
-                                    $referido['tabla_relacion_id'] = $tablarelacion->id;
-                                    $referido['tipo'] = 1;
-                                    $referido['ruta_detalle_id'] = $rutaDetalle->id;
-                                    $referido['norden'] = $rutaDetalle->norden;
-                                    $referido['estado_ruta'] = $rutaDetalle->estado_ruta;
-                                    $referido['referido'] = utf8_encode($detfile[7]);
-                                    $referido['ruta_detalle_verbo_id'] = $rdv->id;
-                                    $referido['fecha_hora_referido'] = $nuevaFecha;
-                                    $referido['usuario_referido'] = $usuario_id;
-                                    $referido['usuario_created_at'] = $usuario_id;
-                                    $referido->save();
-                                    
+                                if($area_id==26){
+                                    $varposicion = 2;
                                 }
-                                $rdv['finalizo'] = 1;
-                                $rdv['observacion'] = 'AUTOMATICO';
-                                $rdv['usuario_created_at'] = $usuario_id;
-                                $rdv['usuario_updated_at'] = $usuario_id;
-                                $rdv['updated_at'] = $nuevaFecha;
-                                $rdv->save();
+                                $rutaDetalle = RutaDetalle::where('norden', '=', $varposicion)
+                                                ->where('ruta_id', '=', $ruta->id)->first();
+                                $rutaDetalle['fecha_inicio'] = $nuevaFecha;
+                                $rutaDetalle['dtiempo_final'] = $nuevaFecha;
+                                $rutaDetalle['tipo_respuesta_id'] = 1;
+                                $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
+                                $rutaDetalle['observacion'] = '';
+                                $rutaDetalle->save();
+                            }
+
+                            if ($detfile[4] == '4') {
+                                $varposicion=4;
+                                if ($area_id == 26) {
+                                    $varposicion=3;
+                                }
+                                if (utf8_encode($detfile[5]) == 'Gerencia de Planificación, Presupuesto y Racionalización') {
+
+                                    $rutaDetalle = RutaDetalle::where('norden', '=', $varposicion)
+                                                    ->where('ruta_id', '=', $ruta->id)->first();
+                                    $rutaDetalle['fecha_inicio'] = $nuevaFecha;
+                                    $rutaDetalle['dtiempo_final'] = $nuevaFecha;
+                                    $rutaDetalle['tipo_respuesta_id'] = 1;
+                                    $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
+                                    $rutaDetalle['observacion'] = '';
+                                    $rutaDetalle->save();
+                                }else {
+
+                                        $Ssql="SELECT MAX(id) as id "
+                                                . "FROM referidos "
+                                                . "WHERE ruta_id=".$ruta->id;
+                                        $refe=DB::select($Ssql);
+
+                                        $referido = Referido::find($refe[0]->id);
+                                        $referido['referido'] = utf8_encode($detfile[7]).'|'.$referido->referido;
+                                        $referido->save();
+
+
+                                }
+                            }
+
+                            if ($detfile[4] == '5') {
+                                $varposicion=4;
+                                if ($area_id == 26) {
+                                    $varposicion=3;
+                                }
+                                $rutaDetalle = RutaDetalle::where('norden', '=', $varposicion)
+                                                ->where('ruta_id', '=', $ruta->id)->first();
+                                $rutaDetalle['fecha_inicio'] = $nuevaFecha;
+                                $rutaDetalle['dtiempo_final'] = $nuevaFecha;
+                                $rutaDetalle['tipo_respuesta_id'] = 1;
+                                $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
+                                $rutaDetalle['observacion'] = '';
+                                $rutaDetalle->save();
+                            }
+
+                            if ($detfile[4] == '6' or $detfile[4] == '8') {
+
+                                $varposicion = 7;
+                                if($area_id==26){
+                                    $varposicion = 6;
+                                }
+                                if($area_id==29){
+                                    $varposicion = 5;
+                                }
+                                if ($vartipo == 1) {
+                                     if($area_id==29 or $area_id==38 or $area_id==26){
+                                        $varposicion = 7;
+                                     }else{
+                                        $varposicion = 8;
+                                     }
+                                }
+                                $rutaDetalle = RutaDetalle::where('norden', '=', $varposicion)
+                                                ->where('ruta_id', '=', $ruta->id)->first();
+                                $rutaDetalle['fecha_inicio'] = $nuevaFecha;
+                                $rutaDetalle['dtiempo_final'] = $nuevaFecha;
+                                $rutaDetalle['tipo_respuesta_id'] = 1;
+                                $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
+                                $rutaDetalle['observacion'] = '';
+                                $rutaDetalle->save();
+                            }
+
+                            if ($detfile[4] == '7') {
+
+                                $varposicion = 8;
+                                if($area_id==26){
+                                    $varposicion = 7;
+                                }
+                                if($area_id==29){
+                                    $varposicion = 6;
+                                }
+                                if ($vartipo == 1) {
+                                      if($area_id==29 or $area_id==38 or $area_id==26){
+                                          $varposicion = 8;
+                                      }else{
+                                          $varposicion = 9;
+
+                                      }
+                                }
+                                $rutaDetalle = RutaDetalle::where('norden', '=', $varposicion)
+                                                ->where('ruta_id', '=', $ruta->id)->first();
+                                $rutaDetalle['fecha_inicio'] = $nuevaFecha;
+                                $rutaDetalle['dtiempo_final'] = $nuevaFecha;
+                                $rutaDetalle['tipo_respuesta_id'] = 1;
+                                $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
+                                $rutaDetalle['observacion'] = '';
+                                $rutaDetalle->save();
+                            }
+
+                            if (count($rutaDetalle) > 0) {
+                                $rutaDetalleVerbo = RutaDetalleVerbo::where('ruta_detalle_id', '=', $rutaDetalle->id)
+                                                ->where('estado', '=', 1)->get();
+                                foreach ($rutaDetalleVerbo as $r) {
+                                    $rdv = RutaDetalleVerbo::find($r->id);
+                                    if ($rdv->verbo_id == 1 and utf8_encode($detfile[7])!='') {
+                                        $rdv['documento'] = utf8_encode($detfile[7]);
+                                         /** **********Agregado de referidos************ */
+                                        $referido = new Referido;
+                                        $referido['ruta_id'] = $ruta->id;
+                                        $referido['tabla_relacion_id'] = $tablarelacion->id;
+                                        $referido['tipo'] = 1;
+                                        $referido['ruta_detalle_id'] = $rutaDetalle->id;
+                                        $referido['norden'] = $rutaDetalle->norden;
+                                        $referido['estado_ruta'] = $rutaDetalle->estado_ruta;
+                                        $referido['referido'] = utf8_encode($detfile[7]);
+                                        $referido['ruta_detalle_verbo_id'] = $rdv->id;
+                                        $referido['fecha_hora_referido'] = $nuevaFecha;
+                                        $referido['usuario_referido'] = $usuario_id;
+                                        $referido['usuario_created_at'] = $usuario_id;
+                                        $referido->save();
+
+                                    }
+                                    $rdv['finalizo'] = 1;
+                                    $rdv['observacion'] = 'AUTOMATICO';
+                                    $rdv['usuario_created_at'] = $usuario_id;
+                                    $rdv['usuario_updated_at'] = $usuario_id;
+                                    $rdv['updated_at'] = $nuevaFecha;
+                                    $rdv->save();
+                                }
                             }
                         }
+
                     }
-
-
 //                    $proveedor = Proveedor::where('ruc','=', $ruc_proveeedor)->first();
                     // --
                     // Muestra ultimos QUERY ejecutados
