@@ -4,7 +4,7 @@ var Cargar={
     var formData = new FormData($("#form_file")[0]);
     
         $.ajax({
-            url: 'cargar/cargargastos',
+            url: 'cargar/cargarequerimiento',
             type: 'POST',
             data: formData,
             async: true,

@@ -10,21 +10,21 @@
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-    @include( 'admin.contabilidad.js.cargargastos_ajax' )
-    @include( 'admin.contabilidad.js.cargargastos' )
+    @include( 'admin.ruta.js.cargarequerimiento_ajax' )
+    @include( 'admin.ruta.js.cargarequerimiento' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-           Cargar Gastos
+           Cargar Requerimiento
             <small> </small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
             <li><a href="#">Reporte</a></li>
-            <li class="active">Carga de Gastos</li>
+            <li class="active">Carga de Requerimientos</li>
         </ol>
     </section>
 
