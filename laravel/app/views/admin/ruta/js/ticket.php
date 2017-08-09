@@ -65,19 +65,7 @@ $(document).ready(function() {
             //$('#form_tickets_modal #txt_responsable').focus();
 
         }
-        else{
-            modal.find('.modal-footer .btn-primary').text('Actualizar');
-            modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
-            $('#form_tickets_modal #txt_persona_id').val( TicketsG.persona_id );
-            $('#form_tickets_modal #txt_area_id').val( TicketsG.area_id );
-            $('#form_tickets_modal #txt_descripcion').val( TicketsG.descripcion );
-            $('#form_tickets_modal #txt_fecha_pendiente').val( TicketsG.fecha_pendiente );
-            $('#form_tickets_modal #txt_fecha_atencion').val( TicketsG.fecha_atencion );
-            $('#form_tickets_modal #txt_fecha_solucion').val( TicketsG.fecha_solucion );
-           // $('#form_tickets_modal #txt_responsable').val( TicketsG.responsable );
-            $('#form_tickets_modal #slct_estado').val( TicketsG.estado );
-            $("#form_tickets_modal").append("<input type='hidden' value='"+TicketsG.id+"' name='id'>");
-         }
+
         $('#form_tickets_modal select').multiselect('rebuild');
         
     });
@@ -97,7 +85,7 @@ BtnEditar=function(btn,id){
     TicketsG.persona_id=$(tr).find("td:eq(0)").text();
     TicketsG.area_id=$(tr).find("td:eq(1)").text();
     TicketsG.descripcion=$(tr).find("td:eq(2)").text();
-    TicketsG.fecha_pendiente=$(tr).find("td:eq(3)").date();
+    TicketsG.fecha_pendiente=$(tr).find("td:eq(3)").text();
     TicketsG.fecha_atencion=$(tr).find("td:eq(4)").text();
     TicketsG.fecha_solucion=$(tr).find("td:eq(5)").text();
     TicketsG.estado=$(tr).find("td:eq(6)>span").attr("data-estado");
@@ -124,9 +112,9 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
     else if(typeof(fn)!='undefined' && fn.col==1){
         return row.area+"<input type='hidden'name='txt_area_id' value='"+row.area_id+"'>";
     }
-    else if(typeof(fn)!='undefined' && fn.col==3){
-        return row.fecha_pendiente+"<input type='hidden'name='txt_fecha_pendiente' value='"+row.fecha_pendiente+"'>";
-    }
+    // else if(typeof(fn)!='undefined' && fn.col==3){
+    //     return row.fecha_pendiente+"<input type='hidden'name='txt_fecha_pendiente' value='"+row.fecha_pendiente+"'>";
+    // }
   
     else if(typeof(fn)!='undefined' && fn.col==6){
         var estadohtml='';

@@ -40,9 +40,11 @@
             <input type="text" class="form-control" placeholder="Ingrese Id Int." name="txt_descripcion" id="txt_descripcion">
           </div>
 
-    
-
-
+          <div class="form-group">
+              <label class="control-label">Fecha Pendiente:</label>
+              <input type="text" class="form-control mant" name="txt_fecha_pendiente" id="txt_fecha_pendiente" value="<?php echo date("Y-m-d"); ?>" readonly="">
+ 
+          </div>
 
           <div class="form-group">
             <label class="control-label">Fecha Atencion
