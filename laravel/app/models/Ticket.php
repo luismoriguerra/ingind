@@ -3,8 +3,8 @@
 class Ticket extends Base
 {
     public $table = "tickets";
-    public static $where =['id', 'persona_id','area_id','descripcion','fecha_inicio','fecha_atendido','fecha_fin_atencion', 'estado'];
-    public static $selec =['id', 'persona_id','area_id','descripcion','fecha_inicio','fecha_atendido','fecha_fin_atencion', 'estado'];
+    public static $where =['id', 'persona_id','area_id','descripcion','fecha_pendiente','fecha_atencion','fecha_solucion', 'estado'];
+    public static $selec =['id', 'persona_id','area_id','descripcion','fecha_pendiente','fecha_atencion','fecha_solucion', 'estado'];
     
     public static function getCargarCount( $array )
     {
@@ -18,8 +18,10 @@ class Ticket extends Base
 
     public static function getCargar( $array )
     {
-        $sSql=" SELECT t.id, t.persona_id,t.area_id,t.descripcion,t.estado
-                  FROM tickets t
+        $sSql=" SELECT t.id, CONCAT_WS(' ',p1.paterno,p1.materno,p1.nombre) solicitante,a.nemonico area,t.descripcion,t.fecha_pendiente,t.fecha_atencion,t.fecha_solucion,t.estado
+                FROM tickets t
+                left join personas as p1 on p1.id = t.persona_id
+                left join areas as a on a.id= t.area_id
                 WHERE 1=1 ";
         $sSql.= $array['where'].
                 $array['order'].
@@ -31,7 +33,7 @@ class Ticket extends Base
 
     public function getTicket(){
         $ticket=DB::table('tickets')
-                ->select('id','persona_id','area_id','descripcion','estado')
+                ->select('id','persona_id','area_id','descripcion','fecha_pendiente','fecha_atencion','fecha_solucion', 'estado')
                 ->where( 
                     function($query){
                         if ( Input::get('estado') ) {
