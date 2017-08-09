@@ -14,7 +14,7 @@
         <legend>Datos Importantes</legend>
         <div class="form-group"> 
 
-
+        <input class='form-control mant' type='hidden' id="slct_estado" name="slct_estado" value='1'>
         <!-- INICIA EL DIV DE 12 -->
         <div class="col-sm-12">        
           <!-- JALA EL NOMBRE DE LA PERSONA QUE ESTA LOGEADA -->
@@ -113,10 +113,9 @@
             <label class="control-label">Estado:
             </label>
             <select class="form-control" name="slct_estado" id="slct_estado">
-                <option value='0'>Inactivo</option>
-                <option value='1' selected>Activo</option>
+                <option value='1' selected>Pendiente</option>
             </select>
-          </div>
+          </div> 
           </fieldset>
         </form>
 

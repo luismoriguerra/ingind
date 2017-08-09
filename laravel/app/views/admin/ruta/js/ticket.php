@@ -18,7 +18,7 @@ $(document).ready(function() {
                 fecha_pendiente      :'onBlur|Fecha Pendiente|#DCE6F1', //#DCE6F1
                 fecha_atencion      :'onBlur|Fecha Atencion|#DCE6F1', //#DCE6F1
                 fecha_solucion      :'onBlur|Fecha Solucion|#DCE6F1', //#DCE6F1
-                estado        :'2|Estado|#DCE6F1', //#DCE6F1
+                estado        :'4|Estado|#DCE6F1', //#DCE6F1
              };
 
     var resG=dataTableG.CargarCab(idG);
@@ -118,9 +118,15 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
   
     else if(typeof(fn)!='undefined' && fn.col==6){
         var estadohtml='';
-        estadohtml='<span id="'+row.id+'" onClick="activar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-danger">Inactivo</span>';
+        //estadohtml='<span id="'+row.id+'" onClick="atendido('+row.id+')" data-estado="'+row.estado+'" class="btn btn-success">Atendido</span>';
         if(row.estado==1){
-            estadohtml='<span id="'+row.id+'" onClick="desactivar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-success">Activo</span>';
+            estadohtml='<span id="'+row.id+'" onClick="CambiarEstado('+row.id+',2)" data-estado="'+row.estado+'" class="btn btn-success">Pendiente</span>';
+        }
+        else if(row.estado==2){
+            estadohtml='<span id="'+row.id+'" onClick="CambiarEstado('+row.id+',3)" data-estado="'+row.estado+'" class="btn btn-warning">Atendido</span>';
+        }
+        else if(row.estado==3){
+            estadohtml='<span id="'+row.id+'" onClick="CambiarEstado('+row.id+')" data-estado="'+row.estado+'" >Solucionado</span>';
         }
         return estadohtml;
     }
@@ -166,54 +172,25 @@ validaTickets=function(){
     return r;
 };
 
+CambiarEstado=function(id,valor){
+    
 
-HTMLCargarTicket=function(datos){
-    var html="", estadohtml="";
-    $('#t_tickets').dataTable().fnDestroy();
-    $.each(datos,function(index,data){
-        estadohtml='<span id="'+data.id+'" onClick="activar('+data.id+')" class="btn btn-danger">Inactivo</span>';
-        if(data.estado==1){
-            estadohtml='<span id="'+data.id+'" onClick="desactivar('+data.id+')" class="btn btn-success">Activo</span>';
-        }
-
-        html+="<tr>"+
-            "<td>"+data.persona_id+"</td>"+
-            "<td>"+data.area_id+"</td>"+
-            "<td>"+data.descripcion+"</td>"+
-            "<td>"+data.fecha_pendiente+"</td>"+
-            "<td>"+data.fecha_atencion+"</td>"+
-            "<td>"+data.fecha_solucion+"</td>"+
-            "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
-            '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ticketModal" data-id="'+index+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
-
-        html+="</tr>";
-    });
-    $("#tb_tickets").html(html);
-    activarTabla();
+        Tickets.CambiarEstadoTickets(id,valor);
+    
 };
 
 
+// valida=function(inicial,id,v_default){
+//     var texto="Seleccione";
+//     if(inicial=="txt"){
+//         texto="Ingrese";
+//     }
 
-validaTickets=function(){
-   var r=true;
-    if( $("#form_tickets_modal #txt_persona_id").val()=='' ){
-        alert("Ingrese Nombre de Solicitante");
-        r=false;
-    }
-    return r;
-};
-
-valida=function(inicial,id,v_default){
-    var texto="Seleccione";
-    if(inicial=="txt"){
-        texto="Ingrese";
-    }
-
-    if( $.trim($("#"+inicial+"_"+id).val())==v_default ){
-        $('#error_'+id).attr('data-original-title',texto+' '+id);
-        $('#error_'+id).css('display','');
-        return false;
-    }   
-};
+//     if( $.trim($("#"+inicial+"_"+id).val())==v_default ){
+//         $('#error_'+id).attr('data-original-title',texto+' '+id);
+//         $('#error_'+id).css('display','');
+//         return false;
+//     }   
+// };
 
 </script>
