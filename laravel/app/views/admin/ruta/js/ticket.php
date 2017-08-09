@@ -9,7 +9,7 @@ $(document).ready(function() {
         3: Color Cabecera
     */
 
-    slctGlobalHtml('slct_estado','simple');
+    //slctGlobalHtml('slct_estado','simple');
 
 
     var idG={   persona_id        :'3|Solicitante|#DCE6F1', //#DCE6F1
@@ -18,7 +18,7 @@ $(document).ready(function() {
                 fecha_pendiente      :'onBlur|Fecha Pendiente|#DCE6F1', //#DCE6F1
                 fecha_atencion      :'onBlur|Fecha Atencion|#DCE6F1', //#DCE6F1
                 fecha_solucion      :'onBlur|Fecha Solucion|#DCE6F1', //#DCE6F1
-                estado        :'4|Estado|#DCE6F1', //#DCE6F1
+                estado        :'2|Estado|#DCE6F1', //#DCE6F1
              };
 
     var resG=dataTableG.CargarCab(idG);
@@ -47,7 +47,7 @@ $(document).ready(function() {
       // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
       // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
       var modal = $(this); //captura el modal
-      modal.find('.modal-title').text(titulo+' Area');
+      modal.find('.modal-title').text(titulo+' Ticket');
       $('#form_tickets_modal [data-toggle="tooltip"]').css("display","none");
       $("#form_tickets_modal input[type='hidden']").not('.mant').remove();
 
@@ -55,7 +55,7 @@ $(document).ready(function() {
 
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
-            $('#form_tickets_modal #slct_estado').val(1); 
+           // $('#form_tickets_modal #slct_estado').val(1); 
             $('#form_tickets_modal #txt_persona_id').focus();
             $('#form_tickets_modal #txt_area_id').focus();
             $('#form_tickets_modal #txt_descripcion').focus();
@@ -126,9 +126,11 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
             estadohtml='<span id="'+row.id+'" onClick="CambiarEstado('+row.id+',3)" data-estado="'+row.estado+'" class="btn btn-warning">Atendido</span>';
         }
         else if(row.estado==3){
-            estadohtml='<span id="'+row.id+'" onClick="CambiarEstado('+row.id+')" data-estado="'+row.estado+'" >Solucionado</span>';
+            estadohtml='<span id="'+row.id+'"  data-estado="'+row.estado+'" >Solucionado</span>';
         }
         return estadohtml;
+
+
     }
 }
 

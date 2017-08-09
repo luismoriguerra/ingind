@@ -148,7 +148,7 @@ class TicketController extends \BaseController
             $tickets->area_id = Input::get('solicitante_area');
             $tickets->descripcion = Input::get('descripcion');
             $tickets->fecha_pendiente = Input::get('fecha_pendiente');
-            $tickets->estado = Input::get('estado:1');
+          //  $tickets->estado = Input::get('estado:1');
             $tickets->usuario_created_at = Auth::user()->id;
             $tickets->save();
 
