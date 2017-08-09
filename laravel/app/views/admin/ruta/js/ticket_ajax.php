@@ -46,30 +46,20 @@ var Tickets={
             cache       : false,
             dataType    : 'json',
             beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
                 
+
             },
             success : function(obj) {
-                var html="";
-                var estadohtml="";
                 if(obj.rst==1){
-                    $.each(obj.datos,function(index,data){
-                        estadohtml='<span id="'+data.id+'" onClick="activar('+data.id+')" class="btn btn-danger">Inactivo</span>';
-                        if(data.estado==1){
-                            estadohtml='<span id="'+data.id+'" onClick="desactivar('+data.id+')" class="btn btn-success">Activo</span>';
-                        }
-
-                        html+="<tr>"+
-                            "<td id='nombre_"+data.id+"'>"+data.nombre+"</td>"+
-                            "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
-                            '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ticketModal" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
-
-                        html+="</tr>";
-                    });
+                    MostrarAjax('ticket');
+          
                 }
-                $("#tb_tickets").html(html); 
-                evento();  
+                $(".overlay,.loading-img").remove();
             },
             error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
             }
         });
     },

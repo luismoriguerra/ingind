@@ -50,8 +50,24 @@ class TicketController extends \BaseController
                 }
             }
 
-
-
+            if( Input::has("fecha_pendiente") ){
+                $fecha_pendiente=Input::get("fecha_pendiente");
+                if( trim( $fecha_pendiente )!='' ){
+                    $array['where'].=" AND t.fecha_pendiente LIKE '%".$fecha_pendiente."%' ";
+                }
+            }
+            if( Input::has("fecha_atencion") ){
+                $fecha_atencion=Input::get("fecha_atencion");
+                if( trim( $fecha_atencion )!='' ){
+                    $array['where'].=" AND t.fecha_atencion LIKE '%".$fecha_atencion."%' ";
+                }
+            }
+            if( Input::has("fecha_solucion") ){
+                $fecha_solucion=Input::get("fecha_solucion");
+                if( trim( $fecha_solucion )!='' ){
+                    $array['where'].=" AND t.fecha_solucion LIKE '%".$fecha_solucion."%' ";
+                }
+            }
 
             if( Input::has("estado") ){
                 $estado=Input::get("estado");

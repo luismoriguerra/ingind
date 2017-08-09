@@ -24,7 +24,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
-            <li><a href="#">mmmm</a></li>
+            <li><a href="#">Tramite</a></li>
             <li class="active">Bandeja de Ticket</li>
         </ol>
     </section>
@@ -41,7 +41,7 @@
                             <div class="box-body table-responsive">
                                 <table id="t_tickets" class="table table-bordered table-striped">
                                     <thead>
-                                    <tr><th colspan="6" style="text-align:center;background-color:#A7C0DC;"><h2>Tickets</h2></th></tr>
+                                    <tr><th colspan="7" style="text-align:center;background-color:#A7C0DC;"><h2>Tickets</h2></th></tr>
                                         <tr>
                                         
                                         </tr>

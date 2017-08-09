@@ -36,6 +36,33 @@
             <input type="text" class="form-control" placeholder="Ingrese Id Int." name="txt_descripcion" id="txt_descripcion">
           </div>
 
+          <div class="form-group">
+            <label class="control-label">Fecha Pendiente
+                <a id="error_fecha_pendiente" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Id Int.">
+                    <i class="fa fa-exclamation"></i>
+                </a>
+            </label>
+            <input type="text" class="form-control" placeholder="Ingrese Id Int." name="txt_fecha_pendiente" id="txt_fecha_pendiente">
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Fecha Atencion
+                <a id="error_fecha_atencion" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Id Int.">
+                    <i class="fa fa-exclamation"></i>
+                </a>
+            </label>
+            <input type="text" class="form-control" placeholder="Ingrese Id Int." name="txt_fecha_atencion" id="txt_fecha_atencion">
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Fecha Solucion
+                <a id="error_fecha_solucion" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Id Int.">
+                    <i class="fa fa-exclamation"></i>
+                </a>
+            </label>
+            <input type="text" class="form-control" placeholder="Ingrese Id Int." name="txt_fecha_solucion" id="txt_fecha_solucion">
+          </div>
+
 
           <div class="form-group">
             <label class="control-label">Estado:
