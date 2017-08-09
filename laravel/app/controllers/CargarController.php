@@ -1225,7 +1225,8 @@ class CargarController extends BaseController {
                                 ->where('nro_doc_b', '=', $detfile[13])
                                 ->where('persona_doc_b', '=', $detfile[14])
                                 ->first();
-                                
+                    }
+                        
                     if (count($conta_gastos_deta) == 0) {
 
                         $obj = new GastosDetallesContables();
@@ -1287,7 +1288,7 @@ class CargarController extends BaseController {
         }
     }
     
-                    }
+                    
 
     public function BuscarArea($nombreArea) {
 

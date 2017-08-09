@@ -26,14 +26,28 @@ class GastosDetallesContables extends \Eloquent {
 					WHERE cgd.estado = 1 ";
         
         if (Input::has('saldos_pago') && Input::get('saldos_pago') == 'S') {
+            
+            if (Input::has('fecha_ini') && Input::get('fecha_ini') && Input::has('fecha_fin') && Input::get('fecha_fin')) {
+                $fecha_ini=Input::get('fecha_ini');
+                $fecha_fin=Input::get('fecha_fin');
+            }
+
             $sSql .= " AND (
                                 (SELECT SUM(cgd1.monto_expede)
                                     FROM contabilidad_gastos_detalle cgd1 
-                                        WHERE cgd1.tipo_expede = 'GC' AND cgd1.contabilidad_gastos_id = cg.id) - 
+                                        WHERE cgd1.tipo_expede = 'GC' AND cgd1.contabilidad_gastos_id = cg.id ";
+                        if($fecha_ini && $fecha_fin)    
+                                $sSql .= " AND DATE_FORMAT(cgd1.fecha_documento,'%Y-%m') BETWEEN '" . $fecha_ini . "' AND '" . $fecha_fin . "' ";
+            
+                            $sSql .= " ) -
                                     IF((@W_MGC := 
                                             (SELECT SUM(cgd3.monto_expede) 
                                                 FROM contabilidad_gastos_detalle cgd3 
-                                                    WHERE cgd3.tipo_expede = 'GG' AND cgd3.contabilidad_gastos_id = cg.id)) IS NULL, 
+                                                    WHERE cgd3.tipo_expede = 'GG' AND cgd3.contabilidad_gastos_id = cg.id ";
+                        if($fecha_ini && $fecha_fin)    
+                                            $sSql .= " AND DATE_FORMAT(cgd3.fecha_documento,'%Y-%m') BETWEEN '" . $fecha_ini . "' AND '" . $fecha_fin . "' ";
+                                    
+                                    $sSql .= " )) IS NULL, 
                                                 0,
                                             @W_MGC
                                     )
@@ -111,14 +125,28 @@ class GastosDetallesContables extends \Eloquent {
 						WHERE cgd.estado = 1 ";
 
         if (Input::has('saldos_pago') && Input::get('saldos_pago') == 'S') {
+            
+            if (Input::has('fecha_ini') && Input::get('fecha_ini') && Input::has('fecha_fin') && Input::get('fecha_fin')) {
+                $fecha_ini=Input::get('fecha_ini');
+                $fecha_fin=Input::get('fecha_fin');
+            }
+
             $sSql .= " AND (
                                 (SELECT SUM(cgd1.monto_expede)
                                     FROM contabilidad_gastos_detalle cgd1 
-                                        WHERE cgd1.tipo_expede = 'GC' AND cgd1.contabilidad_gastos_id = cg.id) - 
+                                        WHERE cgd1.tipo_expede = 'GC' AND cgd1.contabilidad_gastos_id = cg.id ";
+                        if($fecha_ini && $fecha_fin)    
+                                $sSql .= " AND DATE_FORMAT(cgd1.fecha_documento,'%Y-%m') BETWEEN '" . $fecha_ini . "' AND '" . $fecha_fin . "' ";
+            
+                            $sSql .= " ) -
                                     IF((@W_MGC := 
                                             (SELECT SUM(cgd3.monto_expede) 
                                                 FROM contabilidad_gastos_detalle cgd3 
-                                                    WHERE cgd3.tipo_expede = 'GG' AND cgd3.contabilidad_gastos_id = cg.id)) IS NULL, 
+                                                    WHERE cgd3.tipo_expede = 'GG' AND cgd3.contabilidad_gastos_id = cg.id ";
+                        if($fecha_ini && $fecha_fin)    
+                                            $sSql .= " AND DATE_FORMAT(cgd3.fecha_documento,'%Y-%m') BETWEEN '" . $fecha_ini . "' AND '" . $fecha_fin . "' ";
+                                    
+                                    $sSql .= " )) IS NULL, 
                                                 0,
                                             @W_MGC
                                     )
@@ -207,19 +235,27 @@ class GastosDetallesContables extends \Eloquent {
             list($fechaIni, $fechaFin) = explode(" - ", $fecha);
             $sSql.=' AND cgd.fecha_documento BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
         }
-
+        
         $sSql .= " AND (
-                                (SELECT SUM(cgd1.monto_expede)
-                                    FROM contabilidad_gastos_detalle cgd1 
-                                        WHERE cgd1.tipo_expede = 'GC' AND cgd1.contabilidad_gastos_id = cg.id) - 
-                                    IF((@W_MGC := 
-                                            (SELECT SUM(cgd3.monto_expede) 
-                                                FROM contabilidad_gastos_detalle cgd3 
-                                                    WHERE cgd3.tipo_expede = 'GG' AND cgd3.contabilidad_gastos_id = cg.id)) IS NULL, 
-                                                0,
-                                            @W_MGC
-                                    )
-                    ) > 0 ";
+                            (SELECT SUM(cgd1.monto_expede)
+                                FROM contabilidad_gastos_detalle cgd1 
+                                    WHERE cgd1.tipo_expede = 'GC' AND cgd1.contabilidad_gastos_id = cg.id ";
+                    if($fecha)    
+                            $sSql .= " AND cgd1.fecha_documento BETWEEN '" . $fechaIni . "' AND '" . $fechaFin . "' ";
+        
+                        $sSql .= " ) -
+                                IF((@W_MGC := 
+                                        (SELECT SUM(cgd3.monto_expede) 
+                                            FROM contabilidad_gastos_detalle cgd3 
+                                                WHERE cgd3.tipo_expede = 'GG' AND cgd3.contabilidad_gastos_id = cg.id ";
+                    if($fecha)    
+                                        $sSql .= " AND cgd3.fecha_documento BETWEEN '" . $fechaIni . "' AND '" . $fechaFin . "' ";
+                                
+                                $sSql .= " )) IS NULL, 
+                                            0,
+                                        @W_MGC
+                                )
+                ) > 0 ";
 
         $sSql .= " GROUP BY cg.nro_expede, cp.ruc, cp.proveedor ";
         $sSql .= " ORDER BY cg.nro_expede;";
