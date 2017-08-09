@@ -1282,6 +1282,8 @@ class CargarController extends BaseController {
             );
         }
     }
+    
+                    }
 
     public function BuscarArea($nombreArea) {
 
