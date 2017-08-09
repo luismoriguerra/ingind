@@ -99,15 +99,8 @@
            </div>
 
            
-
-
         </div><!-- FIN DEL DIV DE 12 -->   
-     
-
-      
-          
-          
-
+    
 
           <div class="form-group">
             <label class="control-label">Estado:

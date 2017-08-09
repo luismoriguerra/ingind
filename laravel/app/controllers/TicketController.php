@@ -220,7 +220,6 @@ class TicketController extends \BaseController
      */
     public function postCambiarestado()
     {
-
         if ( Request::ajax() ) {
             $ticketId = Input::get('id');
             $estado = Input::get('estado');

@@ -30,7 +30,6 @@ class Ticket extends Base
         return $oData;
     }
 
-
     public function getTicket(){
         $ticket=DB::table('tickets')
                 ->select('id','persona_id','area_id','descripcion','fecha_pendiente','fecha_atencion','fecha_solucion', 'estado')

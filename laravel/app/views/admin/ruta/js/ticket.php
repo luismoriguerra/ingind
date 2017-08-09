@@ -144,8 +144,6 @@ desactivar=function(id){
     Tickets.CambiarEstadoTickets(id,0);
 };
 
-
-
 Editar=function(){
     if(validaTickets()){
         Tickets.AgregarEditarTicket(1);
