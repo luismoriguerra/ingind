@@ -49,7 +49,7 @@ $(document).ready(function() {
       var modal = $(this); //captura el modal
       modal.find('.modal-title').text(titulo+' Area');
       $('#form_tickets_modal [data-toggle="tooltip"]').css("display","none");
-      $("#form_tickets_modal input[type='hidden']").remove();
+      $("#form_tickets_modal input[type='hidden']").not('.mant').remove();
 
         if(titulo=='Nuevo'){
 
@@ -83,7 +83,10 @@ $(document).ready(function() {
     });
 
     $('#ticketModal').on('hide.bs.modal', function (event) {
-        $('#form_tickets_modal input').val('');
+        //$('#form_tickets_modal input').not('.mant').val('');
+        $('#form_tickets_modal #txt_descripcion').val( '' );
+        $('#form_tickets_modal #txt_fecha_atencion').val( '' );
+        $('#form_tickets_modal #txt_fecha_solucion').val( '' );
 
     });
 });
@@ -94,7 +97,7 @@ BtnEditar=function(btn,id){
     TicketsG.persona_id=$(tr).find("td:eq(0)").text();
     TicketsG.area_id=$(tr).find("td:eq(1)").text();
     TicketsG.descripcion=$(tr).find("td:eq(2)").text();
-    TicketsG.fecha_pendiente=$(tr).find("td:eq(3)").text();
+    TicketsG.fecha_pendiente=$(tr).find("td:eq(3)").date();
     TicketsG.fecha_atencion=$(tr).find("td:eq(4)").text();
     TicketsG.fecha_solucion=$(tr).find("td:eq(5)").text();
     TicketsG.estado=$(tr).find("td:eq(6)>span").attr("data-estado");
@@ -120,6 +123,9 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
 
     else if(typeof(fn)!='undefined' && fn.col==1){
         return row.area+"<input type='hidden'name='txt_area_id' value='"+row.area_id+"'>";
+    }
+    else if(typeof(fn)!='undefined' && fn.col==3){
+        return row.fecha_pendiente+"<input type='hidden'name='txt_fecha_pendiente' value='"+row.fecha_pendiente+"'>";
     }
   
     else if(typeof(fn)!='undefined' && fn.col==6){

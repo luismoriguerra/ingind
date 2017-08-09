@@ -4,6 +4,8 @@ var Tickets={
         var datos = $("#form_tickets_modal").serialize().split("txt_").join("").split("slct_").join("");
         var accion = (AE==1) ? "ticket/editar" : "ticket/crear";
 
+        console.log(datos);
+
         $.ajax({
             url         : accion,
             type        : 'POST',

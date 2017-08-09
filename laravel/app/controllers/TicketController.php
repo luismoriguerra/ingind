@@ -125,7 +125,7 @@ class TicketController extends \BaseController
             $regex='regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
             $required='required';
             $reglas = array(
-                'persona_id' => $required.'|'.$regex,
+                //'persona_id' => $required.'|'.$regex,
             );
             $mensaje= array(
                 'required'    => ':attribute Es requerido',
@@ -144,9 +144,10 @@ class TicketController extends \BaseController
             }
 
             $tickets = new Ticket;
-            $tickets->persona_id = Input::get('persona_id');
-            $tickets->area_id = Input::get('area_id');
+            $tickets->persona_id = Input::get('solicitante');
+            $tickets->area_id = Input::get('solicitante_area');
             $tickets->descripcion = Input::get('descripcion');
+            $tickets->fecha_pendiente = Input::get('fecha_pendiente');
             $tickets->estado = Input::get('estado');
             $tickets->usuario_created_at = Auth::user()->id;
             $tickets->save();
@@ -155,7 +156,8 @@ class TicketController extends \BaseController
                 array(
                 'rst'=>1,
                 'msj'=>'Registro realizado correctamente',
-                'area_id'=>$tickets->id,
+                'ticket_id'=>$tickets->id,
+
                 )
             );
         }
@@ -173,7 +175,7 @@ class TicketController extends \BaseController
             $regex='regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
             $required='required';
             $reglas = array(
-                'persona_id' => $required.'|'.$regex,
+              //  'persona_id' => $required.'|'.$regex,
             );
 
             $mensaje= array(
