@@ -38,7 +38,8 @@ var Reporte={
             dataType    : 'json',
             data        : dataG,
             beforeSend : function() {
-                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+                //$("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+                $("#tb_deta").html("<tr><td colspan='8' style='text-align: center;'>Cargando Registros..</td></tr>");
             },
             success : function(obj) {
                 $(".overlay,.loading-img").remove();

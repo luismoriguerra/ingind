@@ -25,7 +25,7 @@ $(document).ready(function() {
             dataG = $('#form_reporte').serialize().split("txt_").join("").split("slct_").join("");
             //console.debug(dataG);
             Reporte.MostrarReporte(dataG);
-            Reporte.MostrarReporteDetalle(dataG);
+            //Reporte.MostrarReporteDetalle(dataG); // Ya no va este listado!
         }
         else
         {
@@ -78,61 +78,80 @@ activarTabla=function(){
 
 HTMLMostrarReporte=function(datos){
   if(datos.length > 0){
-    $('#t_ordenest').dataTable().fnDestroy();
+    //$('#t_ordenest').dataTable().fnDestroy();
     var html ='';
     var con = 0;
+
+    var AC_GC = 0;
+    var AC_GD = 0;
+    var AC_GG = 0;
+
+    var aux_id = '';
     $.each(datos,function(index,data){
         con++;
+        if( aux_id != data.contabilidad_gastos_id ){
+               
+            if(aux_id != ''){
+                html+="<tr style='font-weight: bold;'>"+
+                        '<td>SALDOS</td>'+
+                        "<td>"+AC_GC.toFixed(2)+"</td>"+
+                        "<td>"+AC_GD.toFixed(2)+"</td>"+
+                        "<td>"+AC_GG.toFixed(2)+"</td>"+
+                        "<td>&nbsp;</td>"+
+                        "<td>&nbsp;</td>"+
+                        "<td>&nbsp;</td>"+
+                        "<td>&nbsp;</td>"+
+                        "<td>&nbsp;</td>"+
+                        "<td>&nbsp;</td>"+
+                        "<td>&nbsp;</td>";
+                html+="</tr>";
+                AC_GC = 0;
+                AC_GD = 0;
+                AC_GG = 0;
+            }
+            aux_id = data.contabilidad_gastos_id;
+        }
+
         html+="<tr>"+
-                //'<td><span onclick="verAdicional('+con+')" style="cursor: pointer; margin-left: 6px;" class="glyphicon glyphicon-plus" aria-hidden="true"></span></td>'+
                 '<td>'+data.nro_expede+'</td>'+
-                "<td>"+data.tipo_expede+"</td>"+
-                "<td>"+data.monto_expede+"</td>"+
+                "<td>"+data.gc+"</td>"+
+                "<td>"+data.gd+"</td>"+
+                "<td>"+data.gg+"</td>"+
                 "<td>"+data.fecha_documento+"</td>"+
                 "<td>"+data.documento+"</td>"+
-                    "<td>"+data.nro_documento+"</td>"+
+                "<td>"+data.nro_documento+"</td>"+
                 "<td>"+data.ruc+"</td>"+
                 "<td>"+data.proveedor+"</td>"+
-                    "<td>"+data.esp_d+"</td>"+
-                "<td>"+data.observacion+"</td>";
+                "<td>"+data.esp_d+"</td>"+
+                '<td><span onclick="verAdicional('+con+')" style="cursor: pointer; margin-left: 4px;" class="glyphicon glyphicon-plus" aria-hidden="true"></span></td>';
         html+="</tr>";
 
-        //html+="<tr role='row' class='class_obs "+clase+"' style='display: none;' id='obs"+con+"'>";
-        //    html+="<td colspan='8'><div style='padding: 15px 15px; background-color: #F5F5F5;'><strong>Observación:</strong> "+data.observacion+"</div></td>";
-        //html+="</tr>";
+        // Muestra la observación
+        html+="<tr role='row' style='display: none;' id='obs"+con+"'>";
+            html+="<td colspan='8'><div style='padding: 15px 15px; background-color: #F5F5F5;'><strong>Observación:</strong> "+data.observacion+"</div></td>";
+        html+="</tr>";
+        // --
+
+        AC_GC += data.gc*1;
+        AC_GD += data.gd*1;
+        AC_GG += data.gg*1;
     });
+
+        html+="<tr style='font-weight: bold;'>"+
+                '<td>SALDOS</td>'+
+                "<td>"+AC_GC.toFixed(2)+"</td>"+
+                "<td>"+AC_GD.toFixed(2)+"</td>"+
+                "<td>"+AC_GG.toFixed(2)+"</td>"+
+                "<td>&nbsp;</td>"+
+                "<td>&nbsp;</td>"+
+                "<td>&nbsp;</td>"+
+                "<td>&nbsp;</td>"+
+                "<td>&nbsp;</td>"+
+                "<td>&nbsp;</td>"+
+                "<td>&nbsp;</td>";
+        html+="</tr>";
     
-    //$("#t_ordenest").DataTable();
-    //console.debug(JSON.stringify(datos));
-    //declaro como global
-    /*
-    $("#t_ordenest").DataTable( {
-        "ajax": datos,
-        "columns": [
-            {
-                "className":      'details-control',
-                "orderable":      false,
-                "data":           null,
-                "defaultContent": ''
-            },
-            { "data": "nro_expede" },
-            { "data": "tipo_expede" },
-            { "data": "monto_expede" },
-            { "data": "fecha_documento" },
-            { "data": "documento" },
-            { "data": "ruc" },
-            { "data": "proveedor" }
-            //{ "data": "observacion" }
-        ],
-        "order": [[1, 'asc']]
-    });
-    */
     $("#tb_ordenest").html(html);
-    $("#t_ordenest").dataTable(
-        {
-            "order": [[ 0, "asc" ],[1, "asc"]],
-        }
-    ); 
     //$("#reporte").show();
     // --
 

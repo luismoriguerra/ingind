@@ -133,23 +133,25 @@
                 </fieldset>
               
               
-                  <div class="row form-group" id="tramite_asignado" >
+                  <div class="row form-group" id="reporte" >
                     <div class="col-sm-12">
                       <div class="box-body table-responsive">
                          <table id="t_ordenest" class="table table-bordered">
                             <thead>
                                <tr>
                                    <!-- <th width="4%">&nbsp;</th> -->
-                                   <th width="10%">Expediente</th>
-                                   <th width="6%">Fase</th>
-                                   <th width="11%">Monto S/.</th>
-                                   <th width="10%">Fecha Doc.</th>
-                                   <th>Documento</th>
-                                   <th>Nro. Doc.</th>
-                                   <th>Ruc</th>
-                                   <th>Proveedor</th>
-                                   <th>Esp. D</th>
-                                   <th>Observaci&oacute;n</th>
+                                   <th width="10%">EXPEDIENTE</th>
+                                   <!-- <th width="6%">Fase</th> -->
+                                   <th width="11%">MONTO GC</th>
+                                   <th width="11%">MONTO GD</th>
+                                   <th width="11%">MONTO GG</th>
+                                   <th width="10%">FECHA DOC.</th>
+                                   <th>DOCUMENTO</th>
+                                   <th>NRO. DOC.</th>
+                                   <th>RUC</th>
+                                   <th>PROVEEDOR</th>
+                                   <th>ESP. D</th>
+                                   <th> OBS </th>
                                </tr>
                             </thead>
                             <tbody id="tb_ordenest"></tbody>
@@ -160,8 +162,7 @@
               </form>
 
 
-              <div class="row form-group" id="div_detalle" >
-
+              <div class="row form-group" id="div_detalle" style="display: none;">
                 <div class="col-sm-12">
                   <h4 style="padding: 4px 12px; color: #666666;">MONTOS TOTALES </h4>
                   <div class="box-body table-responsive">

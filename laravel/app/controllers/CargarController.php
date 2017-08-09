@@ -759,18 +759,40 @@ class CargarController extends BaseController
                         }
                     }
 
-                    $conta_gastos_deta = GastosDetallesContables::where( 'contabilidad_gastos_id','=', $conta_gastos->id )
-                                                        ->where('tipo_expede','=', $detfile[1])
-                                                        ->where('monto_expede','=', $monto_expede)
-                                                        ->where('fecha_documento','=', $detfile[5])
-                                                            ->where('documento','=', $detfile[6])
-                                                        ->where('nro_documento','=', $detfile[7])
-                                                            ->where('esp_d','=', $detfile[10])
-                                                            ->where('fecha_doc_b','=', $detfile[11])
-                                                            ->where('doc_b','=', $detfile[12])
-                                                        ->where('nro_doc_b','=', $detfile[13])
-                                                        ->where('persona_doc_b','=', $detfile[14])
-                                                        ->first();
+                    
+                    //if(($detfile[11] * 1) > 0)
+                    //{
+                        $conta_gastos_deta = GastosDetallesContables::where( 'contabilidad_gastos_id','=', $conta_gastos->id )
+                                                                    ->where('tipo_expede','=', $detfile[1])
+                                                                    ->where('monto_expede','=', $monto_expede)
+                                                                    ->where('fecha_documento','=', $detfile[5])
+                                                                        ->where('documento','=', $detfile[6])
+                                                                    ->where('nro_documento','=', $detfile[7])
+                                                                        ->where('esp_d','=', $detfile[10])
+                                                                        ->where('fecha_doc_b', '=', $detfile[11])
+                                                                        ->where('doc_b','=', $detfile[12])
+                                                                    ->where('nro_doc_b','=', $detfile[13])
+                                                                    ->where('persona_doc_b','=', $detfile[14])
+                                                                    ->where('observacion','=', $detfile[15])
+                                                                    ->first();
+                    /*}
+                    else // para valores Null
+                    {
+                        $conta_gastos_deta = GastosDetallesContables::where( 'contabilidad_gastos_id','=', $conta_gastos->id )
+                                                                    ->where('tipo_expede','=', $detfile[1])
+                                                                    ->where('monto_expede','=', $monto_expede)
+                                                                    ->where('fecha_documento','=', $detfile[5])
+                                                                        ->where('documento','=', $detfile[6])
+                                                                    ->where('nro_documento','=', $detfile[7])
+                                                                        ->where('esp_d','=', $detfile[10])
+                                                                        ->whereNull('fecha_doc_b')
+                                                                        ->where('doc_b','=', $detfile[12])
+                                                                    ->where('nro_doc_b','=', $detfile[13])
+                                                                    ->where('persona_doc_b','=', $detfile[14])
+                                                                    ->where('observacion','=', $detfile[15])
+                                                                    ->first();
+                    }                    
+                    */
                     if( count($conta_gastos_deta) == 0 )
                     {
                         $obj = new GastosDetallesContables();
