@@ -18,7 +18,7 @@ class Ticket extends Base
 
     public static function getCargar( $array )
     {
-        $sSql=" SELECT t.id, CONCAT_WS(' ',p1.paterno,p1.materno,p1.nombre) solicitante,a.nemonico area,t.descripcion,t.fecha_pendiente,t.fecha_atencion,t.fecha_solucion,t.estado
+        $sSql=" SELECT t.id,p1.id as persona_id, CONCAT_WS(' ',p1.paterno,p1.materno,p1.nombre) solicitante,a.id as area_id,a.nombre area,t.descripcion,t.fecha_pendiente,t.fecha_atencion,t.fecha_solucion,t.estado
                 FROM tickets t
                 left join personas as p1 on p1.id = t.persona_id
                 left join areas as a on a.id= t.area_id

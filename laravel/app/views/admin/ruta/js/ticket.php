@@ -10,13 +10,10 @@ $(document).ready(function() {
     */
 
     slctGlobalHtml('slct_estado','simple');
-    var datos={estado:1};
-    var ids = [];
-    slctGlobal.listarSlct('persona_id','txt_persona_id','simple',ids,datos);
-    slctGlobal.listarSlct('area_id','txt_area_id','simple',ids,datos);
 
-    var idG={   persona_id        :'onBlur|Solicitante|#DCE6F1', //#DCE6F1
-                area_id      :'onBlur|Area|#DCE6F1', //#DCE6F1
+
+    var idG={   persona_id        :'3|Solicitante|#DCE6F1', //#DCE6F1
+                area_id      :'3|Area|#DCE6F1', //#DCE6F1
                 descripcion      :'onBlur|Descripción|#DCE6F1', //#DCE6F1
                 fecha_pendiente      :'onBlur|Fecha Pendiente|#DCE6F1', //#DCE6F1
                 fecha_atencion      :'onBlur|Fecha Atencion|#DCE6F1', //#DCE6F1
@@ -80,8 +77,6 @@ $(document).ready(function() {
            // $('#form_tickets_modal #txt_responsable').val( TicketsG.responsable );
             $('#form_tickets_modal #slct_estado').val( TicketsG.estado );
             $("#form_tickets_modal").append("<input type='hidden' value='"+TicketsG.id+"' name='id'>");
-           // slctGlobal.listarSlctFijo('persona_id','txt_persona_id',PersonasG.persona_id);
-         //   slctGlobal.listarSlctFijo('area_id','txt_area_id',PersonasG.area_id);
          }
         $('#form_tickets_modal select').multiselect('rebuild');
         
@@ -120,11 +115,11 @@ MostrarAjax=function(t){
 
 GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
     if(typeof(fn)!='undefined' && fn.col==0){
-        return row.persona_id+"<input type='hidden'name='txt_persona_id' value='"+row.persona_id+"'>";
+        return row.solicitante+"<input type='hidden'name='txt_persona_id' value='"+row.persona_id+"'>";
     }
 
     else if(typeof(fn)!='undefined' && fn.col==1){
-        return row.area_id+"<input type='hidden'name='txt_area_id' value='"+row.area_id+"'>";
+        return row.area+"<input type='hidden'name='txt_area_id' value='"+row.area_id+"'>";
     }
   
     else if(typeof(fn)!='undefined' && fn.col==6){
