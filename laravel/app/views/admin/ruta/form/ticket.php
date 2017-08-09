@@ -10,22 +10,26 @@
       </div>
       <div class="modal-body">
         <form id="form_tickets_modal" name="form_tickets_modal" action="" method="post" >
-          <div class="form-group">
-            <label class="control-label">Solicitante
-                <a id="error_persona_id" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Solicitante">
-                    <i class="fa fa-exclamation"></i>
-                </a>
-            </label>
-            <input type="text" class="form-control" placeholder="Ingrese Nombre" name="txt_persona_id" id="txt_persona_id">
-          </div>
-          <div class="form-group">
-            <label class="control-label">Area
-                <a id="error_area_id" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Id Int.">
-                    <i class="fa fa-exclamation"></i>
-                </a>
-            </label>
-            <input type="text" class="form-control" placeholder="Ingrese Id Int." name="txt_area_id" id="txt_area_id">
-          </div>
+
+
+
+        <!-- JALA EL NOMBRE DE LA PERSONA QUE ESTA LOGEADA -->
+        <div class="form-group">           
+               <label class="control-label"> Persona</label>
+               <input class='form-control mant' type='hidden' id="slct_solicitante" name="slct_solicitante" value='<?php echo Auth::user()->id;  ?>'>
+                <input class='form-control' id='nombre_solicitante' name='nombre_solicitante' value='<?php echo Auth::user()->paterno.' '.Auth::user()->materno.' '.Auth::user()->nombre; ?>' readOnly=''>
+        </div>
+
+        <!-- JALA EL AREA DE LA PERSONA QUE ESTA LOGEADA -->
+        <div class="form-group">
+           
+               <label class="control-label"> Area</label>
+               <input class='form-control mant' type='hidden' id="slct_solicitante_area" name="slct_solicitante_area" value='<?php echo Auth::user()->area_id;  ?>'>
+                <input class='form-control' id='nombre_solicitante_area' name='nombre_solicitante_area' value='<?php echo Auth::user()->areas->nombre; ?>' readOnly=''>
+        </div>
+
+
+
 
           <div class="form-group">
             <label class="control-label">Descripcion
@@ -36,14 +40,9 @@
             <input type="text" class="form-control" placeholder="Ingrese Id Int." name="txt_descripcion" id="txt_descripcion">
           </div>
 
-          <div class="form-group">
-            <label class="control-label">Fecha Pendiente
-                <a id="error_fecha_pendiente" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese Id Int.">
-                    <i class="fa fa-exclamation"></i>
-                </a>
-            </label>
-            <input type="text" class="form-control" placeholder="Ingrese Id Int." name="txt_fecha_pendiente" id="txt_fecha_pendiente">
-          </div>
+    
+
+
 
           <div class="form-group">
             <label class="control-label">Fecha Atencion
