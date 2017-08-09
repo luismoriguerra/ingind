@@ -680,8 +680,8 @@ class CargarController extends BaseController {
             $array = array();
             $arrayExist = array();
 
-            //$file = file('txt/requerimiento/' . $archivoNuevo);
-            $file=file('/var/www/html/ingind/public/txt/requerimiento/'.$archivoNuevo);
+            $file = file('txt/requerimiento/' . $archivoNuevo);
+            //$file=file('/var/www/html/ingind/public/txt/requerimiento/'.$archivoNuevo);
             $usuario_id = 1272;
             $auxArea = '';
             $auxId = '';
@@ -704,6 +704,9 @@ class CargarController extends BaseController {
                     if (strpos($detfile[3], 'SERVICIO') == false) {
                         $vartipo = 1; // BIEN     
                     }
+                    // Dar formato a  fechas
+                    $fecha = explode('/', $detfile[8]);
+                    $nuevaFecha = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' 15:00:00';
                     
                  // Encontrar área en procesos
                 $area_id = $this->BuscarArea(utf8_encode($detfile[2]));
@@ -725,11 +728,9 @@ class CargarController extends BaseController {
                             ->where('r.estado', '=', '1')
                             ->get();
 
-                    if(count($tablaRelacion)==0){
 
-                    
 
-                        if (($detfile[1] != $auxId OR utf8_encode($detfile[2]) != $auxArea) and $detfile[4] != '0') {
+                        if (count($tablaRelacion)==0 and ($detfile[1] != $auxId OR utf8_encode($detfile[2]) != $auxArea) and $detfile[4] != '0') {
                             if($auxRutaId!=''){
                                $rdD= RutaDetalle::where('ruta_id','=',$auxRutaId)
                                                 ->where('dtiempo_final','!=','')
@@ -737,7 +738,8 @@ class CargarController extends BaseController {
                                $idrdv=explode('|',$rdD->id);
                                $idd=$idrdv[1]+1;
                                $rd= RutaDetalle::find($idd);
-                               $rd['fecha_inicio']= $auxRutaFecha;
+                               $rd['dtiempo']=15;
+                               $rd['fecha_inicio']='2017-08-10 15:00:00';
                                $rd->save();
                             }
                             $auxId = $detfile[1];
@@ -754,9 +756,7 @@ class CargarController extends BaseController {
                                 $nemonico = $area->nemonico_doc;
                             }
 
-                            // Dar formato a  fechas
-                            $fecha = explode('/', $detfile[8]);
-                            $nuevaFecha = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' 15:00:00';
+
 
                             $tablarelacion = new TablaRelacion;
                             $tablarelacion->software_id = 1;
@@ -876,13 +876,17 @@ class CargarController extends BaseController {
                                 }
                                 }
                             }
+                            
+                            if($detfile[4]!=1){
+                             $i--;
+                            }
                         } else {
     //                        $fecha = explode('/', $detfile[9]);
     //                        $nuevaFecha = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' 08:00:00';
-
+    
                             $rutaDetalle = array();
                             $auxRutaFecha=$nuevaFecha;
-                            if ($detfile[4] == '2') {
+                            if ($detfile[4]*1 == 2) {
                                 $varposicion=2;
                                 if($area_id==26){
                                     $varposicion = 1;
@@ -1044,7 +1048,7 @@ class CargarController extends BaseController {
                             }
                         }
 
-                    }
+                    
 //                    $proveedor = Proveedor::where('ruc','=', $ruc_proveeedor)->first();
                     // --
                     // Muestra ultimos QUERY ejecutados
@@ -1061,7 +1065,8 @@ class CargarController extends BaseController {
                $idrdv=explode('|',$rdD->id);
                $idd=$idrdv[1]+1;
                $rd= RutaDetalle::find($idd);
-               $rd['fecha_inicio']= $auxRutaFecha;
+               $rd['dtiempo']=15;
+               $rd['fecha_inicio']='2017-08-10 15:00:00';
                $rd->save(); 
                 }
                
