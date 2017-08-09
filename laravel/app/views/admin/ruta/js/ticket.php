@@ -64,6 +64,17 @@ $(document).ready(function() {
             $('#form_tickets_modal #txt_fecha_solucion').focus();
             //$('#form_tickets_modal #txt_responsable').focus();
 
+            var tbarchivo =[];
+            var tablaarchivo = $(".valido table[id='t_darchivo']").map(function(){
+//            console.log(this);
+            tbarchivo =[];
+            tbarchivo.push($(this).find("tbody tr").map(function(){
+                            return $(this).find('input:eq(0)').val()+'|'+$(this).find('input:eq(1)').val();
+                        }).get());
+//            console.log(tbarchivo);
+            return tbarchivo;
+            }).get();
+
         }
 
         $('#form_tickets_modal select').multiselect('rebuild');
@@ -78,6 +89,8 @@ $(document).ready(function() {
 
     });
 });
+
+
 
 BtnEditar=function(btn,id){
     var tr = btn.parentNode.parentNode; // Intocable
@@ -184,18 +197,47 @@ CambiarEstado=function(id,valor){
     
 };
 
+//ELIMINAR ARCHIVOS -
+$(document).on('click', '.btnDeleteitem', function (event) {
+            $(this).parent().parent().remove();
+    });
 
-// valida=function(inicial,id,v_default){
-//     var texto="Seleccione";
-//     if(inicial=="txt"){
-//         texto="Ingrese";
-//     }
+//SUBIR ARCHIVOS +
+AgregarD = function (obj) {
+        var tabla=obj.parentNode.parentNode.parentNode.parentNode;
+        var html = '';
+        html += "<tr>";
+        html += "<td>";
+        html += '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre"  name="pago_nombre[]" value="">' +
+                '<input type="text"  style="display: none;" id="pago_archivo" name="pago_archivo[]">' +
+                '<label class="btn btn-default btn-flat margin btn-xs">' +
+                '<i class="fa fa-file-pdf-o fa-lg"></i>' +
+                '<i class="fa fa-file-word-o fa-lg"></i>' +
+                '<i class="fa fa-file-image-o fa-lg"></i>' +
+                '<input type="file" style="display: none;" onchange="onPagos(event,this);" >' +
+                '</label>';
+        html += "</td>" +
+                '<td><a id="btnDeleteitem"  name="btnDeleteitem" class="btn btn-danger btn-xs btnDeleteitem">' +
+                '<i class="fa fa-trash fa-lg"></i>' +
+                '</a></td>';
+        html += "</tr>";
+        $(tabla).find("tbody").append(html);
+    }
 
-//     if( $.trim($("#"+inicial+"_"+id).val())==v_default ){
-//         $('#error_'+id).attr('data-original-title',texto+' '+id);
-//         $('#error_'+id).css('display','');
-//         return false;
-//     }   
-// };
+onPagos = function (event,obj) {
+        var tr=obj.parentNode.parentNode;
+       console.log(tr);
+        var files = event.target.files || event.dataTransfer.files;
+        if (!files.length)
+            return;
+        var image = new Image();
+        var reader = new FileReader();
+        reader.onload = (e) => {
+            $(tr).find('input:eq(1)').val(e.target.result);
+        };
+        reader.readAsDataURL(files[0]);
+        $(tr).find('input:eq(0)').val(files[0].name);
+        console.log(files[0].name);
+    }    
 
 </script>
