@@ -90,16 +90,21 @@ class ReporteGastosController extends BaseController
                         ->setCellValue('C3', 'GC')
                         ->setCellValue('D3', 'GD')
                         ->setCellValue('E3', 'GG')
-                        ->setCellValue('F3', 'FECHA DOC.')
+                        ->setCellValue('F3', 'FECHA EXP.')
                         ->setCellValue('G3', 'DOCUMENTO')
                         ->setCellValue('H3', 'NRO. DOCUM.')
                         ->setCellValue('I3', 'RUC')
                         ->setCellValue('J3', 'PROVEEDOR')
                         ->setCellValue('K3', 'ESP. D')
-                        ->setCellValue('L3', 'OBSERVACION')
-                  ->mergeCells('A1:L1')
+                        ->setCellValue('L3', 'FECHA PAGO')
+                        ->setCellValue('M3', 'DOC. PAGO')
+                        ->setCellValue('N3', 'DOC. PERSON')
+                        ->setCellValue('N3', 'PERSON PAGO')
+                        ->setCellValue('O3', 'PERSON PAGO')
+                        ->setCellValue('P3', 'OBSERVACION')
+                  ->mergeCells('A1:P1')
                   ->setCellValue('A1', 'LISTADO DETALLES DE PAGOS')
-                  ->getStyle('A1:L1')->getFont()->setSize(18);
+                  ->getStyle('A1:P1')->getFont()->setSize(18);
 
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
@@ -113,6 +118,10 @@ class ReporteGastosController extends BaseController
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('J')->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('k')->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('l')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('m')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('n')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('o')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('p')->setAutoSize(true);
             /*end head*/
             /*body*/
             if($result){
@@ -141,7 +150,11 @@ class ReporteGastosController extends BaseController
                                   ->setCellValue('J' . $ini, "")
                                   ->setCellValue('K' . $ini, "")
                                   ->setCellValue('L' . $ini, "")
-                                  ->getStyle('A'.$ini.':L'.$ini)->getFont()->setSize(14);
+                                  ->setCellValue('M' . $ini, "")
+                                  ->setCellValue('N' . $ini, "")
+                                  ->setCellValue('O' . $ini, "")
+                                  ->setCellValue('P' . $ini, "")
+                                  ->getStyle('A'.$ini.':P'.$ini)->getFont()->setSize(13);
                                   ;
                         $AC_GC = 0;
                         $AC_GD = 0;
@@ -164,7 +177,11 @@ class ReporteGastosController extends BaseController
                               ->setCellValue('I' . $ini, $value->ruc)
                               ->setCellValue('J' . $ini, $value->proveedor)
                               ->setCellValue('K' . $ini, $value->esp_d)
-                              ->setCellValue('L' . $ini, $value->observacion)
+                              ->setCellValue('L' . $ini, $value->fecha_doc_b)
+                              ->setCellValue('M' . $ini, $value->doc_b)
+                              ->setCellValue('N' . $ini, $value->nro_doc_b)
+                              ->setCellValue('O' . $ini, $value->persona_doc_b)
+                              ->setCellValue('P' . $ini, $value->observacion)
                               ;
                 // Acumuladores
                 $AC_GC += $value->gc*1;
@@ -186,12 +203,16 @@ class ReporteGastosController extends BaseController
                             ->setCellValue('J' . $ini, "")
                             ->setCellValue('K' . $ini, "")
                             ->setCellValue('L' . $ini, "")
-                            ->getStyle('A'.$ini.':L'.$ini)->getFont()->setSize(14);
+                            ->setCellValue('M' . $ini, "")
+                            ->setCellValue('N' . $ini, "")
+                            ->setCellValue('O' . $ini, "")
+                            ->setCellValue('P' . $ini, "")
+                            ->getStyle('A'.$ini.':P'.$ini)->getFont()->setSize(13);
               
             }
             /*end body*/
-            $objPHPExcel->getActiveSheet()->getStyle('A3:L3')->applyFromArray($styleThinBlackBorderAllborders);
-            $objPHPExcel->getActiveSheet()->getStyle('A1:L1')->applyFromArray($styleAlignment);
+            $objPHPExcel->getActiveSheet()->getStyle('A3:P3')->applyFromArray($styleThinBlackBorderAllborders);
+            $objPHPExcel->getActiveSheet()->getStyle('A1:P1')->applyFromArray($styleAlignment);
             // Rename worksheet
             $objPHPExcel->getActiveSheet()->setTitle('Proveedores');
             // Set active sheet index to the first sheet, so Excel opens this as the first sheet
