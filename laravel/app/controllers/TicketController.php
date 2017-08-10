@@ -148,7 +148,7 @@ class TicketController extends \BaseController
             $tickets->area_id = Input::get('solicitante_area');
             $tickets->descripcion = Input::get('descripcion');
             $tickets->fecha_pendiente = Input::get('fecha_pendiente');
-            $tickets->estado = Input::get('estado');
+          //  $tickets->estado = Input::get('estado:1');
             $tickets->usuario_created_at = Auth::user()->id;
             $tickets->save();
 
@@ -220,12 +220,21 @@ class TicketController extends \BaseController
      */
     public function postCambiarestado()
     {
-
         if ( Request::ajax() ) {
             $ticketId = Input::get('id');
+            $estado = Input::get('estado');
+
             $ticket = Ticket::find($ticketId);
-            $ticket->usuario_updated_at = Auth::user()->id;
+            if ($estado==2){
+                $ticket->fecha_atencion = date("Y-m-d H:i:s");
+                $ticket->usuario_updated_at = Auth::user()->id;
+            }
+            else if ($estado==3){
+                $ticket->fecha_solucion = date("Y-m-d H:i:s");
+                $ticket->usuario_updated_at = Auth::user()->id;            
+            }
             $ticket->estado = Input::get('estado');
+            
             $ticket->save();
         
             return Response::json(
@@ -238,6 +247,9 @@ class TicketController extends \BaseController
         }
     }
 
-
+// if (Input::get('fecha_nacimiento')<>'') 
+//             $persona['fecha_nacimiento'] = Input::get('fecha_nacimiento');        
+//             if ($rol==9 or $rol==8){
+//             $persona['responsable_asigt']=1;
 
 }

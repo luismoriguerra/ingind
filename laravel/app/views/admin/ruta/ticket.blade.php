@@ -61,7 +61,6 @@
                         <!-- Finaliza contenido -->
                     </div>
                 </div>
-
             </section><!-- /.content -->
     @stop
 

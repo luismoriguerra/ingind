@@ -14,7 +14,8 @@
         <legend>Datos Importantes</legend>
         <div class="form-group"> 
 
-
+  
+  
         <!-- INICIA EL DIV DE 12 -->
         <div class="col-sm-12">        
           <!-- JALA EL NOMBRE DE LA PERSONA QUE ESTA LOGEADA -->
@@ -99,26 +100,15 @@
            </div>
 
            
-
-
         </div><!-- FIN DEL DIV DE 12 -->   
-     
+
+            
 
       
-          
-          
 
-
-          <div class="form-group">
-            <label class="control-label">Estado:
-            </label>
-            <select class="form-control" name="slct_estado" id="slct_estado">
-                <option value='0'>Inactivo</option>
-                <option value='1' selected>Activo</option>
-            </select>
-          </div>
           </fieldset>
         </form>
+         
 
       </div>
       <div class="modal-footer">
