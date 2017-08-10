@@ -23,6 +23,7 @@ class Ticket extends Base
                 left join personas as p1 on p1.id = t.persona_id
                 left join areas as a on a.id= t.area_id
                 WHERE 1=1 ";
+
         $sSql.= $array['where'].
                 $array['order'].
                 $array['limit'];
@@ -38,6 +39,8 @@ class Ticket extends Base
                         if ( Input::get('estado') ) {
                             $query->where('estado','=','1');
                         }
+                       
+
                     }
                 )
                 ->orderBy('persona_id')

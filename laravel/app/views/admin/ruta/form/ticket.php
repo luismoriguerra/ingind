@@ -15,7 +15,7 @@
         <div class="form-group"> 
 
   
-  
+         
         <!-- INICIA EL DIV DE 12 -->
         <div class="col-sm-12">        
           <!-- JALA EL NOMBRE DE LA PERSONA QUE ESTA LOGEADA -->

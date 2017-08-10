@@ -30,6 +30,9 @@ class GastosDetallesContables extends \Eloquent {
             if (Input::has('fecha_ini') && Input::get('fecha_ini') && Input::has('fecha_fin') && Input::get('fecha_fin')) {
                 $fecha_ini=Input::get('fecha_ini');
                 $fecha_fin=Input::get('fecha_fin');
+            }else{
+                $fecha_ini = '';
+                $fecha_fin = '';
             }
 
             $sSql .= " AND (
@@ -65,9 +68,10 @@ class GastosDetallesContables extends \Eloquent {
         }
 
         if( Input::has("proveedor") ){
-                $proveedor=explode(" ",Input::get("proveedor"));
+                //$proveedor=explode(" ",Input::get("proveedor"));
+                $proveedor= Input::get("proveedor");
+                /*
                 $dproveedor=array();
-
                 for ($i=0; $i < count($proveedor) ; $i++) { 
                 	if( trim( $proveedor[$i] )!='' ){
 	                    array_push($dproveedor," cp.proveedor LIKE '%".$proveedor[$i]."%' ");
@@ -76,6 +80,8 @@ class GastosDetallesContables extends \Eloquent {
                 if( count($dproveedor)>0 ){
                 	$sSql.=" AND ".implode($dproveedor, " OR ");
                 }
+                */
+                $sSql.=" AND UPPER(cp.proveedor) LIKE '%".strtoupper($proveedor). "%'";
         }
 
         if( Input::has("observacion") ){
@@ -129,6 +135,9 @@ class GastosDetallesContables extends \Eloquent {
             if (Input::has('fecha_ini') && Input::get('fecha_ini') && Input::has('fecha_fin') && Input::get('fecha_fin')) {
                 $fecha_ini=Input::get('fecha_ini');
                 $fecha_fin=Input::get('fecha_fin');
+            }else{
+                $fecha_ini = '';
+                $fecha_fin = '';
             }
 
             $sSql .= " AND (
@@ -234,8 +243,10 @@ class GastosDetallesContables extends \Eloquent {
             $fecha = Input::get('fecha');
             list($fechaIni, $fechaFin) = explode(" - ", $fecha);
             $sSql.=' AND cgd.fecha_documento BETWEEN "'.$fechaIni.'" AND "'.$fechaFin.'" ';
+        }else{
+            $fecha = '';
         }
-        
+
         $sSql .= " AND (
                             (SELECT SUM(cgd1.monto_expede)
                                 FROM contabilidad_gastos_detalle cgd1 
