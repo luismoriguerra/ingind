@@ -132,19 +132,17 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
     else if(typeof(fn)!='undefined' && fn.col==6){
         var estadohtml='';
         //estadohtml='<span id="'+row.id+'" onClick="atendido('+row.id+')" data-estado="'+row.estado+'" class="btn btn-success">Atendido</span>';
-        if('<?php echo Auth::user()->area_id;  ?>' == 94) // para que solo las personas de modernizacion
-        {
+       
             if(row.estado==1){
-                estadohtml='<span id="'+row.id+'" onClick="CambiarEstado('+row.id+',2)" data-estado="'+row.estado+'" class="btn btn-success">Pendiente</span>';
+                estadohtml='<span id="'+row.id+'"  data-estado="'+row.estado+'" >Pendiente</span>';
             }
             else if(row.estado==2){
-                estadohtml='<span id="'+row.id+'" onClick="CambiarEstado('+row.id+',3)" data-estado="'+row.estado+'" class="btn btn-warning">Atendido</span>';
+                estadohtml='<span id="'+row.id+'"  data-estado="'+row.estado+'" >Atendido</span>';
             }
             else if(row.estado==3){
                 estadohtml='<span id="'+row.id+'"  data-estado="'+row.estado+'" >Solucionado</span>';
             }
-        }
-
+        
 
         return estadohtml;
 

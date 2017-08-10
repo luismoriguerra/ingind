@@ -75,6 +75,17 @@ class TicketController extends \BaseController
                     $array['where'].=" AND t.estado='".$estado."' ";
                 }
             }
+             if ( Input::has('usuario') ) {
+                            $usu_id = Auth::user()->id;
+                            $array['where'].=" and t.area_id IN (
+                                        SELECT DISTINCT(a.id)
+                                        FROM area_cargo_persona acp
+                                        INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                                       INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                        WHERE acp.estado=1
+                                        AND cp.persona_id='".$usu_id."') ";
+//                            $query->whereRaw($usuario);
+                        } 
 
             $array['order']=" ORDER BY t.persona_id ";
 

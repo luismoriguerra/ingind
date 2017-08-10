@@ -38,6 +38,7 @@
                                 <h3 class="box-title">Filtros</h3>
                             </div><!-- /.box-header -->
                             <form id="form_tickets" name="form_tickets" method="POST" action="">
+                            <input class='form-control mant' type='hidden' id="usuario" name="usuario" value='1'>
                             <div class="box-body table-responsive">
                                 <table id="t_tickets" class="table table-bordered table-striped">
                                     <thead>
