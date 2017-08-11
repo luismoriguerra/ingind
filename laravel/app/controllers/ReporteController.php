@@ -264,6 +264,90 @@ class ReporteController extends BaseController
         );
         $this->exportExcel($propiedades,'',$cabecera,$rst);
     }
+    
+        public function getExportdocumentodigital(){
+            $array=array();
+            $array['where']='';
+            
+            if( Input::has("plantilla") ){
+                $plantilla=Input::get("plantilla");
+                if( trim( $plantilla )!='' ){
+                    $array['where'].=" AND pd.descripcion LIKE '%".$plantilla."%' ";
+                }
+            }
+
+            if( Input::has("asunto") ){
+                $asunto=Input::get("asunto");
+                if( trim( $asunto )!='' ){
+                    $array['where'].=" AND dd.asunto LIKE '%".$asunto."%' ";
+                }
+            }
+            
+            if( Input::has("titulo") AND Input::get('titulo')!='' ){
+                 $titulo=explode(" ",trim(Input::get('titulo')));
+                    for($i=0; $i<count($titulo); $i++){
+                       $array['where'].=" AND dd.titulo LIKE '%".$titulo[$i]."%' ";
+                    }
+            }
+            
+            if( Input::has("created_at") ){
+                $created_at=Input::get("created_at");
+                list($fechaIni,$fechaFin) = explode(" - ", $created_at);
+                if( trim( $created_at )!='' ){
+                    $array['where'].=" AND DATE(dd.created_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."'";
+                }
+            }
+            
+            if( Input::has("persona_u") ){
+                $persona_u=Input::get("persona_u");
+                if( trim( $persona_u )!='' ){
+                    $array['where'].=" AND CONCAT_WS(' ',p1.paterno,p1.materno,p1.nombre) LIKE '%".$persona_u."%' ";
+                }
+            }
+            
+            if( Input::has("persona_c") ){
+                $persona_c=Input::get("persona_c");
+                if( trim( $persona_c )!='' ){
+                    $array['where'].=" AND CONCAT_WS(' ',p.paterno,p.materno,p.nombre) LIKE '%".$persona_c."%' ";
+                }
+            }
+            
+            if( Input::has("solo_area") ){
+                $usu_id=Auth::user()->id;
+                $array['where'].="and dd.area_id IN (
+                                        SELECT DISTINCT(a.id)
+                                        FROM area_cargo_persona acp
+                                        INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                                       INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                        WHERE acp.estado=1
+                                        AND cp.persona_id='.$usu_id.'
+                        )";
+            }  
+            $array['order']=" order by `created_at` desc ";
+            
+
+        $rst= DocumentoDigital::getExportDocumento($array); 
+//        var_dump($rst);exit();
+
+        $propiedades = array(
+          'creador'=>'Gerencia Modernizacion',
+          'subject'=>'Mis Actividades',
+          'tittle'=>'Mis Actividades',
+          'font-name'=>'Bookman Old Style',
+          'font-size'=>8,
+        );
+
+        $cabecera = array(
+          'Nº',
+          'CREADOR',
+          'ACTUALIZÓ',
+          'TÍTULO',
+          'ASUNTO',
+          'FECHA CREACIÓN',
+          'PLANTILLA',
+        );
+        $this->exportExcel($propiedades,'',$cabecera,$rst);
+    }
 
 
   public function postReportetrabajoarea()

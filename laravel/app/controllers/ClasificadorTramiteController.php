@@ -109,7 +109,7 @@ class ClasificadorTramiteController extends \BaseController
             $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
             $required = 'required';
             $reglas = array(
-                'nombre' => $required.'|'.$regex,
+                'nombre' => $required,
             );
 
             $mensaje= array(
@@ -148,7 +148,7 @@ class ClasificadorTramiteController extends \BaseController
             $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
             $required = 'required';
             $reglas = array(
-                'nombre' => $required.'|'.$regex,
+                'nombre' => $required,
             );
 
             $mensaje= array(

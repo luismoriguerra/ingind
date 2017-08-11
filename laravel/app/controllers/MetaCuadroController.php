@@ -566,4 +566,26 @@ class MetaCuadroController extends \BaseController {
         }
     }
     
+    public function postCumplimientometa() {
+        if (Request::ajax()) {
+            $array = array();
+            $array['where'] = '';
+            
+            if (Input::has("meta")) {
+                $metaId=implode("','",Input::get('meta'));
+                    $array['where'] .= " AND m.id IN ('".$metaId."')";
+                    
+            }
+            $a = new MetaCuadro;
+            $listar = Array();
+            $listar = $a->getCumplimientoMeta($array);
+
+            return Response::json(
+                            array(
+                                'rst' => 1,
+                                'datos' => $listar
+                            )
+            );
+        }
+    }
 }

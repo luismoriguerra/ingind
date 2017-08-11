@@ -196,6 +196,7 @@ var slctGlobal={
 var dataTableG={
     CargarCab:function(cab){
         var r=[];var clase='';var option=''; var visible=true;
+        console.debug(cab);
         $.each(cab, 
             function(id, val) {
                 var rand=Math.floor((Math.random() * 100) + 1);
@@ -410,7 +411,61 @@ var msjG = {
     },
 };
 
-var EventosGeneralesG = {
+var masterG ={
+    change_skin:function(cls) {
+        $.each(my_skinsG, function (i) {
+          $("body").removeClass(my_skinsG[i]);
+        });
+
+        $("body").addClass(cls);
+        masterG.store('skin', cls);
+        return false;
+    },
+    store:function(name, val) {
+        if (typeof (Storage) !== "undefined") {
+            localStorage.setItem(name, val);
+        } else {
+            window.alert('Please use a modern browser to properly view this template!');
+        }
+    },
+    get:function(name) {
+        if (typeof (Storage) !== "undefined") {
+            return localStorage.getItem(name);
+        } else {
+            window.alert('Please use a modern browser to properly view this template!');
+        }
+    },
+    postAjax:function(url,data,eventsucces,eventbefore){
+      $.ajax({
+            url         : url,
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : data,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+                if( typeof eventbefore!= 'undefined' ){
+                  eventbefore();
+                }
+            },
+            success : function(r) {
+                $(".overlay,.loading-img").remove();
+                if( typeof eventsucces!= 'undefined' ){
+                  eventsucces(r);
+                }
+            },
+            error: function(result){
+                $(".overlay,.loading-img").remove();
+                if( typeof(result.status)!='undefined' && result.status==401 && result.statusText=='Unauthorized' ){
+                    msjG.mensaje('warning','Su sesión a caducado',4000);
+                }
+                else{
+                    msjG.mensaje('danger','Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',3000);
+                }
+
+            }
+        });
+    },
     CargarPaginacion:function(HTML,ajax,result,id){
         var html='<ul class="pagination">';
         if( result.current_page==1 ){
@@ -475,6 +530,62 @@ var EventosGeneralesG = {
         html+='</ul>';
 
         $(id).append(html);
+    },
+    enterGlobal:function(e,etiqueta,selecciona){
+        tecla = (document.all) ? e.keyCode : e.which; // 2
+        if (tecla==13){
+            e.preventDefault();
+            $(etiqueta).click(); 
+            if( typeof(selecciona)!='undefined' ){
+                $(etiqueta).focus(); 
+            }
+        }
+    },
+    validaNumerosMax:function(e,t,max){ 
+        tecla = (document.all) ? e.keyCode : e.which;//captura evento teclado
+        if (tecla==8 || tecla==0) return true;//8 barra, 0 flechas desplaz
+        if(t.value.length>=max)return false;
+        patron = /\d/; // Solo acepta números
+        te = String.fromCharCode(tecla); 
+        return patron.test(te);
+    },
+    validaLetras:function(e) { // 1
+        tecla = (document.all) ? e.keyCode : e.which; // 2
+        if (tecla==8 || tecla==0) return true;//8 barra, 0 flechas desplaz
+        patron =/[A-Za-zñÑáéíóúÁÉÍÓÚ\s]/; // 4 ,\s espacio en blanco, patron = /\d/; // Solo acepta números, patron = /\w/; // Acepta números y letras, patron = /\D/; // No acepta números, patron =/[A-Za-z\s]/; //sin ñÑ
+        te = String.fromCharCode(tecla); // 5
+        return patron.test(te); // 6
+    },
+    validaAlfanumerico:function(e) { // 1
+        tecla = (document.all) ? e.keyCode : e.which; // 2
+        if (tecla==8 || tecla==0 || tecla==46) return true;//8 barra, 0 flechas desplaz
+        patron =/[A-Za-zñÑáéíóúÁÉÍÓÚ@.,_\-\s\d]/; // 4 ,\s espacio en blanco, patron = /\d/; // Solo acepta números, patron = /\w/; // Acepta números y letras, patron = /\D/; // No acepta números, patron =/[A-Za-z\s]/; //sin ñÑ
+        te = String.fromCharCode(tecla); // 5
+        return patron.test(te); // 6
+    },
+    validaNumeros:function(e) { // 1
+        tecla = (document.all) ? e.keyCode : e.which; // 2
+        if (tecla==8 || tecla==0) return true;//8 barra, 0 flechas desplaz
+        patron = /\d/; // Solo acepta números
+        te = String.fromCharCode(tecla); // 5
+        return patron.test(te); // 6
+    },
+    validaDecimal:function(e,t) { // 1
+        tecla = (document.all) ? e.keyCode : e.which; // 2
+        pos=t.value.indexOf('.');
+        if ( pos!= -1 && tecla == 46 ) return false;// Valida si se registro nuevament el
+        if ((tecla == 8 || tecla == 0 || tecla == 46)) return true;
+        if (tecla <= 47 || tecla >= 58) return false;
+        patron = /\d/; // Solo acepta números
+        te = String.fromCharCode(tecla); // 5
+        return patron.test(te);
+    },
+    DecimalMax:function(t,n){
+        pos=t.value.indexOf('.');
+        if( pos!= -1 && t.value!='' && t.value.substring(pos+1).length>=2 ){
+          t.value = parseFloat(t.value).toFixed(n);
+        }
     }
-};
+}
+
 </script>

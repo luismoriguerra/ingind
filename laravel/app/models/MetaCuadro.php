@@ -55,11 +55,11 @@ class MetaCuadro extends Base
 			 INNER JOIN doc_digital dd ON md.doc_digital_id=dd.id
 			 WHERE  md.tipo_avance=3 AND md.avance_id=mf1.id AND md.estado=1
 			 GROUP BY md.avance_id) as d_d,
-			(SELECT CONCAT_WS('|',GROUP_CONCAT(ma.ruta),GROUP_CONCAT(ma.id))
+			(SELECT CONCAT_WS('|',GROUP_CONCAT(ma.ruta),GROUP_CONCAT(ma.id),GROUP_CONCAT(ma.valida))
 			 FROM metas_archivo ma
 			 WHERE  ma.tipo_avance=2 AND ma.avance_id=mc.id AND ma.estado=1
 			 GROUP BY ma.avance_id) as a_a,
-			(SELECT CONCAT_WS('|',GROUP_CONCAT(dd.titulo),GROUP_CONCAT(md.id),GROUP_CONCAT(md.doc_digital_id))
+			(SELECT CONCAT_WS('|',GROUP_CONCAT(CONCAT_WS(' - ',DATE(md.created_at),dd.titulo)),GROUP_CONCAT(md.id),GROUP_CONCAT(md.doc_digital_id),GROUP_CONCAT(md.valida))
 			 FROM metas_docdigital md
 			 INNER JOIN doc_digital dd ON md.doc_digital_id=dd.id
 			 WHERE  md.tipo_avance=2 AND md.avance_id=mc.id AND md.estado=1
@@ -105,8 +105,45 @@ class MetaCuadro extends Base
                 WHERE mc.estado=1
                 ";
         $sSql.= $array['where'];
-        $sSql.="ORDER BY m.id,mc.id,mf2.fecha,mf1.fecha DESC";
+        $sSql.="ORDER BY m.id,mc.id,id_d,mf2.fecha,mf1.fecha DESC";
         $oData = DB::select($sSql);
         return $oData;
+    }
+    
+            public static function getCumplimientoMeta($array) {
+        $sql='';
+        $sql.=" SELECT 
+                m.nombre as meta
+                ,mc.actividad
+                ,mc.fecha
+                -- ,COUNT( DISTINCT ma.id) as archivo
+                -- ,COUNT( DISTINCT md.id) as documento
+                ,TRUNCATE((IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2,1) as porcentaje
+                ,CASE 
+                WHEN  (IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2=100 THEN 'SI'
+                WHEN  (IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2<99 AND CURDATE()>mc.fecha THEN 'NO' 
+                WHEN  ((IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2<100) AND DATE_SUB(mc.fecha, INTERVAL 6 day)>CURDATE()  THEN 'A TIEMPO' 
+                WHEN  ((IF(COUNT( DISTINCT ma.id)>=1,100,0)+ IF(COUNT( DISTINCT md.id)>=1,100,0))/2<100) AND mc.fecha BETWEEN DATE_SUB(CURDATE(), INTERVAL 5 day) AND CURDATE()   THEN 'ALERTA' 
+
+                ELSE '' END estado,
+                -- COUNT(DISTINCT mf.id) desglose,
+                -- COUNT(DISTINCT ma1.id) archivo,
+                -- COUNT(DISTINCT md1.id) documento,
+                TRUNCATE(IF(COUNT(DISTINCT ma1.id)>1,1,COUNT(DISTINCT ma1.id))/COUNT(DISTINCT mf.id)/2 + IF(COUNT(DISTINCT md1.id)>1,1,COUNT(DISTINCT md1.id))/COUNT(DISTINCT mf.id)/2,1)*100 as des_por
+                FROM metas_cuadro mc
+                INNER JOIN metas m ON m.id=mc.meta_id
+                INNER JOIN metas_fechavencimiento mf ON mf.meta_cuadro_id=mc.id AND mf.tipo=1 and mf.estado=1
+                LEFT JOIN metas_archivo ma ON ma.avance_id=mc.id AND ma.tipo_avance=2 AND ma.estado=1
+                LEFT JOIN metas_docdigital md ON md.avance_id=mc.id AND md.tipo_avance=2 AND md.estado=1
+
+                LEFT JOIN metas_archivo ma1 ON ma1.avance_id=mf.id AND ma1.tipo_avance=3 AND ma1.estado=1
+                LEFT JOIN metas_docdigital md1 ON md1.avance_id=mf.id AND md1.tipo_avance=3 AND md1.estado=1 ";
+        $sql.= "WHERE 1=1";
+        $sql.= $array['where'];
+        $sql.=" GROUP BY mc.id
+                ORDER BY m.id,mc.actividad
+                ";
+        $r =DB::select($sql);
+        return $r;
     }
 }

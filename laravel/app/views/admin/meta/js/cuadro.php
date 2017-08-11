@@ -636,29 +636,33 @@
                         '<thead class="bg-aqua disabled color-palette">' +
                         '<tr>' +
                         '<th>N°</th>' +
-                        '<th>Archivo</th>';
-                if (data.af >= Cuadro.fecha_actual) {    
-                html+= '<th><a class="btn btn-default btn-xs"' +
-                        'onclick="AgregarA(' + cont3 + ',' + data.meta_cuadro_id + ')"><i class="fa fa-plus fa-lg"></i></a></th>';
+                        '<th>Archivo</th>'+
+                        '<th>';
+                if (data.af >= Cuadro.fecha_actual) {  
+                 html+='<a class="btn btn-default btn-xs"' +
+                        'onclick="AgregarA(' + cont3 + ',' + data.meta_cuadro_id + ')"><i class="fa fa-plus fa-lg"></i></a>';
                  }
-                html+= ' </tr>' +
+                html+= '</th> </tr>' +
                         ' </thead>' +
                         ' <tbody id="tb_aarchivo' + cont3 + '">';
                 if (data.a_a != null) {
                     var a_a = data.a_a.split('|');
                     var a_a_nombre = a_a[0].split(',');
                     var a_a_id = a_a[1].split(',');
+                    var a_a_valida = a_a[2].split(',');
                     pos_aa = 1;
                     for (i = 0; i < a_a_nombre.length; i++) {
                         var nombre = a_a_nombre[i].split('/');
                         html += "<tr>" +
                                 "<td>" + pos_aa + "<input type='hidden' name='c_id[]' id='c_id' value='" + a_a_id[i] + "'></td></td> " +
                                 "<td><a target='_blank' href='file/meta/" + a_a_nombre[i] + "'>" + nombre[1] + "</a></td>" ;
-                        if (data.af >= Cuadro.fecha_actual) {
-                        html +='<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="Eliminar(\'' + a_a_id[i] + '\',\'' + nombre[0] + '\',\'' + nombre[1] + '\',this)">' +
-                                '<i class="fa fa-trash fa-lg"></i>' +
-                                '</a></td>';
+                        html +='<td>';
+                        if (data.af >= Cuadro.fecha_actual && a_a_valida[i]==1) {
+                        html +='<a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="Eliminar(\'' + a_a_id[i] + '\',\'' + nombre[0] + '\',\'' + nombre[1] + '\',this)">' +
+                                '<i class="fa fa-trash fa-lg"></i>';
                         }
+                        html += '</a></td>';
+                        
                         html += "</tr>";
                         pos_aa++;
                     }
@@ -682,13 +686,14 @@
                         '<thead class="bg-teal disabled color-palette">' +
                         '<tr>' +
                         '<th>N°</th>' +
-                        '<th>Documento</th>';
+                        '<th>Documento</th>'+
+                        '<th>';
                 if (data.af >= Cuadro.fecha_actual) {
-                    html += '<th><span class="btn btn-default btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="2" data-form="#t_adocumento' + cont3 + '" data-avanceid="' + data.meta_cuadro_id + '" data-id="txt_doc_digital_id">' +
+                    html +='<span class="btn btn-default btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="2" data-form="#t_adocumento' + cont3 + '" data-avanceid="' + data.meta_cuadro_id + '" data-id="txt_doc_digital_id">' +
                             '<i class="glyphicon glyphicon-file"></i>' +
-                            '</span></th>';
+                            '</span>';
                 }
-                html += ' </tr>' +
+                html += ' </th></tr>' +
                         ' </thead>' +
                         ' <tbody id="tb_adocumento' + cont3 + '">';
                 if (data.d_a != null) {
@@ -696,18 +701,20 @@
                     var d_a_nombre = d_a[0].split(',');
                     var d_a_id = d_a[1].split(',');
                     var d_a_doc_digital_id = d_a[2].split(',');
+                    var d_a_valida = d_a[3].split(',');
                     pos_a = 1;
                     for (i = 0; i < d_a_nombre.length; i++) {
 
                         html += "<tr>" +
                                 "<td>" + pos_a + "<input type='hidden' name='c_id[]' id='c_id' value='" + d_a_id[i] + "'></td></td> " +
-                                "<td><a target='_blank' href='documentodig/vista/" + d_a_doc_digital_id[i] + "/4/1'>" + d_a_nombre[i] + "</a></td>" ;
-                        if (data.af >= Cuadro.fecha_actual) {
-                        html += '<td><a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\'' + d_a_id[i] + '\',this)">' +
+                                "<td><a target='_blank' href='documentodig/vista/" + d_a_doc_digital_id[i] + "/4/1'>" + d_a_nombre[i] + "</a></td>" +
+                                '<td>';
+                        if (data.af >= Cuadro.fecha_actual && d_a_valida[i]==1) {
+                        html +='<a id="c_Delete"  name="c_Delete" class="btn btn-danger btn-xs" onClick="EliminarDoc(\'' + d_a_id[i] + '\',this)">' +
                                 '<i class="fa fa-trash fa-lg"></i>' +
-                                '</a></td>';
+                                '</a>';
                         }
-                        html += "</tr>";
+                        html += "</td></tr>";
                         pos_a++;
                     }
                 }

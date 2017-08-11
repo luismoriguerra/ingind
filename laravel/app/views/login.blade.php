@@ -25,7 +25,7 @@
     <body  bgcolor="#FFF" onkeyup="return validaEnter(event,'btnIniciar');">
         <div id="mainWrap">
             <div id="loggit">
-                <img src="img/logo_muni.png" class="logoPersonaje">
+                <img src="img/logo_muni.png" class="logoPersonaje" style="border: 5px solid white;">
                 {{-- {{ HTML::image('img/mindependencia.jpg', 'a picture', array('class' => 'logoPersonaje','class' => 'img-circle')) }} --}}
                 <h3 id="mensaje_msj"  class="label-success">
                 <?= Session::get('msj'); ?>         

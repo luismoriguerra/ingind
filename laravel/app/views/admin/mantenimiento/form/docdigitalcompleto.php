@@ -18,6 +18,7 @@
                         <h3 class="box-title"></h3>
                     </div><!-- /.box-header -->
                   <form id="form_docdigitales" name="form_docdigitales" method="POST" action="">
+                      <a class="btn btn-success btn-md" id="btnexport" name="btnexport" href="" target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Exportar Documentos</a>
                       <input type="hidden" name="tipo" id="tipo" value="1">
                       <input type="hidden" name="solo_area" id="tipo" value="|">
                         <div class="box-body table-responsive">
