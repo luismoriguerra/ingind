@@ -1,4 +1,5 @@
 <script type="text/javascript">
+Meta_cuadro_id="";
 $(document).ready(function() {
 
     var data = {estado:1};
@@ -100,6 +101,7 @@ eventoSlctGlobalSimple=function(slct,valores){
 
 CargarSustento=function(id){
      data={id:id};
+     Meta_cuadro_id=id;
      Accion.MostrarSustento(data,HTMLsustento);       
 };
 
@@ -112,8 +114,20 @@ HTMLsustento=function(documentos,archivos){
         cont=cont+1;
         html+="<tr>"+
             "<td>"+ cont +"</td>"+
-            "<td><a target='_blank' href='documentodig/vista/" + data.doc_digital_id + "/4/1'>" + data.titulo + "</a></td>"+
-            "<td>"+data.valida+"</td>";
+            "<td><a target='_blank' href='documentodig/vista/" + data.doc_digital_id + "/4/1'>" + data.titulo + "</a></td>";
+        if(data.valida==1){
+            html1+='<td><select class="form-control" name="slct_documento" id="slct_documento" data-id="'+data.id+'">'+
+                        "<option value='' selected>,::SELECCIONE::.</option>"+
+                        "<option value='2'>Válido</option>"+
+                        "<option value='3'>Inválido</option>"+
+                        "</select></td>";
+        }                  
+        else if(data.valida==2){
+            html1+="<td><span style='background-color:#7BF7AE;'>Válido</span></td>";
+        }
+        else if(data.valida==3){
+            html1+="<td><span style='background-color:#FE4E4E;'>Inválido</span></td>";
+        }
         html+="</tr>";
     });
     $("#tb_documento").html(html);
@@ -130,8 +144,20 @@ HTMLsustento=function(documentos,archivos){
         cont=cont+1;
         html1+="<tr>"+
             "<td>"+ cont +"</td>"+
-            "<td><a target='_blank' href='file/meta/" + data.ruta + "'>" +  data.ruta + "</a></td>"+
-            "<td>"+data.valida+"</td>";
+            "<td><a target='_blank' href='file/meta/" + data.ruta + "'>" +  data.ruta + "</a></td>";
+        if(data.valida==1){
+            html1+='<td><select class="form-control" name="slct_archivo" id="slct_archivo" data-id="'+data.id+'">'+
+                        "<option value='' selected>.::SELECCIONE::.</option>"+
+                        "<option value='2'>Válido</option>"+
+                        "<option value='3'>Inválido</option>"+
+                        "</select></td>";
+        }                  
+        else if(data.valida==2){
+            html1+="<td><span style='background-color:#7BF7AE;'>Válido</span></td>";
+        }
+        else if(data.valida==3){
+            html1+="<td><span style='background-color:#FE4E4E;'>Inválido</span></td>";
+        }
         html1+="</tr>";
     });
     $("#tb_archivo").html(html1);
@@ -140,6 +166,19 @@ HTMLsustento=function(documentos,archivos){
             "order": [[ 0, "asc" ]],
         }
     ); 
-    $("#reporte").show();
+
+    $( "#form_validacumplimientometa_modal #slct_archivo" ).change(function() {
+            var id= $(this).data('id'); //captura select y data-id
+            var valida=$( "#form_validacumplimientometa_modal #slct_archivo" ).val();
+            var data={id:id,valida:valida,t:'a'};
+            Accion.ActualizarSustento(data,HTMLsustento);    
+    });
+    
+    $( "#form_validacumplimientometa_modal #slct_documento" ).change(function() {
+            var id= $(this).data('id'); //captura select y data-id
+            var valida=$( "#form_validacumplimientometa_modal #slct_documento" ).val();
+            var data={id:id,valida:valida,t:'d'};
+            Accion.ActualizarSustento(data,HTMLsustento);    
+    });
 };
 </script>

@@ -600,4 +600,22 @@ class MetaCuadroController extends \BaseController {
             )
         );
    }
+   
+            public function postActualizarsustento()
+   {    
+        if(Input::get('t')=='a'){
+            $md= MetaArchivo::find(Input::get('id'));
+            
+        }else if(Input::get('t')=='d') {
+            $md= MetaDocdigital::find(Input::get('id'));
+        }
+        $md->valida=Input::get('valida');
+        $md->save();
+        return Response::json(
+            array(
+                'rst'=>1,
+                'msj' => 'Sustento validado',
+            )
+        );
+   }
 }
