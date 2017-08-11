@@ -2,14 +2,14 @@
 var cabeceraG=[]; // Cabecera del Datatable
 var columnDefsG=[]; // Columnas de la BD del datatable
 var targetsG=-1; // Posiciones de las columnas del datatable
-var TicketsG={id:0,persona_id:"",area_id:"",descripcion:"",fecha_pendiente:"",fecha_atencion:"",fecha_solucion:"",estado:1}; // Datos Globales
+var TicketsG={id:0,persona_id:"",nombre_solicitante:"",area_id:"",nombre_solicitante_area:"",descripcion:"",fecha_pendiente:"",fecha_atencion:"",fecha_solucion:"",estado_ticket:1,estado:1}; // Datos Globales
 $(document).ready(function() {  
     /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
         2: Descripción de cabecera
         3: Color Cabecera
     */
 
-    //slctGlobalHtml('slct_estado','simple');
+    //slctGlobalHtml('slct_estado_ticket','simple');
 
 
     var idG={   persona_id        :'3|Solicitante|#DCE6F1', //#DCE6F1
@@ -18,7 +18,9 @@ $(document).ready(function() {
                 fecha_pendiente      :'onBlur|Fecha Pendiente|#DCE6F1', //#DCE6F1
                 fecha_atencion      :'onBlur|Fecha Atencion|#DCE6F1', //#DCE6F1
                 fecha_solucion      :'onBlur|Fecha Solucion|#DCE6F1', //#DCE6F1
-                estado        :'2|Estado|#DCE6F1', //#DCE6F1
+                estado_ticket        :'2|Estado Ticket|#DCE6F1', //#DCE6F1
+                editar        :'1|Editar|#DCE6F1', //#DCE6F1
+                estado        :'1|Eliminar|#DCE6F1', //#DCE6F1
              };
 
     var resG=dataTableG.CargarCab(idG);
@@ -26,9 +28,9 @@ $(document).ready(function() {
     var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,1,'tickets','t_tickets');
     columnDefsG=resG[0]; // registra las columnas del datatable
     targetsG=resG[1]; // registra los contadores
-    var resG=dataTableG.CargarBtn(columnDefsG,targetsG,1,'BtnEditar','t_tickets','fa-edit');
-    columnDefsG=resG[0]; // registra la colunmna adiciona con boton
-    targetsG=resG[1]; // registra el contador actualizado
+    //var resG=dataTableG.CargarBtn(columnDefsG,targetsG,1,'BtnEditar','t_tickets','fa-edit');
+    //columnDefsG=resG[0]; // registra la colunmna adiciona con boton
+    //targetsG=resG[1]; // registra el contador actualizado
     MostrarAjax('tickets');
 
 
@@ -51,30 +53,26 @@ $(document).ready(function() {
       $('#form_tickets_modal [data-toggle="tooltip"]').css("display","none");
       $("#form_tickets_modal input[type='hidden']").not('.mant').remove();
 
-        if(titulo=='Nuevo'){
+        if(titulo=='Nuevo'){ 
 
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
-           // $('#form_tickets_modal #slct_estado').val(1); 
-            $('#form_tickets_modal #txt_persona_id').focus();
-            $('#form_tickets_modal #txt_area_id').focus();
-            $('#form_tickets_modal #txt_descripcion').focus();
-            $('#form_tickets_modal #txt_fecha_pendiente').focus();
-            $('#form_tickets_modal #txt_fecha_atencion').focus();
-            $('#form_tickets_modal #txt_fecha_solucion').focus();
+           // $('#form_tickets_modal #slct_estado_ticket').val(1); 
+           // $('#form_tickets_modal #txt_fecha_solucion').focus();
             //$('#form_tickets_modal #txt_responsable').focus();
 
-            var tbarchivo =[];
-            var tablaarchivo = $(".valido table[id='t_darchivo']").map(function(){
-//            console.log(this);
-            tbarchivo =[];
-            tbarchivo.push($(this).find("tbody tr").map(function(){
-                            return $(this).find('input:eq(0)').val()+'|'+$(this).find('input:eq(1)').val();
-                        }).get());
-//            console.log(tbarchivo);
-            return tbarchivo;
-            }).get();
+        }else {
 
+            modal.find('.modal-footer .btn-primary').text('Actualizar');
+            modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
+            $('#form_tickets_modal #txt_persona_id').val( TicketsG.persona_id );
+            $('#form_tickets_modal #nombre_solicitante').val( TicketsG.nombre_solicitante );
+            $('#form_tickets_modal #nombre_solicitante_area').val( TicketsG.nombre_solicitante_area );
+            $('#form_tickets_modal #txt_area_id').val( TicketsG.area_id );
+            $('#form_tickets_modal #txt_fecha_pendiente').val( TicketsG.fecha_pendiente );
+
+            $('#form_tickets_modal #txt_descripcion').val( TicketsG.descripcion );
+            $("#form_tickets_modal").append("<input type='hidden' value='"+TicketsG.id+"' name='id'>");
         }
 
         $('#form_tickets_modal select').multiselect('rebuild');
@@ -82,29 +80,11 @@ $(document).ready(function() {
     });
 
     $('#ticketModal').on('hide.bs.modal', function (event) {
-        //$('#form_tickets_modal input').not('.mant').val('');
+        $('#form_tickets_modal input').not('.mant').val('');
         $('#form_tickets_modal #txt_descripcion').val( '' );
-        $('#form_tickets_modal #txt_fecha_atencion').val( '' );
-        $('#form_tickets_modal #txt_fecha_solucion').val( '' );
 
     });
 });
-
-
-
-BtnEditar=function(btn,id){
-    var tr = btn.parentNode.parentNode; // Intocable
-    TicketsG.id=id;
-    TicketsG.persona_id=$(tr).find("td:eq(0)").text();
-    TicketsG.area_id=$(tr).find("td:eq(1)").text();
-    TicketsG.descripcion=$(tr).find("td:eq(2)").text();
-    TicketsG.fecha_pendiente=$(tr).find("td:eq(3)").text();
-    TicketsG.fecha_atencion=$(tr).find("td:eq(4)").text();
-    TicketsG.fecha_solucion=$(tr).find("td:eq(5)").text();
-    TicketsG.estado=$(tr).find("td:eq(6)>span").attr("data-estado");
-    $("#BtnEditar").click();
-};
-
 
 MostrarAjax=function(t){
     if( t=="tickets" ){
@@ -125,30 +105,59 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
     else if(typeof(fn)!='undefined' && fn.col==1){
         return row.area+"<input type='hidden'name='txt_area_id' value='"+row.area_id+"'>";
     }
-    // else if(typeof(fn)!='undefined' && fn.col==3){
-    //     return row.fecha_pendiente+"<input type='hidden'name='txt_fecha_pendiente' value='"+row.fecha_pendiente+"'>";
-    // }
   
     else if(typeof(fn)!='undefined' && fn.col==6){
-        var estadohtml='';
-        //estadohtml='<span id="'+row.id+'" onClick="atendido('+row.id+')" data-estado="'+row.estado+'" class="btn btn-success">Atendido</span>';
+        var estado_tickethtml='';
+        //estado_tickethtml='<span id="'+row.id+'" onClick="atendido('+row.id+')" data-estado_ticket="'+row.estado_ticket+'" class="btn btn-success">Atendido</span>';
        
-            if(row.estado==1){
-                estadohtml='<span id="'+row.id+'"  data-estado="'+row.estado+'" >Pendiente</span>';
+            if(row.estado_ticket==1){
+                estado_tickethtml='<span id="'+row.id+'"  data-estado_ticket="'+row.estado_ticket+'" >Pendiente</span>';
             }
-            else if(row.estado==2){
-                estadohtml='<span id="'+row.id+'"  data-estado="'+row.estado+'" >Atendido</span>';
+            else if(row.estado_ticket==2){
+                estado_tickethtml='<span id="'+row.id+'"  data-estado_ticket="'+row.estado_ticket+'" >Atendido</span>';
             }
-            else if(row.estado==3){
-                estadohtml='<span id="'+row.id+'"  data-estado="'+row.estado+'" >Solucionado</span>';
+            else if(row.estado_ticket==3){
+                estado_tickethtml='<span id="'+row.id+'"  data-estado_ticket="'+row.estado_ticket+'" >Solucionado</span>';
             }
-        
+        return estado_tickethtml;
+    }
 
-        return estadohtml;
+    else if(typeof(fn)!='undefined' && fn.col==7){
+     if(row.estado_ticket==1)
+         {
+           return "<a class='btn btn-primary btn-sm' onClick='BtnEditar(this,"+row.id+")' data-toggle='modal' data-target='#ticketModal' return false;' data-titulo='Editar'><i class='glyphicon glyphicon-pencil'></i> </a>";  
+         }
+    }
 
-
+    else if(typeof(fn)!='undefined' && fn.col==8){
+        if(row.estado_ticket==1)
+         {
+            return "<a class='btn btn-danger btn-sm' onClick='BtnEliminar("+row.id+"); return false;' data-titulo='Eliminar'><i class='glyphicon glyphicon-trash'></i> </a>";  
+        }
+         
     }
 }
+BtnEliminar = function(id){
+    var c= confirm("¿Está seguro de eliminar el Ticket?");
+    if(c)
+        {
+            data={'estado':0,'id':id};
+            Tickets.EliminarTicket(data);
+        }
+};
+
+BtnEditar=function(btn,id){
+    var tr = btn.parentNode.parentNode; // Intocable
+    TicketsG.id=id;
+    TicketsG.nombre_solicitante=$(tr).find("td:eq(0)").text();
+    TicketsG.nombre_solicitante_area=$(tr).find("td:eq(1)").text();
+    TicketsG.persona_id=$(tr).find("td:eq(0) input[name='txt_persona_id']").val();
+    TicketsG.area_id=$(tr).find("td:eq(1)").text();
+    TicketsG.descripcion=$(tr).find("td:eq(2)").text();
+    TicketsG.fecha_pendiente=$(tr).find("td:eq(3)").text();
+    $("#BtnEditar").click();
+};
+
 
 activarTabla=function(){
     $("#t_tickets").dataTable(); // inicializo el datatable    

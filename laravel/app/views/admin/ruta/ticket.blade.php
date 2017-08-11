@@ -42,7 +42,7 @@
                             <div class="box-body table-responsive">
                                 <table id="t_tickets" class="table table-bordered table-striped">
                                     <thead>
-                                    <tr><th colspan="7" style="text-align:center;background-color:#A7C0DC;"><h2>Tickets</h2></th></tr>
+                                    <tr><th colspan="9" style="text-align:center;background-color:#A7C0DC;"><h2>Tickets</h2></th></tr>
                                         <tr>
                                         
                                         </tr>
@@ -55,7 +55,7 @@
                                 </table>
                                 <a class='btn btn-primary btn-sm' class="btn btn-primary" 
                                 data-toggle="modal" data-target="#ticketModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
-                                <a style="display:none" id="BtnEditar" data-toggle="modal" data-target="#ticketModal" data-titulo="Editar"></a>
+                              <!--  <a style="display:none" id="BtnEditar" data-toggle="modal" data-target="#ticketModal" data-titulo="Editar"></a> -->
                             </div><!-- /.box-body -->
                              </form>
                         </div><!-- /.box -->

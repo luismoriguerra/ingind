@@ -4,8 +4,6 @@ var Tickets={
         var datos = $("#form_tickets_modal").serialize().split("txt_").join("").split("slct_").join("");
         var accion = (AE==1) ? "ticket/editar" : "ticket/crear";
 
-        console.log(datos);
-
         $.ajax({
             url         : accion,
             type        : 'POST',
@@ -67,7 +65,7 @@ var Tickets={
     },
       CambiarEstadoTickets: function(id, AD){
         $("#form_tickets_modal").append("<input type='hidden' value='"+id+"' name='id'>");
-        $("#form_tickets_modal").append("<input type='hidden' value='"+AD+"' name='estado'>");
+        $("#form_tickets_modal").append("<input type='hidden' value='"+AD+"' name='estado_ticket'>");
         var datos = $("#form_tickets_modal").serialize().split("txt_").join("").split("slct_").join("");
         $.ajax({
             url         : 'ticket/cambiarestado',
@@ -97,7 +95,35 @@ var Tickets={
                 msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
             }
         });
-    }
+    },
+
+    EliminarTicket:function(data){
+        $.ajax({
+            url         : 'ticket/cambiarestadoticket',
+            type        : 'POST',
+            cache       : false,
+            data        : data,
+            dataType    : 'json',
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                if(obj.rst==1){
+                    MostrarAjax('tickets');
+                }  
+                $(".overlay,.loading-img").remove();
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
+                                        '<i class="fa fa-ban"></i>'+
+                                        '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
+                                        '<b><?php echo trans("greetings.mensaje_error"); ?></b>'+
+                                    '</div>');
+            }
+        });
+    },
 };
+
 
 </script>
