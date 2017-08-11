@@ -114,6 +114,7 @@ class MetaCuadro extends Base
         $sql='';
         $sql.=" SELECT 
                 m.nombre as meta
+                ,mc.id
                 ,mc.actividad
                 ,mc.fecha
                 -- ,COUNT( DISTINCT ma.id) as archivo
@@ -145,5 +146,32 @@ class MetaCuadro extends Base
                 ";
         $r =DB::select($sql);
         return $r;
+    }
+    
+        public static function CargarSustento() {
+        $sSql1 = '';
+        $sSql2 = '';
+        $filtro1='';$filtro2='';
+        $oData=[];
+        if (Input::has('id') && Input::get('id')) {
+//            $id = Input::get('id');
+            $filtro1.= " AND ma.avance_id = ".Input::get('id');
+            $filtro2.= " AND md.avance_id = ".Input::get('id');
+        }
+        
+        $sSql2 .= "SELECT md.id,CONCAT_WS(' - ',DATE(md.created_at),dd.titulo) as titulo,md.avance_id as metacuadro_id,md.doc_digital_id,md.valida
+                   FROM metas_docdigital md
+                   INNER JOIN doc_digital dd ON dd.id=md.doc_digital_id 
+                   WHERE md.tipo_avance=2 
+                   AND md.estado=1 ".$filtro2;
+        
+        $sSql1 .= "SELECT ma.id,ma.ruta,ma.avance_id as metacuadro_id,ma.valida
+                   FROM metas_archivo ma
+                   WHERE ma.tipo_avance=2 
+                   AND ma.estado=1 ".$filtro1;
+        
+        $oData['archivos'] = DB::select($sSql1);
+        $oData['documentos'] = DB::select($sSql2);
+        return $oData;
     }
 }
