@@ -69,10 +69,10 @@ class TicketController extends \BaseController
                 }
             }
 
-            if( Input::has("estado") ){
-                $estado=Input::get("estado");
-                if( trim( $estado )!='' ){
-                    $array['where'].=" AND t.estado='".$estado."' ";
+            if( Input::has("estado_ticket") ){
+                $estado_ticket=Input::get("estado_ticket");
+                if( trim( $estado_ticket )!='' ){
+                    $array['where'].=" AND t.estado_ticket='".$estado_ticket."' ";
                 }
             }
              if ( Input::has('usuario') ) {
@@ -85,7 +85,7 @@ class TicketController extends \BaseController
                                         WHERE acp.estado=1
                                         AND cp.persona_id='".$usu_id."') ";
 //                            $query->whereRaw($usuario);
-                        } 
+            } 
 
             $array['order']=" ORDER BY t.persona_id ";
 
@@ -159,7 +159,7 @@ class TicketController extends \BaseController
             $tickets->area_id = Input::get('solicitante_area');
             $tickets->descripcion = Input::get('descripcion');
             $tickets->fecha_pendiente = Input::get('fecha_pendiente');
-          //  $tickets->estado = Input::get('estado:1');
+          //  $tickets->estado_ticket = Input::get('estado_ticket:1');
             $tickets->usuario_created_at = Auth::user()->id;
             $tickets->save();
 
@@ -207,13 +207,10 @@ class TicketController extends \BaseController
 
             $ticketId = Input::get('id');
             $tickets = Ticket::find($ticketId);
-            $tickets->persona_id = Input::get('persona_id');
-            $tickets->area_id = Input::get('area_id');
             $tickets->descripcion = Input::get('descripcion');
-            $tickets->estado = Input::get('estado');
             $tickets->usuario_updated_at = Auth::user()->id;
             $tickets->save();
-           
+   
             return Response::json(
                 array(
                 'rst'=>1,
@@ -225,7 +222,7 @@ class TicketController extends \BaseController
 
     /**
      * Changed the specified resource from storage.
-     * POST /area/cambiarestado
+     * POST /area/cambiarestado_ticket
      *
      * @return Response
      */
@@ -233,18 +230,18 @@ class TicketController extends \BaseController
     {
         if ( Request::ajax() ) {
             $ticketId = Input::get('id');
-            $estado = Input::get('estado');
+            $estado_ticket = Input::get('estado_ticket');
 
             $ticket = Ticket::find($ticketId);
-            if ($estado==2){
+            if ($estado_ticket==2){
                 $ticket->fecha_atencion = date("Y-m-d H:i:s");
                 $ticket->usuario_updated_at = Auth::user()->id;
             }
-            else if ($estado==3){
+            else if ($estado_ticket==3){
                 $ticket->fecha_solucion = date("Y-m-d H:i:s");
                 $ticket->usuario_updated_at = Auth::user()->id;            
             }
-            $ticket->estado = Input::get('estado');
+            $ticket->estado_ticket = Input::get('estado_ticket');
             
             $ticket->save();
         
@@ -255,6 +252,23 @@ class TicketController extends \BaseController
                 )
             );    
 
+        }
+    }
+
+    public function postCambiarestadoticket()
+    {
+        if (Request::ajax() && Input::has('id') && Input::has('estado')) {
+            $a      = new Ticket;
+            $listar = Array();
+            $listar =$a->getCambiarEstadoTicket();
+            if($listar=1){
+            return Response::json(
+                array(
+                    'rst' => 1,
+                    'msj' => 'Registro actualizado correctamente',
+                )
+            );
+        }
         }
     }
 
