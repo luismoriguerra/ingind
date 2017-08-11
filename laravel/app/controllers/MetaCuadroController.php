@@ -588,4 +588,16 @@ class MetaCuadroController extends \BaseController {
             );
         }
     }
+    
+         public function postMostrarsustento()
+   {
+        $oData= MetaCuadro::CargarSustento();
+        return Response::json(
+            array(
+                'rst'=>1,
+                'archivos'=>$oData['archivos'],
+                'documentos' => $oData['documentos'],
+            )
+        );
+   }
 }
