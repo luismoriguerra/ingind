@@ -232,7 +232,7 @@ class Reporte extends Eloquent
                 ) re ON re.ruta_id=r.id AND re.norden=(rd.norden-1)
                 WHERE r.estado=1 
                 AND rd.fecha_inicio<=CURRENT_TIMESTAMP()
-                AND rd.fecha_inicios!='' ".
+                AND rd.fecha_inicio!='' ".
                 $array['w'].
                 $array['areas'].
                 $array['id_union'].
