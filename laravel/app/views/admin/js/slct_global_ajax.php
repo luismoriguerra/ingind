@@ -409,4 +409,72 @@ var msjG = {
         return patron.test(te); // 6
     },
 };
+
+var EventosGeneralesG = {
+    CargarPaginacion:function(HTML,ajax,result,id){
+        var html='<ul class="pagination">';
+        if( result.current_page==1 ){
+            html+=  '<li class="paginate_button previous disabled">'+
+                        '<a>Atras</a>'+
+                    '</li>';
+        }
+        else{
+            html+=  '<li class="paginate_button previous" onClick="'+ajax+'.Cargar('+HTML+','+(result.current_page-1)+');">'+
+                        '<a>Atras</a>'+
+                    '</li>';
+        }
+        var ini=1; var fin=result.last_page;
+        if( result.last_page>5 ){
+            if( result.last_page-3<=result.current_page ){
+                ini=result.last_page-4;
+            }
+            else if( result.current_page<5 ){
+                fin=5;
+            }
+            else{
+                ini=result.current_page-1;
+                fin=result.current_page+1;
+            }
+        }
+
+        if( (ini>1 && result.current_page>4) || (result.last_page-3<=result.current_page && result.current_page<=4 && ini>1) ){
+            html+=  '<li class="paginate_button" onClick="'+ajax+'.Cargar('+HTML+',1);">'+
+                        '<a>1</a>'+
+                    '</li>';
+            html+=  '<li class="paginate_button disabled"><a>…</a></li>';
+        }
+        for(i=ini; i<=fin; i++){
+            if( i==result.current_page ){
+                html+=  '<li class="paginate_button active">'+
+                            '<a>'+i+'</a>'+
+                        '</li>';
+            }
+            else{
+                html+=  '<li class="paginate_button" onClick="'+ajax+'.Cargar('+HTML+','+i+');">'+
+                            '<a>'+i+'</a>'+
+                        '</li>';
+            }
+        }
+        if( fin>=5 && result.last_page>5 && result.last_page-3>result.current_page){
+            html+=  '<li class="paginate_button disabled"><a>…</a></li>';
+            html+=  '<li class="paginate_button" onClick="'+ajax+'.Cargar('+HTML+','+result.last_page+');">'+
+                        '<a>'+result.last_page+'</a>'+
+                    '</li>';
+        }
+
+        if( result.current_page==result.last_page ){
+            html+=  '<li class="paginate_button next disabled">'+
+                        '<a>Siguiente</a>'+
+                    '</li>';
+        }
+        else{
+            html+=  '<li class="paginate_button next" onClick="'+ajax+'.Cargar('+HTML+','+(result.current_page*1+1)+');">'+
+                        '<a>Siguiente</a>'+
+                    '</li>';
+        }
+        html+='</ul>';
+
+        $(id).append(html);
+    }
+};
 </script>
