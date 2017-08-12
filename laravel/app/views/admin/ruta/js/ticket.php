@@ -17,9 +17,9 @@ $(document).ready(function() {
                 descripcion      :'onBlur|Descripción|#DCE6F1', //#DCE6F1
                 fecha_pendiente      :'onBlur|Fecha Pendiente|#DCE6F1', //#DCE6F1
                 fecha_atencion      :'onBlur|Fecha Atencion|#DCE6F1', //#DCE6F1
-                responsable_atencion      :'onBlur|Responsable|#DCE6F1', //#DCE6F1
+                responsable_atencion      :'onBlur|R. Atencion|#DCE6F1', //#DCE6F1
                 fecha_solucion      :'onBlur|Fecha Solucion|#DCE6F1', //#DCE6F1                
-                responsable_solucion      :'onBlur|Responsable|#DCE6F1', //#DCE6F1
+                responsable_solucion      :'onBlur|R. Solucion|#DCE6F1', //#DCE6F1
                 estado_ticket        :'2|Estado Ticket|#DCE6F1', //#DCE6F1
                 editar        :'1|Editar|#DCE6F1', //#DCE6F1
                 estado        :'1|Eliminar|#DCE6F1', //#DCE6F1
