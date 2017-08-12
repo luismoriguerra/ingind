@@ -18,7 +18,7 @@ var Ticketgmgms={
                 if(obj.rst==1){
                     MostrarAjax('ticketgmgms');
                     msjG.mensaje('success',obj.msj,4000);
-                    $('#ticketModal .modal-footer [data-dismiss="modal"]').click();
+                    $('#ticketgmgmModal .modal-footer [data-dismiss="modal"]').click();
 
                 } else {
                     var cont = 0;
@@ -82,7 +82,7 @@ var Ticketgmgms={
                 if (obj.rst==1) {
                     MostrarAjax('ticketgmgms');
                     msjG.mensaje('success',obj.msj,4000);
-                    $('#ticketModal .modal-footer [data-dismiss="modal"]').click();
+                    $('#ticketgmgmModal .modal-footer [data-dismiss="modal"]').click();
                 } else {
                     $.each(obj.msj, function(index, datos) {
                         $("#error_"+index).attr("data-original-title",datos);

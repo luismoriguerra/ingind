@@ -235,11 +235,11 @@ class TicketController extends \BaseController
             $ticket = Ticket::find($ticketId);
             if ($estado_ticket==2){
                 $ticket->fecha_atencion = date("Y-m-d H:i:s");
-                $ticket->usuario_updated_at = Auth::user()->id;
+                $ticket->responsable_atencion_id = Auth::user()->id;
             }
             else if ($estado_ticket==3){
                 $ticket->fecha_solucion = date("Y-m-d H:i:s");
-                $ticket->usuario_updated_at = Auth::user()->id;            
+                $ticket->responsable_solucion_id = Auth::user()->id;            
             }
             $ticket->estado_ticket = Input::get('estado_ticket');
             
