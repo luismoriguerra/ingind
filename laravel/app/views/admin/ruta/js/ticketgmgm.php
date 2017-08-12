@@ -27,7 +27,7 @@ $(document).ready(function() {
 
     var resG=dataTableG.CargarCab(idG);
     cabeceraG=resG; // registra la cabecera
-    var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,1,'tickets','t_ticketgmgms');
+    var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,1,'ticketgmgms','t_ticketgmgms');
     columnDefsG=resG[0]; // registra las columnas del datatable
     targetsG=resG[1]; // registra los contadores
     //var resG=dataTableG.CargarBtn(columnDefsG,targetsG,1,'BtnEditar','t_ticketgmgms','fa-edit');

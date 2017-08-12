@@ -52,7 +52,7 @@ var Ticketgmgms={
             },
             success : function(obj) {
                 if(obj.rst==1){
-                    MostrarAjax('ticket');
+                    MostrarAjax('ticketgmgms');
           
                 }
                 $(".overlay,.loading-img").remove();
