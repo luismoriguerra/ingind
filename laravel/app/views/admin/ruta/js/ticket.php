@@ -2,7 +2,7 @@
 var cabeceraG=[]; // Cabecera del Datatable
 var columnDefsG=[]; // Columnas de la BD del datatable
 var targetsG=-1; // Posiciones de las columnas del datatable
-var TicketsG={id:0,persona_id:"",nombre_solicitante:"",area_id:"",nombre_solicitante_area:"",descripcion:"",fecha_pendiente:"",fecha_atencion:"",responsable_atencion:"",fecha_solucion:"",responsable_solucion:"",estado_ticket:1,estado:1}; // Datos Globales
+var TicketsG={id:0,persona_id:"",nombre_solicitante:"",area_id:"",nombre_solicitante_area:"",descripcion:"",fecha_pendiente:"",fecha_atencion:"",responsable_atencion:"",fecha_solucion:"",responsable_solucion:"",solucion:"",estado_tipo_problema:"",estado_ticket:1,estado:1}; // Datos Globales
 $(document).ready(function() {  
     /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
         2: Descripción de cabecera
@@ -20,9 +20,10 @@ $(document).ready(function() {
                 responsable_atencion      :'onBlur|R. Atencion|#DCE6F1', //#DCE6F1
                 fecha_solucion      :'onBlur|Fecha Solucion|#DCE6F1', //#DCE6F1                
                 responsable_solucion      :'onBlur|R. Solucion|#DCE6F1', //#DCE6F1
+                solucion        :'onBlur|Solucion|#DCE6F1', //#DCE6F1
+                estado_tipo_problema        :'1|Tipo Problema|#DCE6F1', //#DCE6F1
                 estado_ticket        :'2|Estado Ticket|#DCE6F1', //#DCE6F1
                 editar        :'1|Editar|#DCE6F1', //#DCE6F1
-                estado        :'1|Eliminar|#DCE6F1', //#DCE6F1
              };
 
     var resG=dataTableG.CargarCab(idG);
@@ -110,7 +111,7 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
         return row.area+"<input type='hidden'name='txt_area_id' value='"+row.area_id+"'>";
     }
   
-    else if(typeof(fn)!='undefined' && fn.col==8){
+    else if(typeof(fn)!='undefined' && fn.col==10){
         var estado_tickethtml='';
         //estado_tickethtml='<span id="'+row.id+'" onClick="atendido('+row.id+')" data-estado_ticket="'+row.estado_ticket+'" class="btn btn-success">Atendido</span>';
        
@@ -126,14 +127,14 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
         return estado_tickethtml;
     }
 
-    else if(typeof(fn)!='undefined' && fn.col==9){
+    else if(typeof(fn)!='undefined' && fn.col==11){
      if(row.estado_ticket==1)
          {
            return "<a class='btn btn-primary btn-sm' onClick='BtnEditar(this,"+row.id+")' data-toggle='modal' data-target='#ticketModal' return false;' data-titulo='Editar'><i class='glyphicon glyphicon-pencil'></i> </a>";  
          }
     }
 
-    else if(typeof(fn)!='undefined' && fn.col==10){
+    else if(typeof(fn)!='undefined' && fn.col==12){
         if(row.estado_ticket==1)
          {
             return "<a class='btn btn-danger btn-sm' onClick='BtnEliminar("+row.id+"); return false;' data-titulo='Eliminar'><i class='glyphicon glyphicon-trash'></i> </a>";  

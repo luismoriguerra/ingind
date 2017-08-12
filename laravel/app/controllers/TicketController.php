@@ -69,6 +69,20 @@ class TicketController extends \BaseController
                 }
             }
 
+            if( Input::has("solucion") ){
+                $solucion=Input::get("solucion");
+                if( trim( $solucion )!='' ){
+                    $array['where'].=" AND t.solucion LIKE '%".$solucion."%' ";
+                }
+            }
+
+            if( Input::has("estado_tipo_problema") ){
+                $estado_tipo_problema=Input::get("estado_tipo_problema");
+                if( trim( $estado_tipo_problema )!='' ){
+                    $array['where'].=" AND t.estado_tipo_problema='".$estado_tipo_problema."' ";
+                }
+            }
+
             if( Input::has("estado_ticket") ){
                 $estado_ticket=Input::get("estado_ticket");
                 if( trim( $estado_ticket )!='' ){

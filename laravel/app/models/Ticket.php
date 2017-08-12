@@ -3,8 +3,8 @@
 class Ticket extends Base
 {
     public $table = "tickets";
-    public static $where =['id', 'persona_id','area_id','descripcion','fecha_pendiente','fecha_atencion','fecha_solucion', 'estado_ticket'];
-    public static $selec =['id', 'persona_id','area_id','descripcion','fecha_pendiente','fecha_atencion','fecha_solucion', 'estado_ticket'];
+    public static $where =['id', 'persona_id','area_id','descripcion','fecha_pendiente','fecha_atencion','fecha_solucion','solucion','estado_tipo_problema', 'estado_ticket'];
+    public static $selec =['id', 'persona_id','area_id','descripcion','fecha_pendiente','fecha_atencion','fecha_solucion','solucion','estado_tipo_problema', 'estado_ticket'];
     
     public static function getCargarCount( $array )
     {
@@ -30,6 +30,8 @@ class Ticket extends Base
             CONCAT_WS(' ',p2.paterno,p2.materno,p2.nombre) responsable_atencion,
             t.fecha_solucion,
             t.responsable_solucion_id,
+            t.solucion,
+            t.estado_tipo_problema,
             CONCAT_WS(' ',p3.paterno,p3.materno,p3.nombre) responsable_solucion,
             t.estado_ticket
                 FROM tickets t
@@ -48,7 +50,7 @@ class Ticket extends Base
 
     public function getTicket(){
         $ticket=DB::table('tickets')
-                ->select('id','persona_id','area_id','descripcion','fecha_pendiente','fecha_atencion','responsable_atencion_id','fecha_solucion','responsable_solucion_id', 'estado_ticket')
+                ->select('id','persona_id','area_id','descripcion','fecha_pendiente','fecha_atencion','responsable_atencion_id','fecha_solucion','responsable_solucion_id','solucion','estado_tipo_problema', 'estado_ticket')
                 ->where( 
                     function($query){
                         if ( Input::get('estado_ticket') ) {
