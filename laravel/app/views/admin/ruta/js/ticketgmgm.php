@@ -109,9 +109,7 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
     else if(typeof(fn)!='undefined' && fn.col==1){
         return row.area+"<input type='hidden'name='txt_area_id' value='"+row.area_id+"'>";
     }
-    else if(typeof(fn)!='undefined' && fn.col==5){
-        return row.solicitante+"<input type='hidden'name='txt_persona_id' value='"+row.persona_id+"'>";
-    }
+
   
     else if(typeof(fn)!='undefined' && fn.col==8){
         var estado_tickethtml='';
