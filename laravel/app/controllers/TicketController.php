@@ -240,21 +240,31 @@ class TicketController extends \BaseController
      *
      * @return Response
      */
-    public function postCambiarestado()
+    public function postCambiarestado() //PENDIETE - ATENDIDO - SOLUCIONADO
     {
         if ( Request::ajax() ) {
-            $ticketId = Input::get('id');
-            $estado_ticket = Input::get('estado_ticket');
+                $estado_ticket = Input::get('estado_ticket');
+                if ($estado_ticket==2){ //PENDIENTE A ATENDIDO
+                    $ticketId = Input::get('id');
+                    
+                    $ticket = Ticket::find($ticketId);
 
-            $ticket = Ticket::find($ticketId);
-            if ($estado_ticket==2){
-                $ticket->fecha_atencion = date("Y-m-d H:i:s");
-                $ticket->responsable_atencion_id = Auth::user()->id;
-            }
-            else if ($estado_ticket==3){
-                $ticket->fecha_solucion = date("Y-m-d H:i:s");
-                $ticket->responsable_solucion_id = Auth::user()->id;            
-            }
+                    $ticket->fecha_atencion = date("Y-m-d H:i:s");
+                    $ticket->responsable_atencion_id = Auth::user()->id;
+                    
+
+                }
+                    else if ($estado_ticket==3){ //ATENDIDO A SOLUCIONADO
+                        $ticketId = Input::get('id_1');
+                        
+                        $ticket = Ticket::find($ticketId);
+
+                        $ticket->fecha_solucion = date("Y-m-d H:i:s");
+                        $ticket->responsable_solucion_id = Auth::user()->id;
+                        
+                        $ticket->solucion = Input::get('solucion');
+                        $ticket->estado_tipo_problema = Input::get('estado_tipo_problema');
+                    }
             $ticket->estado_ticket = Input::get('estado_ticket');
             
             $ticket->save();
@@ -269,7 +279,7 @@ class TicketController extends \BaseController
         }
     }
 
-    public function postCambiarestadoticket()
+    public function postCambiarestadoticket() //ELIMINAR
     {
         if (Request::ajax() && Input::has('id') && Input::has('estado')) {
             $a      = new Ticket;

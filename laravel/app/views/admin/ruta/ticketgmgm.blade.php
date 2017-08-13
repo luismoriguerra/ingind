@@ -67,4 +67,5 @@
 
     @section('formulario')
          @include( 'admin.ruta.form.ticketgmgm' )
+         @include( 'admin.ruta.form.soluciongmgm' )
     @stop

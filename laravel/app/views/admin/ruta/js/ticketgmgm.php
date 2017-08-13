@@ -21,7 +21,7 @@ $(document).ready(function() {
                 fecha_solucion      :'onBlur|Fecha Solucion|#DCE6F1', //#DCE6F1                
                 responsable_solucion      :'onBlur|R. Solucion|#DCE6F1', //#DCE6F1
                 solucion        :'onBlur|Solucion|#DCE6F1', //#DCE6F1
-                estado_tipo_problema        :'1|Tipo Problema|#DCE6F1', //#DCE6F1
+                estado_tipo_problema        :'2|Tipo Problema|#DCE6F1', //#DCE6F1
                 estado_ticket        :'2|Estado Ticket|#DCE6F1', //#DCE6F1
                 editar        :'1|Editar|#DCE6F1', //#DCE6F1
                 estado        :'1|Eliminar|#DCE6F1', //#DCE6F1
@@ -113,17 +113,25 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
         return row.area+"<input type='hidden'name='txt_area_id' value='"+row.area_id+"'>";
     }
 
+    else if(typeof(fn)!='undefined' && fn.col==9){
+        //se envia de manera ocultada la fecha de nacimiento en el txt_sexo
+        return row.estado_tipo_problema+"<input type='hidden'name='txt_estado_tipo_problema' value='"+row.estado_tipo_problema_id+"'>";
+    }
+
   
     else if(typeof(fn)!='undefined' && fn.col==10){
         var estado_tickethtml='';
         //estado_tickethtml='<span id="'+row.id+'" onClick="atendido('+row.id+')" data-estado_ticket="'+row.estado_ticket+'" class="btn btn-success">Atendido</span>';
        
-            if(row.estado_ticket==1){
-                estado_tickethtml='<span id="'+row.id+'" onClick="CambiarEstado('+row.id+',2)" data-estado_ticket="'+row.estado_ticket+'" class="btn btn-success" >Pendiente</span>';
+            if(row.estado_ticket==1){ // PENDIENTE A ATENDIDO
+                estado_tickethtml='<span id="'+row.id+'" onClick="CambiarEstado_Pendiente('+row.id+',2)" data-estado_ticket="'+row.estado_ticket+'" class="btn btn-success"  >Pendiente</span>';
 
             }
             else if(row.estado_ticket==2){
-                estado_tickethtml='<span id="'+row.id+'" onClick="CambiarEstado('+row.id+',3)" data-estado_ticket="'+row.estado_ticket+'" class="btn btn-warning" >Atendido</span>';
+                estado_tickethtml='<span id="'+row.id+'" onClick="Abrir_soluciongmgm('+row.id+')" data-estado_ticket="'+row.estado_ticket+'" class="btn btn-warning" data-toggle="modal" data-target="#soluciongmgmModal" return false; >Atendido</span>';
+
+
+
             }
             else if(row.estado_ticket==3){
                 estado_tickethtml='<span id="'+row.id+'" data-estado_ticket="'+row.estado_ticket+'" >Solucionado</span>';
@@ -146,6 +154,12 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
          
     }
 }
+Abrir_soluciongmgm=function(id){
+    $('#form_soluciongmgm_modal #txt_solucion').val( '' );
+    $('#soluciongmgmModal #id_1').val(id);
+
+    
+};
 BtnEliminar = function(id){
     var c= confirm("¿Está seguro de eliminar el Ticket?");
     if(c)
@@ -198,18 +212,19 @@ validaTickets=function(){
         alert("Ingrese Nombre de Solicitante");
         r=false;
     }
-    if( $("#form_ticketgmgms_modal #txt_area_id").val()=='' ){
-        alert("Ingrese Area");
-        r=false;
-    }
+
 
     return r;
 };
+CambiarEstado_Pendiente=function(id,valor){   //pendiete a atendido
 
-CambiarEstado=function(id,valor){
+        Ticketgmgms.CambiarEstadoTickets_Pendiente(id,valor);
     
+};
 
-        Ticketgmgms.CambiarEstadoTickets(id,valor);
+CambiarEstado_Atendido=function(){   //atendido a solucion
+
+        Ticketgmgms.CambiarEstadoTickets();
     
 };
 
