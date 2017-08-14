@@ -69,8 +69,8 @@ var Accion={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                var data={id:Meta_cuadro_id};
-                Accion.MostrarSustento(data,HTMLsustento);
+//                var data={id:Meta_cuadro_id};
+//                Accion.MostrarSustento(data,HTMLsustento);
                 }
             },
             error: function(){
