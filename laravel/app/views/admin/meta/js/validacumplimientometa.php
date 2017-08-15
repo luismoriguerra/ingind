@@ -25,7 +25,13 @@ $(document).ready(function() {
             Accion.mostrar(data[0]);            
         }
     });
-
+    $("#generar1").click(function (){
+        var data = DataToFilter();            
+        if(data.length > 0){
+            Accion.mostrar(data[0]);            
+        }
+    });
+    
     $(document).on('click', '#btnexport', function(event) {
         var data = DataToFilter();
         if(data.length > 0){
