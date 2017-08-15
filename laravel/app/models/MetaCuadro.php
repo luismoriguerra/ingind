@@ -134,11 +134,11 @@ class MetaCuadro extends Base
                 FROM metas_cuadro mc
                 INNER JOIN metas m ON m.id=mc.meta_id
                 INNER JOIN metas_fechavencimiento mf ON mf.meta_cuadro_id=mc.id AND mf.tipo=1 and mf.estado=1
-                LEFT JOIN metas_archivo ma ON ma.avance_id=mc.id AND ma.tipo_avance=2 AND ma.estado=1
-                LEFT JOIN metas_docdigital md ON md.avance_id=mc.id AND md.tipo_avance=2 AND md.estado=1
+                LEFT JOIN metas_archivo ma ON ma.avance_id=mc.id AND ma.tipo_avance=2 AND ma.estado=1 AND (ma.valida=1 OR ma.valida=2)
+                LEFT JOIN metas_docdigital md ON md.avance_id=mc.id AND md.tipo_avance=2 AND md.estado=1 AND (md.valida=1 OR md.valida=2)
 
-                LEFT JOIN metas_archivo ma1 ON ma1.avance_id=mf.id AND ma1.tipo_avance=3 AND ma1.estado=1
-                LEFT JOIN metas_docdigital md1 ON md1.avance_id=mf.id AND md1.tipo_avance=3 AND md1.estado=1 ";
+                LEFT JOIN metas_archivo ma1 ON ma1.avance_id=mf.id AND ma1.tipo_avance=3 AND ma1.estado=1 AND (ma1.valida=1 OR ma1.valida=2)
+                LEFT JOIN metas_docdigital md1 ON md1.avance_id=mf.id AND md1.tipo_avance=3 AND md1.estado=1 AND (md1.valida=1 OR md1.valida=2)";
         $sql.= "WHERE 1=1";
         $sql.= $array['where'];
         $sql.=" GROUP BY mc.id
