@@ -3,14 +3,14 @@
 class Ticket extends Base
 {
     public $table = "tickets";
-    public static $where =['id', 'persona_id','area_id','descripcion','fecha_pendiente','fecha_atencion','fecha_solucion', 'estado'];
-    public static $selec =['id', 'persona_id','area_id','descripcion','fecha_pendiente','fecha_atencion','fecha_solucion', 'estado'];
+    public static $where =['id', 'persona_id','area_id','descripcion','fecha_pendiente','fecha_atencion','fecha_solucion','solucion','estado_tipo_problema', 'estado_ticket'];
+    public static $selec =['id', 'persona_id','area_id','descripcion','fecha_pendiente','fecha_atencion','fecha_solucion','solucion','estado_tipo_problema', 'estado_ticket'];
     
     public static function getCargarCount( $array )
     {
         $sSql=" SELECT  COUNT(t.id) cant
                 FROM tickets t
-                WHERE 1=1 ";
+                WHERE t.estado=1 ";
         $sSql.= $array['where'];
         $oData = DB::select($sSql);
         return $oData[0]->cant;
@@ -18,11 +18,29 @@ class Ticket extends Base
 
     public static function getCargar( $array )
     {
-        $sSql=" SELECT t.id,p1.id as persona_id, CONCAT_WS(' ',p1.paterno,p1.materno,p1.nombre) solicitante,a.id as area_id,a.nombre area,t.descripcion,t.fecha_pendiente,t.fecha_atencion,t.fecha_solucion,t.estado
+        $sSql=" SELECT t.id,
+            p1.id as persona_id, 
+            CONCAT_WS(' ',p1.paterno,p1.materno,p1.nombre) solicitante,
+            a.id as area_id,
+            a.nombre area,
+            t.descripcion,
+            t.fecha_pendiente,
+            t.fecha_atencion,
+            t.responsable_atencion_id,
+            CONCAT_WS(' ',p2.paterno,p2.materno,p2.nombre) responsable_atencion,
+            t.fecha_solucion,
+            t.responsable_solucion_id,
+            t.solucion,
+            t.estado_tipo_problema,
+            CONCAT_WS(' ',p3.paterno,p3.materno,p3.nombre) responsable_solucion,
+            t.estado_ticket
                 FROM tickets t
                 left join personas as p1 on p1.id = t.persona_id
+                                left join personas as p2 on p2.id = t.responsable_atencion_id
+                                left join personas as p3 on p3.id = t.responsable_solucion_id
                 left join areas as a on a.id= t.area_id
-                WHERE 1=1 ";
+                WHERE t.estado=1 ";
+
         $sSql.= $array['where'].
                 $array['order'].
                 $array['limit'];
@@ -32,17 +50,30 @@ class Ticket extends Base
 
     public function getTicket(){
         $ticket=DB::table('tickets')
-                ->select('id','persona_id','area_id','descripcion','fecha_pendiente','fecha_atencion','fecha_solucion', 'estado')
+                ->select('id','persona_id','area_id','descripcion','fecha_pendiente','fecha_atencion','responsable_atencion_id','fecha_solucion','responsable_solucion_id','solucion','estado_tipo_problema', 'estado_ticket')
                 ->where( 
                     function($query){
-                        if ( Input::get('estado') ) {
-                            $query->where('estado','=','1');
+                        if ( Input::get('estado_ticket') ) {
+                            $query->where('estado_ticket','=','1');
                         }
+                       
+
                     }
                 )
                 ->orderBy('persona_id')
                 ->get();
                 
         return $ticket;
+    }
+
+    public static function getCambiarEstadoTicket( )
+    {   
+        $sSql="UPDATE tickets set "
+                ."  estado='0',
+                    usuario_updated_at='".Auth::user()->id."', 
+                    updated_at= now() 
+                    WHERE id=".Input::get('id');
+        $oData = DB::update($sSql);
+        return $oData;
     }
 }

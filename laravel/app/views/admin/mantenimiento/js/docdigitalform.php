@@ -63,7 +63,7 @@ $(document).ready(function() {
             if(Documento.csigla!=0){
                 if($(this).val()==3 || $(this).val()==5){
                      document.querySelector("#lblArea").innerHTML= " - "+AnioG+" - "+SiglasPersona+" - "+SiglasArea;
-                     Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':1,'t':t,'p':p},HTMLCargarCorrelativo);
+                     Plantillas.CargarCorrelativo({'area_id':Documento.area_id,'tipo_doc':Documento.tipo_documento_id,'tipo_corre':1,'t':t,'p':p},HTMLCargarCorrelativo);
                      } 
 
                 else {
@@ -233,7 +233,7 @@ HTMLPlantilla = function(data){
             if(result.csigla!=0){
                     if( Documento.tipoenvio==3  || Documento.tipoenvio==5){
                     document.querySelector("#lblArea").innerHTML= " - "+AnioG+" - "+SiglasPersona+" - "+SiglasArea;
-                    Plantillas.CargarCorrelativo({'tipo_doc':Documento.tipo_documento_id,'tipo_corre':1,'t':t,'p':p},HTMLCargarCorrelativo);
+                    Plantillas.CargarCorrelativo({'area_id':Documento.area_id,'tipo_doc':Documento.tipo_documento_id,'tipo_corre':1,'t':t,'p':p},HTMLCargarCorrelativo);
                     }
                     else {
                     document.querySelector("#lblArea").innerHTML= " - "+AnioG+" - "+SiglasArea;

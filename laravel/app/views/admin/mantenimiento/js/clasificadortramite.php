@@ -120,7 +120,8 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
     }      
     if(typeof(fn)!='undefined' && fn.col==4){
         var grupo='';
-        grupo+= '<span id="'+row.id+'" title="Asignar Proceso" onClick="CargarActividad(\''+row.id+'\',\''+row.nombre+'\',this)" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-list-alt"></i></span>';
+//        row.nombre.split('"').join("-");
+        grupo+= '<span id="'+row.id+'" title="Asignar Proceso" onClick="CargarActividad(\''+row.id+'\',\''+row.nombre.split('"').join("-")+'\',this)" data-estado="'+row.estado+'" class="btn btn-info"><i class="glyphicon glyphicon-list-alt"></i></span>';
         return grupo;
    }
 

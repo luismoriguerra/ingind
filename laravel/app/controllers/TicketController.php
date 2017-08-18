@@ -69,12 +69,37 @@ class TicketController extends \BaseController
                 }
             }
 
-            if( Input::has("estado") ){
-                $estado=Input::get("estado");
-                if( trim( $estado )!='' ){
-                    $array['where'].=" AND t.estado='".$estado."' ";
+            if( Input::has("solucion") ){
+                $solucion=Input::get("solucion");
+                if( trim( $solucion )!='' ){
+                    $array['where'].=" AND t.solucion LIKE '%".$solucion."%' ";
                 }
             }
+
+            if( Input::has("estado_tipo_problema") ){
+                $estado_tipo_problema=Input::get("estado_tipo_problema");
+                if( trim( $estado_tipo_problema )!='' ){
+                    $array['where'].=" AND t.estado_tipo_problema='".$estado_tipo_problema."' ";
+                }
+            }
+
+            if( Input::has("estado_ticket") ){
+                $estado_ticket=Input::get("estado_ticket");
+                if( trim( $estado_ticket )!='' ){
+                    $array['where'].=" AND t.estado_ticket='".$estado_ticket."' ";
+                }
+            }
+             if ( Input::has('usuario') ) {
+                            $usu_id = Auth::user()->id;
+                            $array['where'].=" and t.area_id IN (
+                                        SELECT DISTINCT(a.id)
+                                        FROM area_cargo_persona acp
+                                        INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                                       INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                        WHERE acp.estado=1
+                                        AND cp.persona_id='".$usu_id."') ";
+//                            $query->whereRaw($usuario);
+            } 
 
             $array['order']=" ORDER BY t.persona_id ";
 
@@ -148,7 +173,7 @@ class TicketController extends \BaseController
             $tickets->area_id = Input::get('solicitante_area');
             $tickets->descripcion = Input::get('descripcion');
             $tickets->fecha_pendiente = Input::get('fecha_pendiente');
-          //  $tickets->estado = Input::get('estado:1');
+          //  $tickets->estado_ticket = Input::get('estado_ticket:1');
             $tickets->usuario_created_at = Auth::user()->id;
             $tickets->save();
 
@@ -196,13 +221,10 @@ class TicketController extends \BaseController
 
             $ticketId = Input::get('id');
             $tickets = Ticket::find($ticketId);
-            $tickets->persona_id = Input::get('persona_id');
-            $tickets->area_id = Input::get('area_id');
             $tickets->descripcion = Input::get('descripcion');
-            $tickets->estado = Input::get('estado');
             $tickets->usuario_updated_at = Auth::user()->id;
             $tickets->save();
-           
+   
             return Response::json(
                 array(
                 'rst'=>1,
@@ -214,26 +236,36 @@ class TicketController extends \BaseController
 
     /**
      * Changed the specified resource from storage.
-     * POST /area/cambiarestado
+     * POST /area/cambiarestado_ticket
      *
      * @return Response
      */
-    public function postCambiarestado()
+    public function postCambiarestado() //PENDIETE - ATENDIDO - SOLUCIONADO
     {
         if ( Request::ajax() ) {
-            $ticketId = Input::get('id');
-            $estado = Input::get('estado');
+                $estado_ticket = Input::get('estado_ticket');
+                if ($estado_ticket==2){ //PENDIENTE A ATENDIDO
+                    $ticketId = Input::get('id');
+                    
+                    $ticket = Ticket::find($ticketId);
 
-            $ticket = Ticket::find($ticketId);
-            if ($estado==2){
-                $ticket->fecha_atencion = date("Y-m-d H:i:s");
-                $ticket->usuario_updated_at = Auth::user()->id;
-            }
-            else if ($estado==3){
-                $ticket->fecha_solucion = date("Y-m-d H:i:s");
-                $ticket->usuario_updated_at = Auth::user()->id;            
-            }
-            $ticket->estado = Input::get('estado');
+                    $ticket->fecha_atencion = date("Y-m-d H:i:s");
+                    $ticket->responsable_atencion_id = Auth::user()->id;
+                    
+
+                }
+                    else if ($estado_ticket==3){ //ATENDIDO A SOLUCIONADO
+                        $ticketId = Input::get('id_1');
+                        
+                        $ticket = Ticket::find($ticketId);
+
+                        $ticket->fecha_solucion = date("Y-m-d H:i:s");
+                        $ticket->responsable_solucion_id = Auth::user()->id;
+                        
+                        $ticket->solucion = Input::get('solucion');
+                        $ticket->estado_tipo_problema = Input::get('estado_tipo_problema');
+                    }
+            $ticket->estado_ticket = Input::get('estado_ticket');
             
             $ticket->save();
         
@@ -244,6 +276,23 @@ class TicketController extends \BaseController
                 )
             );    
 
+        }
+    }
+
+    public function postCambiarestadoticket() //ELIMINAR
+    {
+        if (Request::ajax() && Input::has('id') && Input::has('estado')) {
+            $a      = new Ticket;
+            $listar = Array();
+            $listar =$a->getCambiarEstadoTicket();
+            if($listar=1){
+            return Response::json(
+                array(
+                    'rst' => 1,
+                    'msj' => 'Registro actualizado correctamente',
+                )
+            );
+        }
         }
     }
 

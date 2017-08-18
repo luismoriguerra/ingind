@@ -1,7 +1,7 @@
 <script type="text/javascript">
-var Tickets={
+var Ticketgmgms={
     AgregarEditarTicket:function(AE){
-        var datos = $("#form_tickets_modal").serialize().split("txt_").join("").split("slct_").join("");
+        var datos = $("#form_ticketgmgms_modal").serialize().split("txt_").join("").split("slct_").join("");
         var accion = (AE==1) ? "ticket/editar" : "ticket/crear";
 
         $.ajax({
@@ -16,9 +16,9 @@ var Tickets={
             success : function(obj) {
                 $(".overlay, .loading-img").remove();
                 if(obj.rst==1){
-                    MostrarAjax('tickets');
+                    MostrarAjax('ticketgmgms');
                     msjG.mensaje('success',obj.msj,4000);
-                    $('#ticketModal .modal-footer [data-dismiss="modal"]').click();
+                    $('#ticketgmgmModal .modal-footer [data-dismiss="modal"]').click();
 
                 } else {
                     var cont = 0;
@@ -52,7 +52,7 @@ var Tickets={
             },
             success : function(obj) {
                 if(obj.rst==1){
-                    MostrarAjax('ticket');
+                    MostrarAjax('ticketgmgms');
           
                 }
                 $(".overlay,.loading-img").remove();
@@ -63,10 +63,48 @@ var Tickets={
             }
         });
     },
-      CambiarEstadoTickets: function(id, AD){
-        $("#form_tickets_modal").append("<input type='hidden' value='"+id+"' name='id'>");
-        $("#form_tickets_modal").append("<input type='hidden' value='"+AD+"' name='estado_ticket'>");
-        var datos = $("#form_tickets_modal").serialize().split("txt_").join("").split("slct_").join("");
+
+    CambiarEstadoTickets: function(){ //atendido a solucion
+        var datos = $("#form_soluciongmgm_modal").serialize().split("txt_").join("").split("slct_").join("");
+            $.ajax({
+            url         : 'ticket/cambiarestado',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : datos,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay, .loading-img").remove();
+                if(obj.rst==1){
+                    MostrarAjax('ticketgmgms');
+                    msjG.mensaje('success',obj.msj,4000);
+                    $('#soluciongmgmModal .modal-footer [data-dismiss="modal"]').click();
+
+                } else {
+                    var cont = 0;
+
+                    $.each(obj.msj, function(index, datos){
+                        cont++;
+                         if(cont==1){
+                            alert(datos[0]);
+                       }
+
+                    });
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
+            }
+        });
+    },
+
+      CambiarEstadoTickets_Pendiente: function(id, AD){ //pendiete a atendido
+        $("#form_ticketgmgms_modal").append("<input type='hidden' value='"+id+"' name='id'>");
+        $("#form_ticketgmgms_modal").append("<input type='hidden' value='"+AD+"' name='estado_ticket'>");
+        var datos = $("#form_ticketgmgms_modal").serialize().split("txt_").join("").split("slct_").join("");
         $.ajax({
             url         : 'ticket/cambiarestado',
             type        : 'POST',
@@ -80,9 +118,9 @@ var Tickets={
                 $(".overlay, .loading-img").remove();
 
                 if (obj.rst==1) {
-                    MostrarAjax('tickets');
+                    MostrarAjax('ticketgmgms');
                     msjG.mensaje('success',obj.msj,4000);
-                    $('#ticketModal .modal-footer [data-dismiss="modal"]').click();
+                    $('#ticketgmgmModal .modal-footer [data-dismiss="modal"]').click();
                 } else {
                     $.each(obj.msj, function(index, datos) {
                         $("#error_"+index).attr("data-original-title",datos);
@@ -109,7 +147,7 @@ var Tickets={
             },
             success : function(obj) {
                 if(obj.rst==1){
-                    MostrarAjax('tickets');
+                    MostrarAjax('ticketgmgms');
                 }  
                 $(".overlay,.loading-img").remove();
             },
