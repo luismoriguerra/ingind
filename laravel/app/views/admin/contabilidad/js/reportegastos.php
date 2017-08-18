@@ -30,17 +30,9 @@ $(document).ready(function() {
             $.trim($("#fecha_ini").val())!=='' ||
             $.trim($("#fecha_fin").val())!=='')
         {
-            if( $('#txt_saldos_pago').prop('checked') && $.trim($("#fecha_ini").val())=='' && $.trim($("#fecha_fin").val())=='')
-            {
-                alert("Por favor ingrese la fecha Inicial y fecha Final!");
-                return false;
-            }
-            else
-            {
-                dataG = $('#form_reporte').serialize().split("txt_").join("").split("slct_").join("");
-                Reporte.MostrarReporte(dataG);
-                //Reporte.MostrarReporteDetalle(dataG); // Ya no va este listado!
-            }
+            dataG = $('#form_reporte').serialize().split("txt_").join("").split("slct_").join("");
+            Reporte.MostrarReporte(dataG);
+            //Reporte.MostrarReporteDetalle(dataG); // Ya no va este listado!
         }
         else
         {

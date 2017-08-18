@@ -22,40 +22,20 @@ class GastosDetallesContables extends \Eloquent {
                          cg.nro_expede, cp.id, cp.ruc, cp.proveedor
 					FROM contabilidad_gastos_detalle cgd
 					INNER JOIN contabilidad_gastos cg ON cgd.contabilidad_gastos_id = cg.id
-					INNER JOIN contabilidad_proveedores cp ON cg.contabilidad_proveedores_id = cp.id
-					WHERE cgd.estado = 1 ";
-        
-        if (Input::has('saldos_pago') && Input::get('saldos_pago') == 'S') {
-            
-            if (Input::has('fecha_ini') && Input::get('fecha_ini') && Input::has('fecha_fin') && Input::get('fecha_fin')) {
-                $fecha_ini=Input::get('fecha_ini');
-                $fecha_fin=Input::get('fecha_fin');
-            }else{
-                $fecha_ini = '';
-                $fecha_fin = '';
-            }
+					INNER JOIN contabilidad_proveedores cp ON cg.contabilidad_proveedores_id = cp.id ";
 
-            $sSql .= " AND (
-                                (SELECT SUM(cgd1.monto_expede)
-                                    FROM contabilidad_gastos_detalle cgd1 
-                                        WHERE cgd1.tipo_expede = 'GC' AND cgd1.contabilidad_gastos_id = cg.id ";
-                        if($fecha_ini && $fecha_fin)    
-                                $sSql .= " AND DATE_FORMAT(cgd1.fecha_documento,'%Y-%m') BETWEEN '" . $fecha_ini . "' AND '" . $fecha_fin . "' ";
-            
-                            $sSql .= " ) -
-                                    IF((@W_MGC := 
-                                            (SELECT SUM(cgd3.monto_expede) 
-                                                FROM contabilidad_gastos_detalle cgd3 
-                                                    WHERE cgd3.tipo_expede = 'GG' AND cgd3.contabilidad_gastos_id = cg.id ";
-                        if($fecha_ini && $fecha_fin)    
-                                            $sSql .= " AND DATE_FORMAT(cgd3.fecha_documento,'%Y-%m') BETWEEN '" . $fecha_ini . "' AND '" . $fecha_fin . "' ";
-                                    
-                                    $sSql .= " )) IS NULL, 
-                                                0,
-                                            @W_MGC
-                                    )
-                    ) > 0 ";
+        if (Input::has('saldos_pago') && Input::get('saldos_pago') == 'S') {
+            $sSql .= " INNER JOIN (
+                            SELECT cgd2.contabilidad_gastos_id, SUM(IF(cgd2.tipo_expede='GC', cgd2.monto_expede, 0)) gc,
+                                    SUM(IF(cgd2.tipo_expede='GG',cgd2.monto_expede,0)) gg
+                                    FROM contabilidad_gastos_detalle cgd2
+                                    GROUP BY cgd2.contabilidad_gastos_id
+                                    HAVING gc != gg
+                        ) saldos ON saldos.contabilidad_gastos_id=cg.id";  
         }
+
+
+		$sSql .= "    WHERE cgd.estado = 1 ";
 
         if (Input::has('ruc') && Input::get('ruc')) {
             $ruc = Input::get('ruc');
@@ -68,9 +48,8 @@ class GastosDetallesContables extends \Eloquent {
         }
 
         if( Input::has("proveedor") ){
-                //$proveedor=explode(" ",Input::get("proveedor"));
-                $proveedor= Input::get("proveedor");
-                /*
+                $proveedor=explode(" ",Input::get("proveedor"));
+                //$proveedor= Input::get("proveedor");
                 $dproveedor=array();
                 for ($i=0; $i < count($proveedor) ; $i++) { 
                 	if( trim( $proveedor[$i] )!='' ){
@@ -80,8 +59,7 @@ class GastosDetallesContables extends \Eloquent {
                 if( count($dproveedor)>0 ){
                 	$sSql.=" AND ".implode($dproveedor, " OR ");
                 }
-                */
-                $sSql.=" AND UPPER(cp.proveedor) LIKE '%".strtoupper($proveedor). "%'";
+                //$sSql.=" AND UPPER(cp.proveedor) LIKE '%".strtoupper($proveedor). "%'";
         }
 
         if( Input::has("observacion") ){
@@ -127,40 +105,19 @@ class GastosDetallesContables extends \Eloquent {
 								ROUND((cg.monto_total - @MGG), 2) AS FG
 					FROM contabilidad_gastos_detalle cgd
 					INNER JOIN contabilidad_gastos cg ON cgd.contabilidad_gastos_id = cg.id
-					INNER JOIN contabilidad_proveedores cp ON cg.contabilidad_proveedores_id = cp.id
-						WHERE cgd.estado = 1 ";
+					INNER JOIN contabilidad_proveedores cp ON cg.contabilidad_proveedores_id = cp.id ";
 
         if (Input::has('saldos_pago') && Input::get('saldos_pago') == 'S') {
-            
-            if (Input::has('fecha_ini') && Input::get('fecha_ini') && Input::has('fecha_fin') && Input::get('fecha_fin')) {
-                $fecha_ini=Input::get('fecha_ini');
-                $fecha_fin=Input::get('fecha_fin');
-            }else{
-                $fecha_ini = '';
-                $fecha_fin = '';
-            }
-
-            $sSql .= " AND (
-                                (SELECT SUM(cgd1.monto_expede)
-                                    FROM contabilidad_gastos_detalle cgd1 
-                                        WHERE cgd1.tipo_expede = 'GC' AND cgd1.contabilidad_gastos_id = cg.id ";
-                        if($fecha_ini && $fecha_fin)    
-                                $sSql .= " AND DATE_FORMAT(cgd1.fecha_documento,'%Y-%m') BETWEEN '" . $fecha_ini . "' AND '" . $fecha_fin . "' ";
-            
-                            $sSql .= " ) -
-                                    IF((@W_MGC := 
-                                            (SELECT SUM(cgd3.monto_expede) 
-                                                FROM contabilidad_gastos_detalle cgd3 
-                                                    WHERE cgd3.tipo_expede = 'GG' AND cgd3.contabilidad_gastos_id = cg.id ";
-                        if($fecha_ini && $fecha_fin)    
-                                            $sSql .= " AND DATE_FORMAT(cgd3.fecha_documento,'%Y-%m') BETWEEN '" . $fecha_ini . "' AND '" . $fecha_fin . "' ";
-                                    
-                                    $sSql .= " )) IS NULL, 
-                                                0,
-                                            @W_MGC
-                                    )
-                    ) > 0 ";
+            $sSql .= " INNER JOIN (
+                            SELECT cgd2.contabilidad_gastos_id, SUM(IF(cgd2.tipo_expede='GC', cgd2.monto_expede, 0)) gc,
+                                    SUM(IF(cgd2.tipo_expede='GG',cgd2.monto_expede,0)) gg
+                                    FROM contabilidad_gastos_detalle cgd2
+                                    GROUP BY cgd2.contabilidad_gastos_id
+                                    HAVING gc != gg
+                        ) saldos ON saldos.contabilidad_gastos_id=cg.id";  
         }
+
+			$sSql .= " WHERE cgd.estado = 1 ";
 
         if (Input::has('ruc') && Input::get('ruc')) {
             $ruc = Input::get('ruc');

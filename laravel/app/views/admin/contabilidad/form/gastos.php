@@ -37,7 +37,7 @@
                 <button type="button" class="btn btn-primary">Guardar</button>
               </div>
               <div class="col-md-2" style="padding-left: 0px;">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button id="btn-cerrar-modi-gastos" type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
               </div>
             </div>            
           </div>
@@ -113,6 +113,55 @@
                    </tr>
                 </thead>
                 <tbody id="tb_saldos_pagar">
+                </tbody>
+            </table>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<div id="modalDetaExpe" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg" style="width: 95%;">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header logo">
+        <button class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+            <i class="fa fa-close"></i>
+        </button>
+        <h4 class="modal-title">DETALLES DEL EXPEDIENTE</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+            <table id="t_deta_expe" class="table table-bordered">
+                <thead>
+                   <tr>
+                      <th width="5%">Exp.</th>
+                      <th width="5%">Monto GC</th>
+                      <th width="5%">Monto GD</th>
+                      <th width="5%">Monto GG</th>
+                      <th width="5%">Fecha Exp.</th>
+                      <th width="5%">Documento</th>
+                      <th width="6%">Nro. Doc.</th>
+                      <!-- <th width="6%">Ruc</th>
+                      <th width="6%">Proveedor</th> -->
+                      <th width="5%">Esp. D</th>
+                      <th width="4%">Fecha Pago</th>
+                      <th width="6%">Doc. Pago</th>
+                      <th width="6%">Doc. Person</th>
+                      <th width="6%">Person Pago</th>
+                      <th width="35%"> Descripcion </th>
+                   </tr>
+                </thead>
+                <tbody id="tb_deta_expe">
                 </tbody>
             </table>
         </p>
