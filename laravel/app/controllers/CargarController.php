@@ -1118,8 +1118,8 @@ class CargarController extends BaseController {
             $array = array();
             $arrayExist = array();
 
-            //$file=file('txt/contabilidad/'.$archivoNuevo);
-            $file = file('/var/www/html/ingind/public/txt/contabilidad/' . $archivoNuevo);
+            $file=file('txt/contabilidad/'.$archivoNuevo);
+            //$file = file('/var/www/html/ingind/public/txt/contabilidad/' . $archivoNuevo);
 
             for ($i = 0; $i < count($file); $i++) {
 
@@ -1153,15 +1153,26 @@ class CargarController extends BaseController {
                         $proveedor->save();
                     }
 
+
+                    // Valida la Fecha
+                    $arr_fecha_p = explode("/", $detfile[5]); //dd/mm/yyyy
+                    if(@$arr_fecha_p[1])
+                        $fecha_doc_p = $arr_fecha_p[2].'-'.$arr_fecha_p[1].'-'.$arr_fecha_p[0]; //yyy-mm-dd
+                    else
+                        $fecha_doc_p = $detfile[5];
+                    // --
+
                     // Inserta Tabla contabilidad_gastos
                     $conta_gastos = GastosContables::where('contabilidad_proveedores_id', '=', $proveedor->id)
-                            ->where('nro_expede', '=', $detfile[0])
-                            ->first();
+                                                    ->where('nro_expede', '=', $detfile[0])
+                                                    ->where('anio_expede', '=', substr($fecha_doc_p, 0, 4))
+                                                    ->first();
                     if (count($conta_gastos) == 0) {
                         // Usar este ejemplo para insertar datos ya que mantiene el ultimo valor ingresado.
                         $conta_gastos = new GastosContables;
                         $conta_gastos->contabilidad_proveedores_id = $proveedor->id;
                         $conta_gastos->nro_expede = $detfile[0];
+                        $conta_gastos->anio_expede = substr($fecha_doc_p, 0, 4);
                         $conta_gastos->estado = 1;
                         $conta_gastos->usuario_created_at = Auth::user()->id;
                         $conta_gastos->save();
@@ -1177,67 +1188,49 @@ class CargarController extends BaseController {
                             $monto_expede = $detfile[4];
                         }
                     }
+                    
+                    $conta_gastos_deta = GastosDetallesContables::where('contabilidad_gastos_id', '=', $conta_gastos->id)
+                                                                ->where('tipo_expede', '=', $detfile[1])
+                                                                ->where('monto_expede', '=', $monto_expede)
+                                                                ->where('fecha_documento', '=', $detfile[5])
+                                                                ->where('documento', '=', $detfile[6])
+                                                                ->where('nro_documento', '=', $detfile[7])
+                                                                ->where('esp_d', '=', $detfile[10])
+                                                                //->where('fecha_doc_b', '=', $detfile[11])
+                                                                //->whereNull('fecha_doc_b
+                                                                ->where('doc_b', '=', $detfile[12])
+                                                                ->where('nro_doc_b', '=', $detfile[13])
+                                                                ->where('persona_doc_b', '=', $detfile[14])
+                                                                ->where('consecutivo', '=', $detfile[16])
+                                                                ->first();
+                       
+                    if (count($conta_gastos_deta) == 0)
+                    {
+                        // Valida la Fecha
+                        $arr_fecha = explode("/", $detfile[5]); //dd/mm/yyyy
+                        if(@$arr_fecha[1])
+                            $fecha_doc = $arr_fecha[2].'-'.$arr_fecha[1].'-'.$arr_fecha[0]; //yyy-mm-dd
+                        else
+                            $fecha_doc = $detfile[5];
+                        // --
 
-                    //if(($detfile[11] * 1) > 0)
-                    //{
-                        $conta_gastos_deta = GastosDetallesContables::where( 'contabilidad_gastos_id','=', $conta_gastos->id )
-                                                                    ->where('tipo_expede','=', $detfile[1])
-                                                                    ->where('monto_expede','=', $monto_expede)
-                                                                    ->where('fecha_documento','=', $detfile[5])
-                                                                        ->where('documento','=', $detfile[6])
-                                                                    ->where('nro_documento','=', $detfile[7])
-                                                                        ->where('esp_d','=', $detfile[10])
-                                                                        ->where('fecha_doc_b', '=', $detfile[11])
-                                                                        ->where('doc_b','=', $detfile[12])
-                                                                    ->where('nro_doc_b','=', $detfile[13])
-                                                                    ->where('persona_doc_b','=', $detfile[14])
-                                                                    ->where('observacion','=', $detfile[15])
-                                                                    ->first();
-                    /*}
-                    else // para valores Null
-                    {
-                        $conta_gastos_deta = GastosDetallesContables::where( 'contabilidad_gastos_id','=', $conta_gastos->id )
-                                                                    ->where('tipo_expede','=', $detfile[1])
-                                                                    ->where('monto_expede','=', $monto_expede)
-                                                                    ->where('fecha_documento','=', $detfile[5])
-                                                                        ->where('documento','=', $detfile[6])
-                                                                    ->where('nro_documento','=', $detfile[7])
-                                                                        ->where('esp_d','=', $detfile[10])
-                                                                        ->whereNull('fecha_doc_b')
-                                                                        ->where('doc_b','=', $detfile[12])
-                                                                    ->where('nro_doc_b','=', $detfile[13])
-                                                                    ->where('persona_doc_b','=', $detfile[14])
-                                                                    ->where('observacion','=', $detfile[15])
-                                                                    ->first();
-                    }                    
-                    */
-                    if( count($conta_gastos_deta) == 0 )
-                    {
-                        $conta_gastos_deta = GastosDetallesContables::where('contabilidad_gastos_id', '=', $conta_gastos->id)
-                                ->where('tipo_expede', '=', $detfile[1])
-                                ->where('monto_expede', '=', $monto_expede)
-                                ->where('fecha_documento', '=', $detfile[5])
-                                ->where('documento', '=', $detfile[6])
-                                ->where('nro_documento', '=', $detfile[7])
-                                ->where('esp_d', '=', $detfile[10])
-                                ->where('fecha_doc_b', '=', $detfile[11])
-                                ->where('doc_b', '=', $detfile[12])
-                                ->where('nro_doc_b', '=', $detfile[13])
-                                ->where('persona_doc_b', '=', $detfile[14])
-                                ->first();
-                    }
-                        
-                    if (count($conta_gastos_deta) == 0) {
+                        // Valida Moneda
+                        $arr_monto = explode(",", $monto_expede); // 0,000.00
+                        if(@$arr_monto[1])
+                            $nv_monto_expede = implode("", $arr_monto).substr($monto_expede, -3); //0000.00
+                        else
+                            $nv_monto_expede = $monto_expede;
+                        // --
 
                         $obj = new GastosDetallesContables();
                         $obj->contabilidad_gastos_id = $conta_gastos->id;
                         $obj->tipo_expede = $detfile[1];
 
-                        if ($monto_expede)
-                            $obj->monto_expede = $monto_expede;
+                        if ($nv_monto_expede)
+                            $obj->monto_expede = $nv_monto_expede;
 
                         if ($detfile[5] != '')
-                            $obj->fecha_documento = $detfile[5];
+                            $obj->fecha_documento = $fecha_doc;
 
                         if ($detfile[6] != '')
                             $obj->documento = $detfile[6];
@@ -1262,6 +1255,9 @@ class CargarController extends BaseController {
 
                         if ($detfile[15] != '')
                             $obj->observacion = $detfile[15];
+
+                        if ($detfile[16] != '')
+                            $obj->consecutivo = $detfile[16];
 
                         $obj->estado = 1;
                         $obj->usuario_created_at = Auth::user()->id;
