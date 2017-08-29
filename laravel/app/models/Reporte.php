@@ -578,14 +578,14 @@ class Reporte extends Eloquent
         if (Input::has('fecha_ini') && Input::get('fecha_ini') && Input::has('fecha_fin') && Input::get('fecha_fin')) {
             $fecha_ini=Input::get('fecha_ini');
             $fecha_fin=Input::get('fecha_fin');
-            $f_fecha .= "AND DATE_FORMAT(r.created_at,'%Y-%m') BETWEEN '" . $fecha_ini . "' AND '" . $fecha_fin . "' ";
+            $f_fecha .= "AND DATE_FORMAT(r.fecha_inicio,'%Y-%m') BETWEEN '" . $fecha_ini . "' AND '" . $fecha_fin . "' ";
         }
 
         $n = 1;
         for($i=$fecha_ini;$i<=$fecha_fin;$i = date("Y-m", strtotime($i ."+ 1 month"))){
             $cl .= ",count(DISTINCT(r$n.id)) r$n";
             $cl .= ",count(DISTINCT(IF(ISNULL(rd$n.dtiempo_final),r$n.id,NULL))) p$n";
-            $left .= "LEFT JOIN rutas r$n on r$n.id=r.id AND DATE_FORMAT(r$n.created_at,'%Y-%m')='".$i."'";
+            $left .= "LEFT JOIN rutas r$n on r$n.id=r.id AND DATE_FORMAT(r$n.fecha_inicio,'%Y-%m')='".$i."'";
             $left .= " LEFT JOIN rutas_detalle rd$n on r$n.id=rd$n.ruta_id AND  rd$n.estado=1 ";
             $n++;
             array_push($cabecera,$i);
