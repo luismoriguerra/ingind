@@ -64,7 +64,7 @@ class CargarController extends BaseController {
                     }
                     // Dar formato a  fechas
                     $fecha = explode('/', $detfile[8]);
-                    $nuevaFecha = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' 15:00:00';
+                    $nuevaFecha = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' 10:00:00';
                     
                  // Encontrar área en procesos
                 $area_id = $this->BuscarArea(utf8_encode($detfile[2]));
@@ -96,7 +96,7 @@ class CargarController extends BaseController {
                                $idd=$rdD->id+1;
                                $rd= RutaDetalle::find($idd);
                                $rd['dtiempo']=15;
-                               $rd['fecha_inicio']='2017-08-10 15:00:00';
+                               $rd['fecha_inicio']='2017-08-10 10:00:00';
                                $rd->save();
                             }
                             $auxId = $detfile[1];
@@ -410,7 +410,7 @@ class CargarController extends BaseController {
                                $idd=$rdD->id+1;
                                $rd= RutaDetalle::find($idd);
                                $rd['dtiempo']=15;
-                               $rd['fecha_inicio']='2017-08-10 15:00:00';
+                               $rd['fecha_inicio']='2017-08-10 10:00:00';
                                $rd->save();
                 }
                
