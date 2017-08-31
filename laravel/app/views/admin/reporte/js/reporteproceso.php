@@ -774,14 +774,14 @@
         $.each(datos, function (index, data) {
         var style='';
 
-        if(data.fecha_valida>='<?php echo date('Y-m-d H:m:s'); ?>' ){
+        if(data.estado=='Concluido'){
+          style='background-color:#D1E1FF;'; //azul
+        }
+        else if(data.fecha_valida>='<?php echo date('Y-m-d H:m:s'); ?>' ){
            style='background-color:#99ff99;';   //verde
         }
         else if(data.fecha_valida<'<?php echo date('Y-m-d H:m:s'); ?>' || data.estado=='Trunco'){
            style='background-color:#ff9999;';   //rojo
-        }
-        else if(data.estado=='Concluido'){
-          style='background-color:#D1E1FF;'; //azul
         }
 //        else(data.estado=='Trunco'){
 //           style='background-color:#ff9999;';   //rojo
