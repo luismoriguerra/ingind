@@ -205,7 +205,7 @@ class ReporteController extends BaseController
       }
       
       if( Input::has('tramite') AND Input::get('tramite')==2){
-        $array['tramite'].=" AND ISNULL(rd.dtiempo_final) ";
+        $array['tramite'].=" AND (rd.dtiempo_final is null AND rd.fecha_inicio is not null) ";
       }
       if( Input::has('tramite') AND Input::get('tramite')==3){
         $array['tramite'].=" AND ISNULL(rd.dtiempo_final) ";

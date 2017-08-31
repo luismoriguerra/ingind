@@ -644,9 +644,9 @@ class Reporte extends Eloquent
         public static function ReporteTramite( $array ){
 
         $sql =" SELECT  CalcularFechaFinal(
-                                rd.fecha_inicio, 
-                                (rd.dtiempo*1440),
-                                rd.area_id 
+                                rd2.fecha_inicio,
+                                (rd2.dtiempo*1440),
+                                rd2.area_id 
                                 ) as fecha_valida,IFNULL(trr.sumilla,'') as sumilla_referido,trr.fecha_tramite fecha_inicio_referido,trr.id_union tramite_referido,tr.id_union AS tramite, r.id, r.ruta_flujo_id, 
                 ts.nombre AS tipo_persona,
                 IF(trr.tipo_persona=1 or trr.tipo_persona=6,
@@ -696,6 +696,7 @@ class Reporte extends Eloquent
                 INNER JOIN rutas r ON tr.id=r.tabla_relacion_id and r.estado=1
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1
                 INNER JOIN areas a2 ON rd.area_id=a2.id
+                LEFT JOIN rutas_detalle rd2 ON rd2.ruta_id=r.id and rd2.estado=1 AND ISNULL(rd2.dtiempo_final) AND rd2.fecha_inicio!=''
                 LEFT JOIN referidos re ON re.ruta_id=r.id and re.tipo=0
                 LEFT JOIN tablas_relacion trr ON trr.id=re.tabla_relacion_id
                 LEFT JOIN tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
