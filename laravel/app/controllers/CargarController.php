@@ -311,10 +311,10 @@ class CargarController extends BaseController {
 
                             if ($detfile[4] == '6' or $detfile[4] == '8') {
 
-                                $varposicion = 7;
-                                if($detfile[4] == '8'){
-                                    $varposicion=13;
-                                }
+                                $varposicion = 13;
+//                                if($detfile[4] == '8'){
+//                                    $varposicion=13;
+//                                }
                                /* if($area_id==26){
                                     $varposicion = 6;
                                 }
