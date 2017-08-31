@@ -331,9 +331,9 @@ class ReporteController extends BaseController
               if($result){
                 $ini = 4;
                 foreach ($result as $key => $value) {
-
-                    $arr_paso_fecha = explode(",", $value->ult_paso);
-                    $arr_fecha_ini = explode(",", $value->ult_paso);
+                    //3.00 (Sub. Gerencia de Logística)|2017-08-25 15:51:53
+                    $arr_campo = explode(",", $value->ult_paso);
+                    $arr_campo_add = explode("|", @$arr_campo[0]);
 
                     $objPHPExcel->setActiveSheetIndex(0)
                                 ->setCellValue('A' . $ini, $key + 1)
@@ -346,8 +346,8 @@ class ReporteController extends BaseController
                                 ->setCellValue('H' . $ini, $value->persona)
                                 ->setCellValue('I' . $ini, $value->sumilla)
                                 ->setCellValue('J' . $ini, $value->estado)
-                                ->setCellValue('K' . $ini, @$arr_paso_fecha[0])
-                                ->setCellValue('L' . $ini, @$arr_fecha_ini[1])
+                                ->setCellValue('K' . $ini, @$arr_campo_add[0])
+                                ->setCellValue('L' . $ini, @$arr_campo_add[1])
                                 ->setCellValue('M' . $ini, $value->total_pasos)
                                 ;
                     $ini++;
