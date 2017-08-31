@@ -217,10 +217,12 @@
                         '<tr>' +
                         '<td style="text-align:center">'+ $.trim(data['r' + i]) +'</td>' +
                         '<td style="text-align:center;border-left: 1px solid #999999;">'+ $.trim(data['p' + i]) +'</td>' +
+                        '<td style="text-align:center"></td>' +
                         '</tr>' +
                         '<tr>' +
                         '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',1)" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
                         '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',2)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
+                        '<td><a onclick="ExportarRTP(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',1)" id="ertp_'+data.ruta_flujo_id+'" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-download-alt"></i> </a></td>' +
                         '</tr>' +
                         '</table>'+
                         '</td>';
@@ -841,6 +843,17 @@
         $("#form_tramite_detalle").css("display", "none");
         $("#form_detallecuadro").css("display", "none");
         $("#form_ruta_flujo").css("display", "none");
+    };
+
+    ExportarRTP = function (id, fechames,tramite) {
+        var fecha_ini = $('#fecha_ini').val();
+        var fecha_fin = $('#fecha_fin').val();
+        //var dataG = [];
+        if (fechames == null) {
+            $("#ertp_"+id).attr('href','reporte/exportreportetramite'+'?ruta_flujo_id='+id+'&tramite='+tramite);
+        } else {
+            $("#ertp_"+id).attr('href','reporte/exportreportetramite'+'?ruta_flujo_id='+id+'&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+'&tramite='+tramite);
+        }
     };
 
     cargardetalle = function (id,boton) {
