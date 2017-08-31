@@ -81,7 +81,7 @@ class CargarController extends BaseController {
                                 'rutas as r',
                                 'tr.id','=','r.tabla_relacion_id'
                             )
-                            ->where('tr.id_union', '=', 'REQUERIMIENTO - N° ' . str_pad($detfile[1], 6, '0', STR_PAD_LEFT) . ' - ' . $detfile[0] . ' - ' . $nemonico)
+                            ->where('tr.id_union', '=', 'REQUERIMIENTO TÉCNICO - N° ' . str_pad($detfile[1], 6, '0', STR_PAD_LEFT) . ' - ' . $detfile[0] . ' - ' . $nemonico)
                             ->where('tr.estado', '=', '1')
                             ->where('r.estado', '=', '1')
                             ->get();
