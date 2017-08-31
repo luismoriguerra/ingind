@@ -2843,7 +2843,9 @@ class ReporteController extends BaseController
       
     foreach($data as $key => $value){
         $cont = 0;
-
+        $auxi1=0;
+        $value_aux=json_decode(json_encode($value), true);
+        
         if($key == 0){ // set style to header
           end($value);       
           $objPHPExcel->getActiveSheet()->getStyle('A1:'.$head[key($value)-1].'1')->applyFromArray($styleThinBlackBorderAllborders);
@@ -2860,6 +2862,14 @@ class ReporteController extends BaseController
                   $objPHPExcel->setActiveSheetIndex(0)->setCellValue($head[$cont].($key + 1), $val); 
                   $cont--;
                }
+              else if ( $index == 'ft' or $index == 'areas' or $index == 'alertas' or $index == 'pt' or $index == 'p1' or $index == 'p2' or $index == 'p3' or $index == 'p4' or $index == 'p5' or $index == 'p6' or $index == 'p7' or $index == 'p8' or
+                $index == 'p9' or $index == 'p10' or $index == 'p11' or $index == 'p12' or $index == 'p13' or $index == 'p14' or $index == 'p15' or $index == 'p16' or
+                $index == 'p17' or $index == 'p18' or $index == 'p19' or $index == 'p20' or $index == 'p21' or $index == 'p22' or $index == 'p23' or $index == 'p24' or
+                $index == 'p25' or $index == 'p26' or $index == 'p27' or $index == 'p28' or $index == 'p29' or $index == 'p30' or $index == 'p31' or $index == 'p32')
+              { 
+              $cont--;
+              $auxi1=$value_aux[$index];
+              }
                else {
                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($head[$cont].($key + 1), $val);}
           }
