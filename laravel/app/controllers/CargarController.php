@@ -117,7 +117,7 @@ class CargarController extends BaseController {
 
                             $tablarelacion = new TablaRelacion;
                             $tablarelacion->software_id = 1;
-                            $tablarelacion->id_union = 'REQUERIMIENTO - N° ' . str_pad($detfile[1], 6, '0', STR_PAD_LEFT) . ' - ' . $detfile[0] . ' - ' . $nemonico;
+                            $tablarelacion->id_union = 'REQUERIMIENTO TÉCNICO - N° ' . str_pad($detfile[1], 6, '0', STR_PAD_LEFT) . ' - ' . $detfile[0] . ' - ' . $nemonico;
                             $tablarelacion->sumilla = $detfile[3];
                             $tablarelacion->estado = 1;
                             $tablarelacion->fecha_tramite = $nuevaFecha;
