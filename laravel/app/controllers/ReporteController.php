@@ -204,9 +204,9 @@ class ReporteController extends BaseController
         $array['fecha'].=" AND DATE_FORMAT(r.fecha_inicio,'%Y-%m') = '".Input::get('fechames')."'";
       }
       
-//      if( Input::has('tramite') AND Input::get('tramite')==2){
-//        $array['tramite'].=" AND ISNULL(rd.dtiempo_final) ";
-//      }
+      if( Input::has('tramite') AND Input::get('tramite')==2){
+        $array['tramite'].=" AND ISNULL(rd.dtiempo_final) ";
+      }
       if( Input::has('tramite') AND Input::get('tramite')==3){
         $array['tramite'].=" AND ISNULL(rd.dtiempo_final) ";
       }
