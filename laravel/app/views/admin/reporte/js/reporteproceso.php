@@ -850,9 +850,9 @@
         var fecha_fin = $('#fecha_fin').val();
         //var dataG = [];
         if (fechames == null) {
-            $("#ertp_"+id).attr('href','reporte/exportreportetramite'+'?ruta_flujo_id='+id+'&tramite='+tramite);
-        } else {
             $("#ertp_"+id).attr('href','reporte/exportreportetramite'+'?ruta_flujo_id='+id+'&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+'&tramite='+tramite);
+        } else {
+            $("#ertp_"+id).attr('href','reporte/exportreportetramite'+'?ruta_flujo_id='+id+'&fechames='+fechames+'&tramite='+tramite);
         }
     };
 
