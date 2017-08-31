@@ -265,10 +265,10 @@ class CargarController extends BaseController {
                             }
 
                             if ($detfile[4] == '4') {
-                                $varposicion=4;
-                                if ($area_id == 26) {
-                                    $varposicion=3;
-                                }
+                                $varposicion=6;
+//                                if ($area_id == 26) {
+//                                    $varposicion=3;
+//                                }
                                 if (utf8_encode($detfile[5]) == 'Gerencia de Planificación, Presupuesto y Racionalización') {
 
                                     $rutaDetalle = RutaDetalle::where('norden', '=', $varposicion)
