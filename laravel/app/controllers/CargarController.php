@@ -250,7 +250,7 @@ class CargarController extends BaseController {
                             }
 
                             if ($detfile[4] == '3') {
-                                $varposicion=3;
+                                $varposicion=5;
                                 if($area_id==26){
                                     $varposicion = 2;
                                 }
