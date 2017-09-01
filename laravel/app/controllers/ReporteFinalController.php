@@ -143,6 +143,10 @@ class ReporteFinalController extends BaseController
             $array['w'].=" AND tr.id_union LIKE '%".$id_union[$i]."%' ";
           }
         }
+        
+        if( Input::has('id_res') AND Input::get('id_res')!='' ){
+          $array['w'].=" AND CONCAT_WS(' ',p1.paterno,p1.materno,p1.nombre) LIKE '%".Input::get('id_res')."%' ";
+        }
 
         if( Input::has('id_ant') AND Input::get('id_ant')!='' ){
           $id_ant=explode(" ",trim(Input::get('id_ant')));
