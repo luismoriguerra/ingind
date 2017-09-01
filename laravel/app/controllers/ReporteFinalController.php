@@ -256,6 +256,10 @@ class ReporteFinalController extends BaseController
         if( !Input::has('totaldatos') ){
           $array['w']=" AND rd.dtiempo_final IS NULL ";
         }
+        
+        if( Input::has('id_res') AND Input::get('id_res')!='' ){
+          $array['w'].=" AND CONCAT_WS(' ',p1.paterno,p1.materno,p1.nombre) LIKE '%".Input::get('id_res')."%' ";
+        }
 
         if( Input::has('id_union') AND Input::get('id_union')!='' ){
           $id_union=explode(" ",trim(Input::get('id_union')));
