@@ -400,14 +400,15 @@ class ReporteFinalController extends BaseController
                         ->setCellValue('D3', 'PRIMER DOCUMENTO INGRESADO')
                         ->setCellValue('E3', 'TIEMPO')
                         ->setCellValue('F3', 'FECHA DE INICIO')
-                        ->setCellValue('G3', 'ESTADO DEL PASO')
-                        ->setCellValue('H3', 'PASO')
-                        ->setCellValue('I3', 'PROCESO')
-                        ->setCellValue('J3', 'SOLICITANTE')
+                        ->setCellValue('G3', 'HORA DE INICIO')
+                        ->setCellValue('H3', 'ESTADO DEL PASO')
+                        ->setCellValue('I3', 'PASO')
+                        ->setCellValue('J3', 'PROCESO')
+                        ->setCellValue('K3', 'SOLICITANTE')
                    
-                  ->mergeCells('A1:J1')
+                  ->mergeCells('A1:K1')
                   ->setCellValue('A1', 'Trámites Inconclusos')
-                  ->getStyle('A1:J1')->getFont()->setSize(18);
+                  ->getStyle('A1:K1')->getFont()->setSize(18);
 
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
@@ -419,28 +420,31 @@ class ReporteFinalController extends BaseController
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('H')->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('I')->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('J')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('K')->setAutoSize(true);
          
             /*end head*/
             /*body*/
             if($result){
               foreach ($result as $key => $value) {
+                list($fecha_inicio,$hora_inicio) = explode(' ',$value->fecha_inicio);  
                 $objPHPExcel->setActiveSheetIndex(0)
                               ->setCellValueExplicit('A' . ($key + 4), $key + 1)
                               ->setCellValueExplicit('B' . ($key + 4), $value->responsable)
                               ->setCellValueExplicit('C' . ($key + 4), $value->id_union_ant)
                               ->setCellValueExplicit('D' . ($key + 4), $value->id_union)
                               ->setCellValueExplicit('E' . ($key + 4), $value->tiempo)
-                              ->setCellValueExplicit('F' . ($key + 4), $value->fecha_inicio)
-                              ->setCellValueExplicit('G' . ($key + 4), $value->tiempo_final_n)
-                              ->setCellValue('H' . ($key + 4), $value->norden)
-                              ->setCellValue('I' . ($key + 4), $value->proceso)
-                              ->setCellValue('J' . ($key + 4), $value->persona)
+                              ->setCellValueExplicit('F' . ($key + 4), $fecha_inicio)
+                              ->setCellValueExplicit('G' . ($key + 4), $hora_inicio)
+                              ->setCellValueExplicit('H' . ($key + 4), $value->tiempo_final_n)
+                              ->setCellValue('I' . ($key + 4), $value->norden)
+                              ->setCellValue('J' . ($key + 4), $value->proceso)
+                              ->setCellValue('K' . ($key + 4), $value->persona)
                     
                               ;
               }
             }
             /*end body*/
-            $objPHPExcel->getActiveSheet()->getStyle('A3:J3')->applyFromArray($styleThinBlackBorderAllborders);
+            $objPHPExcel->getActiveSheet()->getStyle('A3:K3')->applyFromArray($styleThinBlackBorderAllborders);
             $objPHPExcel->getActiveSheet()->getStyle('A1:L1')->applyFromArray($styleAlignment);
             // Rename worksheet
             $objPHPExcel->getActiveSheet()->setTitle('Tràmites Inconclusos');
