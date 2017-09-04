@@ -126,15 +126,12 @@
                     <!-- <form id="form_1" name="form_1"></form> -->
                     <form id="form_tactividad" name="form_tactividad" method="POST" action="" style="display: none">
                         <div class="box-body table-responsive" style="overflow: auto; width: 100%;">
-                            <table id="t_tramite_actividad" class="table table-bordered no-footer">
+                            <table id="t_tramite_actividad" class="table table-bordered no-footer dataTable">
                                 <thead id="tt_tramite_actividad">
-                                    <tr class="info">
-                                        <th>Tramite</th>
-                                        <th>Actividad 1</th>
-                                        <th>Actividad 2</th>
-                                        <th>Actividad 3</th>
-                                        <th>Actividad 4</th>
-                                        <th>Actividad 5</th>
+                                    <tr>
+                                        <th>&nbsp</th>
+                                        <th>&nbsp</th>
+                                        <th>&nbsp</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_tramite_actividad">

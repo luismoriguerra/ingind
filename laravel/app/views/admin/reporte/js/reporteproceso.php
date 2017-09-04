@@ -772,6 +772,8 @@
         var html = '';
         var n = 1;
 
+        $('#t_tramite_actividad').dataTable().fnDestroy();
+
         html_cabecera = "<tr class='info'>" +
                         "<th> Tramite </th>";    
                         $.each(cabecera, function (index, cabecera) {
@@ -807,6 +809,12 @@
 
         $("#form_tactividad #tt_tramite_actividad").html(html_cabecera);
         $("#form_tactividad #tb_tramite_actividad").html(html);
+
+        $("#t_tramite_actividad").dataTable(
+            {
+                "pageLength": 10,
+            }
+        );
     };
     // -
 
@@ -884,7 +892,7 @@
         } else {
             dataG = {ruta_flujo_id: id, fechames: fechames, tramite: tramite};
         }
-        Proceso.MostrarTramiteActividad(id, fechames);
+        Proceso.MostrarTramiteActividad(id, fechames, tramite);
         $("#form_tactividad").css("display", "");
 
         Proceso.MostrarTramites(dataG);

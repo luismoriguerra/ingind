@@ -776,6 +776,7 @@ class Reporte extends Eloquent
         $sql .=" WHERE r.estado=1 ".
                 $array['ruta_flujo_id'].
                 $array['fecha'].
+                $array['tramite'].
                 " GROUP BY r.id ";
 
         $oData['cabecera'] = $cabecera;

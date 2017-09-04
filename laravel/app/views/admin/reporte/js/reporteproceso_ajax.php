@@ -62,7 +62,7 @@ var Proceso={
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
-            data        : { ruta_flujo_id:id, fechames:fechames },
+            data        : { ruta_flujo_id:id, fechames:fechames, tramite:tramite },
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },

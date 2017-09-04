@@ -383,7 +383,7 @@ class ReporteController extends BaseController
     public function postReportetramiteactividad()
     {
       $array=array();
-      $array['fecha']='';$array['ruta_flujo_id']='';
+      $array['fecha']='';$array['ruta_flujo_id']='';$array['tramite']='';
       
       if( Input::has('ruta_flujo_id') AND Input::get('ruta_flujo_id')!='' ){
         $array['ruta_flujo_id'].=" AND r.ruta_flujo_id='".Input::get('ruta_flujo_id')."' ";
@@ -391,7 +391,13 @@ class ReporteController extends BaseController
       if( Input::has('fechames') AND Input::get('fechames')!=''){
         $array['fecha'].=" AND DATE_FORMAT(r.fecha_inicio,'%Y-%m') = '".Input::get('fechames')."'";
       }
-      
+      if( Input::has('tramite') AND Input::get('tramite')==2){
+        $array['tramite'].=" AND (rd.dtiempo_final is null AND rd.fecha_inicio is not null) ";
+      }
+      if( Input::has('tramite') AND Input::get('tramite')==3){
+        $array['tramite'].=" AND ISNULL(rd.dtiempo_final) ";
+      }
+
 
       $data = Reporte::VerNroPasosTramite($array);
       $cant_pasos = $data[0]->cant;
