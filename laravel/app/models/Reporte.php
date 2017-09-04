@@ -162,6 +162,8 @@ class Reporte extends Eloquent
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
                 INNER JOIN tiempos t ON t.id=rd.tiempo_id 
                 INNER JOIN flujos f ON f.id=r.flujo_id
+                LEFT JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id
+		LEFT JOIN personas p1 ON p1.id=cd.persona_id
                 ".$array['referido']." JOIN referidos re ON re.ruta_id=r.id AND re.norden=(rd.norden-1)
                 WHERE r.estado=1 
                 AND rd.fecha_inicio!='' ".
@@ -178,6 +180,7 @@ class Reporte extends Eloquent
 
     public static function BandejaTramite( $array ){
         $sql="  SELECT
+                CONCAT_WS(' ',p1.paterno,p1.materno,p1.nombre)as responsable,
                 tr.id_union,
                 rd.id ruta_detalle_id,
                 rd.ruta_id ruta_id,
@@ -224,6 +227,8 @@ class Reporte extends Eloquent
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
                 INNER JOIN tiempos t ON t.id=rd.tiempo_id
                 INNER JOIN flujos f ON f.id=r.flujo_id
+                LEFT JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id
+		LEFT JOIN personas p1 ON p1.id=cd.persona_id
                 ".$array['referido']." JOIN 
                 (SELECT re2.ruta_id,re2.referido,re2.norden
                     FROM referidos re2
