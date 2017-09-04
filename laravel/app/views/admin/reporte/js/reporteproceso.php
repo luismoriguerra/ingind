@@ -789,20 +789,25 @@
                 var i;
                 for (i = 1; i <= (n-1); i++)
                 {
-                    var res = data['act' + i].split("|");
-                    if(res[1]!='')
-                        if(res[1]=='V')
-                            var style_class = 'success';
-                        else if(res[1]=='N')
-                            var style_class = 'warning';
-                        else if(res[1]=='R')
-                            var style_class = 'danger';
+                    if(data['act' + i])
+                    {
+                        var res = data['act' + i].split("|");
+                        if(res[1]!='')
+                            if(res[1]=='V')
+                                var style_class = 'success';
+                            else if(res[1]=='N')
+                                var style_class = 'warning';
+                            else if(res[1]=='R')
+                                var style_class = 'danger';
+                            else
+                                var style_class = '';
                         else
                             var style_class = '';
+                        
+                        html += "<td class='"+style_class+"'>" + res[0] + res[2] + "</td>";
+                    }
                     else
-                        var style_class = '';
-                    
-                    html += "<td class='"+style_class+"'>" + res[0] + res[2] + "</td>";
+                        html += "<td class=''>&nbsp;</td>";   
                 }
             html += "</tr>";
         });        
