@@ -376,12 +376,37 @@ class ReporteController extends BaseController
               $objWriter->save('php://output');
               exit;
             /* end export*/
-      }
+    }
     // --
 
+    // Reporte de Tramite Actividades
+    public function postReportetramiteactividad()
+    {
+      $array=array();
+      $array['fecha']='';$array['ruta_flujo_id']='';
+      
+      if( Input::has('ruta_flujo_id') AND Input::get('ruta_flujo_id')!='' ){
+        $array['ruta_flujo_id'].=" AND r.ruta_flujo_id='".Input::get('ruta_flujo_id')."' ";
+      }
+      if( Input::has('fechames') AND Input::get('fechames')!=''){
+        $array['fecha'].=" AND DATE_FORMAT(r.fecha_inicio,'%Y-%m') = '".Input::get('fechames')."'";
+      }
+      
 
+      $data = Reporte::VerNroPasosTramite($array);
+      $cant_pasos = $data[0]->cant;
 
+      $oData = Reporte::ReporteTramiteActividad( $array, $cant_pasos );
 
+      return Response::json(
+          array(
+              'rst'=>1,
+              'datos'=>$oData['data'],
+              'cabecera'=>$oData['cabecera']
+          )
+      );
+    }
+    // --
 
     public function postCargaractividad()
    {
