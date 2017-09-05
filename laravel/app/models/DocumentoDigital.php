@@ -154,7 +154,21 @@ class DocumentoDigital extends Base {
     {  
         $sSql=' select 1 as norden,CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona_c,CONCAT_WS(" ",p1.paterno,p1.materno,p1.nombre) as persona_u
                     , `dd`.`titulo`
-                    , `dd`.`asunto`,DATE(dd.created_at)as created_at, `pd`.`descripcion` as `plantilla`
+                    , `dd`.`asunto`,DATE(dd.created_at)as created_at, `pd`.`descripcion` as `plantilla`,
+                     @proceso:=(SELECT CONCAT(IFNULL((SELECT GROUP_CONCAT(DISTINCT f.nombre) 
+                    FROM rutas r 
+                    INNER JOIN rutas_detalle as rd on r.id=rd.ruta_id and rd.estado=1 and rd.condicion=0 
+                    INNER JOIN rutas_detalle_verbo as rdv on rdv.ruta_detalle_id=rd.id and rdv.estado=1 
+                    INNER JOIN flujos f ON f.id=r.flujo_id 
+                    where r.estado=1 AND dd.id=rdv.doc_digital_id ),"-")," | ",
+                    IFNULL((SELECT GROUP_CONCAT(DISTINCT f.nombre) 
+                    FROM rutas r INNER JOIN flujos f ON r.flujo_id=f.id 
+                    where r.estado=1 AND dd.id=r.doc_digital_id 
+                    GROUP BY dd.id),"-")) ) as proceso,
+                    CASE @proceso
+                        WHEN "- | -" THEN "PENDIENTE"
+                        ELSE "ASIGNADO"
+                    END as asignacion
                 from `doc_digital` as `dd` 
                 inner join `plantilla_doc` as `pd` on `dd`.`plantilla_doc_id` = `pd`.`id` 
                 left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
