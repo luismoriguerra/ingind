@@ -765,6 +765,65 @@
         });
 
     };
+
+    // Reporte de Tramite Actividades
+    HTMLCargaTramiteActividad = function (datos,cabecera) {
+        var html_cabecera = '';
+        var html = '';
+        var n = 1;
+
+        $('#t_tramite_actividad').dataTable().fnDestroy();
+
+        html_cabecera = "<tr class='info'>" +
+                        "<th> Tramite </th>";    
+                        $.each(cabecera, function (index, cabecera) {
+                            html_cabecera += "<th >Actividad "+n+"</th>";
+                            n++;
+                        });
+        html_cabecera += "</tr>";
+
+        
+        $.each(datos, function (index, data) {
+            html += "<tr>";
+                html += "<td>" + data.id_union + "</td>";
+                var i;
+                for (i = 1; i <= (n-1); i++)
+                {
+                    if(data['act' + i])
+                    {
+                        var res = data['act' + i].split("|");
+                        if(res[1]!='')
+                            if(res[1]=='V')
+                                var style_class = 'success';
+                            else if(res[1]=='N')
+                                var style_class = 'warning';
+                            else if(res[1]=='R')
+                                var style_class = 'danger';
+                            else
+                                var style_class = '';
+                        else
+                            var style_class = '';
+                        
+                        html += "<td class='"+style_class+"'>" + res[0] + res[2] + "</td>";
+                    }
+                    else
+                        html += "<td class=''>&nbsp;</td>";   
+                }
+            html += "</tr>";
+        });        
+
+        $("#form_tactividad #tt_tramite_actividad").html(html_cabecera);
+        $("#form_tactividad #tb_tramite_actividad").html(html);
+
+        $("#t_tramite_actividad").dataTable(
+            {
+                "pageLength": 10,
+            }
+        );
+    };
+    // -
+
+
     HTMLCargaTramites = function (datos) {
         var html = '';
         var alerta_tipo = '';
@@ -838,6 +897,9 @@
         } else {
             dataG = {ruta_flujo_id: id, fechames: fechames, tramite: tramite};
         }
+        Proceso.MostrarTramiteActividad(id, fechames, tramite);
+        $("#form_tactividad").css("display", "");
+
         Proceso.MostrarTramites(dataG);
         $("#form_tramite").css("display", "");
         $("#form_tramite_detalle").css("display", "none");

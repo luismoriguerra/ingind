@@ -119,8 +119,29 @@
                             </tbody>
                         </table>
                     </div>
+
                 </div>
-                <br><br>
+                <br>
+                <div class="col-xl-12">
+                    <!-- <form id="form_1" name="form_1"></form> -->
+                    <form id="form_tactividad" name="form_tactividad" method="POST" action="" style="display: none">
+                        <div class="box-body table-responsive" style="overflow: auto; width: 100%;">
+                            <table id="t_tramite_actividad" class="table table-bordered no-footer dataTable">
+                                <thead id="tt_tramite_actividad">
+                                    <tr>
+                                        <th>&nbsp</th>
+                                        <th>&nbsp</th>
+                                        <th>&nbsp</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tb_tramite_actividad">
+                                </tbody>
+                            </table>
+                        </div>
+                        <br>
+                    </form>
+                </div>
+
                 <div class="col-xl-12">
                     <form name="form_ruta_flujo" id="form_ruta_flujo" method="POST" action="" style="display: none;">
                         <div class="row form-group" >
@@ -208,9 +229,7 @@
                     </form>
                 </div>
                 <div class="col-xl-12">
-                    <form id="form_1" name="form_1">
-
-                    </form>
+                    <form id="form_1" name="form_1"></form>
                     <form id="form_tramite" name="form_tramite" method="POST" action="" style="display: none">
                         <div class="box-body table-responsive" style="overflow: auto; height: 388px; width: 100%;">
                             <table id="t_tramite" class="table table-bordered no-footer dataTable">
