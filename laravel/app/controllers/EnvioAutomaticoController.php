@@ -23,7 +23,7 @@ class EnvioAutomaticoController extends \BaseController {
 
         $hoy = date('Y-m-d');
         $dia_validar = date('w', strtotime($hoy));
-        if ($dia_validar == 1) {
+        if ($dia_validar != 1) {
 
             $listar = Area::getAreaNotificacion();
            
@@ -38,7 +38,7 @@ class EnvioAutomaticoController extends \BaseController {
             $sSqls = '';
             $cl = '';
             $left = '';
-            ;
+            $validar = [];
             $f_fecha = '';
             $cabecera = [];
 
@@ -50,15 +50,15 @@ class EnvioAutomaticoController extends \BaseController {
             $fecha = date_create($fechaIni);
             $n = 1;
             for ($i = $fechaIni_; $i <= $fechaFin_; $i += 86400) {
-                $cl .= ",COUNT(ap$n.id) AS f$n,IFNULL(SEC_TO_TIME(ABS(SUM(ap$n.ot_tiempo_transcurrido)) * 60),'00:00')  h$n";
+                $cl .= ",COUNT(ap$n.id) AS f$n,IFNULL(SEC_TO_TIME(ABS(SUM(ap$n.ot_tiempo_transcurrido)) * 60),'00:00')  h$n, IFNULL(SUM(ap$n.ot_tiempo_transcurrido),0) v$n,ExoneraFecha(STR_TO_DATE('" . date("d-m-Y", $i) . "','%d-%m-%Y'),p.id) as e$n";
                 $left .= "LEFT JOIN actividad_personal ap$n on ap$n.id=ap.id AND  DATE(ap.fecha_inicio) = STR_TO_DATE('" . date("d-m-Y", $i) . "','%d-%m-%Y')";
                 $n++;
-
+                array_push($validar,date('w', strtotime(date_format($fecha, 'Y-m-d'))));
                 array_push($cabecera, date_format($fecha, 'Y-m-d'));
                 date_add($fecha, date_interval_create_from_date_string('1 days'));
             }
 
-            $sSql .= "SELECT a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona";
+            $sSql .= "SELECT a.nombre as area,CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona,p.envio_actividad ";
             $sSql .= $cl;
             $sSql .= ",COUNT(ap.id) AS f_total,IFNULL(SEC_TO_TIME(ABS(SUM(ap.ot_tiempo_transcurrido)) * 60),'00:00')  h_total";
             $sSql .= " FROM personas p
@@ -77,8 +77,9 @@ class EnvioAutomaticoController extends \BaseController {
             $sSql .= " GROUP BY p.id";
             
             $oData['cabecera'] = $cabecera;
+            $oData['validar'] = $validar;
             $oData['data'] = DB::select($sSql);
-
+            
 
 //                foreach ($actividades as $value) {
 
@@ -114,6 +115,7 @@ class EnvioAutomaticoController extends \BaseController {
             $html_cabecera .= "</tr>";
 
             $array = json_decode(json_encode($oData['data']), true);
+            $validar = json_decode(json_encode($oData['validar']), true);
             foreach ($array as $data) {
                 $pos++;
                 $html .= "<tr>";
@@ -123,14 +125,19 @@ class EnvioAutomaticoController extends \BaseController {
 
                 for ($i = 1; $i <= $n; $i++) {
                     $hora = $data['h' . $i];
-                    if ($data['h' . $i] != null) {
-                        $hora = substr($data['h' . $i], 0, 5);
+                    if($data['v'.$i]>=360 or $data['envio_actividad']==0 or $data['e'.$i]>=1){
+                        $style=';background-color:#7BF7AE';
                     }
-                    if ($data['h' . $i] >= 06) {
-                        $style = ';background-color:#7BF7AE';
-                    } else {
-                        $style = ';background-color:#FE4E4E';
+                    else if($data['v'.$i]>0 AND $data['v'.$i]<360 AND $data['envio_actividad']==1){
+                        $style=';background-color:#FFA027';
                     }
+                    else if($data['v'.$i]==0 AND $data['envio_actividad']==1){
+                        $style=';background-color:#FE4E4E';   
+                    }
+                    if(($validar[$i-1]==6 || $validar[$i-1]==0) && ($data['envio_actividad']!=0 && $data['e'.$i]!=1)){
+                        $style=';background-color:#ffff66';   
+                    }
+                    
                     $html .= '<td style="' . $style . '">' . $data['f' . $i] . '</td>';
                     $html .= '<td style="' . $style . '">' . $hora . "</td>";
                 }
@@ -151,7 +158,7 @@ class EnvioAutomaticoController extends \BaseController {
             $html_table .= $html;
             $html_table .= '</tbody>';
             $html_table .= '</table >';
-
+            
 //                }
              $sSqls.= "  SELECT CONCAT_WS(' ',p.paterno,p.materno,p.nombre)as persona,IFNULL(CONCAT(p.email,',',p.email_mdi),',') as email_jefe,a.nombre as area,
 			(SELECT CONCAT(email,',',email_mdi)
@@ -190,8 +197,8 @@ class EnvioAutomaticoController extends \BaseController {
                 array_push($emailjefe, $emailjefeauxi[1]);
             }
 
-//            $emailpersonal = 'rcapchab@gmail.com';
-//            $emailjefe = array('rcapchab@gmail.com'); 
+            $emailpersonal = 'rcapchab@gmail.com';
+            $emailjefe = array('rcapchab@gmail.com'); 
 
 
             DB::beginTransaction();
@@ -221,7 +228,7 @@ class EnvioAutomaticoController extends \BaseController {
             $n++;
            }
         }
-        $retorno["data"] = $html;
+        $retorno["data"] = $html_table;
 
         return Response::json($retorno);
     }
