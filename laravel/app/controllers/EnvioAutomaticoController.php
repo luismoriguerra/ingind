@@ -23,7 +23,7 @@ class EnvioAutomaticoController extends \BaseController {
 
         $hoy = date('Y-m-d');
         $dia_validar = date('w', strtotime($hoy));
-        if ($dia_validar != 1) {
+        if ($dia_validar == 1) {
 
             $listar = Area::getAreaNotificacion();
            
@@ -197,8 +197,8 @@ class EnvioAutomaticoController extends \BaseController {
                 array_push($emailjefe, $emailjefeauxi[1]);
             }
 
-            $emailpersonal = 'rcapchab@gmail.com';
-            $emailjefe = array('rcapchab@gmail.com'); 
+//            $emailpersonal = 'rcapchab@gmail.com';
+//            $emailjefe = array('rcapchab@gmail.com'); 
 
 
             DB::beginTransaction();
