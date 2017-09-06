@@ -167,10 +167,10 @@ class RutaController extends \BaseController
                     $minTrascurrido=$adicional+$minTrascurrido;
                     $acti_personal = new ActividadPersonal();
                     $acti_personal->actividad = $value['actividad'];
-//                    $acti_personal->fecha_inicio = date("Y-m-d", strtotime($value['finicio']))." ".explode(' ',$value['hinicio'])[0];
-//                    $acti_personal->dtiempo_final = date("Y-m-d", strtotime($value['ffin']))." ".explode(' ',$value['hfin'])[0];
-                    $acti_personal->fecha_inicio = date("Y-m-d")." ".explode(' ',$value['hinicio'])[0];
-                    $acti_personal->dtiempo_final = date("Y-m-d")." ".explode(' ',$value['hfin'])[0];
+                    $acti_personal->fecha_inicio = date("Y-m-d", strtotime($value['finicio']))." ".explode(' ',$value['hinicio'])[0];
+                    $acti_personal->dtiempo_final = date("Y-m-d", strtotime($value['ffin']))." ".explode(' ',$value['hfin'])[0];
+//                    $acti_personal->fecha_inicio = date("Y-m-d")." ".explode(' ',$value['hinicio'])[0];
+//                    $acti_personal->dtiempo_final = date("Y-m-d")." ".explode(' ',$value['hfin'])[0];
                     $acti_personal->ot_tiempo_transcurrido = $minTrascurrido;
                     $acti_personal->cantidad = $value['cantidad'];
                     $acti_personal->tipo = $value['tipo'];

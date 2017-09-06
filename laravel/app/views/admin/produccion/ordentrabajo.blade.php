@@ -111,7 +111,8 @@
                                                 <label>Fecha Inicio / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class="form-control fechaInicio mant" id="txt_fechaInicio" name="txt_fechaInicio" onchange="fecha(this)" disabled="disabled" value="<?php echo date('Y-m-d') ?>">
+<!--                                                        <input type="text" class="form-control fechaInicio mant" id="txt_fechaInicio" name="txt_fechaInicio" onchange="fecha(this)" disabled="disabled" value="">-->
+                                                        <input type="text" class="datepicker form-control fechaInicio" id="txt_fechaInicio" name="txt_fechaInicio" onchange="fecha(this)">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
                                                         <input type="numeric" class="form-control horaInicio" id="txt_horaInicio" name="txt_horaInicio" onchange="CalcularHrs(this)" data-mask>
@@ -122,7 +123,7 @@
                                                 <label>Fecha Final / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class="datepicker form-control fechaFin mant" id="txt_fechaFin" name="txt_fechaFin"  disabled="disabled" value="<?php echo date('Y-m-d') ?>">
+                                                        <input type="text" class="datepicker form-control fechaFin mant" id="txt_fechaFin" name="txt_fechaFin"  disabled="disabled">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
                                                         <input type="numeric" class="form-control horaFin" id="txt_horaFin" name="txt_horaFin" onchange="CalcularHrs(this)" data-mask>
@@ -215,7 +216,7 @@
                                                 <label>Fecha Inicio / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class=" form-control fechaInicio mant" id="txt_fechaInicio" name="txt_fechaInicio" onchange="fecha(this)" disabled="disabled" value="<?php echo date('Y-m-d') ?>">
+                                                        <input type="text" class=" form-control fechaInicio" id="txt_fechaInicio" name="txt_fechaInicio" onchange="fecha(this)">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
                                                         <input type="numeric" class="form-control horaInicio" id="txt_horaInicio" name="txt_horaInicio" onchange="CalcularHrs(this)" data-mask>
@@ -226,7 +227,7 @@
                                                 <label>Fecha Final / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
-                                                        <input type="text" class="datepicker form-control fechaFin mant" id="txt_fechaFin" name="txt_fechaFin" disabled="disabled" value="<?php echo date('Y-m-d') ?>">
+                                                        <input type="text" class="datepicker form-control fechaFin" id="txt_fechaFin" name="txt_fechaFin" disabled="disabled">
                                                     </div>
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
                                                         <input type="numeric" class="form-control horaFin" id="txt_horaFin" name="txt_horaFin" onchange="CalcularHrs(this)" data-mask>
