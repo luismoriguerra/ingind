@@ -14,10 +14,10 @@ var Reporte={
             },
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
-                if(obj.rst==1){  
+                //if(obj.rst==1){  
                     //console.log(obj.datos);
-                    HTMLMostrarReporte(obj.datos);
-                }
+                    HTMLMostrarReporte(obj.reporte);
+                //}
             },
             error: function(){
                 $(".overlay,.loading-img").remove();
