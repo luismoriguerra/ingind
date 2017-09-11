@@ -126,7 +126,7 @@ class Bandeja extends \Eloquent {
                             INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1                            
                             INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1                            
                             WHERE acp.estado=1                            
-                            AND cp.persona_id= '.Auth::user()->id.'
+                            AND cp.persona_ids= '.Auth::user()->id.'
                         )');
         $result = $sql->paginate(10);
         return $result;
