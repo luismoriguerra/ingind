@@ -79,6 +79,15 @@
                       <div class="box-body table-responsive">
                          <table id="t_ordenest" class="table table-bordered">
                             <thead>
+                                <th colspan="8">&nbsp;</th>
+                                <th colspan="1">SISTRADOC</th>
+                                <th colspan="1">SIGAWEB</th>
+                                <th colspan="4">ACTIVIDADES</th>
+                                <th colspan="3">PROCESOS</th>
+                                <th colspan="3">&nbsp;</th>
+                                <th colspan="6">PAPELETAS</th>
+                            </thead>
+                            <thead>
                                <tr style="font-size: 12px;">
                                    <th width="4%">NRO.</th>
                                    <th width="5%">Area</th>
@@ -89,10 +98,10 @@
                                    <th width="6%">Estado</th>
                                    <th width="6%">Sueldo</th>
                                    <th width="6%">Doc. Emit</th>
-                                   <th width="4%">Doc.</th>
+                                   <th width="4%">Doc</th>
                                     <th width="3%">Cant</th>
                                     <th width="6%">Hora</th>
-                                    <th width="6%">Dsc</th>
+                                    <th width="6%">Dcso</th>
                                     <th width="6%">%</th>
                                    <th width="5%">Cnt Pro</th>
                                    <th width="5%">D Pro</th>
