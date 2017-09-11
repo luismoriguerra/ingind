@@ -81,11 +81,23 @@ HTMLMostrarReporte=function(datos){
                 "<td>"+data.sueldo+"</td>"+
                 "<td>"+data.doc_emitido_varios+"</td>"+
                 "<td>"+data.DOCUMENTOS_acciones+"</td>"+
-                    "<td>"+data.cantidad+"</td>"+
+
+                    "<td>"+data.Cantidad+"</td>"+
                     "<td>"+data.horas+"</td>"+
                     "<td>"+data.descanso+"</td>"+
+                    "<td>"+data.porcentaje+"</td>"+
+                    "<td>"+data.Cantidad_proc+"</td>"+
                     "<td>"+data.dias_pro+"</td>"+
-                    "<td>"+data.tardanzas+"</td>"
+                    "<td>"+data.uso+"</td>"+
+                    "<td>"+data.FALTAS+"</td>"+
+                    "<td>"+data.TARDANZAS+"</td>"+
+                    "<td>"+data.permiso+"</td>"+
+                    "<td>"+data.comision+"</td>"+
+                    "<td>"+data.CITACION+"</td>"+
+                    "<td>"+data.ESSALUD+"</td>"+
+                    "<td>"+data.PERMISO+"</td>"+
+                    "<td>"+data.COMPENSATORIO+"</td>"+
+                    "<td>"+data.ONOMASTICO+"</td>";
                 //'<td><span onclick="verAdicional('+con+')" style="cursor: pointer; margin-left: 4px;" class="glyphicon glyphicon-plus" aria-hidden="true"></span></td>';
         html+="</tr>";
     });

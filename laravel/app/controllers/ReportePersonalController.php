@@ -17,10 +17,10 @@ class ReportePersonalController extends BaseController
   {
       //$fecha = Input::get('fecha_ini');
       $fecha = explode('-', Input::get('fecha_ini'));
-
+      
       $result = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/index.php?mes=".$fecha[1]."&anno=".$fecha[0]);
 
-      return $result;
+      return utf8_encode($result);
       /*
       return Response::json(
           array(
