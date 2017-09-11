@@ -8,7 +8,7 @@ $(document).ready(function() {
 
     slctGlobalHtml('slct_estado','simple');
     var idG={   ruc        :'onBlur|Ruc|#DCE6F1', //#DCE6F1
-                proveedor        :'onBlur|Nombre|#DCE6F1',
+                proveedor        :'onBlur|Nombre del Proveedor|#DCE6F1|columntext_prov',
                 estado        :'2|Estado|#DCE6F1', //#DCE6F1
                 ver           : '1|[]|#FFF',
                 pagar           : '1|[]|#FFF'
@@ -67,7 +67,7 @@ BtnEditar=function(btn,id){
     $("#BtnEditar").click();
 };
 
-/*
+
 MostrarAjax=function(t){
     if( t=="proveedores" ){
         if( columnDefsG.length>0 ){
@@ -78,9 +78,9 @@ MostrarAjax=function(t){
         }
     }
 }
-*/
 
 GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
+    //  alert(fn.col);
     if(typeof(fn)!='undefined' && fn.col==2){ //Cuenta la cantidad de Columna ubicando el select "estado"!
         var estadohtml='';
         estadohtml='<span id="'+row.id+'" onClick="activar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-danger">Inactivo</span>';
@@ -138,14 +138,12 @@ valida = function(){
 
 verExpedientes = function(id){
     $(" #mante_gastos ").show();
-
     $(" #id_proveedor ").val(id); // Carga de manera automática el id y lo pasa a la funcion "MostrarAjax()"
-    MostrarAjax('gastos');
+    Cargos.CargarCargos(activarTablaG);
 }
 
 verSaldosPagar = function(id){
     $('#modalSaldosPagar').modal();
-    //var id= $('#modalSaldosPagar').attr("id");
     $.ajax({
             type: 'POST',
             url: 'proveedor/mostrarsaldospagar',
@@ -190,50 +188,21 @@ verSaldosPagar = function(id){
 
 
 
-<!-- Proceso de Gastos! -->
+
+
+<!-- PROCESO DE GASTOS! -->
 <?php define('name_controllerG', 'gastos'); ?>
 <?php define('name_frmG', 'gastos'); ?>
 <script type="text/javascript">
-var cabeceraG2=[]; // Cabecera del Datatable
-var columnDefsG2=[]; // Columnas de la BD del datatable
-var targetsG2=-1; // Posiciones de las columnas del datatable
-var dataG2={id:0, proveedor:"", nro_expede:"", monto_total:"", monto_historico:"", total_gc:"", total_gd:"", total_gg:"", total_pagar_gc:"", total_pagar_gd:""}; // Datos Globales
-
 var name_controllerG = 'gastos';
 var name_frmG = 'gastos';
 
 $(document).ready(function() {
 
-    slctGlobalHtml('slct_estado','simple');
-    //El nombre de las cabeceras debe ser de acuerdo al SELECT del metoo getCargar();
-    var idG2={   
-                proveedor       :'onBlur|Proveedor|#DCE6F1', //#DCE6F1
-                nro_expede      :'onBlur|Expedediente|#DCE6F1|columntext',
-                monto_total     :'onBlur|Pago Deuda|#DCE6F1|columntext',
-                monto_historico :'onBlur|Total Historico|#DCE6F1|columntext', //#DCE6F1,
-                total_gc        :'|Total GC|#DCE6F1',
-                total_gd        :'|Total GD|#DCE6F1',
-                total_gg        :'|Total GG|#DCE6F1',
-                total_pagar_gd  :'|Total Pagar Devengado|#DCE6F1',
-                total_pagar_gc  :'|Total Pagar Compromiso|#DCE6F1'
-            }
-
-    var resG2=dataTableG.CargarCab(idG2);
-    cabeceraG2=resG2; // registra la cabecera
-
-    var resG2=dataTableG.CargarCol(cabeceraG2,columnDefsG2,targetsG2,1, name_frmG,'t_'+name_frmG);
-    columnDefsG2=resG2[0]; // registra las columnas del datatable
-    targetsG2=resG2[1]; // registra los contadores
-    
-    var resG2=dataTableG.CargarBtn(columnDefsG2,targetsG2,1,'BtnEditar2','t_'+name_frmG,'fa-edit');
-    columnDefsG2=resG2[0]; // registra las columnas del datatable
-    targetsG2=resG2[1]; // registra los contadores
-    //MostrarAjax(name_frmG);
-
-
-    $('#'+name_controllerG+'Modal').on('show.bs.modal', function (event) {
+    $('#'+name_controllerG+'Modal').on('show.bs.modal', function (event) {      
       var button = $(event.relatedTarget); // captura al boton
       var titulo = button.data('titulo'); // extrae del atributo data-
+      var cargo_id = button.data('id'); //extrae el id del atributo data
 
       var modal = $(this); //captura el modal
       modal.find('.modal-title').text(titulo+' '+name_controllerG);
@@ -246,22 +215,23 @@ $(document).ready(function() {
             $('#form_'+name_frmG+'_modal #slct_estado').val(1);
             $('#form_'+name_frmG+'_modal #txt_proveedor').focus().attr('readonly', false);
         } else {
+
             modal.find('.modal-footer-modi .btn-primary').text('Actualizar'); //Se modifico para este caso.
             modal.find('.modal-footer-modi .btn-primary').attr('onClick','Editar2();'); //Se modifico para este caso.
-
-            $('#form_'+name_frmG+'_modal #txt_proveedor').val( dataG2.proveedor ).attr('readonly', true);
-            $('#form_'+name_frmG+'_modal #txt_nro_expede').val( dataG2.nro_expede ).attr('readonly', true);
-            $('#form_'+name_frmG+'_modal #txt_monto_total').val( dataG2.monto_total );
-            $('#form_'+name_frmG+'_modal #txt_monto_historico').val( dataG2.monto_historico );
-
+            //alert(cargo_id); 
+            $('#form_'+name_frmG+'_modal #txt_proveedor').val( CargoObj[cargo_id].proveedor ).attr('readonly', true);
+            $('#form_'+name_frmG+'_modal #txt_nro_expede').val( CargoObj[cargo_id].nro_expede ).attr('readonly', true);
+            $('#form_'+name_frmG+'_modal #txt_monto_total').val( CargoObj[cargo_id].monto_total );
+            $('#form_'+name_frmG+'_modal #txt_monto_historico').val( CargoObj[cargo_id].monto_historico );
+            //$("#form_cargos").append("<input type='hidden' value='"+button.data('id')+"' name='id'>");
 
             // PROCESO DE CRUD PARA GASTOS HISTORICOS
-                $('#form_'+name_frmG+'_modal #txt_contabilidad_gastos_id').val( dataG2.id ); //pasa el ID
+                $('#form_'+name_frmG+'_modal #txt_contabilidad_gastos_id').val( CargoObj[cargo_id].id ); //pasa el ID
                 $.ajax({
                     type: 'POST', 
                     url: name_controllerG+'/mostrardatosregistro',
                     cache: false,
-                    data: {id : dataG2.id},
+                    data: {id : CargoObj[cargo_id].id},
                     dataType: 'json',
                     beforeSend : function() {
                         $("#btnguardar_pago").attr('disabled', true);
@@ -305,19 +275,19 @@ $(document).ready(function() {
                         alert(jqXHR.responseText);
                     }
                 });
+            
             // --
 
             
-            $("#form_"+name_frmG+"_modal").append("<input type='hidden' value='"+dataG2.id+"' name='id'>");
+            $("#form_"+name_frmG+"_modal").append("<input type='hidden' value='"+CargoObj[cargo_id].id+"' name='id'>");
 
         }
              $('#form_'+name_frmG+'_modal select').multiselect('rebuild');
     });
-
+    
     $('#'+name_controllerG+'Modal').on('hide.bs.modal', function (event) {
        $('#form_'+name_frmG+'_modal input').val('');
     });
-
 
 
     // PROCESO DE CRUD PARA GASTOS HISTORICOS
@@ -369,11 +339,9 @@ $(document).ready(function() {
                                         //'<span style="cursor: pointer;" class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>'+
                                    '</td>'+
                                    '<input type="hidden" class="form-control" name="txt_valor_'+con+'" id="txt_valor_'+con+'" value="select">'+
-
                                    '<td>'+data.gc+'</td>'+
                                    '<td>'+data.gd+'</td>'+
                                    '<td>'+data.gg+'</td>'+
-
                                    '<td>'+data.anio_pago+'</td>'+
                                    '<td>'+data.cuenta_contable+'</td>'+
                                    '<td>'+data.saldo_actual+'</td>'+
@@ -392,64 +360,112 @@ $(document).ready(function() {
                 alert(jqXHR.responseText);
             }
         });
-
         
     });
 
     // --
 
-
-
 });
 
-BtnEditar2=function(btn,id){
-    var tr = btn.parentNode.parentNode; // Intocable
-    dataG2.id=id;
-    dataG2.proveedor=$(tr).find("td:eq(0)").text();
-    dataG2.nro_expede=$(tr).find("td:eq(1)").text();
-    dataG2.monto_total=$(tr).find("td:eq(2)").text();
-    dataG2.monto_historico=$(tr).find("td:eq(3)").text();
-    $("#BtnEditar2").click();
+
+activarTablaG=function(){
+    $("#t_cargos").dataTable(); // inicializo el datatable    
 };
 
-MostrarAjax=function(t){
-    if( t=="proveedores" ){
-        if( columnDefsG.length>0 ){
-            dataTableG.CargarDatos(t,'proveedor','cargar',columnDefsG);
-        }
-        else{
-            alert('Faltas datos');
-        }
-    }
-    if( t=='gastos' ){
-        if( columnDefsG2.length>0 ){
-            dataTableG.CargarDatos(t, 'gastos', 'cargar', columnDefsG2);
-        }
-        else{
-            alert('Faltas datos');
-        }
-    }
-}
-
-Editar2 = function(){
+Editar2=function(){
     if(valida2()){
-        Data.AgregarEditar(1, name_frmG, name_controllerG);
-    }
-};
-Agregar2 = function(){
-    if(valida2()){
-        Data.AgregarEditar(0, name_frmG, name_controllerG);
+        Cargos.AgregarEditar(1, name_frmG, name_controllerG);
     }
 };
 
 valida2 = function(){
     var r=true;
-    if( $("#form_"+name_frmG+"_modal #nro_expede").val()=='' ){
-        alert("Ingrese el Nro. Expediente");
+    if( $("#form_"+name_frmG+"_modal #txt_monto_total").val()=='' ){
+        alert("Ingrese un Pago Deuda");
         r=false;
     }
     return r;
 };
+
+HTMLCargarCargo=function(datos){
+    var html="";
+    $('#t_cargos').dataTable().fnDestroy();
+    var con = 0;
+    $.each(datos,function(index,data){
+        
+        html+="<tr>"+
+            "<td >"+data.nro_expede+"</td>"+
+            "<td >"+data.proveedor+"</td>"+
+            "<td >"+data.monto_total+"</td>"+
+            "<td >"+data.monto_historico+"</td>"+
+            "<td >"+data.total_gc+"</td>"+
+            "<td >"+data.total_gd+"</td>"+
+            "<td >"+data.total_gg+"</td>"+
+            "<td >"+data.total_deuda_gg+"</td>"+
+            "<td >"+data.total_pagar_gc+"</td>"+
+            "<td >"+data.total_pagar_gd+"</td>"+
+            '<td><a class="btn btn-success btn-sm" onClick="verDetaExpe('+data.id+')" data-id="'+data.id+'" data-titulo="Detalles"><i class="glyphicon glyphicon-list-alt"></i> </a></td>'+
+            '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#gastosModal" data-id="'+con+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
+
+        html+="</tr>";
+        con++;
+    });
+    $("#tb_cargos").html(html); 
+    activarTablaG();
+};
+
+
+verDetaExpe = function(id){
+    $('#modalDetaExpe').modal();
+    $.ajax({
+            type: 'POST',
+            url: 'gastos/mostrardetallesexpe',
+            cache: false,
+            data: {id : id},
+            dataType: 'json',
+            beforeSend : function() {
+                $("#tb_deta_expe").html('<tr><td colspan="15" class="text-center">Cargando Registros...</td></tr>');
+            },
+            success: function (obj) 
+            {
+                var html = '';
+                if(obj.datos.length > 0)
+                {
+                    var con = 0;
+                    $.each(obj.datos,function(index, data){
+                        html+='<tr id="trgh'+con+'" style="font-size: 12px;">'+
+                                   '<td>'+data.nro_expede+'</td>'+
+                                   '<td>'+data.gc+'</td>'+
+                                   '<td>'+data.gd+'</td>'+
+                                   '<td>'+data.gg+'</td>'+
+                                   '<td>'+data.fecha_documento+'</td>'+
+                                   '<td>'+data.documento+'</td>'+
+                                   '<td>'+data.nro_documento+'</td>'+
+                                   '<td>'+data.esp_d+'</td>'+
+                                   '<td>'+data.fecha_doc_b+'</td>'+
+                                   '<td>'+data.doc_b+'</td>'+
+                                   '<td>'+data.nro_doc_b+'</td>'+
+                                   '<td>'+data.persona_doc_b+'</td>'+
+                                   '<td>'+data.observacion+'</td>'+
+                               '</tr>';
+                        con++;
+                    });
+                }
+                else
+                {
+                    html = '<tr><td colspan="15" class="text-center">No existe Saldos!</td></tr>';
+                }
+                $("#tb_deta_expe").html(html);
+            },
+            error: function(jqXHR, textStatus, error)
+            {
+                alert(jqXHR.responseText);
+            }
+        });
+}
+
+
+
 
 
 // PROCESO DE CRUD PARA GASTOS HISTORICOS

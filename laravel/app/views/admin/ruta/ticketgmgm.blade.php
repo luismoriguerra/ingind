@@ -11,8 +11,8 @@
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
 
-    @include( 'admin.ruta.js.ticket_ajax' )
-    @include( 'admin.ruta.js.ticket' )
+    @include( 'admin.ruta.js.ticketgmgm_ajax' )
+    @include( 'admin.ruta.js.ticketgmgm' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -37,10 +37,10 @@
                             <div class="box-header">
                                 <h3 class="box-title">Filtros</h3>
                             </div><!-- /.box-header -->
-                            <form id="form_tickets" name="form_tickets" method="POST" action="">
+                            <form id="form_ticketgmgms" name="form_ticketgmgms" method="POST" action="">
                             <input class='form-control mant' type='hidden' id="usuario" name="usuario" value='1'>
                             <div class="box-body table-responsive">
-                                <table id="t_tickets" class="table table-bordered table-striped">
+                                <table id="t_ticketgmgms" class="table table-bordered table-striped">
                                     <thead>
                                     <tr><th colspan="13" style="text-align:center;background-color:#A7C0DC;"><h2>Tickets</h2></th></tr>
                                         <tr>
@@ -54,8 +54,8 @@
                                     </tfoot>
                                 </table>
                                 <a class='btn btn-primary btn-sm' class="btn btn-primary" 
-                                data-toggle="modal" data-target="#ticketModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
-                              <!--  <a style="display:none" id="BtnEditar" data-toggle="modal" data-target="#ticketModal" data-titulo="Editar"></a> -->
+                                data-toggle="modal" data-target="#ticketgmgmModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                              <!--  <a style="display:none" id="BtnEditar" data-toggle="modal" data-target="#ticketgmgmModal" data-titulo="Editar"></a> -->
                             </div><!-- /.box-body -->
                              </form>
                         </div><!-- /.box -->
@@ -66,5 +66,6 @@
     @stop
 
     @section('formulario')
-         @include( 'admin.ruta.form.ticket' )
+         @include( 'admin.ruta.form.ticketgmgm' )
+         @include( 'admin.ruta.form.soluciongmgm' )
     @stop

@@ -55,11 +55,11 @@ class MetaCuadro extends Base
 			 INNER JOIN doc_digital dd ON md.doc_digital_id=dd.id
 			 WHERE  md.tipo_avance=3 AND md.avance_id=mf1.id AND md.estado=1
 			 GROUP BY md.avance_id) as d_d,
-			(SELECT CONCAT_WS('|',GROUP_CONCAT(ma.ruta),GROUP_CONCAT(ma.id))
+			(SELECT CONCAT_WS('|',GROUP_CONCAT(ma.ruta),GROUP_CONCAT(ma.id),GROUP_CONCAT(ma.valida))
 			 FROM metas_archivo ma
 			 WHERE  ma.tipo_avance=2 AND ma.avance_id=mc.id AND ma.estado=1
 			 GROUP BY ma.avance_id) as a_a,
-			(SELECT CONCAT_WS('|',GROUP_CONCAT(dd.titulo),GROUP_CONCAT(md.id),GROUP_CONCAT(md.doc_digital_id))
+			(SELECT CONCAT_WS('|',GROUP_CONCAT(CONCAT_WS(' - ',DATE(md.created_at),dd.titulo)),GROUP_CONCAT(md.id),GROUP_CONCAT(md.doc_digital_id),GROUP_CONCAT(md.valida))
 			 FROM metas_docdigital md
 			 INNER JOIN doc_digital dd ON md.doc_digital_id=dd.id
 			 WHERE  md.tipo_avance=2 AND md.avance_id=mc.id AND md.estado=1
@@ -114,6 +114,7 @@ class MetaCuadro extends Base
         $sql='';
         $sql.=" SELECT 
                 m.nombre as meta
+                ,mc.id
                 ,mc.actividad
                 ,mc.fecha
                 -- ,COUNT( DISTINCT ma.id) as archivo
@@ -133,11 +134,11 @@ class MetaCuadro extends Base
                 FROM metas_cuadro mc
                 INNER JOIN metas m ON m.id=mc.meta_id
                 INNER JOIN metas_fechavencimiento mf ON mf.meta_cuadro_id=mc.id AND mf.tipo=1 and mf.estado=1
-                LEFT JOIN metas_archivo ma ON ma.avance_id=mc.id AND ma.tipo_avance=2 AND ma.estado=1
-                LEFT JOIN metas_docdigital md ON md.avance_id=mc.id AND md.tipo_avance=2 AND md.estado=1
+                LEFT JOIN metas_archivo ma ON ma.avance_id=mc.id AND ma.tipo_avance=2 AND ma.estado=1 AND (ma.valida=1 OR ma.valida=2)
+                LEFT JOIN metas_docdigital md ON md.avance_id=mc.id AND md.tipo_avance=2 AND md.estado=1 AND (md.valida=1 OR md.valida=2)
 
-                LEFT JOIN metas_archivo ma1 ON ma1.avance_id=mf.id AND ma1.tipo_avance=3 AND ma1.estado=1
-                LEFT JOIN metas_docdigital md1 ON md1.avance_id=mf.id AND md1.tipo_avance=3 AND md1.estado=1 ";
+                LEFT JOIN metas_archivo ma1 ON ma1.avance_id=mf.id AND ma1.tipo_avance=3 AND ma1.estado=1 AND (ma1.valida=1 OR ma1.valida=2)
+                LEFT JOIN metas_docdigital md1 ON md1.avance_id=mf.id AND md1.tipo_avance=3 AND md1.estado=1 AND (md1.valida=1 OR md1.valida=2)";
         $sql.= "WHERE 1=1";
         $sql.= $array['where'];
         $sql.=" GROUP BY mc.id
@@ -145,5 +146,32 @@ class MetaCuadro extends Base
                 ";
         $r =DB::select($sql);
         return $r;
+    }
+    
+        public static function CargarSustento() {
+        $sSql1 = '';
+        $sSql2 = '';
+        $filtro1='';$filtro2='';
+        $oData=[];
+        if (Input::has('id') && Input::get('id')) {
+//            $id = Input::get('id');
+            $filtro1.= " AND ma.avance_id = ".Input::get('id');
+            $filtro2.= " AND md.avance_id = ".Input::get('id');
+        }
+        
+        $sSql2 .= "SELECT md.id,CONCAT_WS(' - ',DATE(md.created_at),dd.titulo) as titulo,md.avance_id as metacuadro_id,md.doc_digital_id,md.valida
+                   FROM metas_docdigital md
+                   INNER JOIN doc_digital dd ON dd.id=md.doc_digital_id 
+                   WHERE md.tipo_avance=2 
+                   AND md.estado=1 ".$filtro2;
+        
+        $sSql1 .= "SELECT ma.id,ma.ruta,ma.avance_id as metacuadro_id,ma.valida
+                   FROM metas_archivo ma
+                   WHERE ma.tipo_avance=2 
+                   AND ma.estado=1 ".$filtro1;
+        
+        $oData['archivos'] = DB::select($sSql1);
+        $oData['documentos'] = DB::select($sSql2);
+        return $oData;
     }
 }

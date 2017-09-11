@@ -22,6 +22,9 @@
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
 <style type="text/css">
+    .columntext_prov{
+        width: 590px !important;
+    }
     .columntext{
         width: 100px !important;
     }
@@ -77,7 +80,7 @@
 
 
         <!-- Proceso de Gastos! -->
-        <section id="mante_gastos" class="content" style="display: none; margin-top: -30px;">
+        <section class="content" id="mante_gastos" class="content" style="display: none; margin-top: -30px;">
             <div class="row">
                 <div class="col-xs-12">
                     <!-- Inicia contenido -->
@@ -85,36 +88,58 @@
                         <div class="box-header">
                             <h3 class="box-title">Filtro por Proveedor:</h3>
                         </div><!-- /.box-header -->
-                        <form id="form_<?=name_frmG?>" name="form_<?=name_frmG?>" method="POST" action="">
-                        <input type="hidden" value="" name="id_proveedor" id="id_proveedor"> 
                         <div class="box-body table-responsive">
-                            <table id="t_<?=name_frmG?>" class="table table-bordered table-hover">
+                            <form id="form_<?=name_frmG?>" name="form_<?=name_frmG?>" method="POST" action="">
+                            <input type="hidden" value="" name="id_proveedor" id="id_proveedor"> 
+
+                            <table id="t_cargos" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                    <!-- 
-                                        <th colspan="4" style="text-align:center;background-color:#A7C0DC;"><h2>Gastos</h2></th>
-                                    -->
+                                        <th style="width: 8%;">Expediente</th>
+                                        <th style="width: 20%;">Proveedor</th>
+                                        <th style="width: 8%;">Pago Deuda</th>
+                                        <th style="width: 8%;">Total Historico</th>
+                                        <th style="width: 8%;">Total GC</th>
+                                        <th style="width: 8%;">Total GD</th>
+                                        <th style="width: 8%;">Total GG</th>
+                                        <th style="width: 8%;">Deuda Total GG</th>
+                                        <th style="width: 8%;">Total Pagar Devengado</th>
+                                        <th style="width: 8%;">Total Pagar Compromiso</th>
+                                        <th style="width: 4%;"> [ ] </th>
+                                        <th style="width: 4%;"> [ ] </th>
                                     </tr>
-                                    <tr></tr>
                                 </thead>
-                                <tbody>
-                                </tbody>
+                                <tbody id="tb_cargos"></tbody>
                                 <tfoot>
-                                    <tr></tr>
+                                    <tr>
+                                        <th>Expedediente</th>
+                                        <th>Proveedor</th>
+                                        <th>Pago Deuda</th>
+                                        <th>Total Historico</th>
+                                        <th>Total GC</th>
+                                        <th>Total GD</th>
+                                        <th>Total GG</th>
+                                        <th>Deuda Total GG</th>
+                                        <th>Total Pagar Devengado</th>
+                                        <th>Total Pagar Compromiso</th>
+                                        <th> [ ] </th>
+                                        <th> [ ] </th>
+                                    </tr>
                                 </tfoot>
                             </table>
-                        <!-- 
-                            <a class="btn btn-primary"
-                            data-toggle="modal" data-target="#<?=name_controllerG?>Modal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
-                        -->
-                            <a style="display:none" id="BtnEditar2" data-toggle="modal" data-target="#<?=name_controllerG?>Modal" data-titulo="Editar"></a>
+                            <!-- <a class='btn btn-primary btn-sm' class="btn btn-primary" data-toggle="modal" data-target="#cargoModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a> -->
+
+                            </form>
                         </div><!-- /.box-body -->
-                        </form>
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->
                 </div>
             </div>
+
         </section><!-- /.content -->
+
+
+
 @stop
 
 @section('formulario')

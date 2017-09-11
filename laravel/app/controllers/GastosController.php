@@ -26,11 +26,10 @@ class GastosController extends \BaseController
     }
     */
 
-
+    /*
     public function postCargar()
     {
         if ( Request::ajax() ) {
-            /*********************FIJO*****************************/
             $array=array();
             $array['where']='';$array['usuario']=Auth::user()->id;
             $array['limit']='';$array['order']='';
@@ -47,7 +46,6 @@ class GastosController extends \BaseController
                 $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
                 $aParametro["draw"]=Input::get('draw');
             }
-            /************************************************************/
 
             if( Input::has("id_proveedor") ){
                 $id_proveedor=Input::get("id_proveedor");
@@ -112,6 +110,19 @@ class GastosController extends \BaseController
 
         }
     }
+    */
+
+    public function postCargargastos()
+    {
+        $rst = GastosContables::getCargar();
+          return Response::json(
+              array(
+                  'rst'=>1,
+                  'datos'=>$rst
+              )
+          );
+    }
+
     /**
      * cargar verbos, mantenimiento
      * POST /rol/listar
@@ -254,6 +265,22 @@ class GastosController extends \BaseController
         }
     }
     
+    // MUESTRA DETALLES DE UN EXPEDIENTE SELECCIONADO
+    public function postMostrardetallesexpe()
+    {
+        if( Input::has("id") )
+        {
+            $id = Input::get('id'); // El id se carga de manera autimatica al metodo listarDatos();
+            
+            $rst = GastosContables::verDetallesExpe();
+                      return Response::json(
+                          array(
+                              'rst'=>1,
+                              'datos'=>$rst
+                          )
+                    );
+        }
+    }
 
 
     // PROCESO DE CRUD PARA GASTOS HISTORICOS

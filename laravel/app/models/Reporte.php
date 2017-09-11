@@ -162,6 +162,8 @@ class Reporte extends Eloquent
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
                 INNER JOIN tiempos t ON t.id=rd.tiempo_id 
                 INNER JOIN flujos f ON f.id=r.flujo_id
+                LEFT JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id
+		LEFT JOIN personas p1 ON p1.id=cd.persona_id
                 ".$array['referido']." JOIN referidos re ON re.ruta_id=r.id AND re.norden=(rd.norden-1)
                 WHERE r.estado=1 
                 AND rd.fecha_inicio!='' ".
@@ -178,6 +180,7 @@ class Reporte extends Eloquent
 
     public static function BandejaTramite( $array ){
         $sql="  SELECT
+                CONCAT_WS(' ',p1.paterno,p1.materno,p1.nombre)as responsable,
                 tr.id_union,
                 rd.id ruta_detalle_id,
                 rd.ruta_id ruta_id,
@@ -224,6 +227,8 @@ class Reporte extends Eloquent
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
                 INNER JOIN tiempos t ON t.id=rd.tiempo_id
                 INNER JOIN flujos f ON f.id=r.flujo_id
+                LEFT JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id
+		LEFT JOIN personas p1 ON p1.id=cd.persona_id
                 ".$array['referido']." JOIN 
                 (SELECT re2.ruta_id,re2.referido,re2.norden
                     FROM referidos re2
@@ -578,14 +583,14 @@ class Reporte extends Eloquent
         if (Input::has('fecha_ini') && Input::get('fecha_ini') && Input::has('fecha_fin') && Input::get('fecha_fin')) {
             $fecha_ini=Input::get('fecha_ini');
             $fecha_fin=Input::get('fecha_fin');
-            $f_fecha .= "AND DATE_FORMAT(r.created_at,'%Y-%m') BETWEEN '" . $fecha_ini . "' AND '" . $fecha_fin . "' ";
+            $f_fecha .= "AND DATE_FORMAT(r.fecha_inicio,'%Y-%m') BETWEEN '" . $fecha_ini . "' AND '" . $fecha_fin . "' ";
         }
 
         $n = 1;
         for($i=$fecha_ini;$i<=$fecha_fin;$i = date("Y-m", strtotime($i ."+ 1 month"))){
             $cl .= ",count(DISTINCT(r$n.id)) r$n";
             $cl .= ",count(DISTINCT(IF(ISNULL(rd$n.dtiempo_final),r$n.id,NULL))) p$n";
-            $left .= "LEFT JOIN rutas r$n on r$n.id=r.id AND DATE_FORMAT(r$n.created_at,'%Y-%m')='".$i."'";
+            $left .= "LEFT JOIN rutas r$n on r$n.id=r.id AND DATE_FORMAT(r$n.fecha_inicio,'%Y-%m')='".$i."'";
             $left .= " LEFT JOIN rutas_detalle rd$n on r$n.id=rd$n.ruta_id AND  rd$n.estado=1 ";
             $n++;
             array_push($cabecera,$i);
@@ -641,12 +646,12 @@ class Reporte extends Eloquent
         return $r;
     }
     
-        public static function ReporteTramite( $array ){
-
+    public static function ReporteTramite( $array )
+    {
         $sql =" SELECT  CalcularFechaFinal(
-                                rd.fecha_inicio, 
-                                (rd.dtiempo*1440),
-                                rd.area_id 
+                                rd2.fecha_inicio,
+                                (rd2.dtiempo*1440),
+                                rd2.area_id 
                                 ) as fecha_valida,IFNULL(trr.sumilla,'') as sumilla_referido,trr.fecha_tramite fecha_inicio_referido,trr.id_union tramite_referido,tr.id_union AS tramite, r.id, r.ruta_flujo_id, 
                 ts.nombre AS tipo_persona,
                 IF(trr.tipo_persona=1 or trr.tipo_persona=6,
@@ -696,6 +701,7 @@ class Reporte extends Eloquent
                 INNER JOIN rutas r ON tr.id=r.tabla_relacion_id and r.estado=1
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1
                 INNER JOIN areas a2 ON rd.area_id=a2.id
+                LEFT JOIN rutas_detalle rd2 ON rd2.ruta_id=r.id and rd2.estado=1 AND ISNULL(rd2.dtiempo_final) AND rd2.fecha_inicio!=''
                 LEFT JOIN referidos re ON re.ruta_id=r.id and re.tipo=0
                 LEFT JOIN tablas_relacion trr ON trr.id=re.tabla_relacion_id
                 LEFT JOIN tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
@@ -709,5 +715,74 @@ class Reporte extends Eloquent
         $r= DB::select($sql);
         return $r;
     }
+
+    // Reporte de Tramite Actividades
+    public static function VerNroPasosTramite($array)
+    {
+        $sSql = '';
+        $sSql.="SELECT COUNT(DISTINCT(rd.norden)) cant
+                FROM rutas r 
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id";
+        $sSql .=" WHERE r.estado=1 ".
+                $array['ruta_flujo_id'].
+                $array['fecha'];
+        $r=DB::select($sSql);
+        return $r;
+    }
+
+    public static function ReporteTramiteActividad( $array, $cant_pasos )
+    {
+        $cabecera = [];
+        $sql =" SELECT tr.id_union, ";
+
+        for($i=1; $i<=$cant_pasos; $i++)
+        {
+            if($i == 1)
+                $sql .= "";
+            else
+                $sql .= " , ";
+
+            $sql .="GROUP_CONCAT(
+                        CONCAT( a$i.nemonico,' => D: ',rd$i.dtiempo, 
+                            IF( ISNULL(rd$i.fecha_inicio),
+                                '|B|<br>',
+                                IF( rd$i.dtiempo_final!='' AND rd$i.fecha_inicio!='' AND rd$i.alerta=0 AND rd$i.alerta_tipo=0, 
+                                    CONCAT('|V|<br>',rd$i.fecha_inicio,'<br>',rd$i.dtiempo_final),
+                                    IF( rd$i.dtiempo_final!='' AND rd$i.fecha_inicio!='' AND (rd$i.alerta!=0 OR rd$i.alerta_tipo!=0),
+                                        CONCAT('|N|<br>',rd$i.fecha_inicio,'<br>',rd$i.dtiempo_final),
+                                        IF( ISNULL(rd$i.dtiempo_final) AND rd$i.fecha_inicio!='' 
+                                                                    AND CalcularFechaFinal(rd$i.fecha_inicio,rd$i.dtiempo*1440,rd$i.area_id)>=CURRENT_TIMESTAMP(), 
+                                            CONCAT('|V|<br>',rd$i.fecha_inicio,'<br>',CalcularFechaFinal(rd$i.fecha_inicio,rd$i.dtiempo*1440,rd$i.area_id)),
+                                            CONCAT('|R|<br>',rd$i.fecha_inicio,'<br>',CalcularFechaFinal(rd$i.fecha_inicio,rd$i.dtiempo*1440,rd$i.area_id))
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ) act$i ";
+
+            array_push($cabecera, $i);
+        }
+
+        $sql .="FROM rutas r
+                INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1
+                INNER JOIN rutas_detalle rd ON rd.ruta_id = r.id AND rd.estado=1";
+        for($i=1; $i<=$cant_pasos; $i++)
+        {
+            $sql .=" LEFT JOIN rutas_detalle rd$i ON rd$i.id = rd.id AND rd$i.norden=$i
+                     LEFT JOIN areas a$i ON a$i.id = rd$i.area_id ";
+        }
+
+        $sql .=" WHERE r.estado=1 ".
+                $array['ruta_flujo_id'].
+                $array['fecha'].
+                $array['tramite'].
+                " GROUP BY r.id ";
+
+        $oData['cabecera'] = $cabecera;
+        $oData['data'] = DB::select($sql);
+        return $oData;
+    }
+    // --
 }
 ?>

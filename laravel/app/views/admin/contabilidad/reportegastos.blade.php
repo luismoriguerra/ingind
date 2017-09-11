@@ -107,13 +107,13 @@
                             <label class="col-md-1 control-label text-right" style="padding-top: 8px; padding-right: 0px;">Fechas</label>
                             <div class="col-md-2">                
                                 <div class="input-group">
-                                  <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                  <span id="spn_fecha_ini" class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
                                   <input type="text" class="form-control fechas" placeholder="INICIO" id="fecha_ini" name="fecha_ini"/>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="input-group">
-                                  <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                  <span id="spn_fecha_fin" class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
                                   <input type="text" class="form-control fechas" placeholder="FINAL" id="fecha_fin" name="fecha_fin" />
                                 </div>
                             </div>
@@ -121,7 +121,7 @@
                             <div class="col-md-2" style="padding-left: 0px; padding-top: 6px;">
                                 <div class="checkbox">
                                   <label>
-                                    <input type="checkbox" class="form-control checkbox" id="txt_saldos_pago" name="txt_saldos_pago" value="S"> Saldos de Pago
+                                    <input type="checkbox" class="form-control checkbox" id="txt_saldos_pago" name="txt_saldos_pago" value="S" checked> Saldos de Pago
                                   </label>
                                 </div>
                             </div>
@@ -133,23 +133,27 @@
                 </fieldset>
               
               
-                  <div class="row form-group" id="tramite_asignado" >
+                  <div class="row form-group" id="reporte" >
                     <div class="col-sm-12">
                       <div class="box-body table-responsive">
                          <table id="t_ordenest" class="table table-bordered">
                             <thead>
-                               <tr>
-                                   <!-- <th width="4%">&nbsp;</th> -->
-                                   <th width="10%">Expediente</th>
-                                   <th width="6%">Fase</th>
-                                   <th width="11%">Monto S/.</th>
-                                   <th width="10%">Fecha Doc.</th>
-                                   <th>Documento</th>
-                                   <th>Nro. Doc.</th>
-                                   <th>Ruc</th>
-                                   <th>Proveedor</th>
-                                   <th>Esp. D</th>
-                                   <th>Observaci&oacute;n</th>
+                               <tr style="font-size: 12px;">
+                                   <th width="4%">Exp.</th>
+                                   <th width="5%">Monto GC</th>
+                                   <th width="5%">Monto GD</th>
+                                   <th width="5%">Monto GG</th>
+                                   <th width="5%">Fecha Exp.</th>
+                                   <th width="5%">Documento</th>
+                                   <th width="6%">Nro. Doc.</th>
+                                   <th width="6%">Ruc</th>
+                                   <th width="6%">Proveedor</th>
+                                   <th width="4%">Esp. D</th>
+                                    <th width="3%">Fecha Pago</th>
+                                    <th width="6%">Doc. Pago</th>
+                                    <th width="6%">Doc. Person</th>
+                                    <th width="6%">Person Pago</th>
+                                   <th width="26%"> Descripcion </th>
                                </tr>
                             </thead>
                             <tbody id="tb_ordenest"></tbody>
@@ -160,8 +164,7 @@
               </form>
 
 
-              <div class="row form-group" id="div_detalle" >
-
+              <div class="row form-group" id="div_detalle" style="display: none;">
                 <div class="col-sm-12">
                   <h4 style="padding: 4px 12px; color: #666666;">MONTOS TOTALES </h4>
                   <div class="box-body table-responsive">

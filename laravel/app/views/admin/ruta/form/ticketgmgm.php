@@ -1,5 +1,5 @@
 <!-- /.modal -->
-<div class="modal fade" id="ticketModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="ticketgmgmModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header logo">
@@ -9,7 +9,7 @@
         <h4 class="modal-title">New message</h4>
       </div>
       <div class="modal-body">
-        <form id="form_tickets_modal" name="form_tickets_modal" action="" method="post" >
+        <form id="form_ticketgmgms_modal" name="form_ticketgmgms_modal" action="" method="post" >
         <fieldset>
         <legend>Datos Importantes</legend>
         <div class="form-group"> 

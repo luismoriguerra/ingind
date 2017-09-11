@@ -14,22 +14,29 @@ $(document).ready(function() {
 
     $('#div_detalle').hide();
 
+    $('#spn_fecha_ini').click(function(){
+        $('#fecha_ini').focus();
+    });
+    $('#spn_fecha_fin').click(function(){
+        $('#fecha_fin').focus();
+    });
+
     $("#generar").click(function (){
+
         if($.trim($("#txt_ruc").val())!=='' || 
             $.trim($("#txt_nro_expede").val())!=='' || 
             $.trim($("#txt_proveedor").val())!=='' || 
-            $.trim($("#txt_observacion").val())!=='' ||
+            $.trim($("#txt_observacion").val())!==''||
             $.trim($("#fecha_ini").val())!=='' ||
             $.trim($("#fecha_fin").val())!=='')
         {
             dataG = $('#form_reporte').serialize().split("txt_").join("").split("slct_").join("");
-            //console.debug(dataG);
             Reporte.MostrarReporte(dataG);
-            Reporte.MostrarReporteDetalle(dataG);
+            //Reporte.MostrarReporteDetalle(dataG); // Ya no va este listado!
         }
         else
         {
-            alert("Por favor ingrese al menos una busqueda!");   
+            alert("Por favor ingrese al menos una busqueda!");
         }
     });
 
@@ -78,61 +85,73 @@ activarTabla=function(){
 
 HTMLMostrarReporte=function(datos){
   if(datos.length > 0){
-    $('#t_ordenest').dataTable().fnDestroy();
+    //$('#t_ordenest').dataTable().fnDestroy();
     var html ='';
     var con = 0;
+
+    var AC_GC = 0;
+    var AC_GD = 0;
+    var AC_GG = 0;
+
+    var aux_id = '';
     $.each(datos,function(index,data){
         con++;
-        html+="<tr>"+
-                //'<td><span onclick="verAdicional('+con+')" style="cursor: pointer; margin-left: 6px;" class="glyphicon glyphicon-plus" aria-hidden="true"></span></td>'+
+        if( aux_id != data.contabilidad_gastos_id ){
+               
+            if(aux_id != ''){
+                html+="<tr style='font-weight: bold; font-size: 12px; '>"+
+                        '<td>SALDOS</td>'+
+                        "<td>"+AC_GC.toFixed(2)+"</td>"+
+                        "<td>"+AC_GD.toFixed(2)+"</td>"+
+                        "<td>"+AC_GG.toFixed(2)+"</td>"+
+                        "<td colspan='11'>&nbsp;</td>";
+                html+="</tr>";
+                AC_GC = 0;
+                AC_GD = 0;
+                AC_GG = 0;
+            }
+            aux_id = data.contabilidad_gastos_id;
+        }
+
+        html+="<tr style='font-size: 12px;'>"+
                 '<td>'+data.nro_expede+'</td>'+
-                "<td>"+data.tipo_expede+"</td>"+
-                "<td>"+data.monto_expede+"</td>"+
+                "<td>"+data.gc+"</td>"+
+                "<td>"+data.gd+"</td>"+
+                "<td>"+data.gg+"</td>"+
                 "<td>"+data.fecha_documento+"</td>"+
                 "<td>"+data.documento+"</td>"+
-                    "<td>"+data.nro_documento+"</td>"+
+                "<td>"+data.nro_documento+"</td>"+
                 "<td>"+data.ruc+"</td>"+
                 "<td>"+data.proveedor+"</td>"+
-                    "<td>"+data.esp_d+"</td>"+
-                "<td>"+data.observacion+"</td>";
+                "<td>"+data.esp_d+"</td>"+
+                    "<td>"+data.fecha_doc_b+"</td>"+
+                    "<td>"+data.doc_b+"</td>"+
+                    "<td>"+data.nro_doc_b+"</td>"+
+                    "<td>"+data.persona_doc_b+"</td>"+
+                    "<td>"+data.observacion+"</td>"
+                //'<td><span onclick="verAdicional('+con+')" style="cursor: pointer; margin-left: 4px;" class="glyphicon glyphicon-plus" aria-hidden="true"></span></td>';
         html+="</tr>";
 
-        //html+="<tr role='row' class='class_obs "+clase+"' style='display: none;' id='obs"+con+"'>";
-        //    html+="<td colspan='8'><div style='padding: 15px 15px; background-color: #F5F5F5;'><strong>Observación:</strong> "+data.observacion+"</div></td>";
-        //html+="</tr>";
+        // Muestra la observación
+        /*html+="<tr role='row' style='display: none;' id='obs"+con+"'>";
+            html+="<td colspan='8'><div style='padding: 15px 15px; background-color: #F5F5F5;'><strong>Observación:</strong> "+data.observacion+"</div></td>";
+        html+="</tr>";*/
+        // --
+
+        AC_GC += data.gc*1;
+        AC_GD += data.gd*1;
+        AC_GG += data.gg*1;
     });
+
+        html+="<tr style='font-weight: bold; font-size: 12px; '>"+
+                '<td>SALDOS</td>'+
+                "<td>"+AC_GC.toFixed(2)+"</td>"+
+                "<td>"+AC_GD.toFixed(2)+"</td>"+
+                "<td>"+AC_GG.toFixed(2)+"</td>"+
+                "<td colspan='11'>&nbsp;</td>";
+        html+="</tr>";
     
-    //$("#t_ordenest").DataTable();
-    //console.debug(JSON.stringify(datos));
-    //declaro como global
-    /*
-    $("#t_ordenest").DataTable( {
-        "ajax": datos,
-        "columns": [
-            {
-                "className":      'details-control',
-                "orderable":      false,
-                "data":           null,
-                "defaultContent": ''
-            },
-            { "data": "nro_expede" },
-            { "data": "tipo_expede" },
-            { "data": "monto_expede" },
-            { "data": "fecha_documento" },
-            { "data": "documento" },
-            { "data": "ruc" },
-            { "data": "proveedor" }
-            //{ "data": "observacion" }
-        ],
-        "order": [[1, 'asc']]
-    });
-    */
     $("#tb_ordenest").html(html);
-    $("#t_ordenest").dataTable(
-        {
-            "order": [[ 0, "asc" ],[1, "asc"]],
-        }
-    ); 
     //$("#reporte").show();
     // --
 

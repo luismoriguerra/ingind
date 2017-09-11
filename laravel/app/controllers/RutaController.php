@@ -102,8 +102,10 @@ class RutaController extends \BaseController
             if($fechaActual >= $fechaFirst && $fechaActual <= $fechaLast){
                 $rutadetalleId = Input::get('id');
                 $rutadetalle = ActividadPersonal::find($rutadetalleId);
-                $rutadetalle->fecha_inicio = date("Y-m-d", strtotime(Input::get('finicio')))." ".explode(' ',Input::get('hinicio'))[0];
-                $rutadetalle->dtiempo_final = date("Y-m-d", strtotime(Input::get('ffin')))." ".explode(' ',Input::get('hfin'))[0];
+//                $rutadetalle->fecha_inicio = date("Y-m-d", strtotime(Input::get('finicio')))." ".explode(' ',Input::get('hinicio'))[0];
+//                $rutadetalle->dtiempo_final = date("Y-m-d", strtotime(Input::get('ffin')))." ".explode(' ',Input::get('hfin'))[0];
+                $rutadetalle->fecha_inicio = date("Y-m-d")." ".explode(' ',Input::get('hinicio'))[0];
+                $rutadetalle->dtiempo_final = date("Y-m-d")." ".explode(' ',Input::get('hfin'))[0];
                 $ttranscurrido =  Input::get('ttranscurrido');
                 $minTrascurrido = explode(':', $ttranscurrido)[0] * 60 + explode(':', $ttranscurrido)[1];
                 $rutadetalle->ot_tiempo_transcurrido =$minTrascurrido;
@@ -167,8 +169,10 @@ class RutaController extends \BaseController
                     $minTrascurrido=$adicional+$minTrascurrido;
                     $acti_personal = new ActividadPersonal();
                     $acti_personal->actividad = $value['actividad'];
-                    $acti_personal->fecha_inicio = date("Y-m-d", strtotime($value['finicio']))." ".explode(' ',$value['hinicio'])[0];
-                    $acti_personal->dtiempo_final = date("Y-m-d", strtotime($value['ffin']))." ".explode(' ',$value['hfin'])[0];
+//                    $acti_personal->fecha_inicio = date("Y-m-d", strtotime($value['finicio']))." ".explode(' ',$value['hinicio'])[0];
+//                    $acti_personal->dtiempo_final = date("Y-m-d", strtotime($value['ffin']))." ".explode(' ',$value['hfin'])[0];
+                    $acti_personal->fecha_inicio = date("Y-m-d")." ".explode(' ',$value['hinicio'])[0];
+                    $acti_personal->dtiempo_final = date("Y-m-d")." ".explode(' ',$value['hfin'])[0];
                     $acti_personal->ot_tiempo_transcurrido = $minTrascurrido;
                     $acti_personal->cantidad = $value['cantidad'];
                     $acti_personal->tipo = $value['tipo'];

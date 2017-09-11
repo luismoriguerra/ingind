@@ -87,18 +87,24 @@ class ReporteGastosController extends BaseController
             $objPHPExcel->setActiveSheetIndex(0)
                         ->setCellValue('A3', 'N°')
                         ->setCellValue('B3', 'EXPEDIENTE')
-                        ->setCellValue('C3', 'FASE')
-                        ->setCellValue('D3', 'MONTO')
-                        ->setCellValue('E3', 'FECHA DOC.')
-                        ->setCellValue('F3', 'DOCUMENTO')
-                        ->setCellValue('G3', 'NRO. DOCUM.')
-                        ->setCellValue('H3', 'RUC')
-                        ->setCellValue('I3', 'PROVEEDOR')
-                        ->setCellValue('J3', 'ESP. D')
-                        ->setCellValue('K3', 'OBSERVACION')
-                  ->mergeCells('A1:K1')
+                        ->setCellValue('C3', 'GC')
+                        ->setCellValue('D3', 'GD')
+                        ->setCellValue('E3', 'GG')
+                        ->setCellValue('F3', 'FECHA EXP.')
+                        ->setCellValue('G3', 'DOCUMENTO')
+                        ->setCellValue('H3', 'NRO. DOCUM.')
+                        ->setCellValue('I3', 'RUC')
+                        ->setCellValue('J3', 'PROVEEDOR')
+                        ->setCellValue('K3', 'ESP. D')
+                        ->setCellValue('L3', 'FECHA PAGO')
+                        ->setCellValue('M3', 'DOC. PAGO')
+                        ->setCellValue('N3', 'DOC. PERSON')
+                        ->setCellValue('N3', 'PERSON PAGO')
+                        ->setCellValue('O3', 'PERSON PAGO')
+                        ->setCellValue('P3', 'OBSERVACION')
+                  ->mergeCells('A1:P1')
                   ->setCellValue('A1', 'LISTADO DETALLES DE PAGOS')
-                  ->getStyle('A1:K1')->getFont()->setSize(18);
+                  ->getStyle('A1:P1')->getFont()->setSize(18);
 
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
@@ -111,28 +117,112 @@ class ReporteGastosController extends BaseController
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('I')->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('J')->setAutoSize(true);
             $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('k')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('l')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('m')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('n')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('o')->setAutoSize(true);
+            $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('p')->setAutoSize(true);
             /*end head*/
             /*body*/
             if($result){
+
+              $AC_GC = 0;
+              $AC_GD = 0;
+              $AC_GG = 0;
+              $aux_id = '';
+              $ini = 4;
+
               foreach ($result as $key => $value) {
-                $objPHPExcel->setActiveSheetIndex(0)
-                              ->setCellValueExplicit('A' . ($key + 4), $key + 1)
-                              ->setCellValueExplicit('B' . ($key + 4), $value->nro_expede)
-                              ->setCellValueExplicit('C' . ($key + 4), $value->tipo_expede)
-                              ->setCellValueExplicit('D' . ($key + 4), $value->monto_expede)
-                              ->setCellValueExplicit('E' . ($key + 4), $value->fecha_documento)
-                              ->setCellValueExplicit('F' . ($key + 4), $value->documento)
-                              ->setCellValue('G' . ($key + 4), $value->nro_documento)
-                              ->setCellValue('H' . ($key + 4), $value->ruc)
-                              ->setCellValue('I' . ($key + 4), $value->proveedor)
-                              ->setCellValue('J' . ($key + 4), $value->esp_d)
-                              ->setCellValue('K' . ($key + 4), $value->observacion)
+
+                if( $aux_id != $value->contabilidad_gastos_id ){
+                    if($aux_id != ''){
+
+                      $objPHPExcel->setActiveSheetIndex(0)
+                                  ->setCellValue('A' . $ini, "T")
+                                  ->setCellValue('B' . $ini, "SALDOS")
+                                  ->setCellValue('C' . $ini, round($AC_GC, 2))
+                                  ->setCellValue('D' . $ini, round($AC_GD, 2))
+                                  ->setCellValue('E' . $ini, round($AC_GG, 2))
+                                  /*->setCellValue('F' . $ini, "CPP")
+                                  ->setCellValue('G' . $ini, round(($AC_GC-$AC_GG), 2))
+                                  ->setCellValue('H' . $ini, "DPP")
+                                  ->setCellValue('I' . $ini, round(($AC_GC-$AC_GD), 2))*/
+                                  ->setCellValue('J' . $ini, "")
+                                  ->setCellValue('J' . $ini, "")
+                                  ->setCellValue('J' . $ini, "")
+                                  ->setCellValue('J' . $ini, "")
+
+                                  ->setCellValue('J' . $ini, "")
+                                  ->setCellValue('K' . $ini, "")
+                                  ->setCellValue('L' . $ini, "")
+                                  ->setCellValue('M' . $ini, "")
+                                  ->setCellValue('N' . $ini, "")
+                                  ->setCellValue('O' . $ini, "")
+                                  ->setCellValue('P' . $ini, "")
+                                  ->getStyle('A'.$ini.':P'.$ini)->getFont()->setSize(13);
+                                  ;
+                        $AC_GC = 0;
+                        $AC_GD = 0;
+                        $AC_GG = 0;
+
+                        $ini++;
+                    }
+                    $aux_id = $value->contabilidad_gastos_id;
+                }
+                
+                  $objPHPExcel->setActiveSheetIndex(0)
+                              ->setCellValue('A' . $ini, $key + 1)
+                              ->setCellValue('B' . $ini, $value->nro_expede)
+                              ->setCellValue('C' . $ini, $value->gc)
+                              ->setCellValue('D' . $ini, $value->gd)
+                              ->setCellValue('E' . $ini, $value->gg)
+                              ->setCellValue('F' . $ini, $value->fecha_documento)
+                              ->setCellValue('G' . $ini, $value->documento)
+                              ->setCellValue('H' . $ini, $value->nro_documento)
+                              ->setCellValue('I' . $ini, $value->ruc)
+                              ->setCellValue('J' . $ini, $value->proveedor)
+                              ->setCellValue('K' . $ini, $value->esp_d)
+                              ->setCellValue('L' . $ini, $value->fecha_doc_b)
+                              ->setCellValue('M' . $ini, $value->doc_b)
+                              ->setCellValue('N' . $ini, $value->nro_doc_b)
+                              ->setCellValue('O' . $ini, $value->persona_doc_b)
+                              ->setCellValue('P' . $ini, $value->observacion)
                               ;
+                // Acumuladores
+                $AC_GC += $value->gc*1;
+                $AC_GD += $value->gd*1;
+                $AC_GG += $value->gg*1;
+
+                $ini++;
               }
+                $objPHPExcel->setActiveSheetIndex(0)
+                            ->setCellValue('A' . $ini, "T")
+                            ->setCellValue('B' . $ini, "SALDOS")
+                            ->setCellValue('C' . $ini, round($AC_GC, 2))
+                            ->setCellValue('D' . $ini, round($AC_GD, 2))
+                            ->setCellValue('E' . $ini, round($AC_GG, 2))
+                            /*->setCellValue('F' . $ini, "CPP")
+                            ->setCellValue('G' . $ini, round(($AC_GC-$AC_GG), 2))
+                            ->setCellValue('H' . $ini, "DPP")
+                            ->setCellValue('I' . $ini, round(($AC_GC-$AC_GD), 2))*/
+                            ->setCellValue('J' . $ini, "")
+                            ->setCellValue('J' . $ini, "")
+                            ->setCellValue('J' . $ini, "")
+                            ->setCellValue('J' . $ini, "")
+                            
+                            ->setCellValue('J' . $ini, "")
+                            ->setCellValue('K' . $ini, "")
+                            ->setCellValue('L' . $ini, "")
+                            ->setCellValue('M' . $ini, "")
+                            ->setCellValue('N' . $ini, "")
+                            ->setCellValue('O' . $ini, "")
+                            ->setCellValue('P' . $ini, "")
+                            ->getStyle('A'.$ini.':P'.$ini)->getFont()->setSize(13);
+              
             }
             /*end body*/
-            $objPHPExcel->getActiveSheet()->getStyle('A3:K3')->applyFromArray($styleThinBlackBorderAllborders);
-            $objPHPExcel->getActiveSheet()->getStyle('A1:K1')->applyFromArray($styleAlignment);
+            $objPHPExcel->getActiveSheet()->getStyle('A3:P3')->applyFromArray($styleThinBlackBorderAllborders);
+            $objPHPExcel->getActiveSheet()->getStyle('A1:P1')->applyFromArray($styleAlignment);
             // Rename worksheet
             $objPHPExcel->getActiveSheet()->setTitle('Proveedores');
             // Set active sheet index to the first sheet, so Excel opens this as the first sheet
