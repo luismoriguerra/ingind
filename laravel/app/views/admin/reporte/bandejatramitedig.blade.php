@@ -377,6 +377,9 @@ tr.shown td.details-control {
                                             <a class="btn btn-primary btn-sm" id="btn_guardar_todo">
                                                 <i class="fa fa-save fa-lg"></i>&nbsp;Guardar
                                             </a>
+
+                                            <a class="btn btn-success btn-sm" id="btn_siguiente_rd" style="display: none;">
+                                            </a>
                                         </div>
                                     </div>
                                 </form>

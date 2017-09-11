@@ -325,6 +325,11 @@ mostrarDetalleHTML=function(datos){
     /*Bandeja.poblarCombo('documento','cbotipoDoc',filtro,HTMLCombo);
     Bandeja.poblarCombo('rol','cboRoles',filtro,HTMLCombo);*/
     /*add new ruta detalle verbo*/
+    
+    if((datos.rd_ruta_flujo_id * 1) > 0)
+        $("#btn_siguiente_rd").show().html('<i class="glyphicon glyphicon-check"></i>&nbsp;'+datos.rd_proceso);
+    else
+        $("#btn_siguiente_rd").hide();
 
 
     /*ruta flujo id para visualizar la ruta */
