@@ -20,6 +20,8 @@ class ReportePersonalController extends BaseController
       
       $result = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/index.php?mes=".$fecha[1]."&anno=".$fecha[0]);
 
+      return utf8_encode($result);
+      /*
       return Response::json(
           array(
               'rst'=>1,
@@ -27,6 +29,8 @@ class ReportePersonalController extends BaseController
               //'datos' => array('data' => $rst)
           )
       );
+      */
+
   }
 
   

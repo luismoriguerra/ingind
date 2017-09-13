@@ -79,22 +79,42 @@
                       <div class="box-body table-responsive">
                          <table id="t_ordenest" class="table table-bordered">
                             <thead>
+                                <th colspan="8">&nbsp;</th>
+                                <th colspan="1">SISTRADOC</th>
+                                <th colspan="1">SIGAWEB</th>
+                                <th colspan="4">ACTIVIDADES</th>
+                                <th colspan="3">PROCESOS</th>
+                                <th colspan="3">&nbsp;</th>
+                                <th colspan="6">PAPELETAS</th>
+                            </thead>
+                            <thead>
                                <tr style="font-size: 12px;">
                                    <th width="4%">NRO.</th>
                                    <th width="5%">Area</th>
                                    <th width="5%">Nombres</th>
                                    <th width="5%">Dni</th>
                                    <th width="5%">Cargo</th>
-                                   <th width="26%">Funciones</th>
+                                   <th width="5%">Funciones</th>
                                    <th width="6%">Estado</th>
                                    <th width="6%">Sueldo</th>
                                    <th width="6%">Doc. Emit</th>
-                                   <th width="4%">Documentos</th>
+                                   <th width="4%">Doc</th>
                                     <th width="3%">Cant</th>
                                     <th width="6%">Hora</th>
-                                    <th width="6%">Descanso</th>
-                                    <th width="6%">Dias Pro</th>
-                                   <th width="5%"> Tardanzas </th>
+                                    <th width="6%">Dcso</th>
+                                    <th width="6%">%</th>
+                                   <th width="5%">Cnt Pro</th>
+                                   <th width="5%">D Pro</th>
+                                   <th width="5%">uso</th>
+                                   <th width="5%">ft</th>
+                                   <th width="5%">trd</th>
+                                   <th width="5%">Per</th>
+                                   <th width="5%">C.</th>
+                                   <th width="5%">Cta.</th>
+                                   <th width="5%">Essld</th>
+                                   <th width="5%">Perm</th>
+                                   <th width="5%">Compem</th>
+                                   <th width="5%">Ono</th>
                                </tr>
                             </thead>
                             <tbody id="tb_ordenest"></tbody>

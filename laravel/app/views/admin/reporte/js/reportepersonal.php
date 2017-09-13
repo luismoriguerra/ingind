@@ -71,21 +71,33 @@ HTMLMostrarReporte=function(datos){
     $.each(datos,function(index,data){
         con++;
         html+="<tr style='font-size: 12px;'>"+
-                '<td>'+data.nro_expede+'</td>'+
-                "<td>"+data.gc+"</td>"+
-                "<td>"+data.gd+"</td>"+
-                "<td>"+data.gg+"</td>"+
-                "<td>"+data.fecha_documento+"</td>"+
-                "<td>"+data.documento+"</td>"+
-                "<td>"+data.nro_documento+"</td>"+
-                "<td>"+data.ruc+"</td>"+
-                "<td>"+data.proveedor+"</td>"+
-                "<td>"+data.esp_d+"</td>"+
-                    "<td>"+data.fecha_doc_b+"</td>"+
-                    "<td>"+data.doc_b+"</td>"+
-                    "<td>"+data.nro_doc_b+"</td>"+
-                    "<td>"+data.persona_doc_b+"</td>"+
-                    "<td>"+data.observacion+"</td>"
+                '<td>'+data.NRO+'</td>'+
+                "<td>"+data.AREA+"</td>"+
+                "<td>"+data.nombres_completos+"</td>"+
+                "<td>"+data.dni+"</td>"+
+                "<td>"+data.cargo+"</td>"+
+                "<td>"+data.funciones+"</td>"+
+                "<td>"+data.estado+"</td>"+
+                "<td>"+data.sueldo+"</td>"+
+                "<td>"+data.doc_emitido_varios+"</td>"+
+                "<td>"+data.DOCUMENTOS_acciones+"</td>"+
+
+                    "<td>"+data.Cantidad+"</td>"+
+                    "<td>"+data.horas+"</td>"+
+                    "<td>"+data.descanso+"</td>"+
+                    "<td>"+data.porcentaje+"</td>"+
+                    "<td>"+data.Cantidad_proc+"</td>"+
+                    "<td>"+data.dias_pro+"</td>"+
+                    "<td>"+data.uso+"</td>"+
+                    "<td>"+data.FALTAS+"</td>"+
+                    "<td>"+data.TARDANZAS+"</td>"+
+                    "<td>"+data.permiso+"</td>"+
+                    "<td>"+data.comision+"</td>"+
+                    "<td>"+data.CITACION+"</td>"+
+                    "<td>"+data.ESSALUD+"</td>"+
+                    "<td>"+data.PERMISO+"</td>"+
+                    "<td>"+data.COMPENSATORIO+"</td>"+
+                    "<td>"+data.ONOMASTICO+"</td>";
                 //'<td><span onclick="verAdicional('+con+')" style="cursor: pointer; margin-left: 4px;" class="glyphicon glyphicon-plus" aria-hidden="true"></span></td>';
         html+="</tr>";
     });
