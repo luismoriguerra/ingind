@@ -453,7 +453,7 @@ class ReporteFinalController extends BaseController
           $array['w'].=" AND DATE(rd.fecha_inicio) BETWEEN '".$fecha_inicio[0]."' AND '".$fecha_inicio[1]."' ";
         }
   
-      $result = Reporte::BandejaTramite( $array );
+      $result = Reporte::BandejaTramiteArea( $array );
 
 /*         if( Input::has('area_id') ){ // Filtra por área
           $reporte=Input::get('area_id');
