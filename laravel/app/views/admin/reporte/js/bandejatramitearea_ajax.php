@@ -160,7 +160,7 @@ var Bandeja={
                 $(".overlay,.loading-img").remove();
             },
             "ajax": {
-                "url": "reportef/bandejatramite",
+                "url": "reportef/bandejatramitearea",
                 "type": "POST",
                 "data": function(d){
                         var contador=0;
