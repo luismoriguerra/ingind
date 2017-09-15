@@ -733,16 +733,11 @@ class Reporte extends Eloquent
     public static function ReporteTramiteActividad( $array, $cant_pasos )
     {
         $cabecera = [];
-        $sql =" SELECT tr.id_union, ";
+        $sql =" SELECT tr.id_union ";
 
         for($i=1; $i<=$cant_pasos; $i++)
         {
-            if($i == 1)
-                $sql .= "";
-            else
-                $sql .= " , ";
-
-            $sql .="GROUP_CONCAT(
+            $sql .=", GROUP_CONCAT(
                         CONCAT( a$i.nemonico,' => D: ',rd$i.dtiempo, 
                             IF( ISNULL(rd$i.fecha_inicio),
                                 '|B|<br>',
