@@ -588,4 +588,18 @@ var masterG ={
     }
 }
 
+var sweetalertG = {
+    confirm: function (titulo, descripcion, consulta) {
+      swal({
+          title: titulo,
+          text: descripcion,
+          showCancelButton: true,
+          confirmButtonText: "Continuar",
+          closeOnConfirm: true
+      },
+      consulta
+      );
+    }
+}
+
 </script>
