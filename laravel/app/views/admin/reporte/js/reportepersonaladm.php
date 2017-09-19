@@ -49,53 +49,53 @@ $(document).ready(function() {
 
 
     // Fija las cabeceras de las tablas
-    //goheadfixed('table.table_nv');
+        //goheadfixed('table.table_nv');
 
-    function goheadfixed(classtable) {
-    
-        if($(classtable).length) {
-    
-            $(classtable).wrap('<div class="fix-inner"></div>'); 
-            $('.fix-inner').wrap('<div class="fix-outer" style="position:relative; margin:auto;"></div>');
-            $('.fix-outer').append('<div class="fix-head"></div>');
-            $('.fix-head').prepend($('.fix-inner').html());
-            $('.fix-head table').find('caption').remove();
-            $('.fix-head table').css('width','100%');
-    
-            //$('.fix-outer').css('width', $('.fix-inner table').outerWidth(true)+'px');
-            $('.fix-head').css('width', $('.fix-inner table').outerWidth(true)+'px');
-            $('.fix-head').css('height', $('.fix-inner table thead').height()+'px');
-    
-            // If exists caption, calculte his height for then remove of total
-            var hcaption = 0;
-            if($('.fix-inner table caption').length != 0)
-                hcaption = parseInt($('.fix-inner table').find('caption').height()+'px');
-
-            // Table's Top
-            var hinner = parseInt( $('.fix-inner').offset().top );
-
-            // Let's remember that <caption> is the beginning of a <table>, it mean that his top of the caption is the top of the table
-            $('.fix-head').css({'position':'absolute', 'overflow':'hidden', 'top': hcaption+'px', 'left':0, 'z-index':100 });
+        function goheadfixed(classtable) {
         
-            $(window).scroll(function () {
-                var vscroll = $(window).scrollTop();
+            if($(classtable).length) {
+        
+                $(classtable).wrap('<div class="fix-inner"></div>'); 
+                $('.fix-inner').wrap('<div class="fix-outer" style="position:relative; margin:auto;"></div>');
+                $('.fix-outer').append('<div class="fix-head"></div>');
+                $('.fix-head').prepend($('.fix-inner').html());
+                $('.fix-head table').find('caption').remove();
+                $('.fix-head table').css('width','100%');
+        
+                //$('.fix-outer').css('width', $('.fix-inner table').outerWidth(true)+'px');
+                $('.fix-head').css('width', $('.fix-inner table').outerWidth(true)+'px');
+                $('.fix-head').css('height', $('.fix-inner table thead').height()+'px');
+        
+                // If exists caption, calculte his height for then remove of total
+                var hcaption = 0;
+                if($('.fix-inner table caption').length != 0)
+                    hcaption = parseInt($('.fix-inner table').find('caption').height()+'px');
 
-                if(vscroll >= hinner + hcaption)
-                    $('.fix-head').css('top',(vscroll-hinner)+'px');
-                else
-                    $('.fix-head').css('top', hcaption+'px');
-            });
-    
-            /*  If the windows resize   */
-            $(window).resize(goresize);
-    
+                // Table's Top
+                var hinner = parseInt( $('.fix-inner').offset().top );
+
+                // Let's remember that <caption> is the beginning of a <table>, it mean that his top of the caption is the top of the table
+                $('.fix-head').css({'position':'absolute', 'overflow':'hidden', 'top': hcaption+'px', 'left':0, 'z-index':100 });
+            
+                $(window).scroll(function () {
+                    var vscroll = $(window).scrollTop();
+
+                    if(vscroll >= hinner + hcaption)
+                        $('.fix-head').css('top',(vscroll-hinner)+'px');
+                    else
+                        $('.fix-head').css('top', hcaption+'px');
+                });
+        
+                /*  If the windows resize   */
+                $(window).resize(goresize);
+        
+            }
         }
-    }
 
-    function goresize() {
-        $('.fix-head').css('width', $('.fix-inner table').outerWidth(true)+'px');
-        $('.fix-head').css('height', $('.fix-inner table thead').outerHeight(true)+'px');
-    }
+        function goresize() {
+            $('.fix-head').css('width', $('.fix-inner table').outerWidth(true)+'px');
+            $('.fix-head').css('height', $('.fix-inner table thead').outerHeight(true)+'px');
+        }
     // --
 
     
@@ -124,33 +124,33 @@ HTMLMostrarReporte=function(datos){
         con++;
 
         html+="<tr style='font-size: 12px;'>"+
-                '<td>'+con+'</td>'+
-                '<td><img src="'+data.foto+'" alt="'+data.nombres_completos+'" class="img-rounded"></td>'+
-                "<td>"+data.AREA+"</td>"+
-                "<td>"+data.nombres_completos+"</td>"+
-                "<td>"+data.dni+"</td>"+
-                "<td>"+data.cargo+"</td>"+
-                "<td>"+data.condicion+"</td>"+
-                "<td>"+data.FALTAS+"</td>"+
-                "<td>"+data.DIASFALTAS+"</td>"+
-                "<td>"+data.TARDANZAS+"</td>"+
-                "<td>"+data.SLSG+"</td>"+
+                '<td width="3%">'+con+'</td>'+
+                '<td width="4%"><img src="'+data.foto+'" alt="'+data.nombres_completos+'" class="img-rounded"></td>'+
+                "<td width='4%'>"+data.AREA+"</td>"+
+                "<td width='5%'>"+data.nombres_completos+"</td>"+
+                "<td width='4%'>"+data.dni+"</td>"+
+                "<td width='5%'>"+data.cargo+"</td>"+
+                "<td width='4%'>"+data.condicion+"</td>"+
+                "<td width='3%'>"+data.FALTAS+"</td>"+
+                //"<td width='4%'>"+data.DIASFALTAS+"</td>"+
+                "<td width='4%'>"+data.TARDANZAS+"</td>"+
+                "<td width='4%'>"+data.SLSG+"</td>"+
 
-                "<td>"+data.DIASSLSG+"</td>"+
-                "<td>"+data.Sancion_Dici+"</td>"+
-                "<td>"+data.DIAS_SDSG+"</td>"+
-                "<td>"+data.Licencia_Sindical+"</td>"+
-                "<td>"+data.DIASLS+"</td>"+
+                "<td width='4%'>"+data.DIASSLSG+"</td>"+
+                "<td width='4%'>"+data.Sancion_Dici+"</td>"+
+                //"<td width='4%'>"+data.DIAS_SDSG+"</td>"+
+                "<td width='4%'>"+data.Licencia_Sindical+"</td>"+
+                "<td width='4%'>"+data.DIASLS+"</td>"+
 
-                "<td>"+data.DESCANSO_MEDICO+"</td>"+
-                "<td>"+data.DIASDESCMED+"</td>"+
-                "<td>"+data.MINPERMISO+"</td>"+
-                "<td>"+data.comision+"</td>"+
-                "<td>"+data.CITACION+"</td>"+
-                "<td>"+data.ESSALUD+"</td>"+
-                "<td>"+data.PERMISO+"</td>"+
-                "<td>"+data.COMPENSATORIO+"</td>"+
-                "<td>"+data.ONOMASTICO+"</td>";
+                "<td width='4%'>"+data.DESCANSO_MEDICO+"</td>"+
+                "<td width='4%'>"+data.DIASDESCMED+"</td>"+
+                "<td width='4%'>"+data.MINPERMISO+"</td>"+
+                "<td width='4%'>"+data.comision+"</td>"+
+                "<td width='4%'>"+data.CITACION+"</td>"+
+                "<td width='4%'>"+data.ESSALUD+"</td>"+
+                "<td width='4%'>"+data.PERMISO+"</td>"+
+                "<td width='4%'>"+data.COMPENSATORIO+"</td>"+
+                "<td width='4%'>"+data.ONOMASTICO+"</td>";
         html+="</tr>";
     });
 
@@ -161,7 +161,7 @@ HTMLMostrarReporte=function(datos){
     // --
 
   }else{
-    $("#tb_ordenest").html("<tr style='font-size: 13px;'><td colspan='25'>No se encontraron datos!</td></tr>");
+    $("#tb_ordenest").html("<tr style='font-size: 13px;'><td colspan='23'>No se encontraron datos!</td></tr>");
   }
 };
 

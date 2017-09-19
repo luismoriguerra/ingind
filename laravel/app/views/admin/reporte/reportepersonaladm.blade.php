@@ -24,7 +24,7 @@
 <style type="text/css">
 .table_nv {
     overflow:hidden;
-    border:1px solid #d3d3d3;
+    border:1px solid #666666;
     background:#fefefe;
     -moz-border-radius:5px;
     -webkit-border-radius:5px;
@@ -34,7 +34,7 @@
 }
 th, td {padding:18px 28px 18px; text-align:center; }
 th {padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;}
-td {border-top:1px solid #e0e0e0; border-right:1px solid #e0e0e0;}
+td {border-top:1px solid #666666; border-right:1px solid #666666;}
 tr.odd-row td {background:#f6f6f6;}
 td.first, th.first {text-align:left}
 td.last {border-right:none;}
@@ -129,49 +129,49 @@ tr:last-child td.last {
                          <table id="t_ordenest" class="table table-bordered table_nv">
                             <thead>
                               <tr>
-                                <th colspan="9">&nbsp;</th>
+                                <th colspan="7">DATOS PERSONALES</th>
                                 <!-- <th colspan="1">SISTRADOC</th>
                                 <th colspan="1">SIGAWEB</th> -->
-                                <th colspan="4">ACTIVIDADES</th>
-                                <th colspan="3">PROCESOS</th>
-                                <th colspan="3">&nbsp;</th>
-                                <th colspan="6">PAPELETAS</th>
+                                <th colspan="10">DETALLES DE ASISTENCIA</th> <!-- 3 ACTIVIDADES -->
+                                <!-- <th colspan="3">PROCESOS</th>
+                                <th colspan="3">&nbsp;</th> -->
+                                <th colspan="6">PERMISOS / PAPELETAS</th>
                               </tr>
                               
                               <tr class="active" style="font-size: 12px;">
-                                  <th width="4%">#</th>
-                                  <th width="5%">Foto</th>
-                                  <th width="5%">Area</th>
+                                  <th width="3%">#</th>
+                                  <th width="4%">Foto</th>
+                                  <th width="4%">Area</th>
                                   <th width="5%">Nombres</th>
-                                  <th width="5%">Dni</th>
-                                  <th width="5%">Cargo</th>
-                                  <th width="5%">Condición</th>
-                                  <th width="6%">Faltas</th>
-                                  <th width="6%">D. Flts</th>
+                                  <th width="4%">Dni</th>
+                                  <th width="5%">Cargo / Puesto</th>
+                                  <th width="4%">Regimen Lab.</th>
+                                  <th width="3%">Faltas</th>
+                                  <!-- <th width="4%">D. Flts</th> -->
 
-                                  <th width="6%">Trd</th>
-                                  <th width="4%">Slsg</th>
-                                  <th width="3%">D. slsg</th>
-                                  <th width="6%">Sancion Dici</th>
+                                  <th width="4%">Trd</th>
+                                  <th width="4%">Lic S.G</th>
+                                  <!-- <th width="4%">D. slsg</th> -->
+                                  <th width="4%">Sancion Dici</th>
 
-                                  <th width="6%">D. sdsg</th>
-                                  <th width="6%">Lic. Sindical</th>
-                                  <th width="5%">D. Ls</th>
+                                  <th width="4%">D. sdsg</th>
+                                  <th width="4%">Lic. Sindical</th>
+                                  <th width="4%">D. Ls</th>
 
-                                  <th width="5%">Dcso. Med</th>
-                                  <th width="5%">D. Dcso. Med</th>
-                                  <th width="5%">Min. Perm</th>
+                                  <th width="4%">Dcso. Med</th>
+                                  <th width="4%">D. Dcso. Med</th>
+                                  <th width="4%">Min. Perm</th>
 
-                                  <th width="5%">Com.</th>
-                                  <th width="5%">Cit.</th>
-                                  <th width="5%">Essld</th>
-                                  <th width="5%">Perm</th>
-                                  <th width="5%">Compem</th>
-                                  <th width="5%">Ono</th>
+                                  <th width="4%">Com.</th>
+                                  <th width="4%">Cit.</th>
+                                  <th width="4%">Essld</th>
+                                  <th width="4%">Perm</th>
+                                  <th width="4%">Compem</th>
+                                  <th width="4%">Ono</th>
                                </tr>
                             </thead>
                             <tbody id="tb_ordenest">
-                              <tr style='font-size: 13px;'><td colspan='25'>Por favor realice una busqueda.</td></tr>
+                              <tr style='font-size: 13px;'><td colspan='23'>Por favor realice una busqueda.</td></tr>
                             </tbody>
                          </table>
                         </div>
