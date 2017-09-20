@@ -32,7 +32,7 @@
     -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
     -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 }
-th, td {padding:18px 28px 18px; text-align:center; }
+th, td {padding:18px 28px 18px; text-align:center; /*border-color: #666666 !important;*/ }
 th {padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;}
 td {border-top:1px solid #fefefe; border-right:1px solid #fefefe;}
 tr.odd-row td {background:#f6f6f6;}

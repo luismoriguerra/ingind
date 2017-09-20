@@ -1,6 +1,8 @@
 <script type="text/javascript">
 $(document).ready(function() {
 
+    $("[data-toggle='offcanvas']").click();
+
     $(".fecha").datetimepicker({
         format: "yyyy/mm/dd",
         language: 'es',
@@ -23,7 +25,7 @@ $(document).ready(function() {
 
     $("#generar").click(function (){
 
-        if( $.trim($("#fecha_ini").val())!=='' ||
+        if( $.trim($("#fecha_ini").val())!=='' &&
             $.trim($("#fecha_fin").val())!=='')
         {
             dataG = $('#form_reporte').serialize().split("txt_").join("").split("slct_").join("");
@@ -31,7 +33,7 @@ $(document).ready(function() {
         }
         else
         {
-            swal("Mensaje", "Por favor ingrese al menos una busqueda!");
+            swal("Mensaje", "Por favor ingrese las fechas de busqueda!");
         }
     });
 
@@ -108,7 +110,7 @@ activarTabla=function(){
 HTMLMostrarReporte=function(datos){    
     $('#t_ordenest').dataTable().fnDestroy();
 
-    if(datos === 'not_data')    {
+    if(datos === 'not_data'){
         $("#tb_ordenest").html("");
         swal("Reporte", "Error en el proceso de carga!", "error");
         return false;
@@ -120,36 +122,38 @@ HTMLMostrarReporte=function(datos){
 
         $.each(datos,function(index,data){
             con++;
+            if(con != 1)
+            {
+                html+="<tr style='font-size: 12px;'>"+
+                        '<td width="3%">'+con+'</td>'+
+                        '<td width="4%"><img src="'+data.foto+'" alt="'+data.nombres_completos+'" class="img-rounded"></td>'+
+                        "<td width='4%'>"+data.AREA+"</td>"+
+                        "<td width='5%'>"+data.nombres_completos+"</td>"+
+                        "<td width='4%'>"+data.dni+"</td>"+
+                        "<td width='5%'>"+data.cargo+"</td>"+
+                        "<td width='4%'>"+data.condicion+"</td>"+
+                        "<td width='3%'>"+data.FALTAS+"</td>"+
+                        //"<td width='4%'>"+data.DIASFALTAS+"</td>"+
+                        "<td width='4%'>"+data.TARDANZAS+"</td>"+
+                        "<td width='4%'>"+data.SLSG+"</td>"+
 
-            html+="<tr style='font-size: 12px;'>"+
-                    '<td width="3%">'+con+'</td>'+
-                    '<td width="4%"><img src="'+data.foto+'" alt="'+data.nombres_completos+'" class="img-rounded"></td>'+
-                    "<td width='4%'>"+data.AREA+"</td>"+
-                    "<td width='5%'>"+data.nombres_completos+"</td>"+
-                    "<td width='4%'>"+data.dni+"</td>"+
-                    "<td width='5%'>"+data.cargo+"</td>"+
-                    "<td width='4%'>"+data.condicion+"</td>"+
-                    "<td width='3%'>"+data.FALTAS+"</td>"+
-                    //"<td width='4%'>"+data.DIASFALTAS+"</td>"+
-                    "<td width='4%'>"+data.TARDANZAS+"</td>"+
-                    "<td width='4%'>"+data.SLSG+"</td>"+
+                        //"<td width='4%'>"+data.DIASSLSG+"</td>"+
+                        "<td width='4%'>"+data.Sancion_Dici+"</td>"+
+                        //"<td width='4%'>"+data.DIAS_SDSG+"</td>"+
+                        "<td width='4%'>"+data.Licencia_Sindical+"</td>"+
+                        //"<td width='4%'>"+data.DIASLS+"</td>"+
 
-                    //"<td width='4%'>"+data.DIASSLSG+"</td>"+
-                    "<td width='4%'>"+data.Sancion_Dici+"</td>"+
-                    //"<td width='4%'>"+data.DIAS_SDSG+"</td>"+
-                    "<td width='4%'>"+data.Licencia_Sindical+"</td>"+
-                    //"<td width='4%'>"+data.DIASLS+"</td>"+
-
-                    "<td width='4%'>"+data.DESCANSO_MEDICO+"</td>"+
-                    //"<td width='4%'>"+data.DIASDESCMED+"</td>"+
-                    "<td width='4%'>"+data.MINPERMISO+"</td>"+
-                    "<td width='4%'>"+data.comision+"</td>"+
-                    "<td width='4%'>"+data.CITACION+"</td>"+
-                    "<td width='4%'>"+data.ESSALUD+"</td>"+
-                    "<td width='4%'>"+data.PERMISO+"</td>"+
-                    "<td width='4%'>"+data.COMPENSATORIO+"</td>"+
-                    "<td width='4%'>"+data.ONOMASTICO+"</td>";
-            html+="</tr>";
+                        "<td width='4%'>"+data.DESCANSO_MEDICO+"</td>"+
+                        //"<td width='4%'>"+data.DIASDESCMED+"</td>"+
+                        "<td width='4%'>"+data.MINPERMISO+"</td>"+
+                        "<td width='4%'>"+data.comision+"</td>"+
+                        "<td width='4%'>"+data.CITACION+"</td>"+
+                        "<td width='4%'>"+data.ESSALUD+"</td>"+
+                        "<td width='4%'>"+data.PERMISO+"</td>"+
+                        "<td width='4%'>"+data.COMPENSATORIO+"</td>"+
+                        "<td width='4%'>"+data.ONOMASTICO+"</td>";
+                html+="</tr>";
+            }
         });
 
         $("#tb_ordenest").html(html);
@@ -157,7 +161,7 @@ HTMLMostrarReporte=function(datos){
         //$("#reporte").show();
         // --
     }else{
-        $("#tb_ordenest").html("<tr style='font-size: 13px;'><td colspan='20'>No se encontraron datos!</td></tr>");
+        $("#tb_ordenest").html("");
     }
 };
 
