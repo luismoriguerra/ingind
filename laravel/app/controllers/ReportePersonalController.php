@@ -32,12 +32,24 @@ class ReportePersonalController extends BaseController
 
     public function postReportepersonaladm()
     {
-        $fecha_ini = Input::get('fecha_ini');
-        $fecha_fin = Input::get('fecha_fin');
+        try 
+        {
+            $fecha_ini = Input::get('fecha_ini');
+            $fecha_fin = Input::get('fecha_fin');
 
-        $result = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/consulta.php?inicio=".$fecha_ini."&fin=".$fecha_fin);
-
-        return utf8_encode($result);
+            $result = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/consulta.php?inicio=".$fecha_ini."&fin=".$fecha_fin);
+            
+            return utf8_encode($result);
+        }
+        catch (\Exception $e) 
+        {
+            return Response::json(
+                        array(
+                            'rst'=>2,
+                            'reporte'=> 'not_data'
+                        )
+                    );
+        }
     }
 
 }

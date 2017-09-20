@@ -24,7 +24,7 @@
 <style type="text/css">
 .table_nv {
     overflow:hidden;
-    border:1px solid #666666;
+    border:1px solid #fefefe;
     background:#fefefe;
     -moz-border-radius:5px;
     -webkit-border-radius:5px;
@@ -34,7 +34,7 @@
 }
 th, td {padding:18px 28px 18px; text-align:center; }
 th {padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;}
-td {border-top:1px solid #666666; border-right:1px solid #666666;}
+td {border-top:1px solid #fefefe; border-right:1px solid #fefefe;}
 tr.odd-row td {background:#f6f6f6;}
 td.first, th.first {text-align:left}
 td.last {border-right:none;}
@@ -129,10 +129,10 @@ tr:last-child td.last {
                          <table id="t_ordenest" class="table table-bordered table_nv">
                             <thead>
                               <tr>
-                                <th colspan="7">DATOS PERSONALES</th>
+                                <th colspan="7">DATOS PERSONALES</th> <!-- 7 -->
                                 <!-- <th colspan="1">SISTRADOC</th>
                                 <th colspan="1">SIGAWEB</th> -->
-                                <th colspan="10">DETALLES DE ASISTENCIA</th> <!-- 3 ACTIVIDADES -->
+                                <th colspan="7">DETALLES DE ASISTENCIA</th> <!-- 3 ACTIVIDADES -->
                                 <!-- <th colspan="3">PROCESOS</th>
                                 <th colspan="3">&nbsp;</th> -->
                                 <th colspan="6">PERMISOS / PAPELETAS</th>
@@ -141,11 +141,11 @@ tr:last-child td.last {
                               <tr class="active" style="font-size: 12px;">
                                   <th width="3%">#</th>
                                   <th width="4%">Foto</th>
-                                  <th width="4%">Area</th>
-                                  <th width="5%">Nombres</th>
+                                  <th width="5%">Area</th>
+                                  <th width="7%">Nombres</th>
                                   <th width="4%">Dni</th>
-                                  <th width="5%">Cargo / Puesto</th>
-                                  <th width="4%">Regimen Lab.</th>
+                                  <th width="6%">Cargo / Puesto</th>
+                                  <th width="6%">Regimen Lab.</th>
                                   <th width="3%">Faltas</th>
                                   <!-- <th width="4%">D. Flts</th> -->
 
@@ -154,12 +154,12 @@ tr:last-child td.last {
                                   <!-- <th width="4%">D. slsg</th> -->
                                   <th width="4%">Sancion Dici</th>
 
-                                  <th width="4%">D. sdsg</th>
+                                  <!-- <th width="4%">D. sdsg</th> -->
                                   <th width="4%">Lic. Sindical</th>
-                                  <th width="4%">D. Ls</th>
+                                  <!-- <th width="4%">D. Ls</th> -->
 
                                   <th width="4%">Dcso. Med</th>
-                                  <th width="4%">D. Dcso. Med</th>
+                                  <!-- <th width="4%">D. Dcso. Med</th> -->
                                   <th width="4%">Min. Perm</th>
 
                                   <th width="4%">Com.</th>
@@ -171,7 +171,7 @@ tr:last-child td.last {
                                </tr>
                             </thead>
                             <tbody id="tb_ordenest">
-                              <tr style='font-size: 13px;'><td colspan='23'>Por favor realice una busqueda.</td></tr>
+                              <!-- <tr style='font-size: 13px;'><td colspan='23'>Por favor realice una busqueda.</td></tr> -->
                             </tbody>
                          </table>
                         </div>
