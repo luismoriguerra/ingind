@@ -229,6 +229,7 @@ class Reporte extends Eloquent
                     FROM referidos re2
                     INNER JOIN rutas ru2 ON ru2.id=re2.ruta_id AND ru2.estado=1
                     INNER JOIN rutas_detalle rd2 ON rd2.id=re2.ruta_detalle_id AND rd2.condicion=0 AND rd2.estado=1
+                    WHERE re2.estado=1
                 ) re ON re.ruta_id=r.id AND re.norden=(rd.norden-1)
                 WHERE r.estado=1 
                 AND rd.fecha_inicio<=CURRENT_TIMESTAMP()
@@ -325,6 +326,7 @@ class Reporte extends Eloquent
                     FROM referidos re2
                     INNER JOIN rutas ru2 ON ru2.id=re2.ruta_id AND ru2.estado=1
                     INNER JOIN rutas_detalle rd2 ON rd2.id=re2.ruta_detalle_id AND rd2.condicion=0 AND rd2.estado=1
+                    WHERE re2.estado=1
                 ) re ON re.ruta_id=r.id AND re.norden=(rd.norden-1)
                 WHERE r.estado=1 
                 AND rd.fecha_inicio<=CURRENT_TIMESTAMP()
