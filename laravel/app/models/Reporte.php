@@ -192,7 +192,7 @@ class Reporte extends Eloquent
                     AND vt.usuario_created_at=".$array['usuario']."
                 ) id,
                 f.nombre proceso,
-                SUBSTRING_INDEX(re.referido,'|',-1) id_union_ant,
+                re.referido id_union_ant,
                 IF(tr.tipo_persona=1 or tr.tipo_persona=6,
                     CONCAT(tr.paterno,' ',tr.materno,', ',tr.nombre),
                     IF(tr.tipo_persona=2,
@@ -225,11 +225,11 @@ class Reporte extends Eloquent
                 INNER JOIN tiempos t ON t.id=rd.tiempo_id
                 INNER JOIN flujos f ON f.id=r.flujo_id
                 ".$array['referido']." JOIN 
-                (SELECT re2.ruta_id,re2.norden,max(CONCAT(re2.id,'|',re2.referido)) referido
+                (SELECT re2.ruta_id,re2.referido,re2.norden
                     FROM referidos re2
                     INNER JOIN rutas ru2 ON ru2.id=re2.ruta_id AND ru2.estado=1
                     INNER JOIN rutas_detalle rd2 ON rd2.id=re2.ruta_detalle_id AND rd2.condicion=0 AND rd2.estado=1
-                    GROUP BY re2.ruta_id,re2.norden
+     
                 ) re ON re.ruta_id=r.id AND re.norden=(rd.norden-1)
                 WHERE r.estado=1 
                 AND rd.fecha_inicio<=CURRENT_TIMESTAMP()
