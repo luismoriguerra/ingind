@@ -91,12 +91,12 @@ $(document).ready(function() {
             $('#form_personas_modal #slct_estado').val( PersonasG.estado );
             $("#form_personas_modal").append("<input type='hidden' value='"+PersonasG.id+"' name='id'>");
 
-            //var datos={estado:1};
+            var datos={estado:1};
             //var idsarea=[]; idsarea.push(PersonasG.area_id);
             //var idsrol=[]; idsrol.push(PersonasG.rol_id);
             //slctGlobal.listarSlct('area','slct_area','simple',idsarea,datos);
             
-            slctGlobal.listarSlctFijo('area','slct_area',PersonasG.area);
+            slctGlobal.listarSlct('area','slct_area','simple',PersonasG.area,datos);
          //   alert(PersonasG.fecha_nacimiento_id);
             //slctGlobal.listarSlct('rol','slct_rol','simple',idsrol,datos);
             
