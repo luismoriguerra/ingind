@@ -14,6 +14,7 @@ var Reporte={
             },
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
+                //alert(obj.reporte);
                 HTMLMostrarReporte(obj.reporte);
             },
             error: function(){

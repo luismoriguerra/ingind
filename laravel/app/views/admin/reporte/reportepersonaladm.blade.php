@@ -148,20 +148,16 @@ tr:last-child td.last {
                                   <th width="6%">Regimen Lab.</th>
                                   <th width="3%">Faltas</th>
                                   <!-- <th width="4%">D. Flts</th> -->
-
                                   <th width="4%">Trd</th>
                                   <th width="4%">Lic S.G</th>
                                   <!-- <th width="4%">D. slsg</th> -->
                                   <th width="4%">Sancion Dici</th>
-
                                   <!-- <th width="4%">D. sdsg</th> -->
                                   <th width="4%">Lic. Sindical</th>
                                   <!-- <th width="4%">D. Ls</th> -->
-
                                   <th width="4%">Dcso. Med</th>
                                   <!-- <th width="4%">D. Dcso. Med</th> -->
                                   <th width="4%">Min. Perm</th>
-
                                   <th width="4%">Com.</th>
                                   <th width="4%">Cit.</th>
                                   <th width="4%">Essld</th>
