@@ -42,8 +42,8 @@ class ReportePersonalController extends BaseController
 
     public function postReportepersonaladm()
     {
-        try 
-        {
+        //try 
+        //{
             ini_set('max_execution_time', 300);
 
             $fecha_ini = Input::get('fecha_ini'); // 2017/09/01
@@ -51,7 +51,8 @@ class ReportePersonalController extends BaseController
 
             $dias = $this->verDiasTranscurridos($fecha_ini, $fecha_fin);
 
-            DB::table('sw_asistencias')->truncate();
+            //DB::table('sw_asistencias')->truncate();
+            DB::table('sw_asistencias')->where('usuario_created_at', '=', Auth::user()->id)->delete();
 
             if($dias <= 5)
             {
@@ -192,7 +193,8 @@ class ReportePersonalController extends BaseController
                                 SUM(a.citacion) citacion, SUM(a.essalud) essalud, SUM(a.permiso) permiso, SUM(a.compensatorio) compensatorio,
                                 SUM(a.onomastico) onomastico
                         FROM sw_asistencias a
-                        GROUP BY a.area, a.nombres, a.dni, a.cargo;";
+                        WHERE a.usuario_created_at = '".Auth::user()->id."'
+                        GROUP BY a.area, a.nombres, a.dni, a.cargo; ";
 
             $lis = DB::select($sql);
 
@@ -202,7 +204,7 @@ class ReportePersonalController extends BaseController
                             'reporte'=> $lis
                         )
                     );
-        }
+        /*}
         catch (\Exception $e) 
         {
             DB::rollback();
@@ -212,7 +214,7 @@ class ReportePersonalController extends BaseController
                             'reporte'=> 'not_data'
                         )
                     );
-        }
+        }*/
     }
 
 }
