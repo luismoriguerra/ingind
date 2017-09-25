@@ -308,8 +308,9 @@ mostrarDetallle=function(id,rtid = ''){ //OK
     $("#form_ruta_detalle").append("<input type='hidden' id='ruta_detalle_id' name='ruta_detalle_id' value='"+id+"'>");
      $("#form_ruta_detalle>#ruta_id").remove();
     $("#form_ruta_detalle").append("<input type='hidden' id='ruta_id' name='ruta_id' value='"+rtid+"'>");
-    var datos={ruta_detalle_id:id}
+    var datos={ruta_detalle_id:id};
     Validar.mostrarDetalle(datos,mostrarDetalleHTML);
+    $('#btn_siguiente_rd').attr('onClick', 'asignarTramitePaso('+id+');');
 }
 
 mostrarDetalleHTML=function(datos){
@@ -1167,9 +1168,10 @@ pintarAreasG=function(permiso){
 }
 
 // Nuevos procesos para boton Tramites
-asignarTramitePaso = function(){
+asignarTramitePaso = function(ruta_detalle_id){
     sweetalertG.confirm("Confirmación!", "Desea continuar con el proceso?", function(){
-        alert('llegooo');
+        var data={ruta_detalle_id:ruta_detalle_id};
+        Bandeja.AdicionarMicroProceso(data);
     });
 }
 // --

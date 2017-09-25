@@ -378,7 +378,7 @@ tr.shown td.details-control {
                                                 <i class="fa fa-save fa-lg"></i>&nbsp;Guardar
                                             </a>
 
-                                            <a class="btn btn-success btn-sm" onClick="asignarTramitePaso();" id="btn_siguiente_rd" style="display: none;">
+                                            <a class="btn btn-success btn-sm"  id="btn_siguiente_rd" style="display: none;">
                                             </a>
                                         </div>
                                     </div>

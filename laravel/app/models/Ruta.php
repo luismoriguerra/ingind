@@ -6,6 +6,60 @@ class Ruta extends Eloquent
     /**
      * Areas relationship
      */
+    
+    public function crearRutaMicro(){
+        DB::beginTransaction();
+                            
+                            $rd= RutaDetalle::find(Input::get('ruta_detalle_id'));
+                            
+                            $rf= RutaFlujo::find($rd->ruta_flujo_id);
+                            
+                            $rutaflujodetalle = DB::table('rutas_flujo_detalle')
+                                    ->where('ruta_flujo_id', '=', $rf->id)
+                                    ->where('estado', '=', '1')
+                                    ->orderBy('norden', 'ASC')
+                                    ->get();
+                            foreach ($rutaflujodetalle as $rfd) {
+                               // var_dump(round($rd->norden).'.'.$rfd->norden);exit();
+                                $rutaDetalle = new RutaDetalle;
+                                $rutaDetalle['ruta_id'] = $rd->ruta_id;
+                                $rutaDetalle['area_id'] = $rfd->area_id;
+                                $rutaDetalle['tiempo_id'] = $rfd->tiempo_id;
+                                $rutaDetalle['dtiempo'] = $rfd->dtiempo;
+                                $rutaDetalle['norden'] = round($rd->norden).'.'.$rfd->norden;
+                                $rutaDetalle['estado_ruta'] = $rfd->estado_ruta;
+
+                                $rutaDetalle['usuario_created_at'] = Auth::user()->id;
+                                $rutaDetalle->save();
+
+                                $qrutaDetalleVerbo = DB::table('rutas_flujo_detalle_verbo')
+                                        ->where('ruta_flujo_detalle_id', '=', $rfd->id)
+                                        ->where('estado', '=', '1')
+                                        ->orderBy('orden', 'ASC')
+                                        ->get();
+                                
+                                if (count($qrutaDetalleVerbo) > 0) {
+                                    foreach ($qrutaDetalleVerbo as $rdv) {
+                                        $rutaDetalleVerbo = new RutaDetalleVerbo;
+                                        $rutaDetalleVerbo['ruta_detalle_id'] = $rutaDetalle->id;
+                                        $rutaDetalleVerbo['nombre'] = $rdv->nombre;
+                                        $rutaDetalleVerbo['condicion'] = $rdv->condicion;
+                                        $rutaDetalleVerbo['rol_id'] = $rdv->rol_id;
+                                        $rutaDetalleVerbo['verbo_id'] = $rdv->verbo_id;
+                                        $rutaDetalleVerbo['documento_id'] = $rdv->documento_id;
+                                        $rutaDetalleVerbo['orden'] = $rdv->orden;
+                                        $rutaDetalleVerbo['usuario_created_at'] = Auth::user()->id;
+                                        $rutaDetalleVerbo->save();
+                                    }
+                                }
+                            }   
+            DB::commit();
+            return  array(
+                    'rst'=>1,
+                    'msj'=>'Registro realizado con éxito'
+            );
+    }
+    
     public function crearRuta(){
         DB::beginTransaction();
         $codigounico="";

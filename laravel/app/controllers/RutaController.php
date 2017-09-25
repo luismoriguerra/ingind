@@ -1,6 +1,21 @@
 <?php
 class RutaController extends \BaseController
 {
+        public function postCrearmicro()
+    {
+        if ( Request::ajax() ) {
+            $r           = new Ruta;
+            $res         = Array();
+            $res         = $r->crearRutaMicro();
+
+            return Response::json(
+                array(
+                    'rst'   => $res['rst'],
+                    'msj'   => $res['msj']
+                )
+            );
+        }
+    }
 
     public function postCrear()
     {
