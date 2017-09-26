@@ -107,6 +107,15 @@
                   <select class="form-control" name="slct_rol" id="slct_rol">
                   </select>
                 </div>
+                <div class="col-sm-4">
+                  <label class="control-label">Modalidad:
+                  </label>
+                  <select class="form-control" name="slct_modalidad" id="slct_modalidad">
+                      <!-- <option value='' style="display:none">.:Seleccione:.</option> -->
+                      <option value='1' selected>Trabajador</option>
+                      <option value='2'>Tercero</option>
+                  </select>
+                </div>
               </div>
 
             </div>

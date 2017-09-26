@@ -13,7 +13,8 @@ var PersonasG={
         fecha_nacimiento:"",
         password:"",
         area:"",     
-        rol:"", 
+        rol:"",
+        modalidad:"", 
         estado:1
         };
 
@@ -28,7 +29,8 @@ $(document).ready(function() {
                 email         :'onBlur|Email|#DCE6F1', //#DCE6F1
               //  password      :'onBlur|Password|#DCE6F1', //#DCE6F1
                 area          :'3|Área de la Persona|#DCE6F1', 
-                rol           :'3|Rol de la Persona|#DCE6F1', //#DCE6F1      
+                rol           :'3|Rol de la Persona|#DCE6F1', //#DCE6F1
+                modalidad     :'3|Modalidad|#DCE6F1', //#DCE6F1      
                 estado        :'2|Estado|#DCE6F1', //#DCE6F1
              };
 
@@ -63,7 +65,6 @@ $(document).ready(function() {
         slctGlobal.listarSlct('cargo','slct_cargos','simple');
         
         if(titulo=='Nuevo'){
-            
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
             $('#form_personas_modal #txt_nombre').focus();
@@ -86,6 +87,7 @@ $(document).ready(function() {
             $('#form_personas_modal #txt_email').val( PersonasG.email );
             $('#form_personas_modal #txt_fecha_nacimiento').val( PersonasG.fecha_nacimiento );
             $('#form_personas_modal #txt_password').val( '' );
+            $('#form_personas_modal #slct_modalidad').val( PersonasG.modalidad );
             
 
             $('#form_personas_modal #slct_estado').val( PersonasG.estado );
@@ -133,8 +135,10 @@ BtnEditar=function(btn,id){
     PersonasG.fecha_nacimiento=$(tr).find("td:eq(4) input[name='txt_sexo']").attr('fecha_nacimiento'); 
       //PersonasG.password=$(tr).find("td:eq(6) input[name='txt_password']").val();
     PersonasG.area=$(tr).find("td:eq(6) input[name='txt_area']").val();   
-    PersonasG.rol=$(tr).find("td:eq(7) input[name='txt_rol']").val();   
-    PersonasG.estado=$(tr).find("td:eq(8)>span").attr("data-estado");
+    PersonasG.rol=$(tr).find("td:eq(7) input[name='txt_rol']").val();
+    PersonasG.modalidad=$(tr).find("td:eq(8) input[name='txt_modalidad']").val(); 
+    
+    PersonasG.estado=$(tr).find("td:eq(9)>span").attr("data-estado");
     $("#BtnEditar").click();
 };
 
@@ -164,8 +168,11 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
         return row.rol+"<input type='hidden'name='txt_rol' value='"+row.rol_id+"'>";
     }
 
+    if(typeof(fn)!='undefined' && fn.col==8){
+        return row.modalidad+"<input type='hidden'name='txt_modalidad' value='"+row.modalidad_id+"'>";
+    }
 
-    else if(typeof(fn)!='undefined' && fn.col==8){
+    else if(typeof(fn)!='undefined' && fn.col==9){
         var estadohtml='';
         estadohtml='<span id="'+row.id+'" onClick="activar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-danger">Inactivo</span>';
         if(row.estado==1){
