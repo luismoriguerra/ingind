@@ -67,7 +67,12 @@ class DocumentoDigital extends Base {
                             )
                    	
                    	->where( 
-                        function($query){                          
+                        function($query){
+                            $r=new DocumentoDigital;
+                            $restriccion= $r->getVerificarRestriccion();
+                            if($restriccion){
+                                $query->where('dd.usuario_created_at','=',Auth::user()->id);
+                            }
                             if(Input::get('activo')){
                                 $query->where('dd.estado','=','1');
                             } else {
@@ -113,6 +118,13 @@ class DocumentoDigital extends Base {
         } 
     }
     
+    public static function getVerificarRestriccion(){
+        $result=DB::table('doc_restriccion as dr')
+                            ->where('dr.estado', '=', 1)
+                             ->where('dr.persona_id', '=', Auth::user()->id)
+                            ->first();
+        return $result;
+    }
         public static function getCargarCount( $array )
     {           
         $sSql=' select COUNT(dd.id) cant
@@ -122,6 +134,11 @@ class DocumentoDigital extends Base {
                 left join `personas` as `p1` on `p1`.`id` = `dd`.`usuario_updated_at` 
                 WHERE `dd`.`estado`= 1 ';
         $sSql.= $array['where'];
+        $r=new DocumentoDigital;
+        $restriccion= $r->getVerificarRestriccion();
+        if($restriccion){
+        $sSql.=" AND dd.usuario_created_at=".Auth::user()->id;
+        }
         $oData = DB::select($sSql);
         return $oData[0]->cant;
     }
@@ -144,8 +161,13 @@ class DocumentoDigital extends Base {
                 left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
                 left join `personas` as `p1` on `p1`.`id` = `dd`.`usuario_updated_at` 
                 WHERE `dd`.`estado`= 1 ';
-        $sSql.= $array['where'].
-                $array['order'].
+        $sSql.= $array['where'];
+        $r=new DocumentoDigital;
+        $restriccion= $r->getVerificarRestriccion();
+        if($restriccion){
+        $sSql.=" AND dd.usuario_created_at=".Auth::user()->id;
+        }
+        $sSql.=$array['order'].
                 $array['limit'];
         $oData = DB::select($sSql);
         return $oData;
@@ -175,6 +197,11 @@ class DocumentoDigital extends Base {
                 left join `personas` as `p1` on `p1`.`id` = `dd`.`usuario_updated_at` 
                 WHERE `dd`.`estado`= 1 ';
         $sSql.= $array['where'];
+        $r=new DocumentoDigital;
+        $restriccion= $r->getVerificarRestriccion();
+        if($restriccion){
+        $sSql.=" AND dd.usuario_created_at=".Auth::user()->id;
+        }
         $oData = DB::select($sSql);
         return $oData;
     }
