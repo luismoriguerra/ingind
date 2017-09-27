@@ -52,8 +52,10 @@
                             <h3 class="box-title">Documentos del <?php $fin=date("Y-m-d"); $inicio=strtotime('-15 day', strtotime($fin)) ; echo $inicio = date('Y-m-d', $inicio); ?> al <?php echo $fin ?> y por Asignar a un trámite</h3>
                         </div><!-- /.box-header -->
                         <div class="box-body table-responsive">
-                            <a class='btn btn-success btn-sm' class="btn btn-primary"
+                            <div class="text-right">
+                                <a class='btn btn-success btn-sm' class="btn btn-primary"
                             data-toggle="modal" data-target="#NuevoDocDigital" data-titulo="Nuevo" onclick="Plantillas.CargarAreas();NuevoDocumento();"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
+                            </div>
                             <table id="t_doc_digital" class="table table-bordered">
                                 <thead>
                                     <tr>
