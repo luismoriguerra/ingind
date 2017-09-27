@@ -415,6 +415,7 @@ public function postCargar()
                     // Inicializa valores en caso no tenga datos...
                     $rutaFlujoDetalle['tiempo_id']="1";
                     $rutaFlujoDetalle['dtiempo']="0";
+                    $rutaFlujoDetalle['ruta_flujo_id2']=null;
 
                     if( trim($post)!='' and $post*1>=0 ){
                         $detalleTiempoG=explode( ",", $tiempoG[$post] );
@@ -430,6 +431,7 @@ public function postCargar()
                             if( trim($dtg[1])!='' ){
                                 $rutaFlujoDetalle['tiempo_id']=$dtg[1];
                                 $rutaFlujoDetalle['dtiempo']=$dtg[2];
+                                $rutaFlujoDetalle['ruta_flujo_id2']=$dtg[4];
                             }
                         }
 
