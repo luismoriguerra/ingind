@@ -122,6 +122,9 @@ HTMLMostrarReporte=function(datos){
 
         $.each(datos,function(index,data){
             con++;
+
+
+
                 html+="<tr style='font-size: 12px;'>"+
                         '<td width="3%">'+con+'</td>'+
                         '<td width="4%"><img src="'+data.foto+'" alt="'+data.nombres+'" class="img-rounded"></td>'+
@@ -144,10 +147,10 @@ HTMLMostrarReporte=function(datos){
                         "<td width='4%'>"+data.compensatorio+"</td>"+
                         "<td width='4%'>"+data.onomastico+"</td>"+
 
-                        "<td width='4%'>"+($.trim(r.cant_act)*1 == 0)?"0":$.trim(r.cant_act)+"</td>"+
-                        "<td width='4%'>"+($.trim(r.tareas)*1 == 0)?"0":$.trim(r.tareas)+"</td>"+
-                        "<td width='4%'>"+($.trim(r.total_tramites)*1 == 0)?"0":$.trim(r.total_tramites)+"</td>"+
-                        "<td width='4%'>"+($.trim(r.docu)*1 == 0)?"0":$.trim(r.docu)+"</td>";
+                        "<td width='4%'>"+($.trim(r.cant_act) == '')?"0":$.trim(r.cant_act)+"</td>"+
+                        "<td width='4%'>"+($.trim(r.tareas) == '')?"0":$.trim(r.tareas)+"</td>"+
+                        "<td width='4%'>"+($.trim(r.total_tramites) == '')?"0":$.trim(r.total_tramites)+"</td>"+
+                        "<td width='4%'>"+($.trim(r.docu) == '')?"0":$.trim(r.docu)+"</td>";
                 html+="</tr>";
         });
 
