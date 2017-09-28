@@ -3,12 +3,12 @@
 class ActividadCategoria extends Base
 {
     public $table = "actividad_categorias";
-    public static $where = ['id', 'categoria', 'estado'];
-    public static $selec = ['id', 'categoria', 'estado'];
+    public static $where = ['id', 'nombre', 'estado'];
+    public static $selec = ['id', 'nombre', 'estado'];
 
-     public function getListar(){
+     public static function getListar(){
         $actividad_categoria=DB::table('actividad_categorias')
-                ->select('id','categoria','estado')
+                ->select('id','nombre','estado')
                 ->where( 
                     function($query){
                         if ( Input::get('estado') ) {
@@ -16,10 +16,10 @@ class ActividadCategoria extends Base
                         }
                     }
                 )
-                ->orderBy('categoria')
+                ->orderBy('nombre')
                 ->get();
                 
         return $actividad_categoria;
     }
-
+    
 }

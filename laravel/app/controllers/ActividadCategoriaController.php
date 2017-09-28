@@ -1,12 +1,11 @@
 <?php
 
-class CategoriaEventoController extends \BaseController {
+class ActividadCategoriaController extends \BaseController {
 
-	public function postCargar(){
+	public function postListar(){
 		if ( Request::ajax() ) {
-            $bien      = new CategoriaEvento;
-            $listar = $bien->getCategoriasEvento();
-         
+//            $bien      = new ActividadCategoria;
+            $listar = ActividadCategoria::getListar();
             return Response::json(
                 array(
                     'rst'   => 1,
