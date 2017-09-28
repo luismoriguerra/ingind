@@ -147,10 +147,10 @@ HTMLMostrarReporte=function(datos){
                         "<td width='4%'>"+data.compensatorio+"</td>"+
                         "<td width='4%'>"+data.onomastico+"</td>"+
 
-                        "<td width='4%'>"+($.trim(r.cant_act) == '')?"0":$.trim(r.cant_act)+"</td>"+
-                        "<td width='4%'>"+($.trim(r.tareas) == '')?"0":$.trim(r.tareas)+"</td>"+
-                        "<td width='4%'>"+($.trim(r.total_tramites) == '')?"0":$.trim(r.total_tramites)+"</td>"+
-                        "<td width='4%'>"+($.trim(r.docu) == '')?"0":$.trim(r.docu)+"</td>";
+                        "<td width='4%'>"+($.trim(data.cant_act) === '')?"0":$.trim(data.cant_act)+"</td>"+
+                        "<td width='4%'>"+($.trim(data.tareas) === '')?"0":$.trim(data.tareas)+"</td>"+
+                        "<td width='4%'>"+($.trim(data.total_tramites) === '')?"0":$.trim(data.total_tramites)+"</td>"+
+                        "<td width='4%'>"+($.trim(data.docu) === '')?"0":$.trim(data.docu)+"</td>";
                 html+="</tr>";
         });
 
