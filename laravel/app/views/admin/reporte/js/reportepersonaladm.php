@@ -123,7 +123,17 @@ HTMLMostrarReporte=function(datos){
         $.each(datos,function(index,data){
             con++;
 
+                if($.trim(data.cant_act) == '') var cant_act = 0;
+                else  var cant_act = $.trim(data.cant_act);
 
+                if($.trim(data.tareas) == '') var tareas = 0;
+                else  var tareas = $.trim(data.tareas);
+
+                if($.trim(data.total_tramites) == '') var total_tramites = 0;
+                else  var total_tramites = $.trim(data.total_tramites);
+
+                if($.trim(data.docu) == '') var docu = 0;
+                else  var docu = $.trim(data.docu);
 
                 html+="<tr style='font-size: 12px;'>"+
                         '<td width="3%">'+con+'</td>'+
@@ -147,10 +157,10 @@ HTMLMostrarReporte=function(datos){
                         "<td width='4%'>"+data.compensatorio+"</td>"+
                         "<td width='4%'>"+data.onomastico+"</td>"+
 
-                        "<td width='4%'>"+($.trim(data.cant_act) == '')?"0":$.trim(data.cant_act)+"</td>"+
-                        "<td width='4%'>"+($.trim(data.tareas) == '')?"0":$.trim(data.tareas)+"</td>"+
-                        "<td width='4%'>"+($.trim(data.total_tramites) == '')?"0":$.trim(data.total_tramites)+"</td>"+
-                        "<td width='4%'>"+($.trim(data.docu) == '')?"0":$.trim(data.docu)+"</td>";
+                        "<td width='4%'>"+cant_act+"</td>"+
+                        "<td width='4%'>"+tareas+"</td>"+
+                        "<td width='4%'>"+total_tramites+"</td>"+
+                        "<td width='4%'>"+docu+"</td>";
                 html+="</tr>";
         });
 
