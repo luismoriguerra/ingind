@@ -136,6 +136,7 @@ tr:last-child td.last {
                                 <!-- <th colspan="3">PROCESOS</th>
                                 <th colspan="3">&nbsp;</th> -->
                                 <th colspan="6">PERMISOS / PAPELETAS</th>
+                                <th colspan="4">PROCESO FLUJOS</th>
                               </tr>
                               
                               <tr class="active" style="font-size: 12px;">
@@ -164,6 +165,11 @@ tr:last-child td.last {
                                   <th width="4%">Perm</th>
                                   <th width="4%">Compem</th>
                                   <th width="4%">Ono</th>
+
+                                  <th width="4%">C. Act.</th>
+                                  <th width="4%">Tarea</th>
+                                  <th width="4%">T.Trami</th>
+                                  <th width="4%">Doc</th>
                                </tr>
                             </thead>
                             <tbody id="tb_ordenest">
