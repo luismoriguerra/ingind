@@ -47,9 +47,24 @@ tr.odd-row td {
     background: -moz-linear-gradient(100% 25% 90deg, #f6f6f6, #f1f1f1);
     background: -webkit-gradient(linear, 0% 0%, 0% 25%, from(#f1f1f1), to(#f6f6f6));
 }
-th {
+.th_1 {
+    background: -moz-linear-gradient(100% 20% 90deg, #e8eaeb, #ededed); /* #009A0D = #ededed(old) */
+    background: -webkit-gradient(linear, 0% 0%, 0% 20%, from(#009A0D), to(#e8eaeb));
+}
+
+.th_2 {
     background: -moz-linear-gradient(100% 20% 90deg, #e8eaeb, #ededed);
-    background: -webkit-gradient(linear, 0% 0%, 0% 20%, from(#ededed), to(#e8eaeb));
+    background: -webkit-gradient(linear, 0% 0%, 0% 20%, from(#0D7BE8), to(#e8eaeb));
+}
+
+.th_3 {
+    background: -moz-linear-gradient(100% 20% 90deg, #e8eaeb, #ededed);
+    background: -webkit-gradient(linear, 0% 0%, 0% 20%, from(#935799), to(#e8eaeb));
+}
+
+.th_4 {
+    background: -moz-linear-gradient(100% 20% 90deg, #e8eaeb, #ededed);
+    background: -webkit-gradient(linear, 0% 0%, 0% 20%, from(#CC9C0D), to(#e8eaeb));
 }
 
 tr:first-child th.first {
@@ -129,13 +144,14 @@ tr:last-child td.last {
                          <table id="t_ordenest" class="table table-bordered table_nv">
                             <thead>
                               <tr>
-                                <th colspan="7">DATOS PERSONALES</th> <!-- 7 -->
+                                <th class="th_1" colspan="7">DATOS PERSONALES</th> <!-- 7 -->
                                 <!-- <th colspan="1">SISTRADOC</th>
                                 <th colspan="1">SIGAWEB</th> -->
-                                <th colspan="7">DETALLES DE ASISTENCIA</th> <!-- 3 ACTIVIDADES -->
+                                <th class="th_2" colspan="7">DETALLES DE ASISTENCIA</th> <!-- 3 ACTIVIDADES -->
                                 <!-- <th colspan="3">PROCESOS</th>
                                 <th colspan="3">&nbsp;</th> -->
-                                <th colspan="6">PERMISOS / PAPELETAS</th>
+                                <th class="th_3" colspan="6">PERMISOS / PAPELETAS</th>
+                                <th class="th_4" colspan="4">PROCESO FLUJOS</th>
                               </tr>
                               
                               <tr class="active" style="font-size: 12px;">
@@ -164,6 +180,11 @@ tr:last-child td.last {
                                   <th width="4%">Perm</th>
                                   <th width="4%">Compem</th>
                                   <th width="4%">Ono</th>
+
+                                  <th width="4%">C. Act.</th>
+                                  <th width="4%">Tarea</th>
+                                  <th width="4%">T.Trami</th>
+                                  <th width="4%">Doc</th>
                                </tr>
                             </thead>
                             <tbody id="tb_ordenest">
