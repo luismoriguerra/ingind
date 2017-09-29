@@ -197,7 +197,7 @@ class ReportePersonalController extends BaseController
             // Actualiza campo "persona_id" en base que no tenga asociado un "id" de la tabla "personas". 
             DB::table('sw_asistencias')
                 ->whereNull('persona_id')
-                ->update(array('persona_id' => 1));
+                ->update(array('persona_id' => 1272));
             // --
             
             $fecha_ini = str_replace('/', '-', $fecha_ini);
