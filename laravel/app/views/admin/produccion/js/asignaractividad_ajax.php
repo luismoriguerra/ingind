@@ -18,7 +18,7 @@ var Asignar={
                     $(".ordenesT input[type='hidden'],.ordenesT input[type='numeric'],.ordenesT input[type='text'],.ordenesT select,.ordenesT textarea").not(".mant").val("");
 //                    $('.ordenesT select').multiselect('refresh');  
                     $(".filtros input[type='hidden'],.filtros input[type='text'],.filtros select,.filtros textarea").val("");
-//                    $('.filtros select').multiselect('refresh');  
+                    $('.filtros select').multiselect('refresh');  
                     $(".valido input[id='txt_cantidad']").val("0");
                     $( ".valido .btnDelete" ).click();
                     $(".valido .table tbody tr:visible").remove();
