@@ -336,8 +336,6 @@
                                                         <label class="control-label"> Ingresar Sumilla:</label>
                                                         <textarea class="form-control" id="txt_sumilla2" name="txt_sumilla2"></textarea>
                                                     </div>
-                                                </div>
-                                                <div class="col-sm-12 form-group">
                                                     <div class="col-sm-3">
                                                         <label class="control-label"> Nº de Areas:</label>
                                                         <input class="form-control" type="text" id="txt_numareas" name="txt_numareas" placeholder='Numero Areas' onkeyup="cargarTabla()" maxlength="2" onkeypress="return validaNumeros(event);">
@@ -347,7 +345,21 @@
                                                             </label>
                                                         </div>
                                                     </div>
+                                                </div>
+                                                <div class="col-sm-12 form-group">
                                                     <div class="col-sm-3">
+                                                        <!--
+                                                        <label class="control-label"> Nº de Areas:</label>
+                                                        <input class="form-control" type="text" id="txt_numareas" name="txt_numareas" placeholder='Numero Areas' onkeyup="cargarTabla()" maxlength="2" onkeypress="return validaNumeros(event);">
+                                                        <div class="radio">
+                                                            <label style="margin-left:-12px">
+                                                                <input class="chk form-control" type="checkbox" name="chk_todasareas" id="chk_todasareas" value="tareas"> Todas Las Areas                                                                
+                                                            </label>
+                                                        </div>
+                                                        -->
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <!-- 
                                                         <div class="Allareas hidden">
                                                             <select id="areasTodas" name="areasTodas" multiple></select>                                                           
                                                         </div>
@@ -357,24 +369,32 @@
                                                                 <input class="chk form-control" type="checkbox" name="chk_etiempo" id="chk_etiempo" value="etiempo"> Edit Tiempo                                                                
                                                             </label>
                                                         </div>
+                                                        -->
+                                                        <input type="hidden" id="txt_tiempo" name="txt_tiempo" value="1">
                                                     </div>                                                    
+                                                    
                                                     <div class="col-sm-6">
+                                                        <!--
                                                         <label class="control-label">Tipo Envio:</label>
                                                         <select class="form-control" id="select_tipoenvio" name="select_tipoenvio">
                                                             <option value="">.:Seleccione:.</option>
                                                             <option value="1">Con Retorno</option>
                                                             <option value="2">Sin Retorno</option>
                                                         </select>
+                                                        -->
+                                                        <input type="hidden" id="select_tipoenvio" name="select_tipoenvio" value="2">
                                                     </div>
                                                 </div>
+
                                                 <div class="col-sm-12 tablaSelecAreaTiempo hidden">
                                                     <div>
-                                                        <table id="t_numareas" class="table table-bordered table-striped">
+                                                        <table id="t_numareas" class="table table-bordered table-striped" style="width: 50%;">
                                                             <thead>
                                                                 <tr>
-                                                                    <th style="width: 50%">Area</th>
-                                                                    <th style="width: 50%">Tiempo(Dias)</th>
-                                                                    <th style="width: 50%"><a data-toggle="popover" data-placement="top" data-content="Seleccione Areas de Copia"><span class="btn btn-warning btn-sm"><i class="fa fa-exclamation"></i></span></a></th>
+                                                                    <th style="width: 99%">Area</th>
+                                                                    <th style="width: 1%">&nbsp;</th>
+                                                                    <!-- <th style="width: 50%">Tiempo(Dias)</th>
+                                                                    <th style="width: 50%"><a data-toggle="popover" data-placement="top" data-content="Seleccione Areas de Copia"><span class="btn btn-warning btn-sm"><i class="fa fa-exclamation"></i></span></a></th> -->
                                                                 </tr>
                                                             </thead>
                                                             <tbody id="tb_numareas">
