@@ -319,6 +319,7 @@ public function postCargar()
                                     INNER JOIN personas p ON p.id=cp.persona_id AND p.estado=1
                                     WHERE acp.estado=1
                                     AND cp.cargo_id=5
+                                    AND IFNULL(p.modalidad,1)!=2
                                     AND acp.area_id=".$areasGid[$i]."
                                     ORDER BY cp.persona_id";
                             $qem= DB::select($em);
@@ -371,6 +372,7 @@ public function postCargar()
                                 INNER JOIN personas p ON p.id=cp.persona_id AND p.estado=1
                                 WHERE acp.estado=1
                                 AND cp.cargo_id=5
+                                AND IFNULL(p.modalidad,1)!=2
                                 AND acp.area_id=".$areasGid[$i]."
                                 ORDER BY cp.persona_id";
                         $qem= DB::select($em);

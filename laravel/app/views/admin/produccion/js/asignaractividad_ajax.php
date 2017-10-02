@@ -2,7 +2,7 @@
 var Asignar={
     guardarOrdenTrabajo:function(data){
         $.ajax({
-            url         : 'ruta/actividadpersonalcreate',
+            url         : 'ruta/actividadpersonalasignado',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -16,7 +16,7 @@ var Asignar={
                 if(obj.rst==1){
                     CargarOrden();  
                     $(".ordenesT input[type='hidden'],.ordenesT input[type='numeric'],.ordenesT input[type='text'],.ordenesT select,.ordenesT textarea").not(".mant").val("");
-                    $('.ordenesT select').multiselect('refresh');  
+//                    $('.ordenesT select').multiselect('refresh');  
                     $(".filtros input[type='hidden'],.filtros input[type='text'],.filtros select,.filtros textarea").val("");
                     $('.filtros select').multiselect('refresh');  
                     $(".valido input[id='txt_cantidad']").val("0");

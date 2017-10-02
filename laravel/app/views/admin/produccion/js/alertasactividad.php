@@ -74,7 +74,7 @@ $(document).ready(function() {
     var data = {estado:1};
     var ids = [];
 /*    slctGlobal.listarSlct('area','slct_area_id','multiple',ids,data);*/
-    slctGlobal.listarSlct('area','slct_area_id','multiple',null,{estado:1,areagestionall:1});
+    slctGlobal.listarSlct('area','slct_area_id','multiple',null,{estado:1});
     $("#generar_area").click(function (){
         area_id = $('#slct_area_id').val();
         if ($.trim(area_id)!=='') {
