@@ -11,7 +11,12 @@ class ActividadCategoria extends Base
         $sSql=" SELECT  COUNT(v.id) cant
                 FROM actividad_categorias v
                 INNER JOIN areas vv ON v.area_id = vv.id
-                WHERE 1=1 ";
+                WHERE  vv.id IN(
+                SELECT acp.area_id
+                                    FROM area_cargo_persona acp
+                                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                    WHERE acp.estado=1
+                                    AND cp.persona_id=".Auth::user()->id.")";
         $sSql.= $array['where'];
         $oData = DB::select($sSql);
         return $oData[0]->cant;
@@ -22,7 +27,12 @@ class ActividadCategoria extends Base
         $sSql=" SELECT v.id, v.area_id, v.ruta_flujo_id, v.nombre, v.estado, vv.nombre as area
                 FROM actividad_categorias v
                 INNER JOIN areas vv ON v.area_id = vv.id
-                WHERE 1=1 ";
+                WHERE  vv.id IN(
+                SELECT acp.area_id
+                                    FROM area_cargo_persona acp
+                                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                    WHERE acp.estado=1
+                                    AND cp.persona_id=".Auth::user()->id.")";
         $sSql.= $array['where'].
                 $array['order'].
                 $array['limit'];
