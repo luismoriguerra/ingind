@@ -13,6 +13,7 @@ class ActividadCategoria extends Base
                     function($query){
                         if ( Input::get('estado') ) {
                             $query->where('estado','=','1');
+                            $query->where('area_id','=',Auth::user()->area_id);
                         }
                     }
                 )
