@@ -362,6 +362,15 @@ class RutaController extends \BaseController
                                 $flujo->usuario_created_at=Auth::user()->id;
                                 $flujo->save();
                                 
+                                /***************Registrar Flujo Respuesta********************************/
+                                $ftr=new FlujoTipoRespuesta;
+                                $ftr->flujo_id=$flujo->id;
+                                $ftr->tipo_respuesta_id=2;
+                                $ftr->tiempo_id=1;
+                                $ftr->dtiempo=0;
+                                $ftr->usuario_created_at=Auth::user()->id;
+                                $ftr->save();
+                                
                                 /************ Registrar Ruta Flujo ********* ************/
                                 if($flujo->id){
                                     $rutaflujo = new RutaFlujo;
