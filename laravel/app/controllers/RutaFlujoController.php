@@ -431,7 +431,8 @@ public function postCargar()
                             if( trim($dtg[1])!='' ){
                                 $rutaFlujoDetalle['tiempo_id']=$dtg[1];
                                 $rutaFlujoDetalle['dtiempo']=$dtg[2];
-                                $rutaFlujoDetalle['ruta_flujo_id2']=$dtg[4];
+                                if(isset($dtg[4])){
+                                $rutaFlujoDetalle['ruta_flujo_id2']=$dtg[4];}
                             }
                         }
 
