@@ -7,6 +7,18 @@ class Ruta extends Eloquent
      * Areas relationship
      */
     
+        public static function getCorrelativoAct($persona_id)
+    {
+        $result=DB::table('actividad_personal as ap')
+                ->select(DB::raw('count(ap.id) as cant'))
+                ->where('ap.persona_id','=',$persona_id)
+                ->where('ap.estado','=',1)
+                ->where('ap.area_id','=',Auth::user()->area_id)
+                ->where(DB::raw('DATE(ap.created_at)'),'=',date('Y-m-d'))
+                ->get();
+        return $result[0]->cant;
+    }
+    
     public function crearRutaMicro(){
         DB::beginTransaction();
                             
