@@ -37,6 +37,7 @@ class ActividadCategoria extends Base
                     function($query){
                         if ( Input::get('estado') ) {
                             $query->where('estado','=','1');
+                            $query->where('area_id','=',Auth::user()->area_id);
                         }
                     }
                 )
@@ -45,24 +46,5 @@ class ActividadCategoria extends Base
                 
         return $r;
     }
-
-    /*
-    public static function getListar(){
-        $actividad_categoria=DB::table('actividad_categorias')
-                ->select('id','nombre','estado')
-                ->where( 
-                    function($query){
-                        if ( Input::get('estado') ) {
-                            $query->where('estado','=','1');
-                            $query->where('area_id','=',Auth::user()->area_id);
-                        }
-                    }
-                )
-                ->orderBy('nombre')
-                ->get();
-                
-        return $actividad_categoria;
-    }
-    */
     
 }
