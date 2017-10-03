@@ -248,6 +248,7 @@ class Ruta extends Eloquent
                 $rutaDetalle['tiempo_id']=$rd->tiempo_id;
                 $rutaDetalle['dtiempo']=$rd->dtiempo;
                 $rutaDetalle['norden']=$rd->norden;
+                $rutaDetalle['ruta_flujo_id']=$rd->ruta_flujo_id2;
                 $rutaDetalle['estado_ruta']=$rd->estado_ruta;
                 if($rd->norden==1 or ($rd->norden>1 and $validaactivar==0 and $rd->estado_ruta==2) ){
                     $rutaDetalle['fecha_inicio']=$fecha_inicio;
