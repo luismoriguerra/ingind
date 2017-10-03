@@ -2,7 +2,7 @@
 var cabeceraG=[]; // Cabecera del Datatable
 var columnDefsG=[]; // Columnas de la BD del datatable
 var targetsG=-1; // Posiciones de las columnas del datatable
-var RolsG={id:0,nombre:"",estado:1}; // Datos Globales
+var RolsG={id:0,nombre:"",estado:1, area_id:''}; // Datos Globales
 $(document).ready(function() {
     /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
         2: Descripción de cabecera
@@ -13,8 +13,8 @@ $(document).ready(function() {
     data={estado:1,areapersona:1}; 
     slctGlobal.listarSlctFuncion('area','listara','slct_area_id','simple',null,data);
 
-    var idG={   area        :'onBlur|Area|#DCE6F1', //#DCE6F1
-                nombre        :'onBlur|Nombre Rol|#DCE6F1', //#DCE6F1
+    var idG={   area_id        :'3|Area|#DCE6F1', //#DCE6F1
+                nombre        :'onBlur|Nombre Categoria|#DCE6F1', //#DCE6F1
                 estado        :'2|Estado|#DCE6F1', //#DCE6F1
              };
 
@@ -42,12 +42,13 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
             $('#form_rols_modal #slct_estado').val(1);
+            $('#form_rols_modal #slct_area_id').val(""); 
             $('#form_rols_modal #txt_nombre').focus();
         } else {
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
-
             $('#form_rols_modal #txt_nombre').val( RolsG.nombre );
+            $('#form_rols_modal #slct_area_id').val( RolsG.area_id ); 
             $('#form_rols_modal #slct_estado').val( RolsG.estado );
             $("#form_rols_modal").append("<input type='hidden' value='"+RolsG.id+"' name='id'>");
         }
@@ -67,6 +68,7 @@ BtnEditar=function(btn,id){
     RolsG.area=$(tr).find("td:eq(0)").text();
     RolsG.nombre=$(tr).find("td:eq(1)").text();
     RolsG.estado=$(tr).find("td:eq(2)>span").attr("data-estado");
+    RolsG.area_id=$(tr).find("td:eq(0) input[name='txt_area_id']").val();
     $("#BtnEditar").click();
 };
 
@@ -82,6 +84,9 @@ MostrarAjax=function(t){
 }
 
 GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
+    if(typeof(fn)!='undefined' && fn.col==0){
+         return row.area+"<input type='hidden'name='txt_area_id' value='"+row.area_id+"'>";
+    }
     if(typeof(fn)!='undefined' && fn.col==2){
         var estadohtml='';
         estadohtml='<span id="'+row.id+'" onClick="activar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-danger">Inactivo</span>';
@@ -113,7 +118,12 @@ Agregar = function(){
 };
 validaRols = function(){
     var r=true;
-    if( $("#form_rols_modal #txt_nombre").val()=='' ){
+
+    if( $("#form_rols_modal #slct_area_id").val()=='' ){
+        alert("Seleccione Área");
+        r=false;
+    }
+    else if( $("#form_rols_modal #txt_nombre").val()=='' ){
         swal("Mensaje", "Ingrese Nombre de la Categoria Actividad!");
         r=false;
     }
