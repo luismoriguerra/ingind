@@ -41,7 +41,15 @@ class RutaDetalle extends Eloquent
 
         $set=DB::select('SET group_concat_max_len := @@max_allowed_packet');
         $query =
-            'SELECT DATE_ADD(rd.fecha_inicio, INTERVAL 19 HOUR) as hora_fin_mayor,DATE_ADD(rd.fecha_inicio, INTERVAL 4 HOUR) as hora_fin_menor, NOW() as fecha_actual,rd.id, rd.dtiempo_final, r.flujo_id,
+            'SELECT DATE_ADD(rd.fecha_inicio, INTERVAL 19 HOUR) as hora_fin_mayor,DATE_ADD(rd.fecha_inicio, INTERVAL 4 HOUR) as hora_fin_menor, NOW() as fecha_actual,rd.id, rd.dtiempo_final, r.flujo_id, 
+             rd.ruta_flujo_id as rd_ruta_flujo_id,
+             (
+                SELECT f1.nombre
+                FROM rutas_detalle rd1
+                INNER JOIN rutas_flujo rf1 ON rd1.ruta_flujo_id = rf1.id
+                INNER JOIN flujos f1 ON rf1.flujo_id = f1.id
+                WHERE rd1.id = rd.id
+             ) as rd_proceso,
             CONCAT(t.nombre," : ",rd.dtiempo) tiempo, rd.tiempo_id idtiempo,rd.motivo_edit motivo, cd.id carta_deglose_id,
             rd.observacion,r.ruta_flujo_id, IFNULL(cd.persona_id,"") persona_id,
             IFNULL(CONCAT(p2.paterno," ",p2.materno,", ",p2.nombre),"") persona_responsable,

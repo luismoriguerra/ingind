@@ -106,7 +106,7 @@
                                                 <textarea class="form-control" id="txt_actividad" name="txt_actividad" rows="6"> </textarea>
                                                {{--  <input type="text" class="form-control" id="txt_actividad" name="txt_actividad"> --}}
                                             </div>
-                                            <div class="col-md-4 form-group">
+                                            <div class="col-md-3 form-group">
                                                 <label>Fecha Inicio / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
@@ -117,7 +117,7 @@
                                                     </div>                                                    
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 form-group">
+                                            <div class="col-md-3 form-group">
                                                 <label>Fecha Final / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
@@ -127,6 +127,12 @@
                                                         <input type="numeric" class="form-control horaFin" id="txt_horaFin" name="txt_horaFin" onchange="CalcularHrs(this)" data-mask>
                                                     </div>                                                    
                                                 </div>
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <label>Categoría:</label>
+                                                <select class="form-control slct_cate" id="slct_categoria" name="slct_categoria">
+                                           
+                                                </select> 
                                             </div>
                                             <div class="col-md-3 form-group hidden">
                                                 <label>Tiempo Transcurrido:</label>
@@ -191,7 +197,7 @@
                                                 <textarea class="form-control" id="txt_actividad" name="txt_actividad" rows="6"></textarea>
                                                {{--  <input type="text" class="form-control" id="txt_actividad" name="txt_actividad"> --}}
                                             </div>
-                                            <div class="col-md-4 form-group">
+                                            <div class="col-md-3 form-group">
                                                 <label>Fecha Inicio / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
@@ -202,7 +208,7 @@
                                                     </div>                                                      
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 form-group">
+                                            <div class="col-md-3 form-group">
                                                 <label>Fecha Final / Formato 24H:</label>
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-6 col-sm-6">
@@ -213,13 +219,17 @@
                                                     </div>                                                      
                                                 </div>
                                             </div>
+                                            <div class="col-md-3 form-group">
+                                                <label>Categoría:</label>
+                                                <select class="form-control slct_cate" id="slct_categoria" name="slct_categoria">
+                                           
+                                                </select> 
+                                            </div>
                                             <div class="col-md-2 form-group hidden">
                                                 <label>Tiempo Transcurrido:</label>
                                                 <input type="text" class="form-control ttranscurrido" id="txt_ttranscurrido" name="txt_ttranscurrido" readonly="readonly">
                                             </div>
-                                            <div class="col-md-1 form-group visible-lg visible-md">
-                                                <span id="btnDelete" name="btnDelete" class="btn btn-danger  btn-sm btnDelete" style="margin-top: 36%;"><i class="glyphicon glyphicon-remove"></i></span>
-                                            </div>
+                                           
                                             <div class="col-md-5 form-group">
                                                 <div class="col-md-8 form-group">
                                                 <label>Documentos:</label>
@@ -267,6 +277,9 @@
                                                         </tbody>
                                                     </table>
                                                 </form>
+                                            </div>
+                                             <div class="col-md-1 form-group visible-lg visible-md">
+                                                <span id="btnDelete" name="btnDelete" class="btn btn-danger  btn-sm btnDelete" style="margin-top: 36%;"><i class="glyphicon glyphicon-remove"></i></span>
                                             </div>
                                             <div class="col-md-1 col-sm-12 col-xs-12 form-group visible-sm visible-xs">
                                                 <span id="btnDelete" name="btnDelete" class="btn btn-danger  btn-sm btnDelete" style="width: 100%">Eliminar</span>

@@ -4,7 +4,7 @@ class DocumentoDigitalController extends \BaseController {
 
 	public function postCargar()
     {
-        if ( Request::ajax() ) {
+        if ( Request::ajax() ) {                 
             $documento_digital = DocumentoDigital::getDocumentosDigitales();
             return Response::json(array('rst'=>1,'datos'=>$documento_digital));
         }

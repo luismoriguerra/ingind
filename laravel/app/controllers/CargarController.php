@@ -1,7 +1,434 @@
 <?php
 
 class CargarController extends BaseController {
+    
+    public function postCargaproyecto() {
+        ini_set('memory_limit', '512M');
+        ini_set('post_max_size', '64M');
+        ini_set('upload_max_filesize', '64M');
+        ini_set('max_execution_time',300);
+        
+        if (isset($_FILES['carga']) and $_FILES['carga']['size'] > 0) {
 
+            $uploadFolder = 'txt/proyecto';
+
+            if (!is_dir($uploadFolder)) {
+                mkdir($uploadFolder);
+            }
+
+            $nombreArchivo = explode(".", $_FILES['carga']['name']);
+            $tmpArchivo = $_FILES['carga']['tmp_name'];
+            $archivoNuevo = $nombreArchivo[0] . "_u" . Auth::user()->id . "_" . date("Ymd_his") . "." . $nombreArchivo[1];
+            $file = $uploadFolder . '/' . $archivoNuevo;
+
+            //@unlink($file);
+
+            $m = "Ocurrio un error al subir el archivo. No pudo guardarse.";
+            if (!move_uploaded_file($tmpArchivo, $file)) {
+                return Response::json(
+                                array(
+                                    'upload' => FALSE,
+                                    'rst' => '2',
+                                    'msj' => $m,
+                                    'error' => $_FILES['archivo'],
+                                )
+                );
+            }
+
+            $array = array();
+            $arrayExist = array();
+
+            $file = file('txt/proyecto/' . $archivoNuevo);
+            //$file=file('/var/www/html/ingind/public/txt/requerimiento/'.$archivoNuevo);
+            $usuario_id = 1272;
+            $auxArea = '';
+            $auxId = '';
+            $auxRutaId='';
+            $auxRutaFecha='';
+            $area_id='';
+            for ($i = 0; $i < count($file); $i++) {
+ 
+                DB::beginTransaction();
+                if (trim($file[$i]) != '') {
+                    $detfile = explode("\t", $file[$i]);
+
+                    for ($j = 0; $j < count($detfile); $j++) {
+                        $buscar = array(chr(13) . chr(10), "\r\n", "\n", "�", "\r", "\n\n", "\xEF", "\xBB", "\xBF");
+                        $reemplazar = "";
+                        $detfile[$j] = trim(str_replace($buscar, $reemplazar, $detfile[$j]));
+                        $array[$i][$j] = $detfile[$j];
+                    }
+                    $vartipo = 0; //PERFIL 
+                    if (strpos($detfile[3], 'SERVICIO') == false) {
+                        $vartipo = 1; // EXPEDIENTE     
+                    }
+                    // Dar formato a  fechas
+                    $fecha = explode('/', $detfile[8]);
+                    $nuevaFecha = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' 10:00:00';
+                    
+                 // Encontrar área en procesos
+                $area_id = $this->BuscarArea(utf8_encode($detfile[2]));
+                $area = Area::find($area_id);
+
+                if (!$area) {
+                    $nemonico = 'XX';
+                } else {
+                    $nemonico = $area->nemonico_doc;
+                }
+                
+                    $tablaRelacion=DB::table('tablas_relacion as tr')
+                            ->join(
+                                'rutas as r',
+                                'tr.id','=','r.tabla_relacion_id'
+                            )
+                            ->where('tr.id_union', '=', 'REQUERIMIENTO TÉCNICO - N° ' . str_pad($detfile[1], 6, '0', STR_PAD_LEFT) . ' - ' . $detfile[0] . ' - ' . $nemonico)
+                            ->where('tr.estado', '=', '1')
+                            ->where('r.estado', '=', '1')
+                            ->get();
+
+
+                        if (count($tablaRelacion)==0 and ($detfile[1] != $auxId OR utf8_encode($detfile[2]) != $auxArea) and $detfile[4] != '0') {
+                            if($auxRutaId!=''){
+                               $rdD= RutaDetalle::where('ruta_id','=',$auxRutaId)
+                                                ->where('dtiempo_final','!=','')
+                                                ->select(DB::raw('MAX(id) as id'))->first() ; 
+
+                               $idd=$rdD->id+1;
+                               $rd= RutaDetalle::find($idd);
+                               $rd['dtiempo']=15;
+                               $rd['fecha_inicio']='2017-08-10 10:00:00';
+                               $rd->save();
+                            }
+                            $auxId = $detfile[1];
+                            $auxArea = utf8_encode($detfile[2]);
+                            $auxRutaId='';
+                            $auxRutaFecha='';
+                            // Encontrar área en procesos
+                            $area_id = $this->BuscarArea(utf8_encode($detfile[2]));
+                            $area = Area::find($area_id);
+
+                            if (!$area) {
+                                $nemonico = 'XX';
+                            } else {
+                                $nemonico = $area->nemonico_doc;
+                            }
+
+
+
+                            $tablarelacion = new TablaRelacion;
+                            $tablarelacion->software_id = 1;
+                            $tablarelacion->id_union = 'REQUERIMIENTO TÉCNICO - N° ' . str_pad($detfile[1], 6, '0', STR_PAD_LEFT) . ' - ' . $detfile[0] . ' - ' . $nemonico;
+                            $tablarelacion->sumilla = $detfile[3];
+                            $tablarelacion->estado = 1;
+                            $tablarelacion->fecha_tramite = $nuevaFecha;
+                            $tablarelacion->usuario_created_at = Auth::user()->id;
+
+                            $tablarelacion->save();
+
+                            /* * ************ ENCONTRAR RUTA DE ÁREA *************** */
+
+
+                            $area_id = $this->BuscarArea(utf8_encode($detfile[2]));
+
+                            if ($area_id == 12) {
+                                $rutaFlujo = RutaFlujo::find(4462);}
+                            if ($area_id == 25)  {
+                                $rutaFlujo = RutaFlujo::find(4461);}
+                            
+                            $ruta = new Ruta;
+                            $ruta['tabla_relacion_id'] = $tablarelacion->id;
+                            $ruta['fecha_inicio'] = $nuevaFecha;
+                            $ruta['ruta_flujo_id'] = $rutaFlujo->id;
+                            $ruta['flujo_id'] = $rutaFlujo->flujo_id;
+                            $ruta['persona_id'] = $rutaFlujo->persona_id;
+                            $ruta['area_id'] = $rutaFlujo->area_id;
+                            $ruta['usuario_created_at'] = Auth::user()->id;
+                            $ruta->save();
+                            $auxRutaId=$ruta->id;
+                            $auxRutaFecha=$ruta->fecha_inicio;
+
+     /*                             * **********Agregado de referidos************ */
+                                $referido = new Referido;
+                                $referido['ruta_id'] = $ruta->id;
+                                $referido['tabla_relacion_id'] = $tablarelacion->id;
+                                $referido['tipo'] = 0;
+                                $referido['referido'] = $tablarelacion->id_union;
+                                $referido['fecha_hora_referido'] = $tablarelacion->created_at;
+                                $referido['usuario_referido'] = $tablarelacion->usuario_created_at;
+                                $referido['usuario_created_at'] = $usuario_id;
+                                $referido->save();
+
+                            $qrutaDetalle = DB::table('rutas_flujo_detalle')
+                                    ->where('ruta_flujo_id', '=', $rutaFlujo->id)
+                                    ->where('estado', '=', '1')
+                                    ->orderBy('norden', 'ASC')
+                                    ->get();
+                       
+                            foreach ($qrutaDetalle as $rd) {
+                                $rutaDetalle = new RutaDetalle;
+                                $rutaDetalle['ruta_id'] = $ruta->id;
+                                $rutaDetalle['area_id'] = $rd->area_id;
+                                $rutaDetalle['tiempo_id'] = $rd->tiempo_id;
+                                $rutaDetalle['dtiempo'] = $rd->dtiempo;
+                                $rutaDetalle['norden'] = $rd->norden;
+                                $rutaDetalle['estado_ruta'] = $rd->estado_ruta;
+
+                                $rutaDetalle['usuario_created_at'] = Auth::user()->id;
+                                $rutaDetalle->save();
+
+                                if ($rutaDetalle->norden == 1) {
+                                    $rutaDetalle['fecha_inicio'] = $nuevaFecha;
+                                    $rutaDetalle['dtiempo_final'] = $nuevaFecha;
+                                    $rutaDetalle['tipo_respuesta_id'] = 1;
+                                    $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
+                                    $rutaDetalle['observacion'] = '';
+                                    $rutaDetalle->save();
+                                }
+
+                                $qrutaDetalleVerbo = DB::table('rutas_flujo_detalle_verbo')
+                                        ->where('ruta_flujo_detalle_id', '=', $rd->id)
+                                        ->where('estado', '=', '1')
+                                        ->orderBy('orden', 'ASC')
+                                        ->get();
+                                if (count($qrutaDetalleVerbo) > 0) {
+                                    foreach ($qrutaDetalleVerbo as $rdv) {
+                                        $rutaDetalleVerbo = new RutaDetalleVerbo;
+                                        $rutaDetalleVerbo['ruta_detalle_id'] = $rutaDetalle->id;
+                                        $rutaDetalleVerbo['nombre'] = $rdv->nombre;
+                                        $rutaDetalleVerbo['condicion'] = $rdv->condicion;
+                                        $rutaDetalleVerbo['rol_id'] = $rdv->rol_id;
+                                        $rutaDetalleVerbo['verbo_id'] = $rdv->verbo_id;
+                                        $rutaDetalleVerbo['documento_id'] = $rdv->documento_id;
+                                        $rutaDetalleVerbo['orden'] = $rdv->orden;
+                                        $rutaDetalleVerbo['usuario_created_at'] = Auth::user()->id;
+                                        $rutaDetalleVerbo->save();
+                                    }
+                                }
+                                if($rutaDetalle->norden == 1){
+
+                                $rutaDetalleVerbo = RutaDetalleVerbo::where('ruta_detalle_id', '=', $rutaDetalle->id)
+                                                ->where('estado', '=', 1)->get();
+                                foreach ($rutaDetalleVerbo as $r) {
+                                    $rdv = RutaDetalleVerbo::find($r->id);
+                                    if ($rdv->verbo_id == 1 and utf8_encode($detfile[7])!='') {
+                                        $rdv['documento'] = utf8_encode($detfile[7]);
+                                    }
+                                    $rdv['finalizo'] = 1;
+                                    $rdv['observacion'] = 'AUTOMATICO';
+                                    $rdv['usuario_created_at'] = 1272;
+                                    $rdv['usuario_updated_at'] = 1272;
+                                    $rdv['updated_at'] = $nuevaFecha;
+                                    $rdv->save();
+                                }
+                                }
+                            }
+                            
+                            if($detfile[4]!=1){
+                             $i--;
+                            }
+                        } 
+                        else {
+    //                        $fecha = explode('/', $detfile[9]);
+    //                        $nuevaFecha = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' 08:00:00';
+    
+                            $rutaDetalle = array();
+                            $auxRutaFecha=$nuevaFecha;
+                            if ($detfile[4]*1 == 2) {
+                                $varposicion=2;
+                                if($area_id==26){
+                                    $varposicion = 1;
+                                }
+
+                                $rutaDetalle = RutaDetalle::where('norden', '=', $varposicion)
+                                                ->where('ruta_id', '=', $ruta->id)->first();
+                                $rutaDetalle['fecha_inicio'] = $nuevaFecha;
+                                $rutaDetalle['dtiempo_final'] = $nuevaFecha;
+                                $rutaDetalle['tipo_respuesta_id'] = 1;
+                                $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
+                                $rutaDetalle['observacion'] = '';
+                                $rutaDetalle->save();
+                            }
+
+                            if ($detfile[4] == '3') {
+                                $varposicion=5;
+                                if($area_id==26){
+                                    $varposicion = 2;
+                                }
+                                $rutaDetalle = RutaDetalle::where('norden', '=', $varposicion)
+                                                ->where('ruta_id', '=', $ruta->id)->first();
+                                $rutaDetalle['fecha_inicio'] = $nuevaFecha;
+                                $rutaDetalle['dtiempo_final'] = $nuevaFecha;
+                                $rutaDetalle['tipo_respuesta_id'] = 1;
+                                $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
+                                $rutaDetalle['observacion'] = '';
+                                $rutaDetalle->save();
+                            }
+
+                            if ($detfile[4] == '4') {
+                                $varposicion=6;
+//                                if ($area_id == 26) {
+//                                    $varposicion=3;
+//                                }
+                                if (utf8_encode($detfile[5]) == 'Gerencia de Planificación, Presupuesto y Racionalización') {
+
+                                    $rutaDetalle = RutaDetalle::where('norden', '=', $varposicion)
+                                                    ->where('ruta_id', '=', $ruta->id)->first();
+                                    $rutaDetalle['fecha_inicio'] = $nuevaFecha;
+                                    $rutaDetalle['dtiempo_final'] = $nuevaFecha;
+                                    $rutaDetalle['tipo_respuesta_id'] = 1;
+                                    $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
+                                    $rutaDetalle['observacion'] = '';
+                                    $rutaDetalle->save();
+                                }else {
+
+                                        $Ssql="SELECT MAX(id) as id "
+                                                . "FROM referidos "
+                                                . "WHERE ruta_id=".$ruta->id;
+                                        $refe=DB::select($Ssql);
+
+                                        $referido = Referido::find($refe[0]->id);
+                                        $referido['referido'] = utf8_encode($detfile[7]).'|'.$referido->referido;
+                                        $referido->save();
+
+
+                                }
+                            }
+
+                            if ($detfile[4] == '5') {
+                                $varposicion=6;
+                            /*    if ($area_id == 26) {
+                                    $varposicion=3;
+                                }*/
+                                $rutaDetalle = RutaDetalle::where('norden', '=', $varposicion)
+                                                ->where('ruta_id', '=', $ruta->id)->first();
+                                $rutaDetalle['fecha_inicio'] = $nuevaFecha;
+                                $rutaDetalle['dtiempo_final'] = $nuevaFecha;
+                                $rutaDetalle['tipo_respuesta_id'] = 1;
+                                $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
+                                $rutaDetalle['observacion'] = '';
+                                $rutaDetalle->save();
+                            }
+
+                            if ($detfile[4] == '6' or $detfile[4] == '8') {
+
+                                $varposicion = 13;
+//                                if($detfile[4] == '8'){
+//                                    $varposicion=13;
+//                                }
+                               /* if($area_id==26){
+                                    $varposicion = 6;
+                                }
+                                if($area_id==29){
+                                    $varposicion = 5;
+                                }
+                                if ($vartipo == 1) {
+                                     if($area_id==29 or $area_id==38 or $area_id==26){
+                                        $varposicion = 7;
+                                     }else{
+                                        $varposicion = 8;
+                                     }
+                                }*/
+                                $rutaDetalle = RutaDetalle::where('norden', '=', $varposicion)
+                                                ->where('ruta_id', '=', $ruta->id)->first();
+                                $rutaDetalle['fecha_inicio'] = $nuevaFecha;
+                                $rutaDetalle['dtiempo_final'] = $nuevaFecha;
+                                $rutaDetalle['tipo_respuesta_id'] = 1;
+                                $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
+                                $rutaDetalle['observacion'] = '';
+                                $rutaDetalle->save();
+                            }
+
+                            if ($detfile[4] == '7') {
+
+                                $varposicion = 14;
+                           /*     if($area_id==26){
+                                    $varposicion = 7;
+                                }
+                                if($area_id==29){
+                                    $varposicion = 6;
+                                }
+                                if ($vartipo == 1) {
+                                      if($area_id==29 or $area_id==38 or $area_id==26){
+                                          $varposicion = 8;
+                                      }else{
+                                          $varposicion = 9;
+
+                                      }
+                                }*/
+                                $rutaDetalle = RutaDetalle::where('norden', '=', $varposicion)
+                                                ->where('ruta_id', '=', $ruta->id)->first();
+                                $rutaDetalle['fecha_inicio'] = $nuevaFecha;
+                                $rutaDetalle['dtiempo_final'] = $nuevaFecha;
+                                $rutaDetalle['tipo_respuesta_id'] = 1;
+                                $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
+                                $rutaDetalle['observacion'] = '';
+                                $rutaDetalle->save();
+                            }
+
+                            if (count($rutaDetalle) > 0) {
+                                $rutaDetalleVerbo = RutaDetalleVerbo::where('ruta_detalle_id', '=', $rutaDetalle->id)
+                                                ->where('estado', '=', 1)->get();
+                                foreach ($rutaDetalleVerbo as $r) {
+                                    $rdv = RutaDetalleVerbo::find($r->id);
+                                    if ($rdv->verbo_id == 1 and utf8_encode($detfile[7])!='') {
+                                        $rdv['documento'] = utf8_encode($detfile[7]);
+                                         /** **********Agregado de referidos************ */
+                                        $referido = new Referido;
+                                        $referido['ruta_id'] = $ruta->id;
+                                        $referido['tabla_relacion_id'] = $tablarelacion->id;
+                                        $referido['tipo'] = 1;
+                                        $referido['ruta_detalle_id'] = $rutaDetalle->id;
+                                        $referido['norden'] = $rutaDetalle->norden;
+                                        $referido['estado_ruta'] = $rutaDetalle->estado_ruta;
+                                        $referido['referido'] = utf8_encode($detfile[7]);
+                                        $referido['ruta_detalle_verbo_id'] = $rdv->id;
+                                        $referido['fecha_hora_referido'] = $nuevaFecha;
+                                        $referido['usuario_referido'] = $usuario_id;
+                                        $referido['usuario_created_at'] = $usuario_id;
+                                        $referido->save();
+
+                                    }
+                                    $rdv['finalizo'] = 1;
+                                    $rdv['observacion'] = 'AUTOMATICO';
+                                    $rdv['usuario_created_at'] = $usuario_id;
+                                    $rdv['usuario_updated_at'] = $usuario_id;
+                                    $rdv['updated_at'] = $nuevaFecha;
+                                    $rdv->save();
+                                }
+                            }
+                        }
+
+                }
+                DB::commit();
+            }// for del file
+            //exit;
+                if($auxRutaId){
+                               $rdD= RutaDetalle::where('ruta_id','=',$auxRutaId)
+                                                ->where('dtiempo_final','!=','')
+                                                ->select(DB::raw('MAX(id) as id'))->first() ; 
+
+                               $idd=$rdD->id+1;
+                               $rd= RutaDetalle::find($idd);
+                               $rd['dtiempo']=15;
+                               $rd['fecha_inicio']='2017-08-10 10:00:00';
+                               $rd->save();
+                }
+               
+                        
+            return Response::json(
+                            array(
+                                'rst' => '1',
+                                'msj' => 'Archivo procesado correctamente',
+                                'file' => $archivoNuevo,
+                                'upload' => TRUE,
+                                //'data'      => $array,
+                                'data' => array(),
+                                'existe' => 0//$arrayExist
+                            )
+            );
+        }
+    }
+    
     public function postAsignacionsistradocvalida() {
         ini_set('memory_limit', '512M');
         set_time_limit(600);
@@ -1059,15 +1486,15 @@ class CargarController extends BaseController {
             }// for del file
             //exit;
                 if($auxRutaId){
-               $rdD= RutaDetalle::where('ruta_id','=',$auxRutaId)
-                                ->where('dtiempo_final','!=','')
+                               $rdD= RutaDetalle::where('ruta_id','=',$auxRutaId)
+                                                ->where('dtiempo_final','!=','')
                                 ->select(DB::raw('MAX(CONCAT_WS("|",norden,id)) as id'))->first() ; 
                $idrdv=explode('|',$rdD->id);
                $idd=$idrdv[1]+1;
-               $rd= RutaDetalle::find($idd);
-               $rd['dtiempo']=15;
-               $rd['fecha_inicio']='2017-08-10 15:00:00';
-               $rd->save(); 
+                               $rd= RutaDetalle::find($idd);
+                               $rd['dtiempo']=15;
+                               $rd['fecha_inicio']='2017-08-10 15:00:00';
+                               $rd->save();
                 }
                
                         
@@ -1118,8 +1545,8 @@ class CargarController extends BaseController {
             $array = array();
             $arrayExist = array();
 
-            //$file=file('txt/contabilidad/'.$archivoNuevo);
-            $file = file('/var/www/html/ingind/public/txt/contabilidad/' . $archivoNuevo);
+            $file=file('txt/contabilidad/'.$archivoNuevo);
+            //$file = file('/var/www/html/ingind/public/txt/contabilidad/' . $archivoNuevo);
 
             for ($i = 0; $i < count($file); $i++) {
 
@@ -1153,15 +1580,26 @@ class CargarController extends BaseController {
                         $proveedor->save();
                     }
 
+
+                    // Valida la Fecha
+                    $arr_fecha_p = explode("/", $detfile[5]); //dd/mm/yyyy
+                    if(@$arr_fecha_p[1])
+                        $fecha_doc_p = $arr_fecha_p[2].'-'.$arr_fecha_p[1].'-'.$arr_fecha_p[0]; //yyy-mm-dd
+                    else
+                        $fecha_doc_p = $detfile[5];
+                    // --
+
                     // Inserta Tabla contabilidad_gastos
                     $conta_gastos = GastosContables::where('contabilidad_proveedores_id', '=', $proveedor->id)
-                            ->where('nro_expede', '=', $detfile[0])
-                            ->first();
+                                                    ->where('nro_expede', '=', $detfile[0])
+                                                    ->where('anio_expede', '=', substr($fecha_doc_p, 0, 4))
+                                                    ->first();
                     if (count($conta_gastos) == 0) {
                         // Usar este ejemplo para insertar datos ya que mantiene el ultimo valor ingresado.
                         $conta_gastos = new GastosContables;
                         $conta_gastos->contabilidad_proveedores_id = $proveedor->id;
                         $conta_gastos->nro_expede = $detfile[0];
+                        $conta_gastos->anio_expede = substr($fecha_doc_p, 0, 4);
                         $conta_gastos->estado = 1;
                         $conta_gastos->usuario_created_at = Auth::user()->id;
                         $conta_gastos->save();
@@ -1177,67 +1615,49 @@ class CargarController extends BaseController {
                             $monto_expede = $detfile[4];
                         }
                     }
+                    
+                    $conta_gastos_deta = GastosDetallesContables::where('contabilidad_gastos_id', '=', $conta_gastos->id)
+                                                                ->where('tipo_expede', '=', $detfile[1])
+                                                                ->where('monto_expede', '=', $monto_expede)
+                                                                ->where('fecha_documento', '=', $detfile[5])
+                                                                ->where('documento', '=', $detfile[6])
+                                                                ->where('nro_documento', '=', $detfile[7])
+                                                                ->where('esp_d', '=', $detfile[10])
+                                                                //->where('fecha_doc_b', '=', $detfile[11])
+                                                                //->whereNull('fecha_doc_b
+                                                                ->where('doc_b', '=', $detfile[12])
+                                                                ->where('nro_doc_b', '=', $detfile[13])
+                                                                ->where('persona_doc_b', '=', $detfile[14])
+                                                                ->where('consecutivo', '=', $detfile[16])
+                                                                ->first();
+                       
+                    if (count($conta_gastos_deta) == 0)
+                    {
+                        // Valida la Fecha
+                        $arr_fecha = explode("/", $detfile[5]); //dd/mm/yyyy
+                        if(@$arr_fecha[1])
+                            $fecha_doc = $arr_fecha[2].'-'.$arr_fecha[1].'-'.$arr_fecha[0]; //yyy-mm-dd
+                        else
+                            $fecha_doc = $detfile[5];
+                        // --
 
-                    //if(($detfile[11] * 1) > 0)
-                    //{
-                        $conta_gastos_deta = GastosDetallesContables::where( 'contabilidad_gastos_id','=', $conta_gastos->id )
-                                                                    ->where('tipo_expede','=', $detfile[1])
-                                                                    ->where('monto_expede','=', $monto_expede)
-                                                                    ->where('fecha_documento','=', $detfile[5])
-                                                                        ->where('documento','=', $detfile[6])
-                                                                    ->where('nro_documento','=', $detfile[7])
-                                                                        ->where('esp_d','=', $detfile[10])
-                                                                        ->where('fecha_doc_b', '=', $detfile[11])
-                                                                        ->where('doc_b','=', $detfile[12])
-                                                                    ->where('nro_doc_b','=', $detfile[13])
-                                                                    ->where('persona_doc_b','=', $detfile[14])
-                                                                    ->where('observacion','=', $detfile[15])
-                                                                    ->first();
-                    /*}
-                    else // para valores Null
-                    {
-                        $conta_gastos_deta = GastosDetallesContables::where( 'contabilidad_gastos_id','=', $conta_gastos->id )
-                                                                    ->where('tipo_expede','=', $detfile[1])
-                                                                    ->where('monto_expede','=', $monto_expede)
-                                                                    ->where('fecha_documento','=', $detfile[5])
-                                                                        ->where('documento','=', $detfile[6])
-                                                                    ->where('nro_documento','=', $detfile[7])
-                                                                        ->where('esp_d','=', $detfile[10])
-                                                                        ->whereNull('fecha_doc_b')
-                                                                        ->where('doc_b','=', $detfile[12])
-                                                                    ->where('nro_doc_b','=', $detfile[13])
-                                                                    ->where('persona_doc_b','=', $detfile[14])
-                                                                    ->where('observacion','=', $detfile[15])
-                                                                    ->first();
-                    }                    
-                    */
-                    if( count($conta_gastos_deta) == 0 )
-                    {
-                        $conta_gastos_deta = GastosDetallesContables::where('contabilidad_gastos_id', '=', $conta_gastos->id)
-                                ->where('tipo_expede', '=', $detfile[1])
-                                ->where('monto_expede', '=', $monto_expede)
-                                ->where('fecha_documento', '=', $detfile[5])
-                                ->where('documento', '=', $detfile[6])
-                                ->where('nro_documento', '=', $detfile[7])
-                                ->where('esp_d', '=', $detfile[10])
-                                ->where('fecha_doc_b', '=', $detfile[11])
-                                ->where('doc_b', '=', $detfile[12])
-                                ->where('nro_doc_b', '=', $detfile[13])
-                                ->where('persona_doc_b', '=', $detfile[14])
-                                ->first();
-                    }
-                        
-                    if (count($conta_gastos_deta) == 0) {
+                        // Valida Moneda
+                        $arr_monto = explode(",", $monto_expede); // 0,000.00
+                        if(@$arr_monto[1])
+                            $nv_monto_expede = implode("", $arr_monto).substr($monto_expede, -3); //0000.00
+                        else
+                            $nv_monto_expede = $monto_expede;
+                        // --
 
                         $obj = new GastosDetallesContables();
                         $obj->contabilidad_gastos_id = $conta_gastos->id;
                         $obj->tipo_expede = $detfile[1];
 
-                        if ($monto_expede)
-                            $obj->monto_expede = $monto_expede;
+                        if ($nv_monto_expede)
+                            $obj->monto_expede = $nv_monto_expede;
 
                         if ($detfile[5] != '')
-                            $obj->fecha_documento = $detfile[5];
+                            $obj->fecha_documento = $fecha_doc;
 
                         if ($detfile[6] != '')
                             $obj->documento = $detfile[6];
@@ -1262,6 +1682,9 @@ class CargarController extends BaseController {
 
                         if ($detfile[15] != '')
                             $obj->observacion = $detfile[15];
+
+                        if ($detfile[16] != '')
+                            $obj->consecutivo = $detfile[16];
 
                         $obj->estado = 1;
                         $obj->usuario_created_at = Auth::user()->id;

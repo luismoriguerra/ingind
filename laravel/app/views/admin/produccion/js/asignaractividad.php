@@ -25,9 +25,8 @@ $(document).ready(function() {
     id = '<?php echo Auth::user()->id; ?>';
     Rol_id='<?php echo Auth::user()->rol_id; ?>';
     slctGlobal.listarSlctFuncion('area','personaarea','slct_personasA','simple',null,{area_id:Area_id,persona:id});
- 
-
-        $(".selectbyPerson").removeClass('hidden');       
+    slctGlobal.listarSlct2('actividadcategoria','n, .slct_cate',{estado:1});
+    $(".selectbyPerson").removeClass('hidden');       
 
     CargarOrden();    
      
@@ -188,6 +187,7 @@ guardarTodo = function(){
         var cantidad = $(".valido input[id='txt_cantidad']").map(function(){return $(this).val();}).get();
         var hfin = $(".valido input[id='txt_horaFin']").map(function(){return $(this).val();}).get();
         var ttranscurrido = $(".valido input[id='txt_ttranscurrido']").map(function(){return $(this).val();}).get();
+        var actividad_categoria_id = $(".valido select[id='slct_categoria']").map(function(){return $(this).val();}).get();
         var persona = document.querySelector("#slct_personasA").value;
         
         var tbarchivo =[];
@@ -220,7 +220,7 @@ guardarTodo = function(){
         var orden = 0;
 
             for(var i=0; i < actividades.length;i++){
-                if(actividades[i] != '' && finicio[i] != '' && ffin[i] != '' && hfin[i]!='' && hinicio[i]!=''){
+                if(actividades[i] != '' && finicio[i] != '' && ffin[i] != '' && hfin[i]!='' && hinicio[i]!='' && actividad_categoria_id[i]!=''){
                     data.push({
                         'actividad' : actividades[i],
                         'finicio' : finicio[i],
@@ -232,6 +232,7 @@ guardarTodo = function(){
                         'cantidad':cantidad[i],
                         'archivo':tablaarchivo[i],
                         'documento':tabladocumento[i],
+                        'actividad_categoria_id':actividad_categoria_id[i],
                         'tipo':'2',
                     });                    
                 }else{

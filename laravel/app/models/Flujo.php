@@ -133,7 +133,8 @@ class Flujo extends Base
                     f.tipo_flujo as tipo_flujo_id,
                     GROUP_CONCAT(
                         CONCAT(rf.id,'|',rfd.id,'|',rfd.area_id,'|',rfd.norden)
-                    ) validacion
+                    ) validacion,
+                    rf.id as ruta_flujo_id
                     FROM flujos as f 
                     INNER JOIN areas as a on a.id = f.area_id 
                     INNER JOIN rutas_flujo as rf on rf.flujo_id = f.id AND rf.estado = 1

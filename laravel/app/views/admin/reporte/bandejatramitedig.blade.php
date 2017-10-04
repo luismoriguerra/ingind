@@ -374,9 +374,15 @@ tr.shown td.details-control {
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
-                                            <a class="btn btn-primary btn-sm" id="btn_guardar_todo">
-                                                <i class="fa fa-save fa-lg"></i>&nbsp;Guardar
-                                            </a>
+                                            <div class="col-sm-6 text-left">
+                                                <a class="btn btn-primary btn-sm" id="btn_guardar_todo">
+                                                    <i class="fa fa-save fa-lg"></i>&nbsp;Guardar
+                                                </a>
+                                            </div>
+                                            <div class="col-sm-6 text-right">
+                                                <a class="btn btn-success btn-sm"  id="btn_siguiente_rd" style="display: none;">
+                                                </a>
+                                            </div>    
                                         </div>
                                     </div>
                                 </form>

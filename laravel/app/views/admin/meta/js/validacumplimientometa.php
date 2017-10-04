@@ -25,7 +25,13 @@ $(document).ready(function() {
             Accion.mostrar(data[0]);            
         }
     });
-
+    $("#generar1").click(function (){
+        var data = DataToFilter();            
+        if(data.length > 0){
+            Accion.mostrar(data[0]);            
+        }
+    });
+    
     $(document).on('click', '#btnexport', function(event) {
         var data = DataToFilter();
         if(data.length > 0){
@@ -117,7 +123,7 @@ HTMLsustento=function(documentos,archivos){
             "<td><a target='_blank' href='documentodig/vista/" + data.doc_digital_id + "/4/1'>" + data.titulo + "</a></td>";
         if(data.valida==1){
             html+='<td><select class="form-control" name="slct_documento" id="slct_documento" data-id="'+data.id+'">'+
-                        "<option value='' selected>,::SELECCIONE::.</option>"+
+                        "<option value='1' selected>,::SELECCIONE::.</option>"+
                         "<option value='2'>Válido</option>"+
                         "<option value='3'>Inválido</option>"+
                         "</select></td>";
@@ -147,7 +153,7 @@ HTMLsustento=function(documentos,archivos){
             "<td><a target='_blank' href='file/meta/" + data.ruta + "'>" +  data.ruta + "</a></td>";
         if(data.valida==1){
             html1+='<td><select class="form-control" name="slct_archivo" id="slct_archivo" data-id="'+data.id+'">'+
-                        "<option value='' selected>.::SELECCIONE::.</option>"+
+                        "<option value='1' selected>.::SELECCIONE::.</option>"+
                         "<option value='2'>Válido</option>"+
                         "<option value='3'>Inválido</option>"+
                         "</select></td>";

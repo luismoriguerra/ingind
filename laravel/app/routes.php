@@ -208,3 +208,5 @@ Route::controller('gastos', 'GastosController');
 Route::controller('actividadpersonal', 'ActividadPersonalController');
 Route::controller('bandeja', 'BandejaController');
 Route::controller('ticket', 'TicketController');
+Route::controller('actividadcategoria', 'ActividadCategoriaController');
+Route::controller('reportepersonal', 'ReportePersonalController');

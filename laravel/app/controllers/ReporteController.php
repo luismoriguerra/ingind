@@ -187,7 +187,7 @@ class ReporteController extends BaseController
         );
    }
    
-       public function postReportetramite()
+    public function postReportetramite()
     {
       $array=array();
       $fecha='';
@@ -205,7 +205,7 @@ class ReporteController extends BaseController
       }
       
       if( Input::has('tramite') AND Input::get('tramite')==2){
-        $array['tramite'].=" AND ISNULL(rd.dtiempo_final) ";
+        $array['tramite'].=" AND (rd.dtiempo_final is null AND rd.fecha_inicio is not null) ";
       }
       if( Input::has('tramite') AND Input::get('tramite')==3){
         $array['tramite'].=" AND ISNULL(rd.dtiempo_final) ";
@@ -220,7 +220,201 @@ class ReporteController extends BaseController
       );
     }
    
-        public function postCargaractividad()
+    
+    // Exportar Reporte de Tramites
+    public function getExportreportetramite()
+    {
+          $array=array();
+          $fecha='';
+          $array['fecha']='';$array['ruta_flujo_id']='';$array['tramite']='';
+          
+          if( Input::has('ruta_flujo_id') AND Input::get('ruta_flujo_id')!='' ){
+            $array['ruta_flujo_id'].=" AND r.ruta_flujo_id='".Input::get('ruta_flujo_id')."' ";
+          }
+          if( Input::has('fecha_ini') AND Input::get('fecha_ini')!='' AND Input::has('fecha_fin') AND Input::get('fecha_fin')!=''){
+            $array['fecha'].=" AND DATE_FORMAT(r.fecha_inicio,'%Y-%m') BETWEEN '".Input::get('fecha_ini')."' AND '".Input::get('fecha_fin')."'  ";
+          }
+          
+          if( Input::has('fechames') AND Input::get('fechames')!=''){
+            $array['fecha'].=" AND DATE_FORMAT(r.fecha_inicio,'%Y-%m') = '".Input::get('fechames')."'";
+          }
+          
+          if( Input::has('tramite') AND Input::get('tramite')==2){
+            $array['tramite'].=" AND (rd.dtiempo_final is null AND rd.fecha_inicio is not null) ";
+          }
+          if( Input::has('tramite') AND Input::get('tramite')==3){
+            $array['tramite'].=" AND ISNULL(rd.dtiempo_final) ";
+          }
+
+          $result = Reporte::ReporteTramite($array);
+
+          /*style*/
+          $styleThinBlackBorderAllborders = array(
+              'borders' => array(
+                  'allborders' => array(
+                      'style' => PHPExcel_Style_Border::BORDER_THIN,
+                      'color' => array('argb' => 'FF000000'),
+                  ),
+              ),
+              'font'    => array(
+                  'bold'      => true
+              ),
+              'alignment' => array(
+                  'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+              )
+          );
+          $styleAlignmentBold= array(
+              'font'    => array(
+                  'bold'      => true
+              ),
+              'alignment' => array(
+                  'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+              ),
+          );
+          $styleAlignment= array(
+              'alignment' => array(
+                  'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+              ),
+          );
+          /*end style*/
+
+            /*export*/
+              /* instanciar phpExcel!*/
+              
+              $objPHPExcel = new PHPExcel();
+
+              /*configure*/
+              $objPHPExcel->getProperties()->setCreator("Gerencia Modernizacion")
+                 ->setSubject("Pagos a Proveedores");
+
+              $objPHPExcel->getDefaultStyle()->getFont()->setName('Bookman Old Style');
+              $objPHPExcel->getDefaultStyle()->getFont()->setSize(8);
+              /*end configure*/
+
+              /*head*/
+              $objPHPExcel->setActiveSheetIndex(0)
+                          ->setCellValue('A3', 'N°')
+                          ->setCellValue('B3', 'FECHA INICIO')
+                          ->setCellValue('C3', 'TRAMITE')
+                          ->setCellValue('D3', 'NOMBRE ADMINISTRADOR')
+                          ->setCellValue('E3', 'SUMILLA')
+                          ->setCellValue('F3', 'TRAMITE')
+                          ->setCellValue('G3', 'TIPO SOL')
+                          ->setCellValue('H3', 'NOMBRE ADMINISTRADOR')
+                          ->setCellValue('I3', 'ASUNTO')
+                          ->setCellValue('J3', 'ESTADO')
+                          ->setCellValue('K3', 'PASO A LA FECHA')
+                          ->setCellValue('L3', 'FECHA INICIO')
+                          ->setCellValue('M3', 'TOTAL DE PASOS')
+                    ->mergeCells('A1:M1')
+                    ->setCellValue('A1', 'LISTADO DETALLES DE PAGOS')
+                    ->getStyle('A1:M1')->getFont()->setSize(18);
+
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('C')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('D')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('E')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('G')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('H')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('I')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('J')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('K')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('L')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('M')->setAutoSize(true);
+              /*end head*/
+              /*body*/
+              if($result){
+                $ini = 4;
+                foreach ($result as $key => $value) {
+                    //3.00 (Sub. Gerencia de Logística)|2017-08-25 15:51:53
+                    $arr_campo = explode(",", $value->ult_paso);
+                    $arr_campo_add = explode("|", @$arr_campo[0]);
+
+                    $objPHPExcel->setActiveSheetIndex(0)
+                                ->setCellValue('A' . $ini, $key + 1)
+                                ->setCellValue('B' . $ini, $value->fecha_inicio_referido)
+                                ->setCellValue('C' . $ini, $value->tramite_referido)
+                                ->setCellValue('D' . $ini, $value->persona_referido)
+                                ->setCellValue('E' . $ini, $value->sumilla_referido)
+                                ->setCellValue('F' . $ini, $value->tramite)
+                                ->setCellValue('G' . $ini, $value->tipo_persona)
+                                ->setCellValue('H' . $ini, $value->persona)
+                                ->setCellValue('I' . $ini, $value->sumilla)
+                                ->setCellValue('J' . $ini, $value->estado)
+                                ->setCellValue('K' . $ini, @$arr_campo_add[0])
+                                ->setCellValue('L' . $ini, @$arr_campo_add[1])
+                                ->setCellValue('M' . $ini, $value->total_pasos)
+                                ;
+                    $ini++;
+                }
+                
+              }
+              /*end body*/
+              $objPHPExcel->getActiveSheet()->getStyle('A3:M3')->applyFromArray($styleThinBlackBorderAllborders);
+              $objPHPExcel->getActiveSheet()->getStyle('A1:M1')->applyFromArray($styleAlignment);
+              // Rename worksheet
+              $objPHPExcel->getActiveSheet()->setTitle('Proveedores');
+              // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+              $objPHPExcel->setActiveSheetIndex(0);
+              // Redirect output to a client’s web browser (Excel5)
+              header('Content-Type: application/vnd.ms-excel');
+              header('Content-Disposition: attachment;filename="reportetp.xls"'); // file name of excel
+              header('Cache-Control: max-age=0');
+              // If you're serving to IE 9, then the following may be needed
+              header('Cache-Control: max-age=1');
+              // If you're serving to IE over SSL, then the following may be needed
+              header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+              header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+              header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+              header ('Pragma: public'); // HTTP/1.0
+              $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+              $objWriter->save('php://output');
+              exit;
+            /* end export*/
+    }
+    // --
+
+    // Reporte de Tramite Actividades
+    public function postReportetramiteactividad()
+    {
+      $array=array();
+      $array['fecha']='';$array['ruta_flujo_id']='';$array['tramite']='';
+      
+      if( Input::has('ruta_flujo_id') AND Input::get('ruta_flujo_id')!='' ){
+        $array['ruta_flujo_id'].=" AND r.ruta_flujo_id='".Input::get('ruta_flujo_id')."' ";
+      }
+      if( Input::has('fechames') AND Input::get('fechames')!=''){
+        $array['fecha'].=" AND DATE_FORMAT(r.fecha_inicio,'%Y-%m') = '".Input::get('fechames')."'";
+      }
+      if( Input::has('tramite') AND Input::get('tramite')==2){
+        $array['tramite'].=" AND (rd.dtiempo_final is null AND rd.fecha_inicio is not null) ";
+      }
+      if( Input::has('tramite') AND Input::get('tramite')==3){
+        $array['tramite'].=" AND ISNULL(rd.dtiempo_final) ";
+      }
+
+
+      $data = Reporte::VerNroPasosTramite($array);
+      $cant_pasos = $data[0]->cant;
+
+      $oData = Reporte::ReporteTramiteActividad( $array, $cant_pasos );
+
+      return Response::json(
+          array(
+              'rst'=>1,
+              'datos'=>$oData['data'],
+              'cabecera'=>$oData['cabecera']
+          )
+      );
+    }
+    // --
+
+    public function postCargaractividad()
    {
         $oData=Persona::CargarActividad();
         return Response::json(
@@ -314,7 +508,7 @@ class ReporteController extends BaseController
             
             if( Input::has("solo_area") ){
                 $usu_id=Auth::user()->id;
-                $array['where'].="and dd.area_id IN (
+                $array['where'].=" and dd.area_id IN (
                                         SELECT DISTINCT(a.id)
                                         FROM area_cargo_persona acp
                                         INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
@@ -345,6 +539,8 @@ class ReporteController extends BaseController
           'ASUNTO',
           'FECHA CREACIÓN',
           'PLANTILLA',
+          'PROCESO',
+          'ASIGNACIÓN',
         );
         $this->exportExcel($propiedades,'',$cabecera,$rst);
     }
@@ -2843,7 +3039,9 @@ class ReporteController extends BaseController
       
     foreach($data as $key => $value){
         $cont = 0;
-
+        $auxi1=0;
+        $value_aux=json_decode(json_encode($value), true);
+        
         if($key == 0){ // set style to header
           end($value);       
           $objPHPExcel->getActiveSheet()->getStyle('A1:'.$head[key($value)-1].'1')->applyFromArray($styleThinBlackBorderAllborders);
@@ -2860,6 +3058,14 @@ class ReporteController extends BaseController
                   $objPHPExcel->setActiveSheetIndex(0)->setCellValue($head[$cont].($key + 1), $val); 
                   $cont--;
                }
+              else if ( $index == 'ft' or $index == 'areas' or $index == 'alertas' or $index == 'pt' or $index == 'p1' or $index == 'p2' or $index == 'p3' or $index == 'p4' or $index == 'p5' or $index == 'p6' or $index == 'p7' or $index == 'p8' or
+                $index == 'p9' or $index == 'p10' or $index == 'p11' or $index == 'p12' or $index == 'p13' or $index == 'p14' or $index == 'p15' or $index == 'p16' or
+                $index == 'p17' or $index == 'p18' or $index == 'p19' or $index == 'p20' or $index == 'p21' or $index == 'p22' or $index == 'p23' or $index == 'p24' or
+                $index == 'p25' or $index == 'p26' or $index == 'p27' or $index == 'p28' or $index == 'p29' or $index == 'p30' or $index == 'p31' or $index == 'p32')
+              { 
+              $cont--;
+              $auxi1=$value_aux[$index];
+              }
                else {
                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($head[$cont].($key + 1), $val);}
           }

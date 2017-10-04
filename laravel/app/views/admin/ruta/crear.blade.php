@@ -14,6 +14,7 @@
     @include( 'admin.reporte.js.cump_area_ajax' )
     @include( 'admin.ruta.js.ruta_ajax' )
     @include( 'admin.ruta.js.crear' )
+    @include( 'admin.ruta.js.proceso' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -281,4 +282,5 @@
 
 @section('formulario')
      @include( 'admin.ruta.form.ruta' )
+     @include( 'admin.ruta.form.proceso' )
 @stop

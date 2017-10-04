@@ -6,6 +6,73 @@ class Ruta extends Eloquent
     /**
      * Areas relationship
      */
+    
+        public static function getCorrelativoAct($persona_id)
+    {
+        $result=DB::table('actividad_personal as ap')
+                ->select(DB::raw('count(ap.id) as cant'))
+                ->where('ap.persona_id','=',$persona_id)
+                ->where('ap.estado','=',1)
+                ->where('ap.area_id','=',Auth::user()->area_id)
+                ->where(DB::raw('DATE(ap.created_at)'),'=',date('Y-m-d'))
+                ->get();
+        return $result[0]->cant;
+    }
+    
+    public function crearRutaMicro(){
+        DB::beginTransaction();
+                            
+                            $rd= RutaDetalle::find(Input::get('ruta_detalle_id'));
+                            
+                            $rf= RutaFlujo::find($rd->ruta_flujo_id);
+                            
+                            $rutaflujodetalle = DB::table('rutas_flujo_detalle')
+                                    ->where('ruta_flujo_id', '=', $rf->id)
+                                    ->where('estado', '=', '1')
+                                    ->orderBy('norden', 'ASC')
+                                    ->get();
+                            foreach ($rutaflujodetalle as $rfd) {
+                               // var_dump(round($rd->norden).'.'.$rfd->norden);exit();
+                                $rutaDetalle = new RutaDetalle;
+                                $rutaDetalle['ruta_id'] = $rd->ruta_id;
+                                $rutaDetalle['area_id'] = $rfd->area_id;
+                                $rutaDetalle['tiempo_id'] = $rfd->tiempo_id;
+                                $rutaDetalle['dtiempo'] = $rfd->dtiempo;
+                                $rutaDetalle['ruta_flujo_id']=$rd->ruta_flujo_id2;
+                                $rutaDetalle['norden'] = round($rd->norden)+($rfd->norden*0.01);
+                                $rutaDetalle['estado_ruta'] = $rfd->estado_ruta;
+
+                                $rutaDetalle['usuario_created_at'] = Auth::user()->id;
+                                $rutaDetalle->save();
+
+                                $qrutaDetalleVerbo = DB::table('rutas_flujo_detalle_verbo')
+                                        ->where('ruta_flujo_detalle_id', '=', $rfd->id)
+                                        ->where('estado', '=', '1')
+                                        ->orderBy('orden', 'ASC')
+                                        ->get();
+                                
+                                if (count($qrutaDetalleVerbo) > 0) {
+                                    foreach ($qrutaDetalleVerbo as $rdv) {
+                                        $rutaDetalleVerbo = new RutaDetalleVerbo;
+                                        $rutaDetalleVerbo['ruta_detalle_id'] = $rutaDetalle->id;
+                                        $rutaDetalleVerbo['nombre'] = $rdv->nombre;
+                                        $rutaDetalleVerbo['condicion'] = $rdv->condicion;
+                                        $rutaDetalleVerbo['rol_id'] = $rdv->rol_id;
+                                        $rutaDetalleVerbo['verbo_id'] = $rdv->verbo_id;
+                                        $rutaDetalleVerbo['documento_id'] = $rdv->documento_id;
+                                        $rutaDetalleVerbo['orden'] = $rdv->orden;
+                                        $rutaDetalleVerbo['usuario_created_at'] = Auth::user()->id;
+                                        $rutaDetalleVerbo->save();
+                                    }
+                                }
+                            }   
+            DB::commit();
+            return  array(
+                    'rst'=>1,
+                    'msj'=>'Registro realizado con éxito'
+            );
+    }
+    
     public function crearRuta(){
         DB::beginTransaction();
         $codigounico="";
@@ -182,6 +249,7 @@ class Ruta extends Eloquent
                 $rutaDetalle['tiempo_id']=$rd->tiempo_id;
                 $rutaDetalle['dtiempo']=$rd->dtiempo;
                 $rutaDetalle['norden']=$rd->norden;
+                $rutaDetalle['ruta_flujo_id']=$rd->ruta_flujo_id2;
                 $rutaDetalle['estado_ruta']=$rd->estado_ruta;
                 if($rd->norden==1 or ($rd->norden>1 and $validaactivar==0 and $rd->estado_ruta==2) ){
                     $rutaDetalle['fecha_inicio']=$fecha_inicio;

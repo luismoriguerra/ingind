@@ -67,7 +67,12 @@ class DocumentoDigital extends Base {
                             )
                    	
                    	->where( 
-                        function($query){                          
+                        function($query){
+                            $r=new DocumentoDigital;
+                            $restriccion= $r->getVerificarRestriccion();
+                            if($restriccion){
+                                $query->where('dd.usuario_created_at','=',Auth::user()->id);
+                            }
                             if(Input::get('activo')){
                                 $query->where('dd.estado','=','1');
                             } else {
@@ -113,6 +118,13 @@ class DocumentoDigital extends Base {
         } 
     }
     
+    public static function getVerificarRestriccion(){
+        $result=DB::table('doc_restriccion as dr')
+                            ->where('dr.estado', '=', 1)
+                             ->where('dr.persona_id', '=', Auth::user()->id)
+                            ->first();
+        return $result;
+    }
         public static function getCargarCount( $array )
     {           
         $sSql=' select COUNT(dd.id) cant
@@ -122,6 +134,11 @@ class DocumentoDigital extends Base {
                 left join `personas` as `p1` on `p1`.`id` = `dd`.`usuario_updated_at` 
                 WHERE `dd`.`estado`= 1 ';
         $sSql.= $array['where'];
+        $r=new DocumentoDigital;
+        $restriccion= $r->getVerificarRestriccion();
+        if($restriccion){
+        $sSql.=" AND dd.usuario_created_at=".Auth::user()->id;
+        }
         $oData = DB::select($sSql);
         return $oData[0]->cant;
     }
@@ -144,8 +161,13 @@ class DocumentoDigital extends Base {
                 left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
                 left join `personas` as `p1` on `p1`.`id` = `dd`.`usuario_updated_at` 
                 WHERE `dd`.`estado`= 1 ';
-        $sSql.= $array['where'].
-                $array['order'].
+        $sSql.= $array['where'];
+        $r=new DocumentoDigital;
+        $restriccion= $r->getVerificarRestriccion();
+        if($restriccion){
+        $sSql.=" AND dd.usuario_created_at=".Auth::user()->id;
+        }
+        $sSql.=$array['order'].
                 $array['limit'];
         $oData = DB::select($sSql);
         return $oData;
@@ -154,13 +176,32 @@ class DocumentoDigital extends Base {
     {  
         $sSql=' select 1 as norden,CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona_c,CONCAT_WS(" ",p1.paterno,p1.materno,p1.nombre) as persona_u
                     , `dd`.`titulo`
-                    , `dd`.`asunto`,DATE(dd.created_at)as created_at, `pd`.`descripcion` as `plantilla`
+                    , `dd`.`asunto`,DATE(dd.created_at)as created_at, `pd`.`descripcion` as `plantilla`,
+                     @proceso:=(SELECT CONCAT(IFNULL((SELECT GROUP_CONCAT(DISTINCT f.nombre) 
+                    FROM rutas r 
+                    INNER JOIN rutas_detalle as rd on r.id=rd.ruta_id and rd.estado=1 and rd.condicion=0 
+                    INNER JOIN rutas_detalle_verbo as rdv on rdv.ruta_detalle_id=rd.id and rdv.estado=1 
+                    INNER JOIN flujos f ON f.id=r.flujo_id 
+                    where r.estado=1 AND dd.id=rdv.doc_digital_id ),"-")," | ",
+                    IFNULL((SELECT GROUP_CONCAT(DISTINCT f.nombre) 
+                    FROM rutas r INNER JOIN flujos f ON r.flujo_id=f.id 
+                    where r.estado=1 AND dd.id=r.doc_digital_id 
+                    GROUP BY dd.id),"-")) ) as proceso,
+                    CASE @proceso
+                        WHEN "- | -" THEN "PENDIENTE"
+                        ELSE "ASIGNADO"
+                    END as asignacion
                 from `doc_digital` as `dd` 
                 inner join `plantilla_doc` as `pd` on `dd`.`plantilla_doc_id` = `pd`.`id` 
                 left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
                 left join `personas` as `p1` on `p1`.`id` = `dd`.`usuario_updated_at` 
                 WHERE `dd`.`estado`= 1 ';
         $sSql.= $array['where'];
+        $r=new DocumentoDigital;
+        $restriccion= $r->getVerificarRestriccion();
+        if($restriccion){
+        $sSql.=" AND dd.usuario_created_at=".Auth::user()->id;
+        }
         $oData = DB::select($sSql);
         return $oData;
     }
@@ -237,8 +278,7 @@ class DocumentoDigital extends Base {
                 AND pd.tipo_documento_id=".Input::get('tipo_doc')." 
                 AND pd.area_id= ".Input::get('area_id').
                 " WHERE dd.estado=1 
-                AND YEAR(dd.created_at)=YEAR(CURDATE())
-                ORDER BY dd.correlativo DESC LIMIT 1";
+                AND YEAR(dd.created_at)=YEAR(CURDATE())";
     	$r= DB::select($sql);
         return (isset($r[0])) ? $r[0] : $r2[0];}
         
@@ -247,10 +287,9 @@ class DocumentoDigital extends Base {
         $r2=array(array('correlativo'=>'000001','ano'=>$año));
     	/*$sql = "SELECT LPAD(id+1,6,'0') as correlativo,'$año' ano FROM doc_digital ORDER BY id DESC LIMIT 1";*/
         $sql = "SELECT IFNULL(LPAD(MAX(dd.correlativo)+1,6,'0'),LPAD(1,6,'0')) as correlativo from doc_digital dd 
-                INNER JOIN plantilla_doc pd on dd.plantilla_doc_id=pd.id and pd.tipo_documento_id=".Input::get('tipo_doc')." and dd.persona_id= ".Auth::user()->id.
+                INNER JOIN plantilla_doc pd on dd.plantilla_doc_id=pd.id and pd.area_id=".Input::get('area_id')." and pd.tipo_documento_id=".Input::get('tipo_doc')." and dd.persona_id= ".Auth::user()->id.
                 " WHERE dd.estado=1 
-                AND YEAR(dd.created_at)=YEAR(CURDATE())
-                ORDER BY dd.correlativo DESC LIMIT 1";
+                AND YEAR(dd.created_at)=YEAR(CURDATE())";
     	$r= DB::select($sql);
         return (isset($r[0])) ? $r[0] : $r2[0];}
         
@@ -260,8 +299,7 @@ class DocumentoDigital extends Base {
     	/*$sql = "SELECT LPAD(id+1,6,'0') as correlativo,'$año' ano FROM doc_digital ORDER BY id DESC LIMIT 1";*/
         $sql = "SELECT IFNULL(LPAD(MAX(dd.correlativo)+1,6,'0'),LPAD(1,6,'0')) as correlativo from doc_digital dd 
                 INNER JOIN plantilla_doc pd on dd.plantilla_doc_id=pd.id and pd.tipo_documento_id=".Input::get('tipo_doc')." WHERE dd.estado=1 
-                AND YEAR(dd.created_at)=YEAR(CURDATE())
-                ORDER BY dd.correlativo DESC LIMIT 1";
+                AND YEAR(dd.created_at)=YEAR(CURDATE())";
     	$r= DB::select($sql);
         return (isset($r[0])) ? $r[0] : $r2[0];}
     }

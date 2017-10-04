@@ -143,6 +143,12 @@ class PersonaController extends BaseController
                 }
             }
             
+            if( Input::has("modalidad") ){
+                $modalidad=Input::get("modalidad");
+                if( trim( $modalidad )!='' ){
+                    $array['where'].=" AND p.modalidad='".$modalidad."' ";
+                }
+            }
 
             if( Input::has("estado") ){
                 $estado=Input::get("estado");
@@ -293,6 +299,7 @@ class PersonaController extends BaseController
             $persona['responsable_dert']=1;}
             $persona['area_id'] = Input::get('area');
             $persona['rol_id'] = Input::get('rol');
+            $persona['modalidad'] = Input::get('modalidad');
             $persona['estado'] = Input::get('estado');
             $persona['usuario_created_at'] = Auth::user()->id;
             $persona['verified'] = true;
@@ -455,6 +462,7 @@ class PersonaController extends BaseController
             if (Input::has('fecha_nacimiento'))
                 $persona['fecha_nacimiento'] = Input::get('fecha_nacimiento');
 
+            $persona['modalidad'] = Input::get('modalidad');
             $persona['estado'] = Input::get('estado');
             $persona['usuario_updated_at'] = Auth::user()->id;
             $persona->save();

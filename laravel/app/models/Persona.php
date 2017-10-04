@@ -32,7 +32,8 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         'fecha_nacimiento',
         'imagen',
         'imagen_dni',
-        'sexo'
+        'sexo',
+        'modalidad'
     ];
     public $hidden = ['password', 'remember_token'];
     public static $rules = [
@@ -162,11 +163,11 @@ class Persona extends Base implements UserInterface, RemindableInterface {
 
     public static $where = [
         'id', 'paterno', 'materno', 'nombre', 'dni', 'sexo', 'area_id', 'rol_id',
-        'estado', 'envio_actividad', 'email', 'fecha_nacimiento', 'password',
+        'estado', 'envio_actividad', 'modalidad', 'email', 'fecha_nacimiento', 'password',
     ];
     public static $selec = [
         'id', 'paterno', 'materno', 'nombre', 'dni', 'sexo', 'area_id', 'rol_id',
-        'estado', 'envio_actividad', 'email', 'fecha_nacimiento', 'password'
+        'estado', 'envio_actividad', 'email', 'fecha_nacimiento', 'password', 'modalidad'
     ];
 
     public static function getCargar($array) {
@@ -178,7 +179,13 @@ class Persona extends Base implements UserInterface, RemindableInterface {
                                 CASE p.sexo
                                 WHEN 'M' THEN 'Masculino'
                                 WHEN 'F' THEN 'Femenino'
-                                END sexo
+                                END sexo,
+
+                                p.modalidad modalidad_id,
+                                CASE p.modalidad
+                                WHEN 1 THEN 'Trabajador'
+                                WHEN 2 THEN 'Tercero'
+                                END modalidad
                 FROM personas p
                 LEFT JOIN roles r ON r.id=p.rol_id 
                 LEFT JOIN areas a ON a.id=p.area_id 
@@ -325,6 +332,10 @@ class Persona extends Base implements UserInterface, RemindableInterface {
                 WHEN 'F' THEN 'Femenino'
                 WHEN 'M' THEN 'Masculino'
                 END sexo,
+                CASE p.modalidad
+                WHEN 1 THEN 'Trabajador'
+                WHEN 2 THEN 'Tercero'
+                END modalidad,
                 CASE p.estado
                 WHEN 1 THEN 'Activo'
                 WHEN 0 THEN 'Inactivo'

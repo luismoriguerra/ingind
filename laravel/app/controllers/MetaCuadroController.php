@@ -610,6 +610,7 @@ class MetaCuadroController extends \BaseController {
             $md= MetaDocdigital::find(Input::get('id'));
         }
         $md->valida=Input::get('valida');
+        $md->usuario_updated_at=Auth::user()->id;
         $md->save();
         return Response::json(
             array(

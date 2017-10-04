@@ -150,11 +150,14 @@ var Asignar={
                 var area = $(this).find('.select_area').val();
                 var tiempo = $(this).find('.txt_dias').val();
 
+                /*
                 if($(this).find('.chk_copias').iCheck('update')[0].checked == true){
                     var copia = 1
                 }else{
                     var copia = 0
                 }
+                */
+                var copia = 0;
                 areasSingular.push({'area_id':area,'tiempo':tiempo,'copia':copia});
             });
 /*

@@ -217,10 +217,12 @@
                         '<tr>' +
                         '<td style="text-align:center">'+ $.trim(data['r' + i]) +'</td>' +
                         '<td style="text-align:center;border-left: 1px solid #999999;">'+ $.trim(data['p' + i]) +'</td>' +
+                        '<td style="text-align:center"></td>' +
                         '</tr>' +
                         '<tr>' +
                         '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',1)" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
                         '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',2)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
+                        '<td><a onclick="ExportarRTP(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',1)" id="ertp_'+data.ruta_flujo_id+'" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-download-alt"></i> </a></td>' +
                         '</tr>' +
                         '</table>'+
                         '</td>';
@@ -763,6 +765,65 @@
         });
 
     };
+
+    // Reporte de Tramite Actividades
+    HTMLCargaTramiteActividad = function (datos,cabecera) {
+        var html_cabecera = '';
+        var html = '';
+        var n = 1;
+
+        $('#t_tramite_actividad').dataTable().fnDestroy();
+
+        html_cabecera = "<tr class='info'>" +
+                        "<th> Tramite </th>";    
+                        $.each(cabecera, function (index, cabecera) {
+                            html_cabecera += "<th >Actividad "+n+"</th>";
+                            n++;
+                        });
+        html_cabecera += "</tr>";
+
+        
+        $.each(datos, function (index, data) {
+            html += "<tr>";
+                html += "<td>" + data.id_union + "</td>";
+                var i;
+                for (i = 1; i <= (n-1); i++)
+                {
+                    if(data['act' + i])
+                    {
+                        var res = data['act' + i].split("|");
+                        if(res[1]!='')
+                            if(res[1]=='V')
+                                var style_class = 'success';
+                            else if(res[1]=='N')
+                                var style_class = 'warning';
+                            else if(res[1]=='R')
+                                var style_class = 'danger';
+                            else
+                                var style_class = '';
+                        else
+                            var style_class = '';
+                        
+                        html += "<td class='"+style_class+"'>" + res[0] + res[2] + "</td>";
+                    }
+                    else
+                        html += "<td class=''>&nbsp;</td>";   
+                }
+            html += "</tr>";
+        });        
+
+        $("#form_tactividad #tt_tramite_actividad").html(html_cabecera);
+        $("#form_tactividad #tb_tramite_actividad").html(html);
+
+        $("#t_tramite_actividad").dataTable(
+            {
+                "pageLength": 10,
+            }
+        );
+    };
+    // -
+
+
     HTMLCargaTramites = function (datos) {
         var html = '';
         var alerta_tipo = '';
@@ -774,18 +835,18 @@
         $.each(datos, function (index, data) {
         var style='';
 
-        if(data.fecha_valida>='<?php echo date('Y-m-d H:m:s'); ?>' ){
-           style='background-color:#99ff99;';   //verde
-        }
-        else if(data.fecha_valida<'<?php echo date('Y-m-d H:m:s'); ?>'){
-           style='background-color:#ff9999;';   //rojo
-        }
         if(data.estado=='Concluido'){
           style='background-color:#D1E1FF;'; //azul
         }
-        if(data.estado=='Trunco'){
+        else if(data.fecha_valida>='<?php echo date('Y-m-d H:m:s'); ?>' ){
+           style='background-color:#99ff99;';   //verde
+        }
+        else if(data.fecha_valida<'<?php echo date('Y-m-d H:m:s'); ?>' || data.estado=='Trunco'){
            style='background-color:#ff9999;';   //rojo
         }
+//        else(data.estado=='Trunco'){
+//           style='background-color:#ff9999;';   //rojo
+//        }
 //        btnruta='<a onclick="cargarRutaId('+data.ruta_flujo_id+',2,'+data.id+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
             html += "<tr  style='"+style+"' >" +
                     "<td>" + data.fecha_inicio_referido + "</td>" +
@@ -836,11 +897,25 @@
         } else {
             dataG = {ruta_flujo_id: id, fechames: fechames, tramite: tramite};
         }
+        Proceso.MostrarTramiteActividad(id, fechames, tramite);
+        $("#form_tactividad").css("display", "");
+
         Proceso.MostrarTramites(dataG);
         $("#form_tramite").css("display", "");
         $("#form_tramite_detalle").css("display", "none");
         $("#form_detallecuadro").css("display", "none");
         $("#form_ruta_flujo").css("display", "none");
+    };
+
+    ExportarRTP = function (id, fechames,tramite) {
+        var fecha_ini = $('#fecha_ini').val();
+        var fecha_fin = $('#fecha_fin').val();
+        //var dataG = [];
+        if (fechames == null) {
+            $("#ertp_"+id).attr('href','reporte/exportreportetramite'+'?ruta_flujo_id='+id+'&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+'&tramite='+tramite);
+        } else {
+            $("#ertp_"+id).attr('href','reporte/exportreportetramite'+'?ruta_flujo_id='+id+'&fechames='+fechames+'&tramite='+tramite);
+        }
     };
 
     cargardetalle = function (id,boton) {

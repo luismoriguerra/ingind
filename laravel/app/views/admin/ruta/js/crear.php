@@ -1,7 +1,8 @@
 <script type="text/javascript">
-var cabeceraG=[]; // Cabecera del Datatable
-var columnDefsG=[]; // Columnas de la BD del datatable
-var targetsG=-1; // Posiciones de las columnas del datatable
+var posicionColumnaG="";
+var cabeceraG1=[]; // Cabecera del Datatable
+var columnDefsG1=[]; // Columnas de la BD del datatable
+var targetsG1=-1; // Posiciones de las columnas del datatable
 temporalBandeja=0;
 BandejaTramite=1;
 var areasG=[]; // texto area
@@ -53,13 +54,13 @@ $(document).ready(function() {
                 id: '1|[]|#DCE6F1',
              };
     var resG=dataTableG.CargarCab(idG);
-    cabeceraG=resG; // registra la cabecera
-    var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,1,'crear','t_crear');
-    columnDefsG=resG[0]; // registra las columnas del datatable
-    targetsG=resG[1]; // registra los contadores
-    //var resG=dataTableG.CargarBtn(columnDefsG,targetsG,1,'BtnEditar','t_rutaflujo','fa-edit');
-    //columnDefsG=resG[0]; // registra la colunmna adiciona con boton
-   // targetsG=resG[1]; // registra el contador actualizado
+    cabeceraG1=resG; // registra la cabecera
+    var resG=dataTableG.CargarCol(cabeceraG1,columnDefsG1,targetsG1,1,'crear','t_crear');
+    columnDefsG1=resG[0]; // registra las columnas del datatable
+    targetsG1=resG[1]; // registra los contadores
+    //var resG=dataTableG.CargarBtn(columnDefsG1,targetsG1,1,'BtnEditar','t_rutaflujo','fa-edit');
+    //columnDefsG1=resG[0]; // registra la colunmna adiciona con boton
+   // targetsG1=resG[1]; // registra el contador actualizado
     MostrarAjax('crear');
     var ids=[];
     var data = {estado:1};
@@ -248,9 +249,17 @@ $(document).ready(function() {
 });
 MostrarAjax=function(t){
     if( t=="crear" ){
-        if( columnDefsG.length>0 ){
+        if( columnDefsG1.length>0 ){
            // alert("as");
-            dataTableG.CargarDatos(t,'ruta_flujo','cargar',columnDefsG);
+            dataTableG.CargarDatos(t,'ruta_flujo','cargar',columnDefsG1);
+        }
+        else{
+            alert('Faltas datos');
+        }
+    }
+    if( t=="proceso" ){
+        if( columnDefsG.length>0 ){
+            dataTableG.CargarDatos(t,'flujo','listarproceso',columnDefsG);
         }
         else{
             alert('Faltas datos');
@@ -260,6 +269,12 @@ MostrarAjax=function(t){
 
 
 GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
+    if(typeof(fn)!='undefined' && fn.col==1){
+        var estadohtml='';
+        estadohtml='<span id="'+row.id+'" onClick="CargarMicroProceso(\''+row.ruta_flujo_id+'\',\''+row.nombre+'\')" class="btn btn-success"><i class="fa fa-lg fa-check"></i></span>';
+//        estadohtml='<a class="form-control btn-success" onClick="CargarProceso('+row.nombre+')"<i class="fa fa-lg fa-check"></i></a>';
+        return estadohtml;
+    }
     if(typeof(fn)!='undefined' && fn.col==3){
         var estadohtml='';
         estadohtml="<a onclick='ProduccionRutaFlujo("+row.id+")' class='btn btn-success'>"+row.estado+"</a>";       
@@ -365,6 +380,8 @@ guardarTiempo=function(){
         detalle=tiempoG[tid][i].split("_");
         detalle[1]=$("#slct_tipo_tiempo_"+detalle[0]+"_modal").val();
         detalle[2]=$("#txt_tiempo_"+detalle[0]+"_modal").val();
+        detalle[3]=$("#txt_micro_"+detalle[0]+"_modal").val();
+        detalle[4]=$("#txt_ruta_flujo_id2_"+detalle[0]+"_modal").val();
 
         //alert("guardando: "+ detalle.join("_") +" tt=> "+$("#slct_tipo_tiempo_"+detalle[0]+"_modal").val()+"; t=> "+$("#txt_tiempo_"+detalle[0]+"_modal").val());
         if ( modificaG.indexOf(detalle[0])<0 && tiempoG[tid][i]!=detalle.join("_") ){
@@ -548,6 +565,15 @@ pintarTiempoG=function(tid){
                     '<td>'+
                         '<input class="form-control" type="number" id="txt_tiempo_'+detalle[0]+'_modal" value="'+detalle[2]+'" '+bloqueado+'>'+
                     '</td>'+
+                    '<td>'+
+                        '<input class="form-control" type="hidden" id="txt_ruta_flujo_id2_'+detalle[0]+'_modal" name="txt_ruta_flujo_id_modal" value="'+detalle[4]+'" readOnly>'+
+                        '<input class="form-control" type="text" id="txt_micro_'+detalle[0]+'_modal" name="txt_micro_modal" value="'+detalle[3]+'" disabled>'+
+                    '</td>'+
+                     '<td>'+
+                        '<span class="btn btn-primary" data-toggle="modal" data-target="#procesoModal" data-texto="txt_proceso" data-id="txt_flujo_id"  id="btn_buscar" onClick="Posicion(this)">'+
+                                    '<i class="fa fa-search fa-lg"></i>'+
+                                '</span>'+
+                    '</td>'+
                 '</tr>';
         $("#tb_tiempo").append(htm);
 
@@ -661,6 +687,15 @@ pintarTiempoGAuxi=function(tid){
                     '</td>'+
                     '<td>'+
                         '<input class="form-control" type="number" id="txt_tiempo_'+detalle[0]+'_modal" value="'+detalle[2]+'" '+bloqueado+'>'+
+                    '</td>'+
+                    '<td>'+
+                        '<input class="form-control" type="hidden" id="txt_ruta_flujo_id2_'+detalle[0]+'_modal" name="txt_ruta_flujo_id_modal" value="'+detalle[4]+'" readOnly>'+
+                        '<input class="form-control" type="text" id="txt_micro_'+detalle[0]+'_modal" name="txt_micro_modal" value="'+detalle[3]+'" disabled>'+
+                    '</td>'+
+                     '<td>'+
+                        '<span class="btn btn-primary" data-toggle="modal" data-target="#procesoModal" data-texto="txt_proceso" data-id="txt_flujo_id" id="btn_buscar" onClick="Posicion(this)">'+
+                                    '<i class="fa fa-search fa-lg"></i>'+
+                                '</span>'+
                     '</td>'+
                 '</tr>';
         $("#tb_tiempo").append(htm);
@@ -1382,7 +1417,7 @@ validandoconteo=0;
             $("#txt_persona").val(data.persona);
             //$("#slct_tipo_ruta").val(data.tipo_ruta);
         }
-        adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta);
+        adicionarRutaDetalleAutomatico(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta,data.flujo2,data.ruta_flujo_id2);
     });
     permisoG=permiso;
     pintarAreasG(permiso);
@@ -1407,13 +1442,13 @@ posicionDetalleVerboGAuxi=0;
 validandoconteo=0;
     $.each(datos,function(index,data){
         validandoconteo++;
-        adicionarRutaDetalleAutomaticoAuxi(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta);
+        adicionarRutaDetalleAutomaticoAuxi(data.area2,data.area_id2,data.tiempo_id+"_"+data.dtiempo,data.verbo,data.imagen,data.imagenc,data.imagenp,data.estado_ruta,data.flujo2,data.ruta_flujo_id2);
     });
     pintarAreasGAuxi(permiso);
     //alertatodo();
 }
 
-adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imagenc,imagenp,estruta){
+adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imagenc,imagenp,estruta,flujo2,ruta_flujo_id2){
     valor=""+valor;
     var adjunta=false; var position=areasGId.indexOf(valor);
     if( position>=0 ){
@@ -1512,7 +1547,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
             tiempoGId.push(valor);
             tiempoG.push([]);
             tid=tiempoG.length-1;
-            tiempoG[tid].push(posicioninicial+"_"+tiempo);
+            tiempoG[tid].push(posicioninicial+"_"+tiempo+"_"+flujo2+"_"+ruta_flujo_id2);
 
             verboG.push([]);
             verboG[tid].push(posicioninicial+"_"+verbo1.join("|")+"_"+verbo2.join("|")+"_"+verbo3.join("|")+"_"+verbo4.join("|")+"_"+verbo5.join("|")+"_"+verbo6.join("|"));
@@ -1526,7 +1561,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
                 posicioninicialf=validapos;
                 if( i>=tiempoG[tid].length ){
                     //alert(tiempo+" | "+verbo+" | "+valor+" | "+posicioninicial+"-"+validapos);
-                    tiempoG[tid].push(validapos+"_"+tiempo);
+                    tiempoG[tid].push(validapos+"_"+tiempo+"_"+flujo2+"_"+ruta_flujo_id2);
 
                     verboG[tid].push(validapos+"_"+verbo1.join("|")+"_"+verbo2.join("|")+"_"+verbo3.join("|")+"_"+verbo4.join("|")+"_"+verbo5.join("|")+"_"+verbo6.join("|"));
                 }
@@ -1544,7 +1579,7 @@ adicionarRutaDetalleAutomatico=function(valorText,valor,tiempo,verbo,imagen,imag
     }
 }
 
-adicionarRutaDetalleAutomaticoAuxi=function(valorText,valor,tiempo,verbo,imagen,imagenc,imagenp,estruta){
+adicionarRutaDetalleAutomaticoAuxi=function(valorText,valor,tiempo,verbo,imagen,imagenc,imagenp,estruta,flujo2,ruta_flujo_id2){
     valor=""+valor;
     var adjunta=false; var position=areasGIdAuxi.indexOf(valor);
     if( position>=0 ){
@@ -1633,7 +1668,7 @@ adicionarRutaDetalleAutomaticoAuxi=function(valorText,valor,tiempo,verbo,imagen,
             tiempoGAuxi.push([]);
             tid=tiempoGAuxi.length-1;
 
-            tiempoGAuxi[tid].push(posicioninicial+"_"+tiempo);
+            tiempoGAuxi[tid].push(posicioninicial+"_"+tiempo+"_"+flujo2+"_"+ruta_flujo_id2);
 
             verboGAuxi.push([]);
             verboGAuxi[tid].push(posicioninicial+"_"+verbo1.join("|")+"_"+verbo2.join("|")+"_"+verbo3.join("|")+"_"+verbo4.join("|")+"_"+verbo5.join("|")+"_"+verbo6.join("|"));
@@ -1646,7 +1681,7 @@ adicionarRutaDetalleAutomaticoAuxi=function(valorText,valor,tiempo,verbo,imagen,
                 posicioninicialf=validapos;
                 if( i>=tiempoGAuxi[tid].length ){
                     //alert(tiempo+" | "+verbo+" | "+valor+" | "+posicioninicial+"-"+validapos);
-                    tiempoGAuxi[tid].push(validapos+"_"+tiempo);
+                    tiempoGAuxi[tid].push(validapos+"_"+tiempo+"_"+flujo2+"_"+ruta_flujo_id2);
 
                     verboGAuxi[tid].push(validapos+"_"+verbo1.join("|")+"_"+verbo2.join("|")+"_"+verbo3.join("|")+"_"+verbo4.join("|")+"_"+verbo5.join("|")+"_"+verbo6.join("|"));
                 }
@@ -1675,5 +1710,14 @@ validaNumeros=function(e) { // 1
         patron = /\d/; // Solo acepta números
         te = String.fromCharCode(tecla); // 5
         return patron.test(te); // 6
+}
+CargarMicroProceso=function(ruta_flujo_id,flujo){
+    $(posicionColumnaG).find("td:eq(3) input[name='txt_micro_modal']").val(flujo);
+    $(posicionColumnaG).find("td:eq(3) input[name='txt_ruta_flujo_id_modal']").val(ruta_flujo_id);
+    $("#procesoModal .modal-footer>button").click();
+}
+Posicion=function(btn){
+     posicionColumnaG="";
+     posicionColumnaG = btn.parentNode.parentNode;
 }
 </script>

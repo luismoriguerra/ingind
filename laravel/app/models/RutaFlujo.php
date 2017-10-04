@@ -526,6 +526,12 @@ class RutaFlujo extends Eloquent
                                     DB::raw(
                                         'IFNULL(rfd.tiempo_id,"") AS tiempo_id,
                                         IFNULL(rfd.dtiempo,"") AS dtiempo,
+                                        IFNULL(rfd.ruta_flujo_id2,"") AS ruta_flujo_id2,
+                                        IFNULL(
+                                        (SELECT f2.nombre
+                                        FROM flujos f2
+                                        INNER JOIN rutas_flujo rf2 ON rf2.flujo_id=f2.id
+                                        WHERE rf2.id=rfd.ruta_flujo_id2),"") AS flujo2,
                                         CONCAT(
                                             p.paterno," ",p.materno," ",p.nombre
                                         ) AS persona,

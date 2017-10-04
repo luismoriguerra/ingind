@@ -19,7 +19,7 @@ $(document).ready(function() {
 
     $('[data-toggle="popover"]').popover(); 
                 slctGlobal.listarSlct('area','areasTodas','multiple',null,{estado:1,areagestionf:1,omitir:1});
-                slctGlobalHtml('select_tipoenvio','simple');
+                //slctGlobalHtml('select_tipoenvio','simple');
     $( "#tabs" ).tabs();
     
     $('.chk').on('ifChanged', function(event){
@@ -748,11 +748,12 @@ cargarTabla = function(){
             html+= "        <input class='form-control' id='nombre_area' name='nombre_area' value='<?php echo Auth::user()->areas->nombre; ?>' readOnly=''>";
             html+="     </td>";
             html+= "    <td>";
-            html+= "        <input class='form-control txt_dias' type='text' name='txt_dias' id='txt_dias' value='1' placeholder='Cantidad dias' readOnly=''/>";
+            //html+= "        <input class='form-control txt_dias' type='text' name='txt_dias' id='txt_dias' value='1' placeholder='Cantidad dias' readOnly=''/>";
+            html+= "        <input class='form-control txt_dias' type='hidden' name='txt_dias' id='txt_dias' value='2' placeholder='Cantidad dias' readOnly=''/>";
             html+="    </td>";
-            html+= "    <td>";
+            /*html+= "    <td>";
             html+= "         <input class='form-control chk_copias' type='checkbox' name='chk_copias' id='chk_copias' value='copias'/>";
-            html+="    </td>";
+            html+="    </td>";*/
             html+= "</tr>";        
             for(var i=0 ; i<cantidad ; i++){
                 html+= "<tr>";
@@ -760,11 +761,12 @@ cargarTabla = function(){
                 html+= "        <select class='form-control select_area' id='select_area"+i+"' name='select_area'></select>";
                 html+="     </td>";
                 html+= "    <td>";
-                html+= "        <input class='form-control txt_dias' type='text' name='txt_dias' id='txt_dias' value='1' placeholder='Cantidad dias' maxlength='2' onkeypress='return validaNumeros(event);'/>";
+                //html+= "        <input class='form-control txt_dias' type='text' name='txt_dias' id='txt_dias' value='1' placeholder='Cantidad dias' maxlength='2' onkeypress='return validaNumeros(event);'/>";
+                html+= "        <input class='form-control txt_dias' type='hidden' name='txt_dias' id='txt_dias' value='2' placeholder='Cantidad dias' maxlength='2' onkeypress='return validaNumeros(event);' readOnly=''/>";
                 html+="    </td>";
-                 html+= "    <td>";
+                /*html+= "    <td>";
                 html+= "        <input class='form-control chk_copias' type='checkbox' name='chk_copias' id='chk_copias' value='copias'/>";
-                html+="    </td>";
+                html+="    </td>";*/
                 html+= "</tr>";
                 slctGlobal.listarSlct('area','select_area'+i+'','simple',null,{estado:1,areagestion:1});
             }
