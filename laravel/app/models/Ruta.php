@@ -39,7 +39,7 @@ class Ruta extends Eloquent
                                 $rutaDetalle['tiempo_id'] = $rfd->tiempo_id;
                                 $rutaDetalle['dtiempo'] = $rfd->dtiempo;
                                 $rutaDetalle['ruta_flujo_id']=$rd->ruta_flujo_id2;
-                                $rutaDetalle['norden'] = round($rd->norden).'.'.$rfd->norden;
+                                $rutaDetalle['norden'] = round($rd->norden)+($rfd->norden*0.01);
                                 $rutaDetalle['estado_ruta'] = $rfd->estado_ruta;
 
                                 $rutaDetalle['usuario_created_at'] = Auth::user()->id;
