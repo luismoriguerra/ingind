@@ -162,7 +162,7 @@ class Reporte extends Eloquent
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
                 INNER JOIN tiempos t ON t.id=rd.tiempo_id 
                 INNER JOIN flujos f ON f.id=r.flujo_id
-                ".$array['referido']." JOIN referidos re ON re.ruta_id=r.id AND re.norden=(rd.norden-1)
+                ".$array['referido']." JOIN referidos re ON re.ruta_id=r.id AND re.norden=(rd.norden-IF(rd.norden-FLOOR(rd.norden)>0,0.01,1))
                 WHERE r.estado=1 
                 AND rd.fecha_inicio!='' ".
                 $array['w'].
@@ -230,7 +230,7 @@ class Reporte extends Eloquent
                     INNER JOIN rutas ru2 ON ru2.id=re2.ruta_id AND ru2.estado=1
                     INNER JOIN rutas_detalle rd2 ON rd2.id=re2.ruta_detalle_id AND rd2.condicion=0 AND rd2.estado=1
                     WHERE re2.estado=1
-                ) re ON re.ruta_id=r.id AND re.norden=(rd.norden-1)
+                ) re ON re.ruta_id=r.id AND re.norden=(rd.norden-IF(rd.norden-FLOOR(rd.norden)>0,0.01,1))
                 WHERE r.estado=1 
                 AND rd.fecha_inicio<=CURRENT_TIMESTAMP()
                 AND rd.fecha_inicio!='' ".
@@ -256,7 +256,7 @@ class Reporte extends Eloquent
                 INNER JOIN flujos f ON f.id=r.flujo_id
                 LEFT JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id
 		LEFT JOIN personas p1 ON p1.id=cd.persona_id
-                ".$array['referido']." JOIN referidos re ON re.ruta_id=r.id AND re.norden=(rd.norden-1)
+                ".$array['referido']." JOIN referidos re ON re.ruta_id=r.id AND re.norden=(rd.norden-IF(rd.norden-FLOOR(rd.norden)>0,0.01,1))
                 WHERE r.estado=1 
                 AND rd.fecha_inicio!='' ".
                 $array['w'].
