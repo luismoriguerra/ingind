@@ -73,11 +73,12 @@
               </form>
           </div>
         -->
+        <!--
           <div class="col-md-2 form-group">
             <label>Cantidad:</label>
               <input type="text" class="form-control mant" id="txt_cantidad" name="txt_cantidad" value="0">
           </div>
-
+        -->
           <!--
           <div class="col-sm-6 validoarchivo" style= "margin-top: 40px;">
             <label>Archivos:</label>
