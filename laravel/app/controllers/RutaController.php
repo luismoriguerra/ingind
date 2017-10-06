@@ -356,7 +356,7 @@ class RutaController extends \BaseController
                                 /************ Registrar Flujo ********* ************/
                                 $flujo=new Flujo;
                                 $flujo->area_id=Auth::user()->area_id;
-                                $flujo->categoria_id=7;
+                                $flujo->categoria_id=17;
                                 $flujo->nombre=$categoria->nombre;
                                 $flujo->tipo_flujo=2;
                                 $flujo->usuario_created_at=Auth::user()->id;
@@ -453,7 +453,10 @@ class RutaController extends \BaseController
                             $ruta['area_id'] = $rutaFlujo->area_id;
                             $ruta['usuario_created_at'] = Auth::user()->id;
                             $ruta->save();
-                          
+                            /****************ruta_id en Actividad***********************/
+                            $acti_personal->ruta_id=$ruta->id;
+                            $acti_personal->save();
+                            /**********************************************/
                             $qrutaDetalle = DB::table('rutas_flujo_detalle')
                                     ->where('ruta_flujo_id', '=', $rutaFlujo->id)
                                     ->where('estado', '=', '1')
