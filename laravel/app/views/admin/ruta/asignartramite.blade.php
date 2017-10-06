@@ -370,7 +370,7 @@
                                                             </label>
                                                         </div>
                                                         -->
-                                                        <input type="hidden" id="txt_tiempo" name="txt_tiempo" value="1">
+                                                        <input class="mant" type="hidden" id="txt_tiempo" name="txt_tiempo" value="1">
                                                     </div>                                                    
                                                     
                                                     <div class="col-sm-6">
@@ -382,7 +382,7 @@
                                                             <option value="2">Sin Retorno</option>
                                                         </select>
                                                         -->
-                                                        <input type="hidden" id="select_tipoenvio" name="select_tipoenvio" value="2">
+                                                        <input class="mant" type="hidden" id="select_tipoenvio" name="select_tipoenvio" value="2">
                                                     </div>
                                                 </div>
 
