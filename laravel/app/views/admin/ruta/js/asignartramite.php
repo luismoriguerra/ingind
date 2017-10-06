@@ -18,7 +18,7 @@ $(document).ready(function() {
     $('[data-toggle="tooltip"]').tooltip(); 
 
     $('[data-toggle="popover"]').popover(); 
-                slctGlobal.listarSlct('area','areasTodas','multiple',null,{estado:1,areagestionf:1,omitir:1});
+                slctGlobal.listarSlct('area','areasTodas','multiple',null,{estado:1,areagestion:1});
                 //slctGlobalHtml('select_tipoenvio','simple');
     $( "#tabs" ).tabs();
     
