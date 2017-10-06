@@ -359,10 +359,11 @@
                                                         -->
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <!-- 
+                                                         
                                                         <div class="Allareas hidden">
                                                             <select id="areasTodas" name="areasTodas" multiple></select>                                                           
                                                         </div>
+                                                        <!--
                                                         <label class="control-label"> Nº de Días:</label>
                                                         <input class="form-control mant" type="text" id="txt_tiempo" name="txt_tiempo" placeholder='Cantidad Dias' value="1" disabled onkeyup="cargarTiempo(this)" onkeypress="return validaNumeros(event);" maxlength="2">                                                                                                             <div class="radio">
                                                             <label>
