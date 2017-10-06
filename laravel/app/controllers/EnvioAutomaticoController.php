@@ -1,3 +1,4 @@
+
 <?php
 
 class EnvioAutomaticoController extends \BaseController {
@@ -8,6 +9,45 @@ class EnvioAutomaticoController extends \BaseController {
      *
      * @return Response
      */
+    
+        public function postVehiculoalertas()
+    {
+      $retorno=array('rst'=>1);
+
+      $url ='http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=moviles';
+      $curl_options = array(
+                    CURLOPT_URL => $url,
+                    CURLOPT_HEADER => 0,
+                    CURLOPT_RETURNTRANSFER => TRUE,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_SSL_VERIFYPEER => 0,
+                    CURLOPT_FOLLOWLOCATION => TRUE,
+                    CURLOPT_ENCODING => 'gzip,deflate',
+            );
+ 
+            $ch = curl_init();
+            curl_setopt_array( $ch, $curl_options );
+            $output = curl_exec( $ch );
+            curl_close($ch);
+
+      $r = json_decode(utf8_encode($output),true);
+      
+      $html="";
+      
+      
+      $n=1;
+      if(isset($r["tipos"]) AND count($r["tipos"])>0){
+         foreach ($r["tipos"] as $rr) {
+        $html.="<option value='".$rr['documentotipo_id']."'>".$rr['documentotipo_descripcion']."</option>";
+      } 
+      }
+      
+      $retorno["data"]=$html;
+
+      return Response::json( $retorno );
+    }
+    
+    
     public function postActividadesdiariasalertasjefe() {
         $array = array();
         $array['usuario'] = Auth::user()->id;
@@ -276,6 +316,7 @@ class EnvioAutomaticoController extends \BaseController {
                     WHERE p.estado=1 
                     AND p.rol_id NOT IN (8,9)
                     AND p.envio_actividad=1
+                    AND IFNULL(p.modalidad,1)!=2
                     AND '$ayer' NOT BETWEEN DATE(IFNULL(p.fecha_ini_exonera,CURDATE()))  AND DATE(IFNULL(p.fecha_fin_exonera,CURDATE()))
                     GROUP BY p.id
                     HAVING val_minu=0";
