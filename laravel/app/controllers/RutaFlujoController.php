@@ -406,6 +406,9 @@ public function postCargar()
                         $rutaFlujoDetalle = new RutaFlujoDetalle;
                         $rutaFlujoDetalle['usuario_created_at']= Auth::user()->id;
                     }
+                    if(trim($estadoG[$i])==null or trim($estadoG[$i])=='' or trim($estadoG[$i])=='0'){
+                        $estadoG[$i]=1;
+                    }
                     $rutaFlujoDetalle['ruta_flujo_id']= $rutaFlujo->id;
                     $rutaFlujoDetalle['area_id']= $areasGid[$i];
                     $rutaFlujoDetalle['estado_ruta']= $estadoG[$i];
