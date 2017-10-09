@@ -10,21 +10,21 @@
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-    @include( 'admin.procesos.js.notificaciones_ajax' )
-    @include( 'admin.procesos.js.notificaciones' )
+    @include( 'admin.procesos.js.notificacionvehiculo_ajax' )
+    @include( 'admin.procesos.js.notificacionvehiculo' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            ENVIO DE NOTIFICACIONES CONTRATACIONES
+            ENVIO DE NOTIFICACIONES VEHICULOS
             <small> </small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
             <li><a href="#">Reporte</a></li>
-            <li class="active">Notificaciones Contrataciones</li>
+            <li class="active">Notificaciones Vehiculos</li>
         </ol>
     </section>
 

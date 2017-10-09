@@ -2,7 +2,7 @@
 var Accion={
     mostrar:function( data ){
         $.ajax({
-            url         : 'envioautomatico/contratacionesalertas',
+            url         : 'envioautomatico/vehiculoalertas',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
