@@ -1,6 +1,76 @@
 <?php
 class RutaController extends \BaseController
 {
+    
+            public function postCrearmicroproceso() {
+        if (Request::ajax()) {
+            $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
+            $required = 'required';
+            $reglas = array(
+                'actividad' => $required . '|' . $regex,
+            );
+
+            $mensaje = array(
+                'required' => ':attribute Es requerido',
+                'regex' => ':attribute Solo debe ser Texto',
+            );
+
+            $validator = Validator::make(Input::all(), $reglas, $mensaje);
+
+//            if ($validator->fails()) {
+//                return Response::json(array('rst' => 2, 'msj' => $validator->messages()));
+//            }
+
+            $id = Input::get('id');
+            $ruta_flujo_id2 = Input::get('ruta_flujo_id2');
+            $norden = Input::get('norden');
+            $ruta_flujo_id=Input::get('ruta_flujo_id');
+
+            DB::table('rutas_flujo_detalle_micro')
+                    ->where('ruta_flujo_id', $ruta_flujo_id)
+                    ->update(array('estado' => 0));
+            
+            for ($i = 0; $i < count($ruta_flujo_id2); $i++) {
+                if ($id[$i] == '') {
+                    $rfdm = new RutaFlujoDetalleMicro;
+                    $rfdm->ruta_flujo_id = $ruta_flujo_id;
+                    $rfdm->norden = $norden[$i];
+                    $rfdm->ruta_flujo_id2 = $ruta_flujo_id2[$i];
+                    $rfdm->estado = 1;
+                    $rfdm->usuario_created_at = Auth::user()->id;
+                }
+                if (($id[$i] !== '')) {
+                    $rfdmId = $id[$i];
+                    $rfdm = RutaFlujoDetalleMicro::find($rfdmId);
+                    $rfdm->ruta_flujo_id = $ruta_flujo_id;
+                    $rfdm->norden = $norden[$i];
+                    $rfdm->ruta_flujo_id2 = $ruta_flujo_id2[$i];
+                    $rfdm->estado = 1;
+                    $rfdm->usuario_updated_at = Auth::user()->id;
+                }
+                $rfdm->save();
+            }
+
+            return Response::json(array('rst' => 1, 'msj' => 'Registro realizado correctamente'));
+        }
+    }
+
+            public function postListardetalleruta()
+    {
+        if ( Request::ajax() ) {
+            $res=Ruta::getlistarDetalleRuta();
+            return Response::json(array('rst'=>1,'datos'=>$res));
+        }
+    }
+    
+            public function postCargarmicro()
+    {
+        if ( Request::ajax() ) {
+            $res=Ruta::getCargarMicro();
+            return Response::json(array('rst'=>1,'datos'=>$res));
+        }
+    }
+    
         public function postCrearmicro()
     {
         if ( Request::ajax() ) {

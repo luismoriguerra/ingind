@@ -6,6 +6,29 @@ class Ruta extends Eloquent
     /**
      * Areas relationship
      */
+
+            public static function getlistarDetalleRuta()
+    {
+        $result=DB::table('rutas_flujo_detalle as rfd')
+                ->join('areas as a','a.id','=','rfd.area_id')
+                ->select(DB::raw('CONCAT(rfd.norden," - ",a.nemonico) as nombre'),'rfd.norden as id')
+                ->where('rfd.ruta_flujo_id','=',Input::get('ruta_flujo_id'))
+                ->where('rfd.estado','=',1)
+                ->get();
+        return $result;
+    }
+        public static function getCargarMicro()
+    {
+        $result=DB::table('rutas_flujo_detalle_micro as rfdm')
+                ->join('rutas_flujo as rf','rf.id','=','rfdm.ruta_flujo_id2')
+                ->join('flujos as f','f.id','=','rf.flujo_id')
+                ->join('rutas_flujo_detalle as rfd','rfd.id','=','rfdm.norden')
+                ->select('rfdm.id','rfdm.ruta_flujo_id2','f.nombre','rfd.norden')
+                ->where('rfdm.ruta_flujo_id','=',Input::get('ruta_flujo_id'))
+                ->where('rfdm.estado','=',1)
+                ->get();
+        return $result;
+    }
     
         public static function getCorrelativoAct($persona_id)
     {

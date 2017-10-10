@@ -1,8 +1,8 @@
 <script type="text/javascript">
-var MetaCuadros={
-    AgregarEditarMetaCuadro:function(AE){
-        var datos = $("#form_metacuadros_modal").serialize().split("txt_").join("").split("slct_").join("");
-        var accion = (AE==1) ? "metacuadro/editar" : "metacuadro/crear";
+var MicroProceso={
+    AgregarEditarMicroProceso:function(AE){
+        var datos = $("#form_microproceso_modal").serialize().split("txt_").join("").split("slct_").join("");
+        var accion = (AE==1) ? "metacuadro/editar" : "ruta/crearmicroproceso";
 
         $.ajax({
             url         : accion,
@@ -16,9 +16,9 @@ var MetaCuadros={
             success : function(obj) {
                 $(".overlay, .loading-img").remove();
                 if(obj.rst==1){
-                    MostrarAjax('metacuadros');
+//                    MostrarAjax('metacuadros');
                     msjG.mensaje('success',obj.msj,4000);
-                    $('#metacuadroModal .modal-footer [data-dismiss="modal"]').click();
+                    $('#microprocesoModal .modal-footer [data-dismiss="modal"]').click();
 
                 } else {
                     var cont = 0;
@@ -39,77 +39,10 @@ var MetaCuadros={
         });
 
     },
-    CargarMetaCuadros:function(evento){
-        $.ajax({
-            url         : 'metacuadro/cargar',
-            type        : 'POST',
-            cache       : false,
-            dataType    : 'json',
-            beforeSend : function() {
-                
-            },
-            success : function(obj) {
-                var html="";
-                var estadohtml="";
-                if(obj.rst==1){
-                    $.each(obj.datos,function(index,data){
-                        estadohtml='<span id="'+data.id+'" onClick="activar('+data.id+')" class="btn btn-danger">Inactivo</span>';
-                        if(data.estado==1){
-                            estadohtml='<span id="'+data.id+'" onClick="desactivar('+data.id+')" class="btn btn-success">Activo</span>';
-                        }
-
-                        html+="<tr>"+
-                            "<td id='nombre_"+data.id+"'>"+data.nombre+"</td>"+
-                            "<td id='estado_"+data.id+"' data-estado='"+data.estado+"'>"+estadohtml+"</td>"+
-                            '<td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#metacuadroModal" data-id="'+data.id+'" data-titulo="Editar"><i class="fa fa-edit fa-lg"></i> </a></td>';
-
-                        html+="</tr>";
-                    });
-                }
-                $("#tb_metacuadros").html(html); 
-                evento();  
-            },
-            error: function(){
-            }
-        });
-    },
-      CambiarEstadoMetaCuadros: function(id, AD){
-        $("#form_metacuadros_modal").append("<input type='hidden' value='"+id+"' name='id'>");
-        $("#form_metacuadros_modal").append("<input type='hidden' value='"+AD+"' name='estado'>");
-        var datos = $("#form_metacuadros_modal").serialize().split("txt_").join("").split("slct_").join("");
-        $.ajax({
-            url         : 'metacuadro/cambiarestado',
-            type        : 'POST',
-            cache       : false,
-            dataType    : 'json',
-            data        : datos,
-            beforeSend : function() {
-                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
-            },
-            success : function(obj) {
-                $(".overlay, .loading-img").remove();
-
-                if (obj.rst==1) {
-                    MostrarAjax('metacuadros');
-                    msjG.mensaje('success',obj.msj,4000);
-                    $('#metacuadroModal .modal-footer [data-dismiss="modal"]').click();
-                } else {
-                    $.each(obj.msj, function(index, datos) {
-                        $("#error_"+index).attr("data-original-title",datos);
-                        $('#error_'+index).css('display','');
-                    });
-                }
-            },
-            error: function(){
-                $(".overlay,.loading-img").remove();
-                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
-            }
-        });
-    },
     
-        CargarFecha1:function( data ){
+    CargarMicro:function( data ){
         $.ajax({
-            url         : 'metacuadro/listarvencimiento1',
+            url         : 'ruta/cargarmicro',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
@@ -120,7 +53,7 @@ var MetaCuadros={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                    fecha1HTML(obj.datos);
+                    microHTML(obj.datos);
                 }
             },
             error: function(){
@@ -132,33 +65,6 @@ var MetaCuadros={
                                 '</div>');
             }
         });
-    },   
-    
-            CargarFecha2:function( data ){
-        $.ajax({
-            url         : 'metacuadro/listarvencimiento2',
-            type        : 'POST',
-            cache       : false,
-            dataType    : 'json',
-            data        : data,
-            beforeSend : function() {
-                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
-            },
-            success : function(obj) {
-                $(".overlay,.loading-img").remove();
-                if(obj.rst==1){
-                    fecha2HTML(obj.datos);
-                }
-            },
-            error: function(){
-                $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                    '<i class="fa fa-ban"></i>'+
-                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
-                                '</div>');
-            }
-        });
-    },   
+    }
 };
 </script>
