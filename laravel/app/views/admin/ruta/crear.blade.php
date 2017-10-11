@@ -15,6 +15,9 @@
     @include( 'admin.ruta.js.ruta_ajax' )
     @include( 'admin.ruta.js.crear' )
     @include( 'admin.ruta.js.proceso' )
+    
+    @include( 'admin.ruta.js.microproceso' )
+    @include( 'admin.ruta.js.microproceso_ajax' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -133,6 +136,9 @@
                                                         <tr class="head">
                                                             <th style="width:450px !important;min-width: 200px !important;" > 
                                                                 <a id="btn_adicionar_ruta_detalle" class="btn btn-primary btn-sm">
+                                                                    <i class="fa fa-plus-square fa-lg"></i>
+                                                                </a>
+                                                                <a   id="btn_adicionar_micro_proceso" class="btn btn-info btn-sm" title="Micro Proceso">
                                                                     <i class="fa fa-plus-square fa-lg"></i>
                                                                 </a>
                                                             </th>
@@ -283,4 +289,5 @@
 @section('formulario')
      @include( 'admin.ruta.form.ruta' )
      @include( 'admin.ruta.form.proceso' )
+     @include( 'admin.ruta.form.microproceso' )
 @stop

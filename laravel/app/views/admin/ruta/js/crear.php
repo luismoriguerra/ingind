@@ -37,6 +37,10 @@ var datosG=""; // para adicionar.
 var permisoG="";
 
 $(document).ready(function() {
+    $('#microprocesoModal').css('z-index', 1050);
+    $('#procesoModal').css('z-index', 1060);
+
+    
     $("[data-toggle='offcanvas']").click();
     $("#btn_nuevo").click(Nuevo);
     $("#btn_close").click(Close);
@@ -1377,7 +1381,7 @@ cargarRutaId=function(ruta_flujo_id,permiso){
     $("#texto_fecha_creacion").text("Fecha Actualización:");
     $("#fecha_creacion").html('<?php echo date("Y-m-d"); ?>');
     $(".form-group").css("display","");
-
+    $("#btn_adicionar_micro_proceso").attr("onclick",'CargarMicro('+ruta_flujo_id+')');
     //$("#slct_tipo_ruta").attr("disabled","true");
     Ruta.CargarDetalleRuta(ruta_flujo_id,permiso,CargarDetalleRutaHTML);
     //alert('Actualizando '+ruta_flujo_id+ "Con permiso =>"+permiso);
@@ -1387,7 +1391,7 @@ cargarRutaIdAuxi=function(ruta_flujo_id,permiso){
     Ruta.CargarDetalleRuta(ruta_flujo_id,permiso,CargarDetalleRutaHTMLAuxi);
 }
 
-CargarDetalleRutaHTML=function(permiso,datos){
+CargarDetalleRutaHTML=function(permiso,datos){console.log(datos);
 areasG="";  areasG=[]; // texto area
 areasGId="";  areasGId=[]; // id area
 estadoG="";  estadoG=[]; // Normal / Paralelo
@@ -1711,13 +1715,5 @@ validaNumeros=function(e) { // 1
         te = String.fromCharCode(tecla); // 5
         return patron.test(te); // 6
 }
-CargarMicroProceso=function(ruta_flujo_id,flujo){
-    $(posicionColumnaG).find("td:eq(3) input[name='txt_micro_modal']").val(flujo);
-    $(posicionColumnaG).find("td:eq(3) input[name='txt_ruta_flujo_id_modal']").val(ruta_flujo_id);
-    $("#procesoModal .modal-footer>button").click();
-}
-Posicion=function(btn){
-     posicionColumnaG="";
-     posicionColumnaG = btn.parentNode.parentNode;
-}
+
 </script>
