@@ -81,7 +81,7 @@ class EnvioAutomaticoController extends \BaseController {
                             and rol_id in (9,8)
                             and estado=1
                             order by area_id;');
-        /*
+        
         foreach($e as $c => $li):
             if($c == 0)
                 $email = [$li->email, $li->email_mdi];
@@ -90,9 +90,8 @@ class EnvioAutomaticoController extends \BaseController {
         endforeach;
         $email = $email;
         $email_copia = $email_2;
-        */
-        $email='rusbelc02@gmail.com';
-        $email_copia='consultas.gmgm@gmail.com';
+        //$email='rusbelc02@gmail.com';
+        //$email_copia='consultas.gmgm@gmail.com';
         //$email_copia='rblas@muniindependencia.gob.pe';
         // --
 
