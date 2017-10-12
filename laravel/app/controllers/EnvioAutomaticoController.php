@@ -86,7 +86,7 @@ class EnvioAutomaticoController extends \BaseController {
             if($c == 0)
                 $email = [$li->email, $li->email_mdi];
             else
-                $email_2 = [$li->email, $li->email_mdi];    
+                $email_2 = [$li->email, $li->email_mdi, 'consultas.gmgm@gmail.com'];
         endforeach;
         $email = $email;
         $email_copia = $email_2;
