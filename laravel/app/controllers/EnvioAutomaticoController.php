@@ -83,10 +83,21 @@ class EnvioAutomaticoController extends \BaseController {
                             order by area_id;');
         
         foreach($e as $c => $li):
-            if($c == 0)
-                $email = [$li->email, $li->email_mdi];
-            else
-                $email_2 = [$li->email, $li->email_mdi, 'consultas.gmgm@gmail.com'];
+            if($c == 0){
+                if(trim($li->email) != '' && trim($li->email_mdi) == '')
+                    $email = $li->email;
+                else if(trim($li->email) == '' && trim($li->email_mdi) != '')
+                    $email = $li->email_mdi;
+                else                    
+                    $email = [$li->email, $li->email_mdi]; //'rusbelc02@gmail.com', 'jhonytin@gmail.com'
+            }else{
+                if(trim($li->email) != '' && trim($li->email_mdi) == '')
+                    $email_2 = [$li->email, 'consultas.gmgm@gmail.com'];
+                else if(trim($li->email) == '' && trim($li->email_mdi) != '')
+                    $email_2 = [$li->email_mdi, 'consultas.gmgm@gmail.com'];
+                else                    
+                    $email_2 = [$li->email, $li->email_mdi, 'consultas.gmgm@gmail.com']; //'paezvallejohecthor@gmail.com', 'rcapchab@gmail.com'    
+            }    
         endforeach;
         $email = $email;
         $email_copia = $email_2;
