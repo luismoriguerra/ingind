@@ -1,4 +1,3 @@
-
 <?php
 
 class EnvioAutomaticoController extends \BaseController {
@@ -10,41 +9,120 @@ class EnvioAutomaticoController extends \BaseController {
      * @return Response
      */
     
-        public function postVehiculoalertas()
+    public function postVehiculoalertas()
     {
-      $retorno=array('rst'=>1);
+        $retorno = array('rst' => 1);
 
-      $url ='http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=moviles';
-      $curl_options = array(
-                    CURLOPT_URL => $url,
-                    CURLOPT_HEADER => 0,
-                    CURLOPT_RETURNTRANSFER => TRUE,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_SSL_VERIFYPEER => 0,
-                    CURLOPT_FOLLOWLOCATION => TRUE,
-                    CURLOPT_ENCODING => 'gzip,deflate',
-            );
- 
-            $ch = curl_init();
-            curl_setopt_array( $ch, $curl_options );
-            $output = curl_exec( $ch );
-            curl_close($ch);
+        $url ='http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=moviles';
+        $curl_options = array(
+                            CURLOPT_URL => $url,
+                            CURLOPT_HEADER => 0,
+                            CURLOPT_RETURNTRANSFER => TRUE,
+                            //CURLOPT_TIMEOUT => 0,
+                            CURLOPT_SSL_VERIFYPEER => 0,
+                            CURLOPT_FOLLOWLOCATION => TRUE,
+                            CURLOPT_ENCODING => 'gzip,deflate',
+                        );
 
-      $r = json_decode(utf8_encode($output),true);
-      
-      $html="";
-      
-      
-      $n=1;
-      if(isset($r["tipos"]) AND count($r["tipos"])>0){
-         foreach ($r["tipos"] as $rr) {
-        $html.="<option value='".$rr['documentotipo_id']."'>".$rr['documentotipo_descripcion']."</option>";
-      } 
-      }
-      
-      $retorno["data"]=$html;
+        $ch = curl_init();
+        curl_setopt_array($ch, $curl_options);
+        $output = curl_exec($ch);
+        curl_close($ch);
 
-      return Response::json( $retorno );
+        $result = json_decode(utf8_encode($output),true);
+
+        $html="";
+        $meses = array('', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre');
+
+        $html_table = '<table border="0" cellspacing="0" style="font-size: 11px; overflow:hidden; border:2px solid #EAE8E7; background:#fefefe; border-radius:5px;">
+                          <thead>
+                           <tr>
+                             <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Fecha Día</th>
+                             <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Cuadrante</th>
+                             <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Placa</th>
+                             <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Turno</th>
+                             <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Gas. Ini</th>
+                             <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Gas. Fin</th>
+                             <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Klm. Ini</th>
+                             <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Klm. Fin</th>
+                            </tr>
+                          </thead>
+                          <tbody>';
+
+        foreach ($result['moviles'] as $key => $lis) 
+        {
+            if(trim($lis['halcon']) == '')
+                $style = 'background-color: #F95C4E; opacity: 0.9;';
+            else if($lis['halcon'] == 'A PIE')
+                $style = 'background-color: #F95C4E; opacity: 0.9;';
+            else 
+                $style = '';
+
+            $html_table .= '<tr style="'.$style.'">
+                              <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$lis['fecha'].'</td>
+                              <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$lis['puesto_servicio'].'</td>
+                              <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$lis['halcon'].'</td>
+                              <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$lis['horario'].'</td>
+                              <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$lis['gas_i'].'</td>
+                              <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$lis['gas_f'].'</td>
+                              <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$lis['km_i'].'</td>
+                              <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$lis['km_f'].'</td>
+                            </tr>';
+        }
+
+        $html_table .= '</tbody>
+                        </table>';
+
+        // A Quien va dirigido el correo
+        $e = DB::select('select CONCAT(nombre, " ",paterno, " ", materno) as nombres, 
+                            area_id, id, email, email_mdi
+                            from personas
+                            where area_id in (19, 38)
+                            and rol_id in (9,8)
+                            and estado=1
+                            order by area_id;');
+        /*
+        foreach($e as $c => $li):
+            if($c == 0)
+                $email = [$li->email, $li->email_mdi];
+            else
+                $email_2 = [$li->email, $li->email_mdi];    
+        endforeach;
+        $email = $email;
+        $email_copia = $email_2;
+        */
+        $email='rusbelc02@gmail.com';
+        $email_copia='consultas.gmgm@gmail.com';
+        //$email_copia='rblas@muniindependencia.gob.pe';
+        // --
+
+        $plantilla = Plantilla::where('tipo', '=', '11')->first();
+        $buscar = array('persona:', 'dia:', 'mes:', 'año:', 'persona:', 'tabla:');
+        $reemplazar = array('<b>'.ucwords($e[0]->nombres).'</b>', date('d'), $meses[date('n')], date("Y"), 'Rusbel Arteaga', $html_table);
+        $parametros = array(
+            'cuerpo' => str_replace($buscar, $reemplazar, $plantilla->cuerpo)
+        );        
+
+        if ($email != '')
+        {
+            DB::beginTransaction();
+            try {
+                Mail::send('notreirel', $parametros, function($message) use ($email, $email_copia) {
+                        $message
+                                ->to($email)
+                                ->cc($email_copia)
+                                ->subject('.::Unidades Moviles Operativas::.');
+                    }
+                );
+            } catch (Exception $e) {
+                //echo $qem[$k]->email."<br>";
+                DB::rollback();
+            }
+            DB::commit();
+        }
+
+        $retorno["data"] = $html;
+        return Response::json($retorno);
     }
     
     
@@ -413,7 +491,7 @@ class EnvioAutomaticoController extends \BaseController {
         return Response::json($retorno);
     }
 
-    public function postContratacionesalertas() {
+    public function postContratacionesalertas() { //Envia correos masivos
         $array = array();
         $array['usuario'] = Auth::user()->id;
 

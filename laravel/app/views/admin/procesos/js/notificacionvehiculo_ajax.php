@@ -12,8 +12,10 @@ var Accion={
             },
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
+                //console.log(obj.data);
                 if(obj.rst==1){
-                    mostrarHTML(obj.data);
+                    swal("Mensaje", "Se envió el correo satisfactoriamente!")
+                    //mostrarHTML(obj.data);
                 }
             },
             error: function(){
