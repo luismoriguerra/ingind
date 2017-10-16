@@ -15,6 +15,7 @@ $(document).ready(function() {
       //$('#t_tramites_plataforma').dataTable().fnDestroy();
         var idG={ 
                     actividad        :'onBlur|Actividad|#DCE6F1', //#DCE6F1
+                    categoria        :'onBlur|Categoria|#DCE6F1',
                     id        :'1|[]|#DCE6F1', //#DCE6F1
                  };
 

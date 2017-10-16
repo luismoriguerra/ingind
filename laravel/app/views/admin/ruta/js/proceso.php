@@ -14,7 +14,6 @@ $(document).ready(function() {
        $("#form_proceso").append('<input type="hidden" name="txt_soloruta" value="1">');
        $("#form_proceso").append('<input type="hidden" name="txt_tipo_flujo"value="1">');
        $("#form_proceso").append('<input type="hidden" name="txt_pasouno" value="1">');
-       $("#form_proceso").append('<input type="hidden" name="txt_nomicro" value="1">');
       var button = $(event.relatedTarget); // captura al boton
       textoFG= button.data('texto');
       textoIdFG= button.data('id');

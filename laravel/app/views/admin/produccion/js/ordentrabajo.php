@@ -355,7 +355,7 @@ MostrarAjax=function(t){
 
 GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
 
-    if(typeof(fn)!='undefined' && fn.col==1){
+    if(typeof(fn)!='undefined' && fn.col==2){
         return '<span id="2616" onclick="CargarActividad('+row.id+',\''+row.actividad+'\')" class="btn btn-success"><i class="fa fa-lg fa-check"></i></span>';
     }
     if(typeof(fn)!='undefined' && fn.col==3){
