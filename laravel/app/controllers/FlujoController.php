@@ -130,7 +130,11 @@ class FlujoController extends \BaseController
                 elseif( Input::has('tipo_flujo') AND Input::get('tipo_flujo')==1 ){
                     $array['where'].=" AND f.tipo_flujo=1 ";
                 }
-                
+            
+            if( Input::has("nomicro")  AND Input::get('nomicro')==1 ){
+                    $array['where'].=" AND f.categoria_id !=16 "; 
+            }
+            
             if( Input::has("nombre")  AND Input::get('nombre')!='' ){
                 $proceso=explode(" ",trim(Input::get('nombre')));
                  for($i=0; $i<count($proceso); $i++){

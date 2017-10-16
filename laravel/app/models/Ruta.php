@@ -45,8 +45,16 @@ class Ruta extends Eloquent
     public function crearRutaMicro(){
         DB::beginTransaction();
                             
-                            $rd= RutaDetalle::find(Input::get('ruta_detalle_id'));
+                            $rdm= RutaDetalleMicro::where('id','=',Input::get('ruta_detalle_micro_id'))
+                                            ->where('ruta_id','=',Input::get('ruta_id'))
+                                            ->where('estado','=',1)->first();
                             
+                            $rd=RutaDetalle::where('norden','=',$rdm->norden)
+                                            ->where('ruta_id','=',$rdm->ruta_id)
+                                            ->where('estado','=',1)->first();
+                            $rd->ruta_flujo_id=$rdm->ruta_flujo_id;
+                            $rd->save();
+
                             $rf= RutaFlujo::find($rd->ruta_flujo_id);
                             
                             $rutaflujodetalle = DB::table('rutas_flujo_detalle')
@@ -389,6 +397,14 @@ class Ruta extends Eloquent
                         }
                     }
             }
+            
+            $insertMicro="INSERT INTO rutas_detalle_micro (ruta_flujo_id,ruta_id,norden,usuario_created_at)
+                          SELECT rfdm.ruta_flujo_id2,".$ruta->id.",rfdm.norden,".Auth::user()->id."
+                          FROM rutas_flujo_detalle_micro rfdm
+                          WHERE rfdm.ruta_flujo_id=".$rutaFlujo->id." AND rfdm.estado=1";
+                          
+            DB::insert($insertMicro);
+            
 
             /*if( Input::has('referente') ){
                 $rutaid=$ruta->id;

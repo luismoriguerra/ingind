@@ -1,6 +1,6 @@
 <!-- /.modal -->
 <div class="modal fade" id="microprocesoModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header logo">
                 <button class="btn btn-sm btn-default pull-right" data-dismiss="modal">
@@ -12,7 +12,7 @@
                 <div class="row form-group">
                     <div class="col-sm-12">
                         <form id="form_microproceso_modal" name="form_microproceso_modal" method="POST" action="">
-                            <div class="box-body table-responsive">
+                            <div class="box-body table-bordered">
                                 <input type="hidden" class="mant" name="ruta_flujo_id" id="ruta_flujo_id">
                                 <table id="t_microproceso" class="table table-bordered">
                                     <thead>
