@@ -106,7 +106,7 @@ tr:last-child td.last {
 
                     <div class="row form-group" >
                         <div class="col-sm-12">
-                                <div class="col-sm-4"></div>
+                                <div class="col-sm-2"></div>
                                
                                 <div class="col-sm-2 text-center">
                                     <label class="control-label">Fecha Inicial</label>
@@ -124,7 +124,16 @@ tr:last-child td.last {
                                     </div>
                                 </div>
                               
-                                <div class="col-sm-3" style="padding:24px">
+                                <div class="col-sm-3 text-center">
+                                    <label class="control-label">Area</label>
+                                    <div id="div_areas">                   
+                                      <select class="form-control" name="slct_area_ws" id="slct_area_ws">
+                                          <option value='0'>.::::::: Seleccione una Opción del listado :::::::.</option>
+                                      </select>
+                                    </div>                                  
+                                </div>
+
+                                <div class="col-sm-2" style="padding:24px">
                                     <span class="btn btn-primary btn-md" id="generar" name="generar"><i class="glyphicon glyphicon-search"></i> Buscar</span>
                                 </div>
                                 <div class="col-sm-1" style="padding:24px">
