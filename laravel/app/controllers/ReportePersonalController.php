@@ -50,7 +50,7 @@ class ReportePersonalController extends BaseController
             $fecha_fin = Input::get('fecha_fin'); // 2017/09/15
             $area_ws = Input::get('area_ws');
 
-            $dias=4;
+            $dias=14;
             $fecha_i = str_replace('/', '-', $fecha_ini);
             $fecha_f = str_replace('/', '-', $fecha_fin);
             $fecha_iaux =$fecha_i;
