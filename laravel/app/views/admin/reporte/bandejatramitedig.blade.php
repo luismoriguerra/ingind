@@ -252,12 +252,12 @@ tr.shown td.details-control {
                                                 <label class="control-label">Tiempo asignado a la Actividad:</label>
                                                 <input type="text" class="form-control" id="txt_tiempo" readonly>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-2">
                                                 <label class="control-label">Tiempo Final:</label>
                                                 <input type="text" class="form-control" id="txt_respuesta" name="txt_respuesta" readonly>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <label class="control-label">Responsable de la Actividadd:</label>
+                                            <div class="col-sm-3">
+                                                <label class="control-label">Responsable de la Actividad:</label>
                                                 <?php
                                                     if( Auth::user()->rol_id==8 OR Auth::user()->rol_id==9 ){
                                                 ?>
@@ -269,8 +269,20 @@ tr.shown td.details-control {
                                                         <div id="slct_persona"></div>
                                                 <?php
                                                     }
-                                                ?>
-                                                
+                                                ?>   
+                                            </div>
+                                             <div class="col-sm-4 sectionmicro">
+                                                <div class="col-sm-9">
+                                                <label class="control-label">Micro Procesos:</label>
+                                                <select id="slct_micro" name="slct_micro">
+                                                    <option>Seleccione</option>
+                                                </select>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                <label class="control-label">&nbsp;&nbsp;&nbsp;</label>
+                                                <a class="btn btn-success btn-sm"  id="btn_siguiente_rd" style="display: none;">
+                                                </a>
+                                                </div>
                                             </div>
                                         </div>
                                         <br>
@@ -346,7 +358,6 @@ tr.shown td.details-control {
                                             <button id="btnAdd" class="btn btn-yellow" style="width: 100%;margin-top:-20px" type="button" onclick="Addtr(event)"><span class="glyphicon glyphicon-plus"></span> AGREGAR </button>
                                         </div>
                                         <div class="col-sm-12">
-                                            <div class="col-sm-12">
                                             <div class="col-sm-3">
                                                 <label class="control-label">Tipo de respuesta de la Actividad:</label>
                                                 <select id="slct_tipo_respuesta" name="slct_tipo_respuesta">
@@ -372,23 +383,7 @@ tr.shown td.details-control {
                                                         <span>Cumple</span>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            </div>
-                                            <div class="col-sm-12 sectionmicro">
-                                            <div class="col-sm-6">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <label class="control-label">Micro Procesos:</label>
-                                                <select id="slct_micro" name="slct_micro">
-                                                    <option>Seleccione</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <label class="control-label">&nbsp;&nbsp;&nbsp;</label>
-                                                <a class="btn btn-success btn-sm"  id="btn_siguiente_rd" style="display: none;">
-                                                </a>
-                                            </div>
-                                            </div>
+                                            </div>                                        
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-6 text-left">

@@ -45,7 +45,7 @@ class Ruta extends Eloquent
     public function crearRutaMicro(){
         DB::beginTransaction();
                             
-                            $rdm= RutaDetalleMicro::where('norden','=',Input::get('norden'))
+                            $rdm= RutaDetalleMicro::where('id','=',Input::get('ruta_detalle_micro_id'))
                                             ->where('ruta_id','=',Input::get('ruta_id'))
                                             ->where('estado','=',1)->first();
                             

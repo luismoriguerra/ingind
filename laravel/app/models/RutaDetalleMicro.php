@@ -10,7 +10,7 @@ class RutaDetalleMicro extends Base
         $rdm=DB::table('rutas_detalle_micro as rdm')
                 ->join('rutas_flujo as rf','rf.id','=','rdm.ruta_flujo_id')
                 ->join('flujos as f','f.id','=','rf.flujo_id')
-                ->select('f.nombre','norden as id','rdm.estado')
+                ->select('f.nombre','rdm.id','rdm.estado')
                 ->where( 'rdm.ruta_id','=',Input::get('ruta_id'))
                 ->where( 'rdm.norden','=',Input::get('norden'))
                 ->where( 'rdm.estado','=',1)

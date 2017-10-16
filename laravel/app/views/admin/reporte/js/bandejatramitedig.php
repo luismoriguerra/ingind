@@ -368,7 +368,7 @@ mostrarDetalleHTML=function(datos){
     slctGlobal.listarSlct('tiporespuesta','slct_tipo_respuesta','simple',ids,data,0,'#slct_tipo_respuesta_detalle','TR');
     slctGlobal.listarSlct('tiporespuestadetalle','slct_tipo_respuesta_detalle','simple',ids,data,1);
     $("#form_ruta_detalle [data-target='#expedienteModal']").attr("data-id",datos.id_tr);
-
+    
     $("#form_ruta_detalle #txt_fecha_tramite").val(datos.fecha_tramite);
     $("#form_ruta_detalle #txt_sumilla").val(datos.sumilla);
     $("#form_ruta_detalle #txt_solicitante").val(datos.solicitante);
@@ -1175,7 +1175,7 @@ pintarAreasG=function(permiso){
 asignarTramitePaso = function(ruta_id){
     if($('#form_ruta_detalle #slct_micro').val()!=''){
       sweetalertG.confirm("Confirmación!", "Desea Agregar el MicroProceso Seleccionado?", function(){
-        var data={ruta_id:ruta_id,norden:$('#form_ruta_detalle #slct_micro').val()};
+        var data={ruta_id:ruta_id,ruta_detalle_micro_id:$('#form_ruta_detalle #slct_micro').val()};
         Bandeja.AdicionarMicroProceso(data);
     });
     }else{
