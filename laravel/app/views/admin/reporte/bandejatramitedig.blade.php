@@ -346,6 +346,7 @@ tr.shown td.details-control {
                                             <button id="btnAdd" class="btn btn-yellow" style="width: 100%;margin-top:-20px" type="button" onclick="Addtr(event)"><span class="glyphicon glyphicon-plus"></span> AGREGAR </button>
                                         </div>
                                         <div class="col-sm-12">
+                                            <div class="col-sm-12">
                                             <div class="col-sm-3">
                                                 <label class="control-label">Tipo de respuesta de la Actividad:</label>
                                                 <select id="slct_tipo_respuesta" name="slct_tipo_respuesta">
@@ -372,17 +373,29 @@ tr.shown td.details-control {
                                                     </div>
                                                 </div>
                                             </div>
+                                            </div>
+                                            <div class="col-sm-12 sectionmicro">
+                                            <div class="col-sm-6">
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label class="control-label">Micro Procesos:</label>
+                                                <select id="slct_micro" name="slct_micro">
+                                                    <option>Seleccione</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <label class="control-label">&nbsp;&nbsp;&nbsp;</label>
+                                                <a class="btn btn-success btn-sm"  id="btn_siguiente_rd" style="display: none;">
+                                                </a>
+                                            </div>
+                                            </div>
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="col-sm-6 text-left">
                                                 <a class="btn btn-primary btn-sm" id="btn_guardar_todo">
                                                     <i class="fa fa-save fa-lg"></i>&nbsp;Guardar
                                                 </a>
-                                            </div>
-                                            <div class="col-sm-6 text-right">
-                                                <a class="btn btn-success btn-sm"  id="btn_siguiente_rd" style="display: none;">
-                                                </a>
-                                            </div>    
+                                            </div>  
                                         </div>
                                     </div>
                                 </form>

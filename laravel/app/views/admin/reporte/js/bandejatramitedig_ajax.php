@@ -13,6 +13,7 @@ var Bandeja={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
+                   mostrarDetallle($("#form_ruta_detalle>#ruta_detalle_id").val(),$('#ruta_id').val());
                     msjG.mensaje("success",obj.msj,3000);
                 }
             },
@@ -96,7 +97,7 @@ var Bandeja={
         var columnDefs=[{
                         "targets": 0,
                         "data": function ( row, type, val, meta ) {
-                            console.log(row);
+//                            console.log(row);
                             ruta_detalle_id.push('td_'+row.ruta_detalle_id);
                             if(row.id>0){//est visto
                                 //el boton debera cambiar  a no visto
