@@ -50,17 +50,67 @@ class ReportePersonalController extends BaseController
             $fecha_fin = Input::get('fecha_fin'); // 2017/09/15
             $area_ws = Input::get('area_ws');
 
+            $dias=4;
+            $fecha_i = str_replace('/', '-', $fecha_ini);
+            $fecha_f = str_replace('/', '-', $fecha_fin);
+            $fecha_iaux =$fecha_i;
+            $fecha_faux = date("Y-m-d", strtotime($fecha_i ."+".$dias." days"));
+
             if($area_ws <> 0)
                 $bus_area = "&area=".$area_ws;
             else
                 $bus_area = "";
 
-            $dias = $this->verDiasTranscurridos($fecha_ini, $fecha_fin);
+            //$dias = $this->verDiasTranscurridos($fecha_ini, $fecha_fin);
 
             //DB::table('sw_asistencias')->truncate();
             DB::table('sw_asistencias')->where('usuario_created_at', '=', Auth::user()->id)->delete();
 
-            if($dias <= 5)
+            while ( $fecha_iaux <= $fecha_f ) {
+                
+                if( $fecha_faux>$fecha_f ){
+                    $fecha_faux=$fecha_f;
+                }
+
+                $res = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/consulta.php?inicio=".$fecha_iaux."&fin=".$fecha_faux.$bus_area);
+                $result = json_decode(utf8_encode($res));
+
+                foreach($result->reporte as $key => $lis) 
+                {
+                    DB::beginTransaction();
+                    $obj = new ReportePersonal;
+                    $obj->foto = $lis->foto;
+                    $obj->area = $lis->AREA;
+                    $obj->nombres = $lis->nombres_completos;
+                    $obj->dni = $lis->dni;
+                    $obj->cargo = $lis->cargo;
+                    $obj->regimen = $lis->condicion;
+                    $obj->faltas = $lis->FALTAS;
+                    $obj->tardanza = $lis->TARDANZAS;
+                    $obj->lic_sg = $lis->SLSG;
+                    $obj->sancion_dici = $lis->Sancion_Dici;
+                    $obj->lic_sindical = $lis->Licencia_Sindical;
+                    $obj->descanso_med = $lis->DESCANSO_MEDICO;
+                    $obj->min_permiso = $lis->MINPERMISO;
+                    $obj->comision = $lis->comision;
+                    $obj->citacion = $lis->CITACION;
+                    $obj->essalud = $lis->ESSALUD;
+                    $obj->permiso = $lis->PERMISO;
+                    $obj->compensatorio = $lis->COMPENSATORIO;
+                    $obj->onomastico = $lis->ONOMASTICO;
+
+                    $obj->estado = 1;
+                    $obj->usuario_created_at = Auth::user()->id;
+                    $obj->save();
+
+                    DB::commit();
+                }
+
+                $fecha_iaux= date("Y-m-d", strtotime($fecha_faux ."+1 days"));
+                $fecha_faux= date("Y-m-d", strtotime($fecha_iaux ."+".$dias." days"));
+            }
+
+            /*if($dias <= 15)
             {
                 $res = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/consulta.php?inicio=".$fecha_ini."&fin=".$fecha_fin.$bus_area);
                 $result = json_decode(utf8_encode($res));
@@ -191,7 +241,7 @@ class ReportePersonalController extends BaseController
                     }
                 }
                 
-            }
+            }*/
 
             // Actualiza campo "persona_id" en base al "id" de la tabla "personas".            
             $sql = "UPDATE sw_asistencias sa
@@ -206,8 +256,8 @@ class ReportePersonalController extends BaseController
                 ->update(array('persona_id' => 1272));
             // --
             
-            $fecha_ini = str_replace('/', '-', $fecha_ini);
-            $fecha_fin = str_replace('/', '-', $fecha_fin);
+            $fecha_ini = $fecha_i;
+            $fecha_fin = $fecha_f;
 
             $sql = "SELECT sw.*,
                         ca.cant_act,
@@ -228,24 +278,24 @@ class ReportePersonalController extends BaseController
                         LEFT JOIN (SELECT COUNT(rdv.id) tareas, rdv.usuario_updated_at persona_id
                                 FROM rutas_detalle_verbo rdv
                                 WHERE rdv.finalizo=1 
-                                AND rdv.updated_at BETWEEN '$fecha_ini 00:00:00' AND '$fecha_fin 23:59:59'
+                                AND rdv.updated_at BETWEEN '$fecha_i 00:00:00' AND '$fecha_f 23:59:59'
                                 GROUP BY rdv.usuario_updated_at
                         ) AS t ON t.persona_id=sw.persona_id
                         LEFT JOIN (SELECT COUNT(ap.id) cant_act, ap.persona_id
                                 FROM actividad_personal ap
                                 WHERE ap.persona_id=ap.usuario_created_at
-                                AND ap.fecha_inicio BETWEEN '$fecha_ini 00:00:00' AND '$fecha_fin 23:59:59'
+                                AND ap.fecha_inicio BETWEEN '$fecha_i 00:00:00' AND '$fecha_f 23:59:59'
                                 GROUP BY ap.persona_id
                             ) AS ca ON ca.persona_id=sw.persona_id
                         LEFT JOIN (SELECT COUNT(r.id) total_tramites, r.usuario_created_at persona_id
                                 FROM rutas r
-                                WHERE r.created_at BETWEEN '$fecha_ini 00:00:00' AND '$fecha_fin 23:59:59'
+                                WHERE r.created_at BETWEEN '$fecha_i 00:00:00' AND '$fecha_f 23:59:59'
                                 AND r.estado=1
                                 GROUP BY r.usuario_created_at
                             ) AS tt ON tt.persona_id=sw.persona_id
                         LEFT JOIN (SELECT COUNT(dd.id) docu, dd.usuario_created_at persona_id
                                 FROM doc_digital dd
-                                WHERE dd.created_at BETWEEN '$fecha_ini 00:00:00' AND '$fecha_fin 23:59:59'
+                                WHERE dd.created_at BETWEEN '$fecha_i 00:00:00' AND '$fecha_f 23:59:59'
                                 AND dd.estado = 1
                                 GROUP BY dd.usuario_created_at
                             ) AS doc ON doc.persona_id=sw.persona_id; ";
