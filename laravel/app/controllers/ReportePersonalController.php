@@ -48,6 +48,12 @@ class ReportePersonalController extends BaseController
 
             $fecha_ini = Input::get('fecha_ini'); // 2017/09/01
             $fecha_fin = Input::get('fecha_fin'); // 2017/09/15
+            $area_ws = Input::get('area_ws');
+
+            if($area_ws <> 0)
+                $bus_area = "&area=".$area_ws;
+            else
+                $bus_area = "";
 
             $dias = $this->verDiasTranscurridos($fecha_ini, $fecha_fin);
 
@@ -56,7 +62,7 @@ class ReportePersonalController extends BaseController
 
             if($dias <= 5)
             {
-                $res = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/consulta.php?inicio=".$fecha_ini."&fin=".$fecha_fin);
+                $res = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/consulta.php?inicio=".$fecha_ini."&fin=".$fecha_fin.$bus_area);
                 $result = json_decode(utf8_encode($res));
 
                 foreach($result->reporte as $key => $lis) 
@@ -107,7 +113,7 @@ class ReportePersonalController extends BaseController
                     if($con % 5 == 0)
                     {
                         $fec_fin = $i;
-                        $res = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/consulta.php?inicio=".$fec_ini."&fin=".$fec_fin);
+                        $res = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/consulta.php?inicio=".$fec_ini."&fin=".$fec_fin.$bus_area);
                         $result = json_decode(utf8_encode($res));
 
                         foreach($result->reporte as $key => $lis) 
@@ -150,7 +156,7 @@ class ReportePersonalController extends BaseController
 
                 if(($con-1) % 5 <> 0)
                 {
-                    $res = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/consulta.php?inicio=".$fec_ini."&fin=".$fec_fin);
+                    $res = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/consulta.php?inicio=".$fec_ini."&fin=".$fec_fin.$bus_area);
                     $result = json_decode(utf8_encode($res));
 
                     foreach($result->reporte as $key => $lis) 
@@ -263,6 +269,13 @@ class ReportePersonalController extends BaseController
                         )
                     );
         }*/
+    }
+
+    public function postAreasadm()
+    {
+        $result = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/consul.php?opcion=area");
+
+        return utf8_encode($result);
     }
 
 }
