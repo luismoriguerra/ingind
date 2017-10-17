@@ -293,6 +293,14 @@ class DocumentoDigitalController extends \BaseController {
             $DocDigital->save();
 
             if($DocDigital->id){
+
+                // Update doc digital Temp
+                $sql = "UPDATE doc_digital_temporal
+                        SET asunto = '".$DocDigital->asunto."', envio_total='".$DocDigital->envio_total."', tipo_envio='".$DocDigital->tipo_envio."', usuario_updated_at='".$DocDigital->usuario_updated_at."'
+                        WHERE id =  ".$DocDigital->id;
+                DB::update($sql);
+                // --
+
                 $affectedRows = DocumentoDigitalArea::where('doc_digital_id', '=', $DocDigital->id)->get();
                 foreach ($affectedRows as $docd) {
                     $dd = DocumentoDigitalArea::find($docd->id);
@@ -439,6 +447,15 @@ class DocumentoDigitalController extends \BaseController {
 
             if($DocDigital->id){
                 
+                    // Inserta doc digital Temp
+                    $sql = 'INSERT INTO doc_digital_temporal (id,titulo,correlativo,asunto,plantilla_doc_id,area_id,persona_id,envio_total,tipo_envio,estado,
+                                usuario_updated_at,updated_f_comentario,created_at,updated_at,usuario_created_at,usuario_f_updated_at)
+                                SELECT id,titulo,correlativo,asunto,plantilla_doc_id,area_id,persona_id,envio_total,tipo_envio,estado,
+                                usuario_updated_at,updated_f_comentario,created_at,updated_at,usuario_created_at,usuario_f_updated_at
+                                FROM doc_digital WHERE id = '.$DocDigital->id;
+                    DB::insert($sql);
+                    // --
+
                     $created=Input::get('fecha').' '.date ("h:i:s");     
                     $DocHistorial = new DocumentoFechaH;
                     $DocHistorial->documento_id = $DocDigital->id;
