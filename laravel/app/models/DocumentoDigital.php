@@ -50,7 +50,7 @@ class DocumentoDigital extends Base {
                     ->orderBy('dd.id')
                     ->get();
         }else{
-            return DB::table('doc_digital as dd')
+            return DB::table('doc_digital_temporal as dd')
             		->join('plantilla_doc as pd', 'dd.plantilla_doc_id', '=', 'pd.id')
                         ->leftjoin('personas as p','p.id','=','dd.usuario_created_at')
                         ->leftjoin('personas as p1','p1.id','=','dd.usuario_updated_at')
