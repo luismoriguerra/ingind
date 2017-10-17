@@ -15,6 +15,7 @@ class Ticket extends Base
         $oData = DB::select($sSql);
         return $oData[0]->cant;
     }
+    
 
     public static function getCargar( $array )
     {
@@ -33,11 +34,19 @@ class Ticket extends Base
             t.solucion,
             t.estado_tipo_problema,
             CONCAT_WS(' ',p3.paterno,p3.materno,p3.nombre) responsable_solucion,
-            t.estado_ticket
+            t.estado_ticket,
+                                CASE t.estado_tipo_problema
+                                WHEN '1' THEN 'Error de Usuario'
+                                WHEN '2' THEN 'Insidencia del Sistema'
+                                WHEN '3' THEN 'Consultas'
+                                WHEN '4' THEN 'Peticiones'
+                                WHEN '5' THEN 'Problema de Equipo'
+                                END estado_tipo_problema
+
                 FROM tickets t
                 left join personas as p1 on p1.id = t.persona_id
-                                left join personas as p2 on p2.id = t.responsable_atencion_id
-                                left join personas as p3 on p3.id = t.responsable_solucion_id
+                left join personas as p2 on p2.id = t.responsable_atencion_id
+                left join personas as p3 on p3.id = t.responsable_solucion_id
                 left join areas as a on a.id= t.area_id
                 WHERE t.estado=1 ";
 
@@ -66,7 +75,7 @@ class Ticket extends Base
         return $ticket;
     }
 
-    public static function getCambiarEstadoTicket( )
+    public static function getCambiarEstadoTicket( ) //ELIMINAR
     {   
         $sSql="UPDATE tickets set "
                 ."  estado='0',

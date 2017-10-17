@@ -6,7 +6,7 @@
         <button class="btn btn-sm btn-default pull-right" data-dismiss="modal">
             <i class="fa fa-close"></i>
         </button>
-        <h4 class="modal-title">New message</h4>
+        <h4 class="modal-title">Solucion GMGM</h4>
       </div>
       <div class="modal-body">
         <form id="form_soluciongmgm_modal" name="form_soluciongmgm_modal" action="" method="post" >
@@ -26,21 +26,21 @@
           </div>      
 
           <div class="col-sm-6">
-                  <label class="control-label">Tipo Problema:
-                  </label>
-                  <select class="form-control" name="slct_estado_tipo_problema" id="slct_estado_tipo_problema">
-                      <option value='' style="display:none">.:Seleccione:.</option>
-                      <option value='1'>Error de Usuario</option>
-                      <option value='2' selected>Insidencia del Sistema</option>
-                      <option value='3' selected>Consultas</option>
-                      <option value='4' selected>Peticiones</option>
-                      <option value='5' selected>Problema de Equipo</option>
-                  </select>
+            <div class="form-group">
+              <label class="control-label">Tipo Problema:</label>
+              <select class="form-control" name="slct_estado_tipo_problema" id="slct_estado_tipo_problema">
+                <option value="" style="display:none"="">.::Seleccione::.</option>
+                <option value='1'>Error de Usuario</option>
+                <option value='2'>Insidencia del Sistema</option>
+                <option value='3'>Consultas</option>
+                <option value='4'>Peticiones</option>
+                <option value='5'>Problema de Equipo</option>
+              </select>
+            </div>
+          </div>
 
-          </div>     
         </div><!-- FIN DEL DIV DE 12 -->   
 
-            
 
       
 

@@ -13,6 +13,7 @@
 
     @include( 'admin.ruta.js.ticketgmgm_ajax' )
     @include( 'admin.ruta.js.ticketgmgm' )
+    
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')

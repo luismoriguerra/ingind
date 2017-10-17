@@ -39,6 +39,7 @@ var Ticketgmgms={
         });
 
     },
+    
     CargarTickets:function(evento){
         $.ajax({
             url         : 'ticket/cargar',
@@ -65,6 +66,7 @@ var Ticketgmgms={
     },
 
     CambiarEstadoTickets: function(){ //atendido a solucion
+        
         var datos = $("#form_soluciongmgm_modal").serialize().split("txt_").join("").split("slct_").join("");
             $.ajax({
             url         : 'ticket/cambiarestado',

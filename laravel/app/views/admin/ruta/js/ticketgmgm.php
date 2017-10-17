@@ -9,7 +9,8 @@ $(document).ready(function() {
         3: Color Cabecera
     */
 
-    //slctGlobalHtml('slct_estado_ticket','simple');
+
+    slctGlobalHtml('slct_estado_tipo_problema','simple');
 
 
     var idG={   persona_id        :'3|Solicitante|#DCE6F1', //#DCE6F1
@@ -85,12 +86,11 @@ $(document).ready(function() {
     });
 
     $('#ticketgmgmModal').on('hide.bs.modal', function (event) {
-
-        $('#form_ticketgmgms_modal #txt_descripcion').val( '' );
-        
-
-
+        $('#form_ticketgmgms_modal #txt_descripcion').val( '' );      
     });
+
+
+
 });
 
 MostrarAjax=function(t){
