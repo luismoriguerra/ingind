@@ -47,7 +47,7 @@ class DocumentoDigital extends Base {
                             $query->where('dd.estado','=',1);
                         }
                     )
-//                    ->orderBy('dd.id')
+                    ->orderBy('dd.id')
                     ->get();
         }else{
             return DB::table('doc_digital as dd')
@@ -112,8 +112,8 @@ class DocumentoDigital extends Base {
                             /* }*/
                         }
                     )
-//                    ->orderBy('ruta','desc') 
-//                    ->orderBy('rutadetallev','desc')
+                    ->orderBy('ruta','desc') 
+                    ->orderBy('rutadetallev','desc')
                     ->get();            
         } 
     }
