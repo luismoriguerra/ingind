@@ -273,7 +273,7 @@ class DocumentoDigital extends Base {
         $r2=array(array('correlativo'=>'000001','ano'=>$año));
     	/*$sql = "SELECT LPAD(id+1,6,'0') as correlativo,'$año' ano FROM doc_digital ORDER BY id DESC LIMIT 1";*/
         $sql = "SELECT IFNULL(LPAD(MAX(dd.correlativo)+1,6,'0'),LPAD(1,6,'0')) as correlativo 
-                FROM doc_digital dd 
+                FROM doc_digital_temporal dd 
                 INNER JOIN plantilla_doc pd on dd.plantilla_doc_id=pd.id 
                 AND pd.tipo_documento_id=".Input::get('tipo_doc')." 
                 AND pd.area_id= ".Input::get('area_id').
@@ -286,7 +286,7 @@ class DocumentoDigital extends Base {
     	$año= date("Y");
         $r2=array(array('correlativo'=>'000001','ano'=>$año));
     	/*$sql = "SELECT LPAD(id+1,6,'0') as correlativo,'$año' ano FROM doc_digital ORDER BY id DESC LIMIT 1";*/
-        $sql = "SELECT IFNULL(LPAD(MAX(dd.correlativo)+1,6,'0'),LPAD(1,6,'0')) as correlativo from doc_digital dd 
+        $sql = "SELECT IFNULL(LPAD(MAX(dd.correlativo)+1,6,'0'),LPAD(1,6,'0')) as correlativo from doc_digital_temporal dd 
                 INNER JOIN plantilla_doc pd on dd.plantilla_doc_id=pd.id and pd.area_id=".Input::get('area_id')." and pd.tipo_documento_id=".Input::get('tipo_doc')." and dd.persona_id= ".Auth::user()->id.
                 " WHERE dd.estado=1 
                 AND YEAR(dd.created_at)=YEAR(CURDATE())";
@@ -297,7 +297,7 @@ class DocumentoDigital extends Base {
     	$año= date("Y");
         $r2=array(array('correlativo'=>'000001','ano'=>$año));
     	/*$sql = "SELECT LPAD(id+1,6,'0') as correlativo,'$año' ano FROM doc_digital ORDER BY id DESC LIMIT 1";*/
-        $sql = "SELECT IFNULL(LPAD(MAX(dd.correlativo)+1,6,'0'),LPAD(1,6,'0')) as correlativo from doc_digital dd 
+        $sql = "SELECT IFNULL(LPAD(MAX(dd.correlativo)+1,6,'0'),LPAD(1,6,'0')) as correlativo from doc_digital_temporal dd 
                 INNER JOIN plantilla_doc pd on dd.plantilla_doc_id=pd.id and pd.tipo_documento_id=".Input::get('tipo_doc')." WHERE dd.estado=1 
                 AND YEAR(dd.created_at)=YEAR(CURDATE())";
     	$r= DB::select($sql);
