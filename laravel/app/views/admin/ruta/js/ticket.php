@@ -8,6 +8,7 @@ $(document).ready(function() {
         2: Descripción de cabecera
         3: Color Cabecera
     */
+    
 
     //slctGlobalHtml('slct_estado_ticket','simple');
 

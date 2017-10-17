@@ -39,6 +39,7 @@ var Tickets={
         });
 
     },
+    
     CargarTickets:function(evento){
         $.ajax({
             url         : 'ticket/cargar',
