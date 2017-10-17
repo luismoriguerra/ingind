@@ -35,9 +35,10 @@
           <!-- JALA LA FECHA ACTUAL -->
           <div class="col-sm-2">
             <label class="control-label">Fecha Pendiente</label>
-              <input type="text" class="form-control text-center mant" name="txt_fecha_pendiente" id="txt_fecha_pendiente" value="<?php echo date("Y-m-d"); ?>" readonly=""> 
+              <input type="text" class="form-control text-center mant" name="txt_fecha_pendiente" id="txt_fecha_pendiente" value="<?php echo date("Y-m-d H:i:s"); ?>" readonly=""> 
           </div>
         </div> <!-- FIN DEL DIV DE 12 -->        
+
 
 
 

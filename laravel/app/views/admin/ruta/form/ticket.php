@@ -14,6 +14,7 @@
         <legend>Datos Importantes</legend>
         <div class="form-group"> 
 
+
   
          
         <!-- INICIA EL DIV DE 12 -->
@@ -35,7 +36,7 @@
           <!-- JALA LA FECHA ACTUAL -->
           <div class="col-sm-2">
             <label class="control-label">Fecha Pendiente</label>
-              <input type="text" class="form-control text-center mant" name="txt_fecha_pendiente" id="txt_fecha_pendiente" value="<?php echo date("Y-m-d"); ?>" readonly=""> 
+              <input type="text" class="form-control text-center mant" name="txt_fecha_pendiente" id="txt_fecha_pendiente" value="<?php echo date("Y-m-d H:i:s"); ?>" readonly=""> 
           </div>
         </div> <!-- FIN DEL DIV DE 12 -->        
 
@@ -49,11 +50,11 @@
               <textarea class="form-control" id="txt_descripcion" name="txt_descripcion" rows="8"></textarea>
             
           </div>
-        <!-- 
+
           <div class="col-md-4">
             <label>Documentos:</label>
               <form name="form_ddocumento" id="form_ddocumento" enctype="”multipart/form-data”">
-                <table id="t_ddocumento" class="table table-bordered" style="">
+                <table id="t_ddocumento" class="table table-bordered">
                   <thead class="bg-teal disabled color-palette">
                   <tr>
                     <th>N°</th>
@@ -72,17 +73,14 @@
                 </table>
               </form>
           </div>
-        -->
-        <!--
           <div class="col-md-2 form-group">
             <label>Cantidad:</label>
               <input type="text" class="form-control mant" id="txt_cantidad" name="txt_cantidad" value="0">
           </div>
-        -->
-          <!--
+
           <div class="col-sm-6 validoarchivo" style= "margin-top: 40px;">
             <label>Archivos:</label>
-              <form name="form_darchivo" id="form_darchivo" enctype="”multipart/form-data”" style="">
+              <form name="form_darchivo" id="form_darchivo" enctype="”multipart/form-data”">
                 <table id="t_darchivo" class="table table-bordered">
                   <thead class="bg-aqua disabled color-palette">
                     <tr>
@@ -101,7 +99,7 @@
                 </table>
               </form>
            </div>
-         -->
+
            
         </div><!-- FIN DEL DIV DE 12 -->   
 

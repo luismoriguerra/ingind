@@ -8,6 +8,7 @@ class TicketController extends \BaseController
      *
      * @return Response
      */
+     
 
     public function postCargar()
     {
