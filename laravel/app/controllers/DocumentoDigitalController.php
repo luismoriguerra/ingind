@@ -267,7 +267,8 @@ class DocumentoDigitalController extends \BaseController {
                     ->whereIn('rol_id', array(8,9,6))
                     ->where('estado',1)
                     ->get();
-                    
+            
+            DB::beginTransaction();                    
             $DocDigital = DocumentoDigital::find(Input::get('iddocdigital'));
             //$DocDigital->titulo = Input::get('titulofinal');
             //$DocDigital->correlativo = Input::get('titulo');
@@ -361,7 +362,7 @@ class DocumentoDigitalController extends \BaseController {
                             }
                         }                    
             }
-
+            DB::commit();
             return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
         }
     }
