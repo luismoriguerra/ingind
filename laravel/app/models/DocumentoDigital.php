@@ -335,6 +335,14 @@ class DocumentoDigital extends Base {
                 ."', updated_f_comentario='".Input::get('comentario')
                 ."' WHERE id=".Input::get('id');
         $oData = DB::update($sSql);
+        
+        $sSqla="UPDATE doc_digital_temporal set "
+                ." usuario_f_updated_at=".Auth::user()->id
+                .", created_at='".$created
+                ."', updated_f_comentario='".Input::get('comentario')
+                ."' WHERE id=".Input::get('id');
+        $oDataa = DB::update($sSqla);
+        
         return $oData;
     }
     
