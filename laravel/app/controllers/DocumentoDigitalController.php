@@ -296,7 +296,7 @@ class DocumentoDigitalController extends \BaseController {
 
                 // Update doc digital Temp
                 $sql = "UPDATE doc_digital_temporal
-                        SET asunto = '".$DocDigital->asunto."', cuerpo= '".$DocDigital->cuerpo."', envio_total='".$DocDigital->envio_total."', tipo_envio='".$DocDigital->tipo_envio."', usuario_updated_at='".$DocDigital->usuario_updated_at."'
+                        SET asunto = '".$DocDigital->asunto."', envio_total='".$DocDigital->envio_total."', tipo_envio='".$DocDigital->tipo_envio."', usuario_updated_at='".$DocDigital->usuario_updated_at."'
                         WHERE id =  ".$DocDigital->id;
                 DB::update($sql);
                 // --
