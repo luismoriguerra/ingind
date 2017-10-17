@@ -335,7 +335,6 @@ HTMLEdit = function(data){
         var tnombre= $.trim($.trim( titulo[1] ).substring(2));
         document.querySelector("#txt_titulo").value = tnombre;
         document.querySelector('#txt_area_plantilla').value = data[0].area_id;
-        CKEDITOR.instances.plantillaWord.setData('');
         CKEDITOR.instances.plantillaWord.setData( data[0].cuerpo );
         document.querySelector("#txt_asunto").value = data[0].asunto;
         document.querySelector("#txt_iddocdigital").value = data[0].id;
