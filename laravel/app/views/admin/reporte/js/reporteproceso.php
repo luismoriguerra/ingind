@@ -222,7 +222,7 @@
                         '<tr>' +
                         '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',1)" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
                         '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',2)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
-                        '<td><a onclick="ExportarRTP(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',1)" id="ertp_'+data.ruta_flujo_id+'" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-download-alt"></i> </a></td>' +
+                        '<td><a onclick="ExportarRTP(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',1)" class="btn btn-primary btn-xs ertp_'+data.ruta_flujo_id+'"><i class="glyphicon glyphicon-download-alt"></i> </a></td>' +
                         '</tr>' +
                         '</table>'+
                         '</td>';
@@ -775,6 +775,7 @@
         $('#t_tramite_actividad').dataTable().fnDestroy();
 
         html_cabecera = "<tr class='info'>" +
+                        "<th> [] </th>"+
                         "<th> Tramite </th>";    
                         $.each(cabecera, function (index, cabecera) {
                             html_cabecera += "<th >Actividad "+n+"</th>";
@@ -785,7 +786,8 @@
         
         $.each(datos, function (index, data) {
             html += "<tr>";
-                html += "<td>" + data.id_union + "</td>";
+                html += '<td><a onClick="detalle(' + data.id + ',this)" class="btn btn-primary btn-sm" data-id="' + data.id + '" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a> </td>'+
+                        "<td>" + data.id_union + "</td>";
                 var i;
                 for (i = 1; i <= (n-1); i++)
                 {
@@ -828,7 +830,8 @@
         var html = '';
         var alerta_tipo = '';
 
-        $('#form_tramite #t_tramite').dataTable().fnDestroy();
+        //$('#form_tramite #t_tramite').dataTable().fnDestroy();
+        $('#form_tramite').dataTable().fnDestroy();
         pos = 0;
 
 
@@ -900,7 +903,7 @@
         Proceso.MostrarTramiteActividad(id, fechames, tramite);
         $("#form_tactividad").css("display", "");
 
-        Proceso.MostrarTramites(dataG);
+        //Proceso.MostrarTramites(dataG);
         $("#form_tramite").css("display", "");
         $("#form_tramite_detalle").css("display", "none");
         $("#form_detallecuadro").css("display", "none");
@@ -911,10 +914,11 @@
         var fecha_ini = $('#fecha_ini').val();
         var fecha_fin = $('#fecha_fin').val();
         //var dataG = [];
+
         if (fechames == null) {
-            $("#ertp_"+id).attr('href','reporte/exportreportetramite'+'?ruta_flujo_id='+id+'&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+'&tramite='+tramite);
+            $(".ertp_"+id).attr('href','reporte/exportreportetramite'+'?ruta_flujo_id='+id+'&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+'&tramite='+tramite);
         } else {
-            $("#ertp_"+id).attr('href','reporte/exportreportetramite'+'?ruta_flujo_id='+id+'&fechames='+fechames+'&tramite='+tramite);
+            $(".ertp_"+id).attr('href','reporte/exportreportetramite'+'?ruta_flujo_id='+id+'&fechames='+fechames+'&tramite='+tramite);
         }
     };
 

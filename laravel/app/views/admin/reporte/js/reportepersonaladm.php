@@ -14,6 +14,10 @@ $(document).ready(function() {
         todayBtn: false
     });
 
+    // Carga las AREAS por default
+    Reporte.MostrarAreas();
+    // --
+
     $('#div_detalle').hide();
 
     $('#spn_fecha_ini').click(function(){
@@ -52,7 +56,7 @@ $(document).ready(function() {
 
     // Fija las cabeceras de las tablas
         //goheadfixed('table.table_nv');
-
+        /*
         function goheadfixed(classtable) {
         
             if($(classtable).length) {
@@ -88,7 +92,7 @@ $(document).ready(function() {
                         $('.fix-head').css('top', hcaption+'px');
                 });
         
-                /*  If the windows resize   */
+                //If the windows resize
                 $(window).resize(goresize);
         
             }
@@ -98,6 +102,7 @@ $(document).ready(function() {
             $('.fix-head').css('width', $('.fix-inner table').outerWidth(true)+'px');
             $('.fix-head').css('height', $('.fix-inner table thead').outerHeight(true)+'px');
         }
+        */
     // --
 
     
@@ -106,6 +111,26 @@ $(document).ready(function() {
 activarTabla=function(){
     //$("#t_detalles").dataTable(); // inicializo el datatable    
 };
+
+HTMLMostrarAreas=function(datos){    
+
+    if(datos.length > 0){
+        var html ='';
+
+        html = '<select class="form-control" name="slct_area_ws" id="slct_area_ws">';
+        html += "<option value='0'>.::::::: Seleccione una Opción del listado :::::::.</option>";
+        $.each(datos,function(index,data){
+                html+="<option value='"+data.id+"'>"+data.area+'</option>';
+        });
+        html += '</select>';
+
+        $("#div_areas").html(html);
+        // --
+    }else{
+        $("#div_areas").html("No existe Areas.");
+    }
+};
+
 
 HTMLMostrarReporte=function(datos){    
     $('#t_ordenest').dataTable().fnDestroy();
@@ -166,7 +191,6 @@ HTMLMostrarReporte=function(datos){
 
         $("#tb_ordenest").html(html);
         $("#t_ordenest").dataTable();
-        //$("#reporte").show();
         // --
     }else{
         $("#tb_ordenest").html("");

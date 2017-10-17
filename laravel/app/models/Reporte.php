@@ -826,7 +826,7 @@ class Reporte extends Eloquent
     public static function ReporteTramiteActividad( $array, $cant_pasos )
     {
         $cabecera = [];
-        $sql =" SELECT tr.id_union ";
+        $sql =" SELECT r.id, tr.id_union ";
 
         for($i=1; $i<=$cant_pasos; $i++)
         {

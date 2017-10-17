@@ -228,10 +228,12 @@
                         </div>
                     </form>
                 </div>
+
                 <div class="col-xl-12">
                     <form id="form_1" name="form_1"></form>
                     <form id="form_tramite" name="form_tramite" method="POST" action="" style="display: none">
-                        <div class="box-body table-responsive" style="overflow: auto; height: 388px; width: 100%;">
+                    <!--
+                        <div class="box-body table-responsive" style="overflow: auto; height: 388px; width: 100%;">                            
                             <table id="t_tramite" class="table table-bordered no-footer dataTable">
                                 <thead id="tt_tramite">
                                     <tr>
@@ -258,8 +260,10 @@
                                 </tbody>
                             </table>
                         </div>
+                    -->
                     </form>
                 </div>
+            
                 <hr>
                 <div class="col-xl-12">
                     <div class="form-group" id="form_tramite_detalle" style="display: none">

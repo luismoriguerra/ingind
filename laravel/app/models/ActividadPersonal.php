@@ -35,6 +35,7 @@ class ActividadPersonal extends Base
     {
         $sSql=" SELECT  COUNT(ap.id) cant
                 FROM actividad_personal ap
+                INNER JOIN actividad_categorias ac ON ac.id=ap.actividad_categoria_id
                 WHERE 1=1 ";
         $sSql.= $array['where'];
         $oData = DB::select($sSql);
@@ -43,8 +44,9 @@ class ActividadPersonal extends Base
 
     public static function getCargar( $array )
     {
-        $sSql=" SELECT ap.id, ap.actividad, ap.estado
+        $sSql=" SELECT ap.id, ap.actividad,ac.nombre as categoria, ap.estado
                 FROM actividad_personal ap
+                INNER JOIN actividad_categorias ac ON ac.id=ap.actividad_categoria_id
                 WHERE 1=1 ";
         $sSql.= $array['where'].
                 $array['order'].

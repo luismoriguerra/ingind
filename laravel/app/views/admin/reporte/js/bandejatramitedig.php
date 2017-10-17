@@ -310,7 +310,6 @@ mostrarDetallle=function(id,rtid = ''){ //OK
     $("#form_ruta_detalle").append("<input type='hidden' id='ruta_id' name='ruta_id' value='"+rtid+"'>");
     var datos={ruta_detalle_id:id};
     Validar.mostrarDetalle(datos,mostrarDetalleHTML);
-    $('#btn_siguiente_rd').attr('onClick', 'asignarTramitePaso('+id+');');
 }
 
 mostrarDetalleHTML=function(datos){
@@ -326,12 +325,17 @@ mostrarDetalleHTML=function(datos){
     /*Bandeja.poblarCombo('documento','cbotipoDoc',filtro,HTMLCombo);
     Bandeja.poblarCombo('rol','cboRoles',filtro,HTMLCombo);*/
     /*add new ruta detalle verbo*/
-    
+    $('#btn_siguiente_rd').attr('onClick', 'asignarTramitePaso('+datos.ruta_id+');');
     // --
-    if((datos.rd_ruta_flujo_id * 1) > 0)
-        $("#btn_siguiente_rd").show().html('<i class="glyphicon glyphicon-check"></i>&nbsp;'+datos.rd_proceso);
-    else
+    if((!datos.rd_ruta_flujo_id * 1) > 0){
+        var dataG={norden:datos.norden,ruta_id:datos.ruta_id};
+        slctGlobal.listarSlctFuncion('ruta','listarmicro','slct_micro',null,null,dataG);
+        $('#form_ruta_detalle #slct_micro').multiselect('destroy');
+        $(".sectionmicro").css("display","");
+        $("#btn_siguiente_rd").show().html('<i class="glyphicon glyphicon-check"></i>&nbsp;Adjuntar Micro');
+    }else{
         $("#btn_siguiente_rd").hide();
+        $(".sectionmicro").css("display","none");}
     // --
 
     /*ruta flujo id para visualizar la ruta */
@@ -364,7 +368,7 @@ mostrarDetalleHTML=function(datos){
     slctGlobal.listarSlct('tiporespuesta','slct_tipo_respuesta','simple',ids,data,0,'#slct_tipo_respuesta_detalle','TR');
     slctGlobal.listarSlct('tiporespuestadetalle','slct_tipo_respuesta_detalle','simple',ids,data,1);
     $("#form_ruta_detalle [data-target='#expedienteModal']").attr("data-id",datos.id_tr);
-
+    
     $("#form_ruta_detalle #txt_fecha_tramite").val(datos.fecha_tramite);
     $("#form_ruta_detalle #txt_sumilla").val(datos.sumilla);
     $("#form_ruta_detalle #txt_solicitante").val(datos.solicitante);
@@ -496,9 +500,9 @@ mostrarDetalleHTML=function(datos){
                 }*/
                 if($.trim( detalle[i].split("=>")[15] )!='' && (RolIdG==8 || RolIdG==9)){
                     $("#t_detalle_verbo select[data-id='"+detalle[i].split("=>")[0]+"'] option[value='"+detalle[i].split("=>")[15]+"']").attr('selected',true);
-                    console.log($("#t_detalle_verbo select[data-id='"+detalle[i].split("=>")[0]+"'] option[value='"+detalle[i].split("=>")[15]+"']").html());
-                    console.log(detalle[i].split("=>")[0]);
-                    console.log('hola2');                   
+                 //   console.log($("#t_detalle_verbo select[data-id='"+detalle[i].split("=>")[0]+"'] option[value='"+detalle[i].split("=>")[15]+"']").html());
+                //    console.log(detalle[i].split("=>")[0]);
+                 //   console.log('hola2');                   
                 }
             }
 
@@ -544,7 +548,7 @@ guardarTodo=function(){
                     }
                 );
 
-                console.log($(this).val());
+               // console.log($(this).val());
                 verboaux+="|"+$(this).val();
                 codaux+= "|"+codauxd.substr(1);
                 obsaux+="|"+$("#area_"+$(this).val()).val();
@@ -1168,11 +1172,15 @@ pintarAreasG=function(permiso){
 }
 
 // Nuevos procesos para boton Tramites
-asignarTramitePaso = function(ruta_detalle_id){
-    sweetalertG.confirm("Confirmación!", "Desea continuar con el proceso?", function(){
-        var data={ruta_detalle_id:ruta_detalle_id};
+asignarTramitePaso = function(ruta_id){
+    if($('#form_ruta_detalle #slct_micro').val()!=''){
+      sweetalertG.confirm("Confirmación!", "Desea Agregar el MicroProceso Seleccionado?", function(){
+        var data={ruta_id:ruta_id,ruta_detalle_micro_id:$('#form_ruta_detalle #slct_micro').val()};
         Bandeja.AdicionarMicroProceso(data);
     });
+    }else{
+        swal("Mensaje", "Seleccione MicroProceso");
+    }
 }
 // --
 

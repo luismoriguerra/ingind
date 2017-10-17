@@ -1,11 +1,13 @@
 <script type="text/javascript">
 $(document).ready(function() {
     $("#enviar").click(function (){
-        data={idarea:1};
+        //data={idarea:1};
+        var data = '';
         Accion.mostrar(data);
     });
 });
 mostrarHTML=function(datos){
+    /*
     $('#t_reporte').dataTable().fnDestroy();
     $("#t_reporte>tbody").html(datos);
     $("#t_reporte").dataTable({
@@ -17,5 +19,6 @@ mostrarHTML=function(datos){
             "bInfo": false,
             "visible": false,
     });
+    */
 };
 </script>

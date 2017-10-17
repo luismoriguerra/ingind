@@ -2,7 +2,14 @@
 class RutaController extends \BaseController
 {
     
-            public function postCrearmicroproceso() {
+    public function postListarmicro(){
+        if ( Request::ajax() ) {
+            $res= RutaDetalleMicro::getListar();
+            return Response::json(array('rst'=>1,'datos'=>$res));
+        }
+    }
+    
+    public function postCrearmicroproceso() {
         if (Request::ajax()) {
             $regex = 'regex:/^([a-zA-Z .,ñÑÁÉÍÓÚáéíóú]{2,60})$/i';
             $required = 'required';
@@ -55,16 +62,14 @@ class RutaController extends \BaseController
         }
     }
 
-            public function postListardetalleruta()
-    {
+    public function postListardetalleruta(){
         if ( Request::ajax() ) {
             $res=Ruta::getlistarDetalleRuta();
             return Response::json(array('rst'=>1,'datos'=>$res));
         }
     }
     
-            public function postCargarmicro()
-    {
+    public function postCargarmicro(){
         if ( Request::ajax() ) {
             $res=Ruta::getCargarMicro();
             return Response::json(array('rst'=>1,'datos'=>$res));

@@ -16,7 +16,7 @@
                   <div class="box-body table-responsive">
                       <table id="t_actiasignada" class="table table-bordered table-striped">
                           <thead>
-                              <tr><th colspan="2" style="text-align:center;background-color:#A7C0DC;"><h2>Actividades Asignadas</h2></th></tr>
+                              <tr><th colspan="3" style="text-align:center;background-color:#A7C0DC;"><h2>Actividades Asignadas</h2></th></tr>
                               <tr></tr>
                           </thead>
                           <tbody>
