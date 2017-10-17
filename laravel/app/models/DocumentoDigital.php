@@ -347,6 +347,15 @@ class DocumentoDigital extends Base {
                     updated_at= now() 
                     WHERE id=".Input::get('id');
         $oData = DB::update($sSql);
+        
+        $sSqla="UPDATE doc_digital_temporal set "
+                ." titulo=CONCAT_WS('|',titulo,now()), 
+                    estado='0',
+                    usuario_updated_at='".Auth::user()->id."', 
+                    updated_at= now() 
+                    WHERE id=".Input::get('id');
+        $oDataa = DB::update($sSqla);
+        
         return $oData;
     }
 
