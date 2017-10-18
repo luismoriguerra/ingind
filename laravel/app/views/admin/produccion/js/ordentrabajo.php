@@ -3,7 +3,7 @@ var TablaDocumento; // Datos Globales
 var cabeceraG1=[]; // Cabecera del Datatable
 var columnDefsG1=[]; // Columnas de la BD del datatable
 var targetsG1=-1; // Posiciones de las columnas del datatable
-$(document).ready(function() { 
+$(document).ready(function() {
     var idG1={  persona_c        :'onBlur|Creador|#DCE6F1', //#DCE6F1
                 titulo      :'onBlur|Título|#DCE6F1', //#DCE6F1
                 asunto        :'onBlur|Asunto|#DCE6F1', //#DCE6F1
@@ -65,6 +65,11 @@ $(document).ready(function() {
         $("#txt_ttotal").val(CalcGlobalH());
     }); 
     
+    $('.fechaG').daterangepicker({
+        format: 'YYYY-MM-DD',
+        singleDatePicker: true,
+        showDropdowns: true
+    });
             
     });
 
