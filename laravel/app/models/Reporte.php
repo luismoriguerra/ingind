@@ -206,18 +206,24 @@ class Reporte extends Eloquent
                     )
                 ) AS persona,
                 IF( 
-                    CalcularFechaFinal(
-                    rd.fecha_inicio, 
-                    (rd.dtiempo*t.totalminutos),
-                    rd.area_id
-                    )>=CURRENT_TIMESTAMP(),'<div style=\"background: #00DF00;color: white;\">Dentro del Tiempo</div>','<div style=\"background: #FE0000;color: white;\">Fuera del Tiempo</div>'
+                    IF( rd.fecha_proyectada is not null, rd.fecha_proyectada, 
+                        CalcularFechaFinal(
+                            rd.fecha_inicio, 
+                            (rd.dtiempo*t.totalminutos),
+                            rd.area_id
+                        )
+                    )
+                    >=CURRENT_TIMESTAMP(),'<div style=\"background: #00DF00;color: white;\">Dentro del Tiempo</div>','<div style=\"background: #FE0000;color: white;\">Fuera del Tiempo</div>'
                 ) tiempo_final,
                 IF( 
-                    CalcularFechaFinal(
-                    rd.fecha_inicio, 
-                    (rd.dtiempo*t.totalminutos),
-                    rd.area_id
-                    )>=CURRENT_TIMESTAMP(),'Dentro del Tiempo','Fuera del Tiempo'
+                    IF( rd.fecha_proyectada is not null, rd.fecha_proyectada, 
+                        CalcularFechaFinal(
+                            rd.fecha_inicio, 
+                            (rd.dtiempo*t.totalminutos),
+                            rd.area_id
+                        )
+                    )
+                    >=CURRENT_TIMESTAMP(),'Dentro del Tiempo','Fuera del Tiempo'
                 ) tiempo_final_n
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
