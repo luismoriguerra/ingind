@@ -128,7 +128,7 @@ class DocumentoDigital extends Base {
         public static function getCargarCount( $array )
     {           
         $sSql=' select COUNT(dd.id) cant
-                from `doc_digital` as `dd` 
+                from `doc_digital_temporal` as `dd` 
                 inner join `plantilla_doc` as `pd` on `dd`.`plantilla_doc_id` = `pd`.`id` 
                 left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
                 left join `personas` as `p1` on `p1`.`id` = `dd`.`usuario_updated_at` 
@@ -156,7 +156,7 @@ class DocumentoDigital extends Base {
                      INNER JOIN rutas_detalle_verbo as rdv on rdv.ruta_detalle_id=rd.id and rdv.estado=1
                      where r.estado=1 AND dd.id=rdv.doc_digital_id) as rutadetallev,
                      `dd`.`id`, `dd`.`titulo`, `dd`.`asunto`, `pd`.`descripcion` as `plantilla`, `dd`.`estado` 
-                from `doc_digital` as `dd` 
+                from `doc_digital_temporal` as `dd` 
                 inner join `plantilla_doc` as `pd` on `dd`.`plantilla_doc_id` = `pd`.`id` 
                 left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
                 left join `personas` as `p1` on `p1`.`id` = `dd`.`usuario_updated_at` 
@@ -191,7 +191,7 @@ class DocumentoDigital extends Base {
                         WHEN "- | -" THEN "PENDIENTE"
                         ELSE "ASIGNADO"
                     END as asignacion
-                from `doc_digital` as `dd` 
+                from `doc_digital_temporal` as `dd` 
                 inner join `plantilla_doc` as `pd` on `dd`.`plantilla_doc_id` = `pd`.`id` 
                 left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
                 left join `personas` as `p1` on `p1`.`id` = `dd`.`usuario_updated_at` 
@@ -215,7 +215,7 @@ class DocumentoDigital extends Base {
            $documentos_area="`dd`.`area_id`=".$area_id." OR "; 
         }
         $sSql=' select COUNT(DISTINCT dd.id) cant
-                from `doc_digital` as `dd` 
+                from `doc_digital_temporal` as `dd` 
 		INNER JOIN `doc_digital_area` `dda` on `dda`.`doc_digital_id`=`dd`.`id` AND `dda`.`estado`=1 AND
 		( '.$documentos_area.' `dda`.`area_id` IN  (
                                         SELECT DISTINCT(a.id)
@@ -245,7 +245,7 @@ class DocumentoDigital extends Base {
         $sSql=' select 2 as tipo,DATE(dd.created_at)as created_at, CONCAT_WS(" ",p1.paterno,p1.materno,p1.nombre) as persona_u,
                 CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona_c,
                      `dd`.`id`, `dd`.`titulo`, `dd`.`asunto`, `pd`.`descripcion` as `plantilla`, `dd`.`estado` 
-                from `doc_digital` as `dd` 
+                from `doc_digital_temporal` as `dd` 
 		INNER JOIN `doc_digital_area` `dda` on `dda`.`doc_digital_id`=`dd`.`id` AND `dda`.`estado`=1 AND
 		( '.$documentos_area.' `dda`.`area_id` IN  (
                                         SELECT DISTINCT(a.id)
@@ -335,6 +335,14 @@ class DocumentoDigital extends Base {
                 ."', updated_f_comentario='".Input::get('comentario')
                 ."' WHERE id=".Input::get('id');
         $oData = DB::update($sSql);
+        
+        $sSqla="UPDATE doc_digital_temporal set "
+                ." usuario_f_updated_at=".Auth::user()->id
+                .", created_at='".$created
+                ."', updated_f_comentario='".Input::get('comentario')
+                ."' WHERE id=".Input::get('id');
+        $oDataa = DB::update($sSqla);
+        
         return $oData;
     }
     

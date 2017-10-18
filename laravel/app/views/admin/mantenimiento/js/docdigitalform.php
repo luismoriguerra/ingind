@@ -268,7 +268,7 @@ editDocDigital = function(id,flotante){
     }
     
     CrearEditar=0;
-    Plantillas.CargarAreas();
+    //Plantillas.CargarAreas();
     Plantillas.Cargar(HTMLEdit,{'id':id});
 }
 
