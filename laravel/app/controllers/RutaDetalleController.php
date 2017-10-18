@@ -207,13 +207,20 @@ class RutaDetalleController extends \BaseController
                         $rd->save();
                     }
 
+                    $fecha_inicio=date("Y-m-d H:i:s");
+
                     $rdetalle = new RutaDetalle;
                     $rdetalle['ruta_id'] = $rd->ruta_id;
                     $rdetalle['area_id'] = $rd->area_id;
                     $rdetalle['tiempo_id'] = $rd->tiempo_id;
                     $rdetalle['dtiempo'] = $rd->dtiempo;
                     $rdetalle['norden'] = $rd->norden;
-                    $rdetalle['fecha_inicio'] =  ($i==1) ? date("Y-m-d H:i:s") : NULL; 
+                    $rdetalle['fecha_inicio'] =  ($i==1) ? $fecha_inicio : NULL; 
+                    if($i==1){
+                        $sql="SELECT CalcularFechaFinal( '".$fecha_inicio."', (".$rd->dtiempo."*1440), ".$rd->area_id." ) fproy";
+                        $fproy= DB::select($sql);
+                        $rdetalle['fecha_proyectada']=$fproy[0]->fproy;
+                    }
                     $rdetalle['estado_ruta'] = 1;
                     $rdetalle['created_at'] =  date("Y-m-d H:i:s");  
                     $rdetalle['usuario_created_at'] = Auth::user()->id;
@@ -484,6 +491,9 @@ class RutaDetalleController extends \BaseController
                             if($idSiguiente != 0){ //si existe actualizara
                                 $rd2 = RutaDetalle::find($idSiguiente);
                                 $rd2['fecha_inicio']= $fechaInicio ;
+                                    $sql="SELECT CalcularFechaFinal( '".$fechaInicio."', (".$rd2->dtiempo."*1440), ".$rd2->area_id." ) fproy";
+                                    $fproy= DB::select($sql);
+                                $rd2['fecha_proyectada']=$fproy[0]->fproy;
                                 $rd2['usuario_updated_at']= Auth::user()->id;
                                 $rd2->save();                                
                             }
@@ -491,6 +501,9 @@ class RutaDetalleController extends \BaseController
                         elseif($faltaparalelo==0 and $inciodato>0 and $terminodato==0 and $validaSiguiente[$i]->estado_ruta==2){ // cuando es paralelo iniciar tb
                             $rd3 = RutaDetalle::find($validaSiguiente[$i]->id);
                             $rd3['fecha_inicio']= $validaSiguiente[$i]->ahora;
+                                $sql="SELECT CalcularFechaFinal( '".$fechaInicio."', (".$rd3->dtiempo."*1440), ".$rd3->area_id." ) fproy";
+                                $fproy= DB::select($sql);
+                            $rd3['fecha_proyectada']=$fproy[0]->fproy;
                             $rd3['usuario_updated_at']= Auth::user()->id;
                             $rd3->save();
                         }
@@ -525,62 +538,8 @@ class RutaDetalleController extends \BaseController
                     $rf['usuario_updated_at']=Auth::user()->id;
                     $rf->save();
                 }
-                /*try{
-                    Mail::queue('emails', $parametros , 
-                        function($message){
-                        $message->to(Input::get('jorgeshevchenk@gmail.com'),'')
-                                ->subject('.::Inicio Trámite Activado::.');
-                        }
-                    );
-                    //DB::commit();
-                    return Response::json(array(
-                        'rst'=>1,
-                        'msj'=>'Se realizó con éxito su cierre',
-                    )); 
-                }
-                catch(Exception $e){
-                    //DB::rollback();
-                    return Response::json(array(
-                        'rst'=>2,
-                        'msj'=>array('No se pudo realizar el envio de Email; Favor de verificar su email e intente nuevamente.'),
-                    ));
-                    throw $e;
-                }*/
                 DB::commit();
                 /******************************************Validación del Documento***********************************************/
-            /*if( Input::get('verbog') OR Input::get('codg') OR Input::get('obsg') ){
-                for($i=0; $i<count($coddocg); $i++){
-                    if($coddocg[$i]!='undefined'){
-                        $url ='https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=sincro&documento_id='.$coddocg[$i];
-                        array_push($datos, $url);
-                        $curl_options = array(
-                                    //reemplazar url 
-                                    CURLOPT_URL => $url,
-                                    CURLOPT_HEADER => 0,
-                                    CURLOPT_RETURNTRANSFER => TRUE,
-                                    CURLOPT_TIMEOUT => 0,
-                                    CURLOPT_SSL_VERIFYPEER => 0,
-                                    CURLOPT_FOLLOWLOCATION => TRUE,
-                                    CURLOPT_ENCODING => 'gzip,deflate',
-                            );
-
-                            $ch = curl_init();
-                            curl_setopt_array( $ch, $curl_options );
-                            $output = curl_exec( $ch );
-                            curl_close($ch);
-                        $r = json_decode(utf8_encode($output),true);
-
-                        if ( !isset($r["sincro"][0]["valida"]) OR (isset($r["sincro"][0]["valida"]) AND $r["sincro"][0]["valida"]!='TRUE') ){
-                          try {             
-                              $insert='INSERT INTO documentos_indedocs (documento_id) 
-                                             VALUES ('.$coddocg[$i].')';
-                                    DB::insert($insert);
-                          } catch (Exception $ex) {
-                          }
-                        }
-                    }
-                }
-            }*/
                 /*********************************************************************************************************************/
                     return Response::json(array(
                         'rst'=>1,
@@ -590,41 +549,6 @@ class RutaDetalleController extends \BaseController
             }
             else{
                 DB::commit();
-                /******************************************Validación del Documento***********************************************/
-            /*if( Input::get('verbog') OR Input::get('codg') OR Input::get('obsg') ){
-                for($i=0; $i<count($coddocg); $i++){
-                    if($coddocg[$i]!='undefined'){
-                        $url ='https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=sincro&documento_id='.$coddocg[$i];
-                        array_push($datos, $url);
-                        $curl_options = array(
-                                    //reemplazar url 
-                                    CURLOPT_URL => $url,
-                                    CURLOPT_HEADER => 0,
-                                    CURLOPT_RETURNTRANSFER => TRUE,
-                                    CURLOPT_TIMEOUT => 0,
-                                    CURLOPT_SSL_VERIFYPEER => 0,
-                                    CURLOPT_FOLLOWLOCATION => TRUE,
-                                    CURLOPT_ENCODING => 'gzip,deflate',
-                            );
-
-                            $ch = curl_init();
-                            curl_setopt_array( $ch, $curl_options );
-                            $output = curl_exec( $ch );
-                            curl_close($ch);
-                        $r = json_decode(utf8_encode($output),true);
-
-                        if ( !isset($r["sincro"][0]["valida"]) OR (isset($r["sincro"][0]["valida"]) AND $r["sincro"][0]["valida"]!='TRUE') ){
-                          try {             
-                              $insert='INSERT INTO documentos_indedocs (documento_id) 
-                                             VALUES ('.$coddocg[$i].')';
-                                    DB::insert($insert);
-                          } catch (Exception $ex) {
-                          }
-                        }
-                    }
-                }
-            }*/
-                /*********************************************************************************************************************/
                 return Response::json(
                     array(
                         'rst'=>'1',
