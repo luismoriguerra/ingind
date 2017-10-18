@@ -213,11 +213,7 @@ class DocumentoDigital extends Base {
                                     ))
                 inner join `plantilla_doc` as `pd` on `dd`.`plantilla_doc_id` = `pd`.`id` 
                 left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
-                left join `personas` as `p1` on `p1`.`id` = `dd`.`usuario_updated_at` 
                 where (`dd`.`estado` = 1) ';
-        if(Auth::user()->vista_doc==0){
-           $sSql.=" AND dd.usuario_created_at=".Auth::user()->id;
-        }
         $sSql.= $array['where'];
         $oData = DB::select($sSql);
         return $oData[0]->cant;
@@ -231,7 +227,7 @@ class DocumentoDigital extends Base {
         if(Auth::user()->rol_id!=8 AND Auth::user()->rol_id !=9){
            $documentos_area="`dd`.`area_id`=".$area_id." OR "; 
         }
-        $sSql=' select 2 as tipo,DATE(dd.created_at)as created_at, CONCAT_WS(" ",p1.paterno,p1.materno,p1.nombre) as persona_u,
+        $sSql=' select 2 as tipo,DATE(dd.created_at)as created_at,
                 CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona_c,
                      `dd`.`id`, `dd`.`titulo`, `dd`.`asunto`, `pd`.`descripcion` as `plantilla`, `dd`.`estado` 
                 from `doc_digital_temporal` as `dd` 
@@ -246,11 +242,7 @@ class DocumentoDigital extends Base {
                                     ))
                 inner join `plantilla_doc` as `pd` on `dd`.`plantilla_doc_id` = `pd`.`id` 
                 left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
-                left join `personas` as `p1` on `p1`.`id` = `dd`.`usuario_updated_at` 
                 where (`dd`.`estado` = 1)';
-        if(Auth::user()->vista_doc==0){
-           $sSql.=" AND dd.usuario_created_at=".Auth::user()->id;
-        }
         $sSql.= $array['where'];
         $sSql.=' GROUP BY dd.id';
         $sSql.=$array['order'];
