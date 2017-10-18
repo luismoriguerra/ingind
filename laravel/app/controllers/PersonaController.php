@@ -150,6 +150,13 @@ class PersonaController extends BaseController
                 }
             }
 
+            if( Input::has("vista_doc") ){
+                $vista_doc=Input::get("vista_doc");
+                if( trim( $vista_doc )!='' ){
+                    $array['where'].=" AND p.vista_doc='".$vista_doc."' ";
+                }
+            }
+
             if( Input::has("estado") ){
                 $estado=Input::get("estado");
                 if( trim( $estado )!='' ){
@@ -300,6 +307,7 @@ class PersonaController extends BaseController
             $persona['area_id'] = Input::get('area');
             $persona['rol_id'] = Input::get('rol');
             $persona['modalidad'] = Input::get('modalidad');
+            $persona['vista_doc'] = Input::get('vista_doc');
             $persona['estado'] = Input::get('estado');
             $persona['usuario_created_at'] = Auth::user()->id;
             $persona['verified'] = true;
@@ -463,6 +471,7 @@ class PersonaController extends BaseController
                 $persona['fecha_nacimiento'] = Input::get('fecha_nacimiento');
 
             $persona['modalidad'] = Input::get('modalidad');
+            $persona['vista_doc'] = Input::get('vista_doc');
             $persona['estado'] = Input::get('estado');
             $persona['usuario_updated_at'] = Auth::user()->id;
             $persona->save();

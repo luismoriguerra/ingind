@@ -14,7 +14,8 @@ var PersonasG={
         password:"",
         area:"",     
         rol:"",
-        modalidad:"", 
+        modalidad:"",
+        vista_doc:"",
         estado:1
         };
 
@@ -30,7 +31,8 @@ $(document).ready(function() {
               //  password      :'onBlur|Password|#DCE6F1', //#DCE6F1
                 area          :'3|Área de la Persona|#DCE6F1', 
                 rol           :'3|Rol de la Persona|#DCE6F1', //#DCE6F1
-                modalidad     :'3|Modalidad|#DCE6F1', //#DCE6F1      
+                modalidad     :'3|Modalidad|#DCE6F1', //#DCE6F1
+                vista_doc     :'3|Vista Documento|#DCE6F1', //#DCE6F1
                 estado        :'2|Estado|#DCE6F1', //#DCE6F1
              };
 
@@ -88,6 +90,7 @@ $(document).ready(function() {
             $('#form_personas_modal #txt_fecha_nacimiento').val( PersonasG.fecha_nacimiento );
             $('#form_personas_modal #txt_password').val( '' );
             $('#form_personas_modal #slct_modalidad').val( PersonasG.modalidad );
+            $('#form_personas_modal #slct_vista_doc').val( PersonasG.vista_doc );
             
 
             $('#form_personas_modal #slct_estado').val( PersonasG.estado );
@@ -137,8 +140,9 @@ BtnEditar=function(btn,id){
     PersonasG.area=$(tr).find("td:eq(6) input[name='txt_area']").val();   
     PersonasG.rol=$(tr).find("td:eq(7) input[name='txt_rol']").val();
     PersonasG.modalidad=$(tr).find("td:eq(8) input[name='txt_modalidad']").val(); 
+    PersonasG.vista_doc=$(tr).find("td:eq(9) input[name='txt_vista_doc']").val(); 
     
-    PersonasG.estado=$(tr).find("td:eq(9)>span").attr("data-estado");
+    PersonasG.estado=$(tr).find("td:eq(10)>span").attr("data-estado");
     $("#BtnEditar").click();
 };
 
@@ -172,7 +176,11 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
         return row.modalidad+"<input type='hidden'name='txt_modalidad' value='"+row.modalidad_id+"'>";
     }
 
-    else if(typeof(fn)!='undefined' && fn.col==9){
+    if(typeof(fn)!='undefined' && fn.col==9){
+        return row.vista_doc+"<input type='hidden'name='txt_vista_doc' value='"+row.vista_doc_id+"'>";
+    }
+
+    else if(typeof(fn)!='undefined' && fn.col==10){
         var estadohtml='';
         estadohtml='<span id="'+row.id+'" onClick="activar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-danger">Inactivo</span>';
         if(row.estado==1){

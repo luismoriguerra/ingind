@@ -33,7 +33,8 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         'imagen',
         'imagen_dni',
         'sexo',
-        'modalidad'
+        'modalidad',
+        'vista_doc'
     ];
     public $hidden = ['password', 'remember_token'];
     public static $rules = [
@@ -163,11 +164,11 @@ class Persona extends Base implements UserInterface, RemindableInterface {
 
     public static $where = [
         'id', 'paterno', 'materno', 'nombre', 'dni', 'sexo', 'area_id', 'rol_id',
-        'estado', 'envio_actividad', 'modalidad', 'email', 'fecha_nacimiento', 'password',
+        'estado', 'envio_actividad', 'modalidad', 'vista_doc', 'email', 'fecha_nacimiento', 'password',
     ];
     public static $selec = [
         'id', 'paterno', 'materno', 'nombre', 'dni', 'sexo', 'area_id', 'rol_id',
-        'estado', 'envio_actividad', 'email', 'fecha_nacimiento', 'password', 'modalidad'
+        'estado', 'envio_actividad', 'email', 'fecha_nacimiento', 'password', 'modalidad', 'vista_doc'
     ];
 
     public static function getCargar($array) {
@@ -185,7 +186,13 @@ class Persona extends Base implements UserInterface, RemindableInterface {
                                 CASE p.modalidad
                                 WHEN 1 THEN 'Trabajador'
                                 WHEN 2 THEN 'Tercero'
-                                END modalidad
+                                END modalidad,
+
+                                p.vista_doc vista_doc_id,
+                                CASE p.vista_doc
+                                WHEN 1 THEN 'Si'
+                                WHEN 0 THEN 'No'
+                                END vista_doc
                 FROM personas p
                 LEFT JOIN roles r ON r.id=p.rol_id 
                 LEFT JOIN areas a ON a.id=p.area_id 

@@ -294,7 +294,7 @@ class ReportePersonalController extends BaseController
                                 GROUP BY r.usuario_created_at
                             ) AS tt ON tt.persona_id=sw.persona_id
                         LEFT JOIN (SELECT COUNT(dd.id) docu, dd.usuario_created_at persona_id
-                                FROM doc_digital dd
+                                FROM doc_digital_temporal dd
                                 WHERE dd.created_at BETWEEN '$fecha_i 00:00:00' AND '$fecha_f 23:59:59'
                                 AND dd.estado = 1
                                 GROUP BY dd.usuario_created_at

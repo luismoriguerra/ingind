@@ -85,7 +85,7 @@
                       <option value='M' selected>Masculino</option>
                   </select>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-2">
                   <label class="control-label">Estado:
                   </label>
                   <select class="form-control" name="slct_estado" id="slct_estado">
@@ -93,6 +93,15 @@
                       <option value='1' selected>Activo</option>
                   </select>
                 </div>
+                <div class="col-sm-2">
+                  <label class="control-label" style="color: blue;">Vista Documento:
+                  </label>
+                  <select class="form-control" name="slct_vista_doc" id="slct_vista_doc">                      
+                      <option value='1'>Si</option>
+                      <option value='0'>No</option>
+                  </select>
+                </div>
+
               </div>
               <div class="col-sm-12">
                 <div class="col-sm-4">
