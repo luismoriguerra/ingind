@@ -133,13 +133,12 @@ tr:last-child td.last {
                                     </div>                                  
                                 </div>
 
-                                <div class="col-sm-2" style="padding:24px">
+                                <div class="col-sm-1" style="padding:24px; padding-left: 15px;">
                                     <span class="btn btn-primary btn-md" id="generar" name="generar"><i class="glyphicon glyphicon-search"></i> Buscar</span>
                                 </div>
-                                <div class="col-sm-1" style="padding:24px">
-                                  <!--
-                                    <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Export</i></a>
-                                  -->
+                                <div class="col-sm-1" style="padding:24px; padding-left: 0px;">
+                                    <!-- <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='' target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Export</i></a> -->
+                                    <a class='btn btn-success btn-md' id="btnexport" name="btnexport" href='#'><i class="glyphicon glyphicon-download-alt"></i> Export</i></a>
                                 </div>
                             </div>
                     </div>
