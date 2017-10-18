@@ -97,8 +97,10 @@
                             data-toggle="modal" data-target="#NuevoDocDigital" data-titulo="Nuevo" onclick="Plantillas.CargarAreas();NuevoDocumento();"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
                             <a class='btn btn-primary btn-sm' class="btn btn-primary"
                             data-toggle="modal" data-target="#docdigitalModal" data-titulo="Documentos Históricos" onClick='MostrarDocumentos(1);'><i class="fa fa-search fa-lg"></i>&nbsp;Documentos Históricos</a>
+                            <?php if(Auth::user()->vista_doc==1){ ?>
                             <a class='btn btn-info btn-sm' class="btn btn-primary"
                             data-toggle="modal" data-target="#docdigitalModal" data-titulo="Documentos Relacionados al Área" onClick='MostrarDocumentos(2);'><i class="fa fa-search fa-lg"></i>&nbsp;Documentos Relacionados al Área</a>    
+                            <?php } ?>
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
                     <!-- Finaliza contenido -->

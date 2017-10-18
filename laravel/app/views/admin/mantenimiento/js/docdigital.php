@@ -33,11 +33,9 @@ $(document).ready(function() {
 
 
     var idG1={  persona_c        :'onBlur|Creador|#DCE6F1', //#DCE6F1
-                persona_u        :'onBlur|Actualizó|#DCE6F1', //#DCE6F1
                 titulo      :'onBlur|Título|#DCE6F1', //#DCE6F1
                 asunto        :'onBlur|Asunto|#DCE6F1', //#DCE6F1
                 created_at        :'onChange|Fecha Creación|#DCE6F1|fecharanG', //#DCE6F1
-                plantilla        :'onBlur|Plantilla|#DCE6F1', //#DCE6F1
                 c        :'1|Vista Previa|#DCE6F1', //#DCE6F1
              };
 
@@ -109,7 +107,7 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
                                                     '<i class="fa fa-pencil fa-xs"></i>'+
                                                 '</span>';
     }
-    if(typeof(fn)!='undefined' && fn.col==6){
+    if(typeof(fn)!='undefined' && fn.col==4){
         return "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",4,0); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A4</i> </a>"+
                    "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",5,0); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A5</i> </a>";
 
