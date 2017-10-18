@@ -50,7 +50,31 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '#btnexport', function(event) {
-        
+        if( $.trim($("#fecha_ini").val())!=='' &&
+            $.trim($("#fecha_fin").val())!=='')
+        {
+            var fecha_ini = $("#fecha_ini").val();
+            var fecha_fin = $("#fecha_fin").val();
+            var area = $("#slct_area_ws").val();
+
+            if(area != '0')
+                area = '&area='+area;
+            else
+                area = '';
+
+            swal({   
+                    title: "Reporte de Personal",   
+                    text: "Por favor espere mientras carga el Reporte...",   
+                    timer: 5000,   
+                    showConfirmButton: false 
+            });
+            //$(this).attr('href','reportepersonal/exportreportepersonal'+'?fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+area);
+            window.location = 'reportepersonal/exportreportepersonal'+'?fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+area;
+
+        }else{
+            swal("Mensaje", "Por favor ingrese las fechas de busqueda!");
+            event.preventDefault();
+        }
     });
 
 

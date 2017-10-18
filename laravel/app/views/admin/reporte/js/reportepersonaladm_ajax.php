@@ -53,7 +53,7 @@ var Reporte={
     },
     export:function(dataG){
         $.ajax({
-            url         : 'reportegastos/exportdetallegastos',
+            url         : 'reportepersonal/exportreportepersonal',
             type        : 'GET',
             cache       : false,
             dataType    : 'json',
