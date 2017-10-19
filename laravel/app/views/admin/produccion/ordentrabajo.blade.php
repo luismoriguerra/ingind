@@ -12,7 +12,10 @@
     {{ HTML::script('lib/input-mask/js/jquery.inputmask.js') }}
     {{ HTML::script('lib/input-mask/js/jquery.inputmask.date.extensions.js') }}
 
-
+    {{ HTML::script('//cdn.jsdelivr.net/momentjs/2.9.0/moment.min.js') }}
+    {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
+    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
+    
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
     @include( 'admin.produccion.js.ordentrabajo_ajax' )

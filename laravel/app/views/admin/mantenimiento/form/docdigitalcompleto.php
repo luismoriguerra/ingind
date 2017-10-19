@@ -38,6 +38,10 @@
                                                    </div><!-- /.box-body -->
                     </form>
                     <form id="form_docdigitales_relaciones" name="form_docdigitales_relaciones" method="POST" action="">
+                      <div class="form-group">
+                        <label class="control-label">Fecha de Creación del Documento:</label>
+                        <input type="text" onchange="MostrarAjax('docdigitales_relaciones');" class="form-control fechaG" name="txt_created_at" id="txt_created_at" onfocus="blur()" value="<?php echo date('Y-m-d')?>">
+                      </div>
                       <input type="hidden" name="tipo" id="tipo" value="2">
                         <div class="box-body table-responsive">
                             <table id="t_docdigitales_relaciones" class="table table-bordered table-striped">

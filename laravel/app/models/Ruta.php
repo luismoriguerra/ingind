@@ -7,7 +7,7 @@ class Ruta extends Eloquent
      * Areas relationship
      */
 
-            public static function getlistarDetalleRuta()
+    public static function getlistarDetalleRuta()
     {
         $result=DB::table('rutas_flujo_detalle as rfd')
                 ->join('areas as a','a.id','=','rfd.area_id')
@@ -17,7 +17,8 @@ class Ruta extends Eloquent
                 ->get();
         return $result;
     }
-        public static function getCargarMicro()
+    
+    public static function getCargarMicro()
     {
         $result=DB::table('rutas_flujo_detalle_micro as rfdm')
                 ->join('rutas_flujo as rf','rf.id','=','rfdm.ruta_flujo_id2')
@@ -30,7 +31,7 @@ class Ruta extends Eloquent
         return $result;
     }
     
-        public static function getCorrelativoAct($persona_id)
+    public static function getCorrelativoAct($persona_id)
     {
         $result=DB::table('actividad_personal as ap')
                 ->select(DB::raw('count(ap.id) as cant'))
@@ -284,6 +285,9 @@ class Ruta extends Eloquent
                 $rutaDetalle['estado_ruta']=$rd->estado_ruta;
                 if($rd->norden==1 or ($rd->norden>1 and $validaactivar==0 and $rd->estado_ruta==2) ){
                     $rutaDetalle['fecha_inicio']=$fecha_inicio;
+                    $sql="SELECT CalcularFechaFinal( '".$fecha_inicio."', (".$rd->dtiempo."*1440), ".$rd->area_id." ) fproy";
+                    $fproy= DB::select($sql);
+                    $rutaDetalle['fecha_proyectada']=$fproy[0]->fproy;
                 }
                 else{
                     $validaactivar=1;
@@ -662,6 +666,9 @@ class Ruta extends Eloquent
                 $rutaDetalle['norden']=$index + 1;
                 if($index==0){
                     $rutaDetalle['fecha_inicio']=$fecha_inicio2;
+                    $sql="SELECT CalcularFechaFinal( '".$fecha_inicio2."', (".$val->tiempo."*1440), ".$val->area_id." ) fproy";
+                    $fproy= DB::select($sql);
+                    $rutaDetalle['fecha_proyectada']=$fproy[0]->fproy;
                 }
                 else{
                     $validaactivar=1;
