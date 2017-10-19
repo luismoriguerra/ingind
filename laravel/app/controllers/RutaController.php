@@ -284,39 +284,39 @@ class RutaController extends \BaseController
                                 
                                 /************ Marcar actividad asignada como respondida ************/
                                 if($acti_personal->actividad_asignada_id!=null){
-                                $asignada=ActividadPersonal::find($acti_personal->actividad_asignada_id);
-                                $asignada->respuesta=1;
-                                $asignada->save();
-                                /************ Actualizar Detalle de Ruta ************/
-                                if($asignada->ruta_id){
-                                        $rutadetalle =RutaDetalle::where('ruta_id','=',$asignada->ruta_id)
-                                                                        ->first();
-                                        $rutadetalle->dtiempo_final =date('Y-m-d H:i:s');
-                                        $rutadetalle->tipo_respuesta_id = 2;
-                                        $rutadetalle->tipo_respuesta_detalle_id = 1;
-                                        $rutadetalle->observacion = 'Ok';
-                                        $rutadetalle->usuario_updated_at = Auth::user()->id;
-                                        $rutadetalle->save();
+                                    $asignada=ActividadPersonal::find($acti_personal->actividad_asignada_id);
+                                    $asignada->respuesta=1;
+                                    $asignada->save();
+                                    /************ Actualizar Detalle de Ruta ************/
+                                    if($asignada->ruta_id){
+                                            $rutadetalle =RutaDetalle::where('ruta_id','=',$asignada->ruta_id)
+                                                                            ->first();
+                                            $rutadetalle->dtiempo_final =date('Y-m-d H:i:s');
+                                            $rutadetalle->tipo_respuesta_id = 2;
+                                            $rutadetalle->tipo_respuesta_detalle_id = 1;
+                                            $rutadetalle->observacion = 'Ok';
+                                            $rutadetalle->usuario_updated_at = Auth::user()->id;
+                                            $rutadetalle->save();
 
-                                    /*************************************************************/
-                                    /************ Actualizar Verbos de la ruta detalle ************/
-                                    $qrutaDetalleVerbo = DB::table('rutas_detalle_verbo')
-                                            ->where('ruta_detalle_id', '=', $rutadetalle->id)
-                                            ->where('estado', '=', '1')
-                                            ->orderBy('orden', 'ASC')
-                                            ->get();
+                                        /*************************************************************/
+                                        /************ Actualizar Verbos de la ruta detalle ************/
+                                        $qrutaDetalleVerbo = DB::table('rutas_detalle_verbo')
+                                                ->where('ruta_detalle_id', '=', $rutadetalle->id)
+                                                ->where('estado', '=', '1')
+                                                ->orderBy('orden', 'ASC')
+                                                ->get();
 
-                                    if (count($qrutaDetalleVerbo) > 0) {
-                                        foreach ($qrutaDetalleVerbo as $rdv) {
-                                            $rutaDetalleVerbo = RutaDetalleVerbo::find($rdv->id);
-                                            $rutaDetalleVerbo['documento'] = '';
-                                            $rutaDetalleVerbo['observacion'] = '.';
-                                            $rutaDetalleVerbo['finalizo'] = 1;
-                                            $rutaDetalleVerbo['usuario_updated_at'] = Auth::user()->id;
-                                            $rutaDetalleVerbo->save();
+                                        if (count($qrutaDetalleVerbo) > 0) {
+                                            foreach ($qrutaDetalleVerbo as $rdv) {
+                                                $rutaDetalleVerbo = RutaDetalleVerbo::find($rdv->id);
+                                                $rutaDetalleVerbo['documento'] = '';
+                                                $rutaDetalleVerbo['observacion'] = '.';
+                                                $rutaDetalleVerbo['finalizo'] = 1;
+                                                $rutaDetalleVerbo['usuario_updated_at'] = Auth::user()->id;
+                                                $rutaDetalleVerbo->save();
+                                            }
                                         }
-                                    }
-                                } 
+                                    } 
                                 }
                                 
 //                        var_dump($value['archivo'][1]);exit();
