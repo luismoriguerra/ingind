@@ -281,12 +281,12 @@ class RutaController extends \BaseController
                     $acti_personal->save();
                     
                     if($acti_personal->id){
-                        
-                          $asignada= ActividadPersonal::find($acti_personal->actividad_asignada_id);          
+                                
                                 /************ Marcar actividad asignada como respondida ************/
-                                $apa=ActividadPersonal::find($acti_personal->actividad_asignada_id);
-                                $apa->respuesta=1;
-                                $apa->save();
+                                if($acti_personal->actividad_asignada_id!=null){
+                                $asignada=ActividadPersonal::find($acti_personal->actividad_asignada_id);
+                                $asignada->respuesta=1;
+                                $asignada->save();
                                 /************ Actualizar Detalle de Ruta ************/
                                 if($asignada->ruta_id){
                                         $rutadetalle =RutaDetalle::where('ruta_id','=',$asignada->ruta_id)
@@ -316,7 +316,9 @@ class RutaController extends \BaseController
                                             $rutaDetalleVerbo->save();
                                         }
                                     }
+                                } 
                                 }
+                                
 //                        var_dump($value['archivo'][1]);exit();
                             for($i=1;$i<count($value['archivo']);$i++){
                                 $dato=explode('|', $value['archivo'][$i]);
