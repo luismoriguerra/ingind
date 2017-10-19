@@ -150,7 +150,7 @@ class ReportePersonalController extends BaseController
                                 AND rdv.updated_at BETWEEN '$fecha_i 00:00:00' AND '$fecha_f 23:59:59'
                                 GROUP BY rdv.usuario_updated_at
                         ) AS t ON t.persona_id=sw.persona_id
-                        LEFT JOIN (SELECT COUNT(ap.id) cant_act, ap.persona_id
+                        LEFT JOIN (SELECT ROUND((SUM(ap.ot_tiempo_transcurrido) / 60), 2) cant_act, ap.persona_id
                                 FROM actividad_personal ap
                                 WHERE ap.persona_id=ap.usuario_created_at
                                 AND ap.fecha_inicio BETWEEN '$fecha_i 00:00:00' AND '$fecha_f 23:59:59'
