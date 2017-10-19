@@ -177,13 +177,15 @@ class ReporteFinalController extends BaseController
         }
         elseif( Input::has('areast') ){ /*Todas las areas*/ }
         else{
-          $array['w'].=" AND rd.area_id IN
-                            (SELECT DISTINCT(a.id)
-                            FROM area_cargo_persona acp
-                            INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
-                            INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
-                            WHERE acp.estado=1
-                            AND cp.persona_id= ".$array['usuario'].") ";
+          $sql="SELECT GROUP_CONCAT(DISTINCT(a.id) ORDER BY a.id) areas
+                FROM area_cargo_persona acp
+                INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                WHERE acp.estado=1
+                AND cp.persona_id= ".$array['usuario'];
+          $totalareas=DB::select($sql);
+          $areas = $totalareas[0]->areas;
+          $array['w'].=" AND rd.area_id IN (".$areas.") ";
         }
 
         if( Input::has('proceso') AND Input::get('proceso')!='' ){

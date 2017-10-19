@@ -193,37 +193,18 @@ class Reporte extends Eloquent
                 ) id,
                 f.nombre proceso,
                 re.referido id_union_ant,
-                IF(tr.tipo_persona=1 or tr.tipo_persona=6,
-                    CONCAT(tr.paterno,' ',tr.materno,', ',tr.nombre),
-                    IF(tr.tipo_persona=2,
-                        CONCAT(tr.razon_social,' | RUC:',tr.ruc),
-                        IF(tr.tipo_persona=3,
-                            (SELECT nombre FROM areas WHERE id=tr.area_id),
-                            IF(tr.tipo_persona=4 or tr.tipo_persona=5,
-                                tr.razon_social,''
-                            )
-                        )
-                    )
-                ) AS persona,
+                CASE tr.tipo_persona
+                WHEN 1 or 6 THEN CONCAT(tr.paterno,' ',tr.materno,', ',tr.nombre)
+                WHEN 2 THEN CONCAT(tr.razon_social,' | RUC:',tr.ruc)
+                WHEN 4 or 5 THEN tr.razon_social
+                WHEN 3 THEN (SELECT nombre FROM areas WHERE id=tr.area_id)
+                ELSE ''
+                END persona,
                 IF( 
-                    IF( rd.fecha_proyectada is not null, rd.fecha_proyectada, 
-                        CalcularFechaFinal(
-                            rd.fecha_inicio, 
-                            (rd.dtiempo*t.totalminutos),
-                            rd.area_id
-                        )
-                    )
-                    >=CURRENT_TIMESTAMP(),'<div style=\"background: #00DF00;color: white;\">Dentro del Tiempo</div>','<div style=\"background: #FE0000;color: white;\">Fuera del Tiempo</div>'
+                    IFNULL(rd.fecha_proyectada,CURRENT_TIMESTAMP())>=CURRENT_TIMESTAMP(),'<div style=\"background: #00DF00;color: white;\">Dentro del Tiempo</div>','<div style=\"background: #FE0000;color: white;\">Fuera del Tiempo</div>'
                 ) tiempo_final,
                 IF( 
-                    IF( rd.fecha_proyectada is not null, rd.fecha_proyectada, 
-                        CalcularFechaFinal(
-                            rd.fecha_inicio, 
-                            (rd.dtiempo*t.totalminutos),
-                            rd.area_id
-                        )
-                    )
-                    >=CURRENT_TIMESTAMP(),'Dentro del Tiempo','Fuera del Tiempo'
+                    IFNULL(rd.fecha_proyectada,CURRENT_TIMESTAMP())>=CURRENT_TIMESTAMP(),'Dentro del Tiempo','Fuera del Tiempo'
                 ) tiempo_final_n
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
@@ -239,7 +220,7 @@ class Reporte extends Eloquent
                 ) re ON re.ruta_id=r.id AND re.norden=(rd.norden-IF(rd.norden-FLOOR(rd.norden)>0,0.01,1))
                 WHERE r.estado=1 
                 AND rd.fecha_inicio<=CURRENT_TIMESTAMP()
-                AND rd.fecha_inicio!='' ".
+                AND rd.fecha_inicio IS NOT NULL ".
                 $array['w'].
                 $array['areas'].
                 $array['id_union'].
