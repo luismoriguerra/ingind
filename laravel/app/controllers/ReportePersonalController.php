@@ -74,8 +74,8 @@ class ReportePersonalController extends BaseController
                     $fecha_faux=$fecha_f;
                 }
 
-                $fini=date("Y-d-m",$fecha_iaux);
-                $ffin=explode("Y-d-m",$fecha_faux);
+                $fini=date("Y/d/m",$fecha_iaux);
+                $ffin=date("Y/d/m",$fecha_faux);
 
                 $res = file_get_contents("http://10.0.120.13:8088/spersonal/consulta.php?inicio=".$fini.""."&fin=".$ffin.$bus_area);
                 $result = json_decode(utf8_encode($res));
