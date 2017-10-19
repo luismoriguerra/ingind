@@ -21,7 +21,7 @@ $(document).ready(function() {
                 responsable_atencion      :'onBlur|R. Atencion|#DCE6F1', //#DCE6F1
                 fecha_solucion      :'onBlur|Fecha Solucion|#DCE6F1', //#DCE6F1                
                 responsable_solucion      :'onBlur|R. Solucion|#DCE6F1', //#DCE6F1
-                solucion        :'1|Solucion|#DCE6F1', //#DCE6F1
+                solucion        :'onBlur|Solucion|#DCE6F1', //#DCE6F1
                 estado_tipo_problema        :'2|Tipo Problema|#DCE6F1', //#DCE6F1
                 estado_ticket        :'2|Estado Ticket|#DCE6F1', //#DCE6F1
                 editar        :'1|Editar|#DCE6F1', //#DCE6F1
@@ -41,12 +41,12 @@ $(document).ready(function() {
 
     $('#ticketModal').on('show.bs.modal', function (event) {
 
-        /*$('#txt_fecha_nacimiento').daterangepicker({
-            format: 'YYYY-MM-DD',
-            singleDatePicker: true,
-            showDropdowns: true
-        });
-*/
+        // $('#txt_fecha_pendiente').daterangepicker({
+        //     format: 'YYYY-MM-DD',
+        //     singleDatePicker: true,
+        //     showDropdowns: true
+        // });
+
 
       var button = $(event.relatedTarget); // captura al boton
       var titulo = button.data('titulo'); // extrae del atributo data-

@@ -51,7 +51,7 @@
             
           </div>
 
-          <div class="col-md-4">
+         <!--  <div class="col-md-4">
             <label>Documentos:</label>
               <form name="form_ddocumento" id="form_ddocumento" enctype="”multipart/form-data”">
                 <table id="t_ddocumento" class="table table-bordered">
@@ -72,13 +72,13 @@
                     </tbody>
                 </table>
               </form>
-          </div>
-          <div class="col-md-2 form-group">
+          </div> -->
+          <!-- <div class="col-md-2 form-group">
             <label>Cantidad:</label>
               <input type="text" class="form-control mant" id="txt_cantidad" name="txt_cantidad" value="0">
-          </div>
+          </div> -->
 
-          <div class="col-sm-6 validoarchivo" style= "margin-top: 40px;">
+          <!-- <div class="col-sm-6 validoarchivo" style= "margin-top: 40px;">
             <label>Archivos:</label>
               <form name="form_darchivo" id="form_darchivo" enctype="”multipart/form-data”">
                 <table id="t_darchivo" class="table table-bordered">
@@ -98,7 +98,7 @@
                     </tbody>
                 </table>
               </form>
-           </div>
+           </div> -->
 
            
         </div><!-- FIN DEL DIV DE 12 -->   
