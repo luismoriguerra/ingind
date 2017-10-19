@@ -16,7 +16,7 @@ class ReportePersonalController extends BaseController
     {
         $fecha = explode('-', Input::get('fecha_ini'));
 
-        $result = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/index.php?mes=".$fecha[1]."&anno=".$fecha[0]);
+        $result = file_get_contents("http://10.0.120.13:8088/spersonal/index.php?mes=".$fecha[1]."&anno=".$fecha[0]);
 
         return utf8_encode($result);
         /*
@@ -52,7 +52,7 @@ class ReportePersonalController extends BaseController
             $fecha_fin = Input::get('fecha_fin'); // 2017/09/15
             $area_ws = Input::get('area_ws');
 
-            $dias=10-1;
+            $dias=20-1;
             $fecha_i = str_replace('/', '-', $fecha_ini);
             $fecha_f = str_replace('/', '-', $fecha_fin);
             $fecha_iaux =$fecha_i;
@@ -74,7 +74,10 @@ class ReportePersonalController extends BaseController
                     $fecha_faux=$fecha_f;
                 }
 
-                $res = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/consulta.php?inicio=".$fecha_iaux."&fin=".$fecha_faux.$bus_area);
+                $fini=date("Y-d-m",$fecha_iaux);
+                $ffin=explode("Y-d-m",$fecha_faux);
+
+                $res = file_get_contents("http://10.0.120.13:8088/spersonal/consulta.php?inicio=".$fini.""."&fin=".$ffin.$bus_area);
                 $result = json_decode(utf8_encode($res));
 
                 foreach($result->reporte as $key => $lis) 
