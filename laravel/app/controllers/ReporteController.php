@@ -141,6 +141,7 @@ class ReporteController extends BaseController
 
   public function postReporteortrabajo()
    {
+        AuditoriaAcceso::getAuditoria();
         $rst=Persona::OrdenTrabjbyPersona();
         return Response::json(
             array(
@@ -152,6 +153,7 @@ class ReporteController extends BaseController
    
      public function postCuadroproductividadactividad()
    {
+        AuditoriaAcceso::getAuditoria();
         $oData=Persona::CuadroProductividadActividad();
         return Response::json(
             array(
@@ -165,6 +167,7 @@ class ReporteController extends BaseController
    
         public function postCuadroproceso()
    {
+        AuditoriaAcceso::getAuditoria();
         $oData=Reporte::CuadroProceso();
         return Response::json(
             array(
@@ -2459,6 +2462,7 @@ class ReporteController extends BaseController
     }
 
     public function postDocplataforma(){
+      AuditoriaAcceso::getAuditoria();
       $rst=Reporte::Docplataforma(); 
       return Response::json(
             array(
