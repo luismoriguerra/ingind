@@ -527,9 +527,7 @@ class DocumentoDigitalController extends \BaseController {
                                 SELECT id,titulo,correlativo,asunto,plantilla_doc_id,area_id,persona_id,envio_total,tipo_envio,estado,
                                 usuario_updated_at,updated_f_comentario,created_at,updated_at,usuario_created_at,usuario_f_updated_at
                                 FROM doc_digital dd
-                                WHERE NOT EXISTS (
-                                    SELECT id FROM doc_digital_temporal WHERE id = dd.id
-                                )';
+                                WHERE dd.id='.$DocDigital->id;
                     DB::insert($sql);
             return Response::json(array('rst'=>1, 'msj'=>'Su documento generado es: '.$DocDigital->titulo,'iddocdigital'=>$DocDigital->id));
         }
