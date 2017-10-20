@@ -49,6 +49,7 @@ class ActividadPersonalController extends \BaseController
             if( Input::has("asignado") ){
                     $array['where'].=" AND ap.estado=1";
                     $array['where'].=" AND ap.tipo=2";
+                    $array['where'].=" AND ap.respuesta=0";
                     $array['where'].=" AND ap.persona_id=".Auth::user()->id;
             }
 

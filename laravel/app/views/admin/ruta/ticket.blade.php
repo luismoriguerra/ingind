@@ -8,6 +8,7 @@
     {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
 
+
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
 
@@ -20,13 +21,13 @@
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            BANDEJA DE TICKET
+            BANDEJA DE INCIDENCIAS
             <small> </small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
             <li><a href="#">Tramite</a></li>
-            <li class="active">Bandeja de Ticket</li>
+            <li class="active">Bandeja de Incidencias</li>
         </ol>
     </section>
      <!-- Main content -->
@@ -43,7 +44,7 @@
                             <div class="box-body table-responsive">
                                 <table id="t_tickets" class="table table-bordered table-striped">
                                     <thead>
-                                    <tr><th colspan="13" style="text-align:center;background-color:#A7C0DC;"><h2>Tickets</h2></th></tr>
+                                    <tr><th colspan="13" style="text-align:center;background-color:#A7C0DC;"><h2>Solucion de Incidencias</h2></th></tr>
                                         <tr>
                                         
                                         </tr>

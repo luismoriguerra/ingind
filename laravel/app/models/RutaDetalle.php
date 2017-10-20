@@ -34,9 +34,16 @@ class RutaDetalle extends Eloquent
             ORDER BY fi,rd.created_at';
         }
 
-        if ( Input::get('ruta_detalle_id') ) {
+        if ( Input::has('ruta_detalle_id') ) {
             $ruta_detalle_id= Input::get('ruta_detalle_id');
             $adicional=' WHERE rd.id="'.$ruta_detalle_id.'"';
+            $rdval=RutaDetalle::find($ruta_detalle_id);
+            if( trim($rdval->fecha_proyectada)=='' ){
+                $sql="SELECT CalcularFechaFinal( '".$rdval->fecha_inicio."', (".$rdval->dtiempo."*1440), ".$rdval->area_id." ) fproy";
+                $fproy= DB::select($sql);
+                $rdval['fecha_proyectada']=$fproy[0]->fproy;
+                $rdval->save();
+            }
         }
 
         $set=DB::select('SET group_concat_max_len := @@max_allowed_packet');
@@ -118,13 +125,7 @@ class RutaDetalle extends Eloquent
                 )
             ORDER BY rdv.orden ASC
             SEPARATOR "|"),"") AS verbo2,IFNULL(rd.fecha_inicio,"9999") fi,
-            IFNULL(
-                CalcularFechaFinal(
-                rd.fecha_inicio, 
-                (rd.dtiempo*t.totalminutos),
-                rd.area_id
-                )
-            ,"<font color=#E50D1C>Tranquilo! el paso anterior aún no ha acabado</font>") AS fecha_max, now() AS hoy
+            rd.fecha_proyectada AS fecha_max, now() AS hoy
             ,IFNULL( max( IF(rdv.finalizo=1,rdv.condicion,NULL) ) ,"0") maximo
             FROM rutas_detalle rd
             INNER JOIN rutas r ON (r.id=rd.ruta_id AND r.estado=1)
