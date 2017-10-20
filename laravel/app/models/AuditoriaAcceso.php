@@ -16,7 +16,7 @@ class AuditoriaAcceso extends \Eloquent {
             $auditoria->opcion_id=@$opcion->id;
             $auditoria->tipo=2;
             $auditoria->usuario_created_at=Auth::user()->id;
-            $auditoria->ruta=$ruta[2];
+            $auditoria->ruta=$ruta[4];
             $auditoria->save();
         }
     }
