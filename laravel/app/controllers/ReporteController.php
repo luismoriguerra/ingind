@@ -663,6 +663,197 @@ class ReporteController extends BaseController
             )
         );
    }
+
+   public function postBandejatramiteconclu()
+   {
+        $input=Input::all();
+        
+        $rst=VisualizacionTramite::BandejaTramitesConConclu($input);
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$rst
+            )
+        );
+   }
+
+
+   public function getExporttramiteconclu()
+    {
+          $fecha = Input::get('fecha');
+          $area_id = Input::get('area');
+
+          if (isset($fecha)) {
+              $fecha=explode(" - ",$fecha);
+              $where=" AND DATE(rd.dtiempo_final) BETWEEN '".$fecha[0]."' AND '".$fecha[1]."' ";
+          } else {
+              $where='';
+          }
+
+          $sql = "SELECT
+                IFNULL(tr.id_union,'') AS id_union,
+                IFNULL(rd.id,'') AS ruta_detalle_id,
+                IFNULL( CONCAT(t.apocope,': ',rd.dtiempo),'') AS tiempo,
+                IFNULL(rd.fecha_inicio,'') AS fecha_inicio,
+                IFNULL(rd.norden,'') AS norden,
+                IFNULL(tr.fecha_tramite,'') AS fecha_tramite,
+                IFNULL(f.nombre,'') AS nombre,
+                IFNULL(rsp.nombre,'') AS respuesta,
+                IFNULL(rspd.nombre,'') AS respuestad,
+                IFNULL(rd.observacion,'') AS observacion,
+                IFNULL(ts.nombre,'') AS tipo_solicitante,
+                IFNULL(
+                    IF(tr.tipo_persona='1',
+                       CONCAT(tr.paterno,' ',tr.materno,' ',tr.nombre),
+                      tr.razon_social),''
+                ) AS solicitante,
+                IFNULL(rd.alerta_tipo,'') AS alerta_tipo,
+                IFNULL(rd.alerta,'') AS alerta,
+                IFNULL(rd.condicion,'') AS condicion,
+                IFNULL(rd.estado_ruta,'') AS estado_ruta,
+                '1' AS id,
+                IFNULL(tr.ruc,'') AS ruc,
+                IFNULL(tr.sumilla,'') AS sumilla
+
+                FROM rutas_detalle rd
+                JOIN rutas r ON rd.ruta_id=r.id and r.estado=1
+                JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id 
+                JOIN flujos f ON r.flujo_id=f.id
+                JOIN tiempos t ON rd.tiempo_id=t.id
+                LEFT JOIN tipo_solicitante ts ON tr.tipo_persona=ts.id
+                LEFT JOIN tipos_respuesta rsp ON rd.tipo_respuesta_id=rsp.id
+                LEFT JOIN tipos_respuesta_detalle rspd
+                        ON rd.tipo_respuesta_detalle_id=rspd.id
+                WHERE  rd.fecha_inicio IS NOT NULL AND rd.dtiempo_final IS NOT NULL
+                AND rd.estado=1
+                AND rd.condicion=0
+                AND rd.area_id = $area_id   
+                $where 
+                GROUP BY rd.id
+                ORDER BY rd.fecha_inicio DESC, rd.norden DESC; ";
+
+            $result = DB::select($sql);
+
+          /*style*/
+          $styleThinBlackBorderAllborders = array(
+              'borders' => array(
+                  'allborders' => array(
+                      'style' => PHPExcel_Style_Border::BORDER_THIN,
+                      'color' => array('argb' => 'FF000000'),
+                  ),
+              ),
+              'font'    => array(
+                  'bold'      => true
+              ),
+              'alignment' => array(
+                  'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+              )
+          );
+          $styleAlignmentBold= array(
+              'font'    => array(
+                  'bold'      => true
+              ),
+              'alignment' => array(
+                  'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+              ),
+          );
+          $styleAlignment= array(
+              'alignment' => array(
+                  'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                  'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+              ),
+          );
+          /*end style*/
+
+            /*export*/
+              /* instanciar phpExcel!*/
+              
+              $objPHPExcel = new PHPExcel();
+
+              /*configure*/
+              $objPHPExcel->getProperties()->setCreator("Gerencia Modernizacion")
+                 ->setSubject("Bandeja de Concluidos");
+
+              $objPHPExcel->getDefaultStyle()->getFont()->setName('Bookman Old Style');
+              $objPHPExcel->getDefaultStyle()->getFont()->setSize(8);
+              /*end configure*/
+
+              /*head*/
+              $objPHPExcel->setActiveSheetIndex(0)
+                          ->setCellValue('A3', 'N°')
+                          ->setCellValue('B3', 'TRAMITE')
+                          ->setCellValue('C3', 'TIEMPO')
+                          ->setCellValue('D3', 'FECHA INICIO')
+                          ->setCellValue('E3', 'PASO')
+                          ->setCellValue('F3', 'FECHA TRAMITE')
+                          ->setCellValue('G3', 'NOMBRE')
+                          ->setCellValue('H3', 'RESPUESTA')
+                          ->setCellValue('I3', 'OBSERVACION')
+                          ->setCellValue('J3', 'TIPO SOLICITA')
+                          ->setCellValue('K3', 'SOLICITANTE')                        
+                    ->mergeCells('A1:K1')
+                    ->setCellValue('A1', 'LISTADO CONCLUIDOS POR AREA')
+                    ->getStyle('A1:K1')->getFont()->setSize(18);
+
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('C')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('D')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('E')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('G')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('H')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('I')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('J')->setAutoSize(true);
+              $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('K')->setAutoSize(true);
+              /*end head*/
+              /*body*/
+              if($result){
+                $ini = 4;
+                foreach ($result as $key => $value) {
+
+                    $objPHPExcel->setActiveSheetIndex(0)
+                                ->setCellValue('A' . $ini, $key + 1)
+                                ->setCellValue('B' . $ini, $value->id_union)
+                                ->setCellValue('C' . $ini, $value->tiempo)
+                                ->setCellValue('D' . $ini, $value->fecha_inicio)
+                                ->setCellValue('E' . $ini, $value->norden)
+                                ->setCellValue('F' . $ini, $value->fecha_tramite)
+                                ->setCellValue('G' . $ini, $value->nombre)
+                                ->setCellValue('H' . $ini, $value->respuesta)
+                                ->setCellValue('I' . $ini, $value->observacion)
+                                ->setCellValue('J' . $ini, $value->tipo_solicitante)
+                                ->setCellValue('K' . $ini, $value->solicitante)
+                                ;
+                    $ini++;
+                }
+                
+              }
+              /*end body*/
+              $objPHPExcel->getActiveSheet()->getStyle('A3:K3')->applyFromArray($styleThinBlackBorderAllborders);
+              $objPHPExcel->getActiveSheet()->getStyle('A1:K1')->applyFromArray($styleAlignment);
+              // Rename worksheet
+              $objPHPExcel->getActiveSheet()->setTitle('Concluidos');
+              // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+              $objPHPExcel->setActiveSheetIndex(0);
+              // Redirect output to a client’s web browser (Excel5)
+              header('Content-Type: application/vnd.ms-excel');
+              header('Content-Disposition: attachment;filename="reportebca.xls"'); // file name of excel
+              header('Cache-Control: max-age=0');
+              // If you're serving to IE 9, then the following may be needed
+              header('Cache-Control: max-age=1');
+              // If you're serving to IE over SSL, then the following may be needed
+              header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+              header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+              header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+              header ('Pragma: public'); // HTTP/1.0
+              $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+              $objWriter->save('php://output');
+              exit;
+            /* end export*/
+    }
    /**
    * bandeja de tramite, devuelve la consulta de tramites que se asignan 
    * a una determinada area que pertenece el usuario

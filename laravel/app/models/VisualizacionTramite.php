@@ -157,6 +157,65 @@ class VisualizacionTramite extends Eloquent
         return DB::select($query);
     }
 
+
+    // Reporte de Concluidos por Area
+    public static function BandejaTramitesConConclu( $input)
+    {
+        if (isset($input['fecha'])) {
+            $fecha=explode(" - ",$input['fecha']);
+            $where=" AND DATE(rd.dtiempo_final) BETWEEN '".$fecha[0]."' AND '".$fecha[1]."' ";
+        } else {
+            $where='';
+        }
+        $area_id = $input['areas'];
+
+        //$personaId=Auth::user()->id;
+        $query="SELECT
+                IFNULL(tr.id_union,'') AS id_union,
+                IFNULL(rd.id,'') AS ruta_detalle_id,
+                IFNULL( CONCAT(t.apocope,': ',rd.dtiempo),'') AS tiempo,
+                IFNULL(rd.fecha_inicio,'') AS fecha_inicio,
+                IFNULL(rd.norden,'') AS norden,
+                IFNULL(tr.fecha_tramite,'') AS fecha_tramite,
+                IFNULL(f.nombre,'') AS nombre,
+                IFNULL(rsp.nombre,'') AS respuesta,
+                IFNULL(rspd.nombre,'') AS respuestad,
+                IFNULL(rd.observacion,'') AS observacion,
+                IFNULL(ts.nombre,'') AS tipo_solicitante,
+                IFNULL(
+                    IF(tr.tipo_persona='1',
+                       CONCAT(tr.paterno,' ',tr.materno,' ',tr.nombre),
+                      tr.razon_social),''
+                ) AS solicitante,
+                IFNULL(rd.alerta_tipo,'') AS alerta_tipo,
+                IFNULL(rd.alerta,'') AS alerta,
+                IFNULL(rd.condicion,'') AS condicion,
+                IFNULL(rd.estado_ruta,'') AS estado_ruta,
+                '1' AS id,
+                IFNULL(tr.ruc,'') AS ruc,
+                IFNULL(tr.sumilla,'') AS sumilla
+
+                FROM rutas_detalle rd
+                JOIN rutas r ON rd.ruta_id=r.id and r.estado=1
+                JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id 
+                JOIN flujos f ON r.flujo_id=f.id
+                JOIN tiempos t ON rd.tiempo_id=t.id
+                LEFT JOIN tipo_solicitante ts ON tr.tipo_persona=ts.id
+                LEFT JOIN tipos_respuesta rsp ON rd.tipo_respuesta_id=rsp.id
+                LEFT JOIN tipos_respuesta_detalle rspd
+                        ON rd.tipo_respuesta_detalle_id=rspd.id
+                WHERE  rd.fecha_inicio IS NOT NULL AND rd.dtiempo_final IS NOT NULL
+                AND rd.estado=1
+                AND rd.condicion=0
+                AND rd.area_id = $area_id   
+                $where 
+                GROUP BY rd.id
+                ORDER BY rd.fecha_inicio DESC, rd.norden DESC";
+        return DB::select($query);
+    }
+    // --
+
+
     public static function BandejaTramitesot()
     {
         /*if( Input::has('filtro') ){
