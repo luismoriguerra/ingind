@@ -44,6 +44,8 @@ class ReporteFinalController extends BaseController
 
     public function postTramite()
     {
+      AuditoriaAcceso::getAuditoria();
+        
       $array=array();
       $fecha='';
       $array['fecha']='';$array['ruta_flujo_id']='';$array['tramite']='';
@@ -228,6 +230,7 @@ class ReporteFinalController extends BaseController
         ////////// query para lo solicitado
     public function postBandejatramitearea()
     {
+      AuditoriaAcceso::getAuditoria();
       $array=array();
       $array['usuario']=Auth::user()->id;
       $array['limit']='';$array['order']='';
