@@ -89,10 +89,16 @@
                 <div class="col-md-12">
                     <form name="form_concluido" id="form_concluido" method="POST" action="">
                     <div class="row pad">
-                        <div class="col-sm-4">
-                            <label class="control-label">Fecha final del paso:</label>
+                        <div class="col-sm-3 text-center">
+                            <label class="control-label">Fecha final del paso</label>
                             <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="txt_fecha" name="txt_fecha" value="{{ date('Y-m-d - Y-m-d')}}" onfocus="blur()"/>
                         </div>
+
+                        <div class="col-sm-3 text-center">
+                            <label class="control-label">Fecha inicio</label>
+                            <input type="text" class="form-control" placeholder="AAAA-MM-DD - AAAA-MM-DD" id="txt_fecha_ini" name="txt_fecha_ini" value="{{ date('Y-m-d - Y-m-d')}}" onfocus="blur()"/>
+                        </div>
+
                         <div class="col-md-4 col-sm-4" style="padding:24px">
                             <select name="slct_areas" id="slct_areas" ><!-- onChange="Bandeja.MostrarAjax();" -->
                             </select>

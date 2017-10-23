@@ -17,7 +17,7 @@ var posicionDetalleVerboG=0;
 var fechaAux="";
 $(document).ready(function() {
     //$("[data-toggle='offcanvas']").click();
-    $('#txt_fecha').daterangepicker({
+    $('#txt_fecha, #txt_fecha_ini').daterangepicker({
         format: 'YYYY-MM-DD',
         singleDatePicker: false,
         showDropdowns: true
@@ -145,6 +145,7 @@ $(document).ready(function() {
         if($('#slct_areas').val() != '')
         {
             var fecha = $("#txt_fecha").val();
+            var fecha_ini = $("#fecha_ini").val();
             var area = $("#slct_areas").val();
 
             //var fecha_nv = fecha.replace(" - ", "/");
@@ -152,11 +153,11 @@ $(document).ready(function() {
             swal({   
                     title: "Reporte de Concluidos",   
                     text: "Por favor espere mientras carga el Reporte...",   
-                    timer: 5000,   
+                    timer: 4000,   
                     showConfirmButton: false 
             });
             //$(this).attr('href','reportepersonal/exportreportepersonal'+'?fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+area);
-            window.location = 'reporte/exporttramiteconclu'+'?fecha='+fecha+'&area='+area;
+            window.location = 'reporte/exporttramiteconclu'+'?fecha='+fecha+'&fecha_ini='+fecha_ini+'&area='+area;
 
         }else{
             swal("Mensaje", "Por favor seleccione Area!");

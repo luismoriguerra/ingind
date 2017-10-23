@@ -684,6 +684,7 @@ class ReporteController extends BaseController
    public function getExporttramiteconclu()
     {
           $fecha = Input::get('fecha');
+          $fecha_ini = Input::get('fecha_ini');
           $area_id = Input::get('area');
 
           if (isset($fecha)) {
@@ -691,6 +692,13 @@ class ReporteController extends BaseController
               $where=" AND DATE(rd.dtiempo_final) BETWEEN '".$fecha[0]."' AND '".$fecha[1]."' ";
           } else {
               $where='';
+          }
+
+          if (isset($fecha_ini)) {
+            $fecha_ini=explode(" - ",$fecha_ini);
+            $where .= " AND DATE(rd.fecha_inicio) BETWEEN '".$fecha_ini[0]."' AND '".$fecha_ini[1]."' ";
+          } else {
+              $where .= '';
           }
 
           $sql = "SELECT

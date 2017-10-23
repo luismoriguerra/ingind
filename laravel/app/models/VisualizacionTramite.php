@@ -167,6 +167,14 @@ class VisualizacionTramite extends Eloquent
         } else {
             $where='';
         }
+
+        if (isset($input['fecha_ini'])) {
+            $fecha_ini=explode(" - ",$input['fecha_ini']);
+            $where .= " AND DATE(rd.fecha_inicio) BETWEEN '".$fecha_ini[0]."' AND '".$fecha_ini[1]."' ";
+        } else {
+            $where .= '';
+        }
+
         $area_id = $input['areas'];
 
         //$personaId=Auth::user()->id;
