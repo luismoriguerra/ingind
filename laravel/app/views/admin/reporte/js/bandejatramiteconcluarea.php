@@ -145,7 +145,7 @@ $(document).ready(function() {
         if($('#slct_areas').val() != '')
         {
             var fecha = $("#txt_fecha").val();
-            var fecha_ini = $("#fecha_ini").val();
+            var fecha_ini = $("#txt_fecha_ini").val();
             var area = $("#slct_areas").val();
 
             //var fecha_nv = fecha.replace(" - ", "/");
