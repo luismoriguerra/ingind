@@ -161,18 +161,18 @@ class VisualizacionTramite extends Eloquent
     // Reporte de Concluidos por Area
     public static function BandejaTramitesConConclu( $input)
     {
-        if (isset($input['fecha'])) {
+        if (trim($input['fecha']) != '') {
             $fecha=explode(" - ",$input['fecha']);
             $where=" AND DATE(rd.dtiempo_final) BETWEEN '".$fecha[0]."' AND '".$fecha[1]."' ";
         } else {
             $where='';
         }
 
-        if (isset($input['fecha_ini'])) {
+        if (trim($input['fecha_ini']) != '') {
             $fecha_ini=explode(" - ",$input['fecha_ini']);
-            $where .= " AND DATE(rd.fecha_inicio) BETWEEN '".$fecha_ini[0]."' AND '".$fecha_ini[1]."' ";
+            $where = " AND DATE(rd.fecha_inicio) BETWEEN '".$fecha_ini[0]."' AND '".$fecha_ini[1]."' ";
         } else {
-            $where .= '';
+            $where = '';
         }
 
         $area_id = $input['areas'];

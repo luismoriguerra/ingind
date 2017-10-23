@@ -687,14 +687,14 @@ class ReporteController extends BaseController
           $fecha_ini = Input::get('fecha_ini');
           $area_id = Input::get('area');
 
-          if (isset($fecha)) {
+          if (trim($fecha) != '') {
               $fecha=explode(" - ",$fecha);
               $where=" AND DATE(rd.dtiempo_final) BETWEEN '".$fecha[0]."' AND '".$fecha[1]."' ";
           } else {
               $where='';
           }
 
-          if (isset($fecha_ini)) {
+          if (trim($fecha_ini) != '') {
             $fecha_ini=explode(" - ",$fecha_ini);
             $where .= " AND DATE(rd.fecha_inicio) BETWEEN '".$fecha_ini[0]."' AND '".$fecha_ini[1]."' ";
           } else {

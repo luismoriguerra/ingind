@@ -142,13 +142,22 @@ $(document).ready(function() {
 
     // Exportar Datos
     $(document).on('click', '#btnexport', function(event) {
-        if($('#slct_areas').val() != '')
+                
+        if($('#txt_fecha').val() == '' && $('#txt_fecha_ini').val() == '')
+        {
+            swal("Mensaje", "Por favor seleccione al menos una Fecha!");
+            event.preventDefault();
+        }
+        else if($("#slct_areas").val() == '')
+        {
+            swal("Mensaje", "Por favor seleccione Area!");
+            event.preventDefault();
+        }
+        else
         {
             var fecha = $("#txt_fecha").val();
             var fecha_ini = $("#txt_fecha_ini").val();
             var area = $("#slct_areas").val();
-
-            //var fecha_nv = fecha.replace(" - ", "/");
 
             swal({   
                     title: "Reporte de Concluidos",   
@@ -159,9 +168,6 @@ $(document).ready(function() {
             //$(this).attr('href','reportepersonal/exportreportepersonal'+'?fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+area);
             window.location = 'reporte/exporttramiteconclu'+'?fecha='+fecha+'&fecha_ini='+fecha_ini+'&area='+area;
 
-        }else{
-            swal("Mensaje", "Por favor seleccione Area!");
-            event.preventDefault();
         }
     });
     // --
@@ -169,8 +175,15 @@ $(document).ready(function() {
 });
 
 ActualizarBandeja=function(){
-    if($('#slct_areas').val() == ''){
+    if($('#txt_fecha').val() == '' && $('#txt_fecha_ini').val() == '')
+    {
+        swal("Mensaje", "Por favor seleccione al menos una Fecha!");
+        return false;
+    }
+    else if($("#slct_areas").val() == '')
+    {
         swal("Mensaje", "Por favor seleccione Area!");
+        return false;
     }else{
         var datos=$("#form_concluido").serialize().split("txt_").join("").split("slct_").join("");
         Bandeja.Mostrar(datos);
