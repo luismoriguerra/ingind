@@ -126,12 +126,12 @@ class ReporteFinalController extends BaseController
             if (Input::has('order')) {
                 $inorder=Input::get('order');
                 $incolumns=Input::get('columns');
-                $array['order']=  ' ORDER BY '.
+                /*$array['order']=  ' ORDER BY '.
                                   $incolumns[ $inorder[0]['column'] ]['name'].' '.
-                                  $inorder[0]['dir'];
+                                  $inorder[0]['dir'];*/
             }
 
-            $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
+            //$array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
             $retorno["draw"]=Input::get('draw');
         }
 
@@ -200,11 +200,7 @@ class ReporteFinalController extends BaseController
            if( Input::get('tiempo_final')=='0' ){
             $estadofinal="<CURRENT_TIMESTAMP()";
            }
-          $array['w'].="  AND CalcularFechaFinal(
-                            rd.fecha_inicio, 
-                            (rd.dtiempo*t.totalminutos),
-                            rd.area_id 
-                            )$estadofinal ";
+          $array['w'].="  AND rd.fecha_proyectada$estadofinal ";
         }
 
         if(Input::has('fecha_inicio_b') AND Input::get('fecha_inicio_b')!=''){
@@ -217,10 +213,22 @@ class ReporteFinalController extends BaseController
           $array['w'].=" AND DATE(rd.fecha_inicio) BETWEEN '".$fecha_inicio[0]."' AND '".$fecha_inicio[1]."' ";
         }
 
-      $cant= Reporte::BandejaTramiteCount( $array );
+      //$cant= Reporte::BandejaTramiteCount( $array );
       $r = Reporte::BandejaTramite( $array );
+      $cant= count($r);
 
-      $retorno["data"]=$r;
+      $r2= array();
+      if( $cant>10 ){
+        for ($i=Input::get('start'); $i < Input::get('length'); $i++) { 
+          array_push($r2, $r[$i]);
+        }
+      }
+      else{
+        $r2=$r;
+      }
+
+
+      $retorno["data"]=$r2;
       $retorno["recordsTotal"]=$cant;
       $retorno["recordsFiltered"]=$cant;
 
