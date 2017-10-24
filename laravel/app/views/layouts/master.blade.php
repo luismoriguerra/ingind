@@ -66,10 +66,23 @@
 
        @yield('formulario')
     </body>
-	<script>
-        var MensajeG9973=0;
-        $(document).ready(function() { 
-        <?php   $ssql="  SELECT m.id as m_id,m.contenido,m.titulo,md.id as dm_id
+    <?php
+    
+        $ruta=explode('.',Request::path());
+        if(Request::path()!='admin.inicio' and (Auth::user()->rol_id==8 or Auth::user()->rol_id==9)){
+            $opcion= Opcion::where('ruta','like','%'.$ruta[2])->first();
+            
+            $auditoria=new AuditoriaAcceso;
+            $auditoria->persona_id=Auth::user()->id;
+            $auditoria->rol_id=Auth::user()->rol_id;
+            $auditoria->opcion_id=@$opcion->id;
+            $auditoria->tipo=1;
+            $auditoria->usuario_created_at=Auth::user()->id;
+            $auditoria->ruta=$ruta[2];
+            $auditoria->save();
+        }
+        
+        $ssql="  SELECT m.id as m_id,m.contenido,m.titulo,md.id as dm_id
                           FROM mensajes m
                           LEFT JOIN mensajes_detalle md ON m.id=md.mensaje_id AND md.usuario_created_at=".Auth::user()->id." AND md.estado=1
 			  WHERE DATE(m.created_at)=CURDATE() AND m.estado=1";
@@ -79,8 +92,11 @@
                        (object) array('contenido'=>'','titulo'=>'','dm_id'=>'','m_id'=>'')
                     );
                     
-        }
+        } 
         ?>;
+	<script>
+        var MensajeG9973=0;
+        $(document).ready(function() { 
 
         var contenido='<?php  echo $mensaje[0]->contenido?>';
         var titulo='<?php  echo $mensaje[0]->titulo?>';

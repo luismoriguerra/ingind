@@ -22,7 +22,7 @@ $(document).ready(function() {
                 fecha_solucion      :'onBlur|Fecha Solucion|#DCE6F1', //#DCE6F1                
                 responsable_solucion      :'onBlur|R. Solucion|#DCE6F1', //#DCE6F1
                 solucion        :'onBlur|Solucion|#DCE6F1', //#DCE6F1
-                estado_tipo_problema        :'2|Tipo Problema|#DCE6F1', //#DCE6F1
+                estado_tipo_problema        :'onBlur|Tipo Problema|#DCE6F1', //#DCE6F1
                 estado_ticket        :'2|Estado Ticket|#DCE6F1', //#DCE6F1
                 editar        :'1|Editar|#DCE6F1', //#DCE6F1
                 estado        :'1|Eliminar|#DCE6F1', //#DCE6F1

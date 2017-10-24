@@ -189,7 +189,7 @@ tr:last-child td.last {
                                   <th width="4%">Compem</th>
                                   <th width="4%">Ono</th>
 
-                                  <th width="4%">C. Act.</th>
+                                  <th width="4%">H.Act.</th>
                                   <th width="4%">Tarea</th>
                                   <th width="4%">T.Trami</th>
                                   <th width="4%">Doc</th>
