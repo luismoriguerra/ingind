@@ -106,11 +106,7 @@ class Bandeja extends \Eloquent {
                         if( $r['tiempo_final']=='0' ){
                         $estadofinal="<CURRENT_TIMESTAMP()";
                         }
-                        $wtiempo="  CalcularFechaFinal(
-                                    rd.fecha_inicio, 
-                                    (rd.dtiempo*t.totalminutos),
-                                    rd.area_id 
-                                    )$estadofinal ";
+                        $wtiempo="  rd.fecha_proyectada$estadofinal ";
                         $query->whereRaw($wtiempo);
                     }
 

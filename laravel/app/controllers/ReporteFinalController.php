@@ -133,6 +133,7 @@ class ReporteFinalController extends BaseController
 
             //$array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
             $retorno["draw"]=Input::get('draw');
+            $array['order']=' ORDER BY rd.fecha_inicio DESC ';
         }
 
         if( !Input::has('totaldatos') ){

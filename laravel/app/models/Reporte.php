@@ -228,6 +228,7 @@ class Reporte extends Eloquent
                 $array['solicitante'].
                 $array['proceso'].
                 $array['tiempo_final'].
+                $array['order'].
                 $array['limit'];
                 //ORDER BY rd.fecha_inicio DESC
        $r= DB::select($sql);
