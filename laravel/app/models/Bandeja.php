@@ -36,7 +36,7 @@ class Bandeja extends \Eloquent {
                 WHERE re2.estado=1
                 ) AS re'),function($join){
                 $join->on('re.ruta_id','=','r.id')
-                ->whereRaw('re.norden=(rd.norden-IF(rd.norden-FLOOR(rd.norden)>0,0.01,1))');
+                ->where('re.norden','=',DB::raw('(rd.norden-IF(rd.norden-FLOOR(rd.norden)>0,0.01,1))'));
             })
             ->select('r.id', 'rd.fecha_inicio', 'rd.norden', 'tr.id_union', 'rd.id AS ruta_detalle_id'
             , 'rd.fecha_inicio as fecha_tramite', 'rd.estado_ruta'
