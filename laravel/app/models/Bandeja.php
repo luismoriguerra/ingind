@@ -45,11 +45,11 @@ class Bandeja extends \Eloquent {
             , DB::raw('rand() AS visto'), 'f.nombre AS proceso'
             ,DB::raw(
             'CASE tr.tipo_persona
-                WHEN 1 or 6 THEN CONCAT(tr.paterno,' ',tr.materno,', ',tr.nombre)
-                WHEN 2 THEN CONCAT(tr.razon_social,' | RUC:',tr.ruc)
+                WHEN 1 or 6 THEN CONCAT(tr.paterno," ",tr.materno,", ",tr.nombre)
+                WHEN 2 THEN CONCAT(tr.razon_social," | RUC:",tr.ruc)
                 WHEN 4 or 5 THEN tr.razon_social
                 WHEN 3 THEN (SELECT nombre FROM areas WHERE id=tr.area_id)
-                ELSE ''
+                ELSE ""
             END AS persona')
             ,DB::raw(
             "IF( 
