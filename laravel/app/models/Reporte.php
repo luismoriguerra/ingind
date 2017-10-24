@@ -160,11 +160,11 @@ class Reporte extends Eloquent
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
-                INNER JOIN tiempos t ON t.id=rd.tiempo_id 
                 INNER JOIN flujos f ON f.id=r.flujo_id
                 ".$array['referido']." JOIN referidos re ON re.ruta_id=r.id AND re.norden=(rd.norden-IF(rd.norden-FLOOR(rd.norden)>0,0.01,1))
                 WHERE r.estado=1 
-                AND rd.fecha_inicio!='' ".
+                AND rd.fecha_inicio<=CURRENT_TIMESTAMP()
+                AND rd.fecha_inicio IS NOT NULL ".
                 $array['w'].
                 $array['areas'].
                 $array['id_union'].

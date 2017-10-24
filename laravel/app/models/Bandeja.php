@@ -6,6 +6,15 @@ class Bandeja extends \Eloquent {
 
     public static function runLoad($r)
     {
+        $sql="SELECT GROUP_CONCAT(DISTINCT(a.id) ORDER BY a.id) areas
+                FROM area_cargo_persona acp
+                INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                WHERE acp.estado=1
+                AND cp.persona_id= ".$array['usuario'];
+          $totalareas=DB::select($sql);
+          $areas = $totalareas[0]->areas;
+
         $sql=DB::table('rutas AS r')
             ->join('rutas_detalle AS rd',function($join){
                 $join->on('r.id','=','rd.ruta_id')
@@ -16,9 +25,6 @@ class Bandeja extends \Eloquent {
                 $join->on('r.tabla_relacion_id','=','tr.id')
                 ->where('tr.estado','=',1);
             })
-            ->join('tiempos AS t',
-                't.id','=','rd.tiempo_id'
-            )
             ->join('flujos AS f',
                 'f.id','=','r.flujo_id'
             )
@@ -27,28 +33,32 @@ class Bandeja extends \Eloquent {
                 FROM referidos re2 
                 INNER JOIN rutas ru2 ON ru2.id=re2.ruta_id AND ru2.estado=1 
                 INNER JOIN rutas_detalle rd2 ON rd2.id=re2.ruta_detalle_id AND rd2.condicion=0 AND rd2.estado=1 
+                WHERE re2.estado=1
                 ) AS re'),function($join){
                 $join->on('re.ruta_id','=','r.id')
-                ->where('re.norden','=','(rd.norden-1)');
+                ->whereRaw('re.norden=(rd.norden-IF(rd.norden-FLOOR(rd.norden)>0,0.01,1))');
             })
             ->select('r.id', 'rd.fecha_inicio', 'rd.norden', 'tr.id_union', 'rd.id AS ruta_detalle_id'
-            ,DB::raw('CONCAT(t.apocope,": ",rd.dtiempo) AS tiempo'), 'rd.ruta_id AS ruta_id'
+            , 'rd.fecha_inicio as fecha_tramite', 'rd.estado_ruta'
+            ,DB::raw('CONCAT("D : ",rd.dtiempo) AS tiempo'), 'rd.ruta_id AS ruta_id'
             ,'re.referido AS id_union_ant'
             , DB::raw('rand() AS visto'), 'f.nombre AS proceso'
             ,DB::raw(
-            'IF( tr.tipo_persona=1 or tr.tipo_persona=6, CONCAT(tr.paterno," ",tr.materno,", ",tr.nombre),
-                IF(tr.tipo_persona=2, CONCAT(tr.razon_social," | RUC:",tr.ruc), 
-                    IF(tr.tipo_persona=3, (SELECT nombre FROM areas WHERE id=tr.area_id), 
-                        IF(tr.tipo_persona=4 or tr.tipo_persona=5, tr.razon_social,
-                        "")
-                    )
-                ) 
-            ) AS persona')
+            'CASE tr.tipo_persona
+                WHEN 1 or 6 THEN CONCAT(tr.paterno,' ',tr.materno,', ',tr.nombre)
+                WHEN 2 THEN CONCAT(tr.razon_social,' | RUC:',tr.ruc)
+                WHEN 4 or 5 THEN tr.razon_social
+                WHEN 3 THEN (SELECT nombre FROM areas WHERE id=tr.area_id)
+                ELSE ''
+            END AS persona')
             ,DB::raw(
-            'IF( CalcularFechaFinal( rd.fecha_inicio, (rd.dtiempo*t.totalminutos), rd.area_id )>=CURRENT_TIMESTAMP(),
-                "Dentro del Tiempo",
-                "Fuera del Tiempo"
-            ) AS tiempo_final')
+            "IF( 
+                    IFNULL(rd.fecha_proyectada,CURRENT_TIMESTAMP())>=CURRENT_TIMESTAMP(),'<div style=\"background: #00DF00;color: white;\">Dentro del Tiempo</div>','<div style=\"background: #FE0000;color: white;\">Fuera del Tiempo</div>'
+                ) as tiempo_final")
+            ,DB::raw(
+                "IF( 
+                    IFNULL(rd.fecha_proyectada,CURRENT_TIMESTAMP())>=CURRENT_TIMESTAMP(),'Dentro del Tiempo','Fuera del Tiempo'
+                ) as tiempo_final_n")
             )
             ->where( 
                 function($query) use ($r){
@@ -120,14 +130,7 @@ class Bandeja extends \Eloquent {
             ->where('r.estado','=','1')
             ->where('rd.fecha_inicio','<=','CURRENT_TIMESTAMP')
             ->whereNull('rd.dtiempo_final')
-            ->whereRaw('rd.area_id in (
-                            SELECT DISTINCT(a.id) 
-                            FROM area_cargo_persona acp                            
-                            INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1                            
-                            INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1                            
-                            WHERE acp.estado=1                            
-                            AND cp.persona_id= '.Auth::user()->id.'
-                        )');
+            ->whereRaw('rd.areas_id in ('.$areas.')');
         $result = $sql->paginate(10);
         return $result;
     }
