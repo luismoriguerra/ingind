@@ -163,17 +163,18 @@ class VisualizacionTramite extends Eloquent
     {
         if (trim($input['fecha']) != '') {
             $fecha=explode(" - ",$input['fecha']);
-            $where=" AND DATE(rd.dtiempo_final) BETWEEN '".$fecha[0]."' AND '".$fecha[1]."' ";
+            $wher_1=" AND DATE(rd.dtiempo_final) BETWEEN '".$fecha[0]."' AND '".$fecha[1]."' ";
         } else {
-            $where='';
+            $wher_1='';
         }
 
         if (trim($input['fecha_ini']) != '') {
             $fecha_ini=explode(" - ",$input['fecha_ini']);
-            $where = " AND DATE(rd.fecha_inicio) BETWEEN '".$fecha_ini[0]."' AND '".$fecha_ini[1]."' ";
+            $wher_2 = " AND DATE(rd.fecha_inicio) BETWEEN '".$fecha_ini[0]."' AND '".$fecha_ini[1]."' ";
         } else {
-            $where = '';
+            $wher_2 = '';
         }
+        $where = $wher_1.$wher_2;
 
         $area_id = $input['areas'];
 
