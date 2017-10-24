@@ -216,10 +216,11 @@ class ReporteFinalController extends BaseController
       //$cant= Reporte::BandejaTramiteCount( $array );
       $r = Reporte::BandejaTramite( $array );
       $cant= count($r);
+      $max= Input::get('start')+Input::get('length');
 
       $r2= array();
       if( $cant>10 ){
-        for ($i=Input::get('start'); $i < Input::get('length'); $i++) { 
+        for ($i=Input::get('start'); $i < $max; $i++) { 
           array_push($r2, $r[$i]);
         }
       }
