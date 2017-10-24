@@ -689,17 +689,19 @@ class ReporteController extends BaseController
 
           if (trim($fecha) != '') {
               $fecha=explode(" - ",$fecha);
-              $where=" AND DATE(rd.dtiempo_final) BETWEEN '".$fecha[0]."' AND '".$fecha[1]."' ";
+              $wher_1=" AND DATE(rd.dtiempo_final) BETWEEN '".$fecha[0]."' AND '".$fecha[1]."' ";
           } else {
-              $where='';
+              $wher_1='';
           }
 
           if (trim($fecha_ini) != '') {
-            $fecha_ini=explode(" - ",$fecha_ini);
-            $where .= " AND DATE(rd.fecha_inicio) BETWEEN '".$fecha_ini[0]."' AND '".$fecha_ini[1]."' ";
+              $fecha_ini=explode(" - ",$fecha_ini);
+              $wher_2 .= " AND DATE(rd.fecha_inicio) BETWEEN '".$fecha_ini[0]."' AND '".$fecha_ini[1]."' ";
           } else {
-              $where .= '';
+              $wher_2 .= '';
           }
+
+          $where = $wher_1.$wher_2;
 
           $sql = "SELECT
                 IFNULL(tr.id_union,'') AS id_union,
