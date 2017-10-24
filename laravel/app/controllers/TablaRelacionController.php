@@ -91,7 +91,7 @@ class TablaRelacionController extends \BaseController
                 $aParametro['rst'] = 1;
                 $aParametro["recordsTotal"]=$cant;
                 $aParametro["recordsFiltered"]=$cant;
-                $aParametro['data'] = $aData;
+                $aParametro['data'] = $r2;
                 $aParametro['msj'] = "No hay registros aún";
                 return Response::json($aParametro);
 
