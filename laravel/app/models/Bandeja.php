@@ -126,7 +126,7 @@ class Bandeja extends \Eloquent {
             ->where('r.estado','=','1')
             ->where('rd.fecha_inicio','<=','CURRENT_TIMESTAMP')
             ->whereNull('rd.dtiempo_final')
-            ->whereRaw('rd.areas_id in ('.$areas.')');
+            ->whereRaw('rd.area_id in ('.$areas.')');
         $result = $sql->paginate(10);
         return $result;
     }
