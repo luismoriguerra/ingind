@@ -17,12 +17,12 @@ class TablaRelacionController extends \BaseController
                     if (Input::has('order')) {
                         $inorder=Input::get('order');
                         $incolumns=Input::get('columns');
-                        $array['order']=  ' ORDER BY '.
+                        /*$array['order']=  ' ORDER BY '.
                                           $incolumns[ $inorder[0]['column'] ]['name'].' '.
-                                          $inorder[0]['dir'];
+                                          $inorder[0]['dir'];*/
                     }
 
-                    $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
+                    //$array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
                     $aParametro["draw"]=Input::get('draw');
                 }
                 /************************************************************/
@@ -55,20 +55,38 @@ class TablaRelacionController extends \BaseController
                                 ->get();
                 $area="";
                 if( count($cargopersona)==0 ){
-                    $array['where'].=" AND rd2.area_id IN
-                                        (SELECT a.id
-                                        FROM area_cargo_persona acp
-                                        INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
-                                        INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
-                                        WHERE acp.estado=1
-                                        AND cp.persona_id= ".$usuario."
-                                        ) ";
+                    $sql="SELECT GROUP_CONCAT(DISTINCT(a.id) ORDER BY a.id) areas
+                    FROM area_cargo_persona acp
+                    INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                    WHERE acp.estado=1
+                    AND cp.persona_id= ".$usuario;
+                    $totalareas=DB::select($sql);
+                    $areas = $totalareas[0]->areas;
+                    $array['where'].=" AND rd2.area_id IN (".$areas.") ";
                 }
 
                 $array['order']=" ORDER BY rd2.fecha_inicio DESC ";
 
-                $cant  = TablaRelacion::getPlataformaCount( $array );
+                //$cant  = TablaRelacion::getPlataformaCount( $array );
                 $aData = TablaRelacion::getPlataforma( $array );
+                $cant= count($aData);
+                $max= Input::get('start')+Input::get('length');
+
+                if( $cant-($cant%10) == Input::get('start') AND $cant%10>0 ){
+                $max=$cant;
+                }
+
+                $r2= array();
+                if( $cant>10 ){
+                    for ($i=Input::get('start'); $i < $max; $i++) { 
+                      array_push($r2, $aData[$i]);
+                    }
+                }
+                else{
+                $r2=$aData;
+                }
+
 
                 $aParametro['rst'] = 1;
                 $aParametro["recordsTotal"]=$cant;
