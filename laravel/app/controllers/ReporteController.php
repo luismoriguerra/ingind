@@ -696,9 +696,9 @@ class ReporteController extends BaseController
 
           if (trim($fecha_ini) != '') {
               $fecha_ini=explode(" - ",$fecha_ini);
-              $wher_2 .= " AND DATE(rd.fecha_inicio) BETWEEN '".$fecha_ini[0]."' AND '".$fecha_ini[1]."' ";
+              $wher_2 = " AND DATE(rd.fecha_inicio) BETWEEN '".$fecha_ini[0]."' AND '".$fecha_ini[1]."' ";
           } else {
-              $wher_2 .= '';
+              $wher_2 = '';
           }
 
           $where = $wher_1.$wher_2;
