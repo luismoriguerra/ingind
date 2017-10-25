@@ -263,7 +263,7 @@ MostrarAjax=function(t){
     }
     if( t=="proceso" ){
         if( columnDefsG.length>0 ){
-            dataTableG.CargarDatos(t,'flujo','listarproceso',columnDefsG);
+            dataTableG.CargarDatos(t,'flujo','listarmicroproceso',columnDefsG);
         }
         else{
             alert('Faltas datos');

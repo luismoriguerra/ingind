@@ -14,6 +14,7 @@ $(document).ready(function() {
        $("#form_proceso").append('<input type="hidden" name="txt_soloruta" value="1">');
        $("#form_proceso").append('<input type="hidden" name="txt_tipo_flujo"value="1">');
        $("#form_proceso").append('<input type="hidden" name="txt_pasouno" value="1">');
+        $("#form_proceso").append('<input type="hidden" name="txt_micro" value="1">');
       var button = $(event.relatedTarget); // captura al boton
       textoFG= button.data('texto');
       textoIdFG= button.data('id');
@@ -26,8 +27,7 @@ $(document).ready(function() {
       var modal = $(this); //captura el modal
       //Asignar.Plataforma(PlataformaHTML);
       //$('#t_tramites_plataforma').dataTable().fnDestroy();
-        var idG={ 
-                    nombre        :'onBlur|Proceso|#DCE6F1', //#DCE6F1
+        var idG={   nombre        :'onBlur|Proceso|#DCE6F1', //#DCE6F1
                     id        :'1|[]|#DCE6F1', //#DCE6F1
                  };
 
@@ -36,14 +36,14 @@ $(document).ready(function() {
         var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,1,'proceso','t_proceso');
         columnDefsG=resG[0]; // registra las columnas del datatable
         targetsG=resG[1]; // registra los contadores
-        
-
-        $('.fechaG').daterangepicker({
-            format: 'YYYY-MM-DD',
-            singleDatePicker: true,
-            showDropdowns: true
-        });
-        MostrarAjax('proceso');
+//        
+//
+//        $('.fechaG').daterangepicker({
+//            format: 'YYYY-MM-DD',
+//            singleDatePicker: true,
+//            showDropdowns: true
+//        });
+          MostrarAjax('proceso');  
     });
 
     $('#procesoModal').on('hide.bs.modal', function (event) {
@@ -55,30 +55,6 @@ $(document).ready(function() {
     });
     $("#t_tramites_plataforma").dataTable();
 });
-
-
-
-/*PlataformaHTML=function(datos){
-    var html="";
-    var cont=0;
-    var botton="";
-     $('#t_tramites_plataforma').dataTable().fnDestroy();
-
-    $.each(datos,function(index,data){
-    cont++;
-    html+="<tr>"+
-        "<td>"+data.tramite+"</td>"+
-        "<td>"+data.fecha_inicio+"</td>"+
-        "<td>"+data.proceso+"</td>"+
-        '<td>'+
-            '<a onclick="CargarTramitePlataforma('+"'"+data.tramite+"'"+');" class="btn btn-success btn-sm"><i class="fa fa-check-square fa-lg"></i> </a>'+
-        '</td>';
-    html+="</tr>";
-
-    });
-    $("#t_tramites_plataforma tbody").html(html); 
-    $("#t_tramites_plataforma").dataTable();
-}*/
 
 CargarProceso=function(flujo_id,flujo,area_id,area){
     $("#"+textoFG).val(flujo+" - "+area);

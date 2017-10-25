@@ -102,6 +102,58 @@ class FlujoController extends \BaseController
             );
         }
     }
+        public function postListarmicroproceso()
+    {
+        if ( Request::ajax() ) {
+            $array=array();
+            $array['where']='';$array['usuario']=Auth::user()->id;
+            $array['limit']='';$array['order']='';
+            
+            if (Input::has('draw')) {
+                if (Input::has('order')) {
+                    $inorder=Input::get('order');
+                    $incolumns=Input::get('columns');
+                    $array['order']=  ' ORDER BY '.
+                                      $incolumns[ $inorder[0]['column'] ]['name'].' '.
+                                      $inorder[0]['dir'];
+                }
+
+                $array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
+                $aParametro["draw"]=Input::get('draw');
+            }
+             
+             
+            if( Input::has('tipo_flujo') AND Input::get('tipo_flujo')==2 ){
+                $array['where'].=" AND f.tipo_flujo=2 ";
+            }elseif( Input::has('tipo_flujo') AND Input::get('tipo_flujo')==1 ){
+                $array['where'].=" AND f.tipo_flujo=1 ";
+            }
+            
+            if( Input::has("micro")  AND Input::get('micro')==1 ){
+                    $array['where'].=" AND f.categoria_id =16 "; 
+            }
+            
+            if( Input::has("nombre")  AND Input::get('nombre')!='' ){
+                $proceso=explode(" ",trim(Input::get('nombre')));
+                 for($i=0; $i<count($proceso); $i++){
+                    $array['where'].=" AND f.nombre LIKE '%".$proceso[$i]."%' ";
+                }
+            }
+            
+            $array['order']=" ORDER BY f.nombre ";
+            
+            $cant  = Flujo::getFlujoMicroProcesoCount( $array );
+            $aData = Flujo::getFlujoMicroProceso( $array );
+            
+            $aParametro['rst'] = 1;
+            $aParametro["recordsTotal"]=$cant;
+            $aParametro["recordsFiltered"]=$cant;
+            $aParametro['data'] = $aData;
+            $aParametro['msj'] = "No hay registros aún";
+            return Response::json($aParametro);
+
+        }
+    }
     
         public function postListarproceso()
     {
@@ -124,12 +176,11 @@ class FlujoController extends \BaseController
             }
              
              
-                if( Input::has('tipo_flujo') AND Input::get('tipo_flujo')==2 ){
-                    $array['where'].=" AND f.tipo_flujo=2 ";
-                }
-                elseif( Input::has('tipo_flujo') AND Input::get('tipo_flujo')==1 ){
-                    $array['where'].=" AND f.tipo_flujo=1 ";
-                }
+            if( Input::has('tipo_flujo') AND Input::get('tipo_flujo')==2 ){
+                $array['where'].=" AND f.tipo_flujo=2 ";
+            }elseif( Input::has('tipo_flujo') AND Input::get('tipo_flujo')==1 ){
+                $array['where'].=" AND f.tipo_flujo=1 ";
+            }
             
             if( Input::has("nomicro")  AND Input::get('nomicro')==1 ){
                     $array['where'].=" AND f.categoria_id !=16 "; 
@@ -143,10 +194,7 @@ class FlujoController extends \BaseController
             }
             
             $array['order']=" ORDER BY f.nombre ";
-//            $f      = new Flujo();
-//            $cant  = $f->getFlujoProceso( $array );
-//            $aData = $f->getFlujoProcesoCount( $array );
-
+            
             $cant  = Flujo::getFlujoProcesoCount( $array );
             $aData = Flujo::getFlujoProceso( $array );
             
