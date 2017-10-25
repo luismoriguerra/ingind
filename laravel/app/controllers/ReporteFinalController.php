@@ -133,6 +133,7 @@ class ReporteFinalController extends BaseController
 
             //$array['limit']=' LIMIT '.Input::get('start').','.Input::get('length');
             $retorno["draw"]=Input::get('draw');
+            $array['order']=' ORDER BY rd.fecha_inicio DESC ';
         }
 
         if( !Input::has('totaldatos') ){
@@ -217,6 +218,10 @@ class ReporteFinalController extends BaseController
       $r = Reporte::BandejaTramite( $array );
       $cant= count($r);
       $max= Input::get('start')+Input::get('length');
+
+      if( $cant-($cant%10) == Input::get('start') AND $cant%10>0 ){
+        $max=$cant;
+      }
 
       $r2= array();
       if( $cant>10 ){

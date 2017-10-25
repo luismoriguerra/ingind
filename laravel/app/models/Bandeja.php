@@ -11,7 +11,7 @@ class Bandeja extends \Eloquent {
                 INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
                 INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
                 WHERE acp.estado=1
-                AND cp.persona_id= ".$array['usuario'];
+                AND cp.persona_id= ".Auth::user()->id;
           $totalareas=DB::select($sql);
           $areas = $totalareas[0]->areas;
 
@@ -36,7 +36,7 @@ class Bandeja extends \Eloquent {
                 WHERE re2.estado=1
                 ) AS re'),function($join){
                 $join->on('re.ruta_id','=','r.id')
-                ->whereRaw('re.norden=(rd.norden-IF(rd.norden-FLOOR(rd.norden)>0,0.01,1))');
+                ->where('re.norden','=',DB::raw('(rd.norden-IF(rd.norden-FLOOR(rd.norden)>0,0.01,1))'));
             })
             ->select('r.id', 'rd.fecha_inicio', 'rd.norden', 'tr.id_union', 'rd.id AS ruta_detalle_id'
             , 'rd.fecha_inicio as fecha_tramite', 'rd.estado_ruta'
@@ -45,11 +45,11 @@ class Bandeja extends \Eloquent {
             , DB::raw('rand() AS visto'), 'f.nombre AS proceso'
             ,DB::raw(
             'CASE tr.tipo_persona
-                WHEN 1 or 6 THEN CONCAT(tr.paterno,' ',tr.materno,', ',tr.nombre)
-                WHEN 2 THEN CONCAT(tr.razon_social,' | RUC:',tr.ruc)
+                WHEN 1 or 6 THEN CONCAT(tr.paterno," ",tr.materno,", ",tr.nombre)
+                WHEN 2 THEN CONCAT(tr.razon_social," | RUC:",tr.ruc)
                 WHEN 4 or 5 THEN tr.razon_social
                 WHEN 3 THEN (SELECT nombre FROM areas WHERE id=tr.area_id)
-                ELSE ''
+                ELSE ""
             END AS persona')
             ,DB::raw(
             "IF( 
@@ -106,11 +106,7 @@ class Bandeja extends \Eloquent {
                         if( $r['tiempo_final']=='0' ){
                         $estadofinal="<CURRENT_TIMESTAMP()";
                         }
-                        $wtiempo="  CalcularFechaFinal(
-                                    rd.fecha_inicio, 
-                                    (rd.dtiempo*t.totalminutos),
-                                    rd.area_id 
-                                    )$estadofinal ";
+                        $wtiempo="  rd.fecha_proyectada$estadofinal ";
                         $query->whereRaw($wtiempo);
                     }
 
@@ -130,7 +126,7 @@ class Bandeja extends \Eloquent {
             ->where('r.estado','=','1')
             ->where('rd.fecha_inicio','<=','CURRENT_TIMESTAMP')
             ->whereNull('rd.dtiempo_final')
-            ->whereRaw('rd.areas_id in ('.$areas.')');
+            ->whereRaw('rd.area_id in ('.$areas.')');
         $result = $sql->paginate(10);
         return $result;
     }
