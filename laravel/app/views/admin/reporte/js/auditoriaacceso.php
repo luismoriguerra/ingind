@@ -5,27 +5,17 @@ $(document).ready(function() {
     $('#fecha').daterangepicker({
         format: 'YYYY-MM-DD',
         singleDatePicker: false,
-         showDropdowns: true
+        showDropdowns: true
     });
-    var dataG = {estado:1};
-    var data = {estado:1};
-    var ids = [];
-    slctGlobal.listarSlct('area','slct_area_id','multiple',null,{estado:1,areagestionall:1,personal:1});
-/*    slctGlobal.listarSlct('area','slct_area_id','simple',ids,data);*/
-
-      $("#generar").click(function (){
-        area_id = $('#slct_area_id').val();
-        $('#area_id').val(area_id);
+    
+    $("#generar").click(function (){
         var fecha=$("#fecha").val();
-        if($.trim(area_id)!==''){
         if ( fecha!=="") {
-                dataG = {area_id:area_id.join(','),fecha:fecha};
-                Usuario.CuadroProductividadActividad(dataG);
-
-        } else {
+            var dataG = {fecha:fecha};
+            Auditoria.CuadroAuditoria(dataG);
+        }else{
             alert("Seleccione Fecha");
-        }}
-        else {  alert("Seleccione Área"); }
+        }
     });
    
     $("#btnexport").click(GeneraHref);
@@ -47,10 +37,10 @@ GeneraHref=function(){
         else {  alert("Seleccione Área"); }
 }
 
-HTMLCPActividad=function(datos,cabecera,validar){
+HTMLCPActividad=function(datos,cabecera){
   var html="";var html_cabecera="";
     var alerta_tipo= '';
-    $('#t_produccion').dataTable().fnDestroy();
+    $('#t_auditoria').dataTable().fnDestroy();
     pos=0;
     html_cabecera+="<tr>"+
              "<th colspan='3'></th>";
@@ -70,12 +60,12 @@ HTMLCPActividad=function(datos,cabecera,validar){
     var n=0;
     $.each(cabecera,function(index,cabecera){
 
-       html_cabecera+="<th >N° Act</th>";
-       html_cabecera+="<th >T. Horas</th>";
+       html_cabecera+="<th >N° Ingreso</th>";
+       html_cabecera+="<th >N° Click</th>";
        n++;
     });
-    html_cabecera+="<th>N° Acti. Total</th>"+
-                    "<th>Total de Horas</th>";
+    html_cabecera+="<th>N° Ingreso Total</th>"+
+                    "<th>N° Click Total</th>";
     html_cabecera+="</tr>";
     
     $.each(datos,function(index,data){
@@ -86,36 +76,19 @@ HTMLCPActividad=function(datos,cabecera,validar){
             "<td>"+data.persona+"</td>";
         var i;
         for(i=1;i<=n;i++){ 
-        var hora = data['h'+i];
-        if(data['h'+i]!=null){
-         hora = data['h'+i].substring(0,5);
+
+        html+='<td>'+$.trim(data['ti'+i])+'</td>'+
+            '<td>'+$.trim(data['tc'+i])+"</td>";
         }
-        
-        if(data['v'+i]>=360 || data.envio_actividad==0 || data['e'+i]>=1){
-         var style=';background-color:#7BF7AE';
-        }
-        else if(data['v'+i]>0 && data['v'+i]<360 && data.envio_actividad==1){
-         var style=';background-color:#FFA027';
-        }
-        else if(data['v'+i]==0 && data.envio_actividad==1){
-            var style=';background-color:#FE4E4E';   
-        }
-        if((validar[i-1]==6 || validar[i-1]==0) && (data.envio_actividad!=0 && data['e'+i]!=1)){
-            var style=';background-color:#ffff66';   
-        }
-        html+='<td style="cursor:pointer'+style+'" onclick="Detalle(\''+$.trim(data['id'+i])+'\',\''+data.envio_actividad+'\',\''+data['e'+i]+'\')">'+$.trim(data['f'+i])+'</td>'+
-            '<td style="cursor:pointer'+style+'" onclick="Detalle(\''+$.trim(data['id'+i])+'\',\''+data.envio_actividad+'\',\''+data['e'+i]+'\')">'+$.trim(hora)+"</td>";
-        }
-        var h_total = data.h_total.substring(0,5);
-        html+='<td style="cursor:pointer" onclick="Detalle(\''+$.trim(data.id_total)+'\',\''+data.envio_actividad+'\')">'+data.f_total+"</td>";
-        html+='<td style="cursor:pointer" onclick="Detalle(\''+$.trim(data.id_total)+'\',\''+data.envio_actividad+'\')">'+h_total+"</td>";
+        html+='<td>'+data.ti+"</td>";
+        html+='<td>'+data.tc+"</td>";
 
     });
 
     html+="</tr>";
-    $("#tb_produccion").html(html);
-    $("#tt_produccion").html(html_cabecera);
-    $("#t_produccion").dataTable(
+    $("#tb_auditoria").html(html);
+    $("#tt_auditoria").html(html_cabecera);
+    $("#t_auditoria").dataTable(
              {
             "order": [[ 0, "asc" ],[1, "asc"]],
             "pageLength": 10,
