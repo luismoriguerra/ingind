@@ -162,6 +162,16 @@ class ReporteController extends BaseController
         );
    }
    
+     public function postCuadrodetalleauditoriaacceso()
+   {
+        $oData=AuditoriaAcceso::CuadroDetalleAuditoriaAcceso();
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$oData,
+            )
+        );
+   }
      public function postCuadroproductividadactividad()
    {
         AuditoriaAcceso::getAuditoria();

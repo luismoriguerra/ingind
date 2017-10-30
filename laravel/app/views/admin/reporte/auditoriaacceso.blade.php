@@ -71,7 +71,7 @@
                 </div>
                 
             </div><!-- /.box -->
-
+            <canvas id="myChart" style="display: block; width: 200px;" ></canvas>
             <!-- Finaliza contenido -->
         </div>
     </section><!-- /.content -->
@@ -79,5 +79,5 @@
 
 @stop
 @section('formulario')
-     @include( 'admin.produccion.form.actividades' )
+     @include( 'admin.reporte.form.auditoriaacceso' )
 @stop

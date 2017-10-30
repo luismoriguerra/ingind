@@ -50,7 +50,7 @@ class AuditoriaAcceso extends \Eloquent {
         }
 
         $sSql .= "SELECT CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona,
-                  a.nombre as area,
+                  a.nombre as area,p.id as persona_id,
                   COUNT(DISTINCT tai.id) as ti,
                   COUNT(DISTINCT tac.id) as tc";
         $sSql .= $cl;
@@ -66,6 +66,28 @@ class AuditoriaAcceso extends \Eloquent {
 
         $oData['cabecera'] = $cabecera;
         $oData['data'] = DB::select($sSql);
+        return $oData;
+    }
+    
+    public static function CuadroDetalleAuditoriaAcceso() {
+        $sSql = '';
+        $tai_fecha = '';
+        $tac_fecha='';
+
+
+        if (Input::has('fi') && Input::has('ff') ) {
+            $tai_fecha .= " AND DATE(tai.created_at) BETWEEN '" . Input::get('fi') . "' AND '" . Input::get('ff') . "' ";
+            $tac_fecha .= " AND DATE(tac.created_at) BETWEEN '" . Input::get('fi') . "' AND '" . Input::get('ff') . "' ";
+        }
+
+        $sSql .= "SELECT o.nombre,
+                    COUNT(DISTINCT tai.id) as ti,COUNT(DISTINCT tac.id) as tc 
+                    FROM opciones o
+                    LEFT JOIN auditoria_acceso tai ON o.id=tai.opcion_id and tai.estado=1 and tai.tipo=1  AND tai.persona_id=".Input::get('persona_id')."  " . $tai_fecha." 
+                    LEFT JOIN auditoria_acceso tac ON o.id=tac.opcion_id and tac.estado=1 and tac.tipo=2  AND tac.persona_id=".Input::get('persona_id')."  " . $tac_fecha."  
+                    GROUP BY o.id HAVING ti>0 or tc>0";
+
+        $oData = DB::select($sSql);
         return $oData;
     }
 }

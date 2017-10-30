@@ -37,7 +37,7 @@ GeneraHref=function(){
         else {  alert("Seleccione Área"); }
 }
 
-HTMLCPActividad=function(datos,cabecera){
+HTMLAuditoriaAcceso=function(datos,cabecera){
   var html="";var html_cabecera="";
     var alerta_tipo= '';
     $('#t_auditoria').dataTable().fnDestroy();
@@ -77,12 +77,12 @@ HTMLCPActividad=function(datos,cabecera){
         var i;
         for(i=1;i<=n;i++){ 
 
-        html+='<td>'+$.trim(data['ti'+i])+'</td>'+
-            '<td>'+$.trim(data['tc'+i])+"</td>";
+        html+='<td style="cursor:pointer" onclick="Detalle(\''+data.persona_id+'\',\''+cabecera[i - 1]+'\',\''+cabecera[i - 1]+'\')">'+$.trim(data['ti'+i])+'</td>'+
+              '<td style="cursor:pointer" onclick="Detalle(\''+data.persona_id+'\',\''+cabecera[i - 1]+'\',\''+cabecera[i - 1]+'\')">'+$.trim(data['tc'+i])+"</td>";
         }
-        html+='<td>'+data.ti+"</td>";
-        html+='<td>'+data.tc+"</td>";
-
+        html+='<td style="cursor:pointer" onclick="Detalle(\''+data.persona_id+'\',\''+cabecera[0]+'\',\''+cabecera[n - 1]+'\')">'+data.ti+"</td>";
+        html+='<td style="cursor:pointer" onclick="Detalle(\''+data.persona_id+'\',\''+cabecera[0]+'\',\''+cabecera[n - 1]+'\')">'+data.tc+"</td>";
+        
     });
 
     html+="</tr>";
@@ -94,7 +94,6 @@ HTMLCPActividad=function(datos,cabecera){
             "pageLength": 10,
         }
     ); 
-
 
 };
 
@@ -112,59 +111,28 @@ activarTabla=function(){
 eventoSlctGlobalSimple=function(slct,valores){
 };
 
-Detalle=function(id,envio_actividad,exonera){
-        var dataG=[];
-        dataG = {id:id};
-        Usuario.MostrarActividades(dataG,envio_actividad,exonera)
-        $('#actividadModal').modal('show');
+Detalle=function(persona_id,fi,ff){
+        var dataG = {persona_id:persona_id,fi:fi,ff:ff};
+        Auditoria.CuadroDetalleAuditoria(dataG);
+        $('#auditoriaaccesoModal').modal('show');
 };
 
-HTMLCargaActividades=function(datos,envio_actividad,exonera){
+HTMLAuditoriaAccesoDetalle=function(datos){
     var html ='';
-    var alerta_tipo= '';
-    $("#exonera").text("");
-    $("#fechas").text("");
-    $('#form_actividad #t_actividad').dataTable().fnDestroy();
+    $('#form_auditoriaacceso #t_auditoriaacceso').dataTable().fnDestroy();
     pos=0;
-    
-
     $.each(datos,function(index,data){
         pos++;
-        var horas = Math.floor( data.ot_tiempo_transcurrido / 60);
-        var min = data.ot_tiempo_transcurrido % 60;
-        if(data.archivo!=null){
-            var archivo=data.archivo.split(',');
-        }else {archivo='';}
-        if(data.documento!=null){
-        var documento=data.documento.split(',');
-        } else {documento='';}
-        if(data.n_documento!=null){
-        var n_documento=data.n_documento.split(',');
-        }else {n_documento='';}
         html+="<tr>"+
             "<td>"+pos+"</td>"+
-           "<td>"+data.actividad+"</td>"+
-            "<td>"+data.fecha_inicio+"</td>"+
-            "<td>"+data.dtiempo_final+"</td>"+
-            "<td>"+Math.abs(data.ot_tiempo_transcurrido) + " min"+"</td>"+
-            "<td>"+horas + ":" + min +"</td>"+
-            "<td>"+data.cantidad+"</td>"+
-            "<td>";
-            for(i=0;i<documento.length;i++){
-            html+="<a target='_blank' href='documentodig/vista/" + documento[i] + "/4/0'>" + n_documento[i] + "</a><br>";
-            }
-        html+= "</td>"+
-            "<td>";
-            for(i=0;i<archivo.length;i++){
-            html+="<a target='_blank' href='file/actividad/" +archivo[i]+"'>" +archivo[i]+ "</a><br>";
-            }
-        html+= "</td>";
+           "<td>"+data.nombre+"</td>"+
+            "<td>"+data.ti+"</td>"+
+            "<td>"+data.tc+"</td>";
         html+="</tr>";
     });
-    
-    MostrarMensajes(envio_actividad,exonera);
-    $("#form_actividad #tb_actividad").html(html);
-    $("#form_actividad #t_actividad").dataTable(
+
+    $("#form_auditoriaacceso #tb_auditoriaacceso").html(html);
+    $("#form_auditoriaacceso #t_auditoriaacceso").dataTable(
                          {
             "order": [[ 0, "asc" ],[1, "asc"]],
             "pageLength": 10,
@@ -174,16 +142,32 @@ HTMLCargaActividades=function(datos,envio_actividad,exonera){
 
 };
 
-MostrarMensajes=function(envio_actividad,exonera){
+MostrarMensajes=function(){
 
-        if(envio_actividad==0){
-       $("#exonera").text("Se encuentra exonerado todos los días");
-        }
-        else if(exonera!=0 && typeof (exonera)!='undefined'){
-         var dataG=[];
-        dataG = {id:exonera};
-         Usuario.MostrarTextoFecha(dataG);     
-        }
+ new Chart(document.getElementById("myChart"), {
+  type: 'bar',
+  data: {
+    labels: [Estadistica.persona],
+    datasets: [{ 
+        data: [86,114,106,106,107,111,133],
+        label: "# de Ejecución de Reportes",
+        borderColor: "#3e95cd",
+        fill: false
+      }, { 
+        data: [282,350,411,502,635,809,947,1402,3700,5267],
+        label: "# de Accesos a los módulos",
+        borderColor: "#8e5ea2",
+        fill: false
+      }
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: 'Análisis de Auditoría de Accesos'
+    }
+  }
+});
 };
 
 
