@@ -24,7 +24,7 @@ $(document).ready(function() {
     Area_id = '<?php echo Auth::user()->area_id; ?>';
     id = '<?php echo Auth::user()->id; ?>';
     Rol_id='<?php echo Auth::user()->rol_id; ?>';
-    slctGlobal.listarSlctFuncion('area','personaarea','slct_personasA','simple',null,{area_id:Area_id,persona:id});
+    slctGlobal.listarSlctFuncion('area','personaarea','slct_personasA','simple',null,{area_id:Area_id});
     slctGlobal.listarSlct2('actividadcategoria','n, .slct_cate',{estado:1});
     $(".selectbyPerson").removeClass('hidden');       
 
