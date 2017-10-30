@@ -739,7 +739,7 @@ class Ruta extends Eloquent
                         }
                         $array['tiempo']=($rutaDetalle->dtiempo*$cantmin);
                         $array['area']=$rutaDetalle->area_id;
-                        $ff=Carta::CalcularFechaFin($array);
+                        $ff=$rutaDetalle['fecha_proyectada'];
                         $fi=$array['fecha'];
                         $array['fecha']=$ff;
 
