@@ -61,11 +61,11 @@ HTMLAuditoriaAcceso=function(datos,cabecera){
     $.each(cabecera,function(index,cabecera){
 
        html_cabecera+="<th >N° Ingreso</th>";
-       html_cabecera+="<th >N° Click</th>";
+       html_cabecera+="<th >N° Consultas</th>";
        n++;
     });
     html_cabecera+="<th>N° Ingreso Total</th>"+
-                    "<th>N° Click Total</th>";
+                    "<th>N° Consulta Total</th>";
     html_cabecera+="</tr>";
     
     $.each(datos,function(index,data){
