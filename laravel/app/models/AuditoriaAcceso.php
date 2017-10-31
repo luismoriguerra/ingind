@@ -8,7 +8,7 @@ class AuditoriaAcceso extends \Eloquent {
         
         $ruta=explode('.',URL::previous());
         if(Request::path()!='admin.inicio' and (Auth::user()->rol_id==8 or Auth::user()->rol_id==9)){
-            $opcion= Opcion::where('ruta','like','%'.$ruta[4])->first();
+            $opcion= Opcion::where('ruta','like','%'.array_pop($ruta))->first();
             
             $auditoria=new AuditoriaAcceso;
             $auditoria->persona_id=Auth::user()->id;
@@ -16,7 +16,7 @@ class AuditoriaAcceso extends \Eloquent {
             $auditoria->opcion_id=@$opcion->id;
             $auditoria->tipo=2;
             $auditoria->usuario_created_at=Auth::user()->id;
-            $auditoria->ruta=$ruta[4];
+            $auditoria->ruta=array_pop($ruta);
             $auditoria->save();
         }
     }
