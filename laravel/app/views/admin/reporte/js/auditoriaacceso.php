@@ -90,8 +90,8 @@ HTMLAuditoriaAcceso=function(datos,cabecera){
     $("#tt_auditoria").html(html_cabecera);
     $("#t_auditoria").dataTable(
              {
-            "order": [[ 0, "asc" ],[1, "asc"]],
-            "pageLength": 10,
+            "order": [[ 0, "asc" ]],
+            "pageLength": 50,
         }
     ); 
 
