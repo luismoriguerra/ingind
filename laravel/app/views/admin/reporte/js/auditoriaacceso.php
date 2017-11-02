@@ -121,16 +121,27 @@ HTMLAuditoriaAccesoDetalle=function(datos){
     var html ='';
     $('#form_auditoriaacceso #t_auditoriaacceso').dataTable().fnDestroy();
     pos=0;
+    tti=0;
+    ttc=0;
     $.each(datos,function(index,data){
         pos++;
+        tti=tti+data.ti;
+        ttc=ttc+data.tc;
         html+="<tr>"+
             "<td>"+pos+"</td>"+
-           "<td>"+data.nombre+"</td>"+
+            "<td>"+data.nombre+"</td>"+
             "<td>"+data.ti+"</td>"+
             "<td>"+data.tc+"</td>";
         html+="</tr>";
     });
-
+    
+        html+="<tr>"+
+            "<td >Total:</td>"+
+            "<td ></td>"+
+            "<td>"+tti+"</td>"+
+            "<td>"+ttc+"</td>";
+        html+="</tr>";
+        
     $("#form_auditoriaacceso #tb_auditoriaacceso").html(html);
     $("#form_auditoriaacceso #t_auditoriaacceso").dataTable(
                          {
