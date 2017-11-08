@@ -231,7 +231,7 @@ class DocumentoDigital extends Base {
                 CONCAT_WS(" ",p.paterno,p.materno,p.nombre) as persona_c,
                      `dd`.`id`, `dd`.`titulo`, `dd`.`asunto`, `pd`.`descripcion` as `plantilla`, `dd`.`estado` 
                 from `doc_digital_temporal` as `dd` 
-		INNER JOIN `doc_digital_area` `dda` on `dda`.`doc_digital_id`=`dd`.`id` AND `dda`.`estado`=1 AND
+		LEFT JOIN `doc_digital_area` `dda` on `dda`.`doc_digital_id`=`dd`.`id` AND `dda`.`estado`=1 AND
 		( '.$documentos_area.' `dda`.`area_id` IN  (
                                         SELECT DISTINCT(a.id)
                                         FROM area_cargo_persona acp
