@@ -10,6 +10,10 @@ class Ticket extends Base
     {
         $sSql=" SELECT  COUNT(t.id) cant
                 FROM tickets t
+                left join personas as p1 on p1.id = t.persona_id
+                left join personas as p2 on p2.id = t.responsable_atencion_id
+                left join personas as p3 on p3.id = t.responsable_solucion_id
+                left join areas as a on a.id= t.area_id
                 WHERE t.estado=1 ";
         $sSql.= $array['where'];
         $oData = DB::select($sSql);
