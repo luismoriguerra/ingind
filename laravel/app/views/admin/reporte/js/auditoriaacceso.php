@@ -136,8 +136,8 @@ HTMLAuditoriaAccesoDetalle=function(datos){
     });
     
         html+="<tr>"+
-            "<td >Total:</td>"+
             "<td ></td>"+
+            "<td >Total:</td>"+
             "<td>"+tti+"</td>"+
             "<td>"+ttc+"</td>";
         html+="</tr>";

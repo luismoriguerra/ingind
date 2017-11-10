@@ -210,3 +210,4 @@ Route::controller('bandeja', 'BandejaController');
 Route::controller('ticket', 'TicketController');
 Route::controller('actividadcategoria', 'ActividadCategoriaController');
 Route::controller('reportepersonal', 'ReportePersonalController');
+Route::controller('fichaproceso', 'FichaProcesoController');
