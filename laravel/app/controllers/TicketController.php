@@ -103,7 +103,7 @@ class TicketController extends \BaseController
 //                            $query->whereRaw($usuario);
             } 
 
-            $array['order']=" ORDER BY t.id ";
+            $array['order']=" ORDER BY t.id DESC ";
 
             $cant  = Ticket::getCargarCount( $array );
             $aData = Ticket::getCargar( $array );
