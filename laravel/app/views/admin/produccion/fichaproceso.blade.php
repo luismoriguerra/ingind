@@ -22,6 +22,9 @@
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
 <!-- Main content -->
+<style>
+.modal { overflow: auto !important; 
+</style>
 <section class="content-header">
     <h1>
         Ficha Proceso
