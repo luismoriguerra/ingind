@@ -57,7 +57,7 @@ HTMLcargarFichaProceso=function(datos){
         $('#form_ficha #ficha_proceso_respuesta_id').val(data.ficha_proceso_respuesta_id);
         for(i=1;i<=4;i++){
             html+="<tr id="+data.norden+">"+
-                "<td>"+i+"- "+data['p'+i]+"</td>";
+                "<td><b><label style='color:#015f9f'>"+i+"- "+data['p'+i]+"</label></b></td>";
             html+="</tr>";
             html+="<tr id="+data.norden+">"+
                 "<td><textarea rows='4' id='r"+i+"' name='r"+i+"' style='margin: 0px; width: 100%; color: #015f9f;'>"+data['r'+i]+"</textarea></td>";

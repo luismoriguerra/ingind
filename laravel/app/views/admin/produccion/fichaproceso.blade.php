@@ -77,10 +77,10 @@
                                     <input type="hidden" id="ficha_proceso_respuesta_id" name="ficha_proceso_respuesta_id">
                                     <div class="row form-group">
                                         <div class="col-sm-12">
-                                            <table id="t_ficha" class="table table-bordered table-striped">
+                                            <table id="t_ficha" class="table table-striped" >
                                                 <thead>
                                                     <tr>
-                                                        <th>[]</th>
+                                                    
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tb_ficha">
