@@ -17,7 +17,7 @@
 @include( 'admin.js.slct_global' )
 @include( 'admin.produccion.js.fichaproceso_ajax' )
 @include( 'admin.produccion.js.fichaproceso' )
-
+@include( 'admin.ruta.js.ruta_ajax' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -107,6 +107,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>N°</th>
+                                                        <th>[]</th>
                                                         <th>Proceso</th>
                                                         <th>[]</th>
                                                     </tr>
@@ -129,4 +130,6 @@
 @stop
 @section('formulario')
 @include( 'admin.inventario.form.confirmacion' )
+@include( 'admin.ruta.form.rutaflujo' )
+@include( 'admin.ruta.form.ruta' )
 @stop
