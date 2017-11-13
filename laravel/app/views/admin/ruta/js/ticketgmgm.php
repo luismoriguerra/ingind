@@ -2,7 +2,7 @@
 var cabeceraG=[]; // Cabecera del Datatable
 var columnDefsG=[]; // Columnas de la BD del datatable
 var targetsG=-1; // Posiciones de las columnas del datatable
-var TicketgmgmsG={id:0,persona_id:"",nombre_solicitante:"",area_id:"",nombre_solicitante_area:"",descripcion:"",fecha_pendiente:"",fecha_atencion:"",responsable_atencion:"",fecha_solucion:"",responsable_solucion:"",solucion:"",estado_tipo_problema:"",estado_ticket:1,estado:1}; // Datos Globales
+var TicketgmgmsG={id:0,persona_id:"",solicitante:"",area_id:"",area:"",descripcion:"",fecha_pendiente:"",fecha_atencion:"",responsable_atencion:"",fecha_solucion:"",responsable_solucion:"",solucion:"",estado_tipo_problema:"",estado_ticket:1,estado:1}; // Datos Globales
 $(document).ready(function() {  
     /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
         2: Descripción de cabecera
@@ -13,8 +13,8 @@ $(document).ready(function() {
     slctGlobalHtml('slct_estado_tipo_problema','simple');
 
 
-    var idG={   persona_id        :'3|Solicitante|#DCE6F1', //#DCE6F1
-                area_id      :'3|Area|#DCE6F1', //#DCE6F1
+    var idG={   solicitante        :'onBlur|Solicitante|#DCE6F1', //#DCE6F1
+                area      :'onBlur|Area|#DCE6F1', //#DCE6F1
                 descripcion      :'onBlur|Descripción|#DCE6F1', //#DCE6F1
                 fecha_pendiente      :'onBlur|Fecha Pendiente|#DCE6F1', //#DCE6F1
                 fecha_atencion      :'onBlur|Fecha Atencion|#DCE6F1', //#DCE6F1
@@ -72,8 +72,8 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
             $('#form_ticketgmgms_modal #txt_persona_id').val( TicketgmgmsG.persona_id );
-            $('#form_ticketgmgms_modal #nombre_solicitante').val( TicketgmgmsG.nombre_solicitante );
-            $('#form_ticketgmgms_modal #nombre_solicitante_area').val( TicketgmgmsG.nombre_solicitante_area );
+            //$('#form_ticketgmgms_modal #nombre_solicitante').val( TicketgmgmsG.nombre_solicitante );
+            //$('#form_ticketgmgms_modal #nombre_solicitante_area').val( TicketgmgmsG.nombre_solicitante_area );
             $('#form_ticketgmgms_modal #txt_area_id').val( TicketgmgmsG.area_id );
             $('#form_ticketgmgms_modal #txt_fecha_pendiente').val( TicketgmgmsG.fecha_pendiente );
 
@@ -105,15 +105,15 @@ MostrarAjax=function(t){
 }
 
 GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
-    if(typeof(fn)!='undefined' && fn.col==0){
-        return row.solicitante+"<input type='hidden'name='txt_persona_id' value='"+row.persona_id+"'>";
-    }
+   // if(typeof(fn)!='undefined' && fn.col==0){
+       //return row.solicitante+"<input type='hidden'name='txt_persona_id' value='"+row.persona_id+"'>";
+   // }
 
-    else if(typeof(fn)!='undefined' && fn.col==1){
-        return row.area+"<input type='hidden'name='txt_area_id' value='"+row.area_id+"'>";
-    }
+   // if(typeof(fn)!='undefined' && fn.col==1){
+     //   return row.area+"<input type='hidden'name='txt_area_id' value='"+row.area_id+"'>";
+   // }
 
-    else if(typeof(fn)!='undefined' && fn.col==9){
+    if(typeof(fn)!='undefined' && fn.col==9){
         //se envia de manera ocultada la fecha de nacimiento en el txt_sexo
         return row.estado_tipo_problema+"<input type='hidden'name='txt_estado_tipo_problema' value='"+row.estado_tipo_problema_id+"'>";
     }
@@ -172,8 +172,8 @@ BtnEliminar = function(id){
 BtnEditar=function(btn,id){
     var tr = btn.parentNode.parentNode; // Intocable
     TicketgmgmsG.id=id;
-    TicketgmgmsG.nombre_solicitante=$(tr).find("td:eq(0)").text();
-    TicketgmgmsG.nombre_solicitante_area=$(tr).find("td:eq(1)").text();
+    //TicketgmgmsG.nombre_solicitante=$(tr).find("td:eq(0)").text();
+    //TicketgmgmsG.nombre_solicitante_area=$(tr).find("td:eq(1)").text();
     TicketgmgmsG.persona_id=$(tr).find("td:eq(0) input[name='txt_persona_id']").val();
     TicketgmgmsG.area_id=$(tr).find("td:eq(1)").text();
     TicketgmgmsG.descripcion=$(tr).find("td:eq(2)").text();

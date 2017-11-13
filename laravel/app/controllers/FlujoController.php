@@ -207,6 +207,38 @@ class FlujoController extends \BaseController
 
         }
     }
+    
+            public function postListarproceso2()
+    {
+        if ( Request::ajax() ) {
+            $array=array();
+            $array['where']='';$array['usuario']=Auth::user()->id;
+            $array['limit']='';$array['order']='';
+            
+             
+            if( Input::has('tipo_flujo') AND Input::get('tipo_flujo')==2 ){
+                $array['where'].=" AND f.tipo_flujo=2 ";
+            }elseif( Input::has('tipo_flujo') AND Input::get('tipo_flujo')==1 ){
+                $array['where'].=" AND f.tipo_flujo=1 ";
+            }
+            
+            if( Input::has("nomicro")  AND Input::get('nomicro')==1 ){
+                    $array['where'].=" AND f.categoria_id !=16 "; 
+            }
+            
+            $array['order']=" ORDER BY f.nombre ";
+            
+            $aData = Flujo::getFlujoProceso2( $array );
+            
+            return Response::json(
+                            array(
+                                'rst' => 1,
+                                'datos' => $aData,
+                            )
+            );
+
+        }
+    }
 
 /**
      * Store a newly created resource in storage.

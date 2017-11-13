@@ -32,16 +32,17 @@ class TicketController extends \BaseController
             }
             /************************************************************/
 
-            if( Input::has("persona_id") ){
-                $persona_id=Input::get("persona_id");
-                if( trim( $persona_id )!='' ){
-                    $array['where'].=" AND t.persona_id LIKE '%".$persona_id."%' ";
+            if( Input::has("solicitante") ){
+                $solicitante=Input::get("solicitante");
+                if( trim( $solicitante )!='' ){
+                    $array['where'].=" AND CONCAT_WS(' ',p1.paterno,p1.materno,p1.nombre) LIKE '%".$solicitante."%' ";
                 }
             }
-             if( Input::has("area_id") ){
-                $area_id=Input::get("area_id");
-                if( trim( $area_id )!='' ){
-                    $array['where'].=" AND t.area_id LIKE '%".$area_id."%' ";
+
+             if( Input::has("area") ){
+                $area=Input::get("area");
+                if( trim( $area )!='' ){
+                    $array['where'].=" AND a.nombre LIKE '%".$area."%' ";
                 }
             }
             if( Input::has("descripcion") ){
@@ -102,7 +103,7 @@ class TicketController extends \BaseController
 //                            $query->whereRaw($usuario);
             } 
 
-            $array['order']=" ORDER BY t.persona_id ";
+            $array['order']=" ORDER BY t.id DESC ";
 
             $cant  = Ticket::getCargarCount( $array );
             $aData = Ticket::getCargar( $array );
