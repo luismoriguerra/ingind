@@ -12,6 +12,7 @@ class FichaProceso extends \Eloquent {
                 ->leftjoin('ficha_proceso_respuesta as fpr', function($join){
                         $join->on('fpr.ficha_proceso_id', '=', 'ficha_proceso.id');
                         $join->where('fpr.estado', '=', 1);
+                        $join->where('fpr.usuario_created_at', '=', Auth::user()->id);
                 })
                 ->where('ficha_proceso.estado','=',1)->get();
         return $result;

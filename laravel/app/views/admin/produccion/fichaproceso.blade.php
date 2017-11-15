@@ -97,7 +97,7 @@
                         <div class="col-md-12">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-primary pull-right" onclick="registrarInmueble()">Guardar</button>
+                                    <button type="button" class="btn btn-primary pull-right" onclick="registrarFicha()">Guardar</button>
                                 </div>
                             </div>
                         </div>
@@ -121,6 +121,13 @@
                                         </div>
                                     </div>
     <!--                            </form>-->
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary pull-right" onclick="registrarFicha()">Guardar</button>
+                                </div>
                             </div>
                         </div>
                     </form>    

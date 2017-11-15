@@ -121,13 +121,12 @@ poblateDataUser = function(){
 eventoSlctGlobalSimple=function(){
 };
 
-registrarInmueble = function(){
+registrarFicha = function(){
+    var rol_id=<?php echo Auth::user()->rol_id ?>;
 
-     if( $.trim($("#r1").val())==''){
-        alert("Seleccione modalidad");
-    }
-    else if( $.trim($("#r1").val()) == '' ){
-        alert("Seleccione local");
+    if( $.trim(rol_id)!=8 && $.trim(rol_id)!=9){
+      sweetalertG.alert("No es Gerente o Sub Gerente", "Validación", function(){
+        });
     }
    else{
     FichaProceso.guardarFichaProceso();

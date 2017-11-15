@@ -599,6 +599,17 @@ var sweetalertG = {
       },
       consulta
       );
+    },
+    alert: function (titulo, descripcion, consulta) {
+      swal({
+          title: titulo,
+          text: descripcion,
+          type: 'warning',
+          confirmButtonText: "Aceptar",
+          closeOnConfirm: true
+      },
+      consulta
+      );
     }
 }
 

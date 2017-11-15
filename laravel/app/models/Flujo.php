@@ -178,7 +178,7 @@ class Flujo extends Base
                     INNER JOIN areas as a on a.id = f.area_id 
                     INNER JOIN rutas_flujo as rf on rf.flujo_id = f.id AND rf.estado = 1
                     INNER JOIN rutas_flujo_detalle as rfd on rfd.ruta_flujo_id = rf.id and rfd.norden = 1  AND rfd.estado=1
-                    LEFT JOIN ficha_proceso_detalle fpd ON fpd.ruta_flujo_id=rf.id AND fpd.estado=1 AND fpd.check=1
+                    LEFT JOIN ficha_proceso_detalle fpd ON fpd.ruta_flujo_id=rf.id AND fpd.estado=1 AND fpd.check=1 AND fpd.usuario_created_at=".$usuario."
                     WHERE  f.estado = 1  
                     AND rfd.area_id IN (
                         SELECT a.id
