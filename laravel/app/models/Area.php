@@ -180,7 +180,8 @@ class Area extends Base
         $sql = "SELECT CONCAT_WS('|',a.id,p.id) as id,a.nombre,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) concat 
                 FROM areas a 
                 INNER JOIN personas p ON (p.area_id=a.id OR FIND_IN_SET(a.id,p.area_responsable)) AND p.estado = 1 AND p.rol_id IN (8,9,6) 
-                WHERE a.estado=1 AND a.area_gestion=1";
+                WHERE a.estado=1 AND a.area_gestion=1
+                ORDER BY a.nombre asc";
         $result = DB::select($sql);
         return ($result) ? $result : false;
     }
