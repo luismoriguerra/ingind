@@ -23,19 +23,6 @@
         $(document).on('click', '.btnDelete', function (event) {
             $(this).parent().parent().remove();
         });
-
-        $('#listDocDigital').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // captura al boton
-            var text = $.trim(button.data('texto'));
-            var id = $.trim(button.data('id'));
-            var avance_id = $.trim(button.data('avanceid'));
-            var tipo_id = $.trim(button.data('tipoid'));
-            var fecha_id = $.trim(button.data('fechaid'));
-            var form = $.trim(button.data('form'));
-            var camposP = {'nombre': text, 'id': id, 'avance_id': avance_id, 'form': form, 'tipo_id': tipo_id, 'fecha_id': fecha_id};
-            Usuario.Cargar(HTMLCargar, camposP);
-        });
-
     });
     var ap = 0;
     AgregarAP = function (cont1, avance_id) {
@@ -353,7 +340,7 @@
                         '<th>N°</th>' +
                         '<th>Documento<br>'+anio+"-"+arr_fecha[j]+'</th>';
                 if (anio+"-"+arr_fecha[j] >= Cuadro.fecha_actual) {
-                    html += '<th><span class="btn btn-default btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="5" data-form="#t_qdocumento' + cont4_1 +j+ '" data-avanceid="' + data.meta_id + '" data-fechaid="' + d + '" data-id="txt_doc_digital_id">' +
+                    html += '<th><span class="btn btn-default btn-xs" data-toggle="modal" data-target="#docdigitalModal" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="5" data-form="#t_qdocumento' + cont4_1 +j+ '" data-avanceid="' + data.meta_id + '" data-fechaid="' + d + '" data-id="txt_doc_digital_id">' +
                             '<i class="glyphicon glyphicon-file"></i>' +
                             '</span></th>';
                 }
@@ -470,7 +457,7 @@
                         '<th>N°</th>' +
                         '<th>Documento</th>';
                 if (data.pf >= Cuadro.fecha_actual) {
-                    html += '<th><span class="btn btn-default btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="4" data-form="#t_apdocumento' + cont1 + '" data-avanceid="' + data.id_p + '" data-id="txt_doc_digital_id">' +
+                    html += '<th><span class="btn btn-default btn-xs" data-toggle="modal" data-target="#docdigitalModal" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="4" data-form="#t_apdocumento' + cont1 + '" data-avanceid="' + data.id_p + '" data-id="txt_doc_digital_id">' +
                             '<i class="glyphicon glyphicon-file"></i>' +
                             '</span></th>';
                 }
@@ -577,7 +564,7 @@
                         '<th>N°</th>' +
                         '<th>Documento</th>';
                 if (data.df >= Cuadro.fecha_actual) {
-                    html += '<th><span class="btn btn-default btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="3" data-form="#t_ddocumento' + cont2 + '" data-avanceid="' + data.id_d + '" data-id="txt_doc_digital_id">' +
+                    html += '<th><span class="btn btn-default btn-xs" data-toggle="modal" data-target="#docdigitalModal" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="3" data-form="#t_ddocumento' + cont2 + '" data-avanceid="' + data.id_d + '" data-id="txt_doc_digital_id">' +
                             '<i class="glyphicon glyphicon-file"></i>' +
                             '</span></th>';
                 }
@@ -689,7 +676,7 @@
                         '<th>Documento</th>'+
                         '<th>';
                 if (data.af >= Cuadro.fecha_actual) {
-                    html +='<span class="btn btn-default btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="2" data-form="#t_adocumento' + cont3 + '" data-avanceid="' + data.meta_cuadro_id + '" data-id="txt_doc_digital_id">' +
+                    html +='<span class="btn btn-default btn-xs" data-toggle="modal" data-target="#docdigitalModal" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="2" data-form="#t_adocumento' + cont3 + '" data-avanceid="' + data.meta_cuadro_id + '" data-id="txt_doc_digital_id">' +
                             '<i class="glyphicon glyphicon-file"></i>' +
                             '</span>';
                 }
@@ -858,7 +845,7 @@
                         '<th>N°</th>' +
                         '<th>Documento</th>';
                 if (data.mf >= Cuadro.fecha_actual) {
-                    html += '<th><span class="btn btn-default btn-xs" data-toggle="modal" data-target="#listDocDigital" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="1" data-form="#t_mdocumento' + cont4 + '" data-avanceid="' + data.meta_id + '" data-id="txt_doc_digital_id">' +
+                    html += '<th><span class="btn btn-default btn-xs" data-toggle="modal" data-target="#docdigitalModal" id="btn_list_digital" data-texto="txt_codigo" data-tipoid="1" data-form="#t_mdocumento' + cont4 + '" data-avanceid="' + data.meta_id + '" data-id="txt_doc_digital_id">' +
                             '<i class="glyphicon glyphicon-file"></i>' +
                             '</span></th>';
                 }
@@ -1010,49 +997,6 @@
         $("#tb_doc_digital").html(html);
         $("#t_doc_digital").dataTable();
     };
-
-    SelectDocDig = function (obj, id) {
-        var id = obj.getAttribute('id');
-        var nombre = obj.getAttribute('title');
-        var form = obj.getAttribute('c_form');
-        var avance_id = obj.getAttribute('c_avance_id');
-        var tipo_id = obj.getAttribute('c_tipo_id');
-        var fecha_id = obj.getAttribute('c_fecha_id');
-        $("#listDocDigital").modal('hide');
-//	$("#"+obj.getAttribute('c_text')).val(nombre);
-//	$("#"+obj.getAttribute('c_id')).val(id);
-
-        var html = '';
-        html += "<tr>" +
-                "<td>#" ;
-        if(tipo_id==5){
-          html += "<input type='hidden' name='fecha_id[]' id='fecha_id' value='"+fecha_id+"'>" ;  
-        }
-        html += "<input type='hidden' name='tipo_avance[]' id='tipo_avance' value='" + tipo_id + "'>" +
-                "<input type='hidden' name='avance_id[]' id='avance_id' value='" + avance_id + "'></td></td> " +
-                "<input type='hidden' name='doc_id[]' id='doc_id' value='" + id + "'></td></td> " +
-                "<td>";
-        html += '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre"  name="pago_nombre[]" value="' + nombre + '">';
-        html += "</td>" +
-                '<td><a id="btnDelete"  name="btnDelete" class="btn btn-danger btn-xs btnDelete">' +
-                '<i class="fa fa-trash fa-lg"></i>' +
-                '</a></td>';
-        html += "</tr>";
-
-        $(form).append(html);
-
-
-    }
-
-openPlantilla=function(obj,id,tamano,tipo){
-    var iddoc = id;
-    if(id==0 || id ==''){
-        iddoc=obj.getAttribute('id');
-    }
-    window.open("documentodig/vista/"+iddoc+"/"+tamano+"/"+tipo,
-                "PrevisualizarPlantilla",
-                "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
-};
     
     Detalle=function(id){
         var dataG=[];

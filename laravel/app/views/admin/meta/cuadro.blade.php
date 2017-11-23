@@ -15,6 +15,7 @@
     @include( 'admin.reporte.js.totaltramites_ajax' )
     @include( 'admin.reporte.js.totaltramites' )
     @include( 'admin.ruta.js.ruta_ajax' )
+    @include( 'admin.meta.js.docdigital' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -101,6 +102,7 @@
 
 @section('formulario')
      @include( 'admin.ruta.form.ListdocDigital' )
+     @include( 'admin.meta.form.docdigital' )
      @include( 'admin.meta.form.tramite' )
      @include( 'admin.ruta.form.ruta' )
 @stop
