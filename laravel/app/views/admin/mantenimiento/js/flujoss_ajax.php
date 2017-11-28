@@ -189,6 +189,34 @@ var Flujos={
                 msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
             }
         });
-    }
+    },
+
+    ObtenerRolUser:function(){
+        $.ajax({
+            url         : 'flujo/roluser',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : {},
+            success : function(obj) {
+                if(obj.rst==1)
+                {
+                    if(obj.datos == 1){
+                        $("#div_categoria_user").html('').hide();
+                        $("#div_categoria_master").show();                        
+                    }else{
+                        $("#div_categoria_master").html('').hide();
+                        var html_slct = '<input type="hidden" name="txt_categoria_id" id="txt_categoria_id" value="'+obj.data_cat[0].id+'">'+
+                                        '<input type="text" class="form-control" name="txt_categoria" id="txt_categoria" value="'+obj.data_cat[0].nombre+'" disabled>';
+                        $("#div_categoria_user").html(html_slct).show();
+                    }
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+            }
+        });
+    },
+
 };
 </script>

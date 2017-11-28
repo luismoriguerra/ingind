@@ -20,9 +20,17 @@
 
           <div class="form-group">
               <label class="control-label">Categoria:</label>
-              <select class="form-control" name="slct_categoria_id" id="slct_categoria_id">
-              <option value="">.::Seleccione::.</option>
-              </select>
+              <!-- <div id="div_categoria" > -->
+                <div id="div_categoria_user" >
+                  Cargando...                  
+                </div>
+                
+                <div id="div_categoria_master" style="display: none;">
+                  <select class="form-control" name="slct_categoria_id" id="slct_categoria_id">
+                  <option value="">.::Seleccione::.</option>
+                  </select>
+                </div>
+              <!-- </div> -->
           </div>
 
 
