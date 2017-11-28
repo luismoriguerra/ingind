@@ -530,15 +530,22 @@ class FlujoController extends \BaseController
     public function postRoluser()
     {
         $oData = Area::getRol();
-        $cargo_id = 0;
         $valor = 0;
         $categoria = NULL;
+        $cargo_master = false;
         if($oData)
         {
             foreach ($oData as $key => $lis)
-                $cargo_id = $lis->cargo_id;
+            {
+                $array[] = $lis->cargo_id;
+                if (in_array(12, $array)){
+                    $cargo_master = true;
+                    break;
+                }else
+                    $cargo_master = false;                
+            }
 
-            if($cargo_id == 12) // User Master
+            if($cargo_master == true) // User Master
                 $valor = 1;
             else
             {
