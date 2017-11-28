@@ -525,6 +525,50 @@ class FlujoController extends \BaseController
         $this->exportExcel($propiedades,'',$cabecera,$rst);
     }
 
+
+    // -- 
+    public function postRoluser()
+    {
+        $oData = Area::getRol();
+        $valor = 0;
+        $categoria = NULL;
+        $cargo_master = false;
+        if($oData)
+        {
+            foreach ($oData as $key => $lis)
+            {
+                $array[] = $lis->cargo_id;
+                if (in_array(12, $array)){
+                    $cargo_master = true;
+                    break;
+                }else
+                    $cargo_master = false;                
+            }
+
+            if($cargo_master == true) // User Master
+                $valor = 1;
+            else
+            {
+                $sSql = "SELECT c.id, c.nombre
+                            FROM categorias c
+                            WHERE c.id = 20 AND estado = 1;";
+                $categoria = DB::select($sSql);
+
+                $valor = 0;
+            }
+        }
+
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=> $valor,
+                'data_cat'=> $categoria
+            )
+        );
+    }
+    // --
+
+
   /*  public function postProduccionxproceso()
     {
         //si la peticion es ajax

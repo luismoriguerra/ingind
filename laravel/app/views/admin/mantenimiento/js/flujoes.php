@@ -111,6 +111,9 @@ $(document).ready(function() {
 });
 
 BtnEditar=function(btn,id){
+    $("#div_categoria_user").html('').hide();
+    $("#div_categoria_master").show();    
+
     var tr = btn.parentNode.parentNode; // Intocable
     FlujosG.id=id;
     FlujosG.nombre=$(tr).find("td:eq(0)").text();    

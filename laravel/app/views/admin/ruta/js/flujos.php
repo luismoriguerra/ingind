@@ -79,9 +79,13 @@ $(document).ready(function() {
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
 
-//ver porque no pide categoria
+            //ver porque no pide categoria
             $('#form_flujos_modal #slct_estado').val(1); 
-            $('#form_flujos_modal #slct_tipo_flujo').val(''); 
+            $('#form_flujos_modal #slct_tipo_flujo').val('');
+
+            Flujos.ObtenerRolUser();
+            //$('#form_flujos_modal #slct_categoria_id').val('');
+            
             $('#form_flujos_modal #slct_area_id').val(""); 
             $('#form_flujos_modal #txt_nombre').focus();
         }
