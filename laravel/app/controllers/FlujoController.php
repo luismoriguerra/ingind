@@ -544,7 +544,7 @@ class FlujoController extends \BaseController
             {
                 $sSql = "SELECT c.id, c.nombre
                             FROM categorias c
-                            WHERE c.id = 9 AND estado = 1;";
+                            WHERE c.id = 20 AND estado = 1;";
                 $categoria = DB::select($sSql);
 
                 $valor = 0;
