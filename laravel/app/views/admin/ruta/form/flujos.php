@@ -20,7 +20,6 @@
 
           <div class="form-group">
               <label class="control-label">Categoria:</label>
-              <!-- <div id="div_categoria" > -->
                 <div id="div_categoria_user" >
                   Cargando...                  
                 </div>
@@ -30,7 +29,6 @@
                   <option value="">.::Seleccione::.</option>
                   </select>
                 </div>
-              <!-- </div> -->
           </div>
 
 
