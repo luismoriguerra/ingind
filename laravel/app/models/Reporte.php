@@ -693,7 +693,8 @@ class Reporte extends Eloquent
                 ,count( DISTINCT( IF(rd.alerta>0,r.id,NULL) ) ) ft
                 ,count(DISTINCT(rfd.area_id)) areas
                 ,count( DISTINCT( IF( rd.alerta>0,rd.area_id,NULL ) ) ) alertas";
-        $sSql .= " FROM flujos f 
+        $sSql .= " FROM flujos f
+                    INNER JOIN categorias c ON c.id=f.categoria_id AND tipo=1
                     INNER JOIN rutas_flujo rf ON rf.flujo_id=f.id AND rf.estado=1
                     INNER JOIN rutas_flujo_detalle rfd ON rfd.ruta_flujo_id=rf.id AND rfd.estado=1
                     INNER JOIN rutas_flujo_detalle rfd2 ON rfd2.ruta_flujo_id=rf.id AND rfd2.norden=1 AND rfd2.estado=1
