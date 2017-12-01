@@ -135,6 +135,198 @@ class EnvioAutomaticoController extends \BaseController {
         return Response::json($retorno);
     }
     
+    // --
+    public function postVehiculoreporteauditoria()
+    {
+        $array = array();
+        $array['usuario'] = Auth::user()->id;
+        $retorno = array('rst' => 1);        
+
+        $html="";
+        $meses = array('', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre');
+
+        $n = 1;
+        $hoy = date('Y-m-d');
+        
+        $dia_validar = date('w', strtotime($hoy));
+        if ( $dia_validar == 2 OR $dia_validar == 3 OR $dia_validar == 4 OR $dia_validar == 5 OR $dia_validar == 6) 
+        {
+            $date_now = date('Y-m-d');
+            $Ssql = "SELECT CONCAT_WS(' ',p.paterno,p.materno,p.nombre) as persona,
+                                a.nombre as area,
+                                p.area_id, p.email, p.email_mdi,
+                                p.id as persona_id,
+                                COUNT(DISTINCT tai.id) as ti,
+                                COUNT(DISTINCT tac.id) as tc,
+                                COUNT(DISTINCT tai1.id) as ti1,COUNT(DISTINCT tac1.id) as tc1
+                     FROM personas p
+                     INNER JOIN areas a ON a.id=p.area_id
+                     LEFT JOIN auditoria_acceso tai ON p.id=tai.persona_id 
+                                        AND tai.estado=1 and tai.tipo=1 
+                                        AND DATE(tai.created_at) BETWEEN '$date_now' AND '$date_now'
+                     LEFT JOIN auditoria_acceso tac ON p.id=tac.persona_id 
+                                        AND tac.estado=1 and tac.tipo=2
+                                        AND DATE(tac.created_at) BETWEEN '$date_now' AND '$date_now'
+                        LEFT JOIN auditoria_acceso tai1 ON tai.id=tai1.id 
+                                        AND tai1.estado=1 and tai1.tipo=1 
+                                        AND DATE(tai1.created_at)= '$date_now'
+                        LEFT JOIN auditoria_acceso tac1 ON tac.id=tac1.id 
+                                        AND tac1.estado=1 and tac1.tipo=2 
+                                        AND DATE(tac1.created_at)= '$date_now'
+                        WHERE  p.rol_id IN (8,9)
+                                   AND p.estado=1
+                                   AND p.id = 18 
+                                   GROUP BY p.id;";
+            $reporte = DB::select($Ssql);
+
+            foreach ($reporte as $val)
+            {
+                $html_table = '<table border="0" cellspacing="0" style="font-size: 11px; overflow:hidden; border:2px solid #EAE8E7; background:#fefefe; border-radius:5px;">
+                                  <thead>
+                                   <tr>
+                                     <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">AREA</th>
+                                     <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">N° Ingreso</th>
+                                     <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">N° Consultas</th>
+                                     <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">N° Ing. Total</th>
+                                     <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">N° Con. Total</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>';
+                $html_table .= '<tr>
+                                  <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->area.'</td>
+                                  <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->ti.'</td>
+                                  <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->tc.'</td>
+                                  <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->ti1.'</td>
+                                  <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->tc1.'</td>
+                                </tr>';
+                $html_table .= '</tbody>
+                              </table>';                
+
+                    // --
+                    $repauditorias = NULL;                              
+                    $Ssql = "SELECT o.nombre,
+                                COUNT(DISTINCT tai.id) as ti,COUNT(DISTINCT tac.id) as tc 
+                                FROM opciones o
+                                LEFT JOIN auditoria_acceso tai ON o.id=tai.opcion_id and tai.estado=1 and tai.tipo=1  
+                                    AND tai.persona_id= ".$val->persona_id."  AND DATE(tai.created_at) BETWEEN '$date_now' AND '$date_now'
+                                LEFT JOIN auditoria_acceso tac ON o.id=tac.opcion_id and tac.estado=1 and tac.tipo=2  
+                                    AND tac.persona_id= ".$val->persona_id."  AND DATE(tac.created_at) BETWEEN '$date_now' AND '$date_now'
+                                GROUP BY o.id HAVING ti>0 or tc>0;";
+                    $repauditorias = DB::select($Ssql);
+                    
+                    $html_table_deta = '<table border="0" cellspacing="0" style="font-size: 11px; overflow:hidden; border:2px solid #EAE8E7; background:#fefefe; border-radius:5px;">
+                                      <thead>
+                                       <tr>
+                                         <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">N°</th>
+                                         <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Opción</th>
+                                         <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">N° T. Ingreso</th>
+                                         <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">N° T. Consultas</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>';
+                    if($repauditorias != NULL)
+                    {
+                        foreach ($repauditorias as $key => $lis) 
+                        {
+                            $html_table_deta .= '<tr>
+                                              <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$n.'</td>
+                                              <td style="padding:5px 10px 3px; text-align:left; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$lis->nombre.'</td>
+                                              <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$lis->ti.'</td>
+                                              <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$lis->tc.'</td>                                  
+                                            </tr>';
+                            $n++;
+                        }
+                    }
+                    else
+                         $html_table_deta .= '<tr>
+                                              <td colspan="4" style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;"> No existe detalles disponibles. </td>
+                                            </tr>';
+
+                    $html_table_deta .= '</tbody>
+                                    </table>';
+                    // --
+                                                    
+                if(trim($val->email) != '')
+                    $email = trim($val->email);
+                else
+                    $email = 'consultas.gmgm@gmail.com';
+
+                if(trim($val->email_mdi) != '')
+                    $email_copia = trim($val->email_mdi);
+                else
+                    $email_copia = 'consultas.gmgm@gmail.com';
+
+                //$email='rusbelc02@gmail.com';
+                //$email_copia='consultas.gmgm@gmail.com';
+                // --
+
+                // Mensaje de Auditoría
+                if($val->ti == 0 && $val->tc == 0)
+                    $mensaje = '<div style="padding: 5px 5px; color: #a94442; font-size: 11px; overflow:hidden; border:2px solid #ebccd1; background-color:#f2dede; border-radius:5px;">
+                                    Usted no esta ingresando al sistema, por favor debe regular sus ingresos.
+                                  </div>';
+                else if($val->ti <= 1 || $val->tc <= 1)
+                    $mensaje = '<div style="padding: 5px 5px; color: #8a6d3b;; font-size: 11px; overflow:hidden; border:2px solid #faebcc; background-color:#fcf8e3;; border-radius:5px;">
+                                    Usted no esta ingresando al sistema de manera continua..
+                                  </div>';
+                else
+                    $mensaje = '';
+                // --
+
+                $nota = '<br>
+                          <div style="padding: 5px 5px;  font-size: 12px; overflow:hidden; border:2px solid #EAE8E7; border-radius:5px;">
+                            <p>
+                            <strong>NOTA:</strong><br/>
+                              Se recomienda que ingrese y sonsulte diariamente al sistema de procesos para controlar y administrar la gestión de los tramites y la operatividad de su gestión.
+                              <br/>
+                              Accesos recomendados: (Menú) -> (Opción)
+                              <ul>
+                              <li>Reporte -> R. Personal ADM</li>
+                              <li>Reporte -> R. Total de Procesos</li>
+                              <li>Reporte -> Bandeja inconcluso por area</li>
+                              <li>Reporte -> Lista de Procesos</li>
+                              <li>Reporte -> Documentos de Plataforma</li>
+
+                              <li>Actividad Personal -> R. Diario de Actividades</li>
+                              <li>Actividad Personal -> R. Actividades Asignadas</li>
+                              <li>Actividad Personal -> R. Producción de Usuario</li>
+                              </ul>
+                            </p>
+                          </div>';
+
+
+                $plantilla = Plantilla::where('tipo', '=', '12')->first();
+                $buscar = array('persona:', 'dia:', 'mes:', 'año:', 'persona:', 'tabla:', 'tabla_deta:', 'Mensaje:', 'Nota:');
+                $reemplazar = array('<b>'.ucwords($val->persona).'</b>', date('d'), $meses[date('n')], date("Y"), 'Rusbel Arteaga', $html_table, $html_table_deta, $mensaje, $nota);
+                $parametros = array(
+                    'cuerpo' => str_replace($buscar, $reemplazar, $plantilla->cuerpo)
+                );        
+
+                if ($email != '')
+                {
+                    DB::beginTransaction();
+                    try {
+                        Mail::send('notreirel', $parametros, function($message) use ($email, $email_copia) {
+                                $message
+                                        ->to($email)
+                                        ->cc($email_copia)
+                                        ->subject('.:: Reporte de Auditoria Personal ::.');
+                            }
+                        );
+                    } catch (Exception $e) {
+                        //echo $qem[$k]->email."<br>";
+                        DB::rollback();
+                    }
+                    DB::commit();
+                }
+            }
+        }
+
+        $retorno["data"] = $html;
+        return Response::json($retorno);
+    }
+    // --
+
     
     public function postActividadesdiariasalertasjefe() {
         $array = array();
