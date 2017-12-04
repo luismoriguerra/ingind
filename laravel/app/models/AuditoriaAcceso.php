@@ -90,4 +90,8 @@ class AuditoriaAcceso extends \Eloquent {
         $oData = DB::select($sSql);
         return $oData;
     }
+
+    // --
+
+    // --
 }
