@@ -41,7 +41,7 @@ microHTML=function(datos){
                         '</span>'+
             '</td>'+
             "<td><select class='form-control' name='slct_norden[]' id='slct_norden"+index+"'></select></td>"+
-            "<td></td>";
+            '<td><button type="button" onclick="EliminarMicro(this)" class="btn btn-danger btn-sm"><i class="fa fa-minus fa-sm"></i> </button></td>';
         html+="</tr>";
             var dat={estado:1,ruta_flujo_id:rdrfi};
             slctGlobal.listarSlctFuncion('ruta','listardetalleruta','slct_norden'+index,'simple',[data.norden],dat);
@@ -63,7 +63,7 @@ AgregarMicro = function(meta_cuadro_id){
                         '</span>'+
             '</td>'+
             "<td><select class='form-control fecharelacion' name='slct_norden[]' id='slct_norden'></select></td>"+
-            "<td></td>";
+            '<td><button type="button" onclick="EliminarMicro(this)" class="btn btn-danger btn-sm"><i class="fa fa-minus fa-sm"></i> </button></td>';
         html+="</tr>";
         var data={estado:1,ruta_flujo_id:rdrfi}; 
         slctGlobal.listarSlctFuncion('ruta','listardetalleruta','ñ,.fecharelacion','simple',null,data);
@@ -90,6 +90,10 @@ Agregar=function(){
 //    if(validaAreas()){
         MicroProceso.AgregarEditarMicroProceso(0);
 //    }
+};
+EliminarMicro=function(boton){
+        var tr = boton.parentNode.parentNode;
+        $(tr).remove();
 };
 
 </script>
