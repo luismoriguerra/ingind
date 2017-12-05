@@ -175,7 +175,6 @@ class EnvioAutomaticoController extends \BaseController {
                                         AND DATE(tac1.created_at)= '$date_now'
                         WHERE  p.rol_id IN (8,9)
                                    AND p.estado=1
-                                   AND p.id = 18 
                                    GROUP BY p.id;";
             $reporte = DB::select($Ssql);
 
