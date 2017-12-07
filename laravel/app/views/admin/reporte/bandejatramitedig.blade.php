@@ -156,7 +156,7 @@ tr.shown td.details-control {
                                             <th id="th_fi" style='width:250px !important;' class="unread">Fecha Inicio<br>
                                             <input style='width:250px' name="txt_fecha_inicio_b" id="txt_fecha_inicio_b" onChange="MostrarAjax();" type="text" />
                                             </th>
-                                            <th id="th_ep" style='width:250px !important;' class="unread">Estado de la Actividadd<br>
+                                            <th id="th_ep" style='width:250px !important;' class="unread">Estado de la Actividad<br>
                                             <select name="slct_tiempo_final" id="slct_tiempo_final" onChange="MostrarAjax();" />
                                             <option value="">.::Todo::.</option>
                                             <option value="1">Dentro del Tiempo</option>
@@ -365,7 +365,7 @@ tr.shown td.details-control {
                                                 </select>
                                             </div>
                                             <div class="col-sm-3">
-                                                <label class="control-label">Detalle de respuesta de la Actividadd:</label>
+                                                <label class="control-label">Detalle de respuesta de la Actividad:</label>
                                                 <select id="slct_tipo_respuesta_detalle" name="slct_tipo_respuesta_detalle">
                                                     <option>Seleccione</option>
                                                 </select>
@@ -375,7 +375,7 @@ tr.shown td.details-control {
                                                 <textarea class="form-control" id="txt_observacion" name="txt_observacion" rows="3"></textarea>
                                             </div>
                                             <div class="col-sm-3">
-                                                <label class="control-label">Estado Final de la Actividadd(Alerta):</label>
+                                                <label class="control-label">Estado Final de la Actividad(Alerta):</label>
                                                 <input type="hidden" class="form-control" id="txt_alerta" name="txt_alerta">
                                                 <input type="hidden" class="form-control" id="txt_alerta_tipo" name="txt_alerta_tipo">
                                                 <div class="progress progress-striped active">
