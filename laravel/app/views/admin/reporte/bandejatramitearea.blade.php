@@ -116,7 +116,7 @@
                                             <th id="th_dg" style='width:250px !important;' class="unread">Documento generado por <br>el paso anterior<br>
                                             <input style='width:250px' name="txt_id_ant" id="txt_id_ant" onBlur="MostrarAjax();" onKeyPress="return enterGlobal(event,'th_dg',1)" onkeyup="Limpiar('txt_id_union,#txt_solicitante,#txt_proceso);" type="text" placeholder="" />
                                             </th>
-                                            <th id="th_pd" style='width:250px !important;' class="unread">Primer docucmento ingresado<br>
+                                            <th id="th_pd" style='width:250px !important;' class="unread">Primer documento ingresado<br>
                                             <input style='width:250px' name="txt_id_union" id="txt_id_union" onBlur="MostrarAjax();" onKeyPress="return enterGlobal(event,'th_pd',1)" onkeyup="Limpiar('txt_id_ant,#txt_solicitante,#txt_proceso);" type="text" placeholder="" />
                                             </th>
                                             <th>Tiempo</th>
