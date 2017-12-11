@@ -537,6 +537,7 @@ class DocumentoDigitalController extends \BaseController {
     {
         ini_set("max_execution_time", 300);
         ini_set('memory_limit','512M');
+        ini_set('upload_max_filesize', '100M');
         $DocumentoDigital = DocumentoDigital::find($id);
         $sql= "SELECT d.posicion,d.posicion_fecha
                 FROM documentos d
@@ -703,6 +704,7 @@ class DocumentoDigitalController extends \BaseController {
    {   $tipo=1;
        ini_set("max_execution_time", 300);
        ini_set('memory_limit','512M');
+       ini_set('upload_max_filesize', '100M');
        $DocumentoDigital = DocumentoDigital::find($id);
        $sql= "SELECT d.posicion,d.posicion_fecha
                FROM documentos d
