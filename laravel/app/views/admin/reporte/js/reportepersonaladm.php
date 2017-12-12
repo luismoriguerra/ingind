@@ -167,8 +167,18 @@ HTMLMostrarReporte=function(datos){
 
     if(datos.length > 0){
         var html ='';
+        var html1 ='';
         var con = 0;
-
+        //regimen contador 
+        var c_a_s=0;
+        var terceros=0;
+        var empleado_nombrado=0;
+        var empleado_contratado=0;
+        var funcionarios_cas=0;
+        var obreros=0;
+        var funcionarios=0;
+        var c_a_s_reincorporados=0;
+        var terceros_judiciales=0;
         $.each(datos,function(index,data){
             con++;
 
@@ -211,13 +221,64 @@ HTMLMostrarReporte=function(datos){
                         "<td width='4%'>"+total_tramites+"</td>"+
                         "<td width='4%'>"+docu+"</td>";
                 html+="</tr>";
+                
+               if(data.regimen=='C.A.S.'){c_a_s++;} 
+               if(data.regimen=='TERCEROS'){terceros++;} 
+               if(data.regimen=='EMPLEADO NOMBRADO'){empleado_nombrado++;} 
+               if(data.regimen=='EMPLEADO CONTRATADO'){empleado_contratado++;} 
+               if(data.regimen=='FUNCIONARIOS CAS'){funcionarios_cas++;} 
+               if(data.regimen=='OBREROS'){obreros++;} 
+               if(data.regimen=='FUNCIONARIOS'){funcionarios++;} 
+               if(data.regimen=='C.A.S. REINCORPORADOS'){c_a_s_reincorporados++;} 
+               if(data.regimen=='TERCEROS JUDICIALES'){terceros_judiciales++;}
+
         });
 
         $("#tb_ordenest").html(html);
         $("#t_ordenest").dataTable();
+        
+       html1+="<tr>"+
+                '<td>C.A.S.</td>'+
+                "<td>"+c_a_s+"</td>";
+       html1+="</tr>";
+        html1+="<tr>"+
+                '<td>TERCEROS</td>'+
+                "<td>"+terceros+"</td>";
+       html1+="</tr>";
+        html1+="<tr>"+
+                '<td>EMPLEADO NOMBRADO</td>'+
+                "<td>"+empleado_nombrado+"</td>";
+       html1+="</tr>";
+        html1+="<tr>"+
+                '<td>EMPLEADO CONTRATADO</td>'+
+                "<td>"+empleado_contratado+"</td>";
+       html1+="</tr>";
+        html1+="<tr>"+
+                '<td>FUNCIONARIOS CAS</td>'+
+                "<td>"+funcionarios_cas+"</td>";
+       html1+="</tr>";
+        html1+="<tr>"+
+                '<td>OBREROS</td>'+
+                "<td>"+obreros+"</td>";
+       html1+="</tr>";
+        html1+="<tr>"+
+                '<td>FUNCIONARIOS</td>'+
+                "<td>"+funcionarios+"</td>";
+       html1+="</tr>";
+        html1+="<tr>"+
+                '<td>C.A.S. REINCORPORADOS</td>'+
+                "<td>"+c_a_s_reincorporados+"</td>";
+       html1+="</tr>";
+        html1+="<tr>"+
+                '<td>TERCEROS JUDICIALES</td>'+
+                "<td>"+terceros_judiciales+"</td>";
+       html1+="</tr>";
+       
+       $("#tb_regimen").html(html1);
         // --
     }else{
         $("#tb_ordenest").html("");
+        $("#tb_regimen").html("");
     }
 };
 
