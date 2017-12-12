@@ -199,6 +199,17 @@ tr:last-child td.last {
                               <!-- <tr style='font-size: 13px;'><td colspan='23'>Por favor realice una busqueda.</td></tr> -->
                             </tbody>
                          </table>
+                          <br>
+                          <table id="t_regimen" class="table table-bordered" style="width:40%">
+                            <thead>
+                              <tr>
+                                <th>RÉGIMEN</th> <!-- 7 -->
+                                <th>CANTIDAD</th> <!-- 3 ACTIVIDADES -->
+                              </tr>
+                            </thead>
+                            <tbody id="tb_regimen">
+                            </tbody>
+                         </table>
                         </div>
                     </div>
                  </div>
