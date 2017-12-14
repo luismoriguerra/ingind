@@ -273,6 +273,10 @@ HTMLMostrarReporte=function(datos){
                 '<td>TERCEROS JUDICIALES</td>'+
                 "<td>"+terceros_judiciales+"</td>";
        html1+="</tr>";
+       html1+="<tr>"+
+                '<td><b>TOTAL:</b></td>'+
+                "<td><b>"+datos.length+"</b></td>";
+       html1+="</tr>";
        
        $("#tb_regimen").html(html1);
         // --
