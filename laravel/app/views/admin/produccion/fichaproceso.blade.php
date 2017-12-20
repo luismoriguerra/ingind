@@ -105,7 +105,7 @@
                             <div class="box-body table-responsive">
     <!--                            <form id="form_proceso" name="form_proceso" method="POST" action="">-->
                                     <div class="row form-group">
-                                        <div class="col-sm-12"><h3 style="text-align:center; "><b>Procesos: </b></h3>
+                                        <div class="col-sm-12"><h3 style="text-align:center; "><b>SELECCIONE LOS PROCESOS VALIDADOS POR SU ÁREA: </b></h3>
                                             <table id="t_proceso" class="table table-bordered table-striped">
                                                 <thead>
                                                     <tr>
