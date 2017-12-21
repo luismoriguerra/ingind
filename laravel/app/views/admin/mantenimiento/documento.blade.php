@@ -24,13 +24,13 @@
     <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Mantenimiento de Documento
+                Mantenimiento de Tipos de Documentos
                 <small> </small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
                 <li><a href="#">Mantenimientos</a></li>
-                <li class="active">Mantenimiento de Documentos</li>
+                <li class="active">Mantenimiento de Tipos Documentos</li>
             </ol>
         </section>
 
@@ -47,7 +47,7 @@
                         <div class="box-body table-responsive">
                             <table id="t_documentos" class="table table-bordered table-hover">
                                 <thead>
-                                <tr><th colspan="5" style="text-align:center;background-color:#A7C0DC;"><h2>Documentos</h2></th></tr>
+                                <tr><th colspan="5" style="text-align:center;background-color:#A7C0DC;"><h2>Tipos de Documentos</h2></th></tr>
                                 <tr></tr>
                                 </thead>
                                 <tbody>
