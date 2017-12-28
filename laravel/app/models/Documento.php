@@ -34,7 +34,7 @@ class Documento extends Base
                 ) as posiciones,
                 (
                 CASE doc.posicion_fecha
-                    WHEN '0' THEN 'Centro'
+                    WHEN '0' THEN 'Sin Fecha'
                     WHEN '1' THEN 'Arriba Izquierda'
                     WHEN '2' THEN 'Arriba Derecha'
                     WHEN '3' THEN 'Abajo Izquierda'

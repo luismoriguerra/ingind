@@ -28,7 +28,7 @@
           </div>
 
           <div class="form-group">
-            <label class="control-label">Posicion:</label>
+            <label class="control-label">Posición de Título:</label>
             <select class="form-control" name="slct_posicion" id="slct_posicion">
                 <option value="">.::Seleccione::.</option>
                 <option value='0'>Centro</option>
@@ -41,9 +41,9 @@
             <label class="control-label">Posicion Fecha:</label>
             <select class="form-control" name="slct_posicion_fecha" id="slct_posicion_fecha">
                 <option value="">.::Seleccione::.</option>
-                <option value='0'>Centro</option>
+                <option value='0'>Sin Fecha</option>
                 <option value='1'>Arriba Izquierda</option>
-                <option value='2'>Aarriba Derecha</option>
+                <option value='2'>Arriba Derecha</option>
                 <option value='3'>Abajo Izquierda</option>
                 <option value='4'>Abajo Derecha</option>
           </select>

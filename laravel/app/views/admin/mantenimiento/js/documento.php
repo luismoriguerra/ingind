@@ -9,7 +9,7 @@ $(document).ready(function() {
         3: Color Cabecera
     */
 
-    slctGlobalHtml('slct_area,slct_posicion,slct_posicion_fecha,#slct_estado','simple');
+    slctGlobalHtml('slct_area,#slct_posicion,#slct_posicion_fecha,#slct_estado','simple');
 
     var idG={   nombre           :'onBlur|Nombre del Documento|#DCE6F1', //#DCE6F1
                 areas            :'4|Nombre del Area|#DCE6F1||area', //#DCE6F1
