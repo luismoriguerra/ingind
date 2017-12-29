@@ -196,7 +196,7 @@ HTMLMostrarReporte=function(datos){
 
                 html+="<tr style='font-size: 12px;'>"+
                         '<td width="3%">'+con+'</td>'+
-                        '<td width="4%"><img src="'+data.foto+'" alt="'+data.nombres+'" class="img-rounded"></td>'+
+                        '<td width="4%"><a href="'+data.foto+'" alt="'+data.nombres+'" target="_blank" ><img style="min-height: 300px !important; min-width: 300px !important;" src="'+data.foto+'" alt="'+data.nombres+'" class="img-rounded"></td>'+
                         "<td width='4%'>"+data.area+"</td>"+
                         "<td width='5%'>"+data.nombres+"</td>"+
                         "<td width='4%'>"+data.dni+"</td>"+
