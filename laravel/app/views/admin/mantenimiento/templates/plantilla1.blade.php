@@ -301,7 +301,8 @@ footer .izq {
     </div> 
     <h4 class="nombre-municipio">MUNICIPALIDAD DISTRITAL DE INDEPENDENCIA</h4>
     <!--            <h4 class="gerencia">Gerencia x</h4>--><br><br><br><br><br>
-    <h4 class="nombre-anio">“Año del Buen Servicio al Ciudadano”</h4>
+    <!-- <h4 class="nombre-anio">“Año del Buen Servicio al Ciudadano”</h4> -->
+	<h4 class="nombre-anio">&nbsp;</h4>
     <h4 class="nombre-vistaprevia">{{ $vistaprevia }}</h4>
    <div class="qr">{{ $imagen }}</div>
    <div class="rotar1"><?php if($vistaprevia!=''){echo "Documento No Válido";} ?></div> 
