@@ -70,10 +70,9 @@ class Ruta extends Eloquent
                                 $rutaDetalle['area_id'] = $rfd->area_id;
                                 $rutaDetalle['tiempo_id'] = $rfd->tiempo_id;
                                 $rutaDetalle['dtiempo'] = $rfd->dtiempo;
-                                $rutaDetalle['ruta_flujo_id']=$rd->ruta_flujo_id2;
+//                                $rutaDetalle['ruta_flujo_id']=$rd->ruta_flujo_id2;
                                 $rutaDetalle['norden'] = round($rd->norden)+($rfd->norden*0.01);
                                 $rutaDetalle['estado_ruta'] = $rfd->estado_ruta;
-
                                 $rutaDetalle['usuario_created_at'] = Auth::user()->id;
                                 $rutaDetalle->save();
 
@@ -97,7 +96,19 @@ class Ruta extends Eloquent
                                         $rutaDetalleVerbo->save();
                                     }
                                 }
-                            }   
+                            }
+                            //2do nivel 
+                            $rutaflujodetallemicro= RutaFlujoDetalleMicro::where('ruta_flujo_id','=',$rf->id)
+                                                            ->where('estado','=',1)->get();
+                            
+                            foreach ($rutaflujodetallemicro as $rfdm) {
+                                $rdmcreate= new RutaDetalleMicro;
+                                $rdmcreate->ruta_flujo_id=$rfdm->ruta_flujo_id2;
+                                $rdmcreate->ruta_id=$rd->ruta_id;
+                                $rdmcreate->norden=$rfdm->norden;
+                                $rdmcreate->usuario_created_at=Auth::user()->id;              
+                            }
+                            //--
             DB::commit();
             return  array(
                     'rst'=>1,
