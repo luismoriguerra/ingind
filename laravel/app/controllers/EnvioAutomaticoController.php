@@ -135,7 +135,7 @@ class EnvioAutomaticoController extends \BaseController {
         return Response::json($retorno);
     }
     
-    // --
+    // 2017-11-29
     public function postVehiculoreporteauditoria()
     {
         $array = array();
@@ -326,7 +326,289 @@ class EnvioAutomaticoController extends \BaseController {
     }
     // --
 
+    // 2018-01-03
+    public function postReportepersonaladm()
+    {
+        $array = array();
+        $array['usuario'] = Auth::user()->id;
+        $retorno = array('rst' => 1);        
+
+        $html="";
+        $meses = array('', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre');
+
+        $n = 1;
+        $hoy = date('Y-m-d');
+        
+        $dia_validar = date('w', strtotime($hoy));
+        if ( $dia_validar == 2 OR $dia_validar == 3 OR $dia_validar == 4 OR $dia_validar == 5 OR $dia_validar == 6) // Proceso ejecuta L - V
+        {
+            // --
+            ini_set('max_execution_time', 300);
+
+            $fecha_ini = date('Y/m/d', strtotime('-1 day')); // 2017/09/01
+            $fecha_fin = date('Y/m/d', strtotime('-1 day')); // 2017/09/15
+            $area_ws = ''; // 240000 = Modernización
+
+            $dias=20-1;
+            $fecha_i = str_replace('/', '-', $fecha_ini);
+            $fecha_f = str_replace('/', '-', $fecha_fin);
+            $fecha_iaux =$fecha_i;
+            $fecha_faux = date("Y-m-d", strtotime($fecha_i ."+".$dias." days"));
+
+            if($area_ws <> 0)
+                $bus_area = "&area=".$area_ws;
+            else
+                $bus_area = "";
+            
+            DB::table('sw_asistencias')->where('usuario_created_at', '=', Auth::user()->id)->delete();
+
+            while ( $fecha_iaux <= $fecha_f ) {
+                
+                if( $fecha_faux>$fecha_f ){
+                    $fecha_faux=$fecha_f;
+                }
+
+                $fini=date("Y/m/d",strtotime($fecha_iaux));
+                $ffin=date("Y/m/d",strtotime($fecha_faux));
+
+                $res = file_get_contents("http://10.0.120.13:8088/spersonal/consulta.php?inicio=".$fini.""."&fin=".$ffin.$bus_area);
+                $result = json_decode(utf8_encode($res));
+
+                foreach($result->reporte as $key => $lis) 
+                {
+                    DB::beginTransaction();
+                    $obj = new ReportePersonal;
+                    $obj->foto = $lis->foto;
+                    $obj->area = $lis->AREA;
+                    $obj->nombres = $lis->nombres_completos;
+                    $obj->dni = $lis->dni;
+                    $obj->cargo = $lis->cargo;
+                    $obj->regimen = $lis->condicion;
+                    $obj->faltas = $lis->FALTAS;
+                    $obj->tardanza = $lis->TARDANZAS;
+                    $obj->lic_sg = $lis->SLSG;
+                    $obj->sancion_dici = $lis->Sancion_Dici;
+                    $obj->lic_sindical = $lis->Licencia_Sindical;
+                    $obj->descanso_med = $lis->DESCANSO_MEDICO;
+                    $obj->min_permiso = $lis->MINPERMISO;
+                    $obj->comision = $lis->comision;
+                    $obj->citacion = $lis->CITACION;
+                    $obj->essalud = $lis->ESSALUD;
+                    $obj->permiso = $lis->PERMISO;
+                    $obj->compensatorio = $lis->COMPENSATORIO;
+                    $obj->onomastico = $lis->ONOMASTICO;
+
+                    $obj->estado = 1;
+                    $obj->usuario_created_at = Auth::user()->id;
+                    $obj->save();
+
+                    DB::commit();
+                }
+
+                $fecha_iaux= date("Y-m-d", strtotime($fecha_faux ."+1 days"));
+                $fecha_faux= date("Y-m-d", strtotime($fecha_iaux ."+".$dias." days"));
+            }
+
+            $sql = "UPDATE sw_asistencias sa
+                        INNER JOIN personas p ON sa.dni=p.dni
+                        SET sa.persona_id = p.id;";
+            DB::update($sql);
+
+            DB::table('sw_asistencias')
+                ->whereNull('persona_id')
+                ->update(array('persona_id' => 1272));
+            // --
+
+
+            $Ssql = "SELECT sw.*,
+                        ca.cant_act,
+                        doc.docu,
+                        tt.total_tramites,
+                        t.tareas
+                        FROM (
+                            SELECT a.foto, a.area, a.nombres, a.dni, a.cargo, a.regimen,
+                                                SUM(a.faltas) faltas, SUM(a.tardanza) tardanza, SUM(a.lic_sg) lic_sg, SUM(a.sancion_dici) sancion_dici,
+                                                SUM(a.lic_sindical) lic_sindical, SUM(a.descanso_med) descanso_med, SUM(a.min_permiso) min_permiso, SUM(a.comision) comision,
+                                                SUM(a.citacion) citacion, SUM(a.essalud) essalud, SUM(a.permiso) permiso, SUM(a.compensatorio) compensatorio,
+                                                SUM(a.onomastico) onomastico, a.usuario_created_at,a.persona_id
+                                FROM sw_asistencias a
+                                WHERE NOT a.dni = '07135876'
+                                AND a.usuario_created_at = '".Auth::user()->id."'
+                                GROUP BY a.area, a.nombres, a.dni, a.cargo
+                        ) sw
+                        LEFT JOIN (SELECT COUNT(rdv.id) tareas, rdv.usuario_updated_at persona_id
+                                FROM rutas_detalle_verbo rdv
+                                WHERE rdv.finalizo=1 
+                                AND rdv.updated_at BETWEEN '$fecha_i 00:00:00' AND '$fecha_f 23:59:59'
+                                GROUP BY rdv.usuario_updated_at
+                        ) AS t ON t.persona_id=sw.persona_id
+                        LEFT JOIN (SELECT ROUND((SUM(ap.ot_tiempo_transcurrido) / 60), 2) cant_act, ap.persona_id
+                                FROM actividad_personal ap
+                                WHERE ap.persona_id=ap.usuario_created_at
+                                AND ap.fecha_inicio BETWEEN '$fecha_i 00:00:00' AND '$fecha_f 23:59:59'
+                                GROUP BY ap.persona_id
+                            ) AS ca ON ca.persona_id=sw.persona_id
+                        LEFT JOIN (SELECT COUNT(r.id) total_tramites, r.usuario_created_at persona_id
+                                FROM rutas r
+                                WHERE r.created_at BETWEEN '$fecha_i 00:00:00' AND '$fecha_f 23:59:59'
+                                AND r.estado=1
+                                GROUP BY r.usuario_created_at
+                            ) AS tt ON tt.persona_id=sw.persona_id
+                        LEFT JOIN (SELECT COUNT(dd.id) docu, dd.usuario_created_at persona_id
+                                FROM doc_digital_temporal dd
+                                WHERE dd.created_at BETWEEN '$fecha_i 00:00:00' AND '$fecha_f 23:59:59'
+                                AND dd.estado = 1
+                                GROUP BY dd.usuario_created_at
+                            ) AS doc ON doc.persona_id=sw.persona_id; ";
+            $reporte = DB::select($Ssql);
+
+            $acu_asiste = 0;
+            foreach ($reporte as $val)
+            {
+              $html_table = '';
+              $acu_asiste = $acu_asiste + $val->faltas;
+              $acu_asiste = $acu_asiste + $val->tardanza;
+              $acu_asiste = $acu_asiste + $val->lic_sg;
+              $acu_asiste = $acu_asiste + $val->sancion_dici;
+              $acu_asiste = $acu_asiste + $val->lic_sindical;
+              $acu_asiste = $acu_asiste + $val->descanso_med;
+              $acu_asiste = $acu_asiste + $val->min_permiso;
+              $acu_asiste = $acu_asiste + $val->comision;
+              $acu_asiste = $acu_asiste + $val->citacion;
+              $acu_asiste = $acu_asiste + $val->essalud;
+              $acu_asiste = $acu_asiste + $val->permiso;
+              $acu_asiste = $acu_asiste + $val->compensatorio;
+              $acu_asiste = $acu_asiste + $val->onomastico;
+
+              if($acu_asiste > 0)
+              {
+                  $html_table = '<table border="0" cellspacing="0" style="font-size: 11px; overflow:hidden; border:2px solid #EAE8E7; background:#fefefe; border-radius:5px;">
+                                  <thead>
+                                    <tr>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background: -moz-linear-gradient(100% 20% 90deg, #e8eaeb, #ededed); background: -webkit-gradient(linear, 0% 0%, 0% 20%, from(#009A0D), to(#e8eaeb));" colspan="6">DATOS PERSONALES</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background: -moz-linear-gradient(100% 20% 90deg, #e8eaeb, #ededed); background: -webkit-gradient(linear, 0% 0%, 0% 20%, from(#0D7BE8), to(#e8eaeb));" colspan="7">DETALLES DE ASISTENCIA</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background: -moz-linear-gradient(100% 20% 90deg, #e8eaeb, #ededed); background: -webkit-gradient(linear, 0% 0%, 0% 20%, from(#935799), to(#e8eaeb));" colspan="6">PERMISOS / PAPELETAS</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background: -moz-linear-gradient(100% 20% 90deg, #e8eaeb, #ededed); background: -webkit-gradient(linear, 0% 0%, 0% 20%, from(#CC9C0D), to(#e8eaeb));" colspan="4">PROCESO FLUJOS</th>
+                                    </tr>
+                                    <tr>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Foto</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Area</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Nombres</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Dni</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Cargo / Puesto</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Regimen Lab.</th>      
+                                      
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Faltas</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Trd</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Lic S.G</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Sancion Dici</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Lic. Sindical</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Dcso. Med</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Min. Perm</th>
+                                      
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Com.</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Cit.</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Essld</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Perm</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Compem</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Ono</th>
+
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">H.Act.</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Tarea</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">T.Trami</th>
+                                      <th style="padding:3px 10px 3px; text-align:center; padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;">Doc</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>';
+                  
+                  $html_table .= '<tr>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;"><img width="100" height="100" src="'.$val->foto.'"/></td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->area.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->nombres.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->dni.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->cargo.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->regimen.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->faltas.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->tardanza.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->lic_sg.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->sancion_dici.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->lic_sindical.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->descanso_med.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->min_permiso.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->comision.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->citacion.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->essalud.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->permiso.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->compensatorio.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->onomastico.'</td>
+
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->cant_act.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->tareas.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->total_tramites.'</td>
+                                    <td style="padding:5px 10px 3px; text-align:center; border-top:1px solid #fefefe; border-right:1px solid #fefefe;">'.$val->docu.'</td>
+                                  </tr>';
+
+                  $html_table .= '</tbody>
+                                </table>';                
+                                            
+                  $persona = Persona::find($val->persona_id);
+                  if(trim($persona->email) != '')
+                      $email = trim($persona->email);
+                  else
+                      $email = 'consultas.gmgm@gmail.com';
+
+                  if(trim($persona->email_mdi) != '')
+                      $email_copia = trim($persona->email_mdi);
+                  else
+                      $email_copia = 'consultas.gmgm@gmail.com';
+
+                  //$email='rusbelc02@gmail.com';
+                  //$email_copia='consultas.gmgm@gmail.com';
+                  // --
+                              
+                  $nota = '<br>
+                            <div style="padding: 5px 5px;  font-size: 12px; overflow:hidden; border:2px solid #EAE8E7; border-radius:5px;">
+                              <p>
+                              <strong>NOTA:</strong><br/>
+                                Se recomienda no incumplir las normas del trabajo, para una mejor calificación para usted.
+                              </p>
+                            </div>';
+
+
+                  $plantilla = Plantilla::where('tipo', '=', '13')->first();
+                  $buscar = array('persona:', 'dia:', 'mes:', 'año:', 'persona:', 'tabla:', 'Nota:');
+                  $reemplazar = array('<b>'.ucwords($val->nombres).'</b>', date('d'), $meses[date('n')], date("Y"), 'Rusbel Arteaga', $html_table, $nota);
+                  $parametros = array(
+                      'cuerpo' => str_replace($buscar, $reemplazar, $plantilla->cuerpo)
+                  );        
+
+                  if ($email != '')
+                  {
+                      DB::beginTransaction();
+                      try {
+                          Mail::send('notreirel', $parametros, function($message) use ($email, $email_copia) {
+                                  $message
+                                          ->to($email)
+                                          ->cc($email_copia)
+                                          ->subject('.:: Reporte de Asistencia de Personal ::.');
+                              }
+                          );
+                      } catch (Exception $e) {
+                          //echo $qem[$k]->email."<br>";
+                          DB::rollback();
+                      }
+                      DB::commit();
+                  }
+              } // Cierra IF
+            }
+        }
+
+        $retorno["data"] = $html;
+        return Response::json($retorno);
+    }
+    // --
     
+
     public function postActividadesdiariasalertasjefe() {
         $array = array();
         $array['usuario'] = Auth::user()->id;

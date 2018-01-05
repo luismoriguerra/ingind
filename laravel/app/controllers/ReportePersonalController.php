@@ -126,10 +126,7 @@ class ReportePersonalController extends BaseController
             DB::table('sw_asistencias')
                 ->whereNull('persona_id')
                 ->update(array('persona_id' => 1272));
-            // --
-            
-            //$fecha_ini = $fecha_i;
-            //$fecha_fin = $fecha_f;
+            // --      
 
             $sql = "SELECT sw.*,
                         ca.cant_act,
