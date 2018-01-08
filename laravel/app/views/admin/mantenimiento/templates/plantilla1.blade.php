@@ -218,7 +218,12 @@ footer .izq {
     </div> 
     <h4 class="nombre-municipio">MUNICIPALIDAD DISTRITAL DE INDEPENDENCIA</h4>
     <!--            <h4 class="gerencia">Gerencia x</h4>-->
-    <!-- <h4 class="nombre-anio">“Año del Buen Servicio al Ciudadano”</h4> -->
+    <?php if ($anio==2017) {   ?> 
+        <h4 class="nombre-anio">“Año del Buen Servicio al Ciudadano”</h4>
+    <?php }
+        if ($anio==2018) {  ?> 
+        <h4 class="nombre-anio">“Año del Diálogo y la Reconciliación Nacional”</h4>
+    <?php } ?>
 	<h4 class="nombre-anio">&nbsp;</h4>
     <h4 class="nombre-vistaprevia">{{ $vistaprevia }}</h4>
    <div class="qr">{{ $imagen }}</div>
@@ -302,7 +307,12 @@ footer .izq {
     </div> 
     <h4 class="nombre-municipio">MUNICIPALIDAD DISTRITAL DE INDEPENDENCIA</h4>
     <!--            <h4 class="gerencia">Gerencia x</h4>--><br><br><br><br><br>
-    <!-- <h4 class="nombre-anio">“Año del Buen Servicio al Ciudadano”</h4> -->
+    <?php if ($anio==2017) {   ?> 
+        <h4 class="nombre-anio">“Año del Buen Servicio al Ciudadano”</h4>
+    <?php }
+        if ($anio==2018) {  ?> 
+        <h4 class="nombre-anio">“Año del Diálogo y la Reconciliación Nacional”</h4>
+    <?php } ?>
 	<h4 class="nombre-anio">&nbsp;</h4>
     <h4 class="nombre-vistaprevia">{{ $vistaprevia }}</h4>
    <div class="qr">{{ $imagen }}</div>

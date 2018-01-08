@@ -680,6 +680,7 @@ class DocumentoDigitalController extends \BaseController {
                 'remitente' => $remitente,
                 'destinatario' => $destinatarios,
                 'imagen'=>$png,
+                'anio'=>$fechaa[0],
             ];  
             if($copias != '' && $copias != '<ul></ul>'){ 
                 $params['copias'] = $copias;                
