@@ -606,7 +606,7 @@ class EnvioAutomaticoController extends \BaseController {
                   {
                       DB::beginTransaction();
                       try {
-                          Mail::queue('notreirel', $parametros, function($message) use ($email, $email_copia) {
+                          Mail::send('notreirel', $parametros, function($message) use ($email, $email_copia) {
                                   $message
                                           ->to($email)
                                           ->cc($email_copia)
