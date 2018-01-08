@@ -1,6 +1,6 @@
 <?php
 
-class Alerta extends Base
+class AlertaNotificacionAdm extends Base
 {
-    public $table = "alertas";
+    public $table = "alertas_notificacion_adm";
 }
