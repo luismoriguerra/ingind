@@ -49,7 +49,7 @@ class Ruta extends Eloquent
                             $rdm= RutaDetalleMicro::where('id','=',Input::get('ruta_detalle_micro_id'))
                                             ->where('ruta_id','=',Input::get('ruta_id'))
                                             ->where('estado','=',1)->first();
-                            
+                            //actualizar
                             $rd=RutaDetalle::where('norden','=',$rdm->norden)
                                             ->where('ruta_id','=',$rdm->ruta_id)
                                             ->where('estado','=',1)->first();
@@ -71,7 +71,7 @@ class Ruta extends Eloquent
                                 $rutaDetalle['tiempo_id'] = $rfd->tiempo_id;
                                 $rutaDetalle['dtiempo'] = $rfd->dtiempo;
 //                                $rutaDetalle['ruta_flujo_id']=$rd->ruta_flujo_id2;
-                                $rutaDetalle['norden'] = round($rd->norden)+($rfd->norden*0.01);
+                                $rutaDetalle['norden'] = $rd->norden.'.'.$rfd->norden;
                                 $rutaDetalle['estado_ruta'] = $rfd->estado_ruta;
                                 $rutaDetalle['usuario_created_at'] = Auth::user()->id;
                                 $rutaDetalle->save();
@@ -99,14 +99,17 @@ class Ruta extends Eloquent
                             }
                             //2do nivel 
                             $rutaflujodetallemicro= RutaFlujoDetalleMicro::where('ruta_flujo_id','=',$rf->id)
-                                                            ->where('estado','=',1)->get();
-                            
+                                                            ->where('estado','=',1)
+                                                            ->orderBy('norden','ASC')->get();
+                                            
                             foreach ($rutaflujodetallemicro as $rfdm) {
+//                                var_dump($rfdm->id);exit();
                                 $rdmcreate= new RutaDetalleMicro;
                                 $rdmcreate->ruta_flujo_id=$rfdm->ruta_flujo_id2;
                                 $rdmcreate->ruta_id=$rd->ruta_id;
-                                $rdmcreate->norden=$rfdm->norden;
-                                $rdmcreate->usuario_created_at=Auth::user()->id;              
+                                $rdmcreate->norden=$rd->norden.'.'.$rfdm->norden;
+                                $rdmcreate->usuario_created_at=Auth::user()->id;       
+                                $rdmcreate->save();
                             }
                             //--
             DB::commit();

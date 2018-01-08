@@ -494,6 +494,7 @@ class RutaDetalleController extends \BaseController
                                     $sql="SELECT CalcularFechaFinal( '".$fechaInicio."', (".$rd2->dtiempo."*1440), ".$rd2->area_id." ) fproy";
                                     $fproy= DB::select($sql);
                                 $rd2['fecha_proyectada']=$fproy[0]->fproy;
+                                $rd2['ruta_detalle_id_ant']=$rdid;
                                 $rd2['usuario_updated_at']= Auth::user()->id;
                                 $rd2->save();                                
                             }
@@ -504,6 +505,7 @@ class RutaDetalleController extends \BaseController
                                 $sql="SELECT CalcularFechaFinal( '".$fechaInicio."', (".$rd3->dtiempo."*1440), ".$rd3->area_id." ) fproy";
                                 $fproy= DB::select($sql);
                             $rd3['fecha_proyectada']=$fproy[0]->fproy;
+                            $rd3['ruta_detalle_id_ant']=$rdid;
                             $rd3['usuario_updated_at']= Auth::user()->id;
                             $rd3->save();
                         }
