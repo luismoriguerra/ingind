@@ -340,7 +340,7 @@ class EnvioAutomaticoController extends \BaseController {
         $hoy = date('Y-m-d');
         
         $dia_validar = date('w', strtotime($hoy));
-        if ( $dia_validar == 2 OR $dia_validar == 3 OR $dia_validar == 4 OR $dia_validar == 5 OR $dia_validar == 6) // Proceso ejecuta L - V
+        if ( $dia_validar == 1 OR $dia_validar == 3 OR $dia_validar == 4 OR $dia_validar == 5 OR $dia_validar == 6) // Proceso ejecuta L - V
         {
             // --
             ini_set('max_execution_time', 300);
@@ -462,9 +462,10 @@ class EnvioAutomaticoController extends \BaseController {
                             ) AS doc ON doc.persona_id=sw.persona_id; ";
             $reporte = DB::select($Ssql);
 
-            $acu_asiste = 0;
+            
             foreach ($reporte as $val)
             {
+              $acu_asiste = 0;
               $html_table = '';
               $acu_asiste = $acu_asiste + $val->faltas;
               $acu_asiste = $acu_asiste + $val->tardanza;
@@ -479,7 +480,7 @@ class EnvioAutomaticoController extends \BaseController {
               $acu_asiste = $acu_asiste + $val->permiso;
               $acu_asiste = $acu_asiste + $val->compensatorio;
               $acu_asiste = $acu_asiste + $val->onomastico;
-
+              
               if($acu_asiste > 0)
               {
                   $html_table = '<table border="0" cellspacing="0" style="font-size: 11px; overflow:hidden; border:2px solid #EAE8E7; background:#fefefe; border-radius:5px;">
@@ -562,8 +563,8 @@ class EnvioAutomaticoController extends \BaseController {
                   else
                       $email_copia = 'consultas.gmgm@gmail.com';
 
-                  //$email='rusbelc02@gmail.com';
-                  //$email_copia='consultas.gmgm@gmail.com';
+                  $email='rcapchab@gmail.com';
+                  $email_copia='consultas.gmgm@gmail.com';
                   // --
                               
                   $nota = '<br>
@@ -582,11 +583,30 @@ class EnvioAutomaticoController extends \BaseController {
                       'cuerpo' => str_replace($buscar, $reemplazar, $plantilla->cuerpo)
                   );        
 
+                    $alertanotiadm= new AlertaNotificacionAdm;
+                    $alertanotiadm->dni = $val->dni;
+                    $alertanotiadm->faltas = $val->faltas;
+                    $alertanotiadm->tardanza = $val->tardanza;
+                    $alertanotiadm->lic_sg = $val->lic_sg;
+                    $alertanotiadm->sancion_dici = $val->sancion_dici;
+                    $alertanotiadm->lic_sindical = $val->lic_sindical;
+                    $alertanotiadm->descanso_med = $val->descanso_med;
+                    $alertanotiadm->min_permiso = $val->min_permiso;
+                    $alertanotiadm->comision = $val->comision;
+                    $alertanotiadm->citacion = $val->citacion;
+                    $alertanotiadm->essalud = $val->essalud;
+                    $alertanotiadm->permiso = $val->permiso;
+                    $alertanotiadm->compensatorio = $val->compensatorio;
+                    $alertanotiadm->onomastico = $val->onomastico;
+                    $alertanotiadm->estado = 1;
+                    $alertanotiadm->usuario_created_at = Auth::user()->id;
+                    $alertanotiadm->save();
+
                   if ($email != '')
                   {
                       DB::beginTransaction();
                       try {
-                          Mail::send('notreirel', $parametros, function($message) use ($email, $email_copia) {
+                          Mail::queue('notreirel', $parametros, function($message) use ($email, $email_copia) {
                                   $message
                                           ->to($email)
                                           ->cc($email_copia)
