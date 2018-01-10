@@ -568,10 +568,10 @@ class EnvioAutomaticoController extends \BaseController {
                   if(trim($persona->email_mdi) != '')
                       $email = trim($persona->email_mdi);
                   else
-                      $email = 'consultas.gmgm@gmail.com';
+                      $email = '';
 
-                  $email='rcapchab@gmail.com';
-                  $email_copia='';
+//                  $email='rcapchab@gmail.com';
+//                  $email_copia='';
                   // --
                               
                   $nota = '<br>
@@ -591,6 +591,7 @@ class EnvioAutomaticoController extends \BaseController {
                   );        
 
                     $alertanotiadm= new AlertaNotificacionAdm;
+                    $alertanotiadm->persona_id = $val->persona_id;
                     $alertanotiadm->dni = $val->dni;
                     $alertanotiadm->faltas = $val->faltas;
                     $alertanotiadm->tardanza = $val->tardanza;
