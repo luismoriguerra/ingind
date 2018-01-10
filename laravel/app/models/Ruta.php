@@ -425,7 +425,7 @@ class Ruta extends Eloquent
             }
             
             $insertMicro="INSERT INTO rutas_detalle_micro (ruta_flujo_id,ruta_id,norden,usuario_created_at)
-                          SELECT rfdm.ruta_flujo_id2,".$ruta->id.",rfdm.norden,".Auth::user()->id."
+                          SELECT rfdm.ruta_flujo_id2,".$ruta->id.",IF(rfdm.norden<10,CONCAT('0',norden),norden) AS norden,".Auth::user()->id."
                           FROM rutas_flujo_detalle_micro rfdm
                           WHERE rfdm.ruta_flujo_id=".$rutaFlujo->id." AND rfdm.estado=1";
                           
