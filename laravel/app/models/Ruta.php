@@ -64,7 +64,7 @@ class Ruta extends Eloquent
                                     ->orderBy('norden', 'ASC')
                                     ->get();
                             foreach ($rutaflujodetalle as $rfd) {
-                               // var_dump(round($rd->norden).'.'.$rfd->norden);exit();
+                                var_dump($rfd->id);exit();
                                 $rutaDetalle = new RutaDetalle;
                                 $rutaDetalle['ruta_id'] = $rd->ruta_id;
                                 $rutaDetalle['area_id'] = $rfd->area_id;
