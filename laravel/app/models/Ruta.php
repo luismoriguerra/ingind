@@ -65,14 +65,17 @@ class Ruta extends Eloquent
                                     ->orderBy('norden', 'ASC')
                                     ->get();
                             foreach ($rutaflujodetalle as $rfd) {
-                                
+                                $cero='';
+                                if($rfd->norden<10){
+                                    $cero='0';
+                                }
                                 $rutaDetalle = new RutaDetalle;
                                 $rutaDetalle['ruta_id'] = $rd->ruta_id;
                                 $rutaDetalle['area_id'] = $rfd->area_id;
                                 $rutaDetalle['tiempo_id'] = $rfd->tiempo_id;
                                 $rutaDetalle['dtiempo'] = $rfd->dtiempo;
 //                                $rutaDetalle['ruta_flujo_id']=$rd->ruta_flujo_id2;
-                                $rutaDetalle['norden'] = $rd->norden.'.'.$rfd->norden;
+                                $rutaDetalle['norden'] = $rd->norden.'.'.$cero.$rfd->norden;
                                 $rutaDetalle['estado_ruta'] = $rfd->estado_ruta;
                                 $rutaDetalle['usuario_created_at'] = Auth::user()->id;
                                 $rutaDetalle->save();
