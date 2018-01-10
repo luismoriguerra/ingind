@@ -340,7 +340,7 @@ class EnvioAutomaticoController extends \BaseController {
         $hoy = date('Y-m-d');
         
         $dia_validar = date('w', strtotime($hoy));
-        if ( $dia_validar == 1 OR $dia_validar == 3 OR $dia_validar == 4 OR $dia_validar == 5 OR $dia_validar == 6) // Proceso ejecuta L - V
+        if ( $dia_validar == 2 OR $dia_validar == 3 OR $dia_validar == 4 OR $dia_validar == 5 OR $dia_validar == 6) // Proceso ejecuta L - V
         {
             // --
             ini_set('max_execution_time', 300);
@@ -552,19 +552,26 @@ class EnvioAutomaticoController extends \BaseController {
                   $html_table .= '</tbody>
                                 </table>';                
                                             
-                  $persona = Persona::find($val->persona_id);
-                  if(trim($persona->email) != '')
-                      $email = trim($persona->email);
+                  $persona = Persona::where('personas.id','=',$val->persona_id)
+                                    ->select(DB::raw("IFNULL((SELECT p2.email_mdi
+                                             FROM personas p2 
+                                             where p2.area_id=personas.area_id
+                                             and p2.rol_id in (9,8)
+                                             and p2.estado=1
+                                             LIMIT 0,1),'') as email_jefe"),'personas.id')->first();
+ 
+                  if(trim($persona->email_jefe) != '')
+                      $email_copia = trim($persona->email_jefe);
+                  else
+                      $email_copia = '';
+
+                  if(trim($persona->email_mdi) != '')
+                      $email = trim($persona->email_mdi);
                   else
                       $email = 'consultas.gmgm@gmail.com';
 
-                  if(trim($persona->email_mdi) != '')
-                      $email_copia = trim($persona->email_mdi);
-                  else
-                      $email_copia = 'consultas.gmgm@gmail.com';
-
                   $email='rcapchab@gmail.com';
-                  $email_copia='consultas.gmgm@gmail.com';
+                  $email_copia='';
                   // --
                               
                   $nota = '<br>
@@ -608,9 +615,11 @@ class EnvioAutomaticoController extends \BaseController {
                       try {
                           Mail::send('notreirel', $parametros, function($message) use ($email, $email_copia) {
                                   $message
-                                          ->to($email)
-                                          ->cc($email_copia)
-                                          ->subject('.:: Reporte de Asistencia de Personal ::.');
+                                          ->to($email);
+                                          if($email_copia != ''){
+                                             $message ->cc($email_copia);
+                                          }
+                                          $message->subject('.:: Reporte de Asistencia de Personal ::.');
                               }
                           );
                       } catch (Exception $e) {
