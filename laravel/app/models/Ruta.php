@@ -107,11 +107,14 @@ class Ruta extends Eloquent
                                                             ->orderBy('norden','ASC')->get();
                                             
                             foreach ($rutaflujodetallemicro as $rfdm) {
-//                                var_dump($rfdm->id);exit();
+                                $cero='';
+                                if($rfdm->norden<10){
+                                    $cero='0';
+                                }
                                 $rdmcreate= new RutaDetalleMicro;
                                 $rdmcreate->ruta_flujo_id=$rfdm->ruta_flujo_id2;
                                 $rdmcreate->ruta_id=$rd->ruta_id;
-                                $rdmcreate->norden=$rd->norden.'.'.$rfdm->norden;
+                                $rdmcreate->norden=$rd->norden.'.'.$cero.$rfdm->norden;
                                 $rdmcreate->usuario_created_at=Auth::user()->id;       
                                 $rdmcreate->save();
                             }
