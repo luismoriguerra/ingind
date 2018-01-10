@@ -677,6 +677,10 @@ class Ruta extends Eloquent
         }
 
             foreach ($areas as $index => $val) {
+                $cero='';
+                if($index<9){
+                    $cero='0';
+                }
                 $rutaDetalle = new RutaDetalle;
                 $rutaDetalle['ruta_id']=$ruta->id;
                 $rutaDetalle['area_id']=$val->area_id;
@@ -688,7 +692,7 @@ class Ruta extends Eloquent
                     $rutaDetalle['dtiempo']=$val->tiempo;
 /*                }
 */
-                $rutaDetalle['norden']=$index + 1;
+                $rutaDetalle['norden']=$cero.($index+1);
                 if($index==0){
                     $rutaDetalle['fecha_inicio']=$fecha_inicio2;
                     $sql="SELECT CalcularFechaFinal( '".$fecha_inicio2."', (".$val->tiempo."*1440), ".$val->area_id." ) fproy";
