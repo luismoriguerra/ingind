@@ -55,7 +55,7 @@ class Ruta extends Eloquent
                                             ->where('estado','=',1)->first();
                             $rd->ruta_flujo_id=$rdm->ruta_flujo_id;
                             $rd->save();
-
+                            var_dump($rd->id);exit();
                             $rf= RutaFlujo::find($rd->ruta_flujo_id);
                             
                             $rutaflujodetalle = DB::table('rutas_flujo_detalle')
@@ -64,7 +64,7 @@ class Ruta extends Eloquent
                                     ->orderBy('norden', 'ASC')
                                     ->get();
                             foreach ($rutaflujodetalle as $rfd) {
-                                var_dump($rfd->id);exit();
+                                
                                 $rutaDetalle = new RutaDetalle;
                                 $rutaDetalle['ruta_id'] = $rd->ruta_id;
                                 $rutaDetalle['area_id'] = $rfd->area_id;
