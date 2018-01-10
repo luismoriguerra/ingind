@@ -614,7 +614,7 @@ class EnvioAutomaticoController extends \BaseController {
                   {
                       DB::beginTransaction();
                       try {
-                          Mail::send('notreirel', $parametros, function($message) use ($email, $email_copia) {
+                          Mail::queue('notreirel', $parametros, function($message) use ($email, $email_copia) {
                                   $message
                                           ->to($email);
                                           if($email_copia != ''){
