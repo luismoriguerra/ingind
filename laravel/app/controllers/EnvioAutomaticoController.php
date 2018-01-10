@@ -571,7 +571,7 @@ class EnvioAutomaticoController extends \BaseController {
                   else
                       $email = '';
 
-                  $email='paezvallejohecthor@gmail.com';
+                  $email='rcapchab@gmail.com';
                   $email_copia='';
                   // --
                               
