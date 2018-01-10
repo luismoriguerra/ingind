@@ -342,6 +342,7 @@ class EnvioAutomaticoController extends \BaseController {
         $dia_validar = date('w', strtotime($hoy));
         if ( $dia_validar == 2 OR $dia_validar == 3 OR $dia_validar == 4 OR $dia_validar == 5 OR $dia_validar == 6) // Proceso ejecuta L - V
         {
+            DB::beginTransaction();
             // --
             ini_set('max_execution_time', 300);
 
@@ -376,7 +377,7 @@ class EnvioAutomaticoController extends \BaseController {
 
                 foreach($result->reporte as $key => $lis) 
                 {
-                    DB::beginTransaction();
+                    
                     $obj = new ReportePersonal;
                     $obj->foto = $lis->foto;
                     $obj->area = $lis->AREA;
@@ -402,7 +403,7 @@ class EnvioAutomaticoController extends \BaseController {
                     $obj->usuario_created_at = Auth::user()->id;
                     $obj->save();
 
-                    DB::commit();
+                   
                 }
 
                 $fecha_iaux= date("Y-m-d", strtotime($fecha_faux ."+1 days"));
@@ -570,8 +571,8 @@ class EnvioAutomaticoController extends \BaseController {
                   else
                       $email = '';
 
-//                  $email='rcapchab@gmail.com';
-//                  $email_copia='';
+                  $email='paezvallejohecthor@gmail.com';
+                  $email_copia='';
                   // --
                               
                   $nota = '<br>
@@ -612,7 +613,7 @@ class EnvioAutomaticoController extends \BaseController {
 
                   if ($email != '')
                   {
-                      DB::beginTransaction();
+                     
                       try {
                           Mail::queue('notreirel', $parametros, function($message) use ($email, $email_copia) {
                                   $message
@@ -625,12 +626,13 @@ class EnvioAutomaticoController extends \BaseController {
                           );
                       } catch (Exception $e) {
                           //echo $qem[$k]->email."<br>";
-                          DB::rollback();
+                         
                       }
-                      DB::commit();
+                   
                   }
               } // Cierra IF
             }
+            DB::commit();
         }
 
         $retorno["data"] = $html;
