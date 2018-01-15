@@ -194,14 +194,10 @@ class IndedocsController extends \BaseController {
                 $rutaDetalle['usuario_created_at'] = Auth::user()->id;
                 $rutaDetalle->save();
 
-//                if ($rutaDetalle->norden == 1) {
-//                    $rutaDetalle['fecha_inicio'] = $nuevaFecha;
-//                    $rutaDetalle['dtiempo_final'] = $nuevaFecha;
-//                    $rutaDetalle['tipo_respuesta_id'] = 1;
-//                    $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
-//                    $rutaDetalle['observacion'] = '';
-//                    $rutaDetalle->save();
-//                }
+                if ($rutaDetalle->norden == 1) {
+                    $rutaDetalle['fecha_inicio'] = date('Y-m-d H:i:s');
+                    $rutaDetalle->save();
+                }
 
                 $qrutaDetalleVerbo = DB::table('rutas_flujo_detalle_verbo')
                         ->where('ruta_flujo_detalle_id', '=', $rd->id)
@@ -224,6 +220,8 @@ class IndedocsController extends \BaseController {
                 }
             }
         }
+        
+        return Response::json(array('rst' => 1));
     }
 
 }
