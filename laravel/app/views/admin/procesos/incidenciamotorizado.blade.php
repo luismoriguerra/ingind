@@ -10,21 +10,21 @@
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-    @include( 'admin.procesos.js.envioalertas_ajax' )
-    @include( 'admin.procesos.js.envioalertas' )
+    @include( 'admin.procesos.js.incidenciamotorizado_ajax' )
+    @include( 'admin.procesos.js.incidenciamotorizado' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            ENVIO DE NOTIFICACIONES,REITERACIONES Y RELEVOS
+            CARGA DE INCIDENCIA DE MOTORIZADOS
             <small> </small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
             <li><a href="#">Reporte</a></li>
-            <li class="active">Notificaciones, reiteraciones y relevos</li>
+            <li class="active">Incidencias</li>
         </ol>
     </section>
 

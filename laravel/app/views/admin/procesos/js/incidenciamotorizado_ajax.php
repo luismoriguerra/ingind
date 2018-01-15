@@ -2,7 +2,7 @@
 var Accion={
     mostrar:function( evento,data ){
         $.ajax({
-            url         : 'reportef/bandejatramiteenvioalertas',
+            url         : 'indedocs/incidencia',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
