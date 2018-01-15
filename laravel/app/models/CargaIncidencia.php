@@ -1,6 +1,6 @@
 <?php
 
-class CargoPersona extends Base
+class CargaIncidencia extends Base
 {
-    public $table = "cargo_persona";
+    public $table = "carga_incidencias";
 }
