@@ -193,17 +193,17 @@ class RutaDetalleController extends \BaseController
     public function postRetornarpaso()
     {
         if ( Request::ajax() ) {
-            if(Input::has('ruta_detalle_id')){
+            $rst='';
+            $msj='';
+            
+            $rd_ant = RutaDetalle::find(Input::get('ruta_detalle_id'));
+            if(Input::has('ruta_detalle_id') and  $rd_ant->ruta_detalle_id_ant){
                 /*creating new norden to actual rd */
-                $rd_ant = RutaDetalle::find(Input::get('ruta_detalle_id'));
                 DB::beginTransaction();
                 for($i = 0; $i < 2; $i++){                    
                     if($i==1){ //paso anterios
-                        if($rd_ant->ruta_detalle_id_ant){
-                            $rd = RutaDetalle::find($rd_ant->ruta_detalle_id_ant);
-                        }else{
-                            $rd = RutaDetalle::where('ruta_id',Input::get('ruta_id'))->where('condicion',0)->where('norden',Input::get('orden') - 1)->get()[0];
-                        }
+                        $rd = RutaDetalle::find($rd_ant->ruta_detalle_id_ant);
+//                      $rd = RutaDetalle::where('ruta_id',Input::get('ruta_id'))->where('condicion',0)->where('norden',Input::get('orden') - 1)->get()[0];
                         $rd->condicion=3;
                         $rd->save();
                     }else{ //paso actual == 0
@@ -252,11 +252,16 @@ class RutaDetalleController extends \BaseController
                     }
                     /*end creating new norden to actual rd */
                 }
+                $msj='Se retornó con éxito';
+                $rst=1;
                  DB::commit();
-            }
+        }else{
+            $msj='No se logró retornar,Comunicarse con la Gerencia de Modernización';
+            $rst=2;
+        }
             return Response::json(array(
-                'rst'=>'1',
-                'msj'=>'Se realizó con éxito'
+                'rst'=>$rst,
+                'msj'=>$msj
                 )
             );
         }
