@@ -811,8 +811,6 @@ class Reporte extends Eloquent
         $cabecera = [];
         $sql =" SELECT r.id, tr.id_union ";
 
-        //for($i=1; $i<=$cant_pasos; $i++)
-        //{
         foreach ($data as $i => $lis) 
         {
             $sql .=", GROUP_CONCAT(
@@ -839,11 +837,10 @@ class Reporte extends Eloquent
 
         $sql .="FROM rutas r
                 INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1
-                INNER JOIN rutas_detalle rd ON rd.ruta_id = r.id AND rd.estado=1";
-        //for($i=1; $i<=$cant_pasos; $i++){
+                INNER JOIN rutas_detalle rd ON rd.ruta_id = r.id AND rd.estado=1";        
         foreach ($data as $i => $lis) 
         {
-            $sql .=" LEFT JOIN rutas_detalle rd$i ON rd$i.id = rd.id AND rd$i.norden=$i
+            $sql .=" LEFT JOIN rutas_detalle rd$i ON rd$i.id = rd.id AND rd$i.norden='".$lis->cant."'
                      LEFT JOIN areas a$i ON a$i.id = rd$i.area_id ";
         }
 
