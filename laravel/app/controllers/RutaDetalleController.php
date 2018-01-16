@@ -195,8 +195,6 @@ class RutaDetalleController extends \BaseController
         if ( Request::ajax() ) {
             if(Input::has('ruta_detalle_id')){
                 /*creating new norden to actual rd */
-                $rd = RutaDetalle::where('ruta_id',Input::get('ruta_id'))->where('ccondicion',0)->where('norden',Input::get('orden') - 1)->get()[0];
-                exit();
                 $rd_ant = RutaDetalle::find(Input::get('ruta_detalle_id'));
                 DB::beginTransaction();
                 for($i = 0; $i < 2; $i++){                    
