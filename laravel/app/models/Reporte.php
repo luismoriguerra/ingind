@@ -848,7 +848,7 @@ class Reporte extends Eloquent
                 $array['ruta_flujo_id'].
                 $array['fecha'].
                 $array['tramite'].
-                " GROUP BY r.id ";
+                " GROUP BY r.id_ ";
 
         $oData['cabecera'] = $cabecera;
         $oData['data'] = DB::select($sql);
