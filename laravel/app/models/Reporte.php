@@ -796,7 +796,7 @@ class Reporte extends Eloquent
     public static function VerNroPasosTramite($array)
     {
         $sSql = '';
-        $sSql.="SELECT COUNT(DISTINCT(rd.norden)) cant
+        $sSql.="SELECT DISTINCT(rd.norden) cant
                 FROM rutas r 
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id";
         $sSql .=" WHERE r.estado=1 ".
@@ -806,12 +806,14 @@ class Reporte extends Eloquent
         return $r;
     }
 
-    public static function ReporteTramiteActividad( $array, $cant_pasos )
+    public static function ReporteTramiteActividad( $array, $data )
     {
         $cabecera = [];
         $sql =" SELECT r.id, tr.id_union ";
 
-        for($i=1; $i<=$cant_pasos; $i++)
+        //for($i=1; $i<=$cant_pasos; $i++)
+        //{
+        foreach ($data as $i => $lis) 
         {
             $sql .=", GROUP_CONCAT(
                         CONCAT( a$i.nemonico,' => D: ',rd$i.dtiempo, 
@@ -832,18 +834,34 @@ class Reporte extends Eloquent
                         )
                     ) act$i ";
 
-            array_push($cabecera, $i);
+            array_push($cabecera, $lis->cant);
         }
 
         $sql .="FROM rutas r
                 INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1
                 INNER JOIN rutas_detalle rd ON rd.ruta_id = r.id AND rd.estado=1";
-        for($i=1; $i<=$cant_pasos; $i++)
+        //for($i=1; $i<=$cant_pasos; $i++){
+        foreach ($data as $i => $lis) 
         {
             $sql .=" LEFT JOIN rutas_detalle rd$i ON rd$i.id = rd.id AND rd$i.norden=$i
                      LEFT JOIN areas a$i ON a$i.id = rd$i.area_id ";
         }
 
+        $sql .=" WHERE r.estado=1 ".
+                $array['ruta_flujo_id'].
+                $array['fecha'].
+                $array['tramite'].
+                " GROUP BY r.id ";
+
+        $oData['cabecera'] = $cabecera;
+        $oData['data'] = DB::select($sql);
+        return $oData;
+    }
+
+    public static function CalcularTotalActividad( $array, $cant_pasos )
+    {
+        $cabecera = [];
+        $sql =" SELECT r.id, tr.id_union ";
         $sql .=" WHERE r.estado=1 ".
                 $array['ruta_flujo_id'].
                 $array['fecha'].
