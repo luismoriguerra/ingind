@@ -778,7 +778,7 @@
                         "<th> [] </th>"+
                         "<th> Tramite </th>";    
                         $.each(cabecera, function (index, cabecera) {
-                            html_cabecera += "<th >Actividad "+n+"</th>";
+                            html_cabecera += "<th >Actividad "+cabecera+"</th>";
                             n++;
                         });
         html_cabecera += "</tr>";
@@ -908,7 +908,39 @@
         $("#form_tramite_detalle").css("display", "none");
         $("#form_detallecuadro").css("display", "none");
         $("#form_ruta_flujo").css("display", "none");
+
+        // --
+        //Proceso.CalcularTotalActividad(dataG);
+        // --
     };
+
+    HTMLCargaTotalActividad = function (datos,cabecera) {
+        var html_cabecera = '';
+        var html = '';
+        var n = 1;
+
+        html_cabecera = "<tr class='info'>" +
+                        "<th> [] </th>"+
+                        "<th> Descripción </th>";    
+                        $.each(cabecera, function (index, cabecera) {
+                            html_cabecera += "<th >Actividad "+n+"</th>";
+                            n++;
+                        });
+        html_cabecera += "</tr>";
+
+        
+        $.each(datos, function (index, data) {
+            /*html += "<tr>";
+                html += '<td><a onClick="detalle(' + data.id + ',this)" class="btn btn-primary btn-sm" data-id="' + data.id + '" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a> </td>'+
+                        "<td>" + data.id_union + "</td>";
+                }
+            html += "</tr>";*/
+        });        
+
+        $("#tt_actividad_resum").html(html_cabecera);
+        $("#tb_actividad_resum").html(html);
+    };
+
 
     ExportarRTP = function (id, fechames,tramite) {
         var fecha_ini = $('#fecha_ini').val();
