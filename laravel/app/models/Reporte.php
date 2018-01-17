@@ -864,10 +864,12 @@ class Reporte extends Eloquent
                 INNER JOIN areas a ON a.id = rd.area_id ";
         $sql .=" WHERE AND r.estado=1
                  AND rd.estado=1
-                 AND rd.condicion = 0  ".
-                $array['ruta_flujo_id'].
+                 AND rd.condicion = 0 
+                 AND r.ruta_flujo_id='5383'
+                 AND DATE_FORMAT(r.fecha_inicio,'%Y-%m') = '2018-01'".
+                /*$array['ruta_flujo_id'].
                 $array['fecha'].
-                $array['tramite'].
+                $array['tramite'].*/
                 " GROUP BY rd.area_id
                   ORDER BY rd.area_id ";
 
