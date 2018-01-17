@@ -523,12 +523,10 @@ class ReporteController extends BaseController
         $array['tramite'].=" AND ISNULL(rd.dtiempo_final) ";
       }
 
-
       $data = Reporte::VerNroPasosTramite($array);
       $cant_pasos = $data[0]->cant;
 
-      //$oData = Reporte::CalcularTotalActividad( $array, $cant_pasos );
-      $oData['data'] = NULL;
+      $oData = Reporte::CalcularTotalActividad( $array );
 
       return Response::json(
           array(

@@ -140,6 +140,15 @@
                         </div>
                         <br>
                     </form>
+                    <br/>
+                    <div class="box-body table-responsive">
+                        <table id="t_actividad_resumen" class="table table-bordered">
+                            <thead id="tt_actividad_resum">
+                            </thead>
+                            <tbody id="tb_actividad_resum">
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="col-xl-12">

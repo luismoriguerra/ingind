@@ -772,14 +772,16 @@
         var html = '';
         var n = 0;
 
+        var array_total_actividad = [];
+
         $('#t_tramite_actividad').dataTable().fnDestroy();
 
         html_cabecera = "<tr class='info'>" +
                         "<th> [] </th>"+
-                        "<th> Tramite </th>";    
+                        "<th> Tramite </th>";
                         $.each(cabecera, function (index, cabecera) {
                             html_cabecera += "<th >Actividad "+cabecera+"</th>";
-                            n++;
+                            n++;                            
                         });
         html_cabecera += "</tr>";
 
@@ -789,33 +791,59 @@
                 html += '<td><a onClick="detalle(' + data.id + ',this)" class="btn btn-primary btn-sm" data-id="' + data.id + '" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a> </td>'+
                         "<td>" + data.id_union + "</td>";
                 var i;
+
+
                 for (i = 0; i <= (n-1); i++)
                 {
                     if(data['act' + i])
                     {
                         var res = data['act' + i].split("|");
-                        if(res[1]!='')
+                        if (res[1]!='') {
                             if(res[1]=='V')
-                                var style_class = 'success';
+                                var stylhe_class = 'success';
                             else if(res[1]=='N')
                                 var style_class = 'warning';
                             else if(res[1]=='R')
                                 var style_class = 'danger';
                             else
                                 var style_class = '';
-                        else
+                        } else {
                             var style_class = '';
-                        
+                        }                        
                         html += "<td class='"+style_class+"'>" + res[0] + res[2] + "</td>";
+                        /*
+                        if (count(res[2]) > 0) {
+                            var res = res[2].split("<br>");
+                            if (count(res[2]) > 0) {
+                                con_t + 1;
+                                array_total_actividad.push(con_t);
+                            }                            
+                        }
+                        */
                     }
                     else
                         html += "<td class=''>&nbsp;</td>";   
-                }
+                } 
             html += "</tr>";
         });        
 
+        // Totales
+        /*
+        html_cabecera_tot = "<tr class='info'>" +
+                        "<th> &nbsp; </th>"+
+                        "<th> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </th>";
+        $.each(cabecera, function (index, cabecera) {
+            html_cabecera_tot += "<th >TOTALES "+cabecera+"</th>";
+        });
+        html_cabecera_tot += "</tr>";
+        */
+        // --
+
         $("#form_tactividad #tt_tramite_actividad").html(html_cabecera);
         $("#form_tactividad #tb_tramite_actividad").html(html);
+
+        //$("#tt_actividad_resum").html(html_cabecera_tot);
+        //$("#tb_actividad_resum").html(html_tot);
 
         $("#t_tramite_actividad").dataTable(
             {
@@ -910,35 +938,31 @@
         $("#form_ruta_flujo").css("display", "none");
 
         // --
-        //Proceso.CalcularTotalActividad(dataG);
+        Proceso.CalcularTotalActividad(dataG);
         // --
     };
 
     HTMLCargaTotalActividad = function (datos,cabecera) {
-        var html_cabecera = '';
-        var html = '';
+        var html_cabecera_tot = '';
+        var html_tot = '';
         var n = 1;
 
-        html_cabecera = "<tr class='info'>" +
-                        "<th> [] </th>"+
-                        "<th> Descripción </th>";    
-                        $.each(cabecera, function (index, cabecera) {
-                            html_cabecera += "<th >Actividad "+n+"</th>";
-                            n++;
-                        });
-        html_cabecera += "</tr>";
+        html_cabecera_tot = "<tr class='info'>" +
+                        "<th> AREA </th>"+
+                        "<th> TOTALES </th>";    
+        html_cabecera_tot += "</tr>";
 
         
         $.each(datos, function (index, data) {
-            /*html += "<tr>";
-                html += '<td><a onClick="detalle(' + data.id + ',this)" class="btn btn-primary btn-sm" data-id="' + data.id + '" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a> </td>'+
-                        "<td>" + data.id_union + "</td>";
+            html_tot += "<tr>";
+                html_tot += "<td>" + data.nombre + "</td>"+
+                            "<td>" + data.cant + "</td>";
                 }
-            html += "</tr>";*/
+            html_tot += "</tr>";
         });        
 
-        $("#tt_actividad_resum").html(html_cabecera);
-        $("#tb_actividad_resum").html(html);
+        $("#tt_actividad_resum").html(html_cabecera_tot);
+        $("#tb_actividad_resum").html(html_tot);
     };
 
 
