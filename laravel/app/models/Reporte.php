@@ -844,7 +844,7 @@ class Reporte extends Eloquent
                      LEFT JOIN areas a$i ON a$i.id = rd$i.area_id ";
         }
 
-        $sql .=" WHERE r.estado_=1 ".
+        $sql .=" WHERE r.estado=1 ".
                 $array['ruta_flujo_id'].
                 $array['fecha'].
                 $array['tramite'].
