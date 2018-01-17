@@ -770,7 +770,7 @@
     HTMLCargaTramiteActividad = function (datos,cabecera) {
         var html_cabecera = '';
         var html = '';
-        var n = 1;
+        var n = 0;
 
         $('#t_tramite_actividad').dataTable().fnDestroy();
 
