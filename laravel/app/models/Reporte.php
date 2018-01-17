@@ -867,7 +867,6 @@ class Reporte extends Eloquent
                  AND rd.condicion = 0  ".
                 $array['ruta_flujo_id'].
                 $array['fecha'].
-                //$array['tramite'].
                 " GROUP BY rd.area_id
                   ORDER BY rd.area_id ";
 
