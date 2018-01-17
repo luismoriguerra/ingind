@@ -840,7 +840,7 @@ class Reporte extends Eloquent
                 INNER JOIN rutas_detalle rd ON rd.ruta_id = r.id AND rd.estado=1";        
         foreach ($data as $i => $lis) 
         {
-            $sql .=" LEFT JOIN rutas_detalle rd$i ON rd$i.id = rd.id AND rd$i.norden='".$lis->cant."'
+            $sql .=" LEFT JOIN rutas_detalle rd$i ON rd$i.id = rd.id AND rd$i.norden='".$lis->cant."' AND rd$i.condicion = 0
                      LEFT JOIN areas a$i ON a$i.id = rd$i.area_id ";
         }
 
