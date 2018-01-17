@@ -789,7 +789,7 @@
                 html += '<td><a onClick="detalle(' + data.id + ',this)" class="btn btn-primary btn-sm" data-id="' + data.id + '" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a> </td>'+
                         "<td>" + data.id_union + "</td>";
                 var i;
-                for (i = 1; i <= (n-1); i++)
+                for (i = 0; i <= (n-1); i++)
                 {
                     if(data['act' + i])
                     {
