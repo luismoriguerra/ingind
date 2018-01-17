@@ -133,6 +133,7 @@ class IndedocsController extends \BaseController {
         $result = json_decode(json_encode($array));
 
         foreach ($result->incidencias as $k) {
+//            DB::beginTransaction();
             $fecha = explode('-', $k->fecha);
             $incidencia = new CargaIncidencia;
             $incidencia->codigo = $k->codigo;
@@ -148,7 +149,7 @@ class IndedocsController extends \BaseController {
 
             $tablarelacion = new TablaRelacion;
             $tablarelacion->software_id = 1;
-            $tablarelacion->id_union = 'INCIDENCIAS - N° ' . str_pad($incidencia->codigo, 6, '0', STR_PAD_LEFT) . ' - 2017';
+            $tablarelacion->id_union = 'INCIDENCIAS - N° ' . str_pad($incidencia->codigo, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2];
             $tablarelacion->sumilla = $k->contenido.' - '.$k->clasificacion;
             $tablarelacion->estado = 1;
             $tablarelacion->fecha_tramite = $incidencia->fecha;
@@ -219,6 +220,13 @@ class IndedocsController extends \BaseController {
                     }
                 }
             }
+            $insertMicro="INSERT INTO rutas_detalle_micro (ruta_flujo_id,ruta_id,norden,usuario_created_at)
+                          SELECT rfdm.ruta_flujo_id2,".$ruta->id.",IF(rfdm.norden<10,CONCAT('0',norden),norden) AS norden,".Auth::user()->id."
+                          FROM rutas_flujo_detalle_micro rfdm
+                          WHERE rfdm.ruta_flujo_id=".$rutaFlujo->id." AND rfdm.estado=1";
+                          
+            DB::insert($insertMicro);
+//            DB::commit();
         }
         
         return Response::json(array('rst' => 1));
