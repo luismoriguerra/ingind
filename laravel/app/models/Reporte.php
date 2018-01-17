@@ -858,7 +858,8 @@ class Reporte extends Eloquent
     public static function CalcularTotalActividad( $array )
     {
         //$cabecera = [];
-        $sql =" SELECT rd.area_id, a.nombre, GROUP_CONCAT(DISTINCT(rd.norden)), COUNT(IF(rd.fecha_inicio!='' AND rd.dtiempo_final IS NULL,rd.id,NULL)) cant
+        $sql =" SELECT rd.area_id, a.nombre, GROUP_CONCAT(DISTINCT(rd.norden)) as norden, 
+                COUNT(IF(rd.fecha_inicio!='' AND rd.dtiempo_final IS NULL,rd.id,NULL)) cant
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON r.id = rd.ruta_id
                 INNER JOIN areas a ON a.id = rd.area_id ";
