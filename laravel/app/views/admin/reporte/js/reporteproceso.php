@@ -957,7 +957,6 @@
             html_tot += "<tr>";
                 html_tot += "<td>" + data.nombre + "</td>"+
                             "<td>" + data.cant + "</td>";
-                }
             html_tot += "</tr>";
         });        
 
