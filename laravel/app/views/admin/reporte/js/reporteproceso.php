@@ -938,7 +938,7 @@
         $("#form_ruta_flujo").css("display", "none");
 
         // --
-        Proceso.CalcularTotalActividad(dataG);
+        Proceso.CalcularTotalActividad(id, fechames, tramite);
         // --
     };
 
