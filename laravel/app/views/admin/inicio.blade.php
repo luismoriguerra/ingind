@@ -50,7 +50,7 @@
                             window.location.href = "admin.ruta.asignartramite";
                         }
                         if(respuesta_id==2){
-                           $('#inicioModal').modal('hide');
+                           window.location.href = "admin.ruta.flujos";
                         }
                         if(respuesta_id==3){
                            window.location.href = "admin.reporte.listaproceso";
