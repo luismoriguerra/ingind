@@ -532,7 +532,7 @@ class ReporteController extends BaseController
           array(
               'rst'=>1,
               'datos'=>$oData['data'],
-              'cabecera'=>4
+              'cabecera'=>$oData['cabecera']
           )
       );
     }
