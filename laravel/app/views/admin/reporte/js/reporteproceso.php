@@ -960,12 +960,12 @@
 
         $.each(datos, function (index, data) {
             if (i != index) {
-                if(data.norden == 'null') {
+                if(data.norden) {
+                    var style = '';
+                    var orden = data.norden;                    
+                } else {
                     var style = 'font-weight: bold; text-transform: uppercase;';
                     var orden = '';
-                } else {
-                    var style = '';
-                    var orden = data.norden;
                 }
 
                 html_tot += "<tr style='" + style + "'>";
