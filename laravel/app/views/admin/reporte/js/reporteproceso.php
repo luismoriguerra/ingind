@@ -960,14 +960,17 @@
 
         $.each(datos, function (index, data) {
             if (i != index) {
-                if(data.norden == '')
+                if(data.norden == 'null') {
                     var style = 'font-weight: bold; text-transform: uppercase;';
-                else
+                    var orden = '';
+                } else {
                     var style = '';
+                    var orden = data.norden;
+                }
 
                 html_tot += "<tr style='" + style + "'>";
                     html_tot += "<td>" + data.nombre + "</td>"+
-                                "<td>" + data.norden + "</td>"+
+                                "<td>" + orden + "</td>"+
                                 "<td>" + data.cant + "</td>";
                 html_tot += "</tr>";
             }
