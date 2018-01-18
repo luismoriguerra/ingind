@@ -868,8 +868,7 @@ class Reporte extends Eloquent
                  AND rd.condicion = 0  ".
                 $array['ruta_flujo_id'].
                 $array['fecha'].
-                " GROUP BY rd.area_id, rd.norden ASC WITH ROLLUP
-                  ORDER BY rd.area_id ";
+                " GROUP BY rd.area_id, rd.norden ASC WITH ROLLUP ";
 
         $oData['cabecera'] = array();
         $oData['data'] = DB::select($sql);
