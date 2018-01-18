@@ -948,16 +948,29 @@
         var n = 1;
 
         html_cabecera_tot = "<tr class='info'>" +
-                        "<th> AREA </th>"+
-                        "<th> TOTALES </th>";    
+                            "<th> AREA </th>"+
+                            "<th> ACTIVIDAD </th>"+
+                            "<th> TOTALES </th>";    
         html_cabecera_tot += "</tr>";
 
-        
+        var i = 0;
         $.each(datos, function (index, data) {
-            html_tot += "<tr>";
-                html_tot += "<td>" + data.nombre + "</td>"+
-                            "<td>" + data.cant + "</td>";
-            html_tot += "</tr>";
+            i = index;
+        });
+
+        $.each(datos, function (index, data) {
+            if (i != index) {
+                if(data.norden == '')
+                    var style = 'font-weight: bold; text-transform: uppercase;';
+                else
+                    var style = '';
+
+                html_tot += "<tr style='" + style + "'>";
+                    html_tot += "<td>" + data.nombre + "</td>"+
+                                "<td>" + data.norden + "</td>"+
+                                "<td>" + data.cant + "</td>";
+                html_tot += "</tr>";
+            }
         });        
 
         $("#tt_actividad_resum").html(html_cabecera_tot);
