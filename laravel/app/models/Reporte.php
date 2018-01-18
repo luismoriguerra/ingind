@@ -863,7 +863,7 @@ class Reporte extends Eloquent
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON r.id = rd.ruta_id
                 INNER JOIN areas a ON a.id = rd.area_id ";
-        $sql .=" WHERE AND r.estado=1
+        $sql .=" WHERE r.estado=1
                  AND rd.estado=1
                  AND rd.condicion = 0  ".
                 $array['ruta_flujo_id'].
