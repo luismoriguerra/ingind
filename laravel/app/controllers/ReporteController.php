@@ -527,7 +527,8 @@ class ReporteController extends BaseController
       //$cant_pasos = $data[0]->cant;
 
       $oData = Reporte::CalcularTotalActividad( $array );
-
+print_r($oData);
+exit;
       return Response::json(
           array(
               'rst'=>1,
