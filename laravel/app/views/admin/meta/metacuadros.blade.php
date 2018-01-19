@@ -24,13 +24,13 @@
     <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Mantenimiento de Metas Cuadro
+                Mantenimiento de Gestion por Resultado
                 <small> </small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
                 <li><a href="#">Mantenimientos</a></li>
-                <li class="active">Mantenimiento de Metas Cuadro</li>
+                <li class="active">Mantenimiento de Gestion por Resultado</li>
             </ol>
         </section>
 
@@ -47,7 +47,7 @@
                         <div class="box-body table-responsive">
                             <table id="t_metacuadros" class="table table-bordered table-hover">
                                 <thead>
-                                <tr><th colspan="6" style="text-align:center;background-color:#A7C0DC;"><h2>Metas Cuadro</h2></th></tr>
+                                <tr><th colspan="6" style="text-align:center;background-color:#A7C0DC;"><h2>Gestion por Resultado</h2></th></tr>
                                 <tr></tr>
                                 </thead>
                                 <tbody>
