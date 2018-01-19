@@ -53,7 +53,9 @@ class Ruta extends Eloquent
                             //var_dump($rdm->id);exit();
                             $rd=RutaDetalle::where('norden','=',$rdm->norden)
                                             ->where('ruta_id','=',$rdm->ruta_id)
-                                            ->where('estado','=',1)->first();
+                                            ->where('estado','=',1)
+                                            ->whereNull('dtiempo_final')
+                                            ->first();
                             $rd->ruta_flujo_id=$rdm->ruta_flujo_id;
                             $rd->save();
                             
