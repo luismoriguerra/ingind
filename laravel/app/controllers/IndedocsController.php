@@ -108,6 +108,10 @@ class IndedocsController extends \BaseController {
     }
 
     public function postIncidencia() {
+//        
+//        $res = file_get_contents("http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=incidencias");
+//        $result = json_decode(utf8_encode($res));
+//        var_dump($result);exit();
         $array = array(
             'incidencias' => array(
                 array(

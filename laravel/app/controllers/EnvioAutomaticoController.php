@@ -458,7 +458,8 @@ class EnvioAutomaticoController extends \BaseController {
                                 WHERE dd.created_at BETWEEN '$fecha_i 00:00:00' AND '$fecha_f 23:59:59'
                                 AND dd.estado = 1
                                 GROUP BY dd.usuario_created_at
-                            ) AS doc ON doc.persona_id=sw.persona_id; ";
+                            ) AS doc ON doc.persona_id=sw.persona_idd; ";
+            exit();
             $reporte = DB::select($Ssql);
 
             
@@ -588,26 +589,6 @@ class EnvioAutomaticoController extends \BaseController {
                   $parametros = array(
                       'cuerpo' => str_replace($buscar, $reemplazar, $plantilla->cuerpo)
                   );        
-
-                    $alertanotiadm= new AlertaNotificacionAdm;
-                    $alertanotiadm->persona_id = $val->persona_id;
-                    $alertanotiadm->dni = $val->dni;
-                    $alertanotiadm->faltas = $val->faltas;
-                    $alertanotiadm->tardanza = $val->tardanza;
-                    $alertanotiadm->lic_sg = $val->lic_sg;
-                    $alertanotiadm->sancion_dici = $val->sancion_dici;
-                    $alertanotiadm->lic_sindical = $val->lic_sindical;
-                    $alertanotiadm->descanso_med = $val->descanso_med;
-                    $alertanotiadm->min_permiso = $val->min_permiso;
-                    $alertanotiadm->comision = $val->comision;
-                    $alertanotiadm->citacion = $val->citacion;
-                    $alertanotiadm->essalud = $val->essalud;
-                    $alertanotiadm->permiso = $val->permiso;
-                    $alertanotiadm->compensatorio = $val->compensatorio;
-                    $alertanotiadm->onomastico = $val->onomastico;
-                    $alertanotiadm->estado = 1;
-                    $alertanotiadm->usuario_created_at = Auth::user()->id;
-                    $alertanotiadm->save();
 
                   if ($email != '')
                   {

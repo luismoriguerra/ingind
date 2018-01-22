@@ -3,10 +3,6 @@
 
 @section('includes')
     @parent
-    {{ HTML::style('lib/daterangepicker/css/daterangepicker-bs3.css') }}
-    {{ HTML::style('lib/bootstrap-multiselect/dist/css/bootstrap-multiselect.css') }}
-    {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
-    {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
@@ -35,9 +31,15 @@
                 <fieldset>
                     <div class="row form-group" >
                         <div class="col-sm-12">
-                            <div class="col-sm-2">
+                            <div class="col-sm-4">
                                 <label class="control-label"></label>
-                                <input type="button" class="form-control btn btn-primary" id="enviar" name="enviar" value="Enviar">
+                                <input type="button" class="form-control btn btn-primary" id="enviar" name="enviar" value="Enviar a Trabajador">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="col-sm-4">
+                                <label class="control-label"></label>
+                                <input type="button" class="form-control btn btn-primary" id="enviarjefe" name="enviarjefe" value="Enviar Resumen a Jefe">
                             </div>
                         </div>
                     </div>

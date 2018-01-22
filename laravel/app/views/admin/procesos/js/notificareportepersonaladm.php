@@ -5,6 +5,11 @@ $(document).ready(function() {
         var data = '';
         Accion.mostrar(data);
     });
+    $("#enviarjefe").click(function (){
+        //data={idarea:1};
+        var data = '';
+        Accion.mostrarjefe(data);
+    });
 });
 mostrarHTML=function(datos){
     /*
