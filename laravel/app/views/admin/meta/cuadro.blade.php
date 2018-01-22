@@ -22,7 +22,7 @@
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Metas
+            Gestion por Resultados
             <small> </small>
         </h1>
         <ol class="breadcrumb">
@@ -40,7 +40,7 @@
                     <div class="row form-group" >
                         <div class="col-sm-12">
                             <div class="col-sm-4">
-                                <label class="control-label">Meta:</label>
+                                <label class="control-label">Proyecto:</label>
                                 <select class="form-control" name="slct_meta" id="slct_meta"multiple="">
                                 </select>
                             </div>
@@ -58,7 +58,7 @@
                             <table id="t_reporte" class="table table-bordered2" >
                                 <thead>
                                     <tr>
-                                        <th colspan="4" style="text-align:center; background-color:#FCD790; width: 30%;">Meta</th>
+                                        <th colspan="4" style="text-align:center; background-color:#FCD790; width: 30%;">Proyecto</th>
                                         <th colspan="2" style="text-align:center; background-color:#F5DF9D; width: 30%;">Plan de Trabajo</th>
                                         <th colspan="6" style="text-align:center; background-color:#DEFAFA; width: 40%;">Avances</th>
                                     </tr>

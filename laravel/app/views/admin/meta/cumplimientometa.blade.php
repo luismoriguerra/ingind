@@ -18,13 +18,13 @@
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            REPORTE DE CUMPLIMIENTO DE META
+            REPORTE DE CUMPLIMIENTO DE GESTION POR RESULTADO
             <small> </small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
             <li><a href="#">Reporte</a></li>
-            <li class="active">Meta</li>
+            <li class="active">Proyecto</li>
         </ol>
     </section>
 
@@ -36,7 +36,7 @@
                     <div class="row form-group" >
                         <div class="col-sm-12">
                             <div class="col-sm-5">
-                                <label class="control-label">Meta:</label>
+                                <label class="control-label">Proyecto:</label>
                                 <select class="form-control" name="slct_meta" id="slct_meta"multiple="">
                                 </select>
                             </div>
@@ -60,7 +60,7 @@
                                 <thead>
                                     <tr>
                                         <th>N°</th>
-                                        <th>Meta</th>
+                                        <th>Proyecto</th>
                                         <th>Actividad</th>
                                         <th>Vencimiento</th>
                                         <th>Cumplimiento</th>

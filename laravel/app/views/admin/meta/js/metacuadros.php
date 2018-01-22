@@ -12,7 +12,7 @@ $(document).ready(function() {
     slctGlobal.listarSlct('meta','slct_meta', 'simple', null, datos);
      
     slctGlobalHtml('slct_estado','simple');
-    var idG={   meta          :'3|Meta |#DCE6F1',
+    var idG={   meta          :'3|Proyecto |#DCE6F1',
                 actividad        :'onBlur|Actividad|#DCE6F1', //#DCE6F1
                 fecha        :'onBlur|Fecha de Actividad|#DCE6F1', //#DCE6F1
                 anio        :'onBlur|Año|#DCE6F1', //#DCE6F1

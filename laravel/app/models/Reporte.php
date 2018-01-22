@@ -840,7 +840,7 @@ class Reporte extends Eloquent
                 INNER JOIN rutas_detalle rd ON rd.ruta_id = r.id AND rd.estado=1";        
         foreach ($data as $i => $lis) 
         {
-            $sql .=" LEFT JOIN rutas_detalle rd$i ON rd$i.id = rd.id AND rd$i.norden='".$lis->cant."'
+            $sql .=" LEFT JOIN rutas_detalle rd$i ON rd$i.id = rd.id AND rd$i.norden='".$lis->cant."' AND rd$i.condicion = 0
                      LEFT JOIN areas a$i ON a$i.id = rd$i.area_id ";
         }
 
@@ -855,17 +855,22 @@ class Reporte extends Eloquent
         return $oData;
     }
 
-    public static function CalcularTotalActividad( $array, $cant_pasos )
+    public static function CalcularTotalActividad( $array )
     {
-        $cabecera = [];
-        $sql =" SELECT r.id, tr.id_union ";
-        $sql .=" WHERE r.estado=1 ".
+        //$cabecera = [];
+        $sql =" SELECT rd.area_id, a.nombre, rd.norden, 
+                COUNT(IF(rd.fecha_inicio!='' AND rd.dtiempo_final IS NULL,rd.id,NULL)) cant
+                FROM rutas r
+                INNER JOIN rutas_detalle rd ON r.id = rd.ruta_id
+                INNER JOIN areas a ON a.id = rd.area_id ";
+        $sql .=" WHERE r.estado=1
+                 AND rd.estado=1
+                 AND rd.condicion = 0  ".
                 $array['ruta_flujo_id'].
                 $array['fecha'].
-                $array['tramite'].
-                " GROUP BY r.id ";
+                " GROUP BY rd.area_id, rd.norden ASC WITH ROLLUP ";
 
-        $oData['cabecera'] = $cabecera;
+        $oData['cabecera'] = array();
         $oData['data'] = DB::select($sql);
         return $oData;
     }
