@@ -200,7 +200,7 @@ footer .izq {
       <tr>
         <td>
             <p class="izq">
-              
+                Av. Túpac Amaru Km. 4.5 - Independencia &nbsp;&nbsp;&nbsp;Central Telefónica 712-4100
             </p>
         </td>
         <td>
