@@ -357,7 +357,7 @@ class EnvioAutomaticoController extends \BaseController {
            // $areas_externo = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/consul.php?opcion=area");
             
             
-            $areas_externo = array(
+            $array = array(
                 'area' => array(
                     array(
                         "id" => "240000",
@@ -365,7 +365,7 @@ class EnvioAutomaticoController extends \BaseController {
                     ),
                 )
             );
-            $areas_externo = json_decode(utf8_encode($areas_externo));        
+            $areas_externo = json_decode(json_encode($array));        
             foreach ($areas_externo->area as $aer){
                     DB::table('sw_asistencias')->where('usuario_created_at', '=', Auth::user()->id)->delete();
 
@@ -578,8 +578,8 @@ class EnvioAutomaticoController extends \BaseController {
 //                          else
 //                              $email = '';
 
-                          $email='rcapchab@gmail.com';
-                          $email_copia='';
+                          $email='consultas.gmgm@gmail.com';
+                          $email_copia='rcapchab@gmail.com';
                           // --
 
                           $nota = '<br>
