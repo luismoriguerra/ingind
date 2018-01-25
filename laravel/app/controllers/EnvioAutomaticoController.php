@@ -509,11 +509,10 @@ class EnvioAutomaticoController extends \BaseController {
                                             </tr>
                                           </thead>
                                           <tbody>';
-                    
+                    $html_table_body = '';
                     foreach ($reporte as $val){
                         
                       $acu_asiste = 0;
-                      $html_table_body = '';
                       $acu_asiste = $acu_asiste + $val->faltas;
                       $acu_asiste = $acu_asiste + $val->tardanza;
                       $acu_asiste = $acu_asiste + $val->lic_sg;
@@ -601,7 +600,7 @@ class EnvioAutomaticoController extends \BaseController {
                               'cuerpo' => str_replace($buscar, $reemplazar, $plantilla->cuerpo)
                           );        
 
-                          if ($email != '' AND $$html_table_body!=''){
+                          if ($email != '' AND $html_table_body!=''){
                               try {
                                   Mail::send('notreirel', $parametros, function($message) use ($email, $email_copia) {
                                                      $message->to($email);
