@@ -335,10 +335,10 @@ class EnvioAutomaticoController extends \BaseController {
         $meses = array('', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre');
 
         $n = 1;
-        $hoy = date('Y-m-d');
+        $hoy ='2018-01-22'; //date('Y-m-d');
         
         $dia_validar = date('w', strtotime($hoy));
-        if ( $dia_validar == 4) // Proceso ejecuta L =1
+        if ( $dia_validar == 1) // Proceso ejecuta L =1
         {
             DB::beginTransaction();
             // --
@@ -346,7 +346,6 @@ class EnvioAutomaticoController extends \BaseController {
 
             $fecha_ini = date('Y/m/d', strtotime('-7 day', strtotime($hoy))); // 2017/09/01
             $fecha_fin = date('Y/m/d', strtotime('-1 day', strtotime($hoy))); // 2017/09/15
-            $area_ws = ''; // 240000 = Modernización
 
             $dias=20-1;
             $fecha_i = str_replace('/', '-', $fecha_ini);
@@ -360,8 +359,12 @@ class EnvioAutomaticoController extends \BaseController {
             $array = array(
                 'area' => array(
                     array(
-                        "id" => "050005",
-                        "area" => "generales",
+                        "id" => "240000",
+                        "area" => "GMGM",
+                    ),
+                    array(
+                        "id" => "210000",
+                        "area" => "seguimiento",
                     ),
                 )
             );
@@ -468,7 +471,6 @@ class EnvioAutomaticoController extends \BaseController {
                     $reporte = DB::select($Ssql);
                     
                     
-
                     $html_table_header = '<table border="0" cellspacing="0" style="font-size: 11px; overflow:hidden; border:2px solid #EAE8E7; background:#fefefe; border-radius:5px;">
                                           <thead>
                                             <tr>
@@ -557,7 +559,8 @@ class EnvioAutomaticoController extends \BaseController {
                         }
                     }
                           $html_table_footer= '</tbody>
-                                        </table>';                
+                                        </table>';      
+                    
                           $html_table=$html_table_header.$html_table_body.$html_table_footer;
 
 //                          $persona = Persona::where('personas.id','=',$val->persona_id)
@@ -598,7 +601,7 @@ class EnvioAutomaticoController extends \BaseController {
                               'cuerpo' => str_replace($buscar, $reemplazar, $plantilla->cuerpo)
                           );        
 
-                          if ($email != ''){
+                          if ($email != '' AND $$html_table_body!=''){
                               try {
                                   Mail::send('notreirel', $parametros, function($message) use ($email, $email_copia) {
                                                      $message->to($email);
