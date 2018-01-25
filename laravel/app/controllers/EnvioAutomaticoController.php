@@ -360,8 +360,8 @@ class EnvioAutomaticoController extends \BaseController {
             $array = array(
                 'area' => array(
                     array(
-                        "id" => "240000",
-                        "area" => "GMGM",
+                        "id" => "180000",
+                        "area" => "FISCA",
                     ),
                 )
             );
