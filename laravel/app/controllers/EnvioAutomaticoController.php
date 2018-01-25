@@ -354,10 +354,10 @@ class EnvioAutomaticoController extends \BaseController {
             $fecha_iaux =$fecha_i;
             $fecha_faux = date("Y-m-d", strtotime($fecha_i ."+".$dias." days"));
 
-            $areas_externo = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/consul.php?opcion=area");
-            $areas_externo = json_decode(utf8_encode($areas_externo));
+           // $areas_externo = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/consul.php?opcion=area");
             
-            $array = array(
+            
+            $areas_externo = array(
                 'area' => array(
                     array(
                         "id" => "240000",
@@ -365,7 +365,7 @@ class EnvioAutomaticoController extends \BaseController {
                     ),
                 )
             );
-                    
+            $areas_externo = json_decode(utf8_encode($areas_externo));        
             foreach ($areas_externo->area as $aer){
                     DB::table('sw_asistencias')->where('usuario_created_at', '=', Auth::user()->id)->delete();
 
@@ -600,7 +600,7 @@ class EnvioAutomaticoController extends \BaseController {
 
                           if ($email != ''){
                               try {
-                                  Mail::queue('notreirel', $parametros, function($message) use ($email, $email_copia) {
+                                  Mail::send('notreirel', $parametros, function($message) use ($email, $email_copia) {
                                                      $message->to($email);
                                                   if($email_copia != ''){
                                                      $message ->cc($email_copia);
