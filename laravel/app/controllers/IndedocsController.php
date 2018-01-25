@@ -108,10 +108,11 @@ class IndedocsController extends \BaseController {
     }
 
     public function postIncidencia() {
-//        
-//        $res = file_get_contents("http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=incidencias");
-//        $result = json_decode(utf8_encode($res));
-//        var_dump($result);exit();
+        
+
+        $res = file_get_contents("http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=incidencias&fecha=".date('Ymd'));
+        $result = json_decode(utf8_encode($res));
+       
         $array = array(
             'incidencias' => array(
                 array(
@@ -137,106 +138,112 @@ class IndedocsController extends \BaseController {
         $result = json_decode(json_encode($array));
 
         foreach ($result->incidencias as $k) {
-//            DB::beginTransaction();
-            $fecha = explode('-', $k->fecha);
-            $incidencia = new CargaIncidencia;
-            $incidencia->codigo = $k->codigo;
-            $incidencia->fecha = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' ' . $k->hora . ':00';
-            $incidencia->clasificacion = $k->clasificacion;
-            $incidencia->direccion = $k->direccion;
-            $incidencia->foto = $k->foto;
-            $incidencia->contenido = $k->contenido;
-            $incidencia->save();
+            $busqueda= CargaIncidencia::where('codigo',$k->codigo)->first();
+            
+            if(count($busqueda)==0){
+                //  DB::beginTransaction();
+                    $fecha = explode('-', $k->fecha);
 
-            //PROCESO DESMONTE 5383
-            $rutaFlujo = RutaFlujo::find(5383);
+                    //PROCESO DESMONTE 5383
+                    $rutaFlujo = RutaFlujo::find(5383);
 
-            $tablarelacion = new TablaRelacion;
-            $tablarelacion->software_id = 1;
-            $tablarelacion->id_union = 'INCIDENCIAS - N° ' . str_pad($incidencia->codigo, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2];
-            $tablarelacion->sumilla = $k->contenido.' - '.$k->clasificacion;
-            $tablarelacion->estado = 1;
-            $tablarelacion->fecha_tramite = $incidencia->fecha;
-            $tablarelacion->usuario_created_at = Auth::user()->id;
-            $tablarelacion->save();
-                            
-            $ruta = new Ruta;
-            $ruta['tabla_relacion_id'] = $tablarelacion->id;
-            $ruta['fecha_inicio'] = $incidencia->fecha;
-            $ruta['ruta_flujo_id'] = $rutaFlujo->id;
-            $ruta['flujo_id'] = $rutaFlujo->flujo_id;
-            $ruta['persona_id'] = $rutaFlujo->persona_id;
-            $ruta['area_id'] = $rutaFlujo->area_id;
-            $ruta['usuario_created_at'] = Auth::user()->id;
-            $ruta->save();
+                    $tablarelacion = new TablaRelacion;
+                    $tablarelacion->software_id = 1;
+                    $tablarelacion->id_union = 'INCIDENCIAS - N° ' . str_pad($k->codigo, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2];
+                    $tablarelacion->sumilla = $k->contenido.' - '.$k->clasificacion;
+                    $tablarelacion->estado = 1;
+                    $tablarelacion->fecha_tramite = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' ' . $k->hora . ':00';
+                    $tablarelacion->usuario_created_at = Auth::user()->id;
+                    $tablarelacion->save();
 
-            /*             * **********Agregado de referidos************ */
-//            $referido = new Referido;
-//            $referido['ruta_id'] = $ruta->id;
-//            $referido['tabla_relacion_id'] = $tablarelacion->id;
-//            $referido['tipo'] = 0;
-//            $referido['referido'] = $tablarelacion->id_union;
-//            $referido['fecha_hora_referido'] = $tablarelacion->created_at;
-//            $referido['usuario_referido'] = $tablarelacion->usuario_created_at;
-//            $referido['usuario_created_at'] =Auth::user()->id;
-//            $referido->save();
+                    $ruta = new Ruta;
+                    $ruta['tabla_relacion_id'] = $tablarelacion->id;
+                    $ruta['fecha_inicio'] = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' ' . $k->hora . ':00';
+                    $ruta['ruta_flujo_id'] = $rutaFlujo->id;
+                    $ruta['flujo_id'] = $rutaFlujo->flujo_id;
+                    $ruta['persona_id'] = $rutaFlujo->persona_id;
+                    $ruta['area_id'] = $rutaFlujo->area_id;
+                    $ruta['usuario_created_at'] = Auth::user()->id;
+                    $ruta->save();
 
-            $qrutaDetalle = DB::table('rutas_flujo_detalle')
-                    ->where('ruta_flujo_id', '=', $rutaFlujo->id)
-                    ->where('estado', '=', '1')
-                    ->orderBy('norden', 'ASC')
-                    ->get();
+                    /*             * **********Agregado de referidos************ */
+        //            $referido = new Referido;
+        //            $referido['ruta_id'] = $ruta->id;
+        //            $referido['tabla_relacion_id'] = $tablarelacion->id;
+        //            $referido['tipo'] = 0;
+        //            $referido['referido'] = $tablarelacion->id_union;
+        //            $referido['fecha_hora_referido'] = $tablarelacion->created_at;
+        //            $referido['usuario_referido'] = $tablarelacion->usuario_created_at;
+        //            $referido['usuario_created_at'] =Auth::user()->id;
+        //            $referido->save();
 
-            foreach ($qrutaDetalle as $rd) {
-                $cero='';
-                if($rd->norden<10){
-                    $cero='0';
-                }
-                $rutaDetalle = new RutaDetalle;
-                $rutaDetalle['ruta_id'] = $ruta->id;
-                $rutaDetalle['area_id'] = $rd->area_id;
-                $rutaDetalle['tiempo_id'] = $rd->tiempo_id;
-                $rutaDetalle['dtiempo'] = $rd->dtiempo;
-                $rutaDetalle['norden'] = $cero.$rd->norden;
-                $rutaDetalle['estado_ruta'] = $rd->estado_ruta;
+                    $qrutaDetalle = DB::table('rutas_flujo_detalle')
+                            ->where('ruta_flujo_id', '=', $rutaFlujo->id)
+                            ->where('estado', '=', '1')
+                            ->orderBy('norden', 'ASC')
+                            ->get();
 
-                $rutaDetalle['usuario_created_at'] = Auth::user()->id;
-                $rutaDetalle->save();
+                    foreach ($qrutaDetalle as $rd) {
+                        $cero='';
+                        if($rd->norden<10){
+                            $cero='0';
+                        }
+                        $rutaDetalle = new RutaDetalle;
+                        $rutaDetalle['ruta_id'] = $ruta->id;
+                        $rutaDetalle['area_id'] = $rd->area_id;
+                        $rutaDetalle['tiempo_id'] = $rd->tiempo_id;
+                        $rutaDetalle['dtiempo'] = $rd->dtiempo;
+                        $rutaDetalle['norden'] = $cero.$rd->norden;
+                        $rutaDetalle['estado_ruta'] = $rd->estado_ruta;
 
-                if ($rutaDetalle->norden == 1) {
-                    $rutaDetalle['fecha_inicio'] = date('Y-m-d H:i:s');
-                    $rutaDetalle->save();
-                }
+                        $rutaDetalle['usuario_created_at'] = Auth::user()->id;
+                        $rutaDetalle->save();
 
-                $qrutaDetalleVerbo = DB::table('rutas_flujo_detalle_verbo')
-                        ->where('ruta_flujo_detalle_id', '=', $rd->id)
-                        ->where('estado', '=', '1')
-                        ->orderBy('orden', 'ASC')
-                        ->get();
-                if (count($qrutaDetalleVerbo) > 0) {
-                    foreach ($qrutaDetalleVerbo as $rdv) {
-                        $rutaDetalleVerbo = new RutaDetalleVerbo;
-                        $rutaDetalleVerbo['ruta_detalle_id'] = $rutaDetalle->id;
-                        $rutaDetalleVerbo['nombre'] = $rdv->nombre;
-                        $rutaDetalleVerbo['condicion'] = $rdv->condicion;
-                        $rutaDetalleVerbo['rol_id'] = $rdv->rol_id;
-                        $rutaDetalleVerbo['verbo_id'] = $rdv->verbo_id;
-                        $rutaDetalleVerbo['documento_id'] = $rdv->documento_id;
-                        $rutaDetalleVerbo['orden'] = $rdv->orden;
-                        $rutaDetalleVerbo['usuario_created_at'] = Auth::user()->id;
-                        $rutaDetalleVerbo->save();
+                        if ($rutaDetalle->norden == 1) {
+                            $rutaDetalle['fecha_inicio'] = date('Y-m-d H:i:s');
+                            $rutaDetalle['archivo'] = $k->foto;
+                            $rutaDetalle->save();
+                        }
+
+                        $qrutaDetalleVerbo = DB::table('rutas_flujo_detalle_verbo')
+                                ->where('ruta_flujo_detalle_id', '=', $rd->id)
+                                ->where('estado', '=', '1')
+                                ->orderBy('orden', 'ASC')
+                                ->get();
+                        if (count($qrutaDetalleVerbo) > 0) {
+                            foreach ($qrutaDetalleVerbo as $rdv) {
+                                $rutaDetalleVerbo = new RutaDetalleVerbo;
+                                $rutaDetalleVerbo['ruta_detalle_id'] = $rutaDetalle->id;
+                                $rutaDetalleVerbo['nombre'] = $rdv->nombre;
+                                $rutaDetalleVerbo['condicion'] = $rdv->condicion;
+                                $rutaDetalleVerbo['rol_id'] = $rdv->rol_id;
+                                $rutaDetalleVerbo['verbo_id'] = $rdv->verbo_id;
+                                $rutaDetalleVerbo['documento_id'] = $rdv->documento_id;
+                                $rutaDetalleVerbo['orden'] = $rdv->orden;
+                                $rutaDetalleVerbo['usuario_created_at'] = Auth::user()->id;
+                                $rutaDetalleVerbo->save();
+                            }
+                        }
                     }
-                }
+                    $insertMicro="INSERT INTO rutas_detalle_micro (ruta_flujo_id,ruta_id,norden,usuario_created_at)
+                                  SELECT rfdm.ruta_flujo_id2,".$ruta->id.",IF(rfdm.norden<10,CONCAT('0',norden),norden) AS norden,".Auth::user()->id."
+                                  FROM rutas_flujo_detalle_micro rfdm
+                                  WHERE rfdm.ruta_flujo_id=".$rutaFlujo->id." AND rfdm.estado=1";
+
+                    DB::insert($insertMicro);
+                    
+                    $incidencia = new CargaIncidencia;
+                    $incidencia->codigo = $k->codigo;
+                    $incidencia->fecha = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' ' . $k->hora . ':00';
+                    $incidencia->clasificacion = $k->clasificacion;
+                    $incidencia->direccion = $k->direccion;
+                    $incidencia->foto = $k->foto;
+                    $incidencia->contenido = $k->contenido;
+                    $incidencia->ruta_id=$ruta->id;
+                    $incidencia->save();
+        //          DB::commit();
             }
-            $insertMicro="INSERT INTO rutas_detalle_micro (ruta_flujo_id,ruta_id,norden,usuario_created_at)
-                          SELECT rfdm.ruta_flujo_id2,".$ruta->id.",IF(rfdm.norden<10,CONCAT('0',norden),norden) AS norden,".Auth::user()->id."
-                          FROM rutas_flujo_detalle_micro rfdm
-                          WHERE rfdm.ruta_flujo_id=".$rutaFlujo->id." AND rfdm.estado=1";
-                          
-            DB::insert($insertMicro);
-//            DB::commit();
         }
-        
         return Response::json(array('rst' => 1));
     }
 
