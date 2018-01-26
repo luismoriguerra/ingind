@@ -809,8 +809,14 @@
                                 var style_class = '';
                         } else {
                             var style_class = '';
-                        }                        
-                        html += "<td class='"+style_class+"'><a href='"+data['archivo' + i]+"'>" + res[0] + res[2] + "</a></td>";
+                        }
+                        html += "<td class='"+style_class+"'>";
+                        if((data['archivo' + i] * 1) == 0)
+                            html += res[0] + res[2];
+                        else
+                            html += "<a href='"+data['archivo' + i]+"' target='_blank'>"+res[0] + res[2] + "</a>";
+
+                        html += "</td>";
                         /*
                         if (count(res[2]) > 0) {
                             var res = res[2].split("<br>");
@@ -940,6 +946,28 @@
         // --
         Proceso.CalcularTotalActividad(id, fechames, tramite);
         // --
+    };
+
+    HTMLCargaTotalesXNumeroOrden = function (datos) {
+        var html_cabecera_tot = '';
+        var html_tot = '';
+        var n = 1;
+
+        html_cabecera_tot = "<tr class='info'>";            
+        var i = 0;
+        $.each(datos, function (index, data) {
+            html_cabecera_tot = "<th> "+data.norden+" </th>";    
+        });
+        html_cabecera_tot += "</tr>";
+
+        html_tot += "<tr style=''>";
+        $.each(datos, function (index, data) {
+                html_tot += "<td>" + data.cant + "</td>";                
+        });
+        html_tot += "</tr>";
+
+        $("#tt_orden_resum").html(html_cabecera_tot);
+        $("#tb_orden_resum").html(html_tot);
     };
 
     HTMLCargaTotalActividad = function (datos,cabecera) {

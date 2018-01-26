@@ -505,6 +505,36 @@ class ReporteController extends BaseController
       );
     }
 
+    public function postCalculartotalesxnumeroorden()
+    {
+      $array=array();
+      $array['fecha']='';$array['ruta_flujo_id']='';$array['tramite']='';
+      
+      if( Input::has('ruta_flujo_id') AND Input::get('ruta_flujo_id')!='' ){
+        $array['ruta_flujo_id'].=" AND r.ruta_flujo_id='".Input::get('ruta_flujo_id')."' ";
+      }
+      if( Input::has('fechames') AND Input::get('fechames')!=''){
+        $array['fecha'].=" AND DATE_FORMAT(r.fecha_inicio,'%Y-%m') = '".Input::get('fechames')."'";
+      }
+      if( Input::has('tramite') AND Input::get('tramite')==2){
+        $array['tramite'].=" AND (rd.dtiempo_final is null AND rd.fecha_inicio is not null) ";
+      }
+      if( Input::has('tramite') AND Input::get('tramite')==3){
+        $array['tramite'].=" AND ISNULL(rd.dtiempo_final) ";
+      }
+
+      //$data = Reporte::VerNroPasosTramite($array);
+      //$cant_pasos = $data[0]->cant;
+      $oData = Reporte::CalcularTotalesXNumeroOrden( $array );
+
+      return Response::json(
+          array(
+              'rst'=>1,
+              'datos'=>$oData['data']
+          )
+      );
+    }
+
     public function postCalculartotalactividad()
     {
       $array=array();
@@ -1865,8 +1895,8 @@ class ReporteController extends BaseController
             foreach ($result as $key => $value) {
               $alertas = DB::table('alertas')
                 ->where('ruta_detalle_id', '=', $value->id)
-		->where('estado',1)
-		->orderBy('persona_id')
+    ->where('estado',1)
+    ->orderBy('persona_id')
                 ->orderBy('fecha')
                 ->get();
 
@@ -1877,16 +1907,16 @@ class ReporteController extends BaseController
                   $persona_id=0;
                   foreach ($alertas as $index => $val) {
                     if($val->fecha >= '2017-03-28' && $val->fecha <= '2017-03-30'){
-                    	if($fechaAntigua == $val->fecha && $ruta_detalle ==$val->ruta_detalle_id && $persona_id==$val->persona_id){
+                      if($fechaAntigua == $val->fecha && $ruta_detalle ==$val->ruta_detalle_id && $persona_id==$val->persona_id){
                         $actualizar = Alerta::find($val->id);
                         $actualizar->estado=0;
                         $actualizar->save();
-             		}else{
-			$actualizar = Alerta::find($val->id);
+                }else{
+      $actualizar = Alerta::find($val->id);
                         $actualizar->estado=1;
                         $actualizar->save();
-			}
-			
+      }
+      
                     if($val->fecha >= '2017-03-28' && $val->fecha <= '2017-03-29'){
                       if($fechaAntigua == $val->fecha && $ruta_detalle ==$val->ruta_detalle_id && $persona_id==$val->persona_id){
                         $actualizar = Alerta::find($val->id);
