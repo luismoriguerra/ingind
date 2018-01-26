@@ -957,7 +957,7 @@
         html_cabecera_tot = "<tr class='info'>";            
         var i = 0;
         $.each(datos, function (index, data) {
-            html_cabecera_tot = "<th> "+data.norden+" </th>";    
+            html_cabecera_tot += "<th> "+data.norden+" </th>";    
         });
         html_cabecera_tot += "</tr>";
 
