@@ -181,10 +181,10 @@ HTMLMostrarReporte=function(datos){
         var terceros_judiciales=0;
         $.each(datos,function(index,data){
             con++;
-                if(data.dni=='70478262'){data.tardanza='0';}
+
                 if($.trim(data.cant_act) == '') var cant_act = 0;
                 else  var cant_act = $.trim(data.cant_act);
-                
+
                 if($.trim(data.tareas) == '') var tareas = 0;
                 else  var tareas = $.trim(data.tareas);
 
