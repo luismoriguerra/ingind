@@ -121,7 +121,7 @@ class IndedocsController extends \BaseController {
                     "hora" => "09:29",
                     "clasificacion" => "ARROJO DE DESMONTE Y OTROS OBJETOS",
                     "direccion" => "Huanacaure 127, Cercado de Lima 15332, Perú,",
-                    "foto" => "fotoed/4474.jpg",
+//                    "foto" => "fotoed/4474.jpg",
                     "contenido" => "Desmonte personas animales.",
                 ),
                 array(
@@ -130,7 +130,7 @@ class IndedocsController extends \BaseController {
                     "hora" => "09:36",
                     "clasificacion" => "MATERIAL DE CONSTRUCCION",
                     "direccion" => "Tupac Amaru 66, Lima 15311, Perú,null",
-                    "foto" => "fotoed/4475.jpg",
+//                    "foto" => "fotoed/4475.jpg",
                     "contenido" => "Materiales de construccion...",
                 ),
             )
@@ -201,7 +201,7 @@ class IndedocsController extends \BaseController {
 
                         if ($rutaDetalle->norden == 1) {
                             $rutaDetalle['fecha_inicio'] = date('Y-m-d H:i:s');
-                            $rutaDetalle['archivo'] = $k->foto;
+                            $rutaDetalle['archivo'] = @$k->foto;
                             $rutaDetalle->save();
                         }
 
@@ -237,7 +237,7 @@ class IndedocsController extends \BaseController {
                     $incidencia->fecha = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' ' . $k->hora . ':00';
                     $incidencia->clasificacion = $k->clasificacion;
                     $incidencia->direccion = $k->direccion;
-                    $incidencia->foto = $k->foto;
+                    $incidencia->foto = @$k->foto;
                     $incidencia->contenido = $k->contenido;
                     $incidencia->ruta_id=$ruta->id;
                     $incidencia->save();
