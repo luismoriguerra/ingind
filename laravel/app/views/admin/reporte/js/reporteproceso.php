@@ -944,6 +944,7 @@
         $("#form_ruta_flujo").css("display", "none");
 
         // --
+        Proceso.CalcularTotalesXNumeroOrden(id, fechames, tramite);
         Proceso.CalcularTotalActividad(id, fechames, tramite);
         // --
     };
