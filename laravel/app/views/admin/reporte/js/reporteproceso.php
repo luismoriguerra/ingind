@@ -944,6 +944,7 @@
         $("#form_ruta_flujo").css("display", "none");
 
         // --
+        Proceso.CalcularTotalesXNumeroOrden(id, fechames, tramite);
         Proceso.CalcularTotalActividad(id, fechames, tramite);
         // --
     };
@@ -956,7 +957,7 @@
         html_cabecera_tot = "<tr class='info'>";            
         var i = 0;
         $.each(datos, function (index, data) {
-            html_cabecera_tot = "<th> "+data.norden+" </th>";    
+            html_cabecera_tot += "<th> Actividad "+data.norden+" </th>";    
         });
         html_cabecera_tot += "</tr>";
 
