@@ -830,7 +830,7 @@ class Reporte extends Eloquent
                                 )
                             )
                         )
-                    ) act$i ";
+                    ) act$i,rd$i.archivo as archivo$i ";
 
             array_push($cabecera, $lis->cant);
         }

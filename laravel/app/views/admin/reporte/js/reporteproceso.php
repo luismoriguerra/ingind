@@ -810,7 +810,7 @@
                         } else {
                             var style_class = '';
                         }                        
-                        html += "<td class='"+style_class+"'>" + res[0] + res[2] + "</td>";
+                        html += "<td class='"+style_class+"'><a href='"+data['archivo' + i]+"'>" + res[0] + res[2] + "</a></td>";
                         /*
                         if (count(res[2]) > 0) {
                             var res = res[2].split("<br>");
