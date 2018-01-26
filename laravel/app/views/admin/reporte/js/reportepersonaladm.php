@@ -181,10 +181,10 @@ HTMLMostrarReporte=function(datos){
         var terceros_judiciales=0;
         $.each(datos,function(index,data){
             con++;
-
+                if(data.dni=='70478262'){data.tardanza='0';}
                 if($.trim(data.cant_act) == '') var cant_act = 0;
                 else  var cant_act = $.trim(data.cant_act);
-
+                
                 if($.trim(data.tareas) == '') var tareas = 0;
                 else  var tareas = $.trim(data.tareas);
 
@@ -193,7 +193,7 @@ HTMLMostrarReporte=function(datos){
 
                 if($.trim(data.docu) == '') var docu = 0;
                 else  var docu = $.trim(data.docu);
-
+                
                 html+="<tr style='font-size: 12px;'>"+
                         '<td width="3%">'+con+'</td>'+
                         '<td width="4%"><a href="'+data.foto+'" alt="'+data.nombres+'" target="_blank" ><img style="min-height: 300px !important; min-width: 300px !important;" src="'+data.foto+'" alt="'+data.nombres+'" class="img-rounded"></td>'+
