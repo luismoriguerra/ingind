@@ -142,6 +142,15 @@
                     </form>
                     <br/>
                     <div class="box-body table-responsive">
+                        <table id="t_orden_resumen" class="table table-bordered">
+                            <thead id="tt_orden_resum">
+                            </thead>
+                            <tbody id="tb_orden_resum">
+                            </tbody>
+                        </table>
+                    </div>
+                    <br/>
+                    <div class="box-body table-responsive">
                         <table id="t_actividad_resumen" class="table table-bordered">
                             <thead id="tt_actividad_resum">
                             </thead>

@@ -238,7 +238,7 @@ class Reporte extends Eloquent
                 INNER JOIN tiempos t ON t.id=rd.tiempo_id 
                 INNER JOIN flujos f ON f.id=r.flujo_id
                 LEFT JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id
-		LEFT JOIN personas p1 ON p1.id=cd.persona_id
+        LEFT JOIN personas p1 ON p1.id=cd.persona_id
                 ".$array['referido']." JOIN referidos re ON re.ruta_detalle_id=rd.ruta_detalle_id_ant and re.estado=1
                 WHERE r.estado=1 
                 AND rd.fecha_inicio!='' ".
@@ -307,7 +307,7 @@ class Reporte extends Eloquent
                 INNER JOIN tiempos t ON t.id=rd.tiempo_id
                 INNER JOIN flujos f ON f.id=r.flujo_id
                 LEFT JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id
-		LEFT JOIN personas p1 ON p1.id=cd.persona_id
+        LEFT JOIN personas p1 ON p1.id=cd.persona_id
                 ".$array['referido']." JOIN 
                 referidos re ON re.ruta_detalle_id=rd.ruta_detalle_id_ant and re.estado=1
                 WHERE r.estado=1 
@@ -851,6 +851,25 @@ class Reporte extends Eloquent
                 " GROUP BY r.id ";
 
         $oData['cabecera'] = $cabecera;
+        $oData['data'] = DB::select($sql);
+        return $oData;
+    }
+
+    public static function CalcularTotalesXNumeroOrden( $array )
+    {
+        $sql =" SELECT rd.norden, 
+                COUNT(IF(rd.fecha_inicio!='' AND rd.dtiempo_final IS NULL,rd.id,NULL)) cant
+                FROM rutas r
+                INNER JOIN rutas_detalle rd ON r.id = rd.ruta_id
+                INNER JOIN areas a ON a.id = rd.area_id ";
+        $sql .=" WHERE r.estado=1
+                 AND rd.estado=1
+                 AND rd.condicion = 0  ".
+                $array['ruta_flujo_id'].
+                $array['fecha'].
+                " GROUP BY rd.norden ";
+
+        $oData['cabecera'] = array();
         $oData['data'] = DB::select($sql);
         return $oData;
     }
