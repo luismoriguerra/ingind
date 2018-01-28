@@ -8,7 +8,7 @@ Route::get(
             'area'      => 'Area Prueba',
             'procesoe'  => 'Proceso Nuevo',
             'personae'  => 'Jorge Salcedo',
-            'areae'     => 'Gerente de Modernización'
+            'areae'     => 'Gerente de Modernización de la Gestión Municipal'
         );
 
         //try{
@@ -16,7 +16,7 @@ Route::get(
                 function($message) use($email){
                 $message
                 ->to($email)
-                ->subject('.::Se ha involucrado en nuevo proceso::.');
+                ->subject('.::Nuevo Proceso::.');
                 }
             );
 
