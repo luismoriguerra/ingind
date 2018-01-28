@@ -12,7 +12,7 @@ Route::get(
         );
 
         //try{
-            Mail::queue('emails', $parametros ,
+            Mail::send('emails', $parametros ,
                 function($message) use($email){
                 $message
                 ->to($email)
