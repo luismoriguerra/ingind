@@ -112,31 +112,37 @@ class IndedocsController extends \BaseController {
 
         $res = file_get_contents("http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=incidencias&fecha=".date('Ymd'));
         $result = json_decode(utf8_encode($res));
-       
+       /*
         $array = array(
             'incidencias' => array(
                 array(
                     "codigo" => "4474",
-                    "fecha" => "18-10-2017",
+                    "fecha" => "18-10-2018",
                     "hora" => "09:29",
                     "clasificacion" => "ARROJO DE DESMONTE Y OTROS OBJETOS",
                     "direccion" => "Huanacaure 127, Cercado de Lima 15332, Perú,",
-//                    "foto" => "fotoed/4474.jpg",
+                    // "foto" => "fotoed/4474.jpg",
+                    "foto" => "http://www.muniindependencia.gob.pe/sicmovil/fotoed/18201.jpg",
                     "contenido" => "Desmonte personas animales.",
                 ),
                 array(
                     "codigo" => "4475",
-                    "fecha" => "18-10-2017",
+                    "fecha" => "18-10-2018",
                     "hora" => "09:36",
                     "clasificacion" => "MATERIAL DE CONSTRUCCION",
                     "direccion" => "Tupac Amaru 66, Lima 15311, Perú,null",
-//                    "foto" => "fotoed/4475.jpg",
+                    // "foto" => "fotoed/4475.jpg",
+                    "foto" => "http://www.muniindependencia.gob.pe/sicmovil/fotoed/18205.jpg",
                     "contenido" => "Materiales de construccion...",
                 ),
             )
         );
         $result = json_decode(json_encode($array));
-
+        */
+        /*
+        echo '<pre>';
+        print_r($result);
+        exit;*/
         foreach ($result->incidencias as $k) {
             $busqueda= CargaIncidencia::where('codigo',$k->codigo)->first();
             
