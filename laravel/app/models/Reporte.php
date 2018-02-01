@@ -394,9 +394,8 @@ class Reporte extends Eloquent
                 IFNULL(rd.fecha_inicio,'') fecha_inicio,
                 rd.norden,
                 rd.estado_ruta AS estado_ruta,
-                f.nombre proceso,
-                ta.nombre tipo_tarea, cd.actividad descripcion, a.nemonico, 
-                CONCAT(p.paterno,' ',p.materno,', ',p.nombre) responsable, cd.recursos,
+                f.nombre proceso, a.nemonico, 
+                CONCAT(p.paterno,' ',p.materno,', ',p.nombre) responsable, 
                 p.email_mdi,p.email,p.rol_id,
                 IFNULL(
                 (   SELECT CONCAT(a.fecha,'|',a.tipo)
@@ -423,11 +422,9 @@ class Reporte extends Eloquent
                 ) email_seguimiento
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
-                INNER JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id AND cd.estado=1
-                INNER JOIN areas a ON a.id=cd.area_id
-                INNER JOIN personas p ON p.id=cd.persona_id
+                INNER JOIN areas a ON a.id=rd.area_id
+                INNER JOIN personas p ON p.id=rd.persona_responsable_id
                 INNER JOIN personas p2 ON p2.area_id=a.id AND FIND_IN_SET(p2.rol_id,'8,9') AND p2.estado=1
-                INNER JOIN tipo_actividad ta ON ta.id=cd.tipo_actividad_id
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
                 INNER JOIN tiempos t ON t.id=rd.tiempo_id
                 INNER JOIN flujos f ON f.id=r.flujo_id

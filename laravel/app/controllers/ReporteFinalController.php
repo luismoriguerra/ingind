@@ -680,10 +680,10 @@ class ReporteFinalController extends BaseController
           $value->email='';
           $value->persona_id=$value->jefe_id;
           $alerta[1]='';
-          $cd=CartaDesglose::where('ruta_detalle_id',$value->ruta_detalle_id)->first();
-          $cartaDesglose=CartaDesglose::find($cd->id);
-          $cartaDesglose->persona_id=$value->jefe_id;
-          $cartaDesglose->save();
+
+          $rutaDetalle= RutaDetalle::find($value->ruta_detalle_id);
+          $rutaDetalle->persona_responsable_id=$value->jefe_id;
+          $rutaDetalle->save();
         }
         else if(  trim($value->responsable_auto_id)!='' AND $value->responsable_auto_id!= $value->persona_id){
           $value->responsable=$value->responsable_auto;
@@ -691,19 +691,16 @@ class ReporteFinalController extends BaseController
           $value->email=$value->email_responsable_auto;
           $value->persona_id=$value->responsable_auto_id;
           $alerta[1]='';
-          $cd=CartaDesglose::where('ruta_detalle_id',$value->ruta_detalle_id)->first();
-          $cartaDesglose=CartaDesglose::find($cd->id);
-          $cartaDesglose->persona_id=$value->responsable_auto_id;
-          $cartaDesglose->save();
+
+          $rutaDetalle= RutaDetalle::find($value->ruta_detalle_id);
+          $rutaDetalle->persona_responsable_id=$value->responsable_auto_id;
+          $rutaDetalle->save();
         }
 
         $html.="<tr>";
-        $html.="<td>".$value->tipo_tarea."</td>";
-        $html.="<td>".$value->descripcion."</td>";
         $html.="<td>".$value->nemonico."</td>";
         $html.="<td>".$value->responsable."</td>";
         $html.="<td>".$value->email_mdi."<br>".$value->email."</td>";
-        $html.="<td>".$value->recursos."</td>";
         $html.="<td>".$value->proceso."</td>";
         $html.="<td>".$value->id_union."</td>";
         $html.="<td>".$value->norden."</td>";
@@ -722,10 +719,9 @@ class ReporteFinalController extends BaseController
         elseif($alerta[1]!='' AND $alerta[1]==2){
           $tipo=$alerta[1]+1;
           $texto=".::Relevo::.";
-          $cd=CartaDesglose::where('ruta_detalle_id',$value->ruta_detalle_id)->first();
-          $cartaDesglose=CartaDesglose::find($cd->id);
-          $cartaDesglose->persona_id=$value->jefe_id;
-          $cartaDesglose->save();
+          $rutaDetalle= RutaDetalle::find($value->ruta_detalle_id);
+          $rutaDetalle->persona_responsable_id=$value->jefe_id;
+          $rutaDetalle->save();
         }
         elseif($alerta[1]!='' AND $alerta[1]==3){
           $tipo=1;

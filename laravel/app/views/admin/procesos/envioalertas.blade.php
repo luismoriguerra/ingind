@@ -48,12 +48,9 @@
                     <table id="t_reporte" class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Actividad</th>
-                                <th>Descripción de la Actividad</th>
                                 <th>Área</th>
                                 <th>Responsable</th>
                                 <th>Email</th>
-                                <th>Recursos</th>
                                 <th>Proceso</th>
                                 <th>Trámite</th>
                                 <th>Paso</th>

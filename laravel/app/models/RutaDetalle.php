@@ -50,11 +50,11 @@ class RutaDetalle extends Eloquent
         $query =
             'SELECT rd.ruta_id,DATE_ADD(rd.fecha_inicio, INTERVAL 19 HOUR) as hora_fin_mayor,DATE_ADD(rd.fecha_inicio, INTERVAL 4 HOUR) as hora_fin_menor, NOW() as fecha_actual,rd.id, rd.dtiempo_final, r.flujo_id, 
              rd.ruta_flujo_id as rd_ruta_flujo_id,
-            CONCAT(t.nombre," : ",rd.dtiempo) tiempo, rd.tiempo_id idtiempo,rd.motivo_edit motivo, cd.id carta_deglose_id,
-            rd.observacion,r.ruta_flujo_id, IFNULL(cd.persona_id,"") persona_id,
+            CONCAT(t.nombre," : ",rd.dtiempo) tiempo, rd.tiempo_id idtiempo,rd.motivo_edit motivo,
+            rd.observacion,r.ruta_flujo_id, IFNULL(rd.persona_responsable_id,"") persona_responsable_id,
             IFNULL(CONCAT(p2.paterno," ",p2.materno,", ",p2.nombre),"") persona_responsable,
             a.nombre AS area,f.nombre AS flujo,
-            s.nombre AS software,tr.id_union AS id_doc,tr.id id_tr,
+            tr.id_union AS id_doc,tr.id id_tr,
             rd.norden, IFNULL(rd.fecha_inicio,"") AS fecha_inicio,
             CONCAT( ts.nombre,": ",
                 IF(tr.tipo_persona=1 or tr.tipo_persona=6,
@@ -134,11 +134,9 @@ class RutaDetalle extends Eloquent
             INNER JOIN flujos f ON f.id=r.flujo_id
             INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id
             INNER JOIN tiempos t ON t.id=rd.tiempo_id 
-            INNER JOIN softwares s ON s.id=tr.software_id
             LEFT JOIN tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
-            LEFT JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id
             LEFT JOIN personas p ON p.id=rdv.usuario_updated_at
-            LEFT JOIN personas p2 ON p2.id=cd.persona_id
+            LEFT JOIN personas p2 ON p2.id=rd.persona_responsable_id
             LEFT JOIN roles ro ON ro.id=rdv.rol_id
             LEFT JOIN verbos ve ON ve.id=rdv.verbo_id
             LEFT JOIN documentos do ON do.id=rdv.documento_id'.

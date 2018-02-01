@@ -167,7 +167,7 @@ $(document).ready(function() {
 
 ActualizarResponsable=function(val){
     if( $.trim( $("#slct_persona").attr("data-id") )!='' ){
-        var data={persona_id:val,carta_deglose_id:$("#slct_persona").attr("data-id")};
+        var data={persona_id:val,ruta_detalle_id:$("#slct_persona").attr("data-id")};
         var ruta='asignacion/responsable';
         Bandeja.AsignacionPersonas(data,ruta);
     }
@@ -360,10 +360,10 @@ mostrarDetalleHTML=function(datos){
     /*fin puede regresar al paso anterior*/
 
     if( RolIdG==8 || RolIdG==9 ){
-        $("#slct_persona").attr("data-id",datos.carta_deglose_id);
+        $("#slct_persona").attr("data-id",datos.id); //carta_deglose_id
         $("#slct_persona").val('');
         $('#slct_persona').multiselect('rebuild');
-        $("#slct_persona").val(datos.persona_id);
+        $("#slct_persona").val(datos.persona_responsable_id);
         $('#slct_persona').multiselect('rebuild');
     }
     else{
@@ -428,7 +428,7 @@ mostrarDetalleHTML=function(datos){
     }
 
     html_pd = '';
-    var data_fotos = datos.archivo.split("|");
+    var data_fotos = $.trim(datos.archivo).split("|");
     $.each(data_fotos, function (index, d_foto) {
         html_pd += '<div class="col-md-1" style="padding-left: 0px; padding-right: 10px;"><a href="'+d_foto+'" target="_blank"><img src="'+d_foto+'" alt=""  border="0" class="img-responsive foto_desmonte"></a></div>';
     });
