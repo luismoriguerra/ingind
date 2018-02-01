@@ -225,6 +225,9 @@ class RutaDetalleController extends \BaseController
                         $sql="SELECT CalcularFechaFinal( '".$fecha_inicio."', (".$rd->dtiempo."*1440), ".$rd->area_id." ) fproy";
                         $fproy= DB::select($sql);
                         $rdetalle['fecha_proyectada']=$fproy[0]->fproy;
+                        $rdetalle['persona_responsable_id']=$rd->persona_responsable_id;
+                        $rdetalle['ruta_detalle_id_ant']=$rd->ruta_detalle_id_ant;
+                        $rdetalle['archivo']=$rd->archivo;
                     }
                     $rdetalle['estado_ruta'] = 1;
                     $rdetalle['created_at'] =  date("Y-m-d H:i:s");  
@@ -305,7 +308,7 @@ class RutaDetalleController extends \BaseController
             $coddocg= explode( "|",Input::get('coddocg') );
 
             if(Input::has('coddocdig')){
-                $coddocdig= explode( "|",Input::get('coddocdig'));                
+                $coddocdig= explode( "|",Input::get('coddocdig')); 
             }
                 
                 for( $i=0; $i<count($verbog); $i++ ){
