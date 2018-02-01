@@ -66,6 +66,40 @@ var Validar={
             }
         });
     },
+    guardarArhivoDesmonte:function(evento,id, data){
+        $.ajax({
+            url         : 'ruta_detalle/actualizararchivodesmonte',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : data,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay,.loading-img").remove();
+                if(obj.rst==1){
+                    Close();
+                    if(id!=null){
+                        var rta_id= document.querySelector('#ruta_id').value;
+                        evento(id,(rta_id) ? rta_id : '');
+                    }
+                    else if(evento!=null){
+                        evento();
+                    }
+                    else{
+                        Close(1);
+                        Bandeja.MostrarAjax();
+                    }
+                    msjG.mensaje("success",obj.msj,5000);
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
+            }
+        });
+    },
     guardarValidacion:function(evento,id){
         var datos=$("#form_ruta_detalle").serialize().split("txt_").join("").split("slct_").join("").split("_modal").join("");
         $.ajax({

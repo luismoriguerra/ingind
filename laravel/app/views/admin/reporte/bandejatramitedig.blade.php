@@ -289,7 +289,7 @@ tr.shown td.details-control {
                                         <div class="col-sm-12" style="margin-top:10px;margin-bottom: 20px">
                                             
                                             <div class="table-responsive">
-                                                <div class="col-md-12 foto_desmonte" id="div_fotos_desmonte" style="display: none; padding-bottom: 5px; margin-bottom: 5px; border: 3px solid #3c8dbc36; padding-top: 5px; padding-left: 0px; padding-right: 0px; background-color: #fff;">
+                                                <div class="col-md-12 foto_desmonte" id="div_fotos_desmonte" style="padding-bottom: 5px; margin-bottom: 5px; border: 3px solid #3c8dbc36; padding-top: 5px; padding-left: 0px; padding-right: 0px; background-color: #fff;">
                                                     <style>
                                                         .foto_desmonte {
                                                             overflow:hidden;
@@ -303,9 +303,9 @@ tr.shown td.details-control {
                                                         }
                                                     </style>
                                                     <div id="d_ver_fotos" class="col-md-10"></div>
-                                                    <div id="d_subir_fotos" class="col-md-2">
+                                                    <div id="d_subir_fotos" class="col-md-2 valido">
+                                                        <input type="hidden" id="txt_archivo_desmonte" name="txt_archivo_desmonte[]">
                                                         <div class="validoarchivo" style="">
-                                                            <!-- <label>Archivos:</label> -->
                                                             <form name="form_darchivo" id="form_darchivo" enctype="”multipart/form-data”">
                                                                 <table id="t_darchivo" class="table table-bordered" style="margin-bottom: 0px !important;">
                                                                     <thead class="bg-aqua disabled color-palette" style="background-color: #3c8dbc !important;">
@@ -322,6 +322,11 @@ tr.shown td.details-control {
                                                                             <td><input type="hidden" value="0"></td>
                                                                         </tr>
                                                                     </tbody>
+                                                                    <tfoot id="tb_darchivo"> 
+                                                                        <tr>
+                                                                            <td colspan="3" class="text-center"><button type="button" onclick="guardarArhivoDesmonte()" id="btn_guardarfoto" name="btn_guardarfoto" class="btn btn-info">Guardar Archivo</button></td>
+                                                                        </tr>
+                                                                    </tfoot>
                                                                 </table>
                                                             </form>
                                                         </div>

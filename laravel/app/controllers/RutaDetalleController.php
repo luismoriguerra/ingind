@@ -556,39 +556,11 @@ class RutaDetalleController extends \BaseController
                 DB::commit();
                 /******************************************Validación del Documento***********************************************/
                 /*********************************************************************************************************************/
-                // PROCESO DESMONTE
-                /*
-                for($i=1;$i<count($value['archivo']);$i++){
-                    $dato=explode('|', $value['archivo'][$i]);
-                    
-                    $url = "file/actividad/".date("Y-m-d")."-".$dato[0];
-                    $this->fileToFile($dato[1], $url);
-                    $ruta=date("Y-m-d").'-'.$dato[0];
-                    
-                    $acti_personal_archivo = new ActividadPersonalArchivo();
-                    $acti_personal_archivo->actividad_personal_id=$acti_personal->id;
-                    $acti_personal_archivo->ruta=$ruta;
-                    $acti_personal_archivo->usuario_created_at = Auth::user()->id;
-                    $acti_personal_archivo->save();
-                }
-            
-                for($i=1;$i<count($value['documento']);$i++){
-
-                    $acti_personal_archivo = new ActividadPersonalDocdigital();
-                    $acti_personal_archivo->actividad_personal_id=$acti_personal->id;
-                    $acti_personal_archivo->doc_digital_id=$value['documento'][$i];
-                    $acti_personal_archivo->usuario_created_at = Auth::user()->id;
-                    $acti_personal_archivo->save();
-                }
-                */
-                // --
-
-
-                    return Response::json(array(
-                        'rst'=>1,
-                        'msj'=>'Se realizó con éxito',
-                        'datos'=>$datos
-                    )); 
+                return Response::json(array(
+                    'rst'=>1,
+                    'msj'=>'Se realizó con éxito',
+                    'datos'=>$datos
+                )); 
             }
             else{
                 DB::commit();
@@ -601,6 +573,80 @@ class RutaDetalleController extends \BaseController
                 );
             }
         }
+    }
+
+
+    // ARCHIVOS PROCESO DESMONTE
+    public function postActualizararchivodesmonte() {
+        /*
+        echo '<pre>';
+        print_r(Input::get('archivo_desmonte'));
+        exit;
+        */
+        if ( Input::has('info') ) {
+            $datos = array();
+            $info = Input::get('info');
+
+            DB::beginTransaction();
+            if(count($info) > 0){                
+                /*echo '<pre>';
+                var_dump($info);
+                exit;
+                */
+                foreach ($info as $key => $value) {
+                    
+                    for ($i=1;$i<count($value['archivo']);$i++) {
+                        $dato=explode('|', $value['archivo'][$i]);                        
+                        $url = "img/admin/ruta_detalle/".date("Y-m-d")."-".$value['ruta_detalle_id'][$i].'-'.$dato[0];  
+                        //echo $dato[1].' :::: '.$url.'<br>';
+                        $this->fileToFile($dato[1], $url);
+                        $ruta=date("Y-m-d")."-".$value['ruta_detalle_id'][$i].'-'.$dato[0];
+                        /*
+                        $acti_personal_archivo = new ActividadPersonalArchivo();
+                        $acti_personal_archivo->actividad_personal_id=$acti_personal->id;
+                        $acti_personal_archivo->ruta=$ruta;
+                        $acti_personal_archivo->usuario_created_at = Auth::user()->id;
+                        $acti_personal_archivo->save();
+                        */
+                    }   
+   
+
+                }
+                //exit;
+            }
+            DB::commit();
+        }
+
+        return Response::json(
+                    array(
+                        'rst'=>'1',
+                        'msj'=>'Se realizó con éxito',
+                        'datos'=>$datos
+                    )
+                );
+    }
+    // --
+
+    public function fileToFile($file, $url)
+    {
+        if ( !is_dir('img') ) {
+            mkdir('img',0777);
+        }
+        if ( !is_dir('img/admin/ruta_detalle/') ) {
+            mkdir('img/admin/ruta_detalle/',0777);
+        }
+
+        list($type, $file) = explode(';', $file);
+        list(, $type) = explode('/', $type);
+        if ($type=='jpeg') $type='jpg';
+        if (strpos($type,'document')!==False) $type='docx';
+        if (strpos($type, 'sheet') !== False) $type='xlsx';
+        if (strpos($type, 'pdf') !== False) $type='pdf';
+        if ($type=='plain') $type='txt';
+        list(, $file)      = explode(',', $file);
+        $file = base64_decode($file);
+        file_put_contents($url , $file);
+        return $url. $type;
     }
 
 }

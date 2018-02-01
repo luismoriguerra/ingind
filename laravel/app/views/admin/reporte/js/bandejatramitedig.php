@@ -669,7 +669,7 @@ guardarTodo=function(){
         alert("La Descripción de respuesta de la Actividad, solo esta permitido cuando seleccione Tipo de respuesta");
     }
     else if( alerta==false ){
-        if( confirm("Favor de confirmar para actualizar su información") ){
+        /*if( confirm("Favor de confirmar para actualizar su información") ){
             if(validacheck==0 || $("#slct_tipo_respuesta").val()!=''){
                 $('#slct_tipo_visualizacion').multiselect('deselectAll');
                 $('#slct_tipo_visualizacion').multiselect('refresh');
@@ -678,9 +678,41 @@ guardarTodo=function(){
             else{
                 Validar.guardarValidacion(mostrarDetallle,$("#form_ruta_detalle>#ruta_detalle_id").val() );
             }
-        }
+        }*/
+        sweetalertG.confirm("¿Desea Continuar?", "Por favor confirmar para actualizar su información", function(){
+            if(validacheck==0 || $("#slct_tipo_respuesta").val()!=''){
+                $('#slct_tipo_visualizacion').multiselect('deselectAll');
+                $('#slct_tipo_visualizacion').multiselect('refresh');
+                Validar.guardarValidacion();
+            }
+            else{
+                Validar.guardarValidacion(mostrarDetallle,$("#form_ruta_detalle>#ruta_detalle_id").val() );
+            }
+        });
     }
 }
+
+// ARCHIVOS PROCESO DESMONTE
+guardarArhivoDesmonte = function(){
+    var tbarchivo =[];
+    var tablaarchivo = $(".valido table[id='t_darchivo']").map(function(){
+        tbarchivo =[];
+        tbarchivo.push($(this).find("tbody tr").map(function(){
+                        return $(this).find('input:eq(0)').val()+'|'+$(this).find('input:eq(1)').val();
+                    }).get());
+        //console.log(tbarchivo);
+        return tbarchivo;
+    }).get();
+    
+    var data = [];
+    var ruta_detalle_id = $("#form_ruta_detalle>#ruta_detalle_id").val();
+    data.push({
+            'ruta_detalle_id' : ruta_detalle_id,
+            'archivo' : tablaarchivo
+        });  
+    Validar.guardarArhivoDesmonte(mostrarDetallle, $("#form_ruta_detalle>#ruta_detalle_id").val(), data);  
+}
+// --
 
 eventoSlctGlobalSimple=function(slct,valores){
     if( slct=="slct_tipo_respuesta" ){
