@@ -70,7 +70,7 @@ class RutaDetalle extends Eloquent
                     )
                 ) 
             ) AS solicitante
-            ,tr.fecha_tramite,tr.sumilla,
+            ,tr.fecha_tramite,tr.sumilla, rd.archivo,
             IFNULL(GROUP_CONCAT(
                 CONCAT(
                     rdv.id,

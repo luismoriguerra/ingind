@@ -286,9 +286,49 @@ tr.shown td.details-control {
                                             </div>
                                         </div>
                                         <br>
-                                        <div class="col-sm-12" style="margin-top:20px;margin-bottom: 20px">
+                                        <div class="col-sm-12" style="margin-top:10px;margin-bottom: 20px">
+                                            
                                             <div class="table-responsive">
-                                            <table class="table table-bordered" id="tbldetalleverbo">
+                                                <div class="col-md-12 foto_desmonte" id="div_fotos_desmonte" style="display: none; padding-bottom: 5px; margin-bottom: 5px; border: 3px solid #3c8dbc36; padding-top: 5px; padding-left: 0px; padding-right: 0px; background-color: #fff;">
+                                                    <style>
+                                                        .foto_desmonte {
+                                                            overflow:hidden;
+                                                            border: 2px solid #3c8dbc40;
+                                                            background:#fefefe;
+                                                            -moz-border-radius:5px;
+                                                            -webkit-border-radius:5px;
+                                                            border-radius: 10px;
+                                                            -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+                                                            -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+                                                        }
+                                                    </style>
+                                                    <div id="d_ver_fotos" class="col-md-10"></div>
+                                                    <div id="d_subir_fotos" class="col-md-2">
+                                                        <div class="validoarchivo" style="">
+                                                            <!-- <label>Archivos:</label> -->
+                                                            <form name="form_darchivo" id="form_darchivo" enctype="”multipart/form-data”">
+                                                                <table id="t_darchivo" class="table table-bordered" style="margin-bottom: 0px !important;">
+                                                                    <thead class="bg-aqua disabled color-palette" style="background-color: #3c8dbc !important;">
+                                                                        <tr>
+                                                                            <th style="width: 80%;">Subir Archivo</th>
+                                                                            <th>
+                                                                                <a class="btn btn-default btn-xs" onclick="AgregarD(this)" style="font-size: 10px;"><i class="fa fa-plus fa-lg"></i></a>
+                                                                            </th> 
+                                                                        </tr> 
+                                                                    </thead> 
+                                                                    <tbody id="tb_darchivo"> 
+                                                                        <tr style="display: none">
+                                                                            <td><input type="hidden" value="0"></td>
+                                                                            <td><input type="hidden" value="0"></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <table class="table table-bordered" id="tbldetalleverbo">
                                                 <thead>
                                                     <tr>
                                                         <th style="text-align:center" rowspan="2">Nro</th>

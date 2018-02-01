@@ -139,10 +139,6 @@ class IndedocsController extends \BaseController {
         );
         $result = json_decode(json_encode($array));
         */
-        /*
-        echo '<pre>';
-        print_r($result);
-        exit;*/
         foreach ($result->incidencias as $k) {
             $busqueda= CargaIncidencia::where('codigo',$k->codigo)->first();
             
@@ -155,7 +151,7 @@ class IndedocsController extends \BaseController {
 
                     $tablarelacion = new TablaRelacion;
                     $tablarelacion->software_id = 1;
-                    $tablarelacion->id_union = 'INCIDENCIAS - N° ' . str_pad($k->codigo, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2];
+                    $tablarelacion->id_union = 'COMUNICADO EDUCATIVO - Nº ' . str_pad($k->codigo, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
                     $tablarelacion->sumilla = $k->contenido.' - '.$k->clasificacion;
                     $tablarelacion->estado = 1;
                     $tablarelacion->fecha_tramite = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' ' . $k->hora . ':00';

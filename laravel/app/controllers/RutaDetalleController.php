@@ -553,6 +553,34 @@ class RutaDetalleController extends \BaseController
                 DB::commit();
                 /******************************************Validación del Documento***********************************************/
                 /*********************************************************************************************************************/
+                // PROCESO DESMONTE
+                /*
+                for($i=1;$i<count($value['archivo']);$i++){
+                    $dato=explode('|', $value['archivo'][$i]);
+                    
+                    $url = "file/actividad/".date("Y-m-d")."-".$dato[0];
+                    $this->fileToFile($dato[1], $url);
+                    $ruta=date("Y-m-d").'-'.$dato[0];
+                    
+                    $acti_personal_archivo = new ActividadPersonalArchivo();
+                    $acti_personal_archivo->actividad_personal_id=$acti_personal->id;
+                    $acti_personal_archivo->ruta=$ruta;
+                    $acti_personal_archivo->usuario_created_at = Auth::user()->id;
+                    $acti_personal_archivo->save();
+                }
+            
+                for($i=1;$i<count($value['documento']);$i++){
+
+                    $acti_personal_archivo = new ActividadPersonalDocdigital();
+                    $acti_personal_archivo->actividad_personal_id=$acti_personal->id;
+                    $acti_personal_archivo->doc_digital_id=$value['documento'][$i];
+                    $acti_personal_archivo->usuario_created_at = Auth::user()->id;
+                    $acti_personal_archivo->save();
+                }
+                */
+                // --
+
+
                     return Response::json(array(
                         'rst'=>1,
                         'msj'=>'Se realizó con éxito',

@@ -158,6 +158,11 @@ $(document).ready(function() {
       MostrarAjax();
     });
 
+    // --
+    $(document).on('click', '.btnDeleteitem', function (event) {
+            $(this).parent().parent().remove();
+    });
+    // --
 });
 
 ActualizarResponsable=function(val){
@@ -383,6 +388,55 @@ mostrarDetalleHTML=function(datos){
     $("#form_ruta_detalle>#txt_fecha_max").remove();
     $("#form_ruta_detalle").append("<input type='hidden' id='txt_fecha_max' name='txt_fecha_max' value='"+datos.fecha_max+"'>");
 
+
+    // FOTOS PROCESO DESMONTE:
+    AgregarD = function (obj) {
+        var tabla=obj.parentNode.parentNode.parentNode.parentNode;
+        var html = '';
+        html += "<tr>";
+        html += "<td>";
+        html += '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre"  name="pago_nombre[]" value="">' +
+                '<input type="text"  style="display: none;" id="pago_archivo" name="pago_archivo[]">' +
+                '<label class="btn btn-default btn-flat margin btn-xs">' +
+                '<i class="fa fa-file-pdf-o fa-lg"></i>' +
+                '<i class="fa fa-file-word-o fa-lg"></i>' +
+                '<i class="fa fa-file-image-o fa-lg"></i>' +
+                '<input type="file" style="display: none;" onchange="onPagos(event,this);" >' +
+                '</label>';
+        html += "</td>" +
+                '<td><a id="btnDeleteitem"  name="btnDeleteitem" class="btn btn-danger btn-xs btnDeleteitem">' +
+                '<i class="fa fa-trash fa-lg"></i>' +
+                '</a></td>';
+        html += "</tr>";
+        $(tabla).find("tbody").append(html);
+    }    
+
+    onPagos = function (event,obj) {
+        var tr=obj.parentNode.parentNode;
+       console.log(tr);
+        var files = event.target.files || event.dataTransfer.files;
+        if (!files.length)
+            return;
+        var image = new Image();
+        var reader = new FileReader();
+        reader.onload = (e) => {
+            $(tr).find('input:eq(1)').val(e.target.result);
+        };
+        reader.readAsDataURL(files[0]);
+        $(tr).find('input:eq(0)').val(files[0].name);
+        console.log(files[0].name);
+    }
+
+    html_pd = '';
+    var data_fotos = datos.archivo.split("|");
+    $.each(data_fotos, function (index, d_foto) {
+        html_pd += '<div class="col-md-1" style="padding-left: 0px; padding-right: 10px;"><a href="'+d_foto+'" target="_blank"><img src="'+d_foto+'" alt=""  border="0" class="img-responsive foto_desmonte"></a></div>';
+    });
+    //html_pd += '<div class="col-md-1" style="padding-left: 0px; padding-right: 10px;"><a href="'+datos.archivo+'" target="_blank"><img src="'+datos.archivo+'" alt=""  border="0" class="img-responsive foto_desmonte"></a></div>';
+
+    $("#d_ver_fotos").html(html_pd);
+    // --
+
   /*  $("#t_detalle_verbo").html("");*/
     var detalle="";
     var html="";
@@ -485,6 +539,7 @@ mostrarDetalleHTML=function(datos){
                 html+=    "<td style='vertical-align : middle;'>"+rol+"</td>";
                 html+=    "<td style='vertical-align : middle;'>"+verbo+"</td>";
                 html+=    "<td style='vertical-align : middle;'>"+documento+"</td>";
+                //html+=    "<td style='vertical-align : middle;'>"+detalle[i].split("=>")[1]+"</td>";
                 html+=    "<td style='vertical-align : middle;'>"+detalle[i].split("=>")[1]+"</td>";
                 html+=    "<td style='vertical-align : middle;' id='td_"+detalle[i].split("=>")[0]+"'>"+imagenadd+"</td>";
                 html+=    "<td style='vertical-align : middle;'>"+obs+"</td>";
