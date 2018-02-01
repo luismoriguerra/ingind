@@ -548,7 +548,7 @@ class Ruta extends Eloquent
         $ruta['usuario_created_at']= Auth::user()->id;
         $ruta->save();
         /**************CARTA *************************************************/
-        $carta=array();
+        /*$carta=array();
         if( Input::has('carta_id') ){
             $carta= Carta::find(Input::get('carta_id'));
         }
@@ -573,6 +573,7 @@ class Ruta extends Eloquent
             $carta['usuario_updated_at']=Auth::user()->id;
             $carta['ruta_id']=$ruta->id;
             $carta->save();
+        */
         /*********************************************************************/
         /************Agregado de referidos*************/
         $referido=new Referido;
@@ -670,6 +671,7 @@ class Ruta extends Eloquent
                 $rutaDetalle['usuario_created_at']= Auth::user()->id;
                 $rutaDetalle->save();*/
                 /**************CARTA DESGLOSE*********************************/
+                /*
                 $cartaDesglose=array();
                 if( Input::has('carta_id') ){
                     $carta_id=Input::get('carta_id');
@@ -690,7 +692,7 @@ class Ruta extends Eloquent
                             AND rol_id IN (8,9,70)
                             AND area_id='".$rutaDetalle->area_id."'";
                     $person=DB::select($sql);
-                        /***********MEDIR LOS TIEMPOS**************************/
+                        ///MEDIR LOS TIEMPOS////
                         $cantmin=0;
                         if( $rutaDetalle->tiempo_id==1 ){
                             $cantmin=60;
@@ -725,6 +727,7 @@ class Ruta extends Eloquent
                 }
                     $cartaDesglose['ruta_detalle_id']=$rutaDetalle->id;
                     $cartaDesglose->save();
+                */
                 /*************************************************************/
                 if( $index==0 AND Input::has('carta_id') ){
                     $rutaDetalleVerbo = new RutaDetalleVerbo;
@@ -973,6 +976,7 @@ class Ruta extends Eloquent
                 $ruta['usuario_created_at']= Auth::user()->id;
                 $ruta->save();
                 /**************CARTA *************************************************/
+                /*
                 $carta=array();
                 if( Input::has('carta_id') ){
                     $carta= Carta::find(Input::get('carta_id'));
@@ -998,6 +1002,7 @@ class Ruta extends Eloquent
                     $carta['usuario_updated_at']=Auth::user()->id;
                     $carta['ruta_id']=$ruta->id;
                     $carta->save();
+                */
 
                 $qrutaDetalle=DB::table('rutas_flujo_detalle')
                     ->where('ruta_flujo_id', '=', 3720)

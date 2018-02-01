@@ -306,8 +306,7 @@ class Reporte extends Eloquent
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
                 INNER JOIN tiempos t ON t.id=rd.tiempo_id
                 INNER JOIN flujos f ON f.id=r.flujo_id
-                LEFT JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id
-        LEFT JOIN personas p1 ON p1.id=cd.persona_id
+                LEFT JOIN personas p1 ON p1.id=rd.persona_responsable_id
                 ".$array['referido']." JOIN 
                 referidos re ON re.ruta_detalle_id=rd.ruta_detalle_id_ant and re.estado=1
                 WHERE r.estado=1 
