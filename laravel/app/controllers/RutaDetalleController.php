@@ -583,45 +583,46 @@ class RutaDetalleController extends \BaseController
         print_r(Input::get('archivo_desmonte'));
         exit;
         */
-        if ( Input::has('info') ) {
-            $datos = array();
-            $info = Input::get('info');
+        if ( Input::has('pago_archivo') ) {
 
-            DB::beginTransaction();
-            if(count($info) > 0){                
-                /*echo '<pre>';
-                var_dump($info);
-                exit;
-                */
-                foreach ($info as $key => $value) {
-                    
-                    for ($i=1;$i<count($value['archivo']);$i++) {
-                        $dato=explode('|', $value['archivo'][$i]);                        
-                        $url = "img/admin/ruta_detalle/".date("Y-m-d")."-".$value['ruta_detalle_id'][$i].'-'.$dato[0];  
+            $archivo= Input::get('pago_archivo');
+            $nombre= Input::get('pago_nombre');
+            $ruta_detalle_id = Input::get('ruta_detalle_id');
+            $rpta='';
+
+            if(count($archivo) > 0){
+                for ($i=0; $i< count($archivo); $i++) {
+                        $url = "img/admin/ruta_detalle/".date("Y-m-d")."-".$ruta_detalle_id.'-'.$nombre[$i];
                         //echo $dato[1].' :::: '.$url.'<br>';
-                        $this->fileToFile($dato[1], $url);
-                        $ruta=date("Y-m-d")."-".$value['ruta_detalle_id'][$i].'-'.$dato[0];
-                        /*
-                        $acti_personal_archivo = new ActividadPersonalArchivo();
-                        $acti_personal_archivo->actividad_personal_id=$acti_personal->id;
-                        $acti_personal_archivo->ruta=$ruta;
-                        $acti_personal_archivo->usuario_created_at = Auth::user()->id;
-                        $acti_personal_archivo->save();
-                        */
-                    }   
-   
-
+                        $this->fileToFile($archivo[$i], $url);
+                        if($i==0){
+                            $rpta=$url;
+                        }
+                        else{
+                            $rpta.="|".$url;
+                        }
                 }
-                //exit;
+                        
+                        $rutaDetalle = RutaDetalle::find($ruta_detalle_id);
+                        if( trim($rutaDetalle->archivo)!='' ){
+                            if($rpta!=''){
+                                $rpta.='|'.trim($rutaDetalle->archivo);
+                            }
+                            else{
+                                $rpta=trim($rutaDetalle->archivo);
+                            }
+                        }
+
+                        $rutaDetalle->archivo=$rpta;
+                        $rutaDetalle->usuario_updated_at = Auth::user()->id;
+                        $rutaDetalle->save();
             }
-            DB::commit();
         }
 
         return Response::json(
                     array(
                         'rst'=>'1',
-                        'msj'=>'Se realizó con éxito',
-                        'datos'=>$datos
+                        'msj'=>'Se realizó con éxito'
                     )
                 );
     }
@@ -629,9 +630,7 @@ class RutaDetalleController extends \BaseController
 
     public function fileToFile($file, $url)
     {
-        if ( !is_dir('img') ) {
-            mkdir('img',0777);
-        }
+
         if ( !is_dir('img/admin/ruta_detalle/') ) {
             mkdir('img/admin/ruta_detalle/',0777);
         }

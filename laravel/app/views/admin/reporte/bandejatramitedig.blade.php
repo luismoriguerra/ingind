@@ -306,7 +306,7 @@ tr.shown td.details-control {
                                                     <div id="d_subir_fotos" class="col-md-2 valido">
                                                         <input type="hidden" id="txt_archivo_desmonte" name="txt_archivo_desmonte[]">
                                                         <div class="validoarchivo" style="">
-                                                            <form name="form_darchivo" id="form_darchivo" enctype="”multipart/form-data”">
+                                                            
                                                                 <table id="t_darchivo" class="table table-bordered" style="margin-bottom: 0px !important;">
                                                                     <thead class="bg-aqua disabled color-palette" style="background-color: #3c8dbc !important;">
                                                                         <tr>
@@ -328,7 +328,7 @@ tr.shown td.details-control {
                                                                         </tr>
                                                                     </tfoot>
                                                                 </table>
-                                                            </form>
+                                                           
                                                         </div>
                                                     </div>
                                                 </div>

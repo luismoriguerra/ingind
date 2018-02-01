@@ -694,23 +694,9 @@ guardarTodo=function(){
 
 // ARCHIVOS PROCESO DESMONTE
 guardarArhivoDesmonte = function(){
-    var tbarchivo =[];
-    var tablaarchivo = $(".valido table[id='t_darchivo']").map(function(){
-        tbarchivo =[];
-        tbarchivo.push($(this).find("tbody tr").map(function(){
-                        return $(this).find('input:eq(0)').val()+'|'+$(this).find('input:eq(1)').val();
-                    }).get());
-        //console.log(tbarchivo);
-        return tbarchivo;
-    }).get();
-    
-    var data = [];
-    var ruta_detalle_id = $("#form_ruta_detalle>#ruta_detalle_id").val();
-    data.push({
-            'ruta_detalle_id' : ruta_detalle_id,
-            'archivo' : tablaarchivo
-        });  
-    Validar.guardarArhivoDesmonte(mostrarDetallle, $("#form_ruta_detalle>#ruta_detalle_id").val(), data);  
+
+    var datos=$("#form_ruta_detalle").serialize().split("txt_").join("").split("slct_").join("").split("_modal").join("");
+    Validar.guardarArhivoDesmonte(mostrarDetallle, $("#form_ruta_detalle>#ruta_detalle_id").val(), datos);  
 }
 // --
 
