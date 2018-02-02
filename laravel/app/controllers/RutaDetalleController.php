@@ -584,38 +584,37 @@ class RutaDetalleController extends \BaseController
         exit;
         */
         if ( Input::has('pago_archivo') ) {
-
             $archivo= Input::get('pago_archivo');
             $nombre= Input::get('pago_nombre');
             $ruta_detalle_id = Input::get('ruta_detalle_id');
             $rpta='';
 
-            if(count($archivo) > 0){
+            if (count($archivo) > 0) {
                 for ($i=0; $i< count($archivo); $i++) {
-                        $url = "img/admin/ruta_detalle/".date("Y-m-d")."-".$ruta_detalle_id.'-'.$nombre[$i];
-                        //echo $dato[1].' :::: '.$url.'<br>';
-                        $this->fileToFile($archivo[$i], $url);
-                        if($i==0){
-                            $rpta=$url;
-                        }
-                        else{
-                            $rpta.="|".$url;
-                        }
+                    $url = "img/admin/ruta_detalle/".date("Y-m-d")."-".$ruta_detalle_id.'-'.$nombre[$i];
+                    //echo $dato[1].' :::: '.$url.'<br>';
+                    $this->fileToFile($archivo[$i], $url);
+                    if($i==0){
+                        $rpta=$url;
+                    }
+                    else{
+                        $rpta.="|".$url;
+                    }
                 }
                         
-                        $rutaDetalle = RutaDetalle::find($ruta_detalle_id);
-                        if( trim($rutaDetalle->archivo)!='' ){
-                            if($rpta!=''){
-                                $rpta.='|'.trim($rutaDetalle->archivo);
-                            }
-                            else{
-                                $rpta=trim($rutaDetalle->archivo);
-                            }
-                        }
+                $rutaDetalle = RutaDetalle::find($ruta_detalle_id);
+                if( trim($rutaDetalle->archivo)!='' ) {
+                    if ($rpta!='') {
+                        $rpta.='|'.trim($rutaDetalle->archivo);
+                    }
+                    else{
+                        $rpta=trim($rutaDetalle->archivo);
+                    }
+                }
 
-                        $rutaDetalle->archivo=$rpta;
-                        $rutaDetalle->usuario_updated_at = Auth::user()->id;
-                        $rutaDetalle->save();
+                $rutaDetalle->archivo=$rpta;
+                $rutaDetalle->usuario_updated_at = Auth::user()->id;
+                $rutaDetalle->save();
             }
         }
 
@@ -625,6 +624,26 @@ class RutaDetalleController extends \BaseController
                         'msj'=>'Se realizó con éxito'
                     )
                 );
+    }
+
+    public function postEliminararchivodesmonte() {
+
+        if ( Input::has('archivos') ) {
+            $archivos= Input::get('archivos');
+            $ruta_detalle_id = Input::get('id');
+
+            $rutaDetalle = RutaDetalle::find($ruta_detalle_id);
+            $rutaDetalle->archivo=$archivos;
+            $rutaDetalle->usuario_updated_at = Auth::user()->id;
+            $rutaDetalle->save();            
+        }
+
+        return Response::json(
+                        array(
+                            'rst'=>'1',
+                            'msj'=>'Se realizó con éxito'
+                        )
+                    );
     }
     // --
 
