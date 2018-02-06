@@ -76,7 +76,7 @@
                   </label>
                   <input type="text" class="form-control" placeholder="Ingrese email" name="txt_email" id="txt_email">
                 </div>
-                <div class="col-sm-4">
+                <!-- <div class="col-sm-4">
                   <label class="control-label">Sexo:
                   </label>
                   <select class="form-control" name="slct_sexo" id="slct_sexo">
@@ -84,6 +84,14 @@
                       <option value='F'>Femenino</option>
                       <option value='M' selected>Masculino</option>
                   </select>
+                </div>-->
+                <div class="col-sm-4">
+                  <label class="control-label">Email 2 (Opcional)
+                      <a id="error_email" style="display:none" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="bottom" title="Ingrese email">
+                          <i class="fa fa-exclamation"></i>
+                      </a>
+                  </label>
+                  <input type="text" class="form-control" placeholder="Ingrese email MDI" name="txt_email_mdi" id="txt_email_mdi">
                 </div>
                 <div class="col-sm-2">
                   <label class="control-label">Estado:
@@ -110,10 +118,19 @@
                   <select class="form-control" name="slct_area" id="slct_area">
                   </select>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                   <label class="control-label">Rol:
                   </label>
                   <select class="form-control" name="slct_rol" id="slct_rol">
+                  </select>
+                </div>
+                <div class="col-sm-1" style="padding:0px;">
+                  <label class="control-label">Sexo:
+                  </label>
+                  <select class="form-control" name="slct_sexo" id="slct_sexo">
+                      <option value='' style="display:none">Seleccione</option>
+                      <option value='F'>Femenino</option>
+                      <option value='M' selected>Masculino</option>
                   </select>
                 </div>
                 <div class="col-sm-4">

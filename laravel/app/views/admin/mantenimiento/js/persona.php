@@ -10,6 +10,7 @@ var PersonasG={
         dni:"",
         sexo:"",
         email:"",
+        email_mdi:"",
         fecha_nacimiento:"",
         password:"",
         area:"",     
@@ -28,6 +29,7 @@ $(document).ready(function() {
                 dni           :'onBlur|DNI|#DCE6F1', //#DCE6F1
                 sexo          :'3|Tipo de Sexo|#DCE6F1', //#DCE6F1
                 email         :'onBlur|Email|#DCE6F1', //#DCE6F1
+                email_mdi         :'onBlur|Email MDI|#DCE6F1', //#DCE6F1
               //  password      :'onBlur|Password|#DCE6F1', //#DCE6F1
                 area          :'3|Área de la Persona|#DCE6F1', 
                 rol           :'3|Rol de la Persona|#DCE6F1', //#DCE6F1
@@ -87,6 +89,7 @@ $(document).ready(function() {
             $('#form_personas_modal #txt_dni').val( PersonasG.dni );
             $('#form_personas_modal #slct_sexo').val( PersonasG.sexo );
             $('#form_personas_modal #txt_email').val( PersonasG.email );
+            $('#form_personas_modal #txt_email_mdi').val( PersonasG.email_mdi );
             $('#form_personas_modal #txt_fecha_nacimiento').val( PersonasG.fecha_nacimiento );
             $('#form_personas_modal #txt_password').val( '' );
             $('#form_personas_modal #slct_modalidad').val( PersonasG.modalidad );
@@ -134,15 +137,16 @@ BtnEditar=function(btn,id){
     PersonasG.dni=$(tr).find("td:eq(3)").text();
     PersonasG.sexo=$(tr).find("td:eq(4) input[name='txt_sexo']").val();
     PersonasG.email=$(tr).find("td:eq(5)").text();
+    PersonasG.email_mdi=$(tr).find("td:eq(6)").text();
     // se detecta el atributo que se esta enviando atravez del hiden del txt_sexo
     PersonasG.fecha_nacimiento=$(tr).find("td:eq(4) input[name='txt_sexo']").attr('fecha_nacimiento'); 
       //PersonasG.password=$(tr).find("td:eq(6) input[name='txt_password']").val();
-    PersonasG.area=$(tr).find("td:eq(6) input[name='txt_area']").val();   
-    PersonasG.rol=$(tr).find("td:eq(7) input[name='txt_rol']").val();
-    PersonasG.modalidad=$(tr).find("td:eq(8) input[name='txt_modalidad']").val(); 
-    PersonasG.vista_doc=$(tr).find("td:eq(9) input[name='txt_vista_doc']").val(); 
+    PersonasG.area=$(tr).find("td:eq(7) input[name='txt_area']").val();   
+    PersonasG.rol=$(tr).find("td:eq(8) input[name='txt_rol']").val();
+    PersonasG.modalidad=$(tr).find("td:eq(9) input[name='txt_modalidad']").val(); 
+    PersonasG.vista_doc=$(tr).find("td:eq(10) input[name='txt_vista_doc']").val(); 
     
-    PersonasG.estado=$(tr).find("td:eq(10)>span").attr("data-estado");
+    PersonasG.estado=$(tr).find("td:eq(11)>span").attr("data-estado");
     $("#BtnEditar").click();
 };
 
@@ -164,23 +168,23 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
     }
 
 
-    else if(typeof(fn)!='undefined' && fn.col==6){
+    else if(typeof(fn)!='undefined' && fn.col==7){
         return row.area+"<input type='hidden'name='txt_area' value='"+row.area_id+"'>";
     }
 
-    else if(typeof(fn)!='undefined' && fn.col==7){
+    else if(typeof(fn)!='undefined' && fn.col==8){
         return row.rol+"<input type='hidden'name='txt_rol' value='"+row.rol_id+"'>";
     }
 
-    if(typeof(fn)!='undefined' && fn.col==8){
+    if(typeof(fn)!='undefined' && fn.col==9){
         return row.modalidad+"<input type='hidden'name='txt_modalidad' value='"+row.modalidad_id+"'>";
     }
 
-    if(typeof(fn)!='undefined' && fn.col==9){
+    if(typeof(fn)!='undefined' && fn.col==10){
         return row.vista_doc+"<input type='hidden'name='txt_vista_doc' value='"+row.vista_doc_id+"'>";
     }
 
-    else if(typeof(fn)!='undefined' && fn.col==10){
+    else if(typeof(fn)!='undefined' && fn.col==11){
         var estadohtml='';
         estadohtml='<span id="'+row.id+'" onClick="activar('+row.id+')" data-estado="'+row.estado+'" class="btn btn-danger">Inactivo</span>';
         if(row.estado==1){

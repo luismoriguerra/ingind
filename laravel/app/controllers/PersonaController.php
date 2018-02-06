@@ -113,6 +113,12 @@ class PersonaController extends BaseController
                 }
             }
 
+            if( Input::has("email_mdi") ){
+                $email_mdi=Input::get("email_mdi");
+                if( trim( $email_mdi )!='' ){
+                    $array['where'].=" AND p.email_mdi LIKE '%".$email_mdi."%' ";
+                }
+            }
 
             if( Input::has("fecha_nacimiento") ){
                 $fecha_nacimiento=Input::get("fecha_nacimiento");
@@ -296,6 +302,7 @@ class PersonaController extends BaseController
             $persona['materno'] = Input::get('materno');
             $persona['nombre'] = Input::get('nombre');
             $persona['email'] = Input::get('email');
+            $persona['email_mdi'] = Input::get('email_mdi');
             $persona['dni'] = Input::get('dni');
             $persona['sexo'] = Input::get('sexo');
             $persona['password'] = Input::get('password');
@@ -461,6 +468,7 @@ class PersonaController extends BaseController
             $persona['materno'] = Input::get('materno');
             $persona['nombre'] = Input::get('nombre');
             $persona['email'] = Input::get('email');
+            $persona['email_mdi'] = Input::get('email_mdi');
             $persona['dni'] = Input::get('dni');
             $persona['sexo'] = Input::get('sexo');
             $persona['area_id'] = Input::get('area');

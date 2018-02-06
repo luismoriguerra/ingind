@@ -22,6 +22,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         'nombre',
         'dni',
         'email',
+        'email_mdi',
         'direccion',
         'telefono',
         'celular',
@@ -164,11 +165,11 @@ class Persona extends Base implements UserInterface, RemindableInterface {
 
     public static $where = [
         'id', 'paterno', 'materno', 'nombre', 'dni', 'sexo', 'area_id', 'rol_id',
-        'estado', 'envio_actividad', 'modalidad', 'vista_doc', 'email', 'fecha_nacimiento', 'password',
+        'estado', 'envio_actividad', 'modalidad', 'vista_doc', 'email', 'email_mdi', 'fecha_nacimiento', 'password',
     ];
     public static $selec = [
         'id', 'paterno', 'materno', 'nombre', 'dni', 'sexo', 'area_id', 'rol_id',
-        'estado', 'envio_actividad', 'email', 'fecha_nacimiento', 'password', 'modalidad', 'vista_doc'
+        'estado', 'envio_actividad', 'email', 'email_mdi', 'fecha_nacimiento', 'password', 'modalidad', 'vista_doc'
     ];
 
     public static function getCargar($array) {
@@ -176,7 +177,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         $sSql = " SELECT p.id ,a.id area_id,r.id rol_id, p.paterno, p.materno, p.nombre,p.dni,p.sexo sexo_id,p.fecha_nacimiento,
 
                                 a.nombre area,r.nombre rol, 
-                                p.estado,p.email,p.password,
+                                p.estado,p.email, p.email_mdi, p.password,
                                 CASE p.sexo
                                 WHEN 'M' THEN 'Masculino'
                                 WHEN 'F' THEN 'Femenino'
@@ -334,7 +335,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
             }
         }
 
-        $sql = "SELECT p.id norden,p.paterno,p.materno,p.nombre,p.email,p.dni,p.fecha_nacimiento,
+        $sql = "SELECT p.id norden,p.paterno,p.materno,p.nombre,p.email, p.email_mdi, p.dni,p.fecha_nacimiento,
                 CASE p.sexo
                 WHEN 'F' THEN 'Femenino'
                 WHEN 'M' THEN 'Masculino'
@@ -350,7 +351,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
                 a.nombre area,r.nombre rol,p.envio_actividad,DATE_FORMAT(p.fecha_ini_exonera,'%Y-%m-%d') as fechaini ,DATE_FORMAT(p.fecha_fin_exonera,'%Y-%m-%d') as fechafin,p.responsable_asigt,p.responsable_dert 
                 FROM personas p
                 INNER JOIN areas a on p.area_id=a.id
-		INNER JOIN roles r on p.rol_id=r.id
+        INNER JOIN roles r on p.rol_id=r.id
                 WHERE a.id IN ('$areaId') AND p.estado=1
                 ORDER BY p.paterno";
 
@@ -364,8 +365,8 @@ class Persona extends Base implements UserInterface, RemindableInterface {
 
         $query .= "select COUNT(rdv.id) as tareas
                 from rutas_detalle_verbo rdv
-                INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1						 
-                INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
+                INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1                        
+                INNER JOIN rutas r on rd.ruta_id=r.id   AND r.estado=1                                                   
                 INNER JOIN flujos f on r.flujo_id=f.id 
                 WHERE rdv.finalizo=1 
                 AND rdv.usuario_updated_at=$id_usuario";
@@ -384,8 +385,8 @@ class Persona extends Base implements UserInterface, RemindableInterface {
 
         $query .= "select f.id,f.nombre ,COUNT(rdv.id) AS tareas
             from rutas_detalle_verbo rdv 
-            INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1						 
-            INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
+            INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1                        
+            INNER JOIN rutas r on rd.ruta_id=r.id   AND r.estado=1                                                   
             INNER JOIN flujos f on r.flujo_id=f.id
             WHERE rdv.finalizo=1 
             AND rdv.usuario_updated_at=$id_usuario";
@@ -478,8 +479,8 @@ class Persona extends Base implements UserInterface, RemindableInterface {
                     from rutas_detalle_verbo rdv 
                     INNER JOIN verbos v on rdv.verbo_id=v.id
                     INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1
-                    INNER JOIN areas a on rd.area_id=a.id						 
-                    INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
+                    INNER JOIN areas a on rd.area_id=a.id                        
+                    INNER JOIN rutas r on rd.ruta_id=r.id   AND r.estado=1                                                   
                     INNER JOIN flujos f on r.flujo_id=f.id
                     WHERE rdv.finalizo=1";
         $sSql .= $array['where'] .
@@ -497,8 +498,8 @@ class Persona extends Base implements UserInterface, RemindableInterface {
                     from rutas_detalle_verbo rdv 
                     INNER JOIN verbos v on rdv.verbo_id=v.id
                     INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1
-                    INNER JOIN areas a on rd.area_id=a.id						 
-                    INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
+                    INNER JOIN areas a on rd.area_id=a.id                        
+                    INNER JOIN rutas r on rd.ruta_id=r.id   AND r.estado=1                                                   
                     INNER JOIN flujos f on r.flujo_id=f.id
                     WHERE rdv.finalizo=1";
         $sSql .= $array['where'];
@@ -558,7 +559,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
                    from rutas_detalle_verbo rdv 
                    INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1
                    INNER JOIN areas a on rd.area_id=a.id
-                   INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
+                   INNER JOIN rutas r on rd.ruta_id=r.id    AND r.estado=1                                                   
                    INNER JOIN flujos f on r.flujo_id=f.id
                    WHERE rdv.estado=1 
                    AND rdv.finalizo=1 
@@ -583,8 +584,8 @@ class Persona extends Base implements UserInterface, RemindableInterface {
                 INNER JOIN verbos v on rdv.verbo_id=v.id
                 INNER JOIN personas p on rdv.usuario_updated_at=p.id
                 INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1
-                INNER JOIN areas a on rd.area_id=a.id						 
-                INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
+                INNER JOIN areas a on rd.area_id=a.id                        
+                INNER JOIN rutas r on rd.ruta_id=r.id   AND r.estado=1                                                   
                 INNER JOIN flujos f on r.flujo_id=f.id
                 WHERE rdv.estado=1 
                 AND rdv.finalizo=1";
@@ -602,8 +603,8 @@ class Persona extends Base implements UserInterface, RemindableInterface {
                 from rutas_detalle_verbo rdv 
                 INNER JOIN verbos v on rdv.verbo_id=v.id
                 INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1
-                INNER JOIN areas a on rd.area_id=a.id						 
-                INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
+                INNER JOIN areas a on rd.area_id=a.id                        
+                INNER JOIN rutas r on rd.ruta_id=r.id   AND r.estado=1                                                   
                 INNER JOIN flujos f on r.flujo_id=f.id
                 WHERE rdv.estado=1 
                 AND rdv.finalizo=1";
@@ -903,7 +904,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
             
             $sSql = 'UPDATE personas
                      SET responsable_asigt=0,
-		     responsable_dert=0
+             responsable_dert=0
                      WHERE area_id= '.$area_id;
             
                 DB::update($sSql);
