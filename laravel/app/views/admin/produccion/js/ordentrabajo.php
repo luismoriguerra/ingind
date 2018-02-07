@@ -361,7 +361,8 @@ MostrarAjax=function(t){
 GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
 
     if(typeof(fn)!='undefined' && fn.col==2){
-        return '<span id="2616" onclick="CargarActividad('+row.id+',\''+row.actividad+'\')" class="btn btn-success"><i class="fa fa-lg fa-check"></i></span>';
+        //return '<span id="2616" onclick="CargarActividad('+row.id+',\''+row.actividad+'\')" class="btn btn-success"><i class="fa fa-lg fa-check"></i></span>';
+        return '<span id="2616" onclick="CargarActividad('+row.id+',\''+row.actividad.split('"').join('|').split("'").join('|')+'\')" class="btn btn-success"><i class="fa fa-lg fa-check"></i></span>';
     }
     if(typeof(fn)!='undefined' && fn.col==3){
         return "<a class='btn btn-default btn-sm' onclick='openPlantilla("+row.id+",4,0); return false;' data-titulo='Previsualizar'><i class='fa fa-eye fa-lg'>&nbsp;A4</i> </a>"+
