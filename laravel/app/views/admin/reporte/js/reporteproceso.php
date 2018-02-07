@@ -778,6 +778,7 @@
 
         html_cabecera = "<tr class='info'>" +
                         "<th> [] </th>"+
+                        "<th style='min-width: 160px !important;'> Descripci&oacute;n </th>"+
                         "<th> Tramite </th>";
                         $.each(cabecera, function (index, cabecera) {
                             html_cabecera += "<th >Actividad "+cabecera+"</th>";
@@ -789,6 +790,7 @@
         $.each(datos, function (index, data) {
             html += "<tr>";
                 html += '<td><a onClick="detalle(' + data.id + ',this)" class="btn btn-primary btn-sm" data-id="' + data.id + '" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a> </td>'+
+                        "<td>" + data.sumilla + "</td>"+
                         "<td>" + data.id_union + "</td>";
                 var i;
 
