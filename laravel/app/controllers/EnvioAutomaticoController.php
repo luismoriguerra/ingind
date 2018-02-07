@@ -369,7 +369,7 @@ class EnvioAutomaticoController extends \BaseController {
                 )
             );
             */
-            $areas_externo = json_decode(json_encode($array));
+            // $areas_externo = json_decode(json_encode($array));
 
             foreach ($areas_externo->area as $aer)
             {
