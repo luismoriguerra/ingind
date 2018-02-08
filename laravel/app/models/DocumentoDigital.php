@@ -91,7 +91,7 @@ class DocumentoDigital extends Base {
                                         AND cp.persona_id= '.$usu_id.'
                                     )');
                                 $fin = date('Y-m-d');
-                                $inicio = strtotime('-15 day', strtotime($fin));
+                                $inicio = strtotime('-20 day', strtotime($fin));
                                 $inicio = date('Y-m-d', $inicio);
                                 $query->whereRaw('  ((DATE(dd.created_at) BETWEEN "'.$inicio.'" AND "'.$fin.'")
                                                     or ((SELECT COUNT(r.id) 
