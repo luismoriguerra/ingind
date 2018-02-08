@@ -354,22 +354,23 @@ class EnvioAutomaticoController extends \BaseController {
             $fecha_iaux =$fecha_i;
             $fecha_faux = date("Y-m-d", strtotime($fecha_i ."+".$dias." days"));
 
-            $areas_externo = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/consul.php?opcion=area");
+            $areas_ex = file_get_contents("http://www.muniindependencia.gob.pe/spersonal/consul.php?opcion=area");
             /*
             $array = array(
-                'area' => array(
-                    array(
-                        "id" => "240000",
-                        "area" => "GMGM",
-                    ),
-                    array(
-                        "id" => "210000",
-                        "area" => "seguimiento",
-                    ),
-                )
-            );            
+                        'area' => array(
+                            array(
+                                "id" => "240000",
+                                "area" => "GMGM",
+                            ),
+                            array(
+                                "id" => "210000",
+                                "area" => "seguimiento",
+                            ),
+                        )
+                    );
             $areas_externo = json_decode(json_encode($array));
             */
+            $areas_externo = json_decode(utf8_encode($areas_ex));
 
             foreach ($areas_externo->area as $aer)
             {
