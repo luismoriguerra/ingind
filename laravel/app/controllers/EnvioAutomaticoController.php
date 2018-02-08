@@ -429,7 +429,6 @@ class EnvioAutomaticoController extends \BaseController {
                     ->update(array('persona_id' => 1272));
                 // --
 
-
                 $Ssql = "SELECT sw.*,
                             ca.cant_act,
                             doc.docu,
@@ -613,7 +612,7 @@ class EnvioAutomaticoController extends \BaseController {
                     'cuerpo' => str_replace($buscar, $reemplazar, $plantilla->cuerpo)
                 );
 
-                if ($email != '' AND $html_table_body!='') {
+                if (@$email != '' AND $html_table_body!='') {
                     try {
                         Mail::send('notreirel', $parametros, function($message) use ($email, $email_copia) {
                                            $message->to($email);
