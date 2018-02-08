@@ -339,7 +339,7 @@ class EnvioAutomaticoController extends \BaseController {
         $hoy = date('Y-m-d');
         
         $dia_validar = date('w', strtotime($hoy));
-        if ( $dia_validar == 3) // Proceso ejecuta L = 1
+        if ( $dia_validar == 4) // Proceso ejecuta L = 1
         {
             DB::beginTransaction();
             // --
@@ -361,16 +361,16 @@ class EnvioAutomaticoController extends \BaseController {
                     array(
                         "id" => "240000",
                         "area" => "GMGM",
-                    )/,
+                    ),
                     array(
                         "id" => "210000",
                         "area" => "seguimiento",
                     ),
                 )
             );
+            
+            $areas_externo = json_decode(json_encode($array));
             */
-            // $areas_externo = json_decode(json_encode($array));
-
             foreach ($areas_externo->area as $aer)
             {
                 DB::table('sw_asistencias')->where('usuario_created_at', '=', Auth::user()->id)->delete();
