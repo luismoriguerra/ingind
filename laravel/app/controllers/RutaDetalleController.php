@@ -591,7 +591,7 @@ class RutaDetalleController extends \BaseController
 
             if (count($archivo) > 0) {
                 for ($i=0; $i< count($archivo); $i++) {
-                    $url = "img/admin/ruta_detalle/".date("Y-m-d")."-".$ruta_detalle_id.'-'.$nombre[$i];
+                    $url = "img/admin/ruta_detalle/".date("Y-m-d")."-".$ruta_detalle_id.'-'.str_replace(' ', '', $nombre[$i]);
                     //echo $dato[1].' :::: '.$url.'<br>';
                     $this->fileToFile($archivo[$i], $url);
                     if($i==0){
