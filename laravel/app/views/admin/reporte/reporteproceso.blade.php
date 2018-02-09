@@ -123,6 +123,7 @@
                 </div>
                 <br>
                 <div class="col-xl-12">
+                    <div id="div_ver_archivos_id" class=""></div>
                     <!-- <form id="form_1" name="form_1"></form> -->
                     <form id="form_tactividad" name="form_tactividad" method="POST" action="" style="display: none">
                         <div class="box-body table-responsive" style="overflow: auto; width: 100%;">

@@ -535,6 +535,28 @@ class ReporteController extends BaseController
       );
     }
 
+
+    public function postVerarchivosdesmontesmotorizado()
+    {
+      $array=array();
+      
+      if( Input::has('ruta_id') AND Input::get('ruta_id')!='' ){
+        $array['ruta_id'] =" AND rd.ruta_id='".Input::get('ruta_id')."' ";
+      }
+
+      //$data = Reporte::VerNroPasosTramite($array);
+      //$cant_pasos = $data[0]->cant;
+      $oData = Reporte::verArchivosDesmontesMotorizado( $array );
+
+      return Response::json(
+          array(
+              'rst'=>1,
+              'datos'=>$oData['data']
+          )
+      );
+    }
+
+
     public function postCalculartotalactividad()
     {
       $array=array();

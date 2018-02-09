@@ -815,8 +815,12 @@
                         html += "<td class='"+style_class+"'>";
                         if((data['archivo' + i] * 1) == 0)
                             html += res[0] + res[2];
-                        else
-                            html += "<a href='"+data['archivo' + i]+"' target='_blank'>"+res[0] + res[2] + "</a>";
+                        else {
+                            //html += "<a href='"+data['archivo' + i]+"' target='_blank'>"+res[0] + res[2] + "</a>";
+                            html += res[0] + res[2];
+                            html += '<button type="button" id="' + data.id + '" onclick="verFotosModal(this.id)"  data-toggle="modal" data-target="#modalFotos' + data.id + '" class="btn btn-primary btn-xs"><span class="fa fa-list fa-lg" aria-hidden="true"></span> Ver Fotos</button>';
+                        }
+                            
 
                         html += "</td>";
                         /*
@@ -861,6 +865,123 @@
     };
     // -
 
+
+    verFotosModal = function(id) {
+        //Proceso.verArchivosDesmontesMotorizado(id);
+        $.ajax({
+                url: 'reporte/verarchivosdesmontesmotorizado',
+                type:'POST',
+                cache       : false,
+                dataType    : 'json',
+                data        : { ruta_id:id },
+                success: function(obj)
+                {
+                   datos = obj.datos;
+                   //console.log(datos);
+                   html_pd = '';
+                    var foto = ''
+                    var data_fotos = $.trim(datos[0].archivo).split("|");
+                    $.each(data_fotos, function (index, d_foto) {
+                        if (d_foto.length != 0) {
+                            var cant_foto = d_foto.length;
+
+                            if(d_foto.substring((cant_foto-3), cant_foto) == 'png' || 
+                                d_foto.substring((cant_foto-3), cant_foto) == 'jpg' ||
+                                d_foto.substring((cant_foto-3), cant_foto) == 'gif' ||
+                                d_foto.substring((cant_foto-4), cant_foto) == 'jpeg' )
+                                foto = d_foto;
+                            else
+                                foto = 'img/admin/ruta_detalle/marca_doc.jpg';
+
+                            html_pd += '<div class="col-md-2" id="ad'+index+'" style="padding-left: 0px; padding-right: 10px;">'+
+                                            '<a href="'+d_foto+'" target="_blank"><img src="'+foto+'" alt=""  border="0" class="img-responsive foto_desmonte"></a>'+
+                                            '<div class="text-center"><button type="button" id="'+index+'" onclick="eliminarArchivoDes(this.id)" class="btn btn-danger btn-xs"><span class="fa fa-trash fa-lg" aria-hidden="true"></span> Eliminar</button></div>'+
+                                        '</div>';
+                            $("#d_ver_fotos").html(html_pd);
+                        }
+                    });
+
+                    
+                    
+                },
+                error: function(jqXHR, textStatus, error)
+                {
+                  console.log(jqXHR.responseText);
+                }
+            });
+
+            
+        var html_modal = '<div class="modal fade" id="modalFotos'+id+'" role="dialog">'+
+                                          '<div class="modal-dialog modal-md">'+
+                                            '<div class="modal-content">'+
+                                              '<div class="modal-header" style="padding: 7px;">'+
+                                                '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                                '<h4 class="modal-title text-center">LISTADO DE FOTOS</h4>'+
+                                              '</div>'+
+                                              '<div class="modal-body" style="overflow: hidden;">'+
+                                                  '<div id="d_ver_fotos" class="col-md-12">'+
+                                                    '<p></p>'+
+                                                  '</div>'+
+                                              '</div>'+
+                                              '<div class="modal-footer" style="padding: 7px;">'+
+                                                '<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>'+
+                                              '</div>'+
+                                            '</div>'+
+                                          '</div>'+
+                                        '</div>'+
+                                      '</div>';
+
+                    $('#div_ver_archivos_id').html(html_modal);
+    }
+
+    /*
+    HTMLVerArchivosDesmontesMotorizado = function(datos){
+        html_pd = '';
+        var foto = ''
+        var data_fotos = $.trim(datos.archivo).split("|");
+        $.each(data_fotos, function (index, d_foto) {
+            if (d_foto.length != 0) {
+                var cant_foto = d_foto.length;
+
+                if(d_foto.substring((cant_foto-3), cant_foto) == 'png' || 
+                    d_foto.substring((cant_foto-3), cant_foto) == 'jpg' ||
+                    d_foto.substring((cant_foto-3), cant_foto) == 'gif' ||
+                    d_foto.substring((cant_foto-4), cant_foto) == 'jpeg' )
+                    foto = d_foto;
+                else
+                    foto = 'img/admin/ruta_detalle/marca_doc.jpg';
+
+                html_pd += '<div class="col-md-1" id="ad'+index+'" style="padding-left: 0px; padding-right: 10px;">'+
+                                '<a href="'+d_foto+'" target="_blank"><img src="'+foto+'" alt=""  border="0" class="img-responsive foto_desmonte"></a>'+
+                                '<div class="text-center"><button type="button" id="'+index+'" onclick="eliminarArchivoDes(this.id)" class="btn btn-danger btn-xs"><span class="fa fa-trash fa-lg" aria-hidden="true"></span> Eliminar</button></div>'+
+                            '</div>';
+            }
+        });
+
+        
+        var html_modal = '<div class="modal fade" id="modalFotos'+data.id+'" role="dialog">'+
+                              '<div class="modal-dialog modal-md">'+
+                                '<div class="modal-content">'+
+                                  '<div class="modal-header" style="padding: 7px;">'+
+                                    '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                    '<h5 class="modal-title text-center">LISTADO DE FOTOS</h5>'+
+                                  '</div>'+
+                                  '<div class="modal-body" style="padding: 5px; font-size: 13px;">'+
+                                      '<div id="d_ver_fotos" class="col-md-12">'+
+                                        '<p>'+html_pd+'</p>'+
+                                      '</div>'+
+                                  '</div>'+
+                                  '<div class="modal-footer" style="padding: 7px;">'+
+                                    '<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>'+
+                                  '</div>'+
+                                '</div>'+
+                              '</div>'+
+                            '</div>'+
+                          '</div>';
+
+        $('#div_ver_archivos_id').html(html_modal);
+    }
+    */
 
     HTMLCargaTramites = function (datos) {
         var html = '';

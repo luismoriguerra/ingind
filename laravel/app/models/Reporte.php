@@ -870,6 +870,17 @@ class Reporte extends Eloquent
         return $oData;
     }
 
+    public static function verArchivosDesmontesMotorizado( $array )
+    {
+        $sql =" SELECT rd.id, rd.archivo
+                FROM rutas_detalle rd ";
+        $sql .=" WHERE rd.estado=1 ".
+                $array['ruta_id'];
+
+        $oData['data'] = DB::select($sql);
+        return $oData;
+    }
+
     public static function CalcularTotalActividad( $array )
     {
         //$cabecera = [];
