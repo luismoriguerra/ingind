@@ -813,7 +813,7 @@
                             var style_class = '';
                         }
                         html += "<td class='"+style_class+"'>";
-                        if((data['archivo' + i] * 1) == 0)
+                        if($.trim(data['archivo' + i]) == '')
                             html += res[0] + res[2];
                         else {
                             //html += "<a href='"+data['archivo' + i]+"' target='_blank'>"+res[0] + res[2] + "</a>";
