@@ -339,7 +339,7 @@ class EnvioAutomaticoController extends \BaseController {
         $hoy = date('Y-m-d');
         
         $dia_validar = date('w', strtotime($hoy));
-        if ( $dia_validar == 2) // Proceso ejecuta L = 1
+        if ( $dia_validar == 1) // Proceso ejecuta L = 1
         {            
             // --
             ini_set('max_execution_time', 300);
