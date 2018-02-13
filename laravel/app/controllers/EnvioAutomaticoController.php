@@ -365,7 +365,7 @@ class EnvioAutomaticoController extends \BaseController {
 
             foreach ($areas_externo->area as $aer)
             {
-              //if ($aer->id == '200000' || $aer->id == '240000') {                  
+              if ($aer->id != '140000') {                  
                 $fecha_ini = date('Y/m/d', strtotime('-7 day', strtotime($hoy))); // 2018/02/05
                 $fecha_fin = date('Y/m/d', strtotime('-1 day', strtotime($hoy))); // 2018/02/11
 
@@ -429,7 +429,7 @@ class EnvioAutomaticoController extends \BaseController {
                   DB::table('sw_asistencias')
                       ->whereNull('persona_id')
                       ->update(array('persona_id' => 1272));
-              //} // Cierra IF area              
+              } // Cierra IF area              
             }
 
 
