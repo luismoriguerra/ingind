@@ -882,6 +882,7 @@
                    html_pd = '';
                     var foto = ''
                     var data_fotos = $.trim(datos[0].archivo).split("|");
+                    console.log(data_fotos);
                     $.each(data_fotos, function (index, d_foto) {
                         if (d_foto.length != 0) {
                             var cant_foto = d_foto.length;
