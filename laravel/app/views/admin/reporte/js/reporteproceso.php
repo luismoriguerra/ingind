@@ -868,7 +868,8 @@
 
 
     verFotosModal = function(id) {
-        //Proceso.verArchivosDesmontesMotorizado(id);
+        //Proceso.verArchivosDesmontesMotorizado(id);        
+        $("#d_ver_fotos").html('<img src="img/loading.gif" style="border: 0px;">');
         $.ajax({
                 url: 'reporte/verarchivosdesmontesmotorizado',
                 type:'POST',
