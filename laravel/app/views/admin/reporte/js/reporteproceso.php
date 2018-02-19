@@ -768,6 +768,7 @@
 
     // Reporte de Tramite Actividades
     HTMLCargaTramiteActividad = function (datos,cabecera) {
+        $("#form_tactividad").show();
         var html_cabecera = '';
         var html = '';
         var n = 0;
@@ -849,7 +850,7 @@
         });
         html_cabecera_tot += "</tr>";
         */
-        // --
+        // --        
 
         $("#form_tactividad #tt_tramite_actividad").html(html_cabecera);
         $("#form_tactividad #tb_tramite_actividad").html(html);
@@ -1057,8 +1058,12 @@
         } else {
             dataG = {ruta_flujo_id: id, fechames: fechames, tramite: tramite};
         }
+
+        $("#div_tactividad_previo").html('<img src="img/loading.gif" style="border: 0px;">').show();
+        $("#form_tactividad").hide();
+
         Proceso.MostrarTramiteActividad(id, fechames, tramite);
-        $("#form_tactividad").css("display", "");
+        //$("#form_tactividad").css("display", "");
 
         //Proceso.MostrarTramites(dataG);
         $("#form_tramite").css("display", "");

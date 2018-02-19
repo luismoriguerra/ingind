@@ -69,6 +69,7 @@ var Proceso={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
+                    $("#div_tactividad_previo").hide();
                     HTMLCargaTramiteActividad(obj.datos,obj.cabecera);
                 }
             },
