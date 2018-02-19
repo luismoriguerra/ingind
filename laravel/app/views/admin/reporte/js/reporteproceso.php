@@ -885,7 +885,6 @@
                     $.each(datos, function (index, data) {
                         var d_foto = data.archivo;
                         if (d_foto.length != 0) {
-                            //var cant_foto = d_foto.length;
 
                             var data_fotos = $.trim(data.archivo).split("|");
 
