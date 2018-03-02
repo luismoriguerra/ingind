@@ -438,7 +438,7 @@ HTMLreported=function(datos){
             });
         }            
         else
-            archiv = 'img/admin/ruta_detalle/marca_doc.jpg';
+            archiv = '';
 
         html+="<tr class='"+alerta+"'>"+
                 "<td>"+data.norden+"</td>"+
