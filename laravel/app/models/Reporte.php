@@ -136,7 +136,8 @@ class Reporte extends Eloquent
                       IF(v.finalizo=0,'<font color=#EC2121>Pendiente</font>',CONCAT('<font color=#22D72F>Finalizó</font>(',p.paterno,' ',p.materno,', ',p.nombre,' ',IFNULL(CONCAT('<b>',v.documento,'</b>'),''),'//',IFNULL(v.observacion,''),'//',IFNULL(CONCAT('<b>',v.updated_at,'</b>'),''),')' ) )
                   )
                     ORDER BY v.orden ASC
-                SEPARATOR '|'),'') AS ordenv
+                SEPARATOR '|'),'') AS ordenv,
+                rd.archivo
                 FROM rutas AS r 
                 INNER JOIN rutas_detalle AS rd ON r.id = rd.ruta_id AND rd.estado = 1
                 INNER JOIN rutas_detalle_verbo AS v ON rd.id = v.ruta_detalle_id AND v.estado=1
@@ -152,6 +153,7 @@ class Reporte extends Eloquent
 
         $set=DB::select('SET group_concat_max_len := @@max_allowed_packet');
         $r= DB::select($sql);
+        
         return $r;
     }
 

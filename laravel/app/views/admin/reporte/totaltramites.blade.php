@@ -112,7 +112,7 @@
                                 <table id="t_reported_tab_1" class="table table-bordered" width="100%">
                                     <thead>
                                         <tr>
-                                            <th colspan="6" style='background-color:#DEFAFA; width: 30% !important;'>Datos del paso</th>
+                                            <th colspan="7" style='background-color:#DEFAFA; width: 30% !important;'>Datos del paso</th>
                                             <th style='background-color:#F5DF9D; width: 35% !important;'>Acciones a realizar</th>
                                             <th style='background-color:#FCD790; width: 35% !important;'>Acciones realizadas</th>
                                         </tr>
@@ -123,6 +123,7 @@
                                             <th style='background-color:#DEFAFA'>Inicio</th>
                                             <th style='background-color:#DEFAFA'>Final</th>
                                             <th style='background-color:#DEFAFA'>Estado final</th>
+                                            <th style='background-color:#DEFAFA'>Archivo Desmonte</th>
 
                                             <th style='background-color:#F5DF9D'>Rol "tiene que"
                                             Accion

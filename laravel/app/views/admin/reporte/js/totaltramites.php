@@ -417,6 +417,12 @@ HTMLreported=function(datos){
             }
         }
 
+        if($.trim(data.archivo) != '')
+
+            var archiv = '<a href="'+data.archivo+'" target="_blank"><img src="'+data.archivo+'" alt="" border="0" width="100" class="img-responsive foto_desmonte"></a>';
+        else
+            var archiv = '';
+
         html+="<tr class='"+alerta+"'>"+
                 "<td>"+data.norden+"</td>"+
                 "<td>"+data.area+"</td>"+
@@ -424,6 +430,7 @@ HTMLreported=function(datos){
                 "<td>"+data.fecha_inicio+"</td>"+
                 "<td>"+data.dtiempo_final+"</td>"+
                 "<td>"+estado_final+"</td>"+
+                "<td>"+archiv+"</td>"+
                 "<td>"+data.verbo2.split("|").join("<br>")+"</td>"+
                 "<td>"+data.ordenv.split("|").join("<br>")+"</td>";
         html+=  "</tr>";
