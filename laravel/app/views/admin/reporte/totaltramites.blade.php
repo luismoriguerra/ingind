@@ -108,6 +108,18 @@
                         <br>
                         <hr>
                         <div class="col-xl-12">
+                            <style>
+                                .foto_desmonte {
+                                    overflow:hidden;
+                                    border: 2px solid #3c8dbc40;
+                                    background:#fefefe;
+                                    -moz-border-radius:5px;
+                                    -webkit-border-radius:5px;
+                                    border-radius: 10px;
+                                    -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+                                    -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+                                }
+                            </style>
                             <div class="form-group">
                                 <table id="t_reported_tab_1" class="table table-bordered" width="100%">
                                     <thead>

@@ -417,11 +417,28 @@ HTMLreported=function(datos){
             }
         }
 
-        if($.trim(data.archivo) != '')
+        var archiv = '';
+        if($.trim(data.archivo) != '') {
 
-            var archiv = '<a href="'+data.archivo+'" target="_blank"><img src="'+data.archivo+'" alt="" border="0" width="100" class="img-responsive foto_desmonte"></a>';
+            var data_fotos = $.trim(data.archivo).split("|");
+            $.each(data_fotos, function (index, d_foto) {
+                if (d_foto.length != 0) {
+                    var cant_foto = d_foto.length;
+
+                    if(d_foto.substring((cant_foto-3), cant_foto) == 'png' || 
+                        d_foto.substring((cant_foto-3), cant_foto) == 'jpg' ||
+                        d_foto.substring((cant_foto-3), cant_foto) == 'gif' ||
+                        d_foto.substring((cant_foto-4), cant_foto) == 'jpeg' )
+                        foto = d_foto;
+                    else
+                        foto = 'img/admin/ruta_detalle/marca_doc.jpg';
+                    
+                    archiv += '<a href="'+foto+'" target="_blank"><img src="'+foto+'" alt="" border="0" height="50" width="60" class="img-responsive foto_desmonte"></a>';
+                }
+            });
+        }            
         else
-            var archiv = '';
+            archiv = 'img/admin/ruta_detalle/marca_doc.jpg';
 
         html+="<tr class='"+alerta+"'>"+
                 "<td>"+data.norden+"</td>"+
