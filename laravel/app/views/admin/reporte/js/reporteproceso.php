@@ -191,8 +191,8 @@
         });
 
         //html_cabecera += "<th>N° T. Total</th>";
-        html_cabecera += "<th>N° T.T 1</th>";
-        html_cabecera += "<th>N° T.T 2</th>";
+        html_cabecera += "<th>N° T. T 1</th>";
+        html_cabecera += "<th>N° T. T 2</th>";
         html_cabecera += "<th>Faltas Cometidas</th>";
         html_cabecera += "<th>% F. C.</th>";
         html_cabecera += "<th>Áreas Involucradas</th>";
