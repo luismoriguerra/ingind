@@ -243,14 +243,12 @@ class DocumentoDigitalController extends \BaseController {
             $a      = new DocumentoDigital;
             $listar = Array();
             $listar =$a->getCambiarEstadoDoc();
-            if($listar=1){
             return Response::json(
                 array(
                     'rst' => 1,
                     'msj' => 'Registro actualizado correctamente',
                 )
             );
-        }
     }
     }
 

@@ -348,6 +348,16 @@ class DocumentoDigital extends Base {
                     WHERE id=".Input::get('id');
         $oDataa = DB::update($sSqla);
         
+        $doc=DocumentoDigital::find(Input::get('id'));
+        $plantilla= PlantillaDocumento::find($doc->plantilla_doc_id);
+        if($plantilla->tipo_documento_id==110){
+            $persona_exo = PersonaExoneracion::where('doc_digital_id',$doc->id)
+                                              ->where('estado','!=',0)->first();
+            $persona_exo->estado=1;
+            $persona_exo->usuario_updated_at = Auth::user()->id;
+            $persona_exo->save();
+
+        }
         return $oData;
     }
 
