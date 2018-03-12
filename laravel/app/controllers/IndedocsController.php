@@ -1,7 +1,7 @@
 <?php
 
 class IndedocsController extends \BaseController {
-    
+
     public function postListadocumentosindedocs() {
 
         $area = Auth::user()->area_id;
@@ -280,7 +280,7 @@ class IndedocsController extends \BaseController {
                     $tablarelacion->usuario_created_at = Auth::user()->id;
                     $tablarelacion->save();
                 }
-                else if($k->tipo == 'PODA') // PROCESO PODA DE JARDINES - averiguar con informaticaaa
+                else if($k->tipo == 'PODA') // PROCESO PODA DE JARDINES
                 {
                     $rutaFlujo = RutaFlujo::find(5542);
 
