@@ -998,7 +998,7 @@ class EnvioAutomaticoController extends \BaseController {
                   {
                      
                       try {
-                          Mail::queue('notreirel', $parametros, function($message) use ($email, $email_copia) {
+                          Mail::send('notreirel', $parametros, function($message) use ($email, $email_copia) {
                                   $message
                                           ->to($email);
                                           if($email_copia != ''){
@@ -1375,7 +1375,7 @@ class EnvioAutomaticoController extends \BaseController {
                 DB::insert($insert);
 
                 try {
-                    Mail::queue('notreirel', $parametros, function($message) use ($email, $emailjefe) {
+                    Mail::send('notreirel', $parametros, function($message) use ($email, $emailjefe) {
                         $message
                                 ->to($email)
                                 ->cc($emailjefe)
@@ -1585,7 +1585,7 @@ class EnvioAutomaticoController extends \BaseController {
                 try {
                     if (count($email) > 0) {
 
-                        Mail::queue('notreirel', $parametros, function($message) use( $email, $emailseguimiento, $texto ) {
+                        Mail::send('notreirel', $parametros, function($message) use( $email, $emailseguimiento, $texto ) {
                             $message
                                     ->to($email)
                                     ->cc($emailseguimiento)

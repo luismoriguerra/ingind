@@ -243,14 +243,12 @@ class DocumentoDigitalController extends \BaseController {
             $a      = new DocumentoDigital;
             $listar = Array();
             $listar =$a->getCambiarEstadoDoc();
-            if($listar=1){
             return Response::json(
                 array(
                     'rst' => 1,
                     'msj' => 'Registro actualizado correctamente',
                 )
             );
-        }
     }
     }
 
@@ -294,7 +292,7 @@ class DocumentoDigitalController extends \BaseController {
             
             $DocDigital->usuario_updated_at = Auth::user()->id;
             $DocDigital->save();
-
+            $plantilla= PlantillaDocumento::find($DocDigital->plantilla_doc_id);
             if($DocDigital->id){
 
                 // Update doc digital Temp
@@ -342,6 +340,45 @@ class DocumentoDigitalController extends \BaseController {
                             foreach ($areas_envio as $key => $value) {
                                 if((Input::get('tipoenvio')==1 or Input::get('tipoenvio')==5 or Input::get('tipoenvio')==6) AND $value->tipo!=2){
                                     foreach($value->persona_id as $personas){
+                                        // Ingresar exoneracion por vacaciones
+                                        if($plantilla->tipo_documento_id==110){
+                                            $DocDigital->fecha_i_vacaciones = Input::get('fi_vacacion');
+                                            $DocDigital->fecha_f_vacaciones = Input::get('ff_vacacion');
+                                            $DocDigital->save();
+                                            
+                                            $persona = Persona::find($personas);
+                                            $persona->fecha_ini_exonera = Input::get('fi_vacacion');
+                                            $persona->fecha_fin_exonera = Input::get('ff_vacacion');
+                                            $persona->usuario_updated_at = Auth::user()->id;
+                                            $persona->save();
+
+
+                                            /*disable old dates*/
+                                            $OldDates = DB::table('persona_exoneracion')
+                                                ->where('persona_id', '=', $personas)
+                                                ->where('estado','=',1)
+                                                ->get();
+                                            if(count($OldDates)>0){
+                                                foreach ($OldDates as $key => $valueE) {
+                                                    $Changed = PersonaExoneracion::find($valueE->id);
+                                                    $Changed->estado = 0;
+                                                    $Changed->save();
+                                                }                
+                                            }
+                                            /*end disable old dates*/
+
+                                            $persona_exo = new PersonaExoneracion();
+                                            $persona_exo->persona_id = $personas;
+                                            $persona_exo->fecha_ini_exonera = $DocDigital->fecha_i_vacaciones.' 00:00:00';
+                                            $persona_exo->fecha_fin_exonera = $DocDigital->fecha_f_vacaciones.' 00:00:00';
+                                            $persona_exo->observacion =  'VACACIONES CON DOCUMENTO: '.$DocDigital->titulo;
+                                            $persona_exo->doc_digital_id=$DocDigital->id;
+                                            $persona_exo->estado=1;
+                                            $persona_exo->usuario_created_at = Auth::user()->id;
+                                            $persona_exo->save();
+
+                                        }
+                                        //*******************************************************/
                                         $DocDigitalArea = new DocumentoDigitalArea();
                                         $DocDigitalArea->doc_digital_id = $DocDigital->id;
                                         $DocDigitalArea->persona_id = $personas;
@@ -497,6 +534,45 @@ class DocumentoDigitalController extends \BaseController {
                             foreach ($areas_envio as $key => $value) {
                                 if((Input::get('tipoenvio')==1 or Input::get('tipoenvio')==5 or Input::get('tipoenvio')==6) AND $value->tipo!=2){
                                     foreach($value->persona_id as $personas){
+                                        // Ingresar exoneracion por vacaciones
+                                        if($plantilla->tipo_documento_id==110){
+                                            $DocDigital->fecha_i_vacaciones = Input::get('fi_vacacion');
+                                            $DocDigital->fecha_f_vacaciones = Input::get('ff_vacacion');
+                                            $DocDigital->save();
+                                            
+                                            $persona = Persona::find($personas);
+                                            $persona->fecha_ini_exonera = Input::get('fi_vacacion');
+                                            $persona->fecha_fin_exonera = Input::get('ff_vacacion');
+                                            $persona->usuario_updated_at = Auth::user()->id;
+                                            $persona->save();
+
+
+                                            /*disable old dates*/
+                                            $OldDates = DB::table('persona_exoneracion')
+                                                ->where('persona_id', '=', $personas)
+                                                ->where('estado','!=',0)
+                                                ->get();
+                                            if(count($OldDates)>0){
+                                                foreach ($OldDates as $key => $valueE) {
+                                                    $Changed = PersonaExoneracion::find($valueE->id);
+                                                    $Changed->estado = 2;
+                                                    $Changed->save();
+                                                }                
+                                            }
+                                            /*end disable old dates*/
+
+                                            $persona_exo = new PersonaExoneracion();
+                                            $persona_exo->persona_id = $personas;
+                                            $persona_exo->fecha_ini_exonera = $DocDigital->fecha_i_vacaciones.' 00:00:00';
+                                            $persona_exo->fecha_fin_exonera = $DocDigital->fecha_f_vacaciones.' 00:00:00';
+                                            $persona_exo->observacion =  'VACACIONES CON DOCUMENTO: '.$DocDigital->titulo;
+                                            $persona_exo->doc_digital_id=$DocDigital->id;
+                                            $persona_exo->estado=1;
+                                            $persona_exo->usuario_created_at = Auth::user()->id;
+                                            $persona_exo->save();
+
+                                        }
+                                        //*******************************************************/
                                         $DocDigitalArea = new DocumentoDigitalArea();
                                         $DocDigitalArea->doc_digital_id = $DocDigital->id;
                                         $DocDigitalArea->persona_id = $personas;

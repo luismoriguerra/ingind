@@ -17,7 +17,7 @@ class DocumentoDigital extends Base {
                     })
                     ->leftjoin('areas as a','dda.area_id', '=', 'a.id')
                     ->leftjoin('personas as p','dda.persona_id', '=', 'p.id')
-                    ->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla', 'dd.plantilla_doc_id' ,'a.nombre as area','dda.area_id as area_id','p.nombre as pnombre','p.paterno as ppaterno','p.materno as pmaterno','dd.cuerpo','dd.tipo_envio','dda.persona_id','dda.tipo','dd.envio_total','pd.tipo_documento_id')
+                    ->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla', 'dd.plantilla_doc_id' ,'a.nombre as area','dda.area_id as area_id','p.nombre as pnombre','p.paterno as ppaterno','p.materno as pmaterno','dd.cuerpo','dd.tipo_envio','dda.persona_id','dda.tipo','dd.envio_total','pd.tipo_documento_id','dd.fecha_i_vacaciones','dd.fecha_f_vacaciones')
                     ->where( 
 
                         function($query){                    
@@ -348,6 +348,16 @@ class DocumentoDigital extends Base {
                     WHERE id=".Input::get('id');
         $oDataa = DB::update($sSqla);
         
+        $doc=DocumentoDigital::find(Input::get('id'));
+        $plantilla= PlantillaDocumento::find($doc->plantilla_doc_id);
+        if($plantilla->tipo_documento_id==110){
+            $persona_exo = PersonaExoneracion::where('doc_digital_id',$doc->id)
+                                              ->where('estado','!=',0)->first();
+            $persona_exo->estado=0;
+            $persona_exo->usuario_updated_at = Auth::user()->id;
+            $persona_exo->save();
+
+        }
         return $oData;
     }
 
