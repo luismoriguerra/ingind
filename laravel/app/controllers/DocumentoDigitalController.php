@@ -358,12 +358,12 @@ class DocumentoDigitalController extends \BaseController {
                                             /*disable old dates*/
                                             $OldDates = DB::table('persona_exoneracion')
                                                 ->where('persona_id', '=', $personas)
-                                                ->where('estado','!=',0)
+                                                ->where('estado','=',1)
                                                 ->get();
                                             if(count($OldDates)>0){
                                                 foreach ($OldDates as $key => $valueE) {
                                                     $Changed = PersonaExoneracion::find($valueE->id);
-                                                    $Changed->estado = 2;
+                                                    $Changed->estado = 0;
                                                     $Changed->save();
                                                 }                
                                             }
