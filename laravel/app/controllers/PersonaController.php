@@ -630,12 +630,12 @@ class PersonaController extends BaseController
             /*disable old dates*/
             $OldDates = DB::table('persona_exoneracion')
                 ->where('persona_id', '=', $persona->id)
-                ->where('estado',1)
+                ->where('estado','!=',0)
                 ->get();
             if(count($OldDates)>0){
                 foreach ($OldDates as $key => $value) {
                     $Changed = PersonaExoneracion::find($value->id);
-                    $Changed->estado = 0;
+                    $Changed->estado = 2;
                     $Changed->save();
                 }                
             }
@@ -648,6 +648,7 @@ class PersonaController extends BaseController
             if(Input::has('observ')){
                 $persona_exo->observacion =  Input::get('observ');
             }
+            $persona_exo->estado = 1;
             $persona_exo->created_at = date("Y-m-d H:i:s");
             $persona_exo->usuario_created_at = Auth::user()->id;
             $persona_exo->save();

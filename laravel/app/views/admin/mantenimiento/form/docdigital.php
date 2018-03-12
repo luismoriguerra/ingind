@@ -102,7 +102,21 @@
                  <div class="form-group copias">
                   <label class="control-label">Seleccione Copia: </label>
                   <select class="form-control" name="slct_copia" id="slct_copia" multiple></select>
-                </div>                
+                </div>
+                <div class="vacaciones hidden">
+                    <div class="col-xs-6 form-group">
+                        <div class="form-group">
+                            <label class="control-label">Fecha de Inicio: </label>
+                            <input type="text" class="form-control fechaG" name="txt_fi_vacacion" id="txt_fi_vacacion" onfocus="blur()">
+                        </div>  
+                    </div> 
+                    <div class="col-xs-6 form-group">
+                        <div class="form-group">
+                            <label class="control-label">Fecha de Fin: </label>
+                            <input type="text" class="form-control fechaG" name="txt_ff_vacacion" id="txt_ff_vacacion" onfocus="blur()">
+                        </div>  
+                    </div>   
+                </div>
               </div>
             </div>
            <!--  <div class="row">
