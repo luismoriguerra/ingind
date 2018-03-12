@@ -353,7 +353,7 @@ class DocumentoDigital extends Base {
         if($plantilla->tipo_documento_id==110){
             $persona_exo = PersonaExoneracion::where('doc_digital_id',$doc->id)
                                               ->where('estado','!=',0)->first();
-            $persona_exo->estado=1;
+            $persona_exo->estado=0;
             $persona_exo->usuario_updated_at = Auth::user()->id;
             $persona_exo->save();
 
