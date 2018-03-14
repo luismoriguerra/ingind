@@ -110,7 +110,7 @@ class IndedocsController extends \BaseController {
     public function postIncidencia() {
         
         $res = file_get_contents("http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=incidencias&fecha=".date('Ymd'));
-        //$res = file_get_contents("http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=incidencias&fecha=20180312");
+        //$res = file_get_contents("http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=incidencias&fecha=20180313");
         $result = json_decode(utf8_encode($res));
        /*
         $array = array(
@@ -170,7 +170,7 @@ class IndedocsController extends \BaseController {
                 $incidencia->save();
 
                 if($k->tipo == 'DESMONTE')
-                {                    
+                {
                     //  DB::beginTransaction();
                     //PROCESO DESMONTE 5383
                     $rutaFlujo = RutaFlujo::find(5383);
@@ -254,7 +254,7 @@ class IndedocsController extends \BaseController {
                     $tablarelacion->save();
                 }
                 else if($k->tipo == 'BASURA') // PROCESO RESIDUOS SOLIDOS
-                {                    
+                {
                     $rutaFlujo = RutaFlujo::find(5540);
 
                     $tablarelacion = new TablaRelacion;
@@ -299,6 +299,72 @@ class IndedocsController extends \BaseController {
                         $correlativo++;
                         $tablarelacion->id_union = 'COMUNICADO EDUCATIVO - Nº ' . str_pad($correlativo, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
                         $cod_correlativo = $correlativo;
+                    }
+
+                    $tablarelacion->sumilla = $k->clasificacion.'</br>'.$k->contenido.'</br>'.$k->direccion;
+                    $tablarelacion->estado = 1;
+                    $tablarelacion->fecha_tramite = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' ' . $k->hora . ':00';
+                    $tablarelacion->usuario_created_at = Auth::user()->id;
+                    $tablarelacion->save();
+                }
+                else if($k->tipo == 'AMBULANTE') // PROCESO AMBULANTES INFORMALES
+                {
+                    $rutaFlujo = RutaFlujo::find(5569);
+
+                    $tablarelacion = new TablaRelacion;
+                    $tablarelacion->software_id = 1;
+                    
+                    if($k->viapredio == 'VIA') {                    
+                        $select = "SELECT MAX(serie) as codigo_vp FROM carga_incidencias
+                                        WHERE tipo = 'AMBULANTE' AND viapredio = 'VIA';";
+                        $doc_digital_dvp = DB::select($select);
+                        $codigo_vp = $doc_digital_dvp[0]->codigo_vp + 1;
+                        $tablarelacion->id_union = 'AMBULANTES INFORMALES VIA PUBLICA - Nº ' . str_pad($codigo_vp, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
+                        $cod_correlativo = $codigo_vp;
+                    }
+
+                    $tablarelacion->sumilla = $k->clasificacion.'</br>'.$k->contenido.'</br>'.$k->direccion;
+                    $tablarelacion->estado = 1;
+                    $tablarelacion->fecha_tramite = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' ' . $k->hora . ':00';
+                    $tablarelacion->usuario_created_at = Auth::user()->id;
+                    $tablarelacion->save();
+                }
+                else if($k->tipo == 'PARADERO') // PROCESO PARADEROS NO AUTORIZADOS
+                {
+                    $rutaFlujo = RutaFlujo::find(5570);
+
+                    $tablarelacion = new TablaRelacion;
+                    $tablarelacion->software_id = 1;
+                    
+                    if($k->viapredio == 'VIA') {                    
+                        $select = "SELECT MAX(serie) as codigo_vp FROM carga_incidencias
+                                        WHERE tipo = 'PARADERO' AND viapredio = 'VIA';";
+                        $doc_digital_dvp = DB::select($select);
+                        $codigo_vp = $doc_digital_dvp[0]->codigo_vp + 1;
+                        $tablarelacion->id_union = 'PARADEROS NO AUTORIZADOS VIA PUBLICA - Nº ' . str_pad($codigo_vp, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
+                        $cod_correlativo = $codigo_vp;
+                    }
+
+                    $tablarelacion->sumilla = $k->clasificacion.'</br>'.$k->contenido.'</br>'.$k->direccion;
+                    $tablarelacion->estado = 1;
+                    $tablarelacion->fecha_tramite = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' ' . $k->hora . ':00';
+                    $tablarelacion->usuario_created_at = Auth::user()->id;
+                    $tablarelacion->save();
+                }
+                else if($k->tipo == 'LOCAL') // PROCESO LOCALES NO AUTORIZADOS
+                {
+                    $rutaFlujo = RutaFlujo::find(5571);
+
+                    $tablarelacion = new TablaRelacion;
+                    $tablarelacion->software_id = 1;
+                    
+                    if($k->viapredio == 'VIA') {                    
+                        $select = "SELECT MAX(serie) as codigo_vp FROM carga_incidencias
+                                        WHERE tipo = 'LOCAL' AND viapredio = 'VIA';";
+                        $doc_digital_dvp = DB::select($select);
+                        $codigo_vp = $doc_digital_dvp[0]->codigo_vp + 1;
+                        $tablarelacion->id_union = 'LOCALES NO AUTORIZADOS VIA PUBLICA - Nº ' . str_pad($codigo_vp, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
+                        $cod_correlativo = $codigo_vp;
                     }
 
                     $tablarelacion->sumilla = $k->clasificacion.'</br>'.$k->contenido.'</br>'.$k->direccion;
