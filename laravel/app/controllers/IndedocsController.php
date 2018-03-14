@@ -385,15 +385,16 @@ class IndedocsController extends \BaseController {
                     $ruta->save();
 
                     /* ***********Agregado de referidos************ */
-                    // $referido = new Referido;
-                    // $referido['ruta_id'] = $ruta->id;
-                    // $referido['tabla_relacion_id'] = $tablarelacion->id;
-                    // $referido['tipo'] = 0;
-                    // $referido['referido'] = $tablarelacion->id_union;
-                    // $referido['fecha_hora_referido'] = $tablarelacion->created_at;
-                    // $referido['usuario_referido'] = $tablarelacion->usuario_created_at;
-                    // $referido['usuario_created_at'] =Auth::user()->id;
-                    // $referido->save();
+                    $referido = new Referido;
+                    $referido['ruta_id'] = $ruta->id;
+                    $referido['tabla_relacion_id'] = $tablarelacion->id;
+                    $referido['tipo'] = 0;
+                    $referido['referido'] = $tablarelacion->id_union;
+                    $referido['fecha_hora_referido'] = $tablarelacion->created_at;
+                    $referido['usuario_referido'] = $tablarelacion->usuario_created_at;
+                    $referido['usuario_created_at'] =Auth::user()->id;
+                    $referido->save();
+
 
                     $qrutaDetalle = DB::table('rutas_flujo_detalle')
                             ->where('ruta_flujo_id', '=', $rutaFlujo->id)
