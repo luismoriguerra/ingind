@@ -269,6 +269,17 @@ HTMLreportet=function(datos){
     /******************************************************/
 
     $.each(datos,function(index,data){
+
+        var paso_area = $.trim(data.ult_paso).split(",")[0];
+        
+        if($.trim(paso_area) == '') {
+            var paso = '';
+            var area = '';
+        } else {
+            var paso = $.trim(paso_area).split("-")[0];
+            var area = $.trim(paso_area).split("-")[1];
+        }
+
         btnruta='<a onclick="cargarRutaId('+data.ruta_flujo_id+',2,'+data.id+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
         html+="<tr>"+
             "<td>"+data.tramite+"</td>"+
@@ -276,8 +287,9 @@ HTMLreportet=function(datos){
             "<td>"+data.persona+"</td>"+
             "<td>"+data.sumilla+"</td>"+
             "<td>"+data.estado+"</td>"+
-            "<td>"+$.trim(data.ult_paso).split(",")[0]+"</td>"+
-            "<td>"+data.total_pasos+"</td>"+
+            "<td>"+paso+"</td>"+
+            "<td>"+area+"</td>"+
+            //"<td>"+data.total_pasos+"</td>"+
             "<td>"+data.fecha_inicio+"</td>"+
             "<td>"+data.ok+"</td>"+
             "<td>"+data.error+"</td>"+

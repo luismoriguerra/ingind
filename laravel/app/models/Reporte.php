@@ -79,7 +79,7 @@ class Reporte extends Eloquent
                 ) estado,
                 GROUP_CONCAT( 
                     IF( rd.dtiempo_final IS NULL,
-                        CONCAT( rd.norden,' (',a2.nombre,')' ), NULL
+                        CONCAT( rd.norden,'-(',a2.nombre,')' ), NULL
                     ) ORDER BY rd.norden
                 ) ult_paso,
                 COUNT(rd.id) total_pasos,

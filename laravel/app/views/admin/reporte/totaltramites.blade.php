@@ -91,8 +91,9 @@
                                             <th>Solicitante</th>
                                             <th>Sumilla</th>
                                             <th>Estado</th>
-                                            <th>Paso a la fecha</th>
-                                            <th>Total de pasos</th>
+                                            <th>Paso</th> <!-- Paso a la fecha -->
+                                            <th>Area</th>
+                                            <!-- <th>Total de pasos</th> -->
                                             <th>Fecha Inicio</th>
                                             <th>Pasos Sin alertas</th>
                                             <th>Pasos Con alertas</th>
