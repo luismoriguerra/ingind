@@ -201,7 +201,7 @@ class IndedocsController extends \BaseController {
                 }
                 else if($k->tipo == 'MATERIALES') // PROCESO MATERIAL DE CONSTRUCCION
                 {
-                    $rutaFlujo = RutaFlujo::find(5541);
+                    $rutaFlujo = RutaFlujo::find(5556);
 
                     $tablarelacion = new TablaRelacion;
                     $tablarelacion->software_id = 1;
@@ -228,7 +228,7 @@ class IndedocsController extends \BaseController {
                 }
                 else if($k->tipo == 'VEHICULO') // PROCESO VEHICULOS ABANDONADOS
                 {
-                    $rutaFlujo = RutaFlujo::find(5560);
+                    $rutaFlujo = RutaFlujo::find(5573);
 
                     $tablarelacion = new TablaRelacion;
                     $tablarelacion->software_id = 1;
@@ -255,7 +255,7 @@ class IndedocsController extends \BaseController {
                 }
                 else if($k->tipo == 'BASURA') // PROCESO RESIDUOS SOLIDOS
                 {
-                    $rutaFlujo = RutaFlujo::find(5540);
+                    $rutaFlujo = RutaFlujo::find(5555);
 
                     $tablarelacion = new TablaRelacion;
                     $tablarelacion->software_id = 1;
@@ -282,7 +282,7 @@ class IndedocsController extends \BaseController {
                 }
                 else if($k->tipo == 'PODA') // PROCESO PODA DE JARDINES
                 {
-                    $rutaFlujo = RutaFlujo::find(5542);
+                    $rutaFlujo = RutaFlujo::find(5557);
 
                     $tablarelacion = new TablaRelacion;
                     $tablarelacion->software_id = 1;
@@ -309,7 +309,7 @@ class IndedocsController extends \BaseController {
                 }
                 else if($k->tipo == 'AMBULANTE') // PROCESO AMBULANTES INFORMALES
                 {
-                    $rutaFlujo = RutaFlujo::find(5569);
+                    $rutaFlujo = RutaFlujo::find(5582);
 
                     $tablarelacion = new TablaRelacion;
                     $tablarelacion->software_id = 1;
@@ -331,7 +331,7 @@ class IndedocsController extends \BaseController {
                 }
                 else if($k->tipo == 'PARADERO') // PROCESO PARADEROS NO AUTORIZADOS
                 {
-                    $rutaFlujo = RutaFlujo::find(5570);
+                    $rutaFlujo = RutaFlujo::find(5583);
 
                     $tablarelacion = new TablaRelacion;
                     $tablarelacion->software_id = 1;
@@ -353,7 +353,7 @@ class IndedocsController extends \BaseController {
                 }
                 else if($k->tipo == 'LOCAL') // PROCESO LOCALES NO AUTORIZADOS
                 {
-                    $rutaFlujo = RutaFlujo::find(5571);
+                    $rutaFlujo = RutaFlujo::find(5584);
 
                     $tablarelacion = new TablaRelacion;
                     $tablarelacion->software_id = 1;
