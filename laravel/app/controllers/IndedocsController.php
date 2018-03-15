@@ -206,19 +206,20 @@ class IndedocsController extends \BaseController {
                     $tablarelacion = new TablaRelacion;
                     $tablarelacion->software_id = 1;
 
-                    if($k->viapredio == 'VIA') {                    
+                    //if($k->viapredio == 'VIA') {                    
                         $select = "SELECT MAX(serie) as codigo_vp FROM carga_incidencias
-                                        WHERE tipo = 'MATERIALES' AND viapredio = 'VIA';";
+                                        WHERE tipo = 'MATERIALES';"; //  AND viapredio = 'VIA'
                         $doc_digital_dvp = DB::select($select);
                         $codigo_vp = $doc_digital_dvp[0]->codigo_vp + 1;
-                        $tablarelacion->id_union = 'MATERIAL DE CONSTRUCCION VIA PUBLICA - Nº ' . str_pad($codigo_vp, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
+                        $tablarelacion->id_union = 'MATERIAL DE CONSTRUCCION - Nº ' . str_pad($codigo_vp, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
                         $cod_correlativo = $codigo_vp;
-                    }
+                        // VIA PUBLICA
+                    /*}
                     else {
                         $correlativo++;
-                        $tablarelacion->id_union = 'COMUNICADO EDUCATIVO - Nº ' . str_pad($correlativo, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
+                        $tablarelacion->id_union = 'MATERIAL DE CONSTRUCCION - Nº ' . str_pad($correlativo, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
                         $cod_correlativo = $correlativo;
-                    }
+                    }*/
 
                     $tablarelacion->sumilla = $k->clasificacion.'</br>'.$k->contenido.'</br>'.$k->direccion;
                     $tablarelacion->estado = 1;
