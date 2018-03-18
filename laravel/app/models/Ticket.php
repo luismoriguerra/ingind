@@ -14,7 +14,7 @@ class Ticket extends Base
                 left join personas as p2 on p2.id = t.responsable_atencion_id
                 left join personas as p3 on p3.id = t.responsable_solucion_id
                 left join areas as a on a.id= t.area_id
-                WHERE t.estado=1 ";
+                WHERE t.estado=1 and (t.estado_ticket=1 or t.estado_ticket=2)";
         $sSql.= $array['where'];
         $oData = DB::select($sSql);
         return $oData[0]->cant;
@@ -28,7 +28,7 @@ class Ticket extends Base
                 left join personas as p2 on p2.id = t.responsable_atencion_id
                 left join personas as p3 on p3.id = t.responsable_solucion_id
                 left join areas as a on a.id= t.area_id
-                WHERE t.estado=1 ";
+                WHERE t.estado=1 and t.estado_ticket=3";
         $sSql.= $array['where'];
         $oData = DB::select($sSql);
         return $oData[0]->cant;

@@ -20,13 +20,13 @@
             <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            BANDEJA DE TICKET
+            BANDEJA DE INCIDENCIAS
             <small> </small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
             <li><a href="#">Tramite</a></li>
-            <li class="active">Bandeja de Ticket</li>
+            <li class="active">Bandeja de Incidencias</li>
         </ol>
     </section>
      <!-- Main content -->
@@ -43,7 +43,7 @@
                             <div class="box-body table-responsive">
                                 <table id="t_ticketgmgms" class="table table-bordered table-striped">
                                     <thead>
-                                    <tr><th colspan="13" style="text-align:center;background-color:#A7C0DC;"><h2>Tickets</h2></th></tr>
+                                    <tr><th colspan="13" style="text-align:center;background-color:#A7C0DC;"><h2>Incidencias</h2></th></tr>
                                         <tr>
                                         
                                         </tr>
@@ -57,7 +57,7 @@
                                 <a class='btn btn-primary btn-sm' class="btn btn-primary" 
                                 data-toggle="modal" data-target="#ticketgmgmModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
                                 <a class='btn btn-primary btn-sm' class="btn btn-primary"
-                                data-toggle="modal" data-target="#ticketsHistoricoModal" data-titulo="Tickets Históricos" onClick='Mostrartickets();'><i class="fa fa-search fa-lg"></i>&nbsp;Tickets Históricos</a>
+                                data-toggle="modal" data-target="#ticketsHistoricoModal" data-titulo="Incidencias Históricos" onClick='Mostrartickets();'><i class="fa fa-search fa-lg"></i>&nbsp;Incidencias Históricos</a>
                             </div><!-- /.box-body -->
                              </form>
                         </div><!-- /.box -->
