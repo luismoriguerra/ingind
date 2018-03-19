@@ -110,7 +110,7 @@ class IndedocsController extends \BaseController {
     public function postIncidencia() {
         
         $res = file_get_contents("http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=incidencias&fecha=".date('Ymd'));
-        //$res = file_get_contents("http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=incidencias&fecha=20180312");
+        //$res = file_get_contents("http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=incidencias&fecha=20180313");
         $result = json_decode(utf8_encode($res));
        /*
         $array = array(
@@ -138,13 +138,7 @@ class IndedocsController extends \BaseController {
             )
         );
         $result = json_decode(json_encode($array));
-        */
-        $select = "SELECT MAX(correlativo) as correlativo
-                    FROM doc_digital
-                        WHERE titulo LIKE '%COMUNICADO EDUCATIVO%'
-                    ORDER BY correlativo;";
-        $doc_digital = DB::select($select);
-        $correlativo = $doc_digital[0]->correlativo;
+        */        
         
         $cod_correlativo = 0;
 
@@ -153,6 +147,7 @@ class IndedocsController extends \BaseController {
             
             if(count($busqueda)==0)
             {
+                // DB::beginTransaction();
                 $codigo_vp = 0;
                 $fecha = explode('-', $k->fecha);
 
@@ -169,16 +164,54 @@ class IndedocsController extends \BaseController {
                 //$incidencia->ruta_id=$ruta->id;
                 $incidencia->save();
 
+                //$val_pro = 0;
+                $val_ce = 0;
+                if($k->tipo == 'DESMONTE' || $k->tipo == 'VEHICULO' || $k->tipo == 'BASURA' || $k->tipo == 'PODA')
+                {
+                    if($k->viapredio == 'PREDIO')
+                    {
+                        $select = "SELECT MAX(correlativo) as correlativo
+                                    FROM doc_digital
+                                        WHERE titulo LIKE '%COMUNICADO EDUCATIVO%'
+                                        AND plantilla_doc_id = 2177
+                                        AND tipo_envio = 4
+                                    ORDER BY correlativo;";
+                        $doc_digital = DB::select($select);
+                        $correlativo = $doc_digital[0]->correlativo;
+                        $correlativo++;
+
+                        $documento_digital = new DocumentoDigital();                    
+                        $documento_digital->titulo = 'COMUNICADO EDUCATIVO - Nº ' . str_pad($correlativo, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
+                        $documento_digital->correlativo = $correlativo;
+                        $documento_digital->asunto = 'COMUNICADO EDUCATIVO';
+                        $documento_digital->plantilla_doc_id = 2177;
+                        $documento_digital->area_id = 19;
+                        $documento_digital->persona_id = Auth::user()->id;
+                        $documento_digital->envio_total = 0;
+                        $documento_digital->tipo_envio = 4;
+                        $documento_digital->estado = 1;
+                        $documento_digital->usuario_created_at = Auth::user()->id;
+                        $documento_digital->save();
+
+                        $sql = 'INSERT INTO doc_digital_temporal (id,titulo,correlativo,asunto,plantilla_doc_id,area_id,persona_id,envio_total,tipo_envio,estado,
+                                usuario_updated_at,updated_f_comentario,created_at,updated_at,usuario_created_at,usuario_f_updated_at)
+                                SELECT id,titulo,correlativo,asunto,plantilla_doc_id,area_id,persona_id,envio_total,tipo_envio,estado,
+                                usuario_updated_at,updated_f_comentario,created_at,updated_at,usuario_created_at,usuario_f_updated_at
+                                FROM doc_digital dd
+                                WHERE dd.id='.$documento_digital->id;
+                        DB::insert($sql);
+                        $val_ce = 1;
+                    }
+                }
+
+
                 if($k->tipo == 'DESMONTE')
-                {                    
-                    //  DB::beginTransaction();
-                    //PROCESO DESMONTE 5383
-                    $rutaFlujo = RutaFlujo::find(5383);
+                {
+                    $rutaFlujo = RutaFlujo::find(5383); //PROCESO DESMONTE 5383
 
                     $tablarelacion = new TablaRelacion;
                     $tablarelacion->software_id = 1;
 
-                    // $k->codigo
                     if($k->viapredio == 'VIA') {                    
                         $select = "SELECT MAX(serie) as codigo_vp FROM carga_incidencias
                                         WHERE tipo = 'DESMONTE' AND viapredio = 'VIA';";
@@ -188,7 +221,7 @@ class IndedocsController extends \BaseController {
                         $cod_correlativo = $codigo_vp;
                     }
                     else {
-                        $correlativo++;
+                        //$correlativo++;
                         $tablarelacion->id_union = 'COMUNICADO EDUCATIVO - Nº ' . str_pad($correlativo, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
                         $cod_correlativo = $correlativo;
                     }
@@ -196,29 +229,31 @@ class IndedocsController extends \BaseController {
                     $tablarelacion->sumilla = $k->clasificacion.'</br>'.$k->contenido.'</br>'.$k->direccion;
                     $tablarelacion->estado = 1;
                     $tablarelacion->fecha_tramite = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' ' . $k->hora . ':00';
+                    if($val_ce == 1)
+                        $tablarelacion->doc_digital_id = $documento_digital->id;
                     $tablarelacion->usuario_created_at = Auth::user()->id;
                     $tablarelacion->save();
                 }
                 else if($k->tipo == 'MATERIALES') // PROCESO MATERIAL DE CONSTRUCCION
                 {
-                    $rutaFlujo = RutaFlujo::find(5541);
+                    $rutaFlujo = RutaFlujo::find(5556);
 
                     $tablarelacion = new TablaRelacion;
                     $tablarelacion->software_id = 1;
 
-                    if($k->viapredio == 'VIA') {                    
+                    //if($k->viapredio == 'VIA') {                    
                         $select = "SELECT MAX(serie) as codigo_vp FROM carga_incidencias
-                                        WHERE tipo = 'MATERIALES' AND viapredio = 'VIA';";
+                                        WHERE tipo = 'MATERIALES';"; //  AND viapredio = 'VIA'
                         $doc_digital_dvp = DB::select($select);
                         $codigo_vp = $doc_digital_dvp[0]->codigo_vp + 1;
-                        $tablarelacion->id_union = 'MATERIAL DE CONSTRUCCION VIA PUBLICA - Nº ' . str_pad($codigo_vp, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
+                        $tablarelacion->id_union = 'MATERIAL DE CONSTRUCCION - Nº ' . str_pad($codigo_vp, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
                         $cod_correlativo = $codigo_vp;
-                    }
+                    /*}
                     else {
                         $correlativo++;
-                        $tablarelacion->id_union = 'COMUNICADO EDUCATIVO - Nº ' . str_pad($correlativo, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
+                        $tablarelacion->id_union = 'MATERIAL DE CONSTRUCCION - Nº ' . str_pad($correlativo, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
                         $cod_correlativo = $correlativo;
-                    }
+                    }*/
 
                     $tablarelacion->sumilla = $k->clasificacion.'</br>'.$k->contenido.'</br>'.$k->direccion;
                     $tablarelacion->estado = 1;
@@ -228,7 +263,7 @@ class IndedocsController extends \BaseController {
                 }
                 else if($k->tipo == 'VEHICULO') // PROCESO VEHICULOS ABANDONADOS
                 {
-                    $rutaFlujo = RutaFlujo::find(5560);
+                    $rutaFlujo = RutaFlujo::find(5573);
 
                     $tablarelacion = new TablaRelacion;
                     $tablarelacion->software_id = 1;
@@ -242,7 +277,7 @@ class IndedocsController extends \BaseController {
                         $cod_correlativo = $codigo_vp;
                     }                        
                     else {
-                        $correlativo++;
+                        //$correlativo++;
                         $tablarelacion->id_union = 'COMUNICADO EDUCATIVO - Nº ' . str_pad($correlativo, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
                         $cod_correlativo = $correlativo;
                     }
@@ -250,12 +285,14 @@ class IndedocsController extends \BaseController {
                     $tablarelacion->sumilla = $k->clasificacion.'</br>'.$k->contenido.'</br>'.$k->direccion;
                     $tablarelacion->estado = 1;
                     $tablarelacion->fecha_tramite = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' ' . $k->hora . ':00';
+                    if($val_ce == 1)
+                        $tablarelacion->doc_digital_id = $documento_digital->id;
                     $tablarelacion->usuario_created_at = Auth::user()->id;
                     $tablarelacion->save();
                 }
                 else if($k->tipo == 'BASURA') // PROCESO RESIDUOS SOLIDOS
-                {                    
-                    $rutaFlujo = RutaFlujo::find(5540);
+                {
+                    $rutaFlujo = RutaFlujo::find(5555);
 
                     $tablarelacion = new TablaRelacion;
                     $tablarelacion->software_id = 1;
@@ -269,7 +306,7 @@ class IndedocsController extends \BaseController {
                         $cod_correlativo = $codigo_vp;
                     }
                     else {
-                        $correlativo++;
+                        //$correlativo++;
                         $tablarelacion->id_union = 'COMUNICADO EDUCATIVO - Nº ' . str_pad($correlativo, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
                         $cod_correlativo = $correlativo;
                     }
@@ -277,12 +314,14 @@ class IndedocsController extends \BaseController {
                     $tablarelacion->sumilla = $k->clasificacion.'</br>'.$k->contenido.'</br>'.$k->direccion;
                     $tablarelacion->estado = 1;
                     $tablarelacion->fecha_tramite = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' ' . $k->hora . ':00';
+                    if($val_ce == 1)
+                        $tablarelacion->doc_digital_id = $documento_digital->id;
                     $tablarelacion->usuario_created_at = Auth::user()->id;
                     $tablarelacion->save();
                 }
                 else if($k->tipo == 'PODA') // PROCESO PODA DE JARDINES
                 {
-                    $rutaFlujo = RutaFlujo::find(5542);
+                    $rutaFlujo = RutaFlujo::find(5557);
 
                     $tablarelacion = new TablaRelacion;
                     $tablarelacion->software_id = 1;
@@ -296,9 +335,33 @@ class IndedocsController extends \BaseController {
                         $cod_correlativo = $codigo_vp;
                     }
                     else {
-                        $correlativo++;
+                        //$correlativo++;
                         $tablarelacion->id_union = 'COMUNICADO EDUCATIVO - Nº ' . str_pad($correlativo, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
                         $cod_correlativo = $correlativo;
+                    }
+
+                    $tablarelacion->sumilla = $k->clasificacion.'</br>'.$k->contenido.'</br>'.$k->direccion;
+                    $tablarelacion->estado = 1;
+                    $tablarelacion->fecha_tramite = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' ' . $k->hora . ':00';
+                    if($val_ce == 1)
+                        $tablarelacion->doc_digital_id = $documento_digital->id;
+                    $tablarelacion->usuario_created_at = Auth::user()->id;
+                    $tablarelacion->save();
+                }
+                else if($k->tipo == 'AMBULANTE') // PROCESO AMBULANTES INFORMALES
+                {
+                    $rutaFlujo = RutaFlujo::find(5582);
+
+                    $tablarelacion = new TablaRelacion;
+                    $tablarelacion->software_id = 1;
+                    
+                    if($k->viapredio == 'VIA') {                    
+                        $select = "SELECT MAX(serie) as codigo_vp FROM carga_incidencias
+                                        WHERE tipo = 'AMBULANTE' AND viapredio = 'VIA';";
+                        $doc_digital_dvp = DB::select($select);
+                        $codigo_vp = $doc_digital_dvp[0]->codigo_vp + 1;
+                        $tablarelacion->id_union = 'AMBULANTES INFORMALES VIA PUBLICA - Nº ' . str_pad($codigo_vp, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
+                        $cod_correlativo = $codigo_vp;
                     }
 
                     $tablarelacion->sumilla = $k->clasificacion.'</br>'.$k->contenido.'</br>'.$k->direccion;
@@ -307,28 +370,79 @@ class IndedocsController extends \BaseController {
                     $tablarelacion->usuario_created_at = Auth::user()->id;
                     $tablarelacion->save();
                 }
+                else if($k->tipo == 'PARADERO') // PROCESO PARADEROS NO AUTORIZADOS
+                {
+                    $rutaFlujo = RutaFlujo::find(5583);
 
+                    $tablarelacion = new TablaRelacion;
+                    $tablarelacion->software_id = 1;
+                    
+                    if($k->viapredio == 'VIA') {                    
+                        $select = "SELECT MAX(serie) as codigo_vp FROM carga_incidencias
+                                        WHERE tipo = 'PARADERO' AND viapredio = 'VIA';";
+                        $doc_digital_dvp = DB::select($select);
+                        $codigo_vp = $doc_digital_dvp[0]->codigo_vp + 1;
+                        $tablarelacion->id_union = 'PARADEROS NO AUTORIZADOS VIA PUBLICA - Nº ' . str_pad($codigo_vp, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
+                        $cod_correlativo = $codigo_vp;
+                    }
+
+                    $tablarelacion->sumilla = $k->clasificacion.'</br>'.$k->contenido.'</br>'.$k->direccion;
+                    $tablarelacion->estado = 1;
+                    $tablarelacion->fecha_tramite = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' ' . $k->hora . ':00';
+                    $tablarelacion->usuario_created_at = Auth::user()->id;
+                    $tablarelacion->save();
+                }
+                else if($k->tipo == 'LOCAL') // PROCESO LOCALES NO AUTORIZADOS
+                {
+                    $rutaFlujo = RutaFlujo::find(5584);
+
+                    $tablarelacion = new TablaRelacion;
+                    $tablarelacion->software_id = 1;
+                    
+                    if($k->viapredio == 'VIA') {                    
+                        $select = "SELECT MAX(serie) as codigo_vp FROM carga_incidencias
+                                        WHERE tipo = 'LOCAL' AND viapredio = 'VIA';";
+                        $doc_digital_dvp = DB::select($select);
+                        $codigo_vp = $doc_digital_dvp[0]->codigo_vp + 1;
+                        $tablarelacion->id_union = 'LOCALES NO AUTORIZADOS VIA PUBLICA - Nº ' . str_pad($codigo_vp, 6, '0', STR_PAD_LEFT) . ' - '.$fecha[2].' - MDI';
+                        $cod_correlativo = $codigo_vp;
+                    }
+
+                    $tablarelacion->sumilla = $k->clasificacion.'</br>'.$k->contenido.'</br>'.$k->direccion;
+                    $tablarelacion->estado = 1;
+                    $tablarelacion->fecha_tramite = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' ' . $k->hora . ':00';
+                    $tablarelacion->usuario_created_at = Auth::user()->id;
+                    $tablarelacion->save();
+                }                
+
+                if($k->tipo == 'DESMONTE' || $k->tipo == 'MATERIALES' || $k->tipo == 'VEHICULO' || $k->tipo == 'BASURA'
+                    || $k->tipo == 'PODA' || $k->tipo == 'AMBULANTE' || $k->tipo == 'PARADERO' || $k->tipo == 'LOCAL')
+                {
                     $ruta = new Ruta;
                     $ruta['tabla_relacion_id'] = $tablarelacion->id;
                     $ruta['fecha_inicio'] = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' ' . $k->hora . ':00';
                     $ruta['ruta_flujo_id'] = $rutaFlujo->id;
-                    $ruta['flujo_id'] = $rutaFlujo->flujo_id; //Actualizar la tabla "rutas_flujo"
+                    $ruta['flujo_id'] = $rutaFlujo->flujo_id;
                     $ruta['persona_id'] = $rutaFlujo->persona_id;
+                    if($val_ce == 1)
+                        $ruta['doc_digital_id'] = $documento_digital->id;
                     $ruta['area_id'] = $rutaFlujo->area_id;
                     $ruta['usuario_created_at'] = Auth::user()->id;
                     $ruta->save();
 
                     /* ***********Agregado de referidos************ */
-                    // $referido = new Referido;
-                    // $referido['ruta_id'] = $ruta->id;
-                    // $referido['tabla_relacion_id'] = $tablarelacion->id;
-                    // $referido['tipo'] = 0;
-                    // $referido['referido'] = $tablarelacion->id_union;
-                    // $referido['fecha_hora_referido'] = $tablarelacion->created_at;
-                    // $referido['usuario_referido'] = $tablarelacion->usuario_created_at;
-                    // $referido['usuario_created_at'] =Auth::user()->id;
-                    // $referido->save();
-
+                    $referido = new Referido;
+                    $referido['ruta_id'] = $ruta->id;
+                    $referido['tabla_relacion_id'] = $tablarelacion->id;
+                    if($val_ce == 1)
+                        $referido['doc_digital_id'] = $documento_digital->id;
+                    $referido['tipo'] = 0;
+                    $referido['referido'] = $tablarelacion->id_union;
+                    $referido['fecha_hora_referido'] = $tablarelacion->created_at;
+                    $referido['usuario_referido'] = $tablarelacion->usuario_created_at;
+                    $referido['usuario_created_at'] =Auth::user()->id;
+                    $referido->save();
+                    
                     $qrutaDetalle = DB::table('rutas_flujo_detalle')
                             ->where('ruta_flujo_id', '=', $rutaFlujo->id)
                             ->where('estado', '=', '1')
@@ -391,7 +505,7 @@ class IndedocsController extends \BaseController {
                                         WHERE codigo = '".$k->codigo."';";
                     DB::update($sql);
                     // DB::commit();
-                //}
+                }
             }
         }
         return Response::json(array('rst' => 1));
