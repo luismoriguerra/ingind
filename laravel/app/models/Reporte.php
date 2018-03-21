@@ -902,6 +902,59 @@ class Reporte extends Eloquent
         $oData['data'] = DB::select($sql);
         return $oData;
     }
+    
+        public static function getPersonalizado(){
+        $fecha='';
+        if(Input::has('fechames')){
+            $fecha="and DATE_FORMAT(tr.fecha_tramite,'%Y-%m')='".Input::get('fechames')."'";
+        }else{
+            $fecha="and DATE_FORMAT(tr.fecha_tramite,'%Y-%m') BETWEEN '".Input::get('fecha_ini')."'   AND '".Input::get('fecha_fin')."'";
+        }
+        $sql = "SELECT rd.norden,a.nombre as area,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivo=0,rd.id,null)) AS pendiente,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=0,rd.id,null)) AS atendido,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=1,rd.id,null)) AS finalizo,
+                COUNT(DISTINCT rd.ruta_flujo_id) AS cant_flujo,
+                GROUP_CONCAT(DISTINCT rd.ruta_flujo_id) AS ruta_flujo_id_dep
+                FROM tablas_relacion tr
+                INNER JOIN rutas r ON r.tabla_relacion_id=tr.id and r.ruta_flujo_id=".Input::get('ruta_flujo_id')." and r.estado=1
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1 and CHARACTER_LENGTH(rd.norden)=2 and rd.condicion=0 
+                INNER JOIN areas a ON a.id=rd.area_id
+                WHERE tr.estado=1 
+                ".$fecha."
+                GROUP BY r.ruta_flujo_id,rd.norden";
+        $r=DB::select($sql);
+        return $r;                
+
+        }
+        
+        public static function getPersonalizadodetalle(){
+        $fecha='';
+        if(Input::has('fechames')){
+            $fecha="and DATE_FORMAT(tr.fecha_tramite,'%Y-%m')='".Input::get('fechames')."'";
+        }else{
+            $fecha="and DATE_FORMAT(tr.fecha_tramite,'%Y-%m') BETWEEN '".Input::get('fecha_ini')."'   AND '".Input::get('fecha_fin')."'";
+        }
+        $sql = "SELECT rf.id as flujo_id,f.nombre as flujo,rd.norden,a.nombre as area,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivo=0,rd.id,null)) AS pendiente,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=0,rd.id,null)) AS atendido,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=1,rd.id,null)) AS finalizo,
+                COUNT(DISTINCT rd.ruta_flujo_id) AS cant_flujo,
+                GROUP_CONCAT(DISTINCT rd.ruta_flujo_id) AS ruta_flujo_id_dep
+                FROM tablas_relacion tr
+                INNER JOIN rutas r ON r.tabla_relacion_id=tr.id and r.ruta_flujo_id=".Input::get('ruta_flujo_id')." and r.estado=1
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1 and CHARACTER_LENGTH(rd.norden)=5 and rd.condicion=0 and rd.ruta_flujo_id_dep IN (".Input::get('ruta_flujo_id_dep').") and SUBSTR(rd.norden,1,2)=".Input::get('norden')."
+                INNER JOIN areas a ON a.id=rd.area_id
+                INNER JOIN rutas_flujo rf ON rf.id=rd.ruta_flujo_id_dep
+                INNER JOIN flujos f ON f.id=rf.flujo_id
+                WHERE tr.estado=1 -- 5268
+                ".$fecha."
+                GROUP BY rd.ruta_flujo_id_dep,rd.norden";
+        $r=DB::select($sql);
+        return $r;                
+
+        }
+    
     // --
 }
 ?>
