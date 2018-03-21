@@ -195,15 +195,10 @@ BtnEditar=function(btn,id){
 };
 
 Mostrartickets=function(){
-
-        
            $("#ticketscompletogmgm_historicoModal").modal('show');
            $('#form_ticketscompletogmgm_historico').show();
            $("#t_ticketscompletogmgm_historico").dataTable();
-           MostrarAjax('ticketscompletogmgm_historico');
-        
-
-
+           MostrarAjax('ticketscompletogmgm_historico'); 
 };
 
 activarTabla=function(){
