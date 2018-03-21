@@ -211,7 +211,7 @@ class TicketController extends \BaseController
                                        INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
                                         WHERE acp.estado=1
                                         AND cp.persona_id='".$usu_id."') ";
-//                            $query->whereRaw($usuario);
+
                 }        
 
             $array['order']=" ORDER BY t.id DESC ";
@@ -293,6 +293,41 @@ class TicketController extends \BaseController
           //  $tickets->estado_ticket = Input::get('estado_ticket:1');
             $tickets->usuario_created_at = Auth::user()->id;
             $tickets->save();
+
+            $meses = array('', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre');
+            $email = 'consultas.gmgm@gmail.com';
+            $plantilla = Plantilla::where('tipo', '=', '14')->first();
+            $buscar = array('persona:', 'dia:', 'mes:', 'año:', 'descripcion:');
+            $reemplazar = array('<b>'.ucwords(Auth::user()->nombre).'&nbsp;'
+                                .ucwords(Auth::user()->paterno).'&nbsp;'
+                                .ucwords(Auth::user()->materno).'</b>', 
+                                date('d'),
+                                $meses[date('n')], 
+                                date("Y"), 
+                                '<b>'.$tickets->descripcion.'</b>');
+            $parametros = array(
+                'cuerpo' => str_replace($buscar, $reemplazar, $plantilla->cuerpo)
+            );        
+            //$usu_id = Auth::user()->id;
+            if ($email != '')
+            {
+                DB::beginTransaction();
+                try {
+                    Mail::send('notreirel', $parametros, function($message) use ($email) {
+                            $message
+                                    ->to($email)
+                                    //->cc($email_copia)
+                                    ->subject('.::Registro de Incidencia::.');
+                        }
+                    );
+                } catch (Exception $e) {
+                    //echo $qem[$k]->email."<br>";
+                    DB::rollback();
+                }
+                DB::commit();
+                }
+
+
 
             return Response::json(
                 array(
