@@ -307,7 +307,8 @@ class TicketController extends \BaseController
                                 '<b>'.$tickets->descripcion.'</b>');
             $parametros = array(
                 'cuerpo' => str_replace($buscar, $reemplazar, $plantilla->cuerpo)
-            );        
+            );
+                    
             //$usu_id = Auth::user()->id;
             if ($email != '')
             {
