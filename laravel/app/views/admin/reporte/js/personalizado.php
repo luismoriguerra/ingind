@@ -50,7 +50,7 @@ HTMLPersonalizado=function(datos,parametros){
         if(data.cant_flujo>0){
             var dataG = [];
             var conexionG=[];
-            dataG = {ruta_flujo_id_dep:data.ruta_flujo_id_dep,ruta_flujo_id: parametros.ruta_flujo_id, fechames: parametros.fechames,norden:data.norden};
+            dataG = {indice:2,length_norden:5,ruta_flujo_id_dep:data.ruta_flujo_id_dep,ruta_flujo_id: parametros.ruta_flujo_id, fechames: parametros.fechames,norden:data.norden};
             conexionG={pos:pos};
             detalle=Personalizado.ReportePersonalizadoDetalle(dataG,conexionG);
             html+=detalle;
