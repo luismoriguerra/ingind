@@ -32,7 +32,7 @@ Route::get(
 
 Route::get(
     'votomuni', function(){
-        return Redirect::to('../votomuni/');
+        return Redirect::to('../votomuni/public/');
     }
 );
 
