@@ -30,6 +30,12 @@ Route::get(
     }
 );
 
+Route::get(
+    'votomuni', function(){
+        return Redirect::to('../votomuni/public/');
+    }
+);
+
 App::bind('Chat\Repositories\Conversation\ConversationRepository', 'Chat\Repositories\Conversation\DbConversationRepository');
 App::bind('Chat\Repositories\User\UserRepository', 'Chat\Repositories\User\DbUserRepository');
 App::bind('Chat\Repositories\Area\AreaRepository', 'Chat\Repositories\Area\DbAreaRepository');
