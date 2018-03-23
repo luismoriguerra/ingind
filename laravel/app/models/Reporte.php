@@ -943,7 +943,7 @@ class Reporte extends Eloquent
                 GROUP_CONCAT(DISTINCT rd.ruta_flujo_id) AS ruta_flujo_id_dep
                 FROM tablas_relacion tr
                 INNER JOIN rutas r ON r.tabla_relacion_id=tr.id and r.ruta_flujo_id=".Input::get('ruta_flujo_id')." and r.estado=1
-                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1 and CHARACTER_LENGTH(rd.norden)=".Input::get('length_norden')." and rd.condicion=0 and rd.ruta_flujo_id_dep IN (".Input::get('ruta_flujo_id_dep').") and SUBSTR(rd.norden,1,".Input::get('indice').")=".Input::get('norden')."
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1 and CHARACTER_LENGTH(rd.norden)=".Input::get('length_norden')." and rd.condicion=0 and rd.ruta_flujo_id_dep IN (".Input::get('ruta_flujo_id_dep').") and SUBSTR(rd.norden,1,".Input::get('indice').")='".Input::get('norden')."'
                 INNER JOIN areas a ON a.id=rd.area_id
                 INNER JOIN rutas_flujo rf ON rf.id=rd.ruta_flujo_id_dep
                 INNER JOIN flujos f ON f.id=rf.flujo_id
