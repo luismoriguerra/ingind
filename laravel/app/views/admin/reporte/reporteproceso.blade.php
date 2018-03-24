@@ -147,9 +147,10 @@
                             <table class="tree table table-bordered table-striped" id="t_tree">
                                 <thead id="tt_tree">
                                     <tr>
-                                        <th>N°</th>
-                                        <th>Activdad</th>
+<!--                                        <th>N°</th>-->
+                                        <th>Actividad</th>
                                         <th>Área</th>
+                                        <th>Llegó</th>
                                         <th>Pendiente</th>
                                         <th>Atendido</th>
                                         <th>Finalizado</th>
@@ -262,7 +263,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-xl-12" >
+<!--                <div class="col-xl-12" >
                     <form id="form_detallecuadro" name="form_detallecuadro" method="POST" action="" style="display: none">
                         <div class="box-body table-responsive" style="overflow: auto; height: 388px; width: 100%;">
                             <table id="t_detallecuadro" class="table table-bordered no-footer dataTable">
@@ -280,7 +281,7 @@
                             </table>
                         </div>
                     </form>
-                </div>
+                </div>-->
 
                 <div class="col-xl-12">
                     <form id="form_1" name="form_1"></form>

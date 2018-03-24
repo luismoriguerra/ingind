@@ -35,13 +35,14 @@ eventoSlctGlobalSimple=function(slct,valores){
 HTMLPersonalizado=function(datos,parametros){
     var html ='';
     pos=0;
-//    $('#t_tree').dataTable().fnDestroy();
+
     $.each(datos,function(index,data){
         pos++;
         html+="<tr class='treegrid-"+pos+"'>"+
-            "<td>"+data.norden+"</td>"+
+//            "<td>"+data.norden+"</td>"+
             "<td>Actividad N° "+data.norden+"</td>"+
             "<td>"+data.area+"</td>"+
+            "<td>"+data.total+"</td>"+
             "<td>"+data.pendiente+"</td>"+
             "<td>"+data.atendido+"</td>"+
             "<td>"+data.finalizo+"</td>";
@@ -54,17 +55,13 @@ HTMLPersonalizado=function(datos,parametros){
             var indice=data.norden.length;
             dataG = {indice:indice,length_norden:length_norden,ruta_flujo_id_dep:data.ruta_flujo_id_dep,ruta_flujo_id: parametros.ruta_flujo_id, fechames: parametros.fechames,norden:data.norden};
             conexionG={pos:pos,ruta_flujo_id: parametros.ruta_flujo_id, fechames: parametros.fechames};
-            detalle=Personalizado.ReportePersonalizadoDetalle(dataG,conexionG);console.log(detalle);
+            detalle=Personalizado.ReportePersonalizadoDetalle(dataG,conexionG);
             html+=detalle.html;
             pos=detalle.pos;
         }
     });
     $("#tb_tree").html(html);
     $("#t_tree").treegrid();
-//    $('#t_tree').dataTable(
-//                    {
-//                    "pageLength": 10,
-//                });
 
 };
 
@@ -85,9 +82,10 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
             parent=pos_2;
             pos_2++;
             html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+parent+"'>"+
-            "<td>"+data.norden+"</td>"+
+//            "<td>"+data.norden+"</td>"+
             "<td>Actividad N° "+data.norden+"</td>"+
             "<td>"+data.area+"</td>"+
+            "<td>"+data.total+"</td>"+
             "<td>"+data.pendiente+"</td>"+
             "<td>"+data.atendido+"</td>"+
             "<td>"+data.finalizo+"</td>";
@@ -96,9 +94,10 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
         }else{
             pos_2++;
             html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+parent+"'>"+
-            "<td>"+data.norden+"</td>"+
+//            "<td>"+data.norden+"</td>"+
             "<td>Actividad N° "+data.norden+"</td>"+
             "<td>"+data.area+"</td>"+
+            "<td>"+data.total+"</td>"+
             "<td>"+data.pendiente+"</td>"+
             "<td>"+data.atendido+"</td>"+
             "<td>"+data.finalizo+"</td>";
@@ -112,7 +111,7 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
             var indice=data.norden.length;
             dataG = {indice:indice,length_norden:length_norden,ruta_flujo_id_dep:data.ruta_flujo_id_dep,ruta_flujo_id: conexion.ruta_flujo_id, fechames: conexion.fechames,norden:data.norden};
             conexionG={pos:pos_2,ruta_flujo_id: conexion.ruta_flujo_id, fechames: conexion.fechames};
-            detalle=Personalizado.ReportePersonalizadoDetalle(dataG,conexionG);console.log(detalle);
+            detalle=Personalizado.ReportePersonalizadoDetalle(dataG,conexionG);
             html+=detalle.html;
             pos_2=detalle.pos;
         }

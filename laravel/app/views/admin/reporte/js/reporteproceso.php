@@ -162,9 +162,9 @@
         pos = 0;
         contarproceso0 = 0;
         if (sino == 1) {
-            html_cabecera += "<tr><th colspan='5'></th>";
-        } else {
             html_cabecera += "<tr><th colspan='4'></th>";
+        } else {
+            html_cabecera += "<tr><th colspan='3'></th>";
         }
         var n = 0;
         $.each(cabecera, function (index, cabecera) {
@@ -178,7 +178,7 @@
 
         html_cabecera += "<tr>" +
                 "<th>N°</th>";
-        html_cabecera += "<th>Ruta</th><th>Detalle</th>";
+        html_cabecera += "<th>Ruta</th>";
         if (sino == 1) {
             html_cabecera += "<th>Área</th>";
         }
@@ -206,8 +206,8 @@
             pos++;
             html += "<tr>" +
                     "<td>" + pos + "</td>" +
-                    '<td><a onclick="cargarRutaId(' + data.ruta_flujo_id + ',2,null,this)" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>' +
-                    '<td><a onclick="cargardetalle(' + data.ruta_flujo_id + ',this)" class="btn btn-info btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>' ;
+                    '<td><a onclick="cargarRutaId(' + data.ruta_flujo_id + ',2,null,this)" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>';
+//                    '<td><a onclick="cargardetalle(' + data.ruta_flujo_id + ',this)" class="btn btn-info btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>' ;
             if (sino == 1) {
                 html += "<td>" + data.area + "</td>";
             }
@@ -1179,50 +1179,50 @@
         }
     };
 
-    cargardetalle = function (id,boton) {
-        var tr = boton.parentNode.parentNode;
-        var trs = tr.parentNode.children;
-        for (var i = 0; i < trs.length; i++)
-            trs[i].style.backgroundColor = "#f9f9f9";
-        tr.style.backgroundColor = "#9CD9DE";
-        
-        var fecha_ini = $('#fecha_ini').val();
-        var fecha_fin = $('#fecha_fin').val();
-        var dataG = [];
-        dataG = {ruta_flujo_id: id ,fecha_ini: fecha_ini, fecha_fin: fecha_fin};
-        Proceso.DetalleCuadroProceso(dataG);
-        $("#form_detallecuadro").css("display", "");
-        $("#form_tramite_detalle").css("display", "none");
-        $("#form_tramite").css("display", "none");
-        $("#form_ruta_flujo").css("display", "none");
-
-    };
-    HTMLCargaDetalleCuadroProceso = function (datos) {
-        var html = '';
-        var alerta_tipo = '';
-
-        $('#form_detallecuadro #t_detallecuadro').dataTable().fnDestroy();
-        pos = 0;
-
-
-        $.each(datos, function (index, data) {
-//        btnruta='<a onclick="cargarRutaId('+data.ruta_flujo_id+',2,'+data.id+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
-            html += "<tr>" +
-                    "<td>" + data.flujo + "</td>" +
-                    "<td>" + data.area + "</td>" +
-                    "<td>" + data.norden + "</td>" +
-                    "<td>" + data.total + "</td>" +
-                    "<td>" + data.tf + "</td>";
-            html += "</tr>";
-        });
-
-        $("#form_detallecuadro #tb_detallecuadro").html(html);
-        $("#form_detallecuadro #t_detallecuadro").dataTable(
-                {
-                    "order": [[0, "asc"], [1, "asc"]],
-                    "pageLength": 10,
-                }
-        );
-
-    };
+//    cargardetalle = function (id,boton) {
+//        var tr = boton.parentNode.parentNode;
+//        var trs = tr.parentNode.children;
+//        for (var i = 0; i < trs.length; i++)
+//            trs[i].style.backgroundColor = "#f9f9f9";
+//        tr.style.backgroundColor = "#9CD9DE";
+//        
+//        var fecha_ini = $('#fecha_ini').val();
+//        var fecha_fin = $('#fecha_fin').val();
+//        var dataG = [];
+//        dataG = {ruta_flujo_id: id ,fecha_ini: fecha_ini, fecha_fin: fecha_fin};
+//        Proceso.DetalleCuadroProceso(dataG);
+//        $("#form_detallecuadro").css("display", "");
+//        $("#form_tramite_detalle").css("display", "none");
+//        $("#form_tramite").css("display", "none");
+//        $("#form_ruta_flujo").css("display", "none");
+//
+//    };
+//    HTMLCargaDetalleCuadroProceso = function (datos) {
+//        var html = '';
+//        var alerta_tipo = '';
+//
+//        $('#form_detallecuadro #t_detallecuadro').dataTable().fnDestroy();
+//        pos = 0;
+//
+//
+//        $.each(datos, function (index, data) {
+////        btnruta='<a onclick="cargarRutaId('+data.ruta_flujo_id+',2,'+data.id+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
+//            html += "<tr>" +
+//                    "<td>" + data.flujo + "</td>" +
+//                    "<td>" + data.area + "</td>" +
+//                    "<td>" + data.norden + "</td>" +
+//                    "<td>" + data.total + "</td>" +
+//                    "<td>" + data.tf + "</td>";
+//            html += "</tr>";
+//        });
+//
+//        $("#form_detallecuadro #tb_detallecuadro").html(html);
+//        $("#form_detallecuadro #t_detallecuadro").dataTable(
+//                {
+//                    "order": [[0, "asc"], [1, "asc"]],
+//                    "pageLength": 10,
+//                }
+//        );
+//
+//    };
 </script>
