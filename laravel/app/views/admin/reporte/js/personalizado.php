@@ -47,6 +47,9 @@ HTMLPersonalizado=function(datos,parametros){
         if(aux_id!==data.flujo_id){
             if(index>0){
                 html = html.replace("totalr", totalr);
+                html = html.replace("pendienter", pendienter);
+                html = html.replace("atendidor", atendidor);
+                html = html.replace("finalizador", finalizador);
             }
             pos++;
             html+="<tr class='treegrid-"+pos+"'>";
@@ -127,6 +130,9 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
         if(aux_id!==data.flujo_id){
             if(index>0){
                 html = html.replace("totalr", totalr);
+                html = html.replace("pendienter", pendienter);
+                html = html.replace("atendidor", atendidor);
+                html = html.replace("finalizador", finalizador);
             }
             pos_2++;
             html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+conexion.pos+"'>";
