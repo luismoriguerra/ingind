@@ -45,6 +45,10 @@ HTMLPersonalizado=function(datos,parametros){
     $.each(datos,function(index,data){
         
         if(aux_id!==data.flujo_id){
+            var totalr=0;
+            var pendienter=0;
+            var atendidor=0;
+            var finalizador=0;
             if(index>0){
                 html = html.replace("totalr", totalr);
                 html = html.replace("pendienter", pendienter);
@@ -54,10 +58,10 @@ HTMLPersonalizado=function(datos,parametros){
             pos++;
             html+="<tr class='treegrid-"+pos+"'>";
             html+="<td colspan='2'><b>"+data.flujo+"</b></td>"+
-            "<td>totalr</td>"+
-            "<td>pendienter</td>"+
-            "<td>atendidor</td>"+
-            "<td>finalizador</td>";
+            "<td><b>totalr</b></td>"+
+            "<td><b>pendienter</b></td>"+
+            "<td><b>atendidor</b></td>"+
+            "<td><b>finalizador</b></td>";
             html+="</tr>";
             
             aux_id=data.flujo_id;
@@ -128,6 +132,10 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
     $.each(datos,function(index,data){
         
         if(aux_id!==data.flujo_id){
+            var totalr=0;
+            var pendienter=0;
+            var atendidor=0;
+            var finalizador=0;
             if(index>0){
                 html = html.replace("totalr", totalr);
                 html = html.replace("pendienter", pendienter);
@@ -137,10 +145,10 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
             pos_2++;
             html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+conexion.pos+"'>";
             html+="<td colspan='2'><b>"+data.flujo+"</b></td>"+
-            "<td>totalr</td>"+
-            "<td>pendienter</td>"+
-            "<td>atendidor</td>"+
-            "<td>finalizador</td>";
+            "<td><b>totalr</b></td>"+
+            "<td><b>pendienter</b></td>"+
+            "<td><b>atendidor</b></td>"+
+            "<td><b>finalizador</b></td>";
             html+="</tr>";
             
             aux_id=data.flujo_id;
