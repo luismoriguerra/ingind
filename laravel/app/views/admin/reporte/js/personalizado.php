@@ -53,7 +53,7 @@ HTMLPersonalizado=function(datos,parametros){
             html+="<td colspan='2'><b>"+data.flujo+"</b></td>"+
             "<td>totalr</td>"+
             "<td>pendienter</td>"+
-            "<td>atentidor</td>"+
+            "<td>atendidor</td>"+
             "<td>finalizador</td>";
             html+="</tr>";
             
@@ -117,9 +117,17 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
     var aux_id=0;
     var pos_2=conexion.pos;
     var parent=0;
+    
+    var totalr=0;
+    var pendienter=0;
+    var atendidor=0;
+    var finalizador=0;
     $.each(datos,function(index,data){
         
         if(aux_id!==data.flujo_id){
+            if(index>0){
+                html = html.replace("totalr", totalr);
+            }
             pos_2++;
             html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+conexion.pos+"'>";
             html+="<td colspan='6'><b>"+data.flujo+"</b></td>";
@@ -128,6 +136,10 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
             aux_id=data.flujo_id;
             parent=pos_2;
             pos_2++;
+            totalr=totalr+data.total;
+            pendienter=pendienter+data.pendiente;
+            atendidor=atendidor+data.atendido;
+            finalizador=finalizador+data.finalizo;
             html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+parent+"'>"+
 //            "<td>"+data.norden+"</td>"+
             "<td>Actividad N° "+data.norden+"</td>"+
@@ -140,6 +152,10 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
        
         }else{
             pos_2++;
+            totalr=totalr+data.total;
+            pendienter=pendienter+data.pendiente;
+            atendidor=atendidor+data.atendido;
+            finalizador=finalizador+data.finalizo;
             html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+parent+"'>"+
 //            "<td>"+data.norden+"</td>"+
             "<td>Actividad N° "+data.norden+"</td>"+
@@ -164,6 +180,10 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
         }
 
     });
+    html = html.replace("totalr", totalr);
+    html = html.replace("pendienter", pendienter);
+    html = html.replace("atendidor", atendidor);
+    html = html.replace("finalizador", finalizador);
     returnG={html:html,pos:pos_2};
     return returnG;
 };
