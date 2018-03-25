@@ -38,17 +38,32 @@ HTMLPersonalizado=function(datos,parametros){
     var parent=0;
     var aux_id=0;
     
+    var totalr=0;
+    var pendienter=0;
+    var atendidor=0;
+    var finalizador=0;
     $.each(datos,function(index,data){
         
         if(aux_id!==data.flujo_id){
+            if(index>0){
+                html = html.replace("totalr", totalr);
+            }
             pos++;
             html+="<tr class='treegrid-"+pos+"'>";
-            html+="<td colspan='6'><b>"+data.flujo+"</b><span>Proceso Principal</span></td>";
+            html+="<td colspan='2'><b>"+data.flujo+"</b></td>"+
+            "<td>totalr</td>"+
+            "<td>pendienter</td>"+
+            "<td>atentidor</td>"+
+            "<td>finalizador</td>";
             html+="</tr>";
             
             aux_id=data.flujo_id;
             parent=pos;
             pos++;
+            totalr=totalr+data.total;
+            pendienter=pendienter+data.pendiente;
+            atendidor=atendidor+data.atendido;
+            finalizador=finalizador+data.finalizo;
             html+="<tr class='treegrid-"+pos+" treegrid-parent-"+parent+"'>"+
 //            "<td>"+data.norden+"</td>"+
             "<td>Actividad N° "+data.norden+"</td>"+
@@ -58,9 +73,13 @@ HTMLPersonalizado=function(datos,parametros){
             "<td>"+data.atendido+"</td>"+
             "<td>"+data.finalizo+"</td>";
             html+="</tr>";
-       
+
         }else{
             pos++;
+            totalr=totalr+data.total;
+            pendienter=pendienter+data.pendiente;
+            atendidor=atendidor+data.atendido;
+            finalizador=finalizador+data.finalizo;
             html+="<tr class='treegrid-"+pos+" treegrid-parent-"+parent+"'>"+
 //            "<td>"+data.norden+"</td>"+
             "<td>Actividad N° "+data.norden+"</td>"+
@@ -84,6 +103,7 @@ HTMLPersonalizado=function(datos,parametros){
             pos=detalle.pos;
         }
     });
+    html = html.replace("totalr", totalr);
     $("#tb_tree").html(html);
     $("#t_tree").treegrid();
 
@@ -99,7 +119,7 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
         if(aux_id!==data.flujo_id){
             pos_2++;
             html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+conexion.pos+"'>";
-            html+="<td colspan='6'><b>"+data.flujo+"</b><span>Sub-Proceso</span></td>";
+            html+="<td colspan='6'><b>"+data.flujo+"</b></td>";
             html+="</tr>";
             
             aux_id=data.flujo_id;
