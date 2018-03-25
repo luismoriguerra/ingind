@@ -34,11 +34,22 @@ eventoSlctGlobalSimple=function(slct,valores){
 
 HTMLPersonalizado=function(datos,parametros){
     var html ='';
-    pos=0;
-
+    var pos=0;
+    var parent=0;
+    var aux_id=0;
+    
     $.each(datos,function(index,data){
-        pos++;
-        html+="<tr class='treegrid-"+pos+"'>"+
+        
+        if(aux_id!==data.flujo_id){
+            pos++;
+            html+="<tr class='treegrid-"+pos+"'>";
+            html+="<td colspan='6'><b>"+data.flujo+"</b></td>";
+            html+="</tr>";
+            
+            aux_id=data.flujo_id;
+            parent=pos++;
+            pos++;
+            html+="<tr class='treegrid-"+pos+" treegrid-parent-"+parent+"'>"+
 //            "<td>"+data.norden+"</td>"+
             "<td>Actividad N° "+data.norden+"</td>"+
             "<td>"+data.area+"</td>"+
@@ -46,7 +57,20 @@ HTMLPersonalizado=function(datos,parametros){
             "<td>"+data.pendiente+"</td>"+
             "<td>"+data.atendido+"</td>"+
             "<td>"+data.finalizo+"</td>";
-        html+="</tr>";
+            html+="</tr>";
+       
+        }else{
+            pos++;
+            html+="<tr class='treegrid-"+pos+" treegrid-parent-"+parent+"'>"+
+//            "<td>"+data.norden+"</td>"+
+            "<td>Actividad N° "+data.norden+"</td>"+
+            "<td>"+data.area+"</td>"+
+            "<td>"+data.total+"</td>"+
+            "<td>"+data.pendiente+"</td>"+
+            "<td>"+data.atendido+"</td>"+
+            "<td>"+data.finalizo+"</td>";
+            html+="</tr>";
+        }
         
         if(data.cant_flujo>0){
             var dataG = [];
