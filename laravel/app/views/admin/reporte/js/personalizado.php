@@ -60,10 +60,10 @@ HTMLPersonalizado=function(datos,parametros){
             "<td><b>finalizador</b></td>";
             html+="</tr>";
                 
-            var totalr=0;
-            var pendienter=0;
-            var atendidor=0;
-            var finalizador=0;
+            totalr=0;
+            pendienter=0;
+            atendidor=0;
+            finalizador=0;
             
             aux_id=data.flujo_id;
             parent=pos;
@@ -148,10 +148,10 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
             "<td><b>finalizador</b></td>";
             html+="</tr>";
             
-            var totalr=0;
-            var pendienter=0;
-            var atendidor=0;
-            var finalizador=0;
+            totalr=0;
+            pendienter=0;
+            atendidor=0;
+            finalizador=0;
             
             aux_id=data.flujo_id;
             parent=pos_2;
