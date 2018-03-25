@@ -45,10 +45,6 @@ HTMLPersonalizado=function(datos,parametros){
     $.each(datos,function(index,data){
         
         if(aux_id!==data.flujo_id){
-            var totalr=0;
-            var pendienter=0;
-            var atendidor=0;
-            var finalizador=0;
             if(index>0){
                 html = html.replace("totalr", totalr);
                 html = html.replace("pendienter", pendienter);
@@ -63,6 +59,11 @@ HTMLPersonalizado=function(datos,parametros){
             "<td><b>atendidor</b></td>"+
             "<td><b>finalizador</b></td>";
             html+="</tr>";
+                
+            var totalr=0;
+            var pendienter=0;
+            var atendidor=0;
+            var finalizador=0;
             
             aux_id=data.flujo_id;
             parent=pos;
@@ -132,10 +133,6 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
     $.each(datos,function(index,data){
         
         if(aux_id!==data.flujo_id){
-            var totalr=0;
-            var pendienter=0;
-            var atendidor=0;
-            var finalizador=0;
             if(index>0){
                 html = html.replace("totalr", totalr);
                 html = html.replace("pendienter", pendienter);
@@ -150,6 +147,11 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
             "<td><b>atendidor</b></td>"+
             "<td><b>finalizador</b></td>";
             html+="</tr>";
+            
+            var totalr=0;
+            var pendienter=0;
+            var atendidor=0;
+            var finalizador=0;
             
             aux_id=data.flujo_id;
             parent=pos_2;
