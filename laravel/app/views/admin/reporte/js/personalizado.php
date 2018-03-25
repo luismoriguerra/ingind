@@ -43,7 +43,7 @@ HTMLPersonalizado=function(datos,parametros){
         if(aux_id!==data.flujo_id){
             pos++;
             html+="<tr class='treegrid-"+pos+"'>";
-            html+="<td colspan='6'><b>"+data.flujo+"</b></td>";
+            html+="<td colspan='6'><b>"+data.flujo+"</b><span>Proceso Principal</span></td>";
             html+="</tr>";
             
             aux_id=data.flujo_id;
@@ -99,7 +99,7 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
         if(aux_id!==data.flujo_id){
             pos_2++;
             html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+conexion.pos+"'>";
-            html+="<td colspan='6'><b>"+data.flujo+"</b></td>";
+            html+="<td colspan='6'><b>"+data.flujo+"</b><span>Sub-Proceso</span></td>";
             html+="</tr>";
             
             aux_id=data.flujo_id;
