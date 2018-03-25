@@ -47,7 +47,7 @@ HTMLPersonalizado=function(datos,parametros){
             html+="</tr>";
             
             aux_id=data.flujo_id;
-            parent=pos++;
+            parent=pos;
             pos++;
             html+="<tr class='treegrid-"+pos+" treegrid-parent-"+parent+"'>"+
 //            "<td>"+data.norden+"</td>"+
