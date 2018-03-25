@@ -104,6 +104,9 @@ HTMLPersonalizado=function(datos,parametros){
         }
     });
     html = html.replace("totalr", totalr);
+    html = html.replace("pendienter", pendienter);
+    html = html.replace("atendidor", atendidor);
+    html = html.replace("finalizador", finalizador);
     $("#tb_tree").html(html);
     $("#t_tree").treegrid();
 
