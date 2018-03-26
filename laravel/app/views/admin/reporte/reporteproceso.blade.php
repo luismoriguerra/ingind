@@ -144,7 +144,7 @@
                     <div id="div_tactividad_previo" class="text-center"  style="display: none"></div>
                     <form id="form_tactividad" name="form_tactividad" method="POST" action="" style="display: none">
                         <div class="box-body table-responsive">
-                            <table class="tree table table-bordered table-striped" id="t_tree">
+                            <table class="tree table table-bordered" id="t_tree">
                                 <thead id="tt_tree">
                                     <tr>
 <!--                                        <th>N°</th>-->
