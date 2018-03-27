@@ -218,3 +218,4 @@ Route::controller('actividadcategoria', 'ActividadCategoriaController');
 Route::controller('reportepersonal', 'ReportePersonalController');
 Route::controller('fichaproceso', 'FichaProcesoController');
 Route::controller('auditoriacuestionarioinicio', 'AuditoriaCuestionarioInicioController');
+Route::controller('maps', 'MapsController');

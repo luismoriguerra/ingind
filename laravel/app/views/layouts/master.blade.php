@@ -39,10 +39,20 @@
             {{ HTML::script('js/utils.js') }}
             {{ HTML::script('lib/perfect-scrollbar/perfect-scrollbar.js') }}
             {{ Html::script('lib/sweetalert-master/dist/sweetalert.min.js') }}
+
+            {{-- Html::script('lib/gmaps/apigoogle.js') --}}
+            {{-- Html::script('lib/gmaps/gmaps.js') --}}
             
             @include( 'admin.js.app' )
-      {{--       @include( 'css/admin/chat' ) --}}
+            {{--       @include( 'css/admin/chat' ) --}}
 		@show
+
+        <!-- <script async defer src="lib/google_maps/gmaps.js"></script> -->
+        <!-- 
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+        <script type="text/javascript" src="lib/gmaps/gmaps.js"></script> 
+        -->
+
 	</head>	
 
     <body class="skin-blue">
