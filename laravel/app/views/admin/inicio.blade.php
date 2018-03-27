@@ -50,7 +50,7 @@
                             window.location.href = "admin.ruta.asignartramite";
                         }
                         if(respuesta_id==2){
-                           window.location.href = "admin.ruta.flujos";
+                           window.location.href = "admin.produccion.ordentrabajo";
                         }
                         if(respuesta_id==3){
                            window.location.href = "admin.reporte.listaproceso";

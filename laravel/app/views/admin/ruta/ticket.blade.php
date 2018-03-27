@@ -57,7 +57,8 @@
                                 </table>
                                 <a class='btn btn-primary btn-sm' class="btn btn-primary" 
                                 data-toggle="modal" data-target="#ticketModal" data-titulo="Nuevo"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</a>
-                              <!--  <a style="display:none" id="BtnEditar" data-toggle="modal" data-target="#ticketModal" data-titulo="Editar"></a> -->
+                                <a class='btn btn-primary btn-sm' class="btn btn-primary"
+                                data-toggle="modal" data-target="#ticketsHistoricoModal" data-titulo="Incidencias Históricos" onClick='Mostrarticket();'><i class="fa fa-search fa-lg"></i>&nbsp;Incidencias Históricos</a>
                             </div><!-- /.box-body -->
                              </form>
                         </div><!-- /.box -->
@@ -69,4 +70,5 @@
 
     @section('formulario')
          @include( 'admin.ruta.form.ticket' )
+         @include( 'admin.ruta.form.ticketscompleto' )
     @stop

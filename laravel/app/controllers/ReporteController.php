@@ -200,6 +200,28 @@ class ReporteController extends BaseController
         );
    }
    
+           public function postPersonalizado()
+   {
+        $oData=Reporte::getPersonalizado();
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$oData,
+            )
+        );
+   }
+   
+              public function postPersonalizadodetalle()
+   {
+        $oData=Reporte::getPersonalizadodetalle();
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$oData,
+            )
+        );
+   }
+   
            public function postDetallecuadroproceso()
    {
         $oData=Reporte::DetalleCuadroProceso();

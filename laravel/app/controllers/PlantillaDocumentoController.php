@@ -79,6 +79,7 @@ class PlantillaDocumentoController extends \BaseController {
         if ($Plantilladoc) {
 
             $params = [
+                'anio'=>date('Y'),
                 'tamano'=>4,
                 'posicion'=>0,
                 'posicion_fecha'=>1,

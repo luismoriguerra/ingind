@@ -162,9 +162,9 @@
         pos = 0;
         contarproceso0 = 0;
         if (sino == 1) {
-            html_cabecera += "<tr><th colspan='5'></th>";
-        } else {
             html_cabecera += "<tr><th colspan='4'></th>";
+        } else {
+            html_cabecera += "<tr><th colspan='3'></th>";
         }
         var n = 0;
         $.each(cabecera, function (index, cabecera) {
@@ -178,7 +178,7 @@
 
         html_cabecera += "<tr>" +
                 "<th>N°</th>";
-        html_cabecera += "<th>Ruta</th><th>Detalle</th>";
+        html_cabecera += "<th>Ruta</th>";
         if (sino == 1) {
             html_cabecera += "<th>Área</th>";
         }
@@ -201,16 +201,18 @@
         html_cabecera += "</tr>";
 
         $.each(datos, function (index, data) {
+//            evento='';
+//            if(data.evento!==''){evento='<a onClick="'+data.evento+'('+ data.ruta_flujo_id +')" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a>'}
             pos++;
             html += "<tr>" +
                     "<td>" + pos + "</td>" +
-                    '<td><a onclick="cargarRutaId(' + data.ruta_flujo_id + ',2,null,this)" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>' +
-                    '<td><a onclick="cargardetalle(' + data.ruta_flujo_id + ',this)" class="btn btn-info btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>' ;
+                    '<td><a onclick="cargarRutaId(' + data.ruta_flujo_id + ',2,null,this)" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>';
+//                    '<td><a onclick="cargardetalle(' + data.ruta_flujo_id + ',this)" class="btn btn-info btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>' ;
             if (sino == 1) {
                 html += "<td>" + data.area + "</td>";
             }
 
-            html += "<td>" + data.proceso + "</td>";
+            html += "<td>" + data.proceso +'</td>';
 
             var i;
             for (i = 1; i <= n; i++) {
@@ -230,9 +232,9 @@
                         '</td>';
             }
 
-            if (data.rt == 0) {
-                contarproceso0++;
-            }
+//            if (data.rt == 0) {
+//                contarproceso0++;
+//            }
             var porcentaje_faltas = 0;
             var porcentaje_alertas = 0;
             if (data.ft != 0 && data.rt != 0) {
@@ -282,8 +284,8 @@
             html += '<td>' + data.alertas + "</td>";
             html += '<td>' + porcentaje_alertas.toFixed(2) + "%</td>";
         });
-        var totalcero = contarproceso0;
-        var totalmascero = pos - contarproceso0;
+//        var totalcero = contarproceso0;
+//        var totalmascero = pos - contarproceso0;
 
         html += "</tr>";
         $("#tb_proceso").html(html);
@@ -294,13 +296,13 @@
                     "pageLength": 10,
                 }
         );
-        var htmlca = '';
-        var htmlresumen = '';
-        htmlca += "<tr><th style='text-align:center'>Resumen</th><th style='text-align:center'>Cantidad</th></tr>";
-        htmlresumen += "<tr><td>Cantidad de Procesos con 0 trámites</td><td style='text-align:right'>" + totalcero + "</td></tr>";
-        htmlresumen += "<tr><td>Cantidad de Procesos con trámites</td><td style='text-align:right'>" + totalmascero + "</td></tr>";
-        $("#tt_resumen").html(htmlca);
-        $("#tb_resumen").html(htmlresumen);
+//        var htmlca = '';
+//        var htmlresumen = '';
+//        htmlca += "<tr><th style='text-align:center'>Resumen</th><th style='text-align:center'>Cantidad</th></tr>";
+//        htmlresumen += "<tr><td>Cantidad de Procesos con 0 trámites</td><td style='text-align:right'>" + totalcero + "</td></tr>";
+//        htmlresumen += "<tr><td>Cantidad de Procesos con trámites</td><td style='text-align:right'>" + totalmascero + "</td></tr>";
+//        $("#tt_resumen").html(htmlca);
+//        $("#tb_resumen").html(htmlresumen);
 //    $("#t_resumen").dataTable(
 //            {
 //            "order": [[ 0, "asc" ],[1, "asc"]],
@@ -813,7 +815,7 @@
         
         $.each(datos, function (index, data) {
             html += "<tr>";
-                html += '<td><a onClick="detalle(' + data.id + ',this)" class="btn btn-primary btn-sm" data-id="' + data.id + '" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a> </td>'+
+                html += '<td><a onClick="detallee(' + data.id + ',this)" class="btn btn-primary btn-sm" data-id="' + data.id + '" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a> </td>'+
                         "<td>" + data.sumilla + "</td>"+
                         "<td>" + data.id_union + "</td>";
                 var i;
@@ -1062,7 +1064,7 @@
 
     };
 
-    detalle = function (ruta_id, boton) {
+    detallee = function (ruta_id, boton) {
 
         $("#form_1").append("<input type='hidden' id='txt_ruta_id' name='txt_ruta_id' value='" + ruta_id + "'>");
         var datos = $("#form_1").serialize().split("txt_").join("").split("slct_").join("");
@@ -1089,41 +1091,42 @@
         $("#form_tactividad").hide();
 
         Proceso.MostrarTramiteActividad(id, fechames, tramite);
-        //$("#form_tactividad").css("display", "");
+        Personalizado.ReportePersonalizado(dataG);
+        $("#form_tactividad").css("display", "");
 
         //Proceso.MostrarTramites(dataG);
         $("#form_tramite").css("display", "");
         $("#form_tramite_detalle").css("display", "none");
         $("#form_detallecuadro").css("display", "none");
         $("#form_ruta_flujo").css("display", "none");
-
+        
         // --
-        Proceso.CalcularTotalesXNumeroOrden(id, fechames, tramite);
-        Proceso.CalcularTotalActividad(id, fechames, tramite);
+//        Proceso.CalcularTotalesXNumeroOrden(id, fechames, tramite);
+       // Proceso.CalcularTotalActividad(id, fechames, tramite);
         // --
     };
 
-    HTMLCargaTotalesXNumeroOrden = function (datos) {
-        var html_cabecera_tot = '';
-        var html_tot = '';
-        var n = 1;
-
-        html_cabecera_tot = "<tr class='info'>";            
-        var i = 0;
-        $.each(datos, function (index, data) {
-            html_cabecera_tot += "<th> Actividad "+data.norden+" </th>";    
-        });
-        html_cabecera_tot += "</tr>";
-
-        html_tot += "<tr style=''>";
-        $.each(datos, function (index, data) {
-                html_tot += "<td>" + data.cant + "</td>";                
-        });
-        html_tot += "</tr>";
-
-        $("#tt_orden_resum").html(html_cabecera_tot);
-        $("#tb_orden_resum").html(html_tot);
-    };
+//    HTMLCargaTotalesXNumeroOrden = function (datos) {
+//        var html_cabecera_tot = '';
+//        var html_tot = '';
+//        var n = 1;
+//
+//        html_cabecera_tot = "<tr class='info'>";            
+//        var i = 0;
+//        $.each(datos, function (index, data) {
+//            html_cabecera_tot += "<th> Actividad "+data.norden+" </th>";    
+//        });
+//        html_cabecera_tot += "</tr>";
+//
+//        html_tot += "<tr style=''>";
+//        $.each(datos, function (index, data) {
+//                html_tot += "<td>" + data.cant + "</td>";                
+//        });
+//        html_tot += "</tr>";
+//
+//        $("#tt_orden_resum").html(html_cabecera_tot);
+//        $("#tb_orden_resum").html(html_tot);
+//    };
 
     HTMLCargaTotalActividad = function (datos,cabecera) {
         var html_cabecera_tot = '';
@@ -1176,50 +1179,50 @@
         }
     };
 
-    cargardetalle = function (id,boton) {
-        var tr = boton.parentNode.parentNode;
-        var trs = tr.parentNode.children;
-        for (var i = 0; i < trs.length; i++)
-            trs[i].style.backgroundColor = "#f9f9f9";
-        tr.style.backgroundColor = "#9CD9DE";
-        
-        var fecha_ini = $('#fecha_ini').val();
-        var fecha_fin = $('#fecha_fin').val();
-        var dataG = [];
-        dataG = {ruta_flujo_id: id ,fecha_ini: fecha_ini, fecha_fin: fecha_fin};
-        Proceso.DetalleCuadroProceso(dataG);
-        $("#form_detallecuadro").css("display", "");
-        $("#form_tramite_detalle").css("display", "none");
-        $("#form_tramite").css("display", "none");
-        $("#form_ruta_flujo").css("display", "none");
-
-    };
-    HTMLCargaDetalleCuadroProceso = function (datos) {
-        var html = '';
-        var alerta_tipo = '';
-
-        $('#form_detallecuadro #t_detallecuadro').dataTable().fnDestroy();
-        pos = 0;
-
-
-        $.each(datos, function (index, data) {
-//        btnruta='<a onclick="cargarRutaId('+data.ruta_flujo_id+',2,'+data.id+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
-            html += "<tr>" +
-                    "<td>" + data.flujo + "</td>" +
-                    "<td>" + data.area + "</td>" +
-                    "<td>" + data.norden + "</td>" +
-                    "<td>" + data.total + "</td>" +
-                    "<td>" + data.tf + "</td>";
-            html += "</tr>";
-        });
-
-        $("#form_detallecuadro #tb_detallecuadro").html(html);
-        $("#form_detallecuadro #t_detallecuadro").dataTable(
-                {
-                    "order": [[0, "asc"], [1, "asc"]],
-                    "pageLength": 10,
-                }
-        );
-
-    };
+//    cargardetalle = function (id,boton) {
+//        var tr = boton.parentNode.parentNode;
+//        var trs = tr.parentNode.children;
+//        for (var i = 0; i < trs.length; i++)
+//            trs[i].style.backgroundColor = "#f9f9f9";
+//        tr.style.backgroundColor = "#9CD9DE";
+//        
+//        var fecha_ini = $('#fecha_ini').val();
+//        var fecha_fin = $('#fecha_fin').val();
+//        var dataG = [];
+//        dataG = {ruta_flujo_id: id ,fecha_ini: fecha_ini, fecha_fin: fecha_fin};
+//        Proceso.DetalleCuadroProceso(dataG);
+//        $("#form_detallecuadro").css("display", "");
+//        $("#form_tramite_detalle").css("display", "none");
+//        $("#form_tramite").css("display", "none");
+//        $("#form_ruta_flujo").css("display", "none");
+//
+//    };
+//    HTMLCargaDetalleCuadroProceso = function (datos) {
+//        var html = '';
+//        var alerta_tipo = '';
+//
+//        $('#form_detallecuadro #t_detallecuadro').dataTable().fnDestroy();
+//        pos = 0;
+//
+//
+//        $.each(datos, function (index, data) {
+////        btnruta='<a onclick="cargarRutaId('+data.ruta_flujo_id+',2,'+data.id+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
+//            html += "<tr>" +
+//                    "<td>" + data.flujo + "</td>" +
+//                    "<td>" + data.area + "</td>" +
+//                    "<td>" + data.norden + "</td>" +
+//                    "<td>" + data.total + "</td>" +
+//                    "<td>" + data.tf + "</td>";
+//            html += "</tr>";
+//        });
+//
+//        $("#form_detallecuadro #tb_detallecuadro").html(html);
+//        $("#form_detallecuadro #t_detallecuadro").dataTable(
+//                {
+//                    "order": [[0, "asc"], [1, "asc"]],
+//                    "pageLength": 10,
+//                }
+//        );
+//
+//    };
 </script>

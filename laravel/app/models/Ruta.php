@@ -76,7 +76,7 @@ class Ruta extends Eloquent
                                 $rutaDetalle['area_id'] = $rfd->area_id;
                                 $rutaDetalle['tiempo_id'] = $rfd->tiempo_id;
                                 $rutaDetalle['dtiempo'] = $rfd->dtiempo;
-//                                $rutaDetalle['ruta_flujo_id']=$rd->ruta_flujo_id2;
+                                $rutaDetalle['ruta_flujo_id_dep']=$rdm->ruta_flujo_id;
                                 $rutaDetalle['norden'] = $rd->norden.'.'.$cero.$rfd->norden;
                                 $rutaDetalle['estado_ruta'] = $rfd->estado_ruta;
                                 $rutaDetalle['usuario_created_at'] = Auth::user()->id;
@@ -312,6 +312,8 @@ class Ruta extends Eloquent
                 $rutaDetalle['norden']=$cero.$rd->norden;
                 $rutaDetalle['ruta_flujo_id']=$rd->ruta_flujo_id2;
                 $rutaDetalle['estado_ruta']=$rd->estado_ruta;
+                $rutaDetalle['detalle']=$rd->detalle;
+                $rutaDetalle['archivado']=$rd->archivado;
                 if($rd->norden==1 or ($rd->norden>1 and $validaactivar==0 and $rd->estado_ruta==2) ){
                     $rutaDetalle['fecha_inicio']=$fecha_inicio;
                     $sql="SELECT CalcularFechaFinal( '".$fecha_inicio."', (".$rd->dtiempo."*1440), ".$rd->area_id." ) fproy";
