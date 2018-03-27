@@ -815,7 +815,7 @@
         
         $.each(datos, function (index, data) {
             html += "<tr>";
-                html += '<td><a onClick="detalle(' + data.id + ',this)" class="btn btn-primary btn-sm" data-id="' + data.id + '" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a> </td>'+
+                html += '<td><a onClick="detallee(' + data.id + ',this)" class="btn btn-primary btn-sm" data-id="' + data.id + '" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a> </td>'+
                         "<td>" + data.sumilla + "</td>"+
                         "<td>" + data.id_union + "</td>";
                 var i;
@@ -1064,7 +1064,7 @@
 
     };
 
-    detalle = function (ruta_id, boton) {
+    detallee = function (ruta_id, boton) {alert("aqui");
 
         $("#form_1").append("<input type='hidden' id='txt_ruta_id' name='txt_ruta_id' value='" + ruta_id + "'>");
         var datos = $("#form_1").serialize().split("txt_").join("").split("slct_").join("");
