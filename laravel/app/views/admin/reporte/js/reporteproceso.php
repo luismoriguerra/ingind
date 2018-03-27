@@ -1087,10 +1087,10 @@
             dataG = {ruta_flujo_id: id, fechames: fechames, tramite: tramite};
         }
 
-//        $("#div_tactividad_previo").html('<img src="img/loading.gif" style="border: 0px;">').show();
-//        $("#form_tactividad").hide();
+        $("#div_tactividad_previo").html('<img src="img/loading.gif" style="border: 0px;">').show();
+        $("#form_tactividad").hide();
 
-//        Proceso.MostrarTramiteActividad(id, fechames, tramite);
+        Proceso.MostrarTramiteActividad(id, fechames, tramite);
         Personalizado.ReportePersonalizado(dataG);
         $("#form_tactividad").css("display", "");
 
