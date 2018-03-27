@@ -577,12 +577,16 @@ class RutaController extends \BaseController
                                     ->get();
                        
                             foreach ($qrutaDetalle as $rd) {
+                                $cero='';
+                                if($rd->norden<10){
+                                    $cero='0';
+                                }
                                 $rutaDetalle = new RutaDetalle;
                                 $rutaDetalle['ruta_id'] = $ruta->id;
                                 $rutaDetalle['area_id'] = $rd->area_id;
                                 $rutaDetalle['tiempo_id'] = $rd->tiempo_id;
                                 $rutaDetalle['dtiempo'] = $rd->dtiempo;
-                                $rutaDetalle['norden'] = $rd->norden;
+                                $rutaDetalle['norden'] =$cero.$rd->norden;
                                 $rutaDetalle['estado_ruta'] = $rd->estado_ruta;
                                 $rutaDetalle['usuario_created_at'] = Auth::user()->id;
                                 if ($rutaDetalle->norden == 1) {
