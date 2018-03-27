@@ -322,7 +322,7 @@ mostrarDetalleHTML=function(datos){
     var data={ flujo_id:datos.flujo_id, estado:1,fecha_inicio:datos.fecha_inicio }
     var ids = [];
     $('#slct_tipo_respuesta,#slct_tipo_respuesta_detalle').multiselect('destroy');
-
+    
     /*add new ruta detalle verbo*/
     var filtro={estado:1};
     slctGlobal.listarSlct2('documento','cbotipoDoc',filtro);
@@ -342,7 +342,16 @@ mostrarDetalleHTML=function(datos){
         $("#btn_siguiente_rd").hide();
         $(".sectionmicro").css("display","none");}
     // --
-
+    //***************************Mostrar archivado**********************************/
+    if(datos.archivado==1){
+        $(".sectionarchivado").css("display","");
+        slctGlobalHtml('slct_archivado','simple');
+        
+    }else{
+        $(".sectionarchivado").css("display","none");
+        $('#slct_archivado').multiselect('destroy');
+    }
+    //--
     /*ruta flujo id para visualizar la ruta */
     $("#VisualizarR").attr('ruta_flujo_id',datos.ruta_flujo_id);
     /*end ruta flujo id para visualizar la ruta*/

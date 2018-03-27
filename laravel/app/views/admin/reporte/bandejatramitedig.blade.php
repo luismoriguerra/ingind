@@ -419,6 +419,13 @@ tr.shown td.details-control {
                                                 <label class="control-label">Descripción de respuesta de la Actividad:</label>
                                                 <textarea class="form-control" id="txt_observacion" name="txt_observacion" rows="3"></textarea>
                                             </div>
+                                            <div class="col-sm-3 sectionarchivado">
+                                                <label class="control-label">Archivar Trámite:</label>
+                                                <select id="slct_archivado" name="slct_archivado">
+                                                    <option value="0">No</option>
+                                                    <option value="2">Si</option>
+                                                </select>
+                                            </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Estado Final de la Actividad(Alerta):</label>
                                                 <input type="hidden" class="form-control" id="txt_alerta" name="txt_alerta">

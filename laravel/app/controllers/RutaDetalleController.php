@@ -385,6 +385,9 @@ class RutaDetalleController extends \BaseController
 
             $datos=array();
             if ( Input::get('tipo_respuesta') ) {
+                if(Input::get('archivado')==2 && Input::has('archivado')){
+                    $rd['archivado']=2;
+                }
                 $rd['dtiempo_final']= Input::get('respuesta');
                 $rd['tipo_respuesta_id']= Input::get('tipo_respuesta');
                 $rd['tipo_respuesta_detalle_id']= Input::get('tipo_respuesta_detalle');
