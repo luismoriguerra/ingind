@@ -1064,7 +1064,7 @@
 
     };
 
-    detallee = function (ruta_id, boton) {alert("aqui");
+    detallee = function (ruta_id, boton) {
 
         $("#form_1").append("<input type='hidden' id='txt_ruta_id' name='txt_ruta_id' value='" + ruta_id + "'>");
         var datos = $("#form_1").serialize().split("txt_").join("").split("slct_").join("");
