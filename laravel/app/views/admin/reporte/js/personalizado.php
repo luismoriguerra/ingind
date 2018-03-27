@@ -86,7 +86,7 @@ HTMLPersonalizado=function(datos,parametros){
             "<td>"+data.area+"</td>"+
             "<td>"+data.total+"</td>"+
             "<td>"+data.pendiente+"</td>"+
-            "<td>"+data.atendido+"</td>"+
+            "<td>"+data.atendido+' / <span  style="color:red;">'+data.destiempo+"</span></td>"+
             "<td>"+data.finalizo+"</td>";
             html+="</tr>";
 
@@ -102,7 +102,7 @@ HTMLPersonalizado=function(datos,parametros){
             "<td>"+data.area+"</td>"+
             "<td>"+data.total+"</td>"+
             "<td>"+data.pendiente+"</td>"+
-            "<td>"+data.atendido+"</td>"+
+            "<td>"+data.atendido+' / <span  style="color:red;">'+data.destiempo+"</span></td>"+
             "<td>"+data.finalizo+"</td>";
             html+="</tr>";
         }
@@ -179,7 +179,7 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
             "<td>"+data.area+"</td>"+
             "<td>"+data.total+"</td>"+
             "<td>"+data.pendiente+"</td>"+
-            "<td>"+data.atendido+"</td>"+
+            "<td>"+data.atendido+' / <span  style="color:red;">'+data.destiempo+"</span></td>"+
             "<td>"+data.finalizo+"</td>";
             html+="</tr>";
        
@@ -195,7 +195,7 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
             "<td>"+data.area+"</td>"+
             "<td>"+data.total+"</td>"+
             "<td>"+data.pendiente+"</td>"+
-            "<td>"+data.atendido+"</td>"+
+            "<td>"+data.atendido+' / <span  style="color:red;">'+data.destiempo+"</span></td>"+
             "<td>"+data.finalizo+"</td>";
             html+="</tr>";
         }

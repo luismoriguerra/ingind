@@ -912,8 +912,9 @@ class Reporte extends Eloquent
         }
         $sql = "SELECT IFNULL(MAX(rd.detalle),'') as detalle,f.id as flujo_id,f.nombre as flujo,rd.norden,a.nombre as area,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivo=0,rd.id,null)) AS pendiente,
-                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=0,rd.id,null)) AS atendido,
-                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=1,rd.id,null)) AS finalizo,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado!=2,rd.id,null)) AS atendido,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=2,rd.id,null)) AS finalizo,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado!=2 AND rd.alerta_tipo=1 AND rd.alerta=1,rd.id,null)) AS destiempo,
                 COUNT(DISTINCT rd.ruta_flujo_id) AS cant_flujo,
                 GROUP_CONCAT(DISTINCT rd.ruta_flujo_id) AS ruta_flujo_id_dep,
                 COUNT(DISTINCT IF(rd.fecha_inicio IS NOT NULL,rd.id,null)) AS total
@@ -939,8 +940,9 @@ class Reporte extends Eloquent
         }
         $sql = "SELECT IFNULL(MAX(rd.detalle),'') as detalle,rf.id as flujo_id,f.nombre as flujo,rd.norden,a.nombre as area,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivo=0,rd.id,null)) AS pendiente,
-                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=0,rd.id,null)) AS atendido,
-                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=1,rd.id,null)) AS finalizo,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado!=2,rd.id,null)) AS atendido,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=2,rd.id,null)) AS finalizo,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado!=2 AND rd.alerta_tipo=1 AND rd.alerta=1,rd.id,null)) AS destiempo,
                 COUNT(DISTINCT rd.ruta_flujo_id) AS cant_flujo,
                 GROUP_CONCAT(DISTINCT rd.ruta_flujo_id) AS ruta_flujo_id_dep,
                 COUNT(DISTINCT IF(rd.fecha_inicio IS NOT NULL,rd.id,null)) AS total
