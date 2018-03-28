@@ -48,7 +48,9 @@ HTMLPersonalizado=function(datos,parametros){
     
     var totalr=0;
     var pendienter=0;
+    var destiempopr=0;
     var atendidor=0;
+    var destiempoar=0;
     var finalizador=0;
     $.each(datos,function(index,data){
         
@@ -58,13 +60,15 @@ HTMLPersonalizado=function(datos,parametros){
                 html = html.replace("pendienter", pendienter);
                 html = html.replace("atendidor", atendidor);
                 html = html.replace("finalizador", finalizador);
+                html = html.replace("destiempopr", destiempopr);
+                html = html.replace("destiempoar", destiempoar);
             }
             pos++;
             html+="<tr class='treegrid-"+pos+"' onClick='selectTR(this)' id='"+pos+"'>";
             html+="<td colspan='2'><b>"+data.flujo+"</b></td>"+
             "<td><b class='oculto'>totalr</b></td>"+
-            "<td><b class='oculto'>pendienter</b></td>"+
-            "<td><b class='oculto'>atendidor</b></td>"+
+            "<td><b class='oculto'>pendienter / <span style='color:red;'>destiempopr</span></b></td>"+
+            "<td><b class='oculto'>atendidor / <span style='color:red;'>destiempoar</span></b></td>"+
             "<td><b class='oculto'>finalizador</b></td>";
             html+="</tr>";
                 
@@ -72,6 +76,8 @@ HTMLPersonalizado=function(datos,parametros){
             pendienter=0;
             atendidor=0;
             finalizador=0;
+            destiempopr=0;
+            destiempoar=0;
             
             aux_id=data.flujo_id;
             parent=pos;
@@ -80,13 +86,15 @@ HTMLPersonalizado=function(datos,parametros){
             pendienter=pendienter+data.pendiente;
             atendidor=atendidor+data.atendido;
             finalizador=finalizador+data.finalizo;
+            destiempopr=destiempopr+data.destiempo_p;
+            destiempoar=destiempoar+data.destiempo_a;
             html+="<tr class='treegrid-"+pos+" treegrid-parent-"+parent+"' onClick='selectTR(this)'>"+
 //            "<td>"+data.norden+"</td>"+
             "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span> - <span style='color:blue;'>("+data.detalle+")</span></td>"+
             "<td>"+data.area+"</td>"+
             "<td>"+data.total+"</td>"+
-            "<td>"+data.pendiente+"</td>"+
-            "<td>"+data.atendido+' / <span  style="color:red;">'+data.destiempo+"</span></td>"+
+            "<td>"+data.pendiente+' / <span  style="color:red;">'+data.destiempo_p+"</span></td>"+
+            "<td>"+data.atendido+' / <span  style="color:red;">'+data.destiempo_a+"</span></td>"+
             "<td>"+data.finalizo+"</td>";
             html+="</tr>";
 
@@ -96,13 +104,15 @@ HTMLPersonalizado=function(datos,parametros){
             pendienter=pendienter+data.pendiente;
             atendidor=atendidor+data.atendido;
             finalizador=finalizador+data.finalizo;
+            destiempopr=destiempopr+data.destiempo_p;
+            destiempoar=destiempoar+data.destiempo_a;
             html+="<tr class='treegrid-"+pos+" treegrid-parent-"+parent+"' onClick='selectTR(this)'>"+
 //            "<td>"+data.norden+"</td>"+
             "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span> - <span style='color:blue;'>("+data.detalle+")</span></td>"+
             "<td>"+data.area+"</td>"+
             "<td>"+data.total+"</td>"+
-            "<td>"+data.pendiente+"</td>"+
-            "<td>"+data.atendido+' / <span  style="color:red;">'+data.destiempo+"</span></td>"+
+            "<td>"+data.pendiente+' / <span  style="color:red;">'+data.destiempo_p+"</span></td>"+
+            "<td>"+data.atendido+' / <span  style="color:red;">'+data.destiempo_a+"</span></td>"+
             "<td>"+data.finalizo+"</td>";
             html+="</tr>";
         }
@@ -123,6 +133,8 @@ HTMLPersonalizado=function(datos,parametros){
     html = html.replace("pendienter", pendienter);
     html = html.replace("atendidor", atendidor);
     html = html.replace("finalizador", finalizador);
+    html = html.replace("destiempopr", destiempopr);
+    html = html.replace("destiempoar", destiempoar);
     $("#tb_tree").html(html);
     $('#t_tree').treegrid({
         onChange: function() {
@@ -141,7 +153,9 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
     
     var totalr=0;
     var pendienter=0;
+    var destiempopr=0;
     var atendidor=0;
+    var destiempoar=0;
     var finalizador=0;
     $.each(datos,function(index,data){
         
@@ -151,13 +165,15 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
                 html = html.replace("pendienter", pendienter);
                 html = html.replace("atendidor", atendidor);
                 html = html.replace("finalizador", finalizador);
+                html = html.replace("destiempopr", destiempopr);
+                html = html.replace("destiempoar", destiempoar);
             }
             pos_2++;
             html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+conexion.pos+"' onClick='selectTR(this)' id='"+pos_2+"'>";
             html+="<td colspan='2'><b>"+data.flujo+"</b></td>"+
             "<td><b class='oculto'>totalr</b></td>"+
-            "<td><b class='oculto'>pendienter</b></td>"+
-            "<td><b class='oculto'>atendidor</b></td>"+
+            "<td><b class='oculto'>pendienter / <span style='color:red;'>destiempopr</span></b></td>"+
+            "<td><b class='oculto'>atendidor / <span style='color:red;'>destiempoar</span></b></td>"+
             "<td><b class='oculto'>finalizador</b></td>";
             html+="</tr>";
             
@@ -165,6 +181,8 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
             pendienter=0;
             atendidor=0;
             finalizador=0;
+            destiempopr=0;
+            destiempoar=0;
             
             aux_id=data.flujo_id;
             parent=pos_2;
@@ -173,13 +191,15 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
             pendienter=pendienter+data.pendiente;
             atendidor=atendidor+data.atendido;
             finalizador=finalizador+data.finalizo;
+            destiempopr=destiempopr+data.destiempo_p;
+            destiempoar=destiempoar+data.destiempo_a;
             html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+parent+"' onClick='selectTR(this)'>"+
 //            "<td>"+data.norden+"</td>"+
             "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span> - <span style='color:blue;'>("+data.detalle+")</span></td>"+
             "<td>"+data.area+"</td>"+
             "<td>"+data.total+"</td>"+
-            "<td>"+data.pendiente+"</td>"+
-            "<td>"+data.atendido+' / <span  style="color:red;">'+data.destiempo+"</span></td>"+
+            "<td>"+data.pendiente+' / <span  style="color:red;">'+data.destiempo_p+"</span></td>"+
+            "<td>"+data.atendido+' / <span  style="color:red;">'+data.destiempo_a+"</span></td>"+
             "<td>"+data.finalizo+"</td>";
             html+="</tr>";
        
@@ -189,13 +209,15 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
             pendienter=pendienter+data.pendiente;
             atendidor=atendidor+data.atendido;
             finalizador=finalizador+data.finalizo;
+            destiempopr=destiempopr+data.destiempo_p;
+            destiempoar=destiempoar+data.destiempo_a;
             html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+parent+"' onClick='selectTR(this)'>"+
 //            "<td>"+data.norden+"</td>"+
             "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span> - <span style='color:blue;'>("+data.detalle+")</span></td>"+
             "<td>"+data.area+"</td>"+
             "<td>"+data.total+"</td>"+
-            "<td>"+data.pendiente+"</td>"+
-            "<td>"+data.atendido+' / <span  style="color:red;">'+data.destiempo+"</span></td>"+
+            "<td>"+data.pendiente+' / <span  style="color:red;">'+data.destiempo_p+"</span></td>"+
+            "<td>"+data.atendido+' / <span  style="color:red;">'+data.destiempo_a+"</span></td>"+
             "<td>"+data.finalizo+"</td>";
             html+="</tr>";
         }
@@ -217,6 +239,8 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
     html = html.replace("pendienter", pendienter);
     html = html.replace("atendidor", atendidor);
     html = html.replace("finalizador", finalizador);
+    html = html.replace("destiempopr", destiempopr);
+    html = html.replace("destiempoar", destiempoar);
     returnG={html:html,pos:pos_2};
     return returnG;
 };
