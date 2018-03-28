@@ -503,6 +503,7 @@ class RutaController extends \BaseController
                                     $rutaflujodetalle->tiempo_id = 2;
                                     $rutaflujodetalle->dtiempo = $dias+1;
                                     $rutaflujodetalle->norden = 1;
+                                    $rutaflujodetalle->detalle = "Desarrollo del trabajo";
                                     $rutaflujodetalle->estado_ruta = 1;
                                     $rutaflujodetalle->usuario_created_at = Auth::user()->id;
                                     $rutaflujodetalle->save();
@@ -586,6 +587,7 @@ class RutaController extends \BaseController
                                 $rutaDetalle['area_id'] = $rd->area_id;
                                 $rutaDetalle['tiempo_id'] = $rd->tiempo_id;
                                 $rutaDetalle['dtiempo'] = $rd->dtiempo;
+                                $rutaDetalle['detalle'] = $rd->detalle;
                                 $rutaDetalle['norden'] =$cero.$rd->norden;
                                 $rutaDetalle['estado_ruta'] = $rd->estado_ruta;
                                 $rutaDetalle['usuario_created_at'] = Auth::user()->id;
