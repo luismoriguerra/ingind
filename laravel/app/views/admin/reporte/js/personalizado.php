@@ -82,7 +82,7 @@ HTMLPersonalizado=function(datos,parametros){
             finalizador=finalizador+data.finalizo;
             html+="<tr class='treegrid-"+pos+" treegrid-parent-"+parent+"' onClick='selectTR(this)'>"+
 //            "<td>"+data.norden+"</td>"+
-            "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span></td>"+
+            "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span> - <span style='color:blue;'>("+data.detalle+")</span></td>"+
             "<td>"+data.area+"</td>"+
             "<td>"+data.total+"</td>"+
             "<td>"+data.pendiente+"</td>"+
@@ -98,7 +98,7 @@ HTMLPersonalizado=function(datos,parametros){
             finalizador=finalizador+data.finalizo;
             html+="<tr class='treegrid-"+pos+" treegrid-parent-"+parent+"' onClick='selectTR(this)'>"+
 //            "<td>"+data.norden+"</td>"+
-            "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span></td>"+
+            "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span> - <span style='color:blue;'>("+data.detalle+")</span></td>"+
             "<td>"+data.area+"</td>"+
             "<td>"+data.total+"</td>"+
             "<td>"+data.pendiente+"</td>"+
@@ -175,7 +175,7 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
             finalizador=finalizador+data.finalizo;
             html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+parent+"' onClick='selectTR(this)'>"+
 //            "<td>"+data.norden+"</td>"+
-            "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span></td>"+
+            "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span> - <span style='color:blue;'>("+data.detalle+")</span></td>"+
             "<td>"+data.area+"</td>"+
             "<td>"+data.total+"</td>"+
             "<td>"+data.pendiente+"</td>"+
@@ -191,7 +191,7 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
             finalizador=finalizador+data.finalizo;
             html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+parent+"' onClick='selectTR(this)'>"+
 //            "<td>"+data.norden+"</td>"+
-            "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span></td>"+
+            "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span> - <span style='color:blue;'>("+data.detalle+")</span></td>"+
             "<td>"+data.area+"</td>"+
             "<td>"+data.total+"</td>"+
             "<td>"+data.pendiente+"</td>"+
