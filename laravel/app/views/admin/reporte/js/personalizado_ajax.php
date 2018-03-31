@@ -82,7 +82,9 @@ var Personalizado={
                         destiempo_p.push(data.destiempo_p);
                         pendiente.push(data.pendiente);
                     });
-
+                    if(typeof chart !== "undefined") {
+                            chart.destroy();
+                    }
                     var config = {
                             type: 'line',
                             data: {
@@ -146,9 +148,8 @@ var Personalizado={
                                     }
                             }
                     };
-
                     var ctx = $("#myChart")[0].getContext('2d');
-                    window.myLine = new Chart(ctx, config);
+                    chart = new Chart(ctx, config);
 
                 }
             },
