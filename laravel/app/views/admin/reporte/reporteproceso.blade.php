@@ -12,6 +12,8 @@
 {{ Html::script('lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js') }}
 {{ Html::style('lib/jquery-treegrid/css/jquery.treegrid.css') }}
 {{ Html::script('lib/jquery-treegrid/js/jquery.treegrid.js') }}
+{{ Html::script('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js') }}
+{{ Html::script('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js') }}
 
 @include( 'admin.js.slct_global_ajax' )
 @include( 'admin.js.slct_global' )
@@ -159,6 +161,7 @@
                                 <tbody id="tb_tree">
                                 </tbody>
                             </table>
+                            <canvas id="myChart" height="280" width="600"></canvas>
                         </div> 
                         <br>
                         <div class="box-body table-responsive" style="overflow: auto; width: 100%;">

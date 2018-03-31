@@ -211,7 +211,18 @@ class ReporteController extends BaseController
         );
    }
    
-              public function postPersonalizadodetalle()
+              public function postGraficodata()
+   {
+        $oData=Reporte::getGraficodata();
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$oData,
+            )
+        );
+   }
+   
+                 public function postPersonalizadodetalle()
    {
         $oData=Reporte::getPersonalizadodetalle();
         return Response::json(

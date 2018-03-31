@@ -962,6 +962,32 @@ class Reporte extends Eloquent
 
         }
     
+                public static function getGraficodata(){
+        $fecha='';
+        if(Input::has('fechames')){
+            $fecha="and DATE_FORMAT(tr.fecha_tramite,'%Y-%m')='".Input::get('fechames')."'";
+        }else{
+            $fecha="and DATE_FORMAT(tr.fecha_tramite,'%Y-%m') BETWEEN '".Input::get('fecha_ini')."'   AND '".Input::get('fecha_fin')."'";
+        }
+        $sql = "SELECT DATE(tr.fecha_tramite) as fecha,f.nombre as flujo,rd.norden,a.nombre as area,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivado!=2,rd.id,null)) AS pendiente,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado!=2,rd.id,null)) AS atendido,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=2,rd.id,null)) AS finalizo,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado!=2 AND rd.alerta_tipo=1 AND rd.alerta=1,rd.id,null)) AS destiempo_a,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivado!=2 and CURRENT_TIMESTAMP()>rd.fecha_proyectada,rd.id,null)) AS destiempo_p,
+                COUNT(DISTINCT IF(rd.fecha_inicio IS NOT NULL,rd.id,null)) AS total
+                FROM tablas_relacion tr
+                INNER JOIN rutas r ON r.tabla_relacion_id=tr.id and r.ruta_flujo_id=".Input::get('ruta_flujo_id')." and r.estado=1
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1  and rd.condicion=0 and rd.norden='".Input::get('norden')."'
+                INNER JOIN areas a ON a.id=rd.area_id
+                INNER JOIN flujos f ON f.id=r.flujo_id
+                WHERE tr.estado=1 
+                ".$fecha."
+                GROUP BY r.ruta_flujo_id,DATE(tr.fecha_tramite)";
+        $r=DB::select($sql);
+        return $r;                
+
+        }
     // --
 }
 ?>
