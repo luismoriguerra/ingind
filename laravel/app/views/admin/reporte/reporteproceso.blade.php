@@ -161,7 +161,6 @@
                                 <tbody id="tb_tree">
                                 </tbody>
                             </table>
-                            <canvas id="myChart" height="280" width="600"></canvas>
                         </div> 
                         <br>
                         <div class="box-body table-responsive" style="overflow: auto; width: 100%;">
@@ -372,4 +371,5 @@
 @section('formulario')
 @include( 'admin.produccion.form.actividades' )
 @include( 'admin.ruta.form.ruta' )
+@include( 'admin.reporte.form.grafica' )
 @stop

@@ -76,11 +76,11 @@ var Personalizado={
                     var pendiente = [];
                     var fecha=[];
                     $.each(obj.datos,function(index,data){
-                        atendido.push(data.atendido);
-                        fecha.push(data.fecha);
-                        destiempo_a.push(data.destiempo_a);
-                        destiempo_p.push(data.destiempo_p);
-                        pendiente.push(data.pendiente);
+                            atendido.push(data.atendido);
+                            fecha.push(data.fecha);
+                            destiempo_a.push(data.destiempo_a);
+                            destiempo_p.push(data.destiempo_p);
+                            pendiente.push(data.pendiente);
                     });
                     if(typeof chart !== "undefined") {
                             chart.destroy();
@@ -120,7 +120,7 @@ var Personalizado={
                                     responsive: true,
                                     title: {
                                             display: true,
-                                            text: 'Chart.js Line Chart'
+                                            text: dataG.fechames,
                                     },
                                     tooltips: {
                                             mode: 'index',
