@@ -613,12 +613,16 @@ class CargarController extends BaseController {
                                     ->get();
                             $validaactivar = 0;
                             foreach ($qrutaDetalle as $rd) {
+                                $cero='';
+                                if($rd->norden<10){
+                                    $cero='0';
+                                }
                                 $rutaDetalle = new RutaDetalle;
                                 $rutaDetalle['ruta_id'] = $ruta->id;
                                 $rutaDetalle['area_id'] = $rd->area_id;
                                 $rutaDetalle['tiempo_id'] = $rd->tiempo_id;
                                 $rutaDetalle['dtiempo'] = $rd->dtiempo;
-                                $rutaDetalle['norden'] = $rd->norden;
+                                $rutaDetalle['norden'] =  $cero.$rd->norden;
                                 $rutaDetalle['estado_ruta'] = $rd->estado_ruta;
 
                                 $rutaDetalle['dtiempo_final'] = date('Y-m-d 08:00:00');
@@ -1001,12 +1005,16 @@ class CargarController extends BaseController {
                                     ->get();
                             $validaactivar = 0;
                             foreach ($qrutaDetalle as $rd) {
+                                $cero='';
+                                if($rd->norden<10){
+                                    $cero='0';
+                                }
                                 $rutaDetalle = new RutaDetalle;
                                 $rutaDetalle['ruta_id'] = $ruta->id;
                                 $rutaDetalle['area_id'] = $rd->area_id;
                                 $rutaDetalle['tiempo_id'] = $rd->tiempo_id;
                                 $rutaDetalle['dtiempo'] = $rd->dtiempo;
-                                $rutaDetalle['norden'] = $rd->norden;
+                                $rutaDetalle['norden'] =  $cero.$rd->norden;
                                 $rutaDetalle['estado_ruta'] = $rd->estado_ruta;
                                 if ($rd->norden == 1 or $rd->norden == 2 or ( $rd->norden > 1 and $validaactivar == 0 and $rd->estado_ruta == 2)) {
                                     if ($rd->norden == 1) {
