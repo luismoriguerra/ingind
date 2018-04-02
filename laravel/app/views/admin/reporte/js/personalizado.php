@@ -191,16 +191,16 @@ selectTR=function(boton,tipo){
     for (var i = 0; i < trs.length; i++)
         trs[i].style.backgroundColor = "#f9f9f9";
     tr.style.backgroundColor = "#9CD9DE";
-    if(1==2){    
+    //if(1==2){    
         if(tipo==1){
-            var dataG={fechames:$(boton).data("fechames"),ruta_flujo_id:$(boton).data("rutaflujoid"),norden:$(boton).data("norden"),ruta_flujo_id_micro:$(boton).data("ruta_flujo_id_micro")};
+            var dataG={fechames:$(boton).data("fechames"),ruta_flujo_id:$(boton).data("rutaflujoid"),length_norden:$(boton).data("length_norden"),norden:$(boton).data("norden"),ruta_flujo_id_micro:$(boton).data("ruta_flujo_id_micro")};
         }else{
             var dataG={fechames:$(boton).data("fechames"),ruta_flujo_id:$(boton).data("rutaflujoid"),length_norden:$(boton).data("length_norden"),ruta_flujo_id_micro:$(boton).data("ruta_flujo_id_micro")};
         }
         var ResumenG={pendiente:$(boton).data("pendiente"),atendido:$(boton).data("atendido"),finalizo:$(boton).data("finalizo"),destiempo_p:$(boton).data("destiempo_p"),destiempo_a:$(boton).data("destiempo_a")};
         Personalizado.GraficoData(dataG,ResumenG);
         $("#graficaModal").modal("show");
-    }
+    //}
 };
 
 HTMLPersonalizado=function(datos,parametros){
@@ -356,7 +356,7 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
             finalizador=finalizador+data.finalizo;
             destiempopr=destiempopr+data.destiempo_p;
             destiempoar=destiempoar+data.destiempo_a;
-            html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+parent+"' onClick='selectTR(this,1)' data-rutaflujoid='"+conexion.ruta_flujo_id+"' data-ruta_flujo_id_micro='"+data.ruta_flujo_id_micro+"' data-norden='"+data.norden+"' data-fechames='"+conexion.fechames+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
+            html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+parent+"' onClick='selectTR(this,1)' data-length_norden='"+data.norden.length+"' data-rutaflujoid='"+conexion.ruta_flujo_id+"' data-ruta_flujo_id_micro='"+data.ruta_flujo_id_micro+"' data-norden='"+data.norden+"' data-fechames='"+conexion.fechames+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
 //            "<td>"+data.norden+"</td>"+
             "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span> - <span style='color:blue;'>("+data.detalle+")</span></td>"+
             "<td>"+data.area+"</td>"+
@@ -374,7 +374,7 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
             finalizador=finalizador+data.finalizo;
             destiempopr=destiempopr+data.destiempo_p;
             destiempoar=destiempoar+data.destiempo_a;
-            html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+parent+"' onClick='selectTR(this,1)' data-rutaflujoid='"+conexion.ruta_flujo_id+"' data-ruta_flujo_id_micro='"+data.ruta_flujo_id_micro+"' data-norden='"+data.norden+"' data-fechames='"+conexion.fechames+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
+            html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+parent+"' onClick='selectTR(this,1)' data-length_norden='"+data.norden.length+"' data-rutaflujoid='"+conexion.ruta_flujo_id+"' data-ruta_flujo_id_micro='"+data.ruta_flujo_id_micro+"' data-norden='"+data.norden+"' data-fechames='"+conexion.fechames+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
 //            "<td>"+data.norden+"</td>"+
             "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span> - <span style='color:blue;'>("+data.detalle+")</span></td>"+
             "<td>"+data.area+"</td>"+
