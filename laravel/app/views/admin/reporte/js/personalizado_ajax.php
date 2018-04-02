@@ -186,6 +186,9 @@ var Personalizado={
                                                             labelString: '# Trámites'
                                                     }
                                             }]
+                                    },
+                                    animation: {
+                                       duration:3000,
                                     }
                             }
                     };
