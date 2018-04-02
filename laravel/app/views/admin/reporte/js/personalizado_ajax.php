@@ -74,41 +74,46 @@ var Personalizado={
                     var destiempo_a = [];
                     var destiempo_p = [];
                     var pendiente = [];
+                    var finalizo = [];
                     var fecha=[];
                     var aux_i=1;
                     var aniomes=dataG.fechames.split("-");
                     // Solo los dias donde hay datos
 //                    $.each(obj.datos,function(index,data){
 //                            atendido.push(data.atendido);
-//                            fecha.push(data.fecha);
 //                            destiempo_a.push(data.destiempo_a);
 //                            destiempo_p.push(data.destiempo_p);
 //                            pendiente.push(data.pendiente);
+//                            finalizo.push(data.finalizo);
+//                            fecha.push(data.fecha);
 //                    });
                     //--
                     //Dias del 1 al 31
                     $.each(obj.datos,function(index,data){
                         for(i=aux_i;i<data.dia;i++){
                             atendido.push(0);
-                            fecha.push(i);
                             destiempo_a.push(0);
                             destiempo_p.push(0);
                             pendiente.push(0);   
+                            finalizo.push(0);   
+                            fecha.push(i);
                             aux_i=data.dia;
                         }
                             atendido.push(data.atendido);
-                            fecha.push(data.fecha);
                             destiempo_a.push(data.destiempo_a);
                             destiempo_p.push(data.destiempo_p);
                             pendiente.push(data.pendiente);
+                            finalizo.push(data.finalizo); 
+                            fecha.push(data.fecha);
                             aux_i++;
                     });
                     for(i=aux_i;i<=daysInMonth(aniomes[1],aniomes[0]);i++){
                         atendido.push(0);
-                        fecha.push(i);
                         destiempo_a.push(0);
                         destiempo_p.push(0);
-                        pendiente.push(0);   
+                        pendiente.push(0); 
+                        finalizo.push(0);
+                        fecha.push(i);
                     }
                     //--
                     if(typeof chart !== "undefined") {
@@ -142,7 +147,14 @@ var Personalizado={
                                             fill: false,
                                             backgroundColor: window.chartColors.purple,
                                             borderColor: window.chartColors.purple,
+                                            borderDash: [5, 5],
                                             data: destiempo_p,
+                                    }, {
+                                            label: 'Finalizó',
+                                            fill: false,
+                                            backgroundColor: window.chartColors.black,
+                                            borderColor: window.chartColors.black,
+                                            data: finalizo,
                                     }]
                             },
                             options: {
