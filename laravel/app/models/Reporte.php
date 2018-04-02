@@ -939,7 +939,7 @@ class Reporte extends Eloquent
         }else{
             $fecha="and DATE_FORMAT(tr.fecha_tramite,'%Y-%m') BETWEEN '".Input::get('fecha_ini')."'   AND '".Input::get('fecha_fin')."'";
         }
-        $sql = "SELECT IFNULL(MAX(rd.detalle),'') as detalle,rf.id as flujo_id,f.nombre as flujo,rd.norden,a.nombre as area,
+        $sql = "SELECT rd.ruta_flujo_id_dep AS ruta_flujo_id_micro,IFNULL(MAX(rd.detalle),'') as detalle,rf.id as flujo_id,f.nombre as flujo,rd.norden,a.nombre as area,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivado!=2,rd.id,null)) AS pendiente,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado!=2,rd.id,null)) AS atendido,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=2,rd.id,null)) AS finalizo,
@@ -984,9 +984,14 @@ class Reporte extends Eloquent
                 FROM tablas_relacion tr
                 INNER JOIN rutas r ON r.tabla_relacion_id=tr.id and r.ruta_flujo_id=".Input::get('ruta_flujo_id')." and r.estado=1
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1  and rd.condicion=0";
-        if(Input::has('norden')){
-            $sql.=" and rd.norden='".Input::get('norden')."'";
-        }
+                if(Input::has('norden')){
+                    $sql.=" and rd.norden='".Input::get('norden')."'";
+                }
+                if(Input::has('length_norden') and Input::get('length_norden')==2) {
+                    $sql.=" and CHARACTER_LENGTH(rd.norden)=".Input::get('length_norden');
+                }else if(Input::has('length_norden') and Input::get('length_norden')!=2){
+                    $sql.=" AND ruta_flujo_id_dep=".Input::get('ruta_flujo_id_micro');
+                }
             
             $sql.=" INNER JOIN areas a ON a.id=rd.area_id
                 INNER JOIN flujos f ON f.id=r.flujo_id
