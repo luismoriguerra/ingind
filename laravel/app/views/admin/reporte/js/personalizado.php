@@ -191,7 +191,7 @@ selectTR=function(boton,grafica){
     for (var i = 0; i < trs.length; i++)
         trs[i].style.backgroundColor = "#f9f9f9";
     tr.style.backgroundColor = "#9CD9DE";
-    if(grafica==1){
+    if(grafica==10){
         var dataG={fechames:$(boton).data("fechames"),ruta_flujo_id:$(boton).data("rutaflujoid"),norden:$(boton).data("norden")};
         Personalizado.GraficoData(dataG);
         $("#graficaModal").modal("show");
