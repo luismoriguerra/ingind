@@ -191,11 +191,12 @@ selectTR=function(boton,tipo){
     for (var i = 0; i < trs.length; i++)
         trs[i].style.backgroundColor = "#f9f9f9";
     tr.style.backgroundColor = "#9CD9DE";
+    var dataG={};
     //if(1==2){    
         if(tipo==1){
-            var dataG={fechames:$(boton).data("fechames"),ruta_flujo_id:$(boton).data("rutaflujoid"),length_norden:$(boton).data("length_norden"),norden:$(boton).data("norden"),ruta_flujo_id_micro:$(boton).data("ruta_flujo_id_micro")};
+             dataG={fechames:$(boton).data("fechames"),ruta_flujo_id:$(boton).data("rutaflujoid"),length_norden:$(boton).data("length_norden"),norden:$(boton).data("norden"),ruta_flujo_id_micro:$(boton).data("ruta_flujo_id_micro")};
         }else{
-            var dataG={fechames:$(boton).data("fechames"),ruta_flujo_id:$(boton).data("rutaflujoid"),length_norden:$(boton).data("length_norden"),ruta_flujo_id_micro:$(boton).data("ruta_flujo_id_micro")};
+             dataG={fechames:$(boton).data("fechames"),ruta_flujo_id:$(boton).data("rutaflujoid"),length_norden:$(boton).data("length_norden"),ruta_flujo_id_micro:$(boton).data("ruta_flujo_id_micro")};
         }
         var ResumenG={pendiente:$(boton).data("pendiente"),atendido:$(boton).data("atendido"),finalizo:$(boton).data("finalizo"),destiempo_p:$(boton).data("destiempo_p"),destiempo_a:$(boton).data("destiempo_a")};
         Personalizado.GraficoData(dataG,ResumenG);
