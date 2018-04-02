@@ -1,7 +1,7 @@
 <script type="text/javascript">
-
+var NombreMes=["","ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SETIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
 $(document).ready(function() {
-   
+    
    $('.tree').treegrid({
 //        onChange: function() {
 //            alert("Changed: "+$(this).attr("id"));
@@ -400,6 +400,10 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
     html = html.replace("destiempoar", destiempoar);
     returnG={html:html,pos:pos_2};
     return returnG;
+};
+
+daysInMonth=function(humanMonth, year){
+  return new Date(year || new Date().getFullYear(), humanMonth, 0).getDate();
 };
 
 </script>

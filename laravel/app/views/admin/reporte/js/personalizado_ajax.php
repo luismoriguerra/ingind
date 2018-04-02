@@ -75,13 +75,42 @@ var Personalizado={
                     var destiempo_p = [];
                     var pendiente = [];
                     var fecha=[];
+                    var aux_i=1;
+                    var aniomes=dataG.fechames.split("-");
+                    // Solo los dias donde hay datos
+//                    $.each(obj.datos,function(index,data){
+//                            atendido.push(data.atendido);
+//                            fecha.push(data.fecha);
+//                            destiempo_a.push(data.destiempo_a);
+//                            destiempo_p.push(data.destiempo_p);
+//                            pendiente.push(data.pendiente);
+//                    });
+                    //--
+                    //Dias del 1 al 31
                     $.each(obj.datos,function(index,data){
+                        for(i=aux_i;i<data.dia;i++){
+                            atendido.push(0);
+                            fecha.push(i);
+                            destiempo_a.push(0);
+                            destiempo_p.push(0);
+                            pendiente.push(0);   
+                            aux_i=data.dia;
+                        }
                             atendido.push(data.atendido);
                             fecha.push(data.fecha);
                             destiempo_a.push(data.destiempo_a);
                             destiempo_p.push(data.destiempo_p);
                             pendiente.push(data.pendiente);
+                            aux_i++;
                     });
+                    for(i=aux_i;i<=daysInMonth(aniomes[1],aniomes[0]);i++){
+                        atendido.push(0);
+                        fecha.push(i);
+                        destiempo_a.push(0);
+                        destiempo_p.push(0);
+                        pendiente.push(0);   
+                    }
+                    //--
                     if(typeof chart !== "undefined") {
                             chart.destroy();
                     }
@@ -120,7 +149,7 @@ var Personalizado={
                                     responsive: true,
                                     title: {
                                             display: true,
-                                            text: dataG.fechames,
+                                            text: NombreMes[aniomes[1]*1]+" "+aniomes[0],
                                     },
                                     tooltips: {
                                             mode: 'index',
