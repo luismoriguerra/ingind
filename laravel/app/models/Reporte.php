@@ -964,12 +964,13 @@ class Reporte extends Eloquent
     
                 public static function getGraficodata(){
         $fecha='';
+        $sql='';
         if(Input::has('fechames')){
             $fecha="and DATE_FORMAT(tr.fecha_tramite,'%Y-%m')='".Input::get('fechames')."'";
         }else{
             $fecha="and DATE_FORMAT(tr.fecha_tramite,'%Y-%m') BETWEEN '".Input::get('fecha_ini')."'   AND '".Input::get('fecha_fin')."'";
         }
-        $sql = "SELECT DAY(tr.fecha_tramite) as dia,CONCAT(
+        $sql.= "SELECT DAY(tr.fecha_tramite) as dia,CONCAT(
                 -- CASE DAYOFWEEK(tr.fecha_tramite)
                 -- WHEN 1 THEN 'Domingo' WHEN 2 THEN 'Lunes' WHEN 3 THEN 'Martes' WHEN 4 THEN 'Miércoles'
                 -- WHEN 5 THEN 'Jueves' WHEN 6 THEN 'Viernes' WHEN 7 THEN 'Sábado' END,' ',
@@ -982,8 +983,12 @@ class Reporte extends Eloquent
                 COUNT(DISTINCT IF(rd.fecha_inicio IS NOT NULL,rd.id,null)) AS total
                 FROM tablas_relacion tr
                 INNER JOIN rutas r ON r.tabla_relacion_id=tr.id and r.ruta_flujo_id=".Input::get('ruta_flujo_id')." and r.estado=1
-                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1  and rd.condicion=0 and rd.norden='".Input::get('norden')."'
-                INNER JOIN areas a ON a.id=rd.area_id
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1  and rd.condicion=0";
+        if(Input::has('norden')){
+            $sql.=" and rd.norden='".Input::get('norden')."'";
+        }
+            
+            $sql.=" INNER JOIN areas a ON a.id=rd.area_id
                 INNER JOIN flujos f ON f.id=r.flujo_id
                 WHERE tr.estado=1 
                 ".$fecha."
