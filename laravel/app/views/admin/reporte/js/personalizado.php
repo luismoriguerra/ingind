@@ -262,8 +262,8 @@ HTMLPersonalizado=function(datos,parametros){
             destiempoar=destiempoar+data.destiempo_a;
             TotalGlobal.total=TotalGlobal.total+data.total;
             TotalGlobal.pendiente=TotalGlobal.pendiente+data.pendiente;
-            TotalGlobal.atendido=TotalGlobal.pendiente+data.atendido;
-            TotalGlobal.finalizo=TotalGlobal.pendiente+data.finalizo;
+            TotalGlobal.atendido=TotalGlobal.atendido+data.atendido;
+            TotalGlobal.finalizo=TotalGlobal.finalizo+data.finalizo;
             TotalGlobal.destiempo_p=TotalGlobal.destiempo_p+data.destiempo_p;
             TotalGlobal.destiempo_a=TotalGlobal.destiempo_a+data.destiempo_a;
             html+="<tr class='treegrid-"+pos+" treegrid-parent-"+parent+"' ondblclick='selectTR(this,1)' data-rutaflujoid='"+parametros.ruta_flujo_id+"' data-norden='"+data.norden+"' data-fechames='"+parametros.fechames+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
@@ -285,8 +285,8 @@ HTMLPersonalizado=function(datos,parametros){
             destiempopr=destiempopr+data.destiempo_p;
             destiempoar=destiempoar+data.destiempo_a;
             TotalGlobal.pendiente=TotalGlobal.pendiente+data.pendiente;
-            TotalGlobal.atendido=TotalGlobal.pendiente+data.atendido;
-            TotalGlobal.finalizo=TotalGlobal.pendiente+data.finalizo;
+            TotalGlobal.atendido=TotalGlobal.atendido+data.atendido;
+            TotalGlobal.finalizo=TotalGlobal.finalizo+data.finalizo;
             TotalGlobal.destiempo_p=TotalGlobal.destiempo_p+data.destiempo_p;
             TotalGlobal.destiempo_a=TotalGlobal.destiempo_a+data.destiempo_a;
             html+="<tr class='treegrid-"+pos+" treegrid-parent-"+parent+"' ondblclick='selectTR(this,1)' data-rutaflujoid='"+parametros.ruta_flujo_id+"' data-norden='"+data.norden+"' data-fechames='"+parametros.fechames+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
@@ -384,8 +384,8 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
             destiempopr=destiempopr+data.destiempo_p;
             destiempoar=destiempoar+data.destiempo_a;
             TotalGlobal.pendiente=TotalGlobal.pendiente+data.pendiente;
-            TotalGlobal.atendido=TotalGlobal.pendiente+data.atendido;
-            TotalGlobal.finalizo=TotalGlobal.pendiente+data.finalizo;
+            TotalGlobal.atendido=TotalGlobal.atendido+data.atendido;
+            TotalGlobal.finalizo=TotalGlobal.finalizo+data.finalizo;
             TotalGlobal.destiempo_p=TotalGlobal.destiempo_p+data.destiempo_p;
             TotalGlobal.destiempo_a=TotalGlobal.destiempo_a+data.destiempo_a;
             html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+parent+"' ondblclick='selectTR(this,1)' data-length_norden='"+data.norden.length+"' data-rutaflujoid='"+conexion.ruta_flujo_id+"' data-ruta_flujo_id_micro='"+data.ruta_flujo_id_micro+"' data-norden='"+data.norden+"' data-fechames='"+conexion.fechames+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
@@ -407,8 +407,8 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
             destiempopr=destiempopr+data.destiempo_p;
             destiempoar=destiempoar+data.destiempo_a;
             TotalGlobal.pendiente=TotalGlobal.pendiente+data.pendiente;
-            TotalGlobal.atendido=TotalGlobal.pendiente+data.atendido;
-            TotalGlobal.finalizo=TotalGlobal.pendiente+data.finalizo;
+            TotalGlobal.atendido=TotalGlobal.atendido+data.atendido;
+            TotalGlobal.finalizo=TotalGlobal.finalizo+data.finalizo;
             TotalGlobal.destiempo_p=TotalGlobal.destiempo_p+data.destiempo_p;
             TotalGlobal.destiempo_a=TotalGlobal.destiempo_a+data.destiempo_a;
             html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+parent+"' ondblclick='selectTR(this,1)' data-length_norden='"+data.norden.length+"' data-rutaflujoid='"+conexion.ruta_flujo_id+"' data-ruta_flujo_id_micro='"+data.ruta_flujo_id_micro+"' data-norden='"+data.norden+"' data-fechames='"+conexion.fechames+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
