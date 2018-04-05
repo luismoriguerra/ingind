@@ -984,12 +984,12 @@ class Reporte extends Eloquent
                 FROM tablas_relacion tr
                 INNER JOIN rutas r ON r.tabla_relacion_id=tr.id and r.ruta_flujo_id=".Input::get('ruta_flujo_id')." and r.estado=1
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1  and rd.condicion=0";
+                $sql.=" and CHARACTER_LENGTH(rd.norden)=".Input::get('length_norden');
                 if(Input::has('norden')){
                     $sql.=" and rd.norden='".Input::get('norden')."'";
+                    
                 }
-                if(Input::has('length_norden') and Input::get('length_norden')==2) {
-                    $sql.=" and CHARACTER_LENGTH(rd.norden)=".Input::get('length_norden');
-                }else if(Input::has('length_norden') and Input::get('length_norden')!=2){
+                if(Input::has('length_norden') and Input::get('length_norden')!=2){
                     $sql.=" AND ruta_flujo_id_dep=".Input::get('ruta_flujo_id_micro');
                 }
             
