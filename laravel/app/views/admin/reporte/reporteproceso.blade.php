@@ -146,6 +146,24 @@
                     <div id="div_tactividad_previo" class="text-center"  style="display: none"></div>
                     <form id="form_tactividad" name="form_tactividad" method="POST" action="" style="display: none">
                         <div class="box-body table-responsive">
+                            <table class="tree table table-bordered" id="t_resumen_tree">
+                                <thead id="tt_resumen_tree">
+                                    <tr>
+                                        <th colspan="4">Resumen Global de todo el proceso</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Trámites que Llegaron</th>
+                                        <th>T. Pendientes / T. Pendientes a Destiempo</th>
+                                        <th>T. Atendidos / T. Atendidos a Destiempo </th>
+                                        <th>Trámites Finalizados</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tb_resumen_tree">
+                                </tbody>
+                            </table>
+                        </div>
+                        <br>
+                        <div class="box-body table-responsive">
                             <table class="tree table table-bordered" id="t_tree">
                                 <thead id="tt_tree">
                                     <tr>

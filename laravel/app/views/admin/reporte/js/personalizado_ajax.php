@@ -57,7 +57,7 @@ var Personalizado={
         return html;
     },
     
-    GraficoData:function( dataG){
+    GraficoData:function( dataG,ResumenG){
         $.ajax({
             url         : 'reporte/graficodata',
             type        : 'POST',
@@ -124,33 +124,33 @@ var Personalizado={
                             data: {
                                     labels: fecha,
                                     datasets: [{
-                                            label: 'Atendido',
+                                            label: 'Atendido ('+ResumenG.atendido+')',
                                             fill: false,
                                             backgroundColor: window.chartColors.blue,
                                             borderColor: window.chartColors.blue,
+                                            borderDash: [5, 5],
                                             data: atendido
                                     }, {
-                                            label: 'Atendidos a Destiempo',
+                                            label: 'Atendidos a Destiempo ('+ResumenG.destiempo_a+')',
                                             fill: false,
                                             backgroundColor: window.chartColors.orange,
                                             borderColor: window.chartColors.orange,
-                                            borderDash: [5, 5],
                                             data: destiempo_a
                                     }, {
-                                            label: 'Pendiente',
-                                            fill: false,
+                                            label: 'Pendientes a Destiempo ('+ResumenG.destiempo_p+')',
+                                            fill: true,
+                                            backgroundColor: window.chartColors.purple,
+                                            borderColor: window.chartColors.purple,
+                                            data: destiempo_p,
+                                    }, {
+                                            label: 'Pendiente ('+ResumenG.pendiente+')',
+                                            fill: true,
+                                            borderDash: [5, 5],
                                             backgroundColor: window.chartColors.red,
                                             borderColor: window.chartColors.red,
                                             data: pendiente,
                                     }, {
-                                            label: 'Pendientes a Destiempo',
-                                            fill: false,
-                                            backgroundColor: window.chartColors.purple,
-                                            borderColor: window.chartColors.purple,
-                                            borderDash: [5, 5],
-                                            data: destiempo_p,
-                                    }, {
-                                            label: 'Finalizó',
+                                            label: 'Finalizó ('+ResumenG.finalizo+')',
                                             fill: false,
                                             backgroundColor: window.chartColors.black,
                                             borderColor: window.chartColors.black,
@@ -188,7 +188,7 @@ var Personalizado={
                                             }]
                                     },
                                     animation: {
-                                       duration:3000,
+                                       duration:2000,
                                     }
                             }
                     };

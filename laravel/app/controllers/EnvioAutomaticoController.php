@@ -1272,7 +1272,7 @@ class EnvioAutomaticoController extends \BaseController {
                                 where fecha="'. $ayer.'" and estado=1';
         $estado_fecha = DB::select($fecha_no_laborable);
 
-        if($estado_fecha[0]->cantidad>0){
+        if($estado_fecha[0]->cantidad==0){
         if ( $dia_validar == 2 OR $dia_validar == 3 OR $dia_validar == 4 OR $dia_validar == 5 OR $dia_validar == 6) {
 
             $Ssql = "SELECT p.id as persona_id,p.area_id,a.nombre as area,
