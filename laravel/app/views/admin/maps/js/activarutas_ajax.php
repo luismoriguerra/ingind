@@ -42,6 +42,8 @@ var Reporte={
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
                     msjG.mensaje('success',obj.msj,4000);
+                } else if(obj.rst==2){
+                    msjG.mensaje('warning',obj.msj,4000);
                 }
             },
             error: function(){
