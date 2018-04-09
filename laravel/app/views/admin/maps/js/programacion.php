@@ -1,8 +1,9 @@
 <script type="text/javascript">
+var ProgramacionG={id:0,direccion:"",fecha_programada:"",vehiculo_id:0,persona_id:0}; // Datos Globales
 $(document).ready(function() {
 
     //$("[data-toggle='offcanvas']").click();
-
+    Reporte.listarvehiculo();
     $(".fecha").datetimepicker({
         format: "yyyy/mm/dd",
         language: 'es',
@@ -43,42 +44,30 @@ $(document).ready(function() {
         $('#div_detalle').hide();
         $("#tb_deta").html(html);
     });
-
-    $(document).on('click', '#btnexport', function(event) {
-        if( $.trim($("#fecha_ini").val())!=='' &&
-            $.trim($("#fecha_fin").val())!=='')
-        {
-            var fecha_ini = $("#fecha_ini").val();
-            var fecha_fin = $("#fecha_fin").val();
-            var area = $("#slct_area_ws").val();
-
-            if(area != '0')
-                area = '&area='+area;
-            else
-                area = '';
-
-            swal({   
-                    title: "Reporte de Personal",   
-                    text: "Por favor espere mientras carga el Reporte...",   
-                    timer: 5000,   
-                    showConfirmButton: false 
-            });
-            //$(this).attr('href','reportepersonal/exportreportepersonal'+'?fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+area);
-            window.location = 'reportepersonal/exportreportepersonal'+'?fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+area;
-
-        }else{
-            swal("Mensaje", "Por favor ingrese las fechas de busqueda!");
-            event.preventDefault();
-        }
+    
+    $('#programacionModal').on('show.bs.modal', function (event) {
+        var modal=$(this);
+        modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
+        $("#form_programacion_modal").append("<input type='hidden' value='"+ProgramacionG.id+"' name='id'>");
+        $('#form_programacion_modal #txt_direccion').val( ProgramacionG.direccion );
+        $('#form_programacion_modal #txt_programada').val( ProgramacionG.fecha_programada );
+        $('#form_programacion_modal #slct_persona_id').val( ProgramacionG.vehiculo_id );
+        $('#form_programacion_modal #slct_vehiculo_id').val( ProgramacionG.persona_id );
     });
 
+    $('#programacionModal').on('hide.bs.modal', function (event) {
+         $('#form_areas_modal input').val('');
+    });
+    
+    $(document).on('click', '#btnPersona', function(event) {
+            Reporte.GetPersons({'apellido_nombre':1},HTMLPersonas);
+    });
     
 });
 
 
 HTMLMostrarReporte=function(data){    
     $('#t_ordenest').dataTable().fnDestroy();
-
     if(data.datos.length > 0){
         
         var latitud = '';
@@ -123,37 +112,42 @@ HTMLMostrarReporte=function(data){
             }
             
             // Gmaps
-            conten_market = '<div style="text-align:center; width: 100%;"><h3>'+d.tipo+'</h3>'+
-                                  '<p>'+d.direccion+'</p>'+
-                              '</div>'+
-                              '<div style="width: 100%;">'+
-                                '<div style="text-align:center; width: 45%; float: left;">'+
-                                  '<a href="'+d.foto+'" target="_blank"><img src="'+d.foto+'" width="90"/></a>'+
-                                '</div>'+
-                                '<div style="text-align:center; width: 55%; float: right;">'+
-                                  '<p><strong>Fecha inicio:</strong> '+d.fecha_inicio+'</p>'+
-                                  '<p><strong>Fec. programada</strong> </br> <input type="date" id="txt_fecha_programada'+d.id+'" name="txt_fecha_programada'+d.id+'" value="'+d.fecha_programada+'" style="cursor: pointer;"></p>';
-                if(btn_f_progra == 'insertar')
-                    conten_market += "<p><input type='button' style='background-color: #1A6FA5; color: white; padding: 4px 11px; border: 0px;' name='btnguardarMaps' id='btnguardarMaps' onclick=\"guardarDesmonte("+d.ruta_id+", "+d.id+", "+d.carga_incidencia_id+", '"+d.fecha_inicio+"');\" value='Guardar'></p>";
-                else // modificar
-                    conten_market += "<p><input type='button' style='background-color: #e48317; color: white; padding: 4px 11px; border: 0px; name='btnguardarMaps' id='btnguardarMaps' onclick=\"modificarDesmonte("+d.rdm_id+", "+d.ruta_id+", "+d.id+", "+d.carga_incidencia_id+", '"+d.fecha_inicio+"');\" value='Modificar'></p>";
-                
-                conten_market += '</div>'+
-                              '</div>';            
+//            conten_market = '<div style="text-align:center; width: 100%;"><h3>'+d.tipo+'</h3>'+
+//                                  '<p>'+d.direccion+'</p>'+
+//                              '</div>'+
+//                              '<div style="width: 100%;">'+
+//                                '<div style="text-align:center; width: 45%; float: left;">'+
+//                                  '<a href="'+d.foto+'" target="_blank"><img src="'+d.foto+'" width="90"/></a>'+
+//                                '</div>'+
+//                                '<div style="text-align:center; width: 55%; float: right;">'+
+////                                  '<p><strong>Fecha inicio:</strong> '+d.fecha_inicio+'</p>'+
+//                                  '<p><strong>Fecha programada:</strong> '+d.fecha_programada+'</p>'+
+//                                  '<p><strong>Vehiculo:</strong><select class="form-control" id="slct_vehiculo" name="slct_vehiculo">'+vehiculos+'</select></p>';
+//                                  '<p><strong>Fec. programada</strong> </br> <input type="date" id="txt_fecha_programada'+d.id+'" name="txt_fecha_programada'+d.id+'" value="'+d.fecha_programada+'" style="cursor: pointer;"></p>';
+//                if(btn_f_progra == 'insertar')
+//                    conten_market += "<p><input type='button' style='background-color: #1A6FA5; color: white; padding: 4px 11px; border: 0px;' name='btnguardarMaps' id='btnguardarMaps' onclick=\"guardarDesmonte("+d.ruta_id+", "+d.id+", "+d.carga_incidencia_id+", '"+d.fecha_inicio+"');\" value='Guardar'></p>";
+//                else // modificar
+//                    conten_market += "<p><input type='button' style='background-color: #e48317; color: white; padding: 4px 11px; border: 0px; name='btnguardarMaps' id='btnguardarMaps' onclick=\"modificarDesmonte("+d.rdm_id+", "+d.ruta_id+", "+d.id+", "+d.carga_incidencia_id+", '"+d.fecha_inicio+"');\" value='Modificar'></p>";
+//                
+//                conten_market += '</div>'+
+//                              '</div>';            
 
             map.addMarker({
                 icon: icon_mk,
                 lat: d.latitud,
                 lng: d.longitud,
                 title: d.direccion,
-                infoWindow: {
-                  //content: '<p><strong>'+d.tipo+'</strong></br><img src="http://www.muniindependencia.gob.pe/sicmovil/fotoed/29447.jpg" border="0" width="60"></p>'
-                  content : conten_market
-                }
+//                infoWindow: {
+//                  //content: '<p><strong>'+d.tipo+'</strong></br><img src="http://www.muniindependencia.gob.pe/sicmovil/fotoed/29447.jpg" border="0" width="60"></p>'
+////                  content : conten_market
+//                },
+                click: function (e) {
+                    Detalle(d.rdm_id,d.direccion,d.fecha_programada);
+                },
             });
             // --
         });
-
+        
         $("#tb_ordenest").html(html);
         $("#t_ordenest").dataTable();
 
@@ -164,40 +158,77 @@ HTMLMostrarReporte=function(data){
     }
 };
 
-
-guardarDesmonte=function(ruta_id, ruta_detalle_id, carga_incidencia_id, fecha_inicio){
-    //alert($("#txt_fecha_programada"+ruta_detalle_id).val());
-    var fecha_programada = $("#txt_fecha_programada"+ruta_detalle_id).val();
-    if(fecha_programada == '') {
-        swal("Mensaje", "Por favor ingrese la fecha Programada!");
-    } else {
-        var dataG={ ruta_id : ruta_id, 
-                    ruta_detalle_id : ruta_detalle_id,
-                    carga_incidencia_id : carga_incidencia_id,
-                    fecha_inicio : fecha_inicio,
-                    fecha_programada : fecha_programada };
-        Reporte.grabarRutaDetaMaps(dataG);
-
-        $("#generar").click();
-    }
-    
-};
-
-modificarDesmonte=function(id, ruta_id, ruta_detalle_id, carga_incidencia_id, fecha_inicio){
-    var fecha_programada = $("#txt_fecha_programada"+ruta_detalle_id).val();
-    if(fecha_programada == '') {
-        swal("Mensaje", "Por favor ingrese la fecha Programada!");
-    } else {
-        var dataG={ id : id,
-                    ruta_id : ruta_id, 
-                    ruta_detalle_id : ruta_detalle_id,
-                    carga_incidencia_id : carga_incidencia_id,
-                    fecha_inicio : fecha_inicio,
-                    fecha_programada : fecha_programada };
-        Reporte.modificarRutaDetaMaps(dataG);
-
-        $("#generar").click();
+Editar=function(){
+    if(validaProgramacion()){
+        Reporte.modificarProgramacion();
     }
 };
 
+Detalle=function(id,direccion,fecha_programada){
+    ProgramacionG.id=id;
+    ProgramacionG.direccion=direccion;
+    ProgramacionG.fecha_programada=fecha_programada;
+            
+    $("#programacionModal").modal("show");
+}
+mostrarListaHTML=function(datos){
+    $("#form_programacion_modal #slct_vehiculo").append(datos);
+//    slctGlobalHtml("form_programacion_modal #slct_vehiculo","simple");
+}
+
+HTMLPersonas = function(data){
+     $('#t_persona').dataTable().fnDestroy();
+    if(data.length > 1){
+        var html = '';
+        $.each(data,function(index, el) {
+            html+='<tr id='+el.id+'>';
+            html+='<td name="ruc">'+el.name+'</td>';
+            html+='<td name="tipo_id">'+el.paterno+'</td>';
+            html+='<td name="razon_social">'+el.materno+'</td>';
+            html+='<td name="nombre_comercial">'+el.dni+'</td>';
+            html+='<td name="direccion_fiscal">'+el.email+'</td>';
+           /* html+='<td name="telefono">'+el.telefono+'</td>';*/
+            html+='<td><span class="btn btn-primary btn-sm" id-user='+el.id+' onClick="selectUser(this)">Seleccionar</span></td>';
+            html+='</tr>';
+        });
+        $('#tb_persona').html(html);
+        $("#t_persona").dataTable(); 
+        $('#selectPersona').modal('show'); 
+    }else{
+        $(".empresa").addClass('hidden');
+        alert('Error');
+    }
+},
+selectUser = function(obj){
+    var iduser = obj.getAttribute('id-user');
+    if(iduser){
+        Reporte.GetPersonabyId({persona_id:iduser});
+        $('#selectPersona').modal('hide');
+    }else{
+        alert('Seleccione persona');
+    }
+    },
+poblateData = function(tipo,data){
+    console.log(data);
+    if(tipo== 'selectpersona'){
+        $('#form_programacion_modal #txt_persona_id').val(data.id);
+        $('#form_programacion_modal #txt_persona').val(data.nombre+" "+data.paterno+" "+data.materno);
+//        document.querySelector('#txt_idclasitramite').value=data.id;
+//        document.querySelector('#txt_idarea').value=data.areaid;
+    }
+
+},
+validaProgramacion=function(){
+    var r=true;
+    if( $("#form_programacion_modal #slct_vehiculo").val()=='' ){
+        alert("Seleccione Vehiculo");
+        return false;
+    }
+    if( $("#form_programacion_modal #txt_persona_id").val()=='' || $("#form_programacion_modal #txt_persona").val()=='' ){
+        alert("Seleccione Persona");
+        return false;
+    }
+
+    return r;
+};
 </script>

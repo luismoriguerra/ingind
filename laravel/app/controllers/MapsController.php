@@ -81,5 +81,60 @@ class MapsController extends BaseController
       }
     }
   }
+  
+      public function postModificaprogramacion()
+  {
+    if ( Request::ajax() ) {
+
+        $mapsrd = MapsRutaDetalle::find(Input::get('id'));
+        $mapsrd->vehiculo_id = Input::get('vehiculo');
+        $mapsrd->persona_id = Input::get('persona_id');
+        $mapsrd->usuario_updated_at = Auth::user()->id;
+        $mapsrd->save();
+
+        return Response::json(array('rst'=>1, 'msj'=>'Registro realizado correctamente'));
+    }
+  }
+
+
+  public function postListavehiculo() {
+        $retorno = array(
+            'rst' => 1
+        );
+
+        $url = 'http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=moviles';
+        $curl_options = array(
+            CURLOPT_URL => $url,
+            CURLOPT_HEADER => 0,
+            CURLOPT_RETURNTRANSFER => TRUE,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_SSL_VERIFYPEER => 0,
+            CURLOPT_FOLLOWLOCATION => TRUE,
+            CURLOPT_ENCODING => 'gzip,deflate',
+        );
+
+        $ch = curl_init();
+        curl_setopt_array($ch, $curl_options);
+        $output = curl_exec($ch);
+        curl_close($ch);
+
+        $r = json_decode(utf8_encode($output), true);
+
+        $html = "";
+
+
+        $n = 1;
+        if (isset($r["moviles"]) AND count($r["moviles"]) > 0) {
+            $html .= "<option value=''>.::Seleccione::.</option>";
+            foreach ($r["moviles"] as $rr) {
+                $html .= "<option value='2'>" . $rr['halcon'] . "</option>";
+            }
+        }
+
+        $retorno["data"] = $html;
+
+        return Response::json($retorno);
+    }
+
 
 }

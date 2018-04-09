@@ -18,8 +18,8 @@
 
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
-    @include( 'admin.maps.js.activarutas_ajax' )
-    @include( 'admin.maps.js.activarutas' )
+    @include( 'admin.maps.js.programacion_ajax' )
+    @include( 'admin.maps.js.programacion' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -117,7 +117,7 @@ tr:last-child td.last {
   border-right:16px solid transparent;
   border-bottom:16px solid #336699;
 }
-
+.modal { overflow: auto !important; 
 </style>
 
     <section class="content-header">
@@ -235,4 +235,6 @@ tr:last-child td.last {
   </script>
 @stop
 @section('formulario')
+@include( 'admin.maps.form.programacion' )
+@include( 'admin.maps.form.selectPersona' )
 @stop
