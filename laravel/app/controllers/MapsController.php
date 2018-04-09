@@ -30,18 +30,23 @@ class MapsController extends BaseController
   {
     if ( Request::ajax() ) {
 
-        $mapsrd = new MapsRutaDetalle;
-        $mapsrd->ruta_id = Input::get('ruta_id');
-        $mapsrd->ruta_detalle_id = Input::get('ruta_detalle_id');
-        $mapsrd->carga_incidencia_id = Input::get('carga_incidencia_id');
-        $mapsrd->fecha_inicio = Input::get('fecha_inicio');
-        $mapsrd->fecha_programada = Input::get('fecha_programada');
-        $mapsrd->fecha_histo_progra = '1:'.Input::get('fecha_programada');
-        $mapsrd->estado = 1;
-        $mapsrd->usuario_created_at = Auth::user()->id;
-        $mapsrd->save();
+        if(Input::get('fecha_programada') >= date("Y-m-d")) {
+          $mapsrd = new MapsRutaDetalle;
+          $mapsrd->ruta_id = Input::get('ruta_id');
+          $mapsrd->ruta_detalle_id = Input::get('ruta_detalle_id');
+          $mapsrd->carga_incidencia_id = Input::get('carga_incidencia_id');
+          $mapsrd->fecha_inicio = Input::get('fecha_inicio');
+          $mapsrd->fecha_programada = Input::get('fecha_programada');
+          $mapsrd->fecha_histo_progra = '1:'.Input::get('fecha_programada');
+          $mapsrd->estado = 1;
+          $mapsrd->usuario_created_at = Auth::user()->id;
+          $mapsrd->save();
 
-        return Response::json(array('rst'=>1, 'msj'=>'Registro realizado correctamente'));
+          return Response::json(array('rst'=>1, 'msj'=>'Registro realizado correctamente'));
+        } else {
+          return Response::json(array('rst'=>2, 'msj'=>'La fecha Programada debe ser mayor a la actual'));
+        }
+          
     }
   }
 
@@ -49,6 +54,7 @@ class MapsController extends BaseController
   {
     if ( Request::ajax() ) {
 
+      if(Input::get('fecha_programada') >= date("Y-m-d")) {
         $rdmid = Input::get('id');
 
         $select = "SELECT fecha_histo_progra 
@@ -70,6 +76,9 @@ class MapsController extends BaseController
         $mapsrd->save();
 
         return Response::json(array('rst'=>1, 'msj'=>'Registro actualizado correctamente'));
+      } else {
+        return Response::json(array('rst'=>2, 'msj'=>'La fecha Programada debe ser mayor a la actual'));
+      }
     }
   }
 
