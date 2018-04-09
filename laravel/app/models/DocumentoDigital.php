@@ -215,6 +215,9 @@ class DocumentoDigital extends Base {
                 left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
                 where (`dd`.`estado` = 1) ';
         $sSql.= $array['where'];
+        if(Auth::user()->vista_doc==0){
+           $sSql.=" AND dd.usuario_created_at=".Auth::user()->id;
+        }
         $oData = DB::select($sSql);
         return $oData[0]->cant;
     }
@@ -244,6 +247,9 @@ class DocumentoDigital extends Base {
                 left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
                 where (`dd`.`estado` = 1)';
         $sSql.= $array['where'];
+        if(Auth::user()->vista_doc==0){
+           $sSql.=" AND dd.usuario_created_at=".Auth::user()->id;
+        }
         $sSql.=' GROUP BY dd.id';
         $sSql.=$array['order'];
         $sSql.=$array['limit'];
