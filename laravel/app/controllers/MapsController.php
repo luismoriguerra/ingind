@@ -84,7 +84,7 @@ class MapsController extends BaseController
   
       public function postModificaprogramacion()
   {
-    if ( Request::ajax() ) {
+        if ( Request::ajax() ) {
 
         $mapsrd = MapsRutaDetalle::find(Input::get('id'));
         $mapsrd->vehiculo_id = Input::get('vehiculo');
@@ -92,8 +92,8 @@ class MapsController extends BaseController
         $mapsrd->usuario_updated_at = Auth::user()->id;
         $mapsrd->save();
 
-        return Response::json(array('rst'=>1, 'msj'=>'Registro realizado correctamente'));
-    }
+            return Response::json(array('rst'=>1, 'msj'=>'Registro realizado correctamente'));
+        }
   }
 
 
@@ -135,6 +135,24 @@ class MapsController extends BaseController
 
         return Response::json($retorno);
     }
+    
+          public function postModificaprogramacionmasivo(){
+          
+        if ( Request::ajax() ) {
+            $id = Input::get('id');
+            $vehiculo = Input::get('vehiculo');
+            $persona_id = Input::get('persona_id');
+            for ($i = 0; $i < count($id); $i++) {
+                $mapsrd = MapsRutaDetalle::find($id[$i]);
+                $mapsrd->vehiculo_id = $vehiculo[$i];
+                $mapsrd->persona_id = $persona_id[$i];
+                $mapsrd->usuario_updated_at = Auth::user()->id;
+                $mapsrd->save();
+            }
+
+            return Response::json(array('rst'=>1, 'msj'=>'Registro realizado correctamente'));
+        }
+  }
 
 
 }

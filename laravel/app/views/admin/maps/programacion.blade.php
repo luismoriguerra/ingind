@@ -193,6 +193,9 @@ tr:last-child td.last {
                          </table>
                         </div>
                     </div>
+                    <div class="col-sm-12" style="padding:24px; ">
+                                    <span class="btn btn-primary btn-md" id="guardar_masivo" name="guardar_masivo"> Guardar Varios</span>
+                    </div>
                  </div>                 
               </form>
 

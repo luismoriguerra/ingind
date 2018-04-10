@@ -37,6 +37,10 @@ $(document).ready(function() {
             swal("Mensaje", "Por favor ingrese las fechas de busqueda!");
         }
     });
+    
+    $("#guardar_masivo").click(function (){
+            Reporte.modificarProgramacionmasivo();
+    });
 
     $("#limpiar").click(function (){
         $('#form_reporte input').not('.checkbox').val('');
@@ -102,9 +106,9 @@ HTMLMostrarReporte=function(data){
                     "<td width='7%'>"+d.fecha_inicio+"</td>"+
                     "<td width='5%'>"+d.tipo+"</td>"+
                     "<td width='6%'>"+d.viapredio+"</td>"+
-                    "<td width='6%'><select class='form-control slct_vehiculo' name='slct_vehiculo' id='slct_vehiculo'>"+
+                    "<td width='6%'><input type='hidden' value='"+d.rdm_id+"' name='id[]'><select class='form-control slct_vehiculo' name='slct_vehiculo[]' id='slct_vehiculo'>"+
                     "</select></td>"+
-                    "<td width='6%'><input type='hidden' class='form-control' name='txt_persona_id' id='txt_persona_id' readonly=''>"+
+                    "<td width='6%'><input type='hidden' class='form-control' name='txt_persona_id[]' id='txt_persona_id' readonly=''>"+
                     "<input type='text' class='form-control' name='txt_persona' id='txt_persona' disabled=''>"+
                     "<button type='button' class='btn btn-info' onClick='btnPersona_masivo(this)'>Buscar Persona</button></td>";
             html+="</tr>";

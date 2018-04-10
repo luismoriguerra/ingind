@@ -53,6 +53,32 @@ var Reporte={
             }
         });
     },
+    modificarProgramacionmasivo:function(){
+        var datos=$("#form_reporte").serialize().split("txt_").join("").split("slct_").join("");
+        $.ajax({
+            url         : 'maps/modificaprogramacionmasivo',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : datos,
+//            async        : false,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay,.loading-img").remove();
+                if(obj.rst==1){
+                    msjG.mensaje('success',obj.msj,4000);
+                    $("#programacionModal").modal("hide");
+                    $( "#generar" ).click();
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                alertBootstrap('danger', 'Ocurrio una interrupción en el proceso,Favor de intentar nuevamente', 6);
+            }
+        });
+    },
     listarvehiculo:function(){
         $.ajax({
             async       : false,

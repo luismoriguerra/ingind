@@ -6,7 +6,7 @@
                 <button class="btn btn-sm btn-default pull-right" data-dismiss="modal">
                     <i class="fa fa-close"></i>
                 </button>
-                <h4 class="modal-title">New message</h4>
+                <h4 class="modal-title">Asignación de Vehiculo y Persona</h4>
             </div>
             <div class="modal-body" >
                 <form id="form_programacion_modal" name="form_programacion_modal" action="" method="post">
