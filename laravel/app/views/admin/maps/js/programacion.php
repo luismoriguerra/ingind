@@ -1,9 +1,10 @@
 <script type="text/javascript">
-var ProgramacionG={id:0,direccion:"",fecha_programada:"",vehiculo_id:0,persona_id:0}; // Datos Globales
+var ProgramacionG={id:0,direccion:"",fecha_programada:"",vehiculo_id:0,persona_id:0,persona:""}; // Datos Globales
+var TipoCargaPersona=0;
+var CargarTexto='';
 $(document).ready(function() {
 
     //$("[data-toggle='offcanvas']").click();
-    Reporte.listarvehiculo();
     $(".fecha").datetimepicker({
         format: "yyyy/mm/dd",
         language: 'es',
@@ -51,8 +52,9 @@ $(document).ready(function() {
         $("#form_programacion_modal").append("<input type='hidden' value='"+ProgramacionG.id+"' name='id'>");
         $('#form_programacion_modal #txt_direccion').val( ProgramacionG.direccion );
         $('#form_programacion_modal #txt_programada').val( ProgramacionG.fecha_programada );
-        $('#form_programacion_modal #slct_persona_id').val( ProgramacionG.vehiculo_id );
-        $('#form_programacion_modal #slct_vehiculo_id').val( ProgramacionG.persona_id );
+        $('#form_programacion_modal #txt_persona_id').val( ProgramacionG.persona_id );
+        $('#form_programacion_modal #slct_vehiculo').val( ProgramacionG.vehiculo_id );
+        $('#form_programacion_modal #txt_persona').val( ProgramacionG.persona );
     });
 
     $('#programacionModal').on('hide.bs.modal', function (event) {
@@ -60,6 +62,7 @@ $(document).ready(function() {
     });
     
     $(document).on('click', '#btnPersona', function(event) {
+            TipoCargaPersona=0;
             Reporte.GetPersons({'apellido_nombre':1},HTMLPersonas);
     });
     
@@ -99,11 +102,14 @@ HTMLMostrarReporte=function(data){
                     "<td width='7%'>"+d.fecha_inicio+"</td>"+
                     "<td width='5%'>"+d.tipo+"</td>"+
                     "<td width='6%'>"+d.viapredio+"</td>"+
-                    "<td width='6%'>"+d.latitud+"</td>"+
-                    "<td width='6%'>"+d.longitud+"</td>";
+                    "<td width='6%'><select class='form-control slct_vehiculo' name='slct_vehiculo' id='slct_vehiculo'>"+
+                    "</select></td>"+
+                    "<td width='6%'><input type='hidden' class='form-control' name='txt_persona_id' id='txt_persona_id' readonly=''>"+
+                    "<input type='text' class='form-control' name='txt_persona' id='txt_persona' disabled=''>"+
+                    "<button type='button' class='btn btn-info' onClick='btnPersona_masivo(this)'>Buscar Persona</button></td>";
             html+="</tr>";
 
-            if($.trim(d.fecha_programada) == 0) {
+            if($.trim(d.vehiculo_id) == '' || $.trim(d.persona_id) == '') {
                 btn_f_progra = 'insertar';
                 icon_mk = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
             } else {
@@ -142,7 +148,7 @@ HTMLMostrarReporte=function(data){
 ////                  content : conten_market
 //                },
                 click: function (e) {
-                    Detalle(d.rdm_id,d.direccion,d.fecha_programada);
+                    Detalle(d.rdm_id,d.direccion,d.fecha_programada,d.persona_id,d.vehiculo_id,d.persona);
                 },
             });
             // --
@@ -150,7 +156,7 @@ HTMLMostrarReporte=function(data){
         
         $("#tb_ordenest").html(html);
         $("#t_ordenest").dataTable();
-
+        Reporte.listarvehiculo();
         // --
     }else{
         $("#tb_ordenest").html("");
@@ -164,15 +170,18 @@ Editar=function(){
     }
 };
 
-Detalle=function(id,direccion,fecha_programada){
+Detalle=function(id,direccion,fecha_programada,persona_id,vehiculo_id,persona){
     ProgramacionG.id=id;
     ProgramacionG.direccion=direccion;
     ProgramacionG.fecha_programada=fecha_programada;
-            
+    ProgramacionG.persona_id=persona_id;
+    ProgramacionG.vehiculo_id=vehiculo_id;
+    ProgramacionG.persona=persona;
     $("#programacionModal").modal("show");
 }
 mostrarListaHTML=function(datos){
-    $("#form_programacion_modal #slct_vehiculo").append(datos);
+    $(".slct_vehiculo").html("");
+    $(".slct_vehiculo").append(datos);
 //    slctGlobalHtml("form_programacion_modal #slct_vehiculo","simple");
 }
 
@@ -209,12 +218,15 @@ selectUser = function(obj){
     }
     },
 poblateData = function(tipo,data){
-    console.log(data);
     if(tipo== 'selectpersona'){
-        $('#form_programacion_modal #txt_persona_id').val(data.id);
-        $('#form_programacion_modal #txt_persona').val(data.nombre+" "+data.paterno+" "+data.materno);
-//        document.querySelector('#txt_idclasitramite').value=data.id;
-//        document.querySelector('#txt_idarea').value=data.areaid;
+        if(TipoCargaPersona==0){
+            $('#form_programacion_modal #txt_persona_id').val(data.id);
+            $('#form_programacion_modal #txt_persona').val(data.nombre+" "+data.paterno+" "+data.materno);
+        }else{
+            var input=CargarTexto.parentNode;
+            $(input).find("input[id='txt_persona_id']").val(data.id);
+            $(input).find("input[id='txt_persona']").val(data.nombre+" "+data.paterno+" "+data.materno);
+        }
     }
 
 },
@@ -230,5 +242,11 @@ validaProgramacion=function(){
     }
 
     return r;
+};
+
+btnPersona_masivo= function(obj) {
+        CargarTexto=obj;
+        TipoCargaPersona=1;
+        Reporte.GetPersons({'apellido_nombre':1},HTMLPersonas);
 };
 </script>

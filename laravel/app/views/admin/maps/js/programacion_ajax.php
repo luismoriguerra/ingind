@@ -44,6 +44,7 @@ var Reporte={
                 if(obj.rst==1){
                     msjG.mensaje('success',obj.msj,4000);
                     $("#programacionModal").modal("hide");
+                    $( "#generar" ).click();
                 }
             },
             error: function(){

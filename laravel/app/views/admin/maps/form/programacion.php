@@ -21,7 +21,7 @@
                     <div class="form-group">
                         <label class="control-label">Vehiculo:
                         </label>
-                        <select class="form-control" name="slct_vehiculo" id="slct_vehiculo">
+                        <select class="form-control slct_vehiculo" name="slct_vehiculo" id="slct_vehiculo">
                         </select>
                     </div>
                     <div class="form-group">
