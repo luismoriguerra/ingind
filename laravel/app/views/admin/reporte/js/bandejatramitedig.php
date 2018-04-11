@@ -843,7 +843,7 @@ function HTMLExpedienteUnico(data){
             area =(el.area !=null) ? el.area : '';
             nord =(el.norden !=null) ? el.norden : '';
             if(el.doc_digital_id!=null){
-                link='<a class="btn btn-default btn-sm" onclick="openPlantilla('+el.doc_digital_id+',4,0); return false;" data-titulo="Previsualizar"><i class="fa fa-eye fa-lg"></i> </a>';
+                link='<a class="btn btn-default btn-sm" onclick="openPlantillaa('+el.doc_digital_id+',4,0); return false;" data-titulo="Previsualizar"><i class="fa fa-eye fa-lg"></i> </a>';
             }else{
                 link='';
             }
@@ -1300,7 +1300,7 @@ asignarTramitePaso = function(ruta_id){
     }
 }
 // --
-openPlantilla=function(id,tamano,tipo){
+openPlantillaa=function(id,tamano,tipo){
     window.open("documentodig/vista/"+id+"/"+tamano+"/"+tipo,
                 "PrevisualizarPlantilla",
                 "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
