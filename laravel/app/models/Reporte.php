@@ -622,7 +622,7 @@ class Reporte extends Eloquent
       /*  if(Input::get('ruta_detalle_id')){*/
             if($referido){
                 $data = [];
-                $sql = "SELECT re.ruta_id,re.ruta_detalle_id,re.referido,re.fecha_hora_referido fecha_hora,f.nombre proceso,a.nombre area,re.norden, 'r' tipo 
+                $sql = "SELECT re.ruta_id,re.ruta_detalle_id,re.referido,re.fecha_hora_referido fecha_hora,f.nombre proceso,a.nombre area,re.norden, 'r' tipo,re.doc_digital_id 
                         FROM referidos re 
                         INNER JOIN rutas r ON re.ruta_id=r.id 
                         INNER JOIN flujos f ON r.flujo_id=f.id 
@@ -630,7 +630,7 @@ class Reporte extends Eloquent
                         LEFT JOIN areas a ON rd.area_id=a.id  
                         WHERE re.tabla_relacion_id='".$referido->tabla_relacion_id."'
                         UNION
-                        SELECT re.ruta_id,re.ruta_detalle_id,sustento,fecha_hora_sustento fecha_hora,f.nombre proceso,a.nombre area,rd.norden,'s' tipo
+                        SELECT re.ruta_id,re.ruta_detalle_id,sustento,fecha_hora_sustento fecha_hora,f.nombre proceso,a.nombre area,rd.norden,'s' tipo,null as doc_digital_id
                         FROM sustentos s
                         INNER JOIN referidos re ON re.id=s.referido_id AND re.tabla_relacion_id='".$referido->tabla_relacion_id."'
                         INNER JOIN rutas_detalle rd ON rd.id=s.ruta_detalle_id

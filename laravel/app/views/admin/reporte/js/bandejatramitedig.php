@@ -842,9 +842,14 @@ function HTMLExpedienteUnico(data){
             proc =(el.proceso !=null) ? el.proceso : '';
             area =(el.area !=null) ? el.area : '';
             nord =(el.norden !=null) ? el.norden : '';
+            if(el.doc_digital_id!=null){
+                link='<a class="btn btn-default btn-sm" onclick="openPlantilla('+el.doc_digital_id+',4,0); return false;" data-titulo="Previsualizar"><i class="fa fa-eye fa-lg"></i> </a>';
+            }else{
+                link='';
+            }
 
             html+="<tr data-id="+cont+" data-parent="+parent+" data-level="+child+">";
-            html+=    "<td data-column=name>"+referido+"</td>";
+            html+=    "<td data-column=name>"+referido+link+"</td>";
             html+=    "<td>"+fhora+"</td>";
             html+=    "<td>"+proc+"</td>";
             html+=    "<td>"+area+"</td>";
@@ -1295,5 +1300,9 @@ asignarTramitePaso = function(ruta_id){
     }
 }
 // --
-
+openPlantilla=function(id,tamano,tipo){
+    window.open("documentodig/vista/"+id+"/"+tamano+"/"+tipo,
+                "PrevisualizarPlantilla",
+                "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
+};
 </script>
