@@ -291,5 +291,20 @@ class RutaDetalle extends Eloquent
                 
         return $area;
     }
+
+    // ARCHIVOS PROCESO DESMONTE
+    public static function verArchivosDesmontesMotorizado( $array )
+    {
+        $sql =" SELECT rd.archivo, rd.norden
+                    FROM rutas_detalle rd  ";
+        $sql .=" WHERE rd.estado=1 ".
+                $array['ruta_id'].
+                $array['norden'];
+        $sql .=" GROUP BY rd.norden
+                 ORDER BY rd.norden";
+
+        $oData['data'] = DB::select($sql);
+        return $oData;
+    }
 }
 ?>

@@ -580,12 +580,30 @@ class RutaDetalleController extends \BaseController
 
 
     // ARCHIVOS PROCESO DESMONTE
+    public function postVerarchivosdesmontesmotorizado()
+    {
+      $array=array();
+      
+      if( Input::has('ruta_id') AND Input::get('ruta_id')!='' ){
+        $array['ruta_id'] =" AND rd.ruta_id='".Input::get('ruta_id')."' ";
+      }
+      if( Input::has('norden') AND Input::get('norden')!='' ){
+        $array['norden'] =" AND rd.norden<='".Input::get('norden')."' ";
+      }
+
+      //$data = Reporte::VerNroPasosTramite($array);
+      //$cant_pasos = $data[0]->cant;
+      $oData = RutaDetalle::verArchivosDesmontesMotorizado( $array );
+
+      return Response::json(
+          array(
+              'rst'=>1,
+              'datos'=>$oData['data']
+          )
+      );
+    }
+
     public function postActualizararchivodesmonte() {
-        /*
-        echo '<pre>';
-        print_r(Input::get('archivo_desmonte'));
-        exit;
-        */
         if ( Input::has('pago_archivo') ) {
             $archivo= Input::get('pago_archivo');
             $nombre= Input::get('pago_nombre');

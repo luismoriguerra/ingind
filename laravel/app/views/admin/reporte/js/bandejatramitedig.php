@@ -435,7 +435,7 @@ mostrarDetalleHTML=function(datos){
         $(tr).find('input:eq(0)').val(files[0].name);
         console.log(files[0].name);
     }
-
+    /*
     html_pd = '';
     var foto = ''
     var data_fotos = $.trim(datos.archivo).split("|");
@@ -457,9 +457,54 @@ mostrarDetalleHTML=function(datos){
                         '</div>';
         }
     });
-    //html_pd += '<div class="col-md-1" style="padding-left: 0px; padding-right: 10px;"><a href="'+datos.archivo+'" target="_blank"><img src="'+datos.archivo+'" alt=""  border="0" class="img-responsive foto_desmonte"></a></div>';
+    */
+    $.ajax({
+        url: 'ruta_detalle/verarchivosdesmontesmotorizado',
+        type:'POST',
+        cache       : false,
+        dataType    : 'json',
+        data        : { ruta_id:datos.ruta_id, norden:datos.norden },
+        success: function(obj)
+        {
+            datos = obj.datos;
+            var html_pd = '';
+            var foto = '';
 
-    $("#d_ver_fotos").html(html_pd);
+            $.each(datos, function (index, data) {
+                var d_foto = data.archivo;
+                if (d_foto.length != 0) {
+
+                    var data_fotos = $.trim(data.archivo).split("|");
+
+                    $.each(data_fotos, function (index, d_foto) {
+                        var cant_foto = d_foto.length;
+                        if(d_foto.substring((cant_foto-3), cant_foto) == 'png' || 
+                            d_foto.substring((cant_foto-3), cant_foto) == 'jpg' ||
+                            d_foto.substring((cant_foto-3), cant_foto) == 'gif' ||
+                            d_foto.substring((cant_foto-4), cant_foto) == 'jpeg' )
+                            foto = d_foto;
+                        else
+                            foto = 'img/admin/ruta_detalle/marca_doc.jpg';
+
+                        html_pd += '<div class="col-md-1" id="ad'+index+'" style="padding-left: 0px; padding-right: 10px;">'+
+                                        '<a href="'+d_foto+'" target="_blank"><img src="'+foto+'" alt=""  border="0" class="img-responsive foto_desmonte"></a>';
+                        if(datos.norden == data.norden)
+                            html_pd += '<div class="text-center"><button type="button" id="'+index+'" onclick="eliminarArchivoDes(this.id)" class="btn btn-danger btn-xs"><span class="fa fa-trash fa-lg" aria-hidden="true"></span> Eliminar</button></div>';
+                                    
+                        html_pd += '</div>';
+                    });
+                    $("#d_ver_fotos").html(html_pd);                        
+                }
+            });
+            //$("#d_ver_fotos").html(html_pd);       
+        },
+        error: function(jqXHR, textStatus, error)
+        {
+          console.log(jqXHR.responseText);
+        }
+    });
+
+    
     // --
 
   /*  $("#t_detalle_verbo").html("");*/
