@@ -690,6 +690,8 @@ class IndedocsController extends \BaseController {
                 $requerimiento->nomdoc = @$k->NOMDOC;
                 $requerimiento->iddoc = @$k->IDDOC;                
                 $requerimiento->observacion = @$k->OBSERVACION;
+                $requerimiento->ord_num = @$k->ORD_NUM;
+                $requerimiento->t_req = @$k->T_REQ;
                 $requerimiento->save();
                 // --                
             }
