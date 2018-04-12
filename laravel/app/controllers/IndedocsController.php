@@ -660,7 +660,7 @@ class IndedocsController extends \BaseController {
         $result = json_decode(json_encode($array));
         */
         foreach ($result->requerimiento as $i=>$k) {
-        if($i <= 1000){    
+        //if($i <= 1000){    
             $requerimiento = CargaRequerimiento::where('codigo', '=', $k->IDDETREQ)
                                             ->where('numpaso', '=', $k->numpaso)
                                             ->first();
@@ -856,8 +856,7 @@ class IndedocsController extends \BaseController {
                     }
                 }
             }
-
-        }
+        //}
         }
 
         //$objArr = $this->curl("ruta.php", $param_data);
