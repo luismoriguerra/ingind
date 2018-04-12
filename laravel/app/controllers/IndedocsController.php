@@ -161,6 +161,8 @@ class IndedocsController extends \BaseController {
                 $incidencia->contenido = $k->contenido;
                 $incidencia->tipo = $k->tipo;
                 $incidencia->viapredio = $k->viapredio;
+                $incidencia->latitud = $k->latitud;
+                $incidencia->longitud = $k->longitud;
                 //$incidencia->ruta_id=$ruta->id;
                 $incidencia->save();
 
@@ -511,125 +513,365 @@ class IndedocsController extends \BaseController {
         return Response::json(array('rst' => 1));
     }
 
-
     public function postRequerimientos()
-    {
-        //$res = file_get_contents("http://www.muniindependencia.gob.pe/ceteco/index.php?opcion=incidencias&fecha=".date('Ymd'));
-        //$result = json_decode(utf8_encode($res));
+    {   
+        set_time_limit(0);
+        //ini_set('max_execution_time', 300);
+        ini_set('max_execution_time', 0);
+        $res = file_get_contents("http://10.0.120.13:8088/srequerimiento/?fecha1=2018/01/01&fecha2=2018/01/31");
+        $result = json_decode($res);
         /*
-        fecha=19/02/2018 (DECHA DE EMISION)
-        &AREADESTINO=Gerencia de Administracion y Finanzas
-        &AREADESTFLUJO=26 (MIO) FLUJO_ID
-        
-        &REQNUM=23
-        &REQANNO=2018
-        &AREADSIGA=030002 (AREA DE ORIGEN)
-        &AREADESTSIGA=040000 (AREA DESTINO)
-            
-        &AREAFLUJO=14 (MIO) AREA ORIGEN
-        &NOMDOC=INFORME - N° 000037 - 2018 - SGTIC-GMGM-MDI
-        &IDDOC=137607 (MIO)
-
-        &OBSERVACION=ok
-        */
         $array = array(
             'requerimientos' => array(
                 array(
-                    "fecha" => "28/02/2018",
-                    "AREADESTINO" => "Gerencia de Administracion y Finanzas",
+                    "IDDETREQ" => "172901",
+                    "FECHA" => "2018-01-03 11:24:16.000",
+                    "FECHARUTA" => "2018-01-05 09:17:15.000",
+                    "AREADESTINO" => "GERENCIA DE ADMINISTRACIÓN Y FINANZAS",
                     "AREADESTFLUJO" => "26",
-                    
-                    "REQNUM" => "908",
-                    "REQANNO" => "2018",
-                    "AREADSIGA" => "030002",
                     "AREADESTSIGA" => "040000",
+                    
+                    "AREAORIGEN" => "SUB GERENCIA DE LIMPIEZA PUBLICA",
+                    "AREAORIGFLUJO" => "23",
+                    "AREAORIGSIGA" => "100002",
 
-                    "AREAFLUJO" => "94",
+                    "REQ_NUM" => "1",
+                    "REQ_ANNO" => "2018",
+                    "AREAFLUJO" => "23",
+                    "AREADSIGA" => "100002",
+                    
+                    "NOMDOC" => "REQ. 1000020001",
+                    "IDDOC" => "0",
+                    "numpaso" => "1",
+                    "OBSERVACION" => "CUMPLIMIENTO DE POI"
+                ),
+                array(
+                    "IDDETREQ" => "172901",
+                    "FECHA" => "2018-01-03 11:24:16.000",
+                    "FECHARUTA" => "2018-01-08 14:37:40.000",
+                    "AREADESTINO" => "SUB GERENCIA DE LOGÍSTICA",
+                    "AREADESTFLUJO" => "29",
+                    "AREADESTSIGA" => "040003",
+                    
+                    "AREAORIGEN" => "GERENCIA DE ADMINISTRACIÓN Y FINANZAS",
+                    "AREAORIGFLUJO" => "26",
+                    "AREAORIGSIGA" => "040000",
+
+                    "REQ_NUM" => "1",
+                    "REQ_ANNO" => "2018",
+                    "AREAFLUJO" => "23",
+                    "AREADSIGA" => "100002",
+                    
+                    "NOMDOC" => "PROVEIDO - Nº 000047 - 2018 - GAF-MDI",
+                    "IDDOC" => "0",
+                    "numpaso" => "2",
+                    "OBSERVACION" => " "
+                ),
+                array(
+                    "IDDETREQ" => "172901",
+                    "FECHA" => "2018-01-03 11:24:16.000",
+                    "FECHARUTA" => "2018-01-09 17:18:09.000",
+                    "AREADESTINO" => "GERENCIA DE PLANIFICACIÓN, PRESUPUESTO Y RACIONALIZACIÓN",
+                    "AREADESTFLUJO" => "28",
+                    "AREADESTSIGA" => "030001",
+                    
+                    "AREAORIGEN" => "SUB GERENCIA DE LOGÍSTICA",
+                    "AREAORIGFLUJO" => "29",
+                    "AREAORIGSIGA" => "040003",
+
+                    "REQ_NUM" => "1",
+                    "REQ_ANNO" => "2018",
+                    "AREAFLUJO" => "23",
+                    "AREADSIGA" => "100002",
+                    
+                    "NOMDOC" => "INF 013 -SGL",
+                    "IDDOC" => "0",
+                    "numpaso" => "3",
+                    "OBSERVACION" => " "
+                ),
+                array(
+                    "IDDETREQ" => "172901",
+                    "FECHA" => "2018-01-03 11:24:16.000",
+                    "FECHARUTA" => "2018-01-26 12:54:01.000",
+                    "AREADESTINO" => "SUB GERENCIA DE LOGÍSTICA",
+                    "AREADESTFLUJO" => "29",
+                    "AREADESTSIGA" => "040003",
+                    
+                    "AREAORIGEN" => "GERENCIA DE PLANIFICACIÓN, PRESUPUESTO Y RACIONALIZACIÓN",
+                    "AREAORIGFLUJO" => "28",
+                    "AREAORIGSIGA" => "030001",
+
+                    "REQ_NUM" => "1",
+                    "REQ_ANNO" => "2018",
+                    "AREAFLUJO" => "23",
+                    "AREADSIGA" => "100002",
+                    
                     "NOMDOC" => "",
-                    "IDDOC" => "",
-                    "IDDOC" => ""
+                    "IDDOC" => "0",
+                    "numpaso" => "4",
+                    "OBSERVACION" => " "
+                ),
+                array(
+                    "IDDETREQ" => "172901",
+                    "FECHA" => "2018-01-03 11:24:16.000",
+                    "FECHARUTA" => "2018-02-01 10:50:19.000",
+                    "AREADESTINO" => "SUB GERENCIA DE CONTABILIDAD Y COSTOS",
+                    "AREADESTFLUJO" => "35",
+                    "AREADESTSIGA" => "040002",
+                    
+                    "AREAORIGEN" => "SUB GERENCIA DE LOGÍSTICA",
+                    "AREAORIGFLUJO" => "29",
+                    "AREAORIGSIGA" => "040003",
+
+                    "REQ_NUM" => "1",
+                    "REQ_ANNO" => "2018",
+                    "AREAFLUJO" => "23",
+                    "AREADSIGA" => "100002",
+                    
+                    "NOMDOC" => "00143",
+                    "IDDOC" => "0",
+                    "numpaso" => "8",
+                    "OBSERVACION" => " "
+                ),
+                array(
+                    "IDDETREQ" => "172901",
+                    "FECHA" => "2018-01-03 11:24:16.000",
+                    "FECHARUTA" => "2018-02-05 14:57:10.000",
+                    "AREADESTINO" => "SUB GERENCIA DE TESORERÍA",
+                    "AREADESTFLUJO" => "42",
+                    "AREADESTSIGA" => "040004",
+                    
+                    "AREAORIGEN" => "SUB GERENCIA DE CONTABILIDAD Y COSTOS",
+                    "AREAORIGFLUJO" => "35",
+                    "AREAORIGSIGA" => "040002",
+
+                    "REQ_NUM" => "1",
+                    "REQ_ANNO" => "2018",
+                    "AREAFLUJO" => "23",
+                    "AREADSIGA" => "100002",
+                    
+                    "NOMDOC" => "00143",
+                    "IDDOC" => "0",
+                    "numpaso" => "9",
+                    "OBSERVACION" => " "
                 )
             )
         );
         $result = json_decode(json_encode($array));
-
-        $dtiempo_final = '2018-02-28 '.date('H:i:s');
-
-        foreach ($result->requerimientos as $k) {            
-
-            $area_origen = Area::find($k->AREAFLUJO);
-            $selecttr="SELECT tr.id, tr.id_union, tr.fecha_tramite
-                        FROM tablas_relacion tr 
-                        INNER JOIN rutas r ON r.tabla_relacion_id=tr.id AND r.estado=1
-                        WHERE tr.id_union LIKE '%".$k->REQNUM."%'
-                            AND tr.id_union LIKE '%".$k->REQANNO."%'
-                            AND tr.id_union LIKE '%".$area_origen->nemonico."%'
-                            AND tr.id_union LIKE '%REQ%'
-                            AND tr.estado=1;";
-            /**/
-
-            $tabla_relacion = DB::select($selecttr);
-            // -- 
-            $selecttr="SELECT *
-                        FROM rutas
-                            WHERE tabla_relacion_id = ".$tabla_relacion[0]->id;
-            $rutas = DB::select($selecttr);
-
-            // -- 
-            $selectrd="SELECT *
-                        FROM rutas_detalle
-                            WHERE ruta_id = ".$rutas[0]->id."
-                                //AND area_id = ".$k->AREAFLUJO."
-                                AND dtiempo_final IS NULL
-                                AND fecha_inicio IS NOT NULL
-                                AND estado = 1";
-            $ruta_detalle = DB::select($selectrd);
-
-            // --
-            if($ruta_detalle[0]->area_id == 94) // Es AREA Logistica = 29
+        */
+        foreach ($result->requerimiento as $i=>$k) {
+        if($i <= 1000){    
+            $requerimiento = CargaRequerimiento::where('codigo', '=', $k->IDDETREQ)
+                                            ->where('numpaso', '=', $k->numpaso)
+                                            ->first();
+            $proceso_rq = false;
+            if(count($requerimiento) == 0)
             {
-                $rutaDetalle = RutaDetalle::find($ruta_detalle[0]->id);
-                $rutaDetalle['fecha_inicio'] = $ruta_detalle[0]->fecha_inicio;
-                $rutaDetalle['dtiempo_final'] = $dtiempo_final;
-                $rutaDetalle['tipo_respuesta_id'] = 1;
-                $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
-                $rutaDetalle['observacion'] = '';
-                $rutaDetalle->save();
+                $fecha = substr($k->FECHA, 0, 19);
+                $fecharuta = substr($k->FECHARUTA, 0, 19);
 
-                $rutaDetalleVerbo = RutaDetalleVerbo::where('ruta_detalle_id', '=', $rutaDetalle->id)
-                                                    ->where('estado', '=', 1)->get();
-                if(count($rutaDetalleVerbo) > 0) {
-                    foreach ($rutaDetalleVerbo as $r) {
-                        $rdv = RutaDetalleVerbo::find($r->id);
-                        if ($k->IDDOC != '') {
-                            $rdv['documento'] = $k->AREAFLUJO;
-                            $rdv['doc_digital_id'] = $k->IDDOC;
-                        }                    
-                        $rdv['finalizo'] = 1;
-                        $rdv['observacion'] = 'AUTOMATICO';
-                        $rdv['usuario_created_at'] = 1272;
-                        $rdv['usuario_updated_at'] = 1272;
-                        $rdv['updated_at'] = date('Y-m-d H:i:s');
-                        $rdv->save();
+                // Carga en la tabla "carga_requerimientos"
+                $requerimiento = new CargaRequerimiento;
+                $requerimiento->codigo = $k->IDDETREQ; //172901
+                $requerimiento->numpaso = $k->numpaso;
+
+                $requerimiento->fecha = $fecha;
+                $requerimiento->fecharuta = $fecharuta;
+                $requerimiento->areadestino = $k->AREADESTINO;
+                $requerimiento->areadestflujo = $k->AREADESTFLUJO;
+                $requerimiento->areadestsiga = $k->AREADESTSIGA;
+                $requerimiento->areaorigen = $k->AREAORIGEN;
+                $requerimiento->areaorigflujo = $k->AREAORIGFLUJO;
+                $requerimiento->areaorigsiga = $k->AREAORIGSIGA;
+                $requerimiento->req_num = $k->REQ_NUM;
+                $requerimiento->req_anno = $k->REQ_ANNO;
+                $requerimiento->areaflujo = $k->AREAFLUJO;
+                $requerimiento->areadsiga = $k->AREADSIGA;
+                $requerimiento->nomdoc = @$k->NOMDOC;
+                $requerimiento->iddoc = @$k->IDDOC;                
+                $requerimiento->observacion = @$k->OBSERVACION;
+                $requerimiento->save();
+                // --                
+            }
+               
+            if(count($requerimiento) == 0 || $requerimiento->estado_procesado == 0)
+            {                
+                $area_origen = Area::find($k->AREAFLUJO);
+                $selecttr="SELECT tr.id, tr.id_union, tr.fecha_tramite, tr.usuario_created_at
+                            FROM tablas_relacion tr 
+                            WHERE tr.id_union LIKE '%00".$k->REQ_NUM."-%'
+                                AND tr.id_union LIKE '%".$k->REQ_ANNO."%'
+                                AND tr.id_union LIKE '%".$area_origen->nemonico."%'
+                                AND tr.id_union LIKE '%REQ%'
+                                AND tr.estado=1;";                
+                $tabla_relacion = DB::select($selecttr);
+
+                //echo $tabla_relacion[0]->id."<br>";
+                
+                if(count($tabla_relacion) > 0)
+                {
+                    // -- 
+                    $selecttr="SELECT *
+                                FROM rutas
+                                    WHERE tabla_relacion_id = ".$tabla_relacion[0]->id;
+                    $rutas = DB::select($selecttr);
+
+                    // -- 
+                    $selectrd="SELECT *
+                                FROM rutas_detalle
+                                    WHERE ruta_id = ".$rutas[0]->id."
+                                        AND dtiempo_final IS NULL
+                                        AND fecha_inicio IS NOT NULL
+                                        AND estado = 1";
+                    $ruta_detalle = DB::select($selectrd);
+
+                    // -- 
+                    $selectrd2="SELECT *
+                                FROM rutas_detalle
+                                    WHERE ruta_id = ".$rutas[0]->id."
+                                        AND fecha_inicio IS NULL
+                                        AND estado = 1
+                                        AND condicion = 0
+                                        ORDER BY norden
+                                        LIMIT 0,1;";
+                    $ruta_detalle2 = DB::select($selectrd2);
+
+                    // --
+                    if(@$ruta_detalle[0]->area_id == 29 && @$ruta_detalle2[0]->area_id == 28)
+                    {
+                        if((@$k->numpaso == 3 || @$k->numpaso == 4) && (@$k->AREAORIGFLUJO == 29 && @$k->AREADESTFLUJO == 28))
+                        {
+                            $proceso_rq = true;
+                        }
+                    }
+                    else if(@$ruta_detalle[0]->area_id == 28 && @$ruta_detalle2[0]->area_id == 29)
+                    {
+                        if(@$k->AREAORIGFLUJO == 28 && @$k->AREADESTFLUJO == 29)
+                        {
+                            $proceso_rq = true;
+                        }
+                    }
+                    else if(@$ruta_detalle[0]->area_id == 29 && @$ruta_detalle2[0]->area_id == 35)
+                    {
+                        if((@$k->numpaso == 8) && (@$k->AREAORIGFLUJO == 29 && @$k->AREADESTFLUJO == 35))
+                        {
+                            $proceso_rq = true;
+                        }
+                    }
+                    else if(@$ruta_detalle[0]->area_id == 35 && @$ruta_detalle2[0]->area_id == 42)
+                    {
+                        if(@$k->AREAORIGFLUJO == 35 && @$k->AREADESTFLUJO == 42)
+                        {
+                            $proceso_rq = true;
+                        }
+                    }
+                    else if(@$ruta_detalle[0]->area_id == 26 && @$ruta_detalle2[0]->area_id == 29)
+                    {
+                        if((@$k->numpaso == 2) && (@$k->AREAORIGFLUJO == 26 && @$k->AREADESTFLUJO == 29))
+                        {
+                            $proceso_rq = true;
+                        }
+                    }
+                    else if(@$ruta_detalle[0]->norden == '01' && @$ruta_detalle2[0]->area_id == 26)
+                    {
+                        if((@$k->numpaso == 1) && @$k->AREADESTFLUJO == 26)
+                        {
+                            $proceso_rq = true;
+                        }
+                    }
+                                        
+                    if($proceso_rq == true)
+                    {
+                        DB::beginTransaction();
+                        $dtiempo_final = substr($k->FECHARUTA, 0, 19);
+                        $rutaDetalle = RutaDetalle::find($ruta_detalle[0]->id);
+                        $rutaDetalle['fecha_inicio'] = $ruta_detalle[0]->fecha_inicio;
+                        $rutaDetalle['dtiempo_final'] = $dtiempo_final;
+                        $rutaDetalle['tipo_respuesta_id'] = 1;
+                        $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
+                        $rutaDetalle['usuario_updated_at'] = 1272;
+                        $rutaDetalle['observacion'] = '';
+                        $rutaDetalle->save();
+
+                        $rutaDetalleVerbo = RutaDetalleVerbo::where('ruta_detalle_id', '=', $rutaDetalle->id)
+                                                            ->where('estado', '=', 1)->get();
+                        
+                        if(count($rutaDetalleVerbo) > 0) {
+                            foreach ($rutaDetalleVerbo as $r) {
+                                $rdv = RutaDetalleVerbo::find($r->id);
+                                if ($k->NOMDOC != '') {
+                                    $selectdd="SELECT *
+                                                FROM doc_digital_temporal
+                                                    WHERE UPPER(titulo) = '".$k->NOMDOC."';";
+                                    $doc_digital = DB::select($selectdd);
+
+                                    if(count($doc_digital) > 0) {
+                                        $rdv['documento'] = $k->NOMDOC;
+                                        $rdv['doc_digital_id'] = $doc_digital[0]->id;
+                                    }
+                                }
+                                $rdv['finalizo'] = 1;
+                                $rdv['observacion'] = 'AUTOMATICO';
+                                $rdv['usuario_created_at'] = 1272;
+                                $rdv['usuario_updated_at'] = 1272;
+                                $rdv['updated_at'] = date('Y-m-d H:i:s');
+                                $rdv->save();
+                            }
+
+                            $referido = new Referido;
+                            $referido['ruta_id'] = $rutas[0]->id;
+                            $referido['tabla_relacion_id'] = $tabla_relacion[0]->id;
+                            if(@$doc_digital[0]->id != '')
+                                $referido['doc_digital_id'] = $documento_digital->id;
+                            $referido['tipo'] = 1;
+                            if ($k->NOMDOC != '') 
+                                $referido['referido'] = $k->NOMDOC;
+                            $referido['fecha_hora_referido'] = $rutaDetalle->dtiempo_final;
+                            $referido['usuario_referido'] = $tabla_relacion[0]->usuario_created_at;
+                            $referido['usuario_created_at'] =Auth::user()->id;
+                            $referido->save();
+                        }
+
+                                            
+                        // Pasa a la siguiente area:
+                        $sql="SELECT CalcularFechaFinal( '".$rutaDetalle->dtiempo_final."', (".$ruta_detalle2[0]->dtiempo."*1440), ".$ruta_detalle2[0]->area_id." ) fproy";
+                        $fproy= DB::select($sql);
+                        $rutaDetalle2 = RutaDetalle::find($ruta_detalle2[0]->id);
+                        $rutaDetalle2['fecha_inicio'] = $rutaDetalle->dtiempo_final;
+                        $rutaDetalle2['fecha_proyectada']=$fproy[0]->fproy;
+                        $rutaDetalle2['ruta_detalle_id_ant']=$rutaDetalle->id;
+
+                        $rutaDetalle2['estado_ruta'] = 1;
+                        $rutaDetalle2['usuario_created_at'] = 1272;
+                        $rutaDetalle2->save();
+                        // --
+
+                        // --
+                        $sql = "UPDATE carga_requerimientos cr
+                                        SET cr.estado_procesado = 1
+                                            WHERE cr.codigo = '".$requerimiento->codigo."' AND cr.numpaso = '".$requerimiento->numpaso."';";
+                        DB::update($sql);
+
+                        DB::commit();
                     }
                 }
-            }    
+            }
+
+        }
         }
 
-        //$param_data = array('respuesta' => 'Proceso ejecutado Satisfactorio');
         //$objArr = $this->curl("ruta.php", $param_data);
-        $return_response = $thi->response(200,"success","Proceso ejecutado satisfactoriamente");
+        $return_response = $this->response(200,"success","Proceso ejecutado satisfactoriamente");
 
-        // Creación de un archivo JSON para dar respuesta al cliente
-          $uploadFolder = 'txt/api';
-          $nombre_archivo = "respuesta.json";
-          $file = $uploadFolder . '/' . $nombre_archivo;
-          unlink($file);
-          if($archivo = fopen($file, "a"))
-          {
+        $uploadFolder = 'txt/api';
+        $nombre_archivo = "respuesta.json";
+        $file = $uploadFolder . '/' . $nombre_archivo;
+        unlink($file);
+        if($archivo = fopen($file, "a"))
+        {
             fwrite($archivo, $return_response);
             fclose($archivo);
-          }
+        }
         // --
 
         return Response::json(array('rst' => 1));
@@ -656,8 +898,7 @@ class IndedocsController extends \BaseController {
         {
             $response = array(
                         "status" => $status ,
-                        "message"=>$message,
-                        "server" => $this->getIPCliente()
+                        "message"=>$message
                     );
             return json_encode($response, JSON_PRETTY_PRINT);
         }
