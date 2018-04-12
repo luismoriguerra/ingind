@@ -38,7 +38,7 @@ class MapsProcesos extends \Eloquent {
                     INNER JOIN tablas_relacion tr ON r.tabla_relacion_id = tr.id AND tr.estado = 1
                     INNER JOIN rutas_detalle rd ON r.id = rd.ruta_id AND rd.estado = 1
                     LEFT JOIN rutas_detalle_mapas rdm ON r.id = rdm.ruta_id AND rd.id = rdm.ruta_detalle_id
-                    INNER JOIN personas p ON p.id=rdm.persona_id                    
+                    LEFT JOIN personas p ON p.id=rdm.persona_id                    
                     WHERE ci.tipo = 'DESMONTE'
                         AND rd.area_id = 23
                         AND rd.fecha_inicio IS NOT NULL
