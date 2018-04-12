@@ -660,7 +660,7 @@ class IndedocsController extends \BaseController {
         $result = json_decode(json_encode($array));
         */
         foreach ($result->requerimiento as $i=>$k) {
-        if($i >= 1090){    
+        if($k->IDDETREQ >= 173146){    
             $requerimiento = CargaRequerimiento::where('codigo', '=', $k->IDDETREQ)
                                             ->where('numpaso', '=', $k->numpaso)
                                             ->first();
