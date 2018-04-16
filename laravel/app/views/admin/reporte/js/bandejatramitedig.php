@@ -488,7 +488,8 @@ mostrarDetalleHTML=function(datos){
 
                         html_pd += '<div class="col-md-1" id="ad'+index+'" style="padding-left: 0px; padding-right: 10px;">'+
                                         '<a href="'+d_foto+'" target="_blank"><img src="'+foto+'" alt=""  border="0" class="img-responsive foto_desmonte"></a>';
-                        if(datos.norden == data.norden)
+                        
+                        if($('#txt_orden').val() == data.norden)
                             html_pd += '<div class="text-center"><button type="button" id="'+index+'" onclick="eliminarArchivoDes(this.id)" class="btn btn-danger btn-xs"><span class="fa fa-trash fa-lg" aria-hidden="true"></span> Eliminar</button></div>';
                                     
                         html_pd += '</div>';
