@@ -428,6 +428,7 @@ tr.shown td.details-control {
                                             </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Estado Final de la Actividad(Alerta):</label>
+                                                <input type="hidden" class="form-control" id="txt_finalizado" name="txt_finalizado" value="0">
                                                 <input type="hidden" class="form-control" id="txt_alerta" name="txt_alerta">
                                                 <input type="hidden" class="form-control" id="txt_alerta_tipo" name="txt_alerta_tipo">
                                                 <div class="progress progress-striped active">

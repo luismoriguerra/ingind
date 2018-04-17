@@ -386,7 +386,7 @@ class RutaDetalleController extends \BaseController
 
             $datos=array();
             if ( Input::get('tipo_respuesta') ) {
-                if(Input::get('archivado')==2 && Input::has('archivado')){
+                if((Input::get('archivado')==2 && Input::has('archivado')) ||  Input::get('finalizado')==2){
                     $rd['archivado']=2;
                 }
                 $rd['dtiempo_final']= Input::get('respuesta');
@@ -687,6 +687,33 @@ class RutaDetalleController extends \BaseController
         $file = base64_decode($file);
         file_put_contents($url , $file);
         return $url. $type;
+    }
+    
+    public function postVerificarultimopaso(){
+        
+        if ( Request::ajax() ) {
+            $rst=0;
+            $ultimopaso= RutaDetalle::where("ruta_id","=",Input::get("ruta_id"))
+                                    ->where("condicion","=",0)
+                                    ->where("estado","=",1)
+                                    ->whereNull("fecha_inicio")
+                                    ->whereNull("dtiempo_final")->first();
+            if(!$ultimopaso){ 
+                $rst=1;
+                $msj='Es el último paso, ';
+                
+            }else{ 
+                $rst=0;
+                $msj='';
+            }
+            
+            return Response::json(
+                array(
+                    'rst'   => $rst,
+                    'msj'   => $msj,
+                )
+            );
+        }
     }
 
 }

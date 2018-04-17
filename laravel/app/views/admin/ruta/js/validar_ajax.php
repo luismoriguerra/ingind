@@ -181,6 +181,27 @@ var Validar={
                 msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);
             }
         });
+    },
+    VerificarUltimopaso:function(datos){
+        $.ajax({
+            async       : false,
+            url         : 'ruta_detalle/verificarultimopaso',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : datos,
+            beforeSend : function() {
+                //$("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                ultimo=obj;
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje("danger","Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.",3000);
+            }
+        });
+        return ultimo;
     }
 }
 </script>
