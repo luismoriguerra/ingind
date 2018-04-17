@@ -577,9 +577,25 @@ class ReporteController extends BaseController
         $array['ruta_id'] =" AND rd.ruta_id='".Input::get('ruta_id')."' ";
       }
 
-      //$data = Reporte::VerNroPasosTramite($array);
-      //$cant_pasos = $data[0]->cant;
       $oData = Reporte::verArchivosDesmontesMotorizado( $array );
+
+      return Response::json(
+          array(
+              'rst'=>1,
+              'datos'=>$oData['data']
+          )
+      );
+    }
+
+    public function postVermapadesmontesmotorizado()
+    {
+      $array=array();
+      
+      if( Input::has('ruta_id') AND Input::get('ruta_id')!='' ){
+        $array['ruta_id'] =" AND ci.ruta_id='".Input::get('ruta_id')."' ";
+      }
+      
+      $oData = Reporte::verMapaDesmontesMotorizado( $array );
 
       return Response::json(
           array(

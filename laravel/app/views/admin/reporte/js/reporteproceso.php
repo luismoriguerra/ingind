@@ -845,6 +845,8 @@
                             //html += "<a href='"+data['archivo' + i]+"' target='_blank'>"+res[0] + res[2] + "</a>";
                             html += res[0] + res[2];
                             html += '<button type="button" id="' + data.id + '" onclick="verFotosModal(this.id)"  data-toggle="modal" data-target="#modalFotos' + data.id + '" class="btn btn-primary btn-xs"><span class="fa fa-list fa-lg" aria-hidden="true"></span> Ver Fotos</button>';
+
+                            html += '&nbsp;<button type="button" id="' + data.id + '" onclick="verMapaModal(this.id)"  data-toggle="modal" data-target="#modalMapas' + data.id + '" class="btn btn-default btn-xs"><span class="fa fa-list fa-lg" aria-hidden="true"></span> Ver Mapa</button>';
                         }
                             
 
@@ -939,7 +941,7 @@
                 }
             });
 
-            
+        
         var html_modal = '<div class="modal fade" id="modalFotos'+id+'" role="dialog">'+
                                           '<div class="modal-dialog modal-md">'+
                                             '<div class="modal-content">'+
@@ -960,57 +962,78 @@
                                         '</div>'+
                                       '</div>';
 
-                    $('#div_ver_archivos_id').html(html_modal);
-    }
-
-    /*
-    HTMLVerArchivosDesmontesMotorizado = function(datos){
-        html_pd = '';
-        var foto = ''
-        var data_fotos = $.trim(datos.archivo).split("|");
-        $.each(data_fotos, function (index, d_foto) {
-            if (d_foto.length != 0) {
-                var cant_foto = d_foto.length;
-
-                if(d_foto.substring((cant_foto-3), cant_foto) == 'png' || 
-                    d_foto.substring((cant_foto-3), cant_foto) == 'jpg' ||
-                    d_foto.substring((cant_foto-3), cant_foto) == 'gif' ||
-                    d_foto.substring((cant_foto-4), cant_foto) == 'jpeg' )
-                    foto = d_foto;
-                else
-                    foto = 'img/admin/ruta_detalle/marca_doc.jpg';
-
-                html_pd += '<div class="col-md-1" id="ad'+index+'" style="padding-left: 0px; padding-right: 10px;">'+
-                                '<a href="'+d_foto+'" target="_blank"><img src="'+foto+'" alt=""  border="0" class="img-responsive foto_desmonte"></a>'+
-                                '<div class="text-center"><button type="button" id="'+index+'" onclick="eliminarArchivoDes(this.id)" class="btn btn-danger btn-xs"><span class="fa fa-trash fa-lg" aria-hidden="true"></span> Eliminar</button></div>'+
-                            '</div>';
-            }
-        });
-
-        
-        var html_modal = '<div class="modal fade" id="modalFotos'+data.id+'" role="dialog">'+
-                              '<div class="modal-dialog modal-md">'+
-                                '<div class="modal-content">'+
-                                  '<div class="modal-header" style="padding: 7px;">'+
-                                    '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
-                                    '<h5 class="modal-title text-center">LISTADO DE FOTOS</h5>'+
-                                  '</div>'+
-                                  '<div class="modal-body" style="padding: 5px; font-size: 13px;">'+
-                                      '<div id="d_ver_fotos" class="col-md-12">'+
-                                        '<p>'+html_pd+'</p>'+
-                                      '</div>'+
-                                  '</div>'+
-                                  '<div class="modal-footer" style="padding: 7px;">'+
-                                    '<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>'+
-                                  '</div>'+
-                                '</div>'+
-                              '</div>'+
-                            '</div>'+
-                          '</div>';
-
         $('#div_ver_archivos_id').html(html_modal);
     }
-    */
+
+    verMapaModal = function(id) {
+
+        $.ajax({
+                url: 'reporte/vermapadesmontesmotorizado',
+                type:'POST',
+                cache       : false,
+                dataType    : 'json',
+                data        : { ruta_id:id },
+                success: function(obj)
+                {
+                    datos = obj.datos;                    
+                    // Gmaps
+                    var map;
+                    map = new GMaps({
+                        el: '#map',
+                        lat: datos[0].latitud,
+                        lng: datos[0].longitud
+                    });
+
+                    conten_market = '<div style="text-align:center; width: 100%;"><h3>'+datos[0].tipo+'</h3>'+
+                                          '<p>'+datos[0].direccion+'</p>'+
+                                      '</div>'+
+                                      '<div style="width: 100%;">'+
+                                        '<div style="text-align:center;">'+
+                                          '<a href="'+datos[0].foto+'" target="_blank"><img src="'+datos[0].foto+'" width="90"/></a>'+
+                                        '</div>';                               
+                    conten_market += '</div>';   
+
+                    map.addMarker({
+                        lat: datos[0].latitud,
+                        lng: datos[0].longitud,
+                        title: datos[0].direccion,
+                        infoWindow: {
+                          //content: '<p><strong>DSDSDSD</strong></br><img src="http://www.muniindependencia.gob.pe/sicmovil/fotoed/29447.jpg" border="0" width="60"></p>'
+                          content : conten_market
+                        }
+                    });
+                    // --
+                },
+                error: function(jqXHR, textStatus, error)
+                {
+                  console.log(jqXHR.responseText);
+                }
+            });
+
+        
+        var html_modal_map = '<div class="modal fade" id="modalMapas'+id+'" role="dialog">'+
+                                          '<div class="modal-dialog modal-md">'+
+                                            '<div class="modal-content">'+
+                                              '<div class="modal-header" style="padding: 7px;">'+
+                                                '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                                '<h4 class="modal-title text-center">MAPA DESMONTE</h4>'+
+                                              '</div>'+
+                                              '<div class="modal-body" style="overflow: hidden;">'+
+                                                  '<div id="map" class="col-md-12">'+
+                                                    '<p></p>'+
+                                                  '</div>'+
+                                              '</div>'+
+                                              '<div class="modal-footer" style="padding: 7px;">'+
+                                                '<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>'+
+                                              '</div>'+
+                                            '</div>'+
+                                          '</div>'+
+                                        '</div>'+
+                                      '</div>';
+
+        $('#div_ver_mapas_id').html(html_modal_map);
+    }
+
 
     HTMLCargaTramites = function (datos) {
         var html = '';
