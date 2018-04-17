@@ -660,7 +660,7 @@ class IndedocsController extends \BaseController {
         $result = json_decode(json_encode($array));
         */
         foreach ($result->requerimiento as $i=>$k) {
-        //if($i <= 1000){    
+        if($k->IDDETREQ >= 173146){    
             $requerimiento = CargaRequerimiento::where('codigo', '=', $k->IDDETREQ)
                                             ->where('numpaso', '=', $k->numpaso)
                                             ->first();
@@ -824,7 +824,7 @@ class IndedocsController extends \BaseController {
                             $referido['ruta_id'] = $rutas[0]->id;
                             $referido['tabla_relacion_id'] = $tabla_relacion[0]->id;
                             if(@$doc_digital[0]->id != '')
-                                $referido['doc_digital_id'] = $documento_digital->id;
+                                $referido['doc_digital_id'] = $doc_digital[0]->id;
                             $referido['tipo'] = 1;
                             if ($k->NOMDOC != '') 
                                 $referido['referido'] = $k->NOMDOC;
@@ -858,7 +858,7 @@ class IndedocsController extends \BaseController {
                     }
                 }
             }
-        //}
+        }
         }
 
         //$objArr = $this->curl("ruta.php", $param_data);
