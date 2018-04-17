@@ -15,6 +15,9 @@
 {{ Html::script('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js') }}
 {{ Html::script('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js') }}
 
+{{ HTML::script('https://maps.googleapis.com/maps/api/js?key=AIzaSyCxS6Bw_xqMl2zaSOgplzZtzhgx6L8QYkY') }}
+{{ HTML::script('lib/gmaps.js') }}
+
 @include( 'admin.js.slct_global_ajax' )
 @include( 'admin.js.slct_global' )
 @include( 'admin.reporte.js.reporteproceso_ajax' )
@@ -46,6 +49,23 @@
     .margin-top-10{
         margin-top: 10px;   
     }
+</style>
+
+<style type="text/css">
+/* GOOGLE MAPS */
+#map{
+  display: block;
+  width: 98%;
+  height: 500px;
+  margin: 0 auto;
+  -moz-box-shadow: 0px 5px 20px #ccc;
+  -webkit-box-shadow: 0px 5px 20px #ccc;
+  box-shadow: 0px 5px 20px #ccc;
+}
+#map.large{
+  height:500px;
+}
+
 </style>
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -142,6 +162,7 @@
                         }
                     </style>
                     <div id="div_ver_archivos_id" class=""></div>
+                    <div id="div_ver_mapas_id" class=""></div>
                     <!-- <form id="form_1" name="form_1"></form> -->
                     <div id="div_tactividad_previo" class="text-center"  style="display: none"></div>
                     <form id="form_tactividad" name="form_tactividad" method="POST" action="" style="display: none">

@@ -660,12 +660,12 @@ class IndedocsController extends \BaseController {
         $result = json_decode(json_encode($array));
         */
         foreach ($result->requerimiento as $i=>$k) {
-        if($k->IDDETREQ >= 173146){    
+        //if($k->IDDETREQ >= 173146){    
             $requerimiento = CargaRequerimiento::where('codigo', '=', $k->IDDETREQ)
                                             ->where('numpaso', '=', $k->numpaso)
                                             ->first();
             $proceso_rq = false;
-            if(count($requerimiento) == 0)
+            if(count($requerimiento) == 0 && ($k->AREAORIGFLUJO != '' && $k->AREADESTFLUJO != ''))
             {
                 $fecha = substr($k->FECHA, 0, 19);
                 $fecharuta = substr($k->FECHARUTA, 0, 19);
@@ -696,8 +696,8 @@ class IndedocsController extends \BaseController {
                 // --                
             }
                
-            if(count($requerimiento) == 0 || $requerimiento->estado_procesado == 0)
-            {                
+            if( (count($requerimiento) == 0 || $requerimiento->estado_procesado == 0) && ($k->AREAORIGFLUJO != '' && $k->AREADESTFLUJO != '') )
+            {               
                 $area_origen = Area::find($k->AREAFLUJO);
                 $selecttr="SELECT tr.id, tr.id_union, tr.fecha_tramite, tr.usuario_created_at
                             FROM tablas_relacion tr 
@@ -858,7 +858,7 @@ class IndedocsController extends \BaseController {
                     }
                 }
             }
-        }
+        //}
         }
 
         //$objArr = $this->curl("ruta.php", $param_data);
