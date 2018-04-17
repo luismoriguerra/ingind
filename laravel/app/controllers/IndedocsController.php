@@ -904,4 +904,64 @@ class IndedocsController extends \BaseController {
             return json_encode($response, JSON_PRETTY_PRINT);
         }
     }
+    
+        
+        
+    public function postActividadfisca() {
+        
+        $res = file_get_contents("http://www.muniindependencia.gob.pe/rolservicio/index.php?opcion=ordenes&fecha=".date('Ymd'));
+        //$res = file_get_contents("http://www.muniindependencia.gob.pe/rolservicio/index.php?opcion=ordenes&fecha=20180313");
+        $result = json_decode(utf8_encode($res));
+       
+        $array = array(
+            'ordenes' => array(
+                array(
+                    "fecha_rol"=> "01/03/2018",
+                    "dni"=> "07176409",
+                    "nombre_completo"=> "COCHA ZAVALETA, JESUS",
+                    "desc_turno"=> "08=>00  A.M .- 16=>45 P.M",
+                    "ubicacion"=> "Sector INDEPENDENCIA cuadrante F - ED. OFICINA",
+                    "id_actividad"=> "12855",
+                    "actividad"=> "ATENCIÓN AL DOCUMENTO SIMPLE N° 720-2018 - ASUNTO=> COMERCIO AMBULATORIO.",
+                    "fecha1"=> "01/03/2018 08=>00",
+                    "fecha2"=> "01/03/2018 10=>00",
+                    "tiempo"=> "2=>0=>0",
+                    "umedida_desc"=> "UNID",
+                    "cantidad"=> "1"
+                ),
+                array(
+                    "fecha_rol"=> "01/03/2018",
+                    "dni"=> "07176409",
+                    "nombre_completo"=> "COCHA ZAVALETA, JESUS",
+                    "desc_turno"=> "08=>00  A.M .- 16=>45 P.M",
+                    "ubicacion"=> "Sector INDEPENDENCIA cuadrante F - ED. OFICINA",
+                    "id_actividad"=> "12856",
+                    "actividad"=> "ATENCIÓN AL DOCUMENTO SIMPLE N° 706-2018 - ASUNTO=> COMERCIO AMBULATORIO.",
+                    "fecha1"=> "01/03/2018 10=>00",
+                    "fecha2"=> "01/03/2018 13=>00",
+                    "tiempo"=> "3=>0=>0",
+                    "umedida_desc"=> "UNID",
+                    "cantidad"=> "1"
+                ),
+            )
+        );
+        $result = json_decode(json_encode($array));
+        
+        foreach ($result->ordenes as $k) {
+            
+            $persona= Persona::where('dni','=',$k->dni)->first();
+            if($persona){
+                $act= new ActividadPersonal;
+                $act->actividad='Actividad:'.$k->actividad.' | Ubicación:'.$k->ubicacion;
+                $act->fecha_inicio='';
+                $act->dtiempo_final='';
+                $act->ot_tiempo_transcurrido='';
+                $act->persona_id=$persona->id;
+                $act->area_id=$persona->area_id;
+                $act->cantidad=$k->cantidad;
+                $act->save();   
+            }
+        }
+        return Response::json(array('rst' => 1));
+    }
 }

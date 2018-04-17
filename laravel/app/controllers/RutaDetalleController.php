@@ -220,6 +220,7 @@ class RutaDetalleController extends \BaseController
                     $rdetalle['tiempo_id'] = $rd->tiempo_id;
                     $rdetalle['dtiempo'] = $rd->dtiempo;
                     $rdetalle['norden'] = $rd->norden;
+                    $rdetalle['ruta_flujo_id'] = $rd->ruta_flujo_id;
                     $rdetalle['fecha_inicio'] =  ($i==1) ? $fecha_inicio : NULL; 
                     if($i==1){
                         $sql="SELECT CalcularFechaFinal( '".$fecha_inicio."', (".$rd->dtiempo."*1440), ".$rd->area_id." ) fproy";
