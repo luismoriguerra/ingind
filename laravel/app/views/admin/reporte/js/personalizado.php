@@ -1,6 +1,6 @@
 <script type="text/javascript">
 var NombreMes=["","ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SETIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
-var TotalGlobal={total:0,pendiente:0,atendido:0,destiempo_a:0,destiempo_p:0,finalizado:0};
+var TotalGlobal={total:0,pendiente:0,atendido:0,destiempo_a:0,destiempo_p:0,finalizo:0};
 $(document).ready(function() {
     
    $('.tree').treegrid({
@@ -211,7 +211,7 @@ HTMLPersonalizado=function(datos,parametros){
     TotalGlobal.atendido=0;
     TotalGlobal.destiempo_a=0;
     TotalGlobal.destiempo_p=0;
-    TotalGlobal.finalizado=0;
+    TotalGlobal.finalizo=0;
     
     var html ='';
     var pos=0;
@@ -329,8 +329,7 @@ HTMLPersonalizado=function(datos,parametros){
     html+="<tr>"+
     "<td>"+TotalGlobal.total+"</td>"+
     "<td>"+TotalGlobal.pendiente+' / <span  style="color:red;">'+TotalGlobal.destiempo_p+"</span></td>"+
-    "<td>"+TotalGlobal.atendido+' / <span  style="color:red;">'+TotalGlobal.destiempo_a+"</span></td>"+
-    "<td>"+TotalGlobal.finalizado+"</td>";
+    "<td>"+TotalGlobal.finalizo+"</td>";
     html+="</tr>";
     $("#tb_resumen_tree").html(html);
 };

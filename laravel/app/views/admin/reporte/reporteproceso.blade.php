@@ -175,8 +175,7 @@
                                     <tr>
                                         <th>Trámites que Llegaron</th>
                                         <th>T. Pendientes / T. Pendientes a Destiempo</th>
-                                        <th>T. Atendidos / T. Atendidos a Destiempo </th>
-                                        <th>Trámites Finalizados</th>
+                                        <th>Trámites Atendidos</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb_resumen_tree">
