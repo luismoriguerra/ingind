@@ -98,12 +98,12 @@
         });
 
         $(".fechas").datetimepicker({
-            format: "yyyy-mm",
+            format: "yyyy-mm-dd",
             language: 'es',
             showMeridian: false,
             time: false,
             minView: 3,
-            startView: 3,
+            startView: 2,
             autoclose: true,
             todayBtn: false
         });
@@ -1113,6 +1113,8 @@
         $("#div_tactividad_previo").html('<img src="img/loading.gif" style="border: 0px;">').show();
         $("#form_tactividad").hide();
 
+
+        $('#text_fecha_ini').html('Fecha inicial '+fecha_ini);
         Proceso.MostrarTramiteActividad(id, fechames, tramite);
         Personalizado.ReportePersonalizado(dataG);
         $("#form_tactividad").css("display", "");

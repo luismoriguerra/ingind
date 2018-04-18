@@ -656,9 +656,10 @@ class Reporte extends Eloquent
         if (Input::has('fecha_ini') && Input::get('fecha_ini') && Input::has('fecha_fin') && Input::get('fecha_fin')) {
             $fecha_ini=Input::get('fecha_ini');
             $fecha_fin=Input::get('fecha_fin');
-            $f_fecha .= "AND DATE_FORMAT(r.fecha_inicio,'%Y-%m') BETWEEN '" . $fecha_ini . "' AND '" . $fecha_fin . "' ";
+            $f_fecha .= "AND DATE_FORMAT(r.fecha_inicio,'%Y-%m-%d') BETWEEN '" . $fecha_ini . "' AND '" . $fecha_fin . "' ";
         }
 
+        $fecha_ini = substr($fecha_ini, 0, 7);
         $n = 1;
         for($i=$fecha_ini;$i<=$fecha_fin;$i = date("Y-m", strtotime($i ."+ 1 month"))){
             $cl .= ",count(DISTINCT(r$n.id)) r$n";

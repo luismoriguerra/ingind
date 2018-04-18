@@ -107,11 +107,11 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label class="control-label">Fechas Inicio:</label>
-                                    <input type="text" class="form-control fechas" placeholder="AAAA-MM" id="fecha_ini" name="fecha_ini"/>
+                                    <input type="text" class="form-control fechas" placeholder="AAAA-MM-DD" id="fecha_ini" name="fecha_ini"/>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="control-label">Fechas Fin:</label>
-                                    <input type="text" class="form-control fechas" placeholder="AAAA-MM" id="fecha_fin" name="fecha_fin" />
+                                    <input type="text" class="form-control fechas" placeholder="AAAA-MM-DD" id="fecha_fin" name="fecha_fin" />
                                 </div>
                                 <br>
                                 <input type="button" class="btn btn-info" id="generar" name="generar" value="Calcular">
@@ -170,8 +170,11 @@
                             <table class="tree table table-bordered" id="t_resumen_tree">
                                 <thead id="tt_resumen_tree">
                                     <tr>
-                                        <th colspan="4">Resumen Global de todo el proceso</th>
+                                        <th colspan="4" id="text_fecha_ini" style="text-align: right;"></th>
                                     </tr>
+                                    <tr>
+                                        <th colspan="4">Resumen Global de todo el proceso</th>
+                                    </tr>                                    
                                     <tr>
                                         <th>Trámites que Llegaron</th>
                                         <th>T. Pendientes / T. Pendientes a Destiempo</th>
