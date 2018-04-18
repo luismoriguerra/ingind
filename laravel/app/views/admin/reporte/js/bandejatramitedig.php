@@ -750,7 +750,11 @@ guardarTodo=function(){
                 Validar.guardarValidacion(mostrarDetallle,$("#form_ruta_detalle>#ruta_detalle_id").val() );
             }
         }*/
-        sweetalertG.confirm("¿Desea Continuar?", "Por favor confirmar para actualizar su información", function(){
+        var ultimo=Validar.VerificarUltimopaso({ruta_id:$('#ruta_id').val()});
+        if(ultimo.rst==1){$("#form_ruta_detalle #txt_finalizado").val(2);}
+        else{$("#form_ruta_detalle #txt_finalizado").val(0);}
+        
+        sweetalertG.confirm("¿Desea Continuar?", ultimo.msj+"Por favor confirmar para actualizar su información", function(){
             if(validacheck==0 || $("#slct_tipo_respuesta").val()!=''){
                 $('#slct_tipo_visualizacion').multiselect('deselectAll');
                 $('#slct_tipo_visualizacion').multiselect('refresh');
