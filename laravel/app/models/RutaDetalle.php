@@ -9,7 +9,7 @@ class RutaDetalle extends Eloquent
         $flujo_id="";
         $ruta_detalle_id="";
         $adicional="";
-
+        
         if( Input::has('tramite') AND Input::get('tramite')!='' ){
             $tramite=explode(" ",trim(Input::get('tramite')));
             $tramitef='';
@@ -45,7 +45,7 @@ class RutaDetalle extends Eloquent
                 $rdval->save();
             }
         }
-
+        
         $set=DB::select('SET group_concat_max_len := @@max_allowed_packet');
         $query =
             'SELECT rd.archivado,rd.ruta_id,DATE_ADD(rd.fecha_inicio, INTERVAL 19 HOUR) as hora_fin_mayor,DATE_ADD(rd.fecha_inicio, INTERVAL 4 HOUR) as hora_fin_menor, NOW() as fecha_actual,rd.id, rd.dtiempo_final, r.flujo_id, 
