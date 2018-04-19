@@ -913,7 +913,7 @@ class IndedocsController extends \BaseController {
         //$res = file_get_contents("http://www.muniindependencia.gob.pe/rolservicio/index.php?opcion=ordenes&fecha=20180313");
         $result = json_decode(utf8_encode($res));
        
-        $array = array(
+        $arrayOrdenes = array(
             'ordenes' => array(
                 array(
                     "fecha_rol"=> "01/03/2018",
@@ -945,9 +945,40 @@ class IndedocsController extends \BaseController {
                 ),
             )
         );
-        $result = json_decode(json_encode($array));
         
-        foreach ($result->ordenes as $k) {
+        $arrayRespuesta = array(
+            'respuestas' => array(
+                array(
+                    "fecha_rol"=> "01/03/2018",
+                    "dni"=> "07176409",
+                    "nombre_completo"=> "COCHA ZAVALETA, JESUS",
+                    "id_actividad"=> "12855",
+                    "id_respuesta"=> "26283",
+                    "desc_respuesta"=> "SE EVALUÓ Y PREPARÓ LA  CARTA DE RESPUESTA n° 113-2018 gfcm-mdi EN RESPUESTA A LA SOLICITUD QUE PRETENDE SEGUIR EJERCIENDO COMERCIO AMBULATORIO PESE A QUE NO CUENTA CON AUTORIZACIÓN VIGENTE",
+                    "desde"=> "01/03/2018",
+                    "hasta"=> "01/03/2018",
+                    "hora_desde"=> "08=>00=>00",
+                    "hora_hasta"=> "10=>00=>00"
+                ),
+                array(
+                    "fecha_rol"=> "01/03/2018",
+                    "dni"=> "07176409",
+                    "nombre_completo"=> "COCHA ZAVALETA, JESUS",
+                    "id_actividad"=> "12856",
+                    "id_respuesta"=> "26284",
+                    "desc_respuesta"=> "SE EVALUÓ Y PREPARÓ LA  CARTA DE RESPUESTA N° 114-2018 GFCM-MDI EN RESPUESTA A LA SOLICITUD QUE PRETENDE SEGUIR EJERCIENDO COMERCIO AMBULATORIO PESE A QUE NO CUENTA CON AUTORIZACIÓN VIGENTE",
+                    "desde"=> "01/03/2018",
+                    "hasta"=> "01/03/2018",
+                    "hora_desde"=> "10=>00=>00",
+                    "hora_hasta"=> "12=>00=>00"
+                ),
+            )
+        );
+        
+        $resultOrdenes = json_decode(json_encode($arrayOrdenes));
+        $resultRespuesta = json_decode(json_encode($arrayRespuesta));
+        
+        foreach ($resultOrdenes->ordenes as $k) {
             
             $persona= Persona::where('dni','=',$k->dni)->first();
             if($persona){

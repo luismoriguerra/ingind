@@ -1057,4 +1057,34 @@ class ReporteFinalController extends BaseController
         echo 'no hay data';
       }*/
     }
+    
+    public function postTramiteasignacion(){
+        $array['where']='';
+        $array['usuario']=Auth::user()->id;
+        $array['w']='';
+        $sql="SELECT GROUP_CONCAT(DISTINCT(a.id) ORDER BY a.id) areas
+                FROM area_cargo_persona acp
+                INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                WHERE acp.estado=1
+                AND cp.persona_id= ".$array['usuario'];
+          $totalareas=DB::select($sql);
+          $areas = $totalareas[0]->areas;
+          $array['w'].=" AND rd.area_id IN (".$areas.") ";
+          
+        if( Input::has('id_union') AND Input::get('id_union')!='' ){
+          $id_union=explode(" ",trim(Input::get('id_union')));
+          for($i=0; $i<count($id_union); $i++){
+            $array['where'].=" AND tr.id_union LIKE '%".$id_union[$i]."%' ";
+          }
+        }
+        
+      $rst=Reporte::getTramiteasignacion($array); 
+      return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$rst
+            )
+        );
+    }
 }

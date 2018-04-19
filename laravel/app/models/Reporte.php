@@ -1024,21 +1024,22 @@ class Reporte extends Eloquent
 
         }
         
-             public static function getTramiteasignacion(){
-         $sql="SELECT tr.id_union,f.nombre as flujo,rd.norden,GROUP_CONCAT(v.nombre),GROUP_CONCAT(v.id)
+             public static function getTramiteasignacion($array){
+         $sql="SELECT tr.id_union,f.nombre as flujo,rd.norden,GROUP_CONCAT(v.nombre) as verbo,GROUP_CONCAT(rdv.id) as verbo_id
                 FROM tablas_relacion tr
                 INNER JOIN rutas r ON r.tabla_relacion_id=tr.id AND r.estado=1
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1
-                INNER JOIN rutas_detalle_verbo rdv ON rdv.ruta_detalle_id=rd.id and rdv.estado=1
+                INNER JOIN rutas_detalle_verbo rdv ON rdv.ruta_detalle_id=rd.id and rdv.estado=1 and rdv.finalizo=0 and rdv.usuario_updated_at IS NULL
                 INNER JOIN verbos v ON v.id=rdv.verbo_id and v.id!=1
                 INNER JOIN flujos f ON f.id=r.flujo_id
-                and rd.area_id=94 
-                and rd.fecha_inicio IS NOT NULL 
+                ".$array["w"].
+                " and rd.fecha_inicio IS NOT NULL 
                 and rd.fecha_inicio<=CURRENT_TIME()
                 AND rd.dtiempo_final IS NULL
                 AND rd.condicion=0
-                WHERE tr.estado=1
-                GROUP BY tr.id";
+                WHERE tr.estado=1 ".
+                $array["where"].
+                " GROUP BY tr.id";
          $r=DB::select($sql);
          return $r;
      }

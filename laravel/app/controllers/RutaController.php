@@ -425,7 +425,7 @@ class RutaController extends \BaseController
                     $acti_personal->ot_tiempo_transcurrido = $minTrascurrido;
                     $acti_personal->cantidad = $value['cantidad'];
                     $acti_personal->tipo = $value['tipo'];
-                    $acti_personal->actividad_categoria_id = $value['actividad_categoria_id'];
+                    $acti_personal->actividad_categoria_id = @$value['actividad_categoria_id'];
                     
                     if(array_key_exists('actividadasignada', $value)){
                     if(trim($value['actividadasignada'])!=''){
@@ -463,88 +463,107 @@ class RutaController extends \BaseController
                                 $acti_personal_archivo->save();
                             }   
                             
-                            $categoria= ActividadCategoria::find($value['actividad_categoria_id']);
-                            
-                            if(!$categoria->ruta_flujo_id){
-                                /************ Registrar Flujo ********* ************/
-                                $flujo=new Flujo;
-                                $flujo->area_id=Auth::user()->area_id;
-                                $flujo->categoria_id=17;
-                                $flujo->nombre=$categoria->nombre;
-                                $flujo->tipo_flujo=2;
-                                $flujo->usuario_created_at=Auth::user()->id;
-                                $flujo->save();
+                            if(trim($value['tipo_asignacion'])==2){
+                                for($i=0;$i<count($value['tramite']);$i++){
+                                    if($value['tramite'][$i]!=0){
+                                        $rudeve =RutaDetalleVerbo::find($value['tramite'][$i]);
+                                        $rudeve->usuario_updated_at = $Persona->id;
+                                        $rudeve->save();
+                                    }
+                                }
+                                if(@$rudeve){
+                                    $acti_personal->ruta_detalle_id=$rudeve->ruta_detalle_id;
+                                    $acti_personal->save();
+                                }
                                 
-                                /***************Registrar Flujo Respuesta********************************/
-                                $ftr=new FlujoTipoRespuesta;
-                                $ftr->flujo_id=$flujo->id;
-                                $ftr->tipo_respuesta_id=2;
-                                $ftr->tiempo_id=1;
-                                $ftr->dtiempo=0;
-                                $ftr->usuario_created_at=Auth::user()->id;
-                                $ftr->save();
-                                
-                                /************ Registrar Ruta Flujo ********* ************/
-                                if($flujo->id){
-                                    $rutaflujo = new RutaFlujo;
-                                    $rutaflujo->flujo_id = $flujo->id;
-                                    $rutaflujo->persona_id = Auth::user()->id;
-                                    $rutaflujo->area_id = Auth::user()->area_id;
-                                    $rutaflujo->usuario_created_at = Auth::user()->id;
-                                    $rutaflujo->save();
-                                }
-                                /***************************************************/
-                                $dias=date("Y-m-d", strtotime($value['ffin'])) - date("Y-m-d", strtotime($value['finicio']));                            
-                                /************ Registrar Detalle de Ruta ************/
-                                if($rutaflujo->id){
-                                    $rutaflujodetalle = new RutaFlujoDetalle;
-                                    $rutaflujodetalle->ruta_flujo_id = $rutaflujo->id;
-                                    $rutaflujodetalle->area_id = Auth::user()->area_id;
-                                    $rutaflujodetalle->tiempo_id = 2;
-                                    $rutaflujodetalle->dtiempo = $dias+1;
-                                    $rutaflujodetalle->norden = 1;
-                                    $rutaflujodetalle->detalle = "Desarrollo del trabajo";
-                                    $rutaflujodetalle->estado_ruta = 1;
-                                    $rutaflujodetalle->usuario_created_at = Auth::user()->id;
-                                    $rutaflujodetalle->save();
-                                }
-                                /*************************************************************/
-                                /************ Registrar Verbos de la ruta detalle ************/
-                                if($rutaflujodetalle->id){
-                                    $rutaflujodetalleverbo=new RutaFlujoDetalleVerbo;
-                                    $rutaflujodetalleverbo->ruta_flujo_detalle_id = $rutaflujodetalle->id;
-                                    $rutaflujodetalleverbo->nombre = '';
-                                    $rutaflujodetalleverbo->condicion = 0;
-                                    $rutaflujodetalleverbo->rol_id = 4;
-                                    $rutaflujodetalleverbo->verbo_id = 3;
-//                                    $rutaflujodetalleverbo->documento_id = 1;
-                                    $rutaflujodetalleverbo->orden = 1;
-                                    $rutaflujodetalleverbo->nombre = 'Inicio de actividad';
-                                    $rutaflujodetalleverbo->usuario_created_at = Auth::user()->id;
-                                    $rutaflujodetalleverbo->save();
-                                    
-                                    $rutaflujodetalleverbo=new RutaFlujoDetalleVerbo;
-                                    $rutaflujodetalleverbo->ruta_flujo_detalle_id = $rutaflujodetalle->id;
-                                    $rutaflujodetalleverbo->nombre = '';
-                                    $rutaflujodetalleverbo->condicion = 0;
-                                    $rutaflujodetalleverbo->rol_id = 4;
-                                    $rutaflujodetalleverbo->verbo_id = 3;
-//                                    $rutaflujodetalleverbo->documento_id = 1;
-                                    $rutaflujodetalleverbo->orden = 2;
-                                    $rutaflujodetalleverbo->nombre = 'Fin de actividad';
-                                    $rutaflujodetalleverbo->usuario_created_at = Auth::user()->id;
-                                    $rutaflujodetalleverbo->save();
-                                }
-                                /*****************************************************************/
-                                /************ Actualizar ruta_flujo_id a la categoria ************/
-                                $categoria->ruta_flujo_id=$rutaflujo->id;
-                                $categoria->save();
-                                /*****************************************************************/
                             }
+                            
+                        if(trim($value['tipo_asignacion'])==1){
+                                $categoria= ActividadCategoria::find($value['actividad_categoria_id']);
+
+                                if(!$categoria->ruta_flujo_id){
+                                    /************ Registrar Flujo ********* ************/
+                                    $flujo=new Flujo;
+                                    $flujo->area_id=Auth::user()->area_id;
+                                    $flujo->categoria_id=17;
+                                    $flujo->nombre=$categoria->nombre;
+                                    $flujo->tipo_flujo=2;
+                                    $flujo->usuario_created_at=Auth::user()->id;
+                                    $flujo->save();
+
+                                    /***************Registrar Flujo Respuesta********************************/
+                                    $ftr=new FlujoTipoRespuesta;
+                                    $ftr->flujo_id=$flujo->id;
+                                    $ftr->tipo_respuesta_id=2;
+                                    $ftr->tiempo_id=1;
+                                    $ftr->dtiempo=0;
+                                    $ftr->usuario_created_at=Auth::user()->id;
+                                    $ftr->save();
+
+                                    /************ Registrar Ruta Flujo ********* ************/
+                                    if($flujo->id){
+                                        $rutaflujo = new RutaFlujo;
+                                        $rutaflujo->flujo_id = $flujo->id;
+                                        $rutaflujo->persona_id = Auth::user()->id;
+                                        $rutaflujo->area_id = Auth::user()->area_id;
+                                        $rutaflujo->usuario_created_at = Auth::user()->id;
+                                        $rutaflujo->save();
+                                    }
+                                    /***************************************************/
+                                    $dias=date("Y-m-d", strtotime($value['ffin'])) - date("Y-m-d", strtotime($value['finicio']));                            
+                                    /************ Registrar Detalle de Ruta ************/
+                                    if($rutaflujo->id){
+                                        $rutaflujodetalle = new RutaFlujoDetalle;
+                                        $rutaflujodetalle->ruta_flujo_id = $rutaflujo->id;
+                                        $rutaflujodetalle->area_id = Auth::user()->area_id;
+                                        $rutaflujodetalle->tiempo_id = 2;
+                                        $rutaflujodetalle->dtiempo = $dias+1;
+                                        $rutaflujodetalle->norden = 1;
+                                        $rutaflujodetalle->detalle = "Desarrollo del trabajo";
+                                        $rutaflujodetalle->estado_ruta = 1;
+                                        $rutaflujodetalle->usuario_created_at = Auth::user()->id;
+                                        $rutaflujodetalle->save();
+                                    }
+                                    /*************************************************************/
+                                    /************ Registrar Verbos de la ruta detalle ************/
+                                    if($rutaflujodetalle->id){
+                                        $rutaflujodetalleverbo=new RutaFlujoDetalleVerbo;
+                                        $rutaflujodetalleverbo->ruta_flujo_detalle_id = $rutaflujodetalle->id;
+                                        $rutaflujodetalleverbo->nombre = '';
+                                        $rutaflujodetalleverbo->condicion = 0;
+                                        $rutaflujodetalleverbo->rol_id = 4;
+                                        $rutaflujodetalleverbo->verbo_id = 3;
+    //                                    $rutaflujodetalleverbo->documento_id = 1;
+                                        $rutaflujodetalleverbo->orden = 1;
+                                        $rutaflujodetalleverbo->nombre = 'Inicio de actividad';
+                                        $rutaflujodetalleverbo->usuario_created_at = Auth::user()->id;
+                                        $rutaflujodetalleverbo->save();
+
+                                        $rutaflujodetalleverbo=new RutaFlujoDetalleVerbo;
+                                        $rutaflujodetalleverbo->ruta_flujo_detalle_id = $rutaflujodetalle->id;
+                                        $rutaflujodetalleverbo->nombre = '';
+                                        $rutaflujodetalleverbo->condicion = 0;
+                                        $rutaflujodetalleverbo->rol_id = 4;
+                                        $rutaflujodetalleverbo->verbo_id = 3;
+    //                                    $rutaflujodetalleverbo->documento_id = 1;
+                                        $rutaflujodetalleverbo->orden = 2;
+                                        $rutaflujodetalleverbo->nombre = 'Fin de actividad';
+                                        $rutaflujodetalleverbo->usuario_created_at = Auth::user()->id;
+                                        $rutaflujodetalleverbo->save();
+                                    }
+                                    /*****************************************************************/
+                                    /************ Actualizar ruta_flujo_id a la categoria ************/
+                                    $categoria->ruta_flujo_id=$rutaflujo->id;
+                                    $categoria->save();
+                                    /*****************************************************************/
+                                }
+
+                                $rutaFlujo = RutaFlujo::find($categoria->ruta_flujo_id);
+                            
                             /* * ***** ENCONTRAR CORRELATIVO EN ACTIVIDADES POR DÍA ********** */
                             $result=Ruta::getCorrelativoAct($Persona->id);
                             /* * ********************************************* *************** */
-                            
+
                             $tablarelacion = new TablaRelacion;
                             $tablarelacion->software_id = 1;
                             $tablarelacion->id_union = 'ACT - N° ' . str_pad($result+1, 2, '0', STR_PAD_LEFT) . ' - ' . $Persona->dni. ' - '. Auth::user()->areas->nemonico_doc;
@@ -556,7 +575,6 @@ class RutaController extends \BaseController
                             
                             /* * ************ ENCONTRAR RUTA *************** */
 
-                            $rutaFlujo = RutaFlujo::find($categoria->ruta_flujo_id);
                             
                             $ruta = new Ruta;
                             $ruta['tabla_relacion_id'] = $tablarelacion->id;
@@ -621,6 +639,8 @@ class RutaController extends \BaseController
                                 }
                             }
                             
+                        }
+                        
                     }
                     DB::commit();
                 }else{
