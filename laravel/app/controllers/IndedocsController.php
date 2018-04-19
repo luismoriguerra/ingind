@@ -903,9 +903,7 @@ class IndedocsController extends \BaseController {
                     );
             return json_encode($response, JSON_PRETTY_PRINT);
         }
-    }
-    
-        
+    }        
         
     public function postActividadfisca() {
         
@@ -963,5 +961,11 @@ class IndedocsController extends \BaseController {
             }
         }
         return Response::json(array('rst' => 1));
+    }
+
+    public function postConsultadocd() {
+
+        $docdigital = DocumentoDigital::RequestDocumentoDigital();
+        return Response::json(array('documentos' => $docdigital));
     }
 }

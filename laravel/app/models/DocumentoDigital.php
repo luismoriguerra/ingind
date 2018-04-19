@@ -432,4 +432,16 @@ class DocumentoDigital extends Base {
         return $oData[0]->cant;
     }
 
+    public static function RequestDocumentoDigital() {
+
+        $sSql = "SELECT ddt.correlativo as num_doc, a.nombre as area, ddt.titulo as documento, ddt.asunto, ddt.created_at as fecha_creacion
+                 FROM doc_digital_temporal ddt
+                 INNER JOIN areas a ON ddt.area_id = a.id
+                 WHERE ddt.area_id=".Input::get('area_id'). 
+                 " AND DATE_FORMAT(ddt.created_at, '%Y-%m-%d') BETWEEN '".Input::get('inicio')."' AND '".Input::get('fin')."'";
+
+        $oData = DB::select($sSql);
+        return $oData;
+    }
+
 }
