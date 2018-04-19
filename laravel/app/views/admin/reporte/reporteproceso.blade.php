@@ -163,6 +163,7 @@
                     </style>
                     <div id="div_ver_archivos_id" class=""></div>
                     <div id="div_ver_mapas_id" class=""></div>
+                    <div id="div_ver_orden_trabajo" class=""></div>
                     <!-- <form id="form_1" name="form_1"></form> -->
                     <div id="div_tactividad_previo" class="text-center"  style="display: none"></div>
                     <form id="form_tactividad" name="form_tactividad" method="POST" action="" style="display: none">
