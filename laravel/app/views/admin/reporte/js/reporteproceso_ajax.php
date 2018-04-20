@@ -56,13 +56,13 @@ var Proceso={
             }
         });
     },
-    MostrarTramiteActividad:function(id, fechames, tramite){
+    MostrarTramiteActividad:function(dataG){
         $.ajax({
             url         : 'reporte/reportetramiteactividad',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
-            data        : { ruta_flujo_id:id, fechames:fechames, tramite:tramite },
+            data        : dataG,
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },

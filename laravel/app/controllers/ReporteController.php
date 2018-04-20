@@ -515,6 +515,8 @@ class ReporteController extends BaseController
       }
       if( Input::has('fechames') AND Input::get('fechames')!=''){
         $array['fecha'].=" AND DATE_FORMAT(r.fecha_inicio,'%Y-%m') = '".Input::get('fechames')."'";
+      }else{
+        $array['fecha'].=  "and DATE(r.fecha_inicio) BETWEEN '".Input::get('fecha_ini')."'   AND '".Input::get('fecha_fin')."'";
       }
       if( Input::has('tramite') AND Input::get('tramite')==2){
         $array['tramite'].=" AND (rd.dtiempo_final is null AND rd.fecha_inicio is not null) ";

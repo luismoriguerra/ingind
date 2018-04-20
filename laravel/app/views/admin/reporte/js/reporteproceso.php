@@ -1103,19 +1103,15 @@
         var fecha_ini = $('#fecha_ini').val();
         var fecha_fin = $('#fecha_fin').val();
         var dataG = [];
-        if (fechames == null) {
             dataG = {ruta_flujo_id: id, fecha_ini: fecha_ini, fecha_fin: fecha_fin, tramite: tramite};
 
-        } else {
-            dataG = {ruta_flujo_id: id, fechames: fechames, tramite: tramite};
-        }
 
         $("#div_tactividad_previo").html('<img src="img/loading.gif" style="border: 0px;">').show();
         $("#form_tactividad").hide();
 
 
         $('#text_fecha_ini').html('Fecha inicial '+fecha_ini);
-        Proceso.MostrarTramiteActividad(id, fechames, tramite);
+        Proceso.MostrarTramiteActividad({ ruta_flujo_id:id, fecha_ini: fecha_ini, fecha_fin: fecha_fin, tramite:tramite });
         Personalizado.ReportePersonalizado(dataG);
         $("#form_tactividad").css("display", "");
 
