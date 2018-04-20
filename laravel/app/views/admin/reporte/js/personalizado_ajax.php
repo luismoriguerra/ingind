@@ -77,44 +77,44 @@ var Personalizado={
                     var finalizo = [];
                     var fecha=[];
                     var aux_i=1;
-                    var aniomes=dataG.fechames.split("-");
+//                    var aniomes=dataG.fecha_ini.split("-");
                     // Solo los dias donde hay datos
-//                    $.each(obj.datos,function(index,data){
-//                            atendido.push(data.atendido);
-//                            destiempo_a.push(data.destiempo_a);
-//                            destiempo_p.push(data.destiempo_p);
-//                            pendiente.push(data.pendiente);
-//                            finalizo.push(data.finalizo);
-//                            fecha.push(data.fecha);
-//                    });
-                    //--
-                    //Dias del 1 al 31
                     $.each(obj.datos,function(index,data){
-                        for(i=aux_i;i<data.dia;i++){
-                            atendido.push(0);
-                            destiempo_a.push(0);
-                            destiempo_p.push(0);
-                            pendiente.push(0);   
-                            finalizo.push(0);   
-                            fecha.push(i);
-                            aux_i=data.dia;
-                        }
                             atendido.push(data.atendido);
                             destiempo_a.push(data.destiempo_a);
                             destiempo_p.push(data.destiempo_p);
                             pendiente.push(data.pendiente);
-                            finalizo.push(data.finalizo); 
+                            finalizo.push(data.finalizo);
                             fecha.push(data.fecha);
-                            aux_i++;
                     });
-                    for(i=aux_i;i<=daysInMonth(aniomes[1],aniomes[0]);i++){
-                        atendido.push(0);
-                        destiempo_a.push(0);
-                        destiempo_p.push(0);
-                        pendiente.push(0); 
-                        finalizo.push(0);
-                        fecha.push(i);
-                    }
+                    //--
+                    //Dias del 1 al 31
+//                    $.each(obj.datos,function(index,data){
+//                        for(i=aux_i;i<data.dia;i++){
+//                            atendido.push(0);
+//                            destiempo_a.push(0);
+//                            destiempo_p.push(0);
+//                            pendiente.push(0);   
+//                            finalizo.push(0);   
+//                            fecha.push(i);
+//                            aux_i=data.dia;
+//                        }
+//                            atendido.push(data.atendido);
+//                            destiempo_a.push(data.destiempo_a);
+//                            destiempo_p.push(data.destiempo_p);
+//                            pendiente.push(data.pendiente);
+//                            finalizo.push(data.finalizo); 
+//                            fecha.push(data.fecha);
+//                            aux_i++;
+//                    });
+//                    for(i=aux_i;i<=daysInMonth(aniomes[1],aniomes[0]);i++){
+//                        atendido.push(0);
+//                        destiempo_a.push(0);
+//                        destiempo_p.push(0);
+//                        pendiente.push(0); 
+//                        finalizo.push(0);
+//                        fecha.push(i);
+//                    }
                     //--
                     if(typeof chart !== "undefined") {
                             chart.destroy();
@@ -161,7 +161,7 @@ var Personalizado={
                                     responsive: true,
                                     title: {
                                             display: true,
-                                            text: NombreMes[aniomes[1]*1]+" "+aniomes[0],
+                                            text: "Desde: "+dataG.fecha_ini+" - Hasta: "+dataG.fecha_fin,
                                     },
                                     tooltips: {
                                             mode: 'index',

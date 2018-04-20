@@ -1001,7 +1001,7 @@ class Reporte extends Eloquent
         if(Input::has('fechames')){
             $fecha="and DATE_FORMAT(tr.fecha_tramite,'%Y-%m')='".Input::get('fechames')."'";
         }else{
-            $fecha="and DATE_FORMAT(tr.fecha_tramite,'%Y-%m') BETWEEN '".Input::get('fecha_ini')."'   AND '".Input::get('fecha_fin')."'";
+            $fecha="and DATE(tr.fecha_tramite) BETWEEN '".Input::get('fecha_ini')."'   AND '".Input::get('fecha_fin')."'";
         }
         $sql.= "SELECT DAY(tr.fecha_tramite) as dia,CONCAT(
                 -- CASE DAYOFWEEK(tr.fecha_tramite)
@@ -1009,7 +1009,7 @@ class Reporte extends Eloquent
                 -- WHEN 5 THEN 'Jueves' WHEN 6 THEN 'Viernes' WHEN 7 THEN 'Sábado' END,' ',
                 DAY(tr.fecha_tramite)) as fecha,f.nombre as flujo,rd.norden,a.nombre as area,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivado!=2,rd.id,null)) AS pendiente,
-                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=2,rd.id,null)) AS atendido,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL,rd.id,null)) AS atendido,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=2,rd.id,null)) AS finalizo,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado!=2 AND rd.alerta_tipo=1 AND rd.alerta=1,rd.id,null)) AS destiempo_a,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivado!=2 and CURRENT_TIMESTAMP()>rd.fecha_proyectada,rd.id,null)) AS destiempo_p,
