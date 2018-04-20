@@ -1060,7 +1060,7 @@ class ReporteFinalController extends BaseController
     }
     
     public function postTramiteasignacion(){
-        $array['where']='';
+        $array['where']='';$array['where2']='';
         $array['usuario']=Auth::user()->id;
         $array['w']='';
         $sql="SELECT GROUP_CONCAT(DISTINCT(a.id) ORDER BY a.id) areas
@@ -1076,8 +1076,15 @@ class ReporteFinalController extends BaseController
         if( Input::has('id_union') AND Input::get('id_union')!='' ){
           $id_union=explode(" ",trim(Input::get('id_union')));
           for($i=0; $i<count($id_union); $i++){
-            $array['where'].=" AND tr.id_union LIKE '%".$id_union[$i]."%' ";
+            if($i==0){
+                $array['where'].=" ( 1=1";
+                $array['where2'].=" ( 1=1 ";
+            }  
+            $array['where'].="  and rf.id_union LIKE '%".$id_union[$i]."%' ";
+            $array['where2'].=" and  rf.referido LIKE '%".$id_union[$i]."%' ";
           }
+          $array['where'].=" ) ";
+          $array['where2'].=" ) ";
         }
         
       $rst=Reporte::getTramiteasignacion($array); 
