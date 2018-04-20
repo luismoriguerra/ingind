@@ -611,6 +611,7 @@ class ReporteFinalController extends BaseController
 
     public function postTramitependiente()
     {
+      ini_set('max_execution_time', 300);
       $array=array();
       $array['area']='';$array['sino']='';$array['fecha']='';
 

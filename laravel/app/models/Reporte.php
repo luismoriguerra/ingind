@@ -323,6 +323,7 @@ class Reporte extends Eloquent
                 $array['tiempo_final'].
                 $array['limit'];
                 //ORDER BY rd.fecha_inicio DESC
+                //echo $sql;
        $r= DB::select($sql);
         return $r;
     }
@@ -370,6 +371,7 @@ class Reporte extends Eloquent
                     $detalle 
                     FROM rutas r
                     INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
+                    INNER JOIN tablas_relacion tr ON r.tabla_relacion_id = tr.id AND tr.estado=1
                     INNER JOIN flujos f ON f.id=r.flujo_id
                     INNER JOIN tiempos t ON t.id=rd.tiempo_id
                     INNER JOIN areas a ON a.id=rd.area_id
@@ -379,6 +381,7 @@ class Reporte extends Eloquent
                     ".$array['area'].
                     $array['fecha']."
                     GROUP BY rd.area_id".$array['sino']." WITH ROLLUP";
+                    //echo $qsqlDet;
         $qsqlDet=DB::select($qsqlDet);
 
         $rf[0]=$r;
