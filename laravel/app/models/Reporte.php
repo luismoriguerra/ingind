@@ -884,6 +884,18 @@ class Reporte extends Eloquent
         return $oData;
     }
 
+    public static function verOrdenesTrabajo( $array )
+    {
+        $sql =" SELECT ap.id, CONCAT_WS(' ', p.paterno, p.materno, p.nombre) as personal, ap.actividad, ap.fecha_inicio, ap.dtiempo_final
+                FROM actividad_personal ap
+                INNER JOIN personas p ON ap.persona_id = p.id ";
+        $sql .=" WHERE ap.estado = 1 AND ap.tipo = 2 ".
+                $array['ruta_detalle_id'];
+        //echo $sql;
+        $oData['data'] = DB::select($sql);
+        return $oData;
+    }
+
     public static function verMapaDesmontesMotorizado( $array )
     {
         $sSql = "SELECT rd.id, rd.ruta_id, tr.id_union, tr.fecha_tramite, rd.area_id, rd.fecha_inicio, ci.id as carga_incidencia_id,
@@ -931,7 +943,7 @@ class Reporte extends Eloquent
         }else{
             $fecha="and DATE_FORMAT(tr.fecha_tramite,'%Y-%m') BETWEEN '".Input::get('fecha_ini')."'   AND '".Input::get('fecha_fin')."'";
         }
-        $sql = "SELECT IFNULL(MAX(rd.detalle),'') as detalle,f.id as flujo_id,f.nombre as flujo,rd.norden,a.nombre as area,
+        $sql = "SELECT rd.id, IFNULL(MAX(rd.detalle),'') as detalle,f.id as flujo_id,f.nombre as flujo,rd.norden,a.nombre as area,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivado!=2,rd.id,null)) AS pendiente,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=2,rd.id,null)) AS atendido,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=2,rd.id,null)) AS finalizo,
@@ -960,7 +972,7 @@ class Reporte extends Eloquent
         }else{
             $fecha="and DATE_FORMAT(tr.fecha_tramite,'%Y-%m') BETWEEN '".Input::get('fecha_ini')."'   AND '".Input::get('fecha_fin')."'";
         }
-        $sql = "SELECT rd.ruta_flujo_id_dep AS ruta_flujo_id_micro,IFNULL(MAX(rd.detalle),'') as detalle,rf.id as flujo_id,f.nombre as flujo,rd.norden,a.nombre as area,
+        $sql = "SELECT rd.id, rd.ruta_flujo_id_dep AS ruta_flujo_id_micro,IFNULL(MAX(rd.detalle),'') as detalle,rf.id as flujo_id,f.nombre as flujo,rd.norden,a.nombre as area,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivado!=2,rd.id,null)) AS pendiente,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=2,rd.id,null)) AS atendido,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=2,rd.id,null)) AS finalizo,

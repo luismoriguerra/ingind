@@ -605,6 +605,23 @@ class ReporteController extends BaseController
       );
     }
 
+    public function postVerordenestrabajo()
+    {
+      $array=array();
+      
+      if( Input::has('ruta_detalle_id') AND Input::get('ruta_detalle_id')!='' ){
+        $array['ruta_detalle_id'] =" AND ap.ruta_detalle_id='".Input::get('ruta_detalle_id')."' ";
+      }
+
+      $oData = Reporte::verOrdenesTrabajo( $array );
+
+      return Response::json(
+          array(
+              'rst'=>1,
+              'datos'=>$oData['data']
+          )
+      );
+    }
 
     public function postCalculartotalactividad()
     {

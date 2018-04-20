@@ -452,4 +452,77 @@ daysInMonth=function(humanMonth, year){
   return new Date(year || new Date().getFullYear(), humanMonth, 0).getDate();
 };
 
+
+verOrdenTrabajoModal = function(id) {
+        
+        $.ajax({
+                url: 'reporte/verordenestrabajo',
+                type:'POST',
+                cache       : false,
+                dataType    : 'json',
+                data        : { ruta_detalle_id:id },
+                success: function(obj)
+                {
+                    datos = obj.datos;
+                    var html_pd = '';
+
+                    $.each(datos, function (index, data) {
+                        //var d_foto = data.archivo;
+                                html_pd += '<tr class="cabecera">'+
+                                                  '<th>'+data.personal+'</th>'+
+                                                  '<th>'+data.actividad+'</th>'+
+                                                  '<th>'+data.fecha_inicio+'</th>'+
+                                                  '<th>'+data.dtiempo_final+'</th>'+
+                                                '</tr>';
+                    });
+                    $(".tb_orden_trabajo").html(html_pd);       
+                },
+                error: function(jqXHR, textStatus, error)
+                {
+                  console.log(jqXHR.responseText);
+                }
+            });
+                
+        var html_modal = '<div class="modal fade" id="modalOT'+id+'" role="dialog">'+
+                                          '<div class="modal-dialog modal-md">'+
+                                            '<div class="modal-content">'+
+                                              '<div class="modal-header" style="padding: 7px;">'+
+                                                '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                                '<h4 class="modal-title text-center">ORDENES DE TRABAJO</h4>'+
+                                              '</div>'+
+                                              '<div class="modal-body" style="overflow: hidden;">'+
+                                                  '<div id="d_ver_ot" class="col-md-12 box-body table-responsive no-padding" style="border: 1px solid #CCC">'+
+                                                      '<table id="TableProveedor" class="table table-bordered table-hover">'+
+                                                        '<thead>'+
+                                                            '<tr class="cabecera">'+
+                                                              '<th>Personal</th>'+
+                                                              '<th>Actividad</th>'+
+                                                              '<th>Fecha Inicio</th>'+
+                                                              '<th>Fecha Final</th>'+
+                                                            '</tr>'+
+                                                        '</thead>'+
+                                                        '<tbody class="tb_orden_trabajo">'+
+                                                        '</tbody>'+
+                                                        '<tfoot>'+
+                                                            '<tr class="cabecera">'+
+                                                              '<th>Personal</th>'+
+                                                              '<th>Actividad</th>'+
+                                                              '<th>Fecha Inicio</th>'+
+                                                              '<th>Fecha Final</th>'+
+                                                            '</tr>'+
+                                                        '</tfoot>'+
+                                                      '</table>'
+                                                  '</div>'+
+                                              '</div>'+
+                                              '<div class="modal-footer" style="padding: 7px;">'+
+                                                '<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>'+
+                                              '</div>'+
+                                            '</div>'+
+                                          '</div>'+
+                                        '</div>'+
+                                      '</div>';
+
+        $('#div_ver_orden_trabajo').html(html_modal);
+    }
+
 </script>
