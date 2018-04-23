@@ -320,6 +320,26 @@ class RutaController extends \BaseController
                                             }
                                         }
                                     } 
+                                    else{
+                                       $qrutaDetalleVerbo = DB::table('rutas_detalle_verbo')
+                                                ->where('ruta_detalle_id', '=', $asignada->ruta_detalle_id)
+                                                ->where('usuario_updated_at', '=',$asignada->persona_id)
+                                               ->where('finalizo', '=',0)
+                                                ->where('estado', '=', '1')
+                                                ->orderBy('orden', 'ASC')
+                                                ->get();
+                                       
+                                       if (count($qrutaDetalleVerbo) > 0) {
+                                            foreach ($qrutaDetalleVerbo as $rdv) {
+                                                $rutaDetalleVerbo = RutaDetalleVerbo::find($rdv->id);
+                                                $rutaDetalleVerbo['documento'] = '';
+                                                $rutaDetalleVerbo['observacion'] = '.';
+                                                $rutaDetalleVerbo['finalizo'] = 1;
+                                                $rutaDetalleVerbo->save();
+                                            }
+                                        }
+                                        
+                                    }
                                 }
                                 
 //                        var_dump($value['archivo'][1]);exit();
