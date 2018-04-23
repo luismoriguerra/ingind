@@ -291,7 +291,7 @@ class RutaController extends \BaseController
                                     $acti_personal->ruta_detalle_id=$asignada->ruta_detalle_id;
                                     $acti_personal->save();
                                     /************ Actualizar Detalle de Ruta ************/
-                                    if($asignada->ruta_id){
+                                    if($asignada->actividad_categoria_id){
                                             $rutadetalle =RutaDetalle::where('ruta_id','=',$asignada->ruta_id)
                                                                             ->first();
                                             $rutadetalle->dtiempo_final =date('Y-m-d H:i:s');
