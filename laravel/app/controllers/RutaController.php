@@ -287,6 +287,9 @@ class RutaController extends \BaseController
                                     $asignada=ActividadPersonal::find($acti_personal->actividad_asignada_id);
                                     $asignada->respuesta=1;
                                     $asignada->save();
+                                    
+                                    $acti_personal->ruta_detalle_id=$asignada->ruta_detalle_id;
+                                    $acti_personal->save();
                                     /************ Actualizar Detalle de Ruta ************/
                                     if($asignada->ruta_id){
                                             $rutadetalle =RutaDetalle::where('ruta_id','=',$asignada->ruta_id)
@@ -472,7 +475,9 @@ class RutaController extends \BaseController
                                     }
                                 }
                                 if(@$rudeve){
+                                    $rutadetalle= RutaDetalle::find($rudeve->ruta_detalle_id);
                                     $acti_personal->ruta_detalle_id=$rudeve->ruta_detalle_id;
+                                    $acti_personal->ruta_id=$rutadetalle->ruta_id;
                                     $acti_personal->save();
                                 }
                                 
