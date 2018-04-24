@@ -41,6 +41,7 @@
                         <select name="slct_tipo_tiempo_modal" id="slct_tipo_tiempo_modal" style="display:none" > 
                           <option value="">.::Seleccione::.</option>
                           <option value="1">Horas</option>
+                          <option value="5">Minutos</option>
                           <option value="2">Dias</option>
                         </select>
                       </div>
