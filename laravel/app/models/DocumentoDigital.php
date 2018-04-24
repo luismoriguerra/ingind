@@ -435,7 +435,8 @@ class DocumentoDigital extends Base {
     public static function RequestDocumentoDigital() {
         $sSql = "SELECT ddt.correlativo as num_doc, 
                                     YEAR(ddt.created_at)as anio,
-                                    d.nombre as tipo_doc,
+                                    d.id as tipo,
+                                    d.nombre as tipo_documento,
                                     '1' as estado,
                                     a.id as id_area, ddt.titulo as documento, ddt.asunto, ddt.created_at as fecha_creacion
                     FROM doc_digital_temporal ddt
@@ -448,7 +449,8 @@ class DocumentoDigital extends Base {
                     "UNION
                     SELECT ddt.correlativo as num_doc, 
                                     YEAR(ddt.created_at)as anio,
-                                    d.nombre as tipo_doc,
+                                    d.id as tipo,
+                                    d.nombre as tipo_documento,
                                     '2' as estado,
                                     ddt.area_id as id_area, ddt.titulo as documento, ddt.asunto, ddt.created_at as fecha_creacion
                         FROM doc_digital_area dda
