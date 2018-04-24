@@ -433,7 +433,10 @@ class DocumentoDigital extends Base {
     }
 
     public static function RequestDocumentoDigital() {
-        $sSql = "SELECT ddt.correlativo as num_doc, 
+        $sSql = '';
+        
+        if(Input::get('estado') == 1) {
+        $sSql .= "SELECT ddt.correlativo as num_doc, 
                                     YEAR(ddt.created_at)as anio,
                                     d.id as tipo,
                                     d.nombre as tipo_documento,
@@ -445,9 +448,9 @@ class DocumentoDigital extends Base {
                     INNER JOIN areas a ON ddt.area_id = a.id
                     WHERE ddt.area_id=".Input::get('area_id').
                         " AND ddt.estado=1 ".
-                        " AND DATE_FORMAT(ddt.created_at, '%Y-%m-%d') BETWEEN '".Input::get('inicio')."' AND '".Input::get('fin')."'".
-                    "UNION
-                    SELECT ddt.correlativo as num_doc, 
+                        " AND DATE_FORMAT(ddt.created_at, '%Y-%m-%d') BETWEEN '".Input::get('inicio')."' AND '".Input::get('fin')."'";
+        } else {
+        $sSql .= " SELECT ddt.correlativo as num_doc, 
                                     YEAR(ddt.created_at)as anio,
                                     d.id as tipo,
                                     d.nombre as tipo_documento,
@@ -460,8 +463,9 @@ class DocumentoDigital extends Base {
                         WHERE dda.area_id=".Input::get('area_id').
                             " AND dda.estado=1".
                             " AND DATE_FORMAT(ddt.created_at, '%Y-%m-%d') BETWEEN '".Input::get('inicio')."' AND '".Input::get('fin')."'";
-
+        }
         $oData = DB::select($sSql);
+
         return $oData;
     }
 
