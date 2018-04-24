@@ -513,6 +513,7 @@ HTMLcargartramite=function(datos,divtabla){
         }
 
         html+="<tr id="+data.norden+">"+
+           "<td>"+$.trim(data.referido)+"</td>"+
             "<td>"+data.id_union+"</td>"+
             "<td>"+data.flujo+"</td>"+
             "<td>"+data.norden+"</td>"+

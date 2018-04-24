@@ -213,6 +213,7 @@
                                             <table id="t_tramite" class="table table-bordered tramites" width="100%" style="display:none">
                                                 <thead>
                                                     <tr>
+                                                        <th>Documento anterior</th>
                                                         <th>Tramite</th>
                                                         <th>Proceso</th>
                                                         <th>Orden</th>
@@ -337,6 +338,7 @@
                                             <table id="t_tramite" class="table table-bordered tramites" width="100%" style="display:none">
                                                 <thead>
                                                     <tr>
+                                                        <th>Documento anterior</th>
                                                         <th>Tramite</th>
                                                         <th>Proceso</th>
                                                         <th>Orden</th>

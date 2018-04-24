@@ -194,9 +194,9 @@ selectTR=function(boton,tipo){
     var dataG={};
     //if(1==2){    
         if(tipo==1){
-             dataG={fechames:$(boton).data("fechames"),ruta_flujo_id:$(boton).data("rutaflujoid"),length_norden:$(boton).data("length_norden"),norden:$(boton).data("norden"),ruta_flujo_id_micro:$(boton).data("ruta_flujo_id_micro")};
+             dataG={fecha_ini:$(boton).data("fechaini"),fecha_fin:$(boton).data("fechafin"),ruta_flujo_id:$(boton).data("rutaflujoid"),length_norden:$(boton).data("length_norden"),norden:$(boton).data("norden"),ruta_flujo_id_micro:$(boton).data("ruta_flujo_id_micro")};
         }else{
-             dataG={fechames:$(boton).data("fechames"),ruta_flujo_id:$(boton).data("rutaflujoid"),length_norden:$(boton).data("length_norden"),ruta_flujo_id_micro:$(boton).data("ruta_flujo_id_micro")};
+             dataG={fecha_ini:$(boton).data("fechaini"),fecha_fin:$(boton).data("fechafin"),ruta_flujo_id:$(boton).data("rutaflujoid"),length_norden:$(boton).data("length_norden"),ruta_flujo_id_micro:$(boton).data("ruta_flujo_id_micro")};
         }
         var ResumenG={pendiente:$(boton).data("pendiente"),atendido:$(boton).data("atendido"),finalizo:$(boton).data("finalizo"),destiempo_p:$(boton).data("destiempo_p"),destiempo_a:$(boton).data("destiempo_a")};
         Personalizado.GraficoData(dataG,ResumenG);
@@ -235,7 +235,7 @@ HTMLPersonalizado=function(datos,parametros){
                 html = html.replace(/destiempoar/g, destiempoar);
             }
             pos++;
-            html+="<tr class='treegrid-"+pos+"' ondblclick='selectTR(this,0)' id='"+pos+"' data-rutaflujoid='"+parametros.ruta_flujo_id+"' data-fechames='"+parametros.fechames+"' data-length_norden='"+data.norden.length+"' data-pendiente='pendienter' data-atendido='atendidor' data-finalizo='finalizador' data-destiempo_p='destiempopr' data-destiempo_a='destiempoar'>";
+            html+="<tr class='treegrid-"+pos+"' ondblclick='selectTR(this,0)' id='"+pos+"' data-rutaflujoid='"+parametros.ruta_flujo_id+"' data-fechaini='"+parametros.fecha_ini+"' data-fechafin='"+parametros.fecha_fin+"' data-length_norden='"+data.norden.length+"' data-pendiente='pendienter' data-atendido='atendidor' data-finalizo='finalizador' data-destiempo_p='destiempopr' data-destiempo_a='destiempoar'>";
             html+="<td colspan='2'><b>"+data.flujo+"</b></td>"+
             "<td><b class='oculto'>totalr</b></td>"+
             "<td><b class='oculto'>pendienter / <span style='color:red;'>destiempopr</span></b></td>"+
@@ -265,7 +265,7 @@ HTMLPersonalizado=function(datos,parametros){
             TotalGlobal.finalizo=TotalGlobal.finalizo+data.finalizo;
             TotalGlobal.destiempo_p=TotalGlobal.destiempo_p+data.destiempo_p;
             TotalGlobal.destiempo_a=TotalGlobal.destiempo_a+data.destiempo_a;
-            html+="<tr class='treegrid-"+pos+" treegrid-parent-"+parent+"' ondblclick='selectTR(this,1)' data-rutaflujoid='"+parametros.ruta_flujo_id+"' data-norden='"+data.norden+"' data-fechames='"+parametros.fechames+"' data-length_norden='"+data.norden.length+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
+            html+="<tr class='treegrid-"+pos+" treegrid-parent-"+parent+"' ondblclick='selectTR(this,1)' data-rutaflujoid='"+parametros.ruta_flujo_id+"' data-norden='"+data.norden+"' data-fechaini='"+parametros.fecha_ini+"' data-fechafin='"+parametros.fecha_fin+"' data-length_norden='"+data.norden.length+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
             //            "<td>"+data.norden+"</td>"+
             "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span> - <span style='color:blue;'>("+data.detalle+")</span>"+
             '&nbsp;<button type="button" id="' + data.id + '" onclick="verOrdenTrabajoModal(this.id)"  data-toggle="modal" data-target="#modalOT' + data.id + '" class="btn btn-default btn-xs"><span class="fa fa-list fa-lg" aria-hidden="true"></span> Ordenes de Trabajo</button>'+
@@ -290,7 +290,7 @@ HTMLPersonalizado=function(datos,parametros){
             TotalGlobal.finalizo=TotalGlobal.finalizo+data.finalizo;
             TotalGlobal.destiempo_p=TotalGlobal.destiempo_p+data.destiempo_p;
             TotalGlobal.destiempo_a=TotalGlobal.destiempo_a+data.destiempo_a;
-            html+="<tr class='treegrid-"+pos+" treegrid-parent-"+parent+"' ondblclick='selectTR(this,1)' data-rutaflujoid='"+parametros.ruta_flujo_id+"' data-norden='"+data.norden+"' data-fechames='"+parametros.fechames+"' data-length_norden='"+data.norden.length+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
+            html+="<tr class='treegrid-"+pos+" treegrid-parent-"+parent+"' ondblclick='selectTR(this,1)' data-rutaflujoid='"+parametros.ruta_flujo_id+"' data-norden='"+data.norden+"' data-fechaini='"+parametros.fecha_ini+"' data-fechafin='"+parametros.fecha_fin+"' data-length_norden='"+data.norden.length+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
             //            "<td>"+data.norden+"</td>"+
             "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span> - <span style='color:blue;'>("+data.detalle+")</span>"+
             '&nbsp;<button type="button" id="' + data.id + '" onclick="verOrdenTrabajoModal(this.id)"  data-toggle="modal" data-target="#modalOT' + data.id + '" class="btn btn-default btn-xs"><span class="fa fa-list fa-lg" aria-hidden="true"></span> Ordenes de Trabajo</button>'+
@@ -361,7 +361,7 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
                 html = html.replace(/destiempoar/g, destiempoar);
             }
             pos_2++;
-            html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+conexion.pos+"' ondblclick='selectTR(this,0)' id='"+pos_2+"' data-rutaflujoid='"+conexion.ruta_flujo_id+"' data-fechames='"+conexion.fechames+"' data-length_norden='"+data.norden.length+"' data-ruta_flujo_id_micro='"+data.ruta_flujo_id_micro+"' data-pendiente='pendienter' data-atendido='atendidor' data-finalizo='finalizador' data-destiempo_p='destiempopr' data-destiempo_a='destiempoar'>";
+            html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+conexion.pos+"' ondblclick='selectTR(this,0)' id='"+pos_2+"' data-rutaflujoid='"+conexion.ruta_flujo_id+"' data-fechaini='"+conexion.fecha_ini+"' data-fechafin='"+conexion.fecha_fin+"' data-length_norden='"+data.norden.length+"' data-ruta_flujo_id_micro='"+data.ruta_flujo_id_micro+"' data-pendiente='pendienter' data-atendido='atendidor' data-finalizo='finalizador' data-destiempo_p='destiempopr' data-destiempo_a='destiempoar'>";
             html+="<td colspan='2'><b>"+data.flujo+"</b></td>"+
             "<td><b class='oculto'>totalr</b></td>"+
             "<td><b class='oculto'>pendienter / <span style='color:red;'>destiempopr</span></b></td>"+
@@ -390,7 +390,7 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
             TotalGlobal.finalizo=TotalGlobal.finalizo+data.finalizo;
             TotalGlobal.destiempo_p=TotalGlobal.destiempo_p+data.destiempo_p;
             TotalGlobal.destiempo_a=TotalGlobal.destiempo_a+data.destiempo_a;
-            html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+parent+"' ondblclick='selectTR(this,1)' data-length_norden='"+data.norden.length+"' data-rutaflujoid='"+conexion.ruta_flujo_id+"' data-ruta_flujo_id_micro='"+data.ruta_flujo_id_micro+"' data-norden='"+data.norden+"' data-fechames='"+conexion.fechames+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
+            html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+parent+"' ondblclick='selectTR(this,1)' data-length_norden='"+data.norden.length+"' data-rutaflujoid='"+conexion.ruta_flujo_id+"' data-ruta_flujo_id_micro='"+data.ruta_flujo_id_micro+"' data-norden='"+data.norden+"' data-fechaini='"+conexion.fecha_ini+"' data-fechafin='"+conexion.fecha_fin+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
 //            "<td>"+data.norden+"</td>"+
             "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span> - <span style='color:blue;'>("+data.detalle+")</span></td>"+
             "<td>"+data.area+"</td>"+
@@ -413,7 +413,7 @@ HTMLPersonalizadoDetalle=function(datos,conexion){
             TotalGlobal.finalizo=TotalGlobal.finalizo+data.finalizo;
             TotalGlobal.destiempo_p=TotalGlobal.destiempo_p+data.destiempo_p;
             TotalGlobal.destiempo_a=TotalGlobal.destiempo_a+data.destiempo_a;
-            html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+parent+"' ondblclick='selectTR(this,1)' data-length_norden='"+data.norden.length+"' data-rutaflujoid='"+conexion.ruta_flujo_id+"' data-ruta_flujo_id_micro='"+data.ruta_flujo_id_micro+"' data-norden='"+data.norden+"' data-fechames='"+conexion.fechames+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
+            html+="<tr class='treegrid-"+pos_2+" treegrid-parent-"+parent+"' ondblclick='selectTR(this,1)' data-length_norden='"+data.norden.length+"' data-rutaflujoid='"+conexion.ruta_flujo_id+"' data-ruta_flujo_id_micro='"+data.ruta_flujo_id_micro+"' data-norden='"+data.norden+"' data-fechaini='"+conexion.fecha_ini+"' data-fechafin='"+conexion.fecha_fin+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
 //            "<td>"+data.norden+"</td>"+
             "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span> - <span style='color:blue;'>("+data.detalle+")</span></td>"+
             "<td>"+data.area+"</td>"+

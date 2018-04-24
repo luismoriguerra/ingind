@@ -1005,7 +1005,7 @@ class Reporte extends Eloquent
         if(Input::has('fechames')){
             $fecha="and DATE_FORMAT(tr.fecha_tramite,'%Y-%m')='".Input::get('fechames')."'";
         }else{
-            $fecha="and DATE_FORMAT(tr.fecha_tramite,'%Y-%m') BETWEEN '".Input::get('fecha_ini')."'   AND '".Input::get('fecha_fin')."'";
+            $fecha="and DATE(tr.fecha_tramite) BETWEEN '".Input::get('fecha_ini')."'   AND '".Input::get('fecha_fin')."'";
         }
         $sql.= "SELECT DAY(tr.fecha_tramite) as dia,CONCAT(
                 -- CASE DAYOFWEEK(tr.fecha_tramite)
@@ -1013,7 +1013,7 @@ class Reporte extends Eloquent
                 -- WHEN 5 THEN 'Jueves' WHEN 6 THEN 'Viernes' WHEN 7 THEN 'Sábado' END,' ',
                 DAY(tr.fecha_tramite)) as fecha,f.nombre as flujo,rd.norden,a.nombre as area,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivado!=2,rd.id,null)) AS pendiente,
-                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=2,rd.id,null)) AS atendido,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL,rd.id,null)) AS atendido,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=2,rd.id,null)) AS finalizo,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado!=2 AND rd.alerta_tipo=1 AND rd.alerta=1,rd.id,null)) AS destiempo_a,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivado!=2 and CURRENT_TIMESTAMP()>rd.fecha_proyectada,rd.id,null)) AS destiempo_p,
@@ -1041,21 +1041,25 @@ class Reporte extends Eloquent
         }
         
              public static function getTramiteasignacion($array){
-         $sql="SELECT tr.id_union,f.nombre as flujo,rd.norden,GROUP_CONCAT(v.nombre) as verbo,GROUP_CONCAT(rdv.id) as verbo_id
-                FROM tablas_relacion tr
-                INNER JOIN rutas r ON r.tabla_relacion_id=tr.id AND r.estado=1
-                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1
-                INNER JOIN rutas_detalle_verbo rdv ON rdv.ruta_detalle_id=rd.id and rdv.estado=1 and rdv.finalizo=0 and rdv.usuario_updated_at IS NULL
-                INNER JOIN verbos v ON v.id=rdv.verbo_id and v.id!=1
-                INNER JOIN flujos f ON f.id=r.flujo_id
-                ".$array["w"].
-                " and rd.fecha_inicio IS NOT NULL 
-                and rd.fecha_inicio<=CURRENT_TIME()
-                AND rd.dtiempo_final IS NULL
-                AND rd.condicion=0
-                WHERE tr.estado=1 ".
-                $array["where"].
-                " GROUP BY tr.id";
+         $sql="SELECT * 
+                FROM (SELECT (SELECT re.referido FROM 
+                                referidos re WHERE re.ruta_detalle_id=rd.ruta_detalle_id_ant) as referido,
+                                tr.id_union,f.nombre as flujo,rd.norden,GROUP_CONCAT(v.nombre) as verbo,GROUP_CONCAT(rdv.id) as verbo_id
+                                FROM tablas_relacion tr
+                                INNER JOIN rutas r ON r.tabla_relacion_id=tr.id AND r.estado=1
+                                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1
+                                INNER JOIN rutas_detalle_verbo rdv ON rdv.ruta_detalle_id=rd.id and rdv.estado=1 and rdv.finalizo=0 and rdv.usuario_updated_at IS NULL
+                               INNER JOIN verbos v ON v.id=rdv.verbo_id and v.id!=1
+                                INNER JOIN flujos f ON f.id=r.flujo_id
+                                  ".$array["w"]." and rd.fecha_inicio IS NOT NULL 
+                                and rd.fecha_inicio<=CURRENT_TIME()
+                                AND rd.dtiempo_final IS NULL
+                                AND rd.condicion=0
+                               WHERE tr.estado=1  
+                GROUP BY tr.id
+                )rf
+                WHERE    ".$array["where"]." OR ".$array["where2"];
+
          $r=DB::select($sql);
          return $r;
      }

@@ -287,8 +287,11 @@ class RutaController extends \BaseController
                                     $asignada=ActividadPersonal::find($acti_personal->actividad_asignada_id);
                                     $asignada->respuesta=1;
                                     $asignada->save();
+                                    
+                                    $acti_personal->ruta_detalle_id=$asignada->ruta_detalle_id;
+                                    $acti_personal->save();
                                     /************ Actualizar Detalle de Ruta ************/
-                                    if($asignada->ruta_id){
+                                    if($asignada->actividad_categoria_id){
                                             $rutadetalle =RutaDetalle::where('ruta_id','=',$asignada->ruta_id)
                                                                             ->first();
                                             $rutadetalle->dtiempo_final =date('Y-m-d H:i:s');
@@ -317,6 +320,26 @@ class RutaController extends \BaseController
                                             }
                                         }
                                     } 
+                                    else{
+                                       $qrutaDetalleVerbo = DB::table('rutas_detalle_verbo')
+                                                ->where('ruta_detalle_id', '=', $asignada->ruta_detalle_id)
+                                                ->where('usuario_updated_at', '=',$asignada->persona_id)
+                                               ->where('finalizo', '=',0)
+                                                ->where('estado', '=', '1')
+                                                ->orderBy('orden', 'ASC')
+                                                ->get();
+                                       
+                                       if (count($qrutaDetalleVerbo) > 0) {
+                                            foreach ($qrutaDetalleVerbo as $rdv) {
+                                                $rutaDetalleVerbo = RutaDetalleVerbo::find($rdv->id);
+                                                $rutaDetalleVerbo['documento'] = '';
+                                                $rutaDetalleVerbo['observacion'] = '.';
+                                                $rutaDetalleVerbo['finalizo'] = 1;
+                                                $rutaDetalleVerbo->save();
+                                            }
+                                        }
+                                        
+                                    }
                                 }
                                 
 //                        var_dump($value['archivo'][1]);exit();
@@ -472,7 +495,9 @@ class RutaController extends \BaseController
                                     }
                                 }
                                 if(@$rudeve){
+                                    $rutadetalle= RutaDetalle::find($rudeve->ruta_detalle_id);
                                     $acti_personal->ruta_detalle_id=$rudeve->ruta_detalle_id;
+                                    $acti_personal->ruta_id=$rutadetalle->ruta_id;
                                     $acti_personal->save();
                                 }
                                 
