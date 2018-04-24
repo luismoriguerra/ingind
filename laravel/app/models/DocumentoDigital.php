@@ -433,14 +433,39 @@ class DocumentoDigital extends Base {
     }
 
     public static function RequestDocumentoDigital() {
-
-        $sSql = "SELECT ddt.correlativo as num_doc, a.nombre as area, ddt.titulo as documento, ddt.asunto, ddt.created_at as fecha_creacion
-                 FROM doc_digital_temporal ddt
-                 INNER JOIN areas a ON ddt.area_id = a.id
-                 WHERE ddt.area_id=".Input::get('area_id'). 
-                 " AND DATE_FORMAT(ddt.created_at, '%Y-%m-%d') BETWEEN '".Input::get('inicio')."' AND '".Input::get('fin')."'";
-
+        $sSql = '';
+        
+        if(Input::get('estado') == 1) {
+        $sSql .= "SELECT ddt.correlativo as num_doc, 
+                                    YEAR(ddt.created_at)as anio,
+                                    d.id as tipo,
+                                    d.nombre as tipo_documento,
+                                    '1' as estado,
+                                    a.id as id_area, ddt.titulo as documento, ddt.asunto, ddt.created_at as fecha_creacion
+                    FROM doc_digital_temporal ddt
+                    INNER JOIN plantilla_doc pd ON ddt.plantilla_doc_id = pd.id
+                    INNER JOIN documentos d ON pd.tipo_documento_id = d.id
+                    INNER JOIN areas a ON ddt.area_id = a.id
+                    WHERE ddt.area_id=".Input::get('area_id').
+                        " AND ddt.estado=1 ".
+                        " AND DATE_FORMAT(ddt.created_at, '%Y-%m-%d') BETWEEN '".Input::get('inicio')."' AND '".Input::get('fin')."'";
+        } else {
+        $sSql .= " SELECT ddt.correlativo as num_doc, 
+                                    YEAR(ddt.created_at)as anio,
+                                    d.id as tipo,
+                                    d.nombre as tipo_documento,
+                                    '2' as estado,
+                                    ddt.area_id as id_area, ddt.titulo as documento, ddt.asunto, ddt.created_at as fecha_creacion
+                        FROM doc_digital_area dda
+                        INNER JOIN doc_digital_temporal ddt ON ddt.id = dda.doc_digital_id AND ddt.estado = 1
+                        INNER JOIN plantilla_doc pd ON pd.id = ddt.plantilla_doc_id
+                        INNER JOIN documentos d ON d.id = pd.tipo_documento_id
+                        WHERE dda.area_id=".Input::get('area_id').
+                            " AND dda.estado=1".
+                            " AND DATE_FORMAT(ddt.created_at, '%Y-%m-%d') BETWEEN '".Input::get('inicio')."' AND '".Input::get('fin')."'";
+        }
         $oData = DB::select($sSql);
+
         return $oData;
     }
 
