@@ -185,8 +185,7 @@ window.chartColors = {
 eventoSlctGlobalSimple=function(slct,valores){
 };
 
-selectTR=function(boton,tipo){
-    
+selectTR=function(boton,tipo){    
     var tr = boton;
     var trs = tr.parentNode.children;
     for (var i = 0; i < trs.length; i++)
@@ -455,64 +454,16 @@ daysInMonth=function(humanMonth, year){
 
 verOrdenTrabajoModal = function(id) {
         
-        $.ajax({
-                url: 'reporte/verordenestrabajo',
-                type:'POST',
-                cache       : false,
-                dataType    : 'json',
-                data        : { ruta_detalle_id:id },
-                success: function(obj)
-                {
-                    datos = obj.datos;
-                    var html_pd = '';
-
-                    $.each(datos, function (index, data) {
-                        //var d_foto = data.archivo;
-                                html_pd += '<tr class="cabecera">'+
-                                                  '<th>'+data.personal+'</th>'+
-                                                  '<th>'+data.actividad+'</th>'+
-                                                  '<th>'+data.fecha_inicio+'</th>'+
-                                                  '<th>'+data.dtiempo_final+'</th>'+
-                                                '</tr>';
-                    });
-                    $(".tb_orden_trabajo").html(html_pd);       
-                },
-                error: function(jqXHR, textStatus, error)
-                {
-                  console.log(jqXHR.responseText);
-                }
-            });
-                
         var html_modal = '<div class="modal fade" id="modalOT'+id+'" role="dialog">'+
-                                          '<div class="modal-dialog modal-md">'+
+                                          '<div class="modal-dialog modal-lg">'+
                                             '<div class="modal-content">'+
                                               '<div class="modal-header" style="padding: 7px;">'+
                                                 '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                                 '<h4 class="modal-title text-center">ORDENES DE TRABAJO</h4>'+
                                               '</div>'+
                                               '<div class="modal-body" style="overflow: hidden;">'+
-                                                  '<div id="d_ver_ot" class="col-md-12 box-body table-responsive no-padding" style="border: 1px solid #CCC">'+
-                                                      '<table id="TableProveedor" class="table table-bordered table-hover">'+
-                                                        '<thead>'+
-                                                            '<tr class="cabecera">'+
-                                                              '<th>Personal</th>'+
-                                                              '<th>Actividad</th>'+
-                                                              '<th>Fecha Inicio</th>'+
-                                                              '<th>Fecha Final</th>'+
-                                                            '</tr>'+
-                                                        '</thead>'+
-                                                        '<tbody class="tb_orden_trabajo">'+
-                                                        '</tbody>'+
-                                                        '<tfoot>'+
-                                                            '<tr class="cabecera">'+
-                                                              '<th>Personal</th>'+
-                                                              '<th>Actividad</th>'+
-                                                              '<th>Fecha Inicio</th>'+
-                                                              '<th>Fecha Final</th>'+
-                                                            '</tr>'+
-                                                        '</tfoot>'+
-                                                      '</table>'
-                                                  '</div>'+
+                                                  '<div id="d_ver_ot" class="col-md-12 box-body table-responsive no-padding" style="border: 0px solid #CCC">'+
+                                                  '<p class="text-center">Cargando...</p></div>'+
                                               '</div>'+
                                               '<div class="modal-footer" style="padding: 7px;">'+
                                                 '<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>'+
@@ -521,8 +472,77 @@ verOrdenTrabajoModal = function(id) {
                                           '</div>'+
                                         '</div>'+
                                       '</div>';
-
         $('#div_ver_orden_trabajo').html(html_modal);
+
+        $.ajax({
+                url: 'reporte/verordenestrabajo',
+                type:'POST',
+                cache       : false,
+                dataType    : 'json',
+                data        : { ruta_detalle_id:id },
+                success: function(obj)
+                {
+                    
+                    var i = 1;
+                    var html_pd = '<table id="tree_ot" class="table table-bordered table-hover">'+
+                                                        '<thead id="tt_tree">'+
+                                                            '<tr class="cabecera">'+
+                                                              '<th>Personal</th>'+
+                                                              '<th>Actividad</th>'+
+                                                              '<th>Fecha Inicio</th>'+
+                                                              '<th>Fecha Final</th>'+
+                                                            '</tr>'+
+                                                        '</thead>'+
+                                                        '<tbody id="tb_tree" class="">';
+        /*
+        <tr class="treegrid-1">
+          <td>Root node</td><td>Additional info</td>
+        </tr>
+        <tr class="treegrid-2 treegrid-parent-1">
+          <td>Node 1-1</td><td>Additional info</td>
+        </tr>
+        <tr class="treegrid-3 treegrid-parent-1">
+          <td>Node 1-1</td><td>Additional info</td>
+        </tr>
+        <tr class="treegrid-4">
+          <td>Node 1-2</td><td>Additional info</td>
+        </tr>
+        <tr class="treegrid-5 treegrid-parent-4">
+          <td>Node 1-2-1</td><td>Additional info</td>
+        </tr>
+        */
+                    $.each(obj.datos, function (index, data) {
+                        if(i == 1)
+                            var parent = '';
+                        else
+                        {
+                            if(data.tipo == 2) {
+                                var parent = '';
+                                var ultimo = i;
+                            } else
+                                var parent = 'treegrid-parent-'+ultimo;
+                        }
+                        
+
+                        html_pd += '<tr class="treegrid-'+i+' '+parent+'">'+
+                                          '<td>'+data.personal+'</td>'+
+                                          '<td>'+data.actividad+'</td>'+
+                                          '<td>'+data.fecha_inicio+'</td>'+
+                                          '<td>'+data.dtiempo_final+'</td>'+
+                                        '</tr>';
+                        i++;
+                    });
+                    html_pd +='</tbody></table>';
+
+                    $("#d_ver_ot").html(html_pd);
+                    $('#tree_ot').treegrid();            
+                },
+                error: function(jqXHR, textStatus, error)
+                {
+                  console.log(jqXHR.responseText);
+                }
+            });
+        
     }
 
 </script>
