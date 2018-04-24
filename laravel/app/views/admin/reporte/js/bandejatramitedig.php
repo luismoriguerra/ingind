@@ -253,7 +253,7 @@ TiempoFinalTG = setTimeout('hora()',60000);
 
 activar=function(id,ruta_detalle_id,td,ruta_id=''){//establecer como visto
     var tr = td;
-    $(tr).attr('onClick','desactivar('+id+','+ruta_detalle_id+',this)');
+    $(tr).attr('onClick','desactivar('+id+','+ruta_detalle_id+',this,'+ruta_id+')');
     $(tr).removeClass('unread');
     $(tr).find('i').removeClass('fa-ban').addClass('fa-eye');
 
@@ -311,7 +311,7 @@ mostrarDetallle=function(id,rtid = ''){ //OK
     $("#form_ruta_detalle>.form-group").css("display","");
     $("#form_ruta_detalle>#ruta_detalle_id").remove();
     $("#form_ruta_detalle").append("<input type='hidden' id='ruta_detalle_id' name='ruta_detalle_id' value='"+id+"'>");
-     $("#form_ruta_detalle>#ruta_id").remove();
+    $("#form_ruta_detalle>#ruta_id").remove();
     $("#form_ruta_detalle").append("<input type='hidden' id='ruta_id' name='ruta_id' value='"+rtid+"'>");
     var datos={ruta_detalle_id:id};
     Validar.mostrarDetalle(datos,mostrarDetalleHTML);
