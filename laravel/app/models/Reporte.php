@@ -889,13 +889,13 @@ class Reporte extends Eloquent
 
     public static function verOrdenesTrabajo( $array )
     {
-        $sql =" SELECT ap.id, CONCAT_WS(' ', p.paterno, p.materno, p.nombre) as personal, ap.actividad, ap.fecha_inicio, ap.dtiempo_final, ap.ruta_id, ap.actividad_asignada_id, ap.tipo
+        $sql =" SELECT if(ap.actividad_asignada_id is null, ap.id, ap.actividad_asignada_id) ids,
+                ap.id, CONCAT_WS(' ', p.paterno, p.materno, p.nombre) as personal, ap.actividad, ap.fecha_inicio, ap.dtiempo_final, ap.ruta_id, ap.actividad_asignada_id, ap.tipo
                 FROM actividad_personal ap
                 INNER JOIN personas p ON ap.persona_id = p.id ";
         $sql .=" WHERE ap.estado = 1 ". 
                 $array['ruta_detalle_id'];
-        //echo $sql;
-        //  AND ap.tipo = 2
+        $sql .=" ORDER BY ids, ap.created_at";
         $oData['data'] = DB::select($sql);
         return $oData;
     }
