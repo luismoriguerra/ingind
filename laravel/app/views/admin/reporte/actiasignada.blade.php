@@ -94,6 +94,8 @@
                                  <th>Jefe(a)</th>
                                  <th>Resultados</th>
                                  <th>Descripción</th>
+                                 <th>Proceso</th>
+                                 <th>Documentos</th>
                                  </tr>
                             </thead>
                             <tbody id="tb_ordenest">
