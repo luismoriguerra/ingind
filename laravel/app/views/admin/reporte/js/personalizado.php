@@ -452,97 +452,114 @@ daysInMonth=function(humanMonth, year){
 };
 
 
-verOrdenTrabajoModal = function(id) {
-        
-        var html_modal = '<div class="modal fade" id="modalOT'+id+'" role="dialog">'+
-                                          '<div class="modal-dialog modal-lg">'+
-                                            '<div class="modal-content">'+
-                                              '<div class="modal-header" style="padding: 7px;">'+
-                                                '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
-                                                '<h4 class="modal-title text-center">ORDENES DE TRABAJO</h4>'+
-                                              '</div>'+
-                                              '<div class="modal-body" style="overflow: hidden;">'+
-                                                  '<div id="d_ver_ot" class="col-md-12 box-body table-responsive no-padding" style="border: 0px solid #CCC">'+
-                                                  '<p class="text-center">Cargando...</p></div>'+
-                                              '</div>'+
-                                              '<div class="modal-footer" style="padding: 7px;">'+
-                                                '<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>'+
-                                              '</div>'+
-                                            '</div>'+
-                                          '</div>'+
-                                        '</div>'+
-                                      '</div>';
-        $('#div_ver_orden_trabajo').html(html_modal);
+verOrdenTrabajoModal = function(id) {        
+    var html_modal = '<div class="modal fade" id="modalOT'+id+'" role="dialog">'+
+                          '<div class="modal-dialog modal-lg">'+
+                            '<div class="modal-content">'+
+                              '<div class="modal-header logo" style="padding: 7px;">'+
+                                '<button type="button" class="btn btn-sm btn-default pull-right" data-dismiss="modal">&times;</button>'+
+                                '<h4 class="modal-title text-center">ORDENES DE TRABAJO</h4>'+
+                              '</div>'+
+                              '<div class="modal-body" style="overflow: hidden;">'+
+                                  '<div id="d_ver_ot" class="col-md-12 box-body table-responsive no-padding" style="border: 0px solid #CCC">'+
+                                  '<p class="text-center">Cargando...</p></div>'+
+                              '</div>'+
+                              '<div class="modal-footer" style="padding: 7px;">'+
+                                '<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>'+
+                              '</div>'+
+                            '</div>'+
+                          '</div>'+
+                        '</div>'+
+                      '</div>';
+    $('#div_ver_orden_trabajo').html(html_modal);
 
-        $.ajax({
-                url: 'reporte/verordenestrabajo',
-                type:'POST',
-                cache       : false,
-                dataType    : 'json',
-                data        : { ruta_detalle_id:id },
-                success: function(obj)
-                {
+    $.ajax({
+        url: 'reporte/verordenestrabajo',
+        type:'POST',
+        cache       : false,
+        dataType    : 'json',
+        data        : { ruta_detalle_id:id },
+        success: function(obj)
+        {   
+            if(obj.datos.length > 0)
+            {
+                var html_pd = '<table id="tree_ot" class="table table-bordered table-hover">'+
+                                '<thead id="tt_tree" class="logo">'+
+                                    '<tr class="cabecera">'+
+                                      '<th>Personal</th>'+
+                                      '<th>Actividad</th>'+
+                                      '<th>Fecha Inicio</th>'+
+                                      '<th>Fecha Final</th>'+
+                                    '</tr>'+
+                                '</thead>'+
+                                '<tbody id="tb_tree" class="">';
+                var i = 1;
+                var iaux = 1;
+                var tree_parent = '';
+                var tree_fijos = '';
+                var total_ot = 0;
+                var total_or = 0;
+                var text_ot = '';
+                $.each(obj.datos, function (index, data) {
+                    if(i == 1 && data.tipo == 2) {
+                        tree_parent = '';
+                        total_ot = 1;
+                        text_ot = '(OT)';
+                    } else {
+                        if(data.tipo == 2) {    // Ordenes de Trabajo
+                            tree_parent = '';
+                            iaux = i;
+                            total_ot += 1;
+                            text_ot = '(OT)';
+                        } else {                // Respuesta de Ordenes
+                            if(i != 1) tree_parent = 'treegrid-parent-'+iaux;
+                            total_or += 1;
+                            text_ot = '';
+                        }                        
+                    }
                     
-                    var i = 1;
-                    var html_pd = '<table id="tree_ot" class="table table-bordered table-hover">'+
-                                                        '<thead id="tt_tree">'+
-                                                            '<tr class="cabecera">'+
-                                                              '<th>Personal</th>'+
-                                                              '<th>Actividad</th>'+
-                                                              '<th>Fecha Inicio</th>'+
-                                                              '<th>Fecha Final</th>'+
-                                                            '</tr>'+
-                                                        '</thead>'+
-                                                        '<tbody id="tb_tree" class="">';
-        /*
-        <tr class="treegrid-1">
-          <td>Root node</td><td>Additional info</td>
-        </tr>
-        <tr class="treegrid-2 treegrid-parent-1">
-          <td>Node 1-1</td><td>Additional info</td>
-        </tr>
-        <tr class="treegrid-3 treegrid-parent-1">
-          <td>Node 1-1</td><td>Additional info</td>
-        </tr>
-        <tr class="treegrid-4">
-          <td>Node 1-2</td><td>Additional info</td>
-        </tr>
-        <tr class="treegrid-5 treegrid-parent-4">
-          <td>Node 1-2-1</td><td>Additional info</td>
-        </tr>
-        */
-                    $.each(obj.datos, function (index, data) {
-                        if(i == 1)
-                            var parent = '';
-                        else
-                        {
-                            if(data.tipo == 2) {
-                                var parent = '';
-                                var ultimo = i;
-                            } else
-                                var parent = 'treegrid-parent-'+ultimo;
-                        }
-                        
+                    html_pd += '<tr class="treegrid-'+i+' '+tree_parent+'">'+
+                                      '<td> <label style="color: red;">'+text_ot+'</label> '+data.personal+'</td>'+
+                                      '<td>'+data.actividad+'</td>'+
+                                      '<td>'+data.fecha_inicio+'</td>'+
+                                      '<td>'+data.dtiempo_final+'</td>'+
+                                    '</tr>';
+                    i++;
+                });
+                html_pd +='</tbody></table>';
 
-                        html_pd += '<tr class="treegrid-'+i+' '+parent+'">'+
-                                          '<td>'+data.personal+'</td>'+
-                                          '<td>'+data.actividad+'</td>'+
-                                          '<td>'+data.fecha_inicio+'</td>'+
-                                          '<td>'+data.dtiempo_final+'</td>'+
-                                        '</tr>';
-                        i++;
+
+                html_pd +='</br><table class="tree table table-bordered text-center" id="">'+
+                                '<thead class="" style="background-color: #F5F5F5; color: #666666;">'+
+                                    '<tr>'+
+                                        '<th>Total Ordenes Trabajo</th>'+
+                                        '<th>Total Ordenes Respondidas</th>'+
+                                        '<th>Total Datos</th>'+
+                                    '</tr>'+
+                                '</thead>'+
+                                '<tbody>'+
+                                    '<tr><td>'+total_ot+'</td>'+
+                                        '<td>'+total_or+'</td>'+
+                                        '<td>'+(total_ot+total_or)+'</td></tr>'+
+                                '</tbody>'+
+                            '</table>';
+
+                $("#d_ver_ot").html(html_pd);
+                $('#tree_ot').treegrid({
+                        expanderExpandedClass: 'glyphicon glyphicon-minus',
+                        expanderCollapsedClass: 'glyphicon glyphicon-plus'
                     });
-                    html_pd +='</tbody></table>';
-
-                    $("#d_ver_ot").html(html_pd);
-                    $('#tree_ot').treegrid();            
-                },
-                error: function(jqXHR, textStatus, error)
-                {
-                  console.log(jqXHR.responseText);
-                }
-            });
-        
-    }
+            }
+            else
+            {
+                $("#d_ver_ot").html('<p class="text-center">No se encontraron datos.</p>');
+            }
+        },
+        error: function(jqXHR, textStatus, error)
+        {
+          console.log(jqXHR.responseText);
+        }
+    });        
+}
 
 </script>
