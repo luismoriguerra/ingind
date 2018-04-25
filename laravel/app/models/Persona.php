@@ -693,13 +693,16 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         }
         
         $sSql .= "SELECT ".$variable." a.nombre area,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) persona,CONCAT_WS(' ',p1.nombre,p1.paterno,p1.materno) as asignador,ap.id norden,ap.actividad,ap.fecha_inicio,ap.dtiempo_final,ABS(ap.ot_tiempo_transcurrido) ot_tiempo_transcurrido ,SEC_TO_TIME(ABS(ap.ot_tiempo_transcurrido) * 60) formato 
-                ,GROUP_CONCAT(ddt.titulo) AS doc_digital,GROUP_CONCAT(ddt.id) AS doc_digital_id,f.nombre as flujo
+                ,GROUP_CONCAT(ddt.titulo) AS doc_digital,GROUP_CONCAT(ddt.id) AS doc_digital_id
+                ,GROUP_CONCAT(ddt1.titulo) AS doc_digital1,GROUP_CONCAT(ddt1.id) AS doc_digital_id1,f.nombre as flujo
                 FROM  actividad_personal ap 
                 INNER JOIN areas a ON a.id=ap.area_id AND a.estado=1
                 INNER JOIN personas p ON p.id=ap.persona_id AND p.estado=1
                 INNER JOIN personas p1 on ap.usuario_created_at=p1.id AND p1.estado=1 ". $left;
         $sSql .=" LEFT JOIN actividad_personal_docdigital apd ON apd.actividad_personal_id=ap.id
                 LEFT JOIN doc_digital_temporal ddt ON ddt.id=apd.doc_digital_id
+                LEFT JOIN actividad_personal_docdigital apd1 ON apd1.actividad_personal_id=ap1.id
+                LEFT JOIN doc_digital_temporal ddt1 ON ddt1.id=apd1.doc_digital_id
                 INNER JOIN rutas r ON r.id=ap.ruta_id
                 INNER JOIN flujos f ON f.id=r.flujo_id
                 WHERE ap.estado=1";
