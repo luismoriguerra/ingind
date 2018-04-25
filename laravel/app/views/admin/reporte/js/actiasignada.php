@@ -360,7 +360,9 @@ HTMLOrdenesTrabajo=function(datos){
             "<td>"+horas + ":" + min +"</td>"+
             "<td>"+data.asignador+"</td>"+
             "<td>"+data.resultado+"</td>"+
-            "<td>"+data.descripcion_resultado+"</td>";
+            "<td>"+data.descripcion_resultado+"</td>"+
+            "<td>"+data.flujo+"</td>"+
+            "<td>"+$.trim(data.doc_digital)+"</td>";
         html+="</tr>";
     });
     $("#tb_ordenest").html(html);
