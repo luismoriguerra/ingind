@@ -502,7 +502,16 @@ verOrdenTrabajoModal = function(id, norden, ruta_flujo_id, fecha_ini, fecha_fin)
                 var total_ot = 0;
                 var total_or = 0;
                 var fechatramita_aux = '';
+                var total_tramite = 0;
+                //var total_asigna = 0;
+                //var total_respues = 0;
+                var total_no_asigna = 0;
                 $.each(obj.datos, function (index, data) {
+                    if(fechatramita_aux != data.fecha_inicio+data.id_union) {
+                        total_tramite += 1;
+                        fechatramita_aux = data.fecha_inicio+data.id_union;
+                    }
+
                     if(($.trim(data.tipo) * 1) > 0)
                     {
                         if(i == 1 && data.tipo == 2) {
@@ -530,6 +539,10 @@ verOrdenTrabajoModal = function(id, norden, ruta_flujo_id, fecha_ini, fecha_fin)
                                         '</tr>';
                         i++;
                     }
+                    else
+                    {
+                        total_no_asigna += 1;
+                    }
                 });
                 html_pd +='</tbody></table>';
 
@@ -548,6 +561,21 @@ verOrdenTrabajoModal = function(id, norden, ruta_flujo_id, fecha_ini, fecha_fin)
                                         '<td>'+(total_ot+total_or)+'</td></tr>'+
                                 '</tbody>'+
                             '</table>';
+
+                html_pd +='</br><table class="tree table table-bordered text-center" id="">'+
+                                '<thead class="logo">'+
+                                    '<tr>'+
+                                        '<th>Total Tramites</th>'+
+                                        '<th>Total Asignaci&oacute;n</th>'+
+                                        '<th>Total Respuesta</th>'+
+                                    '</tr>'+
+                                '</thead>'+
+                                '<tbody>'+
+                                    '<tr><td>'+total_tramite+'</td>'+
+                                        '<td>'+(total_tramite-total_no_asigna)+'</td>'+
+                                        '<td>'+(total_tramite-total_no_asigna)+'</td></tr>'+
+                                '</tbody>'+
+                            '</table>';                            
 
                 $("#d_ver_ot").html(html_pd);
                 $('#tree_ot').treegrid({
