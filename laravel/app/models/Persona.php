@@ -693,7 +693,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
         }
         
         $sSql .= "SELECT ".$variable." a.nombre area,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) persona,CONCAT_WS(' ',p1.nombre,p1.paterno,p1.materno) as asignador,ap.id norden,ap.actividad,ap.fecha_inicio,ap.dtiempo_final,ABS(ap.ot_tiempo_transcurrido) ot_tiempo_transcurrido ,SEC_TO_TIME(ABS(ap.ot_tiempo_transcurrido) * 60) formato 
-                ,GROUP_CONCAT(ddt.titulo) AS doc_digital,f.nombre as flujo
+                ,GROUP_CONCAT(ddt.titulo) AS doc_digital,GROUP_CONCAT(ddt.id) AS doc_digital_id,f.nombre as flujo
                 FROM  actividad_personal ap 
                 INNER JOIN areas a ON a.id=ap.area_id AND a.estado=1
                 INNER JOIN personas p ON p.id=ap.persona_id AND p.estado=1
