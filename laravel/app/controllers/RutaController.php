@@ -289,6 +289,7 @@ class RutaController extends \BaseController
                                     $asignada->save();
                                     
                                     $acti_personal->ruta_detalle_id=$asignada->ruta_detalle_id;
+                                    $acti_personal->ruta_id=$asignada->ruta_id;
                                     $acti_personal->save();
                                     /************ Actualizar Detalle de Ruta ************/
                                     if($asignada->actividad_categoria_id){
