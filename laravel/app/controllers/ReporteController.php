@@ -611,8 +611,14 @@ class ReporteController extends BaseController
     {
       $array=array();
       
-      if( Input::has('ruta_detalle_id') AND Input::get('ruta_detalle_id')!='' ){
-        $array['ruta_detalle_id'] =" AND ap.ruta_detalle_id='".Input::get('ruta_detalle_id')."' ";
+      if( Input::has('norden') AND Input::get('norden')!='' ){
+        $array['norden'] =" AND rd.norden= '0".Input::get('norden')."' ";
+      }
+      if( Input::has('ruta_flujo_id') AND Input::get('ruta_flujo_id')!='' ){
+        $array['ruta_flujo_id'] = " AND r.ruta_flujo_id=".Input::get('ruta_flujo_id');
+      }
+      if( Input::has('fecha_ini') AND Input::get('fecha_ini')!='' AND Input::has('fecha_fin') AND Input::get('fecha_fin')!=''){
+        $array['fechas'] =" AND DATE(r.fecha_inicio) BETWEEN '".Input::get('fecha_ini')."' AND '".Input::get('fecha_fin')."'";
       }
 
       $oData = Reporte::verOrdenesTrabajo( $array );

@@ -648,7 +648,8 @@ class Reporte extends Eloquent
             }
        /* }*/
     }
-        public static function CuadroProceso() {
+    
+    public static function CuadroProceso() {
         $sSql = '';
         $cl = '';
         $left = '';
@@ -708,6 +709,7 @@ class Reporte extends Eloquent
         $oData['sino'] = Input::get('sino');
         return $oData;
     }
+
     public static function DetalleCuadroProceso() {
         $sSql = '';
         $sSql.="SELECT f.nombre flujo,a.nombre area,rd.norden, count( DISTINCT(r.id) ) total, count( IF(rd.alerta>0,r.id,NULL) ) tf
@@ -889,13 +891,16 @@ class Reporte extends Eloquent
 
     public static function verOrdenesTrabajo( $array )
     {
-        $sql =" SELECT if(ap.actividad_asignada_id is null, ap.id, ap.actividad_asignada_id) ids,
-                ap.id, CONCAT_WS(' ', p.paterno, p.materno, p.nombre) as personal, ap.actividad, ap.fecha_inicio, ap.dtiempo_final, ap.ruta_id, ap.actividad_asignada_id, ap.tipo
-                FROM actividad_personal ap
-                INNER JOIN personas p ON ap.persona_id = p.id ";
-        $sql .=" WHERE ap.estado = 1 ". 
-                $array['ruta_detalle_id'];
-        $sql .=" ORDER BY ids, ap.created_at";
+        $sql =" SELECT r.fecha_inicio, tr.id_union, if(ap.actividad_asignada_id is null, ap.id, ap.actividad_asignada_id) ids,
+                ap.id, CONCAT_WS(' ', p.paterno, p.materno, p.nombre) as personal, ap.actividad, ap.fecha_inicio as fecha_ini, ap.dtiempo_final as fecha_fin, ap.ruta_id, ap.actividad_asignada_id, ap.tipo
+                FROM  rutas_detalle rd 
+                INNER JOIN rutas r ON r.id = rd.ruta_id AND r.estado = 1
+                INNER JOIN tablas_relacion tr ON tr.id = r.tabla_relacion_id AND tr.estado = 1
+                LEFT join actividad_personal ap ON rd.id = ap.ruta_detalle_id AND ap.estado = 1
+                LEFT JOIN personas p ON ap.persona_id = p.id ";
+        $sql .=" WHERE rd.estado = 1 ". 
+                $array['norden'].$array['ruta_flujo_id'].$array['fechas'];
+        $sql .=" ORDER BY r.id, ids, ap.created_at ";
         $oData['data'] = DB::select($sql);
         return $oData;
     }

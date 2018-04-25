@@ -268,7 +268,7 @@ HTMLPersonalizado=function(datos,parametros){
             html+="<tr class='treegrid-"+pos+" treegrid-parent-"+parent+"' ondblclick='selectTR(this,1)' data-rutaflujoid='"+parametros.ruta_flujo_id+"' data-norden='"+data.norden+"' data-fechaini='"+parametros.fecha_ini+"' data-fechafin='"+parametros.fecha_fin+"' data-length_norden='"+data.norden.length+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
             //            "<td>"+data.norden+"</td>"+
             "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span> - <span style='color:blue;'>("+data.detalle+")</span>"+
-            '&nbsp;<button type="button" id="' + data.id + '" onclick="verOrdenTrabajoModal(this.id)"  data-toggle="modal" data-target="#modalOT' + data.id + '" class="btn btn-default btn-xs"><span class="fa fa-list fa-lg" aria-hidden="true"></span> Ordenes de Trabajo</button>'+
+            '&nbsp;<button type="button" id="' + data.id + '" onclick="verOrdenTrabajoModal(this.id, '+data.norden+', '+parametros.ruta_flujo_id+', \''+parametros.fecha_ini+'\', \''+parametros.fecha_fin+'\')"  data-toggle="modal" data-target="#modalOT' + data.id + '" class="btn btn-default btn-xs"><span class="fa fa-list fa-lg" aria-hidden="true"></span> Ordenes de Trabajo</button>'+
             "</td>"+
             "<td>"+data.area+"</td>"+
             "<td>"+data.total+"</td>"+
@@ -293,7 +293,7 @@ HTMLPersonalizado=function(datos,parametros){
             html+="<tr class='treegrid-"+pos+" treegrid-parent-"+parent+"' ondblclick='selectTR(this,1)' data-rutaflujoid='"+parametros.ruta_flujo_id+"' data-norden='"+data.norden+"' data-fechaini='"+parametros.fecha_ini+"' data-fechafin='"+parametros.fecha_fin+"' data-length_norden='"+data.norden.length+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
             //            "<td>"+data.norden+"</td>"+
             "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span> - <span style='color:blue;'>("+data.detalle+")</span>"+
-            '&nbsp;<button type="button" id="' + data.id + '" onclick="verOrdenTrabajoModal(this.id)"  data-toggle="modal" data-target="#modalOT' + data.id + '" class="btn btn-default btn-xs"><span class="fa fa-list fa-lg" aria-hidden="true"></span> Ordenes de Trabajo</button>'+
+            '&nbsp;<button type="button" id="' + data.id + '" onclick="verOrdenTrabajoModal(this.id, '+data.norden+', '+parametros.ruta_flujo_id+', \''+parametros.fecha_ini+'\', \''+parametros.fecha_fin+'\')"  data-toggle="modal" data-target="#modalOT' + data.id + '" class="btn btn-default btn-xs"><span class="fa fa-list fa-lg" aria-hidden="true"></span> Ordenes de Trabajo</button>'+
             "</td>"+
             "<td>"+data.area+"</td>"+
             "<td>"+data.total+"</td>"+
@@ -452,7 +452,7 @@ daysInMonth=function(humanMonth, year){
 };
 
 
-verOrdenTrabajoModal = function(id) {        
+verOrdenTrabajoModal = function(id, norden, ruta_flujo_id, fecha_ini, fecha_fin) {        
     var html_modal = '<div class="modal fade" id="modalOT'+id+'" role="dialog">'+
                           '<div class="modal-dialog modal-lg">'+
                             '<div class="modal-content">'+
@@ -478,7 +478,7 @@ verOrdenTrabajoModal = function(id) {
         type:'POST',
         cache       : false,
         dataType    : 'json',
-        data        : { ruta_detalle_id:id },
+        data        : { norden:norden, ruta_flujo_id:ruta_flujo_id, fecha_ini:fecha_ini, fecha_fin:fecha_fin },
         success: function(obj)
         {   
             if(obj.datos.length > 0)
@@ -486,6 +486,8 @@ verOrdenTrabajoModal = function(id) {
                 var html_pd = '<table id="tree_ot" class="table table-bordered table-hover">'+
                                 '<thead id="tt_tree" class="logo">'+
                                     '<tr class="cabecera">'+
+                                    '<th>Fecha Tramite</th>'+
+                                    '<th>Tramite</th>'+
                                       '<th>Personal</th>'+
                                       '<th>Actividad</th>'+
                                       '<th>Fecha Inicio</th>'+
@@ -499,32 +501,35 @@ verOrdenTrabajoModal = function(id) {
                 var tree_fijos = '';
                 var total_ot = 0;
                 var total_or = 0;
-                var text_ot = '';
+                var fechatramita_aux = '';
                 $.each(obj.datos, function (index, data) {
-                    if(i == 1 && data.tipo == 2) {
-                        tree_parent = '';
-                        total_ot = 1;
-                        text_ot = '(OT)';
-                    } else {
-                        if(data.tipo == 2) {    // Ordenes de Trabajo
+                    if(($.trim(data.tipo) * 1) > 0)
+                    {
+                        if(i == 1 && data.tipo == 2) {
                             tree_parent = '';
-                            iaux = i;
-                            total_ot += 1;
-                            text_ot = '(OT)';
-                        } else {                // Respuesta de Ordenes
-                            if(i != 1) tree_parent = 'treegrid-parent-'+iaux;
-                            total_or += 1;
-                            text_ot = '';
-                        }                        
+                            total_ot = 1;
+                        } else {
+                            if(data.tipo == 2) {    // Ordenes de Trabajo
+                                tree_parent = '';
+                                iaux = i;
+                                total_ot += 1;
+                            } else {                // Respuesta de Ordenes
+                                if(i != 1) tree_parent = 'treegrid-parent-'+iaux;
+                                total_or += 1;
+                            }                        
+                        }
+                        
+                        html_pd += '<tr class="treegrid-'+i+' '+tree_parent+'">'+
+                                          //'<td> <label style="color: red;">'+text_ot+'</label> '+data.fecha_inicio+'</td>'+
+                                          '<td>'+data.fecha_inicio+'</td>'+
+                                          '<td>'+data.id_union+'</td>'+
+                                          '<td>'+data.personal+'</td>'+
+                                          '<td>'+data.actividad+'</td>'+
+                                          '<td>'+data.fecha_ini+'</td>'+
+                                          '<td>'+data.fecha_fin+'</td>'+
+                                        '</tr>';
+                        i++;
                     }
-                    
-                    html_pd += '<tr class="treegrid-'+i+' '+tree_parent+'">'+
-                                      '<td> <label style="color: red;">'+text_ot+'</label> '+data.personal+'</td>'+
-                                      '<td>'+data.actividad+'</td>'+
-                                      '<td>'+data.fecha_inicio+'</td>'+
-                                      '<td>'+data.dtiempo_final+'</td>'+
-                                    '</tr>';
-                    i++;
                 });
                 html_pd +='</tbody></table>';
 
