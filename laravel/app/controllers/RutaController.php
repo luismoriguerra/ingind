@@ -289,6 +289,7 @@ class RutaController extends \BaseController
                                     $asignada->save();
                                     
                                     $acti_personal->ruta_detalle_id=$asignada->ruta_detalle_id;
+                                    $acti_personal->ruta_id=$asignada->ruta_id;
                                     $acti_personal->save();
                                     /************ Actualizar Detalle de Ruta ************/
                                     if($asignada->actividad_categoria_id){
@@ -610,10 +611,7 @@ class RutaController extends \BaseController
                             $ruta['area_id'] = $rutaFlujo->area_id;
                             $ruta['usuario_created_at'] = Auth::user()->id;
                             $ruta->save();
-                            /****************ruta_id en Actividad***********************/
-                            $acti_personal->ruta_id=$ruta->id;
-                            $acti_personal->save();
-                            /**********************************************/
+
                             $qrutaDetalle = DB::table('rutas_flujo_detalle')
                                     ->where('ruta_flujo_id', '=', $rutaFlujo->id)
                                     ->where('estado', '=', '1')
@@ -663,6 +661,11 @@ class RutaController extends \BaseController
                                     }
                                 }
                             }
+                            /****************ruta_id en Actividad***********************/
+                            $acti_personal->ruta_id=$ruta->id;
+                            $acti_personal->ruta_detalle_id=$rutaDetalle->id;
+                            $acti_personal->save();
+                            /**********************************************/
                             
                         }
                         
