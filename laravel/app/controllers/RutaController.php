@@ -405,7 +405,8 @@ class RutaController extends \BaseController
     }
     
         public function postActividadpersonalasignado()
-    {   
+    {            
+//            var_dump("listo");exit();
 
         if ( Input::has('info') ) {
             
@@ -488,18 +489,20 @@ class RutaController extends \BaseController
                             }   
                             
                             if(trim($value['tipo_asignacion'])==2){
-                                for($i=0;$i<count($value['tramite']);$i++){
-                                    if($value['tramite'][$i]!=0){
-                                        $rudeve =RutaDetalleVerbo::find($value['tramite'][$i]);
-                                        $rudeve->usuario_updated_at = $Persona->id;
-                                        $rudeve->save();
+                                if(@$value['ruta_detalle_id']){
+                                    for($i=0;$i<count($value['tramite']);$i++){
+                                        if($value['tramite'][$i]!=0){
+                                            $rudeve =RutaDetalleVerbo::find($value['tramite'][$i]);
+                                            $rudeve->usuario_updated_at = $Persona->id;
+                                            $rudeve->save();
+                                        }
                                     }
-                                }
-                                if(@$rudeve){
-                                    $rutadetalle= RutaDetalle::find($rudeve->ruta_detalle_id);
-                                    $acti_personal->ruta_detalle_id=$rudeve->ruta_detalle_id;
+
+                                    $rutadetalle= RutaDetalle::find($value['ruta_detalle_id']);
+                                    $acti_personal->ruta_detalle_id=$rutadetalle->id;
                                     $acti_personal->ruta_id=$rutadetalle->ruta_id;
                                     $acti_personal->save();
+                                    
                                 }
                                 
                             }

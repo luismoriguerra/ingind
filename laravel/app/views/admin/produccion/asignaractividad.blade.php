@@ -217,7 +217,9 @@
                                                         <th>Tramite</th>
                                                         <th>Proceso</th>
                                                         <th>Orden</th>
+                                                        <th>Trámmite</th>
                                                         <th>Verbo</th>
+                                                        
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tb_tramite">
@@ -342,7 +344,9 @@
                                                         <th>Tramite</th>
                                                         <th>Proceso</th>
                                                         <th>Orden</th>
+                                                        <th>Trámmite</th>
                                                         <th>Verbo</th>
+                                                        
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tb_tramite">

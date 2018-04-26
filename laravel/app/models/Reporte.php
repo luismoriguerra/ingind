@@ -1049,6 +1049,7 @@ class Reporte extends Eloquent
          $sql="SELECT * 
                 FROM (SELECT (SELECT re.referido FROM 
                                 referidos re WHERE re.ruta_detalle_id=rd.ruta_detalle_id_ant) as referido,
+                                rd.id as ruta_detalle_id,r.id as ruta_id,
                                 tr.id_union,f.nombre as flujo,rd.norden,GROUP_CONCAT(v.nombre) as verbo,GROUP_CONCAT(rdv.id) as verbo_id
                                 FROM tablas_relacion tr
                                 INNER JOIN rutas r ON r.tabla_relacion_id=tr.id AND r.estado=1
