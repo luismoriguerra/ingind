@@ -268,7 +268,7 @@ HTMLPersonalizado=function(datos,parametros){
             html+="<tr class='treegrid-"+pos+" treegrid-parent-"+parent+"' ondblclick='selectTR(this,1)' data-rutaflujoid='"+parametros.ruta_flujo_id+"' data-norden='"+data.norden+"' data-fechaini='"+parametros.fecha_ini+"' data-fechafin='"+parametros.fecha_fin+"' data-length_norden='"+data.norden.length+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
             //            "<td>"+data.norden+"</td>"+
             "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span> - <span style='color:blue;'>("+data.detalle+")</span>"+
-            '&nbsp;<button type="button" id="' + data.id + '" onclick="verOrdenTrabajoModal(this.id, '+data.norden+', '+parametros.ruta_flujo_id+', \''+parametros.fecha_ini+'\', \''+parametros.fecha_fin+'\')"  data-toggle="modal" data-target="#modalOT' + data.id + '" class="btn btn-default btn-xs"><span class="fa fa-list fa-lg" aria-hidden="true"></span> Ordenes de Trabajo</button>'+
+            '&nbsp;<button type="button" id="' + data.id + '" onclick="verOrdenTrabajoModal(this.id, \''+data.norden+'\', '+parametros.ruta_flujo_id+', \''+parametros.fecha_ini+'\', \''+parametros.fecha_fin+'\')"  data-toggle="modal" data-target="#modalOT' + data.id + '" class="btn btn-default btn-xs"><span class="fa fa-list fa-lg" aria-hidden="true"></span> Ordenes de Trabajo</button>'+
             "</td>"+
             "<td>"+data.area+"</td>"+
             "<td>"+data.total+"</td>"+
@@ -293,7 +293,7 @@ HTMLPersonalizado=function(datos,parametros){
             html+="<tr class='treegrid-"+pos+" treegrid-parent-"+parent+"' ondblclick='selectTR(this,1)' data-rutaflujoid='"+parametros.ruta_flujo_id+"' data-norden='"+data.norden+"' data-fechaini='"+parametros.fecha_ini+"' data-fechafin='"+parametros.fecha_fin+"' data-length_norden='"+data.norden.length+"' data-pendiente='"+data.pendiente+"' data-atendido='"+data.atendido+"' data-finalizo='"+data.finalizo+"' data-destiempo_p='"+data.destiempo_p+"' data-destiempo_a='"+data.destiempo_a+"'>"+
             //            "<td>"+data.norden+"</td>"+
             "<td><span  data-toggle='tooltip' data-placement='left' title='"+data.detalle+"'>Actividad N° "+data.norden+"</span> - <span style='color:blue;'>("+data.detalle+")</span>"+
-            '&nbsp;<button type="button" id="' + data.id + '" onclick="verOrdenTrabajoModal(this.id, '+data.norden+', '+parametros.ruta_flujo_id+', \''+parametros.fecha_ini+'\', \''+parametros.fecha_fin+'\')"  data-toggle="modal" data-target="#modalOT' + data.id + '" class="btn btn-default btn-xs"><span class="fa fa-list fa-lg" aria-hidden="true"></span> Ordenes de Trabajo</button>'+
+            '&nbsp;<button type="button" id="' + data.id + '" onclick="verOrdenTrabajoModal(this.id, \''+data.norden+'\', '+parametros.ruta_flujo_id+', \''+parametros.fecha_ini+'\', \''+parametros.fecha_fin+'\')"  data-toggle="modal" data-target="#modalOT' + data.id + '" class="btn btn-default btn-xs"><span class="fa fa-list fa-lg" aria-hidden="true"></span> Ordenes de Trabajo</button>'+
             "</td>"+
             "<td>"+data.area+"</td>"+
             "<td>"+data.total+"</td>"+

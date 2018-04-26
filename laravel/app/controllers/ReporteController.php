@@ -612,7 +612,7 @@ class ReporteController extends BaseController
       $array=array();
       
       if( Input::has('norden') AND Input::get('norden')!='' ){
-        $array['norden'] =" AND rd.norden= '0".Input::get('norden')."' ";
+        $array['norden'] =" AND rd.norden= '".Input::get('norden')."' ";
       }
       if( Input::has('ruta_flujo_id') AND Input::get('ruta_flujo_id')!='' ){
         $array['ruta_flujo_id'] = " AND r.ruta_flujo_id=".Input::get('ruta_flujo_id');
