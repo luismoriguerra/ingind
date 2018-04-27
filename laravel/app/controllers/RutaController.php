@@ -659,7 +659,9 @@ class RutaController extends \BaseController
                                         $rutaDetalleVerbo['documento_id'] = $rdv->documento_id;
                                         $rutaDetalleVerbo['orden'] = $rdv->orden;
                                         $rutaDetalleVerbo['usuario_created_at'] = Auth::user()->id;
+                                    if($categoria->tipo==1){
                                         $rutaDetalleVerbo['usuario_updated_at'] = $Persona->id;
+                                    }
                                         $rutaDetalleVerbo->save();
                                     }
                                 }
