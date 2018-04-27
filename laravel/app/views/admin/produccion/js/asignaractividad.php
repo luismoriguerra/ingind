@@ -3,7 +3,7 @@ var TablaDocumento; // Datos Globales
 var cabeceraG1=[]; // Cabecera del Datatable
 var columnDefsG1=[]; // Columnas de la BD del datatable
 var targetsG1=-1; // Posiciones de las columnas del datatable
-
+var diferenciador=0;
 $(document).ready(function() {
 
     $(".atencion").hide();
@@ -201,6 +201,7 @@ guardarTodo = function(){
         var hfin = $(".valido input[id='txt_horaFin']").map(function(){return $(this).val();}).get();
         var ttranscurrido = $(".valido input[id='txt_ttranscurrido']").map(function(){return $(this).val();}).get();
         var actividad_categoria_id = $(".valido select[id='slct_categoria']").map(function(){return $(this).val();}).get();
+        var ruta_detalle_id = $(".valido input:radio[id='ruta_detalle_id']:checked").map(function(){return $(this).val();}).get();
         var persona = document.querySelector("#slct_personasA").value;
         
         var tbarchivo =[];
@@ -284,6 +285,7 @@ guardarTodo = function(){
                             'archivo':tablaarchivo[i],
                             'documento':tabladocumento[i],
                             'tramite':tablatramite[i],
+                            'ruta_detalle_id':ruta_detalle_id[i],
                             'tipo':'2',
                         });                    
                     }else{
@@ -488,7 +490,7 @@ Contar=function(obj,tipo){
 };
 
 BuscarTramite=function(obj){
-     
+     diferenciador++;
      var div=obj.parentNode.parentNode;
      var divtramite=$(div).children('div')[0];
      var divtabla=$(div).children('div')[3];
@@ -509,7 +511,7 @@ HTMLcargartramite=function(datos,divtabla){
         verbo_id=data.verbo_id.split(',');
 
         for(i=0;i<verbo.length;i++){
-            verbos+='<tr><td><b>'+(i+1)+'- </b>'+verbo[i]+'<input type="checkbox" value="'+verbo_id[i]+'"></td></tr>';
+            verbos+='<tr><td><b>'+(i+1)+'- </b><input type="checkbox" value="'+verbo_id[i]+'">'+verbo[i]+'</td></tr>';
         }
 
         html+="<tr id="+data.norden+">"+
@@ -517,6 +519,7 @@ HTMLcargartramite=function(datos,divtabla){
             "<td>"+data.id_union+"</td>"+
             "<td>"+data.flujo+"</td>"+
             "<td>"+data.norden+"</td>"+
+            '<td class="rutadetalleid"><input type="radio" name="ruta_detalle_id'+diferenciador+'" id="ruta_detalle_id" value="'+data.ruta_detalle_id+'"></td>'+
             "<td><table id='t_verbo'>"+verbos+"</table></td>";
         html+="</tr>";
     });
