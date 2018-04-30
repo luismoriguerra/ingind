@@ -297,12 +297,11 @@ class RutaDetalle extends Eloquent
     {
         $sql =" SELECT rd.archivo, rd.norden
                     FROM rutas_detalle rd  ";
-        $sql .=" WHERE rd.estado=1 ".
+        $sql .=" WHERE rd.estado=1 AND rd.archivo!='' ".
                 $array['ruta_id'].
                 $array['norden'];
         $sql .=" GROUP BY rd.norden
                  ORDER BY rd.norden";
-
         $oData['data'] = DB::select($sql);
         return $oData;
     }
