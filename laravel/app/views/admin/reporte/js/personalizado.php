@@ -573,7 +573,7 @@ verOrdenTrabajoModal = function(id, norden, ruta_flujo_id, fecha_ini, fecha_fin)
                                 '<tbody>'+
                                     '<tr><td>'+total_tramite+'</td>'+
                                         '<td>'+(total_tramite-total_no_asigna)+'</td>'+
-                                        '<td>'+(total_tramite-total_no_asigna)+'</td></tr>'+
+                                        '<td>'+total_or+'</td></tr>'+
                                 '</tbody>'+
                             '</table>';                            
 
