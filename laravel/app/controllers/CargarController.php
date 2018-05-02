@@ -1826,29 +1826,34 @@ class CargarController extends BaseController {
     }
     
     public function postPoblarsubproceso() {
-        $sql="SELECT r.id as ruta_id,id_union,MAX(rd.norden) as norden,tr.created_at
+        $sql="SELECT rd.fecha_inicio,rd.dtiempo_final,rd.ruta_flujo_id rfid,r.id as ruta_id,id_union,MAX(rd.norden) as norden,tr.created_at
+                ,GROUP_CONCAT(DISTINCT rdm.ruta_flujo_id) as ruta_flujo_id,GROUP_CONCAT(DISTINCT f.nombre) as flujo
                 FROM tablas_relacion tr
                 INNER JOIN rutas r ON r.tabla_relacion_id=tr.id and r.estado=1
-                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1  AND rd.dtiempo_final IS NULL
+
+                INNER JOIN rutas_detalle_micro rdm ON rdm.ruta_id=rd.ruta_id
+                INNER JOIN rutas_flujo rf ON rf.id=rdm.ruta_flujo_id
+                INNER JOIN flujos f ON f.id=rf.flujo_id and f.nombre LIKE 'MP - REQUERIMIENTO SERVICIO DIRECTO LOCADORES%'
                 WHERE tr.id_union like '%REQUERIMIENTO%'
-                AND rd.fecha_inicio BETWEEN '2018-01-01' AND '2018-04-30'
+                -- AND rd.fecha_inicio BETWEEN '2018-01-01' AND '2018-04-30'
                 AND tr.estado=1
                 AND YEAR(tr.created_at)='2018'
-                AND r.id=318005 -- prueba
+                AND r.id=318607 -- prueba
                 GROUP BY tr.id
-                HAVING norden =3";
+                HAVING norden ='03'";
         $result=DB::select($sql);
         
         foreach($result as $r){
 //            var_dump($r);exit();
            DB::beginTransaction();
                 
-                $rd=RutaDetalle::where('norden','=','03')
+                $rd=RutaDetalle::where('norden','=',$r->norden)
                                 ->where('ruta_id','=',$r->ruta_id)
                                 ->where('estado','=',1)
                                 ->whereNull('dtiempo_final')
                                 ->first();
-                $rd->ruta_flujo_id=5036;
+                $rd->ruta_flujo_id=$r->ruta_flujo_id;
                 $rd->save();
 
                 $rf= RutaFlujo::find($rd->ruta_flujo_id);
@@ -1868,7 +1873,7 @@ class CargarController extends BaseController {
                     $rutaDetalle['area_id'] = $rfd->area_id;
                     $rutaDetalle['tiempo_id'] = $rfd->tiempo_id;
                     $rutaDetalle['dtiempo'] = $rfd->dtiempo;
-                    $rutaDetalle['ruta_flujo_id_dep']=5036;
+                    $rutaDetalle['ruta_flujo_id_dep']=$rd->ruta_flujo_id;
                     $rutaDetalle['detalle']=$rfd->detalle;
                     $rutaDetalle['archivado']=$rfd->archivado;
                     $rutaDetalle['norden'] = $rd->norden.'.'.$cero.$rfd->norden;
