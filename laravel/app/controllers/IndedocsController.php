@@ -864,18 +864,18 @@ class IndedocsController extends \BaseController {
         //$objArr = $this->curl("ruta.php", $param_data);
         $return_response = $this->response(200,"success","Proceso ejecutado satisfactoriamente");
 
-        $uploadFolder = 'txt/api';
-        $nombre_archivo = "respuesta.json";
-        $file = $uploadFolder . '/' . $nombre_archivo;
-        unlink($file);
-        if($archivo = fopen($file, "a"))
-        {
-            fwrite($archivo, $return_response);
-            fclose($archivo);
-        }
+//        $uploadFolder = 'txt/api';
+//        $nombre_archivo = "respuesta.json";
+//        $file = $uploadFolder . '/' . $nombre_archivo;
+//        unlink($file);
+//        if($archivo = fopen($file, "a"))
+//        {
+//            fwrite($archivo, $return_response);
+//            fclose($archivo);
+//        }
         // --
 
-        return Response::json(array('rst' => 1));
+        return Response::json(array('rst' => 1,'return'=>$return_response));
     }
 
     /*
