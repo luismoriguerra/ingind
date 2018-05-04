@@ -2,7 +2,7 @@
 var Accion={
     mostrar:function( data ){
         $.ajax({
-            url         : 'envioautomatico/contratacionesalertas',
+            url         : 'cargar/poblarsubproceso',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',

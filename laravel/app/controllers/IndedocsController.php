@@ -518,7 +518,7 @@ class IndedocsController extends \BaseController {
         set_time_limit(0);
         //ini_set('max_execution_time', 300);
         ini_set('max_execution_time', 0);
-        $res = file_get_contents("http://10.0.120.13:8088/srequerimiento/?fecha1=2018/03/01&fecha2=2018/03/31");
+        $res = file_get_contents("http://10.0.120.13:8088/srequerimiento/?fecha1=2018/03/16&fecha2=2018/03/31");
         $result = json_decode($res);
         /*
         $array = array(
@@ -864,18 +864,18 @@ class IndedocsController extends \BaseController {
         //$objArr = $this->curl("ruta.php", $param_data);
         $return_response = $this->response(200,"success","Proceso ejecutado satisfactoriamente");
 
-        $uploadFolder = 'txt/api';
-        $nombre_archivo = "respuesta.json";
-        $file = $uploadFolder . '/' . $nombre_archivo;
-        unlink($file);
-        if($archivo = fopen($file, "a"))
-        {
-            fwrite($archivo, $return_response);
-            fclose($archivo);
-        }
+//        $uploadFolder = 'txt/api';
+//        $nombre_archivo = "respuesta.json";
+//        $file = $uploadFolder . '/' . $nombre_archivo;
+//        unlink($file);
+//        if($archivo = fopen($file, "a"))
+//        {
+//            fwrite($archivo, $return_response);
+//            fclose($archivo);
+//        }
         // --
 
-        return Response::json(array('rst' => 1));
+        return Response::json(array('rst' => 1,'return'=>$return_response));
     }
 
     /*

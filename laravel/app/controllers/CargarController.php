@@ -1824,5 +1824,109 @@ class CargarController extends BaseController {
         }
         return $area_id;
     }
+    
+    public function postPoblarsubproceso() {
+        $sql="SELECT rd.fecha_inicio,rd.dtiempo_final,rd.ruta_flujo_id rfid,r.id as ruta_id,id_union,MAX(rd.norden) as norden,tr.created_at
+                ,GROUP_CONCAT(DISTINCT rdm.ruta_flujo_id) as ruta_flujo_id,GROUP_CONCAT(DISTINCT f.nombre) as flujo
+                FROM tablas_relacion tr
+                INNER JOIN rutas r ON r.tabla_relacion_id=tr.id and r.estado=1
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1  AND rd.dtiempo_final IS NULL
+
+                INNER JOIN rutas_detalle_micro rdm ON rdm.ruta_id=rd.ruta_id
+                INNER JOIN rutas_flujo rf ON rf.id=rdm.ruta_flujo_id
+                INNER JOIN flujos f ON f.id=rf.flujo_id and f.nombre LIKE 'MP - REQUERIMIENTO SERVICIO DIRECTO LOCADORES%'
+                WHERE tr.id_union like '%REQUERIMIENTO%'
+                -- AND rd.fecha_inicio BETWEEN '2018-01-01' AND '2018-04-30'
+                AND tr.estado=1
+                AND YEAR(tr.created_at)='2018'
+                AND r.id=318607 -- prueba
+                GROUP BY tr.id
+                HAVING norden ='03'";
+        $result=DB::select($sql);
+        
+        foreach($result as $r){
+//            var_dump($r);exit();
+           DB::beginTransaction();
+                
+                $rd=RutaDetalle::where('norden','=',$r->norden)
+                                ->where('ruta_id','=',$r->ruta_id)
+                                ->where('estado','=',1)
+                                ->whereNull('dtiempo_final')
+                                ->first();
+                $rd->ruta_flujo_id=$r->ruta_flujo_id;
+                $rd->save();
+
+                $rf= RutaFlujo::find($rd->ruta_flujo_id);
+
+                $rutaflujodetalle = DB::table('rutas_flujo_detalle')
+                        ->where('ruta_flujo_id', '=', $rf->id)
+                        ->where('estado', '=', '1')
+                        ->orderBy('norden', 'ASC')
+                        ->get();
+                foreach ($rutaflujodetalle as $rfd) {
+                    $cero='';
+                    if($rfd->norden<10){
+                        $cero='0';
+                    }
+                    $rutaDetalle = new RutaDetalle;
+                    $rutaDetalle['ruta_id'] = $rd->ruta_id;
+                    $rutaDetalle['area_id'] = $rfd->area_id;
+                    $rutaDetalle['tiempo_id'] = $rfd->tiempo_id;
+                    $rutaDetalle['dtiempo'] = $rfd->dtiempo;
+                    $rutaDetalle['ruta_flujo_id_dep']=$rd->ruta_flujo_id;
+                    $rutaDetalle['detalle']=$rfd->detalle;
+                    $rutaDetalle['archivado']=$rfd->archivado;
+                    $rutaDetalle['norden'] = $rd->norden.'.'.$cero.$rfd->norden;
+                    $rutaDetalle['estado_ruta'] = $rfd->estado_ruta;
+                    $rutaDetalle['usuario_created_at'] = Auth::user()->id;
+                    $rutaDetalle->save();
+
+                    $qrutaDetalleVerbo = DB::table('rutas_flujo_detalle_verbo')
+                            ->where('ruta_flujo_detalle_id', '=', $rfd->id)
+                            ->where('estado', '=', '1')
+                            ->orderBy('orden', 'ASC')
+                            ->get();
+
+                    if (count($qrutaDetalleVerbo) > 0) {
+                        foreach ($qrutaDetalleVerbo as $rdv) {
+                            $rutaDetalleVerbo = new RutaDetalleVerbo;
+                            $rutaDetalleVerbo['ruta_detalle_id'] = $rutaDetalle->id;
+                            $rutaDetalleVerbo['nombre'] = $rdv->nombre;
+                            $rutaDetalleVerbo['condicion'] = $rdv->condicion;
+                            $rutaDetalleVerbo['rol_id'] = $rdv->rol_id;
+                            $rutaDetalleVerbo['verbo_id'] = $rdv->verbo_id;
+                            $rutaDetalleVerbo['documento_id'] = $rdv->documento_id;
+                            $rutaDetalleVerbo['orden'] = $rdv->orden;
+                            $rutaDetalleVerbo['usuario_created_at'] = Auth::user()->id;
+                            $rutaDetalleVerbo->save();
+                        }
+                    }
+                }
+                //2do nivel 
+                $rutaflujodetallemicro= RutaFlujoDetalleMicro::where('ruta_flujo_id','=',$rf->id)
+                                                ->where('estado','=',1)
+                                                ->orderBy('norden','ASC')->get();
+
+                foreach ($rutaflujodetallemicro as $rfdm) {
+                    $cero='';
+                    if($rfdm->norden<10){
+                        $cero='0';
+                    }
+                    $rdmcreate= new RutaDetalleMicro;
+                    $rdmcreate->ruta_flujo_id=$rfdm->ruta_flujo_id2;
+                    $rdmcreate->ruta_id=$rd->ruta_id;
+                    $rdmcreate->norden=$rd->norden.'.'.$cero.$rfdm->norden;
+                    $rdmcreate->usuario_created_at=Auth::user()->id;       
+                    $rdmcreate->save();
+                }
+                //--
+            DB::commit();
+        }
+        
+        return  array(
+                    'rst'=>1,
+                    'msj'=>'Registro realizado con éxito'
+            );
+    }
 
 }
