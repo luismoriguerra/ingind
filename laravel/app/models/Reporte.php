@@ -26,7 +26,7 @@ class Reporte extends Eloquent
                 INNER JOIN areas a ON rf.area_id=a.id AND a.estado=1
                 INNER JOIN rutas_flujo_detalle rfd ON rfd.ruta_flujo_id=rf.id AND rfd.estado=1
                 INNER JOIN areas a2 ON rfd.area_id=a2.id AND a2.estado=1
-                INNER JOIN tiempos t ON rfd.tiempo_id=t.id AND t.estado=1
+                INNER JOIN tiempos t ON rfd.tiempo_id=t.id
                 INNER JOIN 
                 ( 
                     SELECT deru.ruta_flujo_id,
@@ -701,8 +701,7 @@ class Reporte extends Eloquent
             $sSql .= " AND a.id IN ($id_area)";
         }
             $sSql .= " GROUP BY rf.id "; 
-        
-        
+                
         $oData['cabecera'] = $cabecera;
         $oData['cabecera1'] = $cabecera1;
         $oData['data'] = DB::select($sSql);
