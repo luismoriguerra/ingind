@@ -632,9 +632,21 @@ class RutaDetalleController extends \BaseController
             $ruta_detalle_id = Input::get('ruta_detalle_id');
             $rpta='';
 
+            $nom_achivo = '';
             if (count($archivo) > 0) {
                 for ($i=0; $i< count($archivo); $i++) {
-                    $url = "img/admin/ruta_detalle/".date("Y-m-d")."-".$ruta_detalle_id.'-'.str_replace(' ', '', $nombre[$i]);
+
+                    if (strpos($nombre[$i], '#') !== false) {
+                        $arr_file = explode('#', $nombre[$i]);
+                        if(count($arr_file) <= 2)
+                            $nom_achivo = $arr_file[0].$arr_file[1];
+                        else
+                            $nom_achivo = $arr_file[0].$arr_file[1].@$arr_file[2];
+                    } else {
+                        $nom_achivo = $nombre[$i];
+                    }
+
+                    $url = "img/admin/ruta_detalle/".date("Y-m-d")."-".$ruta_detalle_id.'-'.str_replace(' ', '', $nom_achivo);
                     //echo $dato[1].' :::: '.$url.'<br>';
                     $this->fileToFile($archivo[$i], $url);
                     if($i==0){
@@ -671,16 +683,22 @@ class RutaDetalleController extends \BaseController
 
     public function postEliminararchivodesmonte() {
 
-        if ( Input::has('archivos') ) {
-            $archivos= Input::get('archivos');
+        if ( Input::has('id') ) {
+            $archivo= Input::get('archivos');
             $ruta_detalle_id = Input::get('id');
 
-            $rutaDetalle = RutaDetalle::find($ruta_detalle_id);
+            $rutaDetalle = RutaDetalle::find($ruta_detalle_id);            
+            
+            $data_c = explode("|", trim($rutaDetalle->archivo));
+            $borrar_nota = array_search($archivo, $data_c, false);
+            unset($data_c[$borrar_nota]);
+            $archivos = implode("|", $data_c);
+            //echo $rutaDetalle->archivo;
+            //exit;
             $rutaDetalle->archivo=$archivos;
             $rutaDetalle->usuario_updated_at = Auth::user()->id;
             $rutaDetalle->save();            
         }
-
         return Response::json(
                         array(
                             'rst'=>'1',
