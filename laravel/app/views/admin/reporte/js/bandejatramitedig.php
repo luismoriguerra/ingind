@@ -494,7 +494,7 @@ mostrarDetalleHTML=function(datos){
                                             '<a href="'+d_foto+'" target="_blank"><img src="'+foto+'" alt=""  border="0" class="img-responsive foto_desmonte"></a>';
                             
                             if($('#txt_orden').val() == data.norden)
-                                html_pd += '<div class="text-center"><button type="button" id="'+index+'" onclick="eliminarArchivoDes(this.id)" class="btn btn-danger btn-xs"><span class="fa fa-trash fa-lg" aria-hidden="true"></span> Eliminar</button></div>';
+                                html_pd += '<div class="text-center"><button type="button" id="'+index+'" onclick="eliminarArchivoDes(this.id, \''+foto+'\')" class="btn btn-danger btn-xs"><span class="fa fa-trash fa-lg" aria-hidden="true"></span> Eliminar</button></div>';
                                         
                             html_pd += '</div>';
                         }
@@ -780,16 +780,17 @@ guardarArhivoDesmonte = function(){
     $("#tb_darchivo").html(''); 
 }
 
-eliminarArchivoDes = function(id){    
-    sweetalertG.confirm("¿Estás seguro?", "Confirme la eliminación de archivo.", function(){
-       $("#ad"+id).remove();       
+eliminarArchivoDes = function(id, foto){    
+    sweetalertG.confirm("¿Estás seguro?", "Confirme la eliminación de archivo.", function(){                     
+       /*
        var archivos = '';
        $("#d_ver_fotos a").each(function(){
-            //alert($(this).attr('href'));
             archivos += $(this).attr('href')+'|';
         });
-       //alert(archivos);       
-       Validar.eliminarArchivoDes($("#form_ruta_detalle>#ruta_detalle_id").val(), archivos);  
+       */
+       //alert(foto);
+       Validar.eliminarArchivoDes($("#form_ruta_detalle>#ruta_detalle_id").val(), foto);
+       $("#ad"+id).remove();
     });    
 }
 // --
