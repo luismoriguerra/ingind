@@ -389,7 +389,7 @@ class RutaDetalleController extends \BaseController
                 //************************Archivado: Trámite que fue finalizado en cualquier de sus pasos//
                 //***********************Finalizado: Trámite que finaiizó correctamentte y no hay mas pasos******************//
                 if(Input::get('archivado')==2 && Input::has('archivado')){
-                    $rd['archivado']=3;
+                    $rd['archivado']=2;
                 }
                 if( Input::get('finalizado')==2){
                     $rd['archivado']=2;
