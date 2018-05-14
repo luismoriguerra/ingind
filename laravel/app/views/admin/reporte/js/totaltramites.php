@@ -239,6 +239,7 @@ detalletra=function(ruta_flujo_id, boton){
     $("#form_"+Pest).append("<input type='hidden' id='txt_ruta_flujo_id' name='txt_ruta_flujo_id' value='"+ruta_flujo_id+"'>");
     var datos=$("#form_"+Pest).serialize().split("txt_").join("").split("slct_").join("");
     $("#form_"+Pest+" #txt_ruta_flujo_id").remove();
+    
     Tramite.mostrar( datos,HTMLreportet,'t' );
     $("#reported_tab_"+Pest).hide();
 }
@@ -260,7 +261,7 @@ detalle=function(ruta_id, boton){
 HTMLreportet=function(datos){
     var btnruta='';
     var html="";
-
+    
     $("#t_reportet_tab_"+Pest).dataTable().fnDestroy();
     $("#t_reportet_tab_"+Pest+" tbody").html('');
     /*******************DETALLE****************************/
@@ -299,7 +300,7 @@ HTMLreportet=function(datos){
     });
 
     $("#t_reportet_tab_"+Pest+" tbody").html(html);
-    $("#t_reportet_tab_"+Pest).dataTable({
+    $("#t_reportet_tab_"+Pest).DataTable({
             "scrollY": "400px",
             "scrollCollapse": true,
             "scrollX": true,
