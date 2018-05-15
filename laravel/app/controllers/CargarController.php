@@ -1836,10 +1836,10 @@ class CargarController extends BaseController {
                 INNER JOIN rutas_flujo rf ON rf.id=rdm.ruta_flujo_id
                 INNER JOIN flujos f ON f.id=rf.flujo_id and f.nombre LIKE 'MP - REQUERIMIENTO SERVICIO DIRECTO LOCADORES%'
                 WHERE tr.id_union like '%REQUERIMIENTO%'
-                -- AND rd.fecha_inicio BETWEEN '2018-01-01' AND '2018-04-30'
+                AND DATE(r.fecha_inicio) BETWEEN '2018-04-01' AND '2018-04-30'
                 AND tr.estado=1
                 AND YEAR(tr.created_at)='2018'
-                AND r.id=318607 -- prueba
+                -- AND r.id=318607 -- prueba
                 GROUP BY tr.id
                 HAVING norden ='03'";
         $result=DB::select($sql);

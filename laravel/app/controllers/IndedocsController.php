@@ -1037,6 +1037,7 @@ class IndedocsController extends \BaseController {
                 $act->persona_id=$persona->id;
                 $act->area_id=$persona->area_id;
                 $act->cantidad=$k->cantidad;
+                $act->tipo=2;
                 $act->save();   
             }
         }

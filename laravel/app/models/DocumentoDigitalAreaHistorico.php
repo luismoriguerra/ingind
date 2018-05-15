@@ -1,6 +1,6 @@
 <?php
 
-class DocumentoDigitalArea extends Base {
+class DocumentoDigitalAreaHistorico extends Base {
 	protected $fillable = [];
-	public $table = "doc_digital_area";
+	public $table = "doc_digital_area_historico";
 }
