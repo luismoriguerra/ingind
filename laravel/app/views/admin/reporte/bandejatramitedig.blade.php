@@ -10,6 +10,8 @@
     {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }} 
     {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
 
+    {{ HTML::style('css/checkbox.css') }}
+
     {{ HTML::style('lib/jquerysctipttop.css') }}
     {{ HTML::script('lib/ckeditor/ckeditor.js') }}
     {{ HTML::style('css/admin/plantilla.css') }}
@@ -216,48 +218,56 @@ tr.shown td.details-control {
                                             </h1>
                                         </div>
                                         <div class="col-sm-12">
-                                            <div class="col-sm-2">
+                                            <div class="col-sm-4">
                                                 <label class="control-label">Nro Trámite:</label>
                                                 <input type="text" class="form-control" id="txt_id_doc" readonly>
                                             </div>
+                                            <!-- 
                                             <div class="col-sm-4">
                                                 <label class="control-label">Solicitante:</label>
                                                 <input type="text" class="form-control" id="txt_solicitante" readonly>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <label class="control-label">Sumilla:</label>
-                                                <textarea type="text" class="form-control" id="txt_sumilla" readonly></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="col-sm-4">
-                                                <label class="control-label">Proceso:</label>
-                                                <input type="text" class="form-control" id="txt_flujo" readonly>
-                                            </div>
+                                            -->
                                             <div class="col-sm-4">
                                                 <label class="control-label">Area:</label>
                                                 <input type="text" class="form-control" id="txt_area" readonly>
                                             </div>
-                                            <div class="col-sm-2">
+                                            
+                                            <div class="col-sm-4">
+                                                <label class="control-label">Proceso:</label>
+                                                <input type="text" class="form-control" id="txt_flujo" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            </br>
+                                        </div>
+                                        <div class="col-sm-12">                                            
+                                            <!-- 
+                                            <div class="col-sm-4">
+                                                <label class="control-label">Area:</label>
+                                                <input type="text" class="form-control" id="txt_area" readonly>
+                                            </div>
+                                            -->
+                                            <div class="col-sm-1">
                                                 <label class="control-label">Paso:</label>
                                                 <input type="text" class="form-control" id="txt_orden" readonly>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <label class="control-label">Tiempo:</label>
+                                                <input type="text" class="form-control" id="txt_tiempo" readonly>
                                             </div>
                                             <div class="col-sm-2">
                                                 <label class="control-label">Fecha Inicio:</label>
                                                 <input type="text" class="form-control" id="txt_fecha_inicio" readonly>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="col-sm-3">
-                                                <label class="control-label">Tiempo asignado a la Actividad:</label>
-                                                <input type="text" class="form-control" id="txt_tiempo" readonly>
-                                            </div>
+                                            
                                             <div class="col-sm-2">
                                                 <label class="control-label">Tiempo Final:</label>
                                                 <input type="text" class="form-control" id="txt_respuesta" name="txt_respuesta" readonly>
                                             </div>
+
                                             <div class="col-sm-3">
-                                                <label class="control-label">Responsable de la Actividad:</label>
+                                                <label class="control-label">Responsable de la Actividadd:</label>
                                                 <?php
                                                     if( Auth::user()->rol_id==8 OR Auth::user()->rol_id==9 ){
                                                 ?>
@@ -269,19 +279,34 @@ tr.shown td.details-control {
                                                         <div id="slct_persona"></div>
                                                 <?php
                                                     }
-                                                ?>   
+                                                ?>
+                                                
                                             </div>
-                                             <div class="col-sm-4 sectionmicro">
-                                                <div class="col-sm-9">
-                                                <label class="control-label">Micro Procesos:</label>
-                                                <select id="slct_micro" name="slct_micro">
-                                                    <option>Seleccione</option>
-                                                </select>
+
+                                            <div class="col-sm-3">
+                                                <label class="control-label">Sumilla:</label>
+                                                <textarea type="text" class="form-control" id="txt_sumilla" readonly></textarea>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-12">
+                                            </br>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="sectionmicro">
+                                                <div class="col-sm-3 text-right">
+                                                    <label class="control-label">Micro Procesos:</label>
+                                                </div>    
+                                                <div class="col-sm-6">
+                                                    
+                                                    <select id="slct_micro" name="slct_micro">
+                                                        <option>Seleccione</option>
+                                                    </select>
                                                 </div>
                                                 <div class="col-sm-2">
-                                                <label class="control-label">&nbsp;&nbsp;&nbsp;</label>
-                                                <a class="btn btn-success btn-sm"  id="btn_siguiente_rd" style="display: none;">
-                                                </a>
+                                                    <label class="control-label">&nbsp;&nbsp;&nbsp;</label>
+                                                    <a class="btn btn-success btn-sm"  id="btn_siguiente_rd" style="display: none;">
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>

@@ -582,7 +582,14 @@ mostrarDetalleHTML=function(datos){
                     else{
 
                         obs = "<textarea class='area"+valorenviado+"' name='area_"+detalle[i].split("=>")[0]+"' id='area_"+detalle[i].split("=>")[0]+"'></textarea>";
-                        imagen="<input type='checkbox' class='check"+valorenviado+"' onChange='validacheck("+valorenviado+",this.id);' value='"+detalle[i].split("=>")[0]+"' name='chk_verbo_"+detalle[i].split("=>")[0]+"' id='chk_verbo_"+detalle[i].split("=>")[0]+"_"+$.trim(detalle[i].split("=>")[12])+"'>";
+                        //imagen="<input type='checkbox' class='check"+valorenviado+"' onChange='validacheck("+valorenviado+",this.id);' value='"+detalle[i].split("=>")[0]+"' name='chk_verbo_"+detalle[i].split("=>")[0]+"' id='chk_verbo_"+detalle[i].split("=>")[0]+"_"+$.trim(detalle[i].split("=>")[12])+"'>";
+                        imagen='<div class="checkbox">'+
+                                    '<label style="font-size: 1.5em">'+
+                                        '<input class="check'+valorenviado+'" onChange="validacheck('+valorenviado+',this.id);" type="checkbox" value="'+detalle[i].split("=>")[0]+'" name="chk_verbo_'+detalle[i].split("=>")[0]+'" id="chk_verbo_'+detalle[i].split("=>")[0]+'_'+$.trim(detalle[i].split("=>")[12])+'">'+
+                                        '<span class="cr" style="background-color: #fff;"><i class="cr-icon fa fa-check"></i></span>'+                                
+                                    '</label>'+
+                                '</div>';
+                        
                         imagenadd= '<input disabled type="text" class="form-control txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'"/>';
                         if(verbo=="Generar"){
                             imagenadd= '<input data-pos="'+(i*1+1)+'" type="text" readonly class="form-control txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'" id="documento_'+detalle[i].split("=>")[0]+'" name="documento_'+detalle[i].split("=>")[0]+'" value="" /><input type="hidden" id="txt_documento_id_'+detalle[i].split("=>")[0]+'" name="txt_documento_id_'+detalle[i].split("=>")[0]+'" value=""><input type="hidden" id="txt_doc_digital_id_'+detalle[i].split("=>")[0]+'" name="txt_doc_digital_id_'+detalle[i].split("=>")[0]+'" value="">'+
