@@ -89,7 +89,7 @@ HTMLmostrarhistorico=function(datos){
         html+="<tr>"+
             "<td>"+ cont +"</td>"+
             "<td>"+data.titulo+"</td>"+
-            '<td><a class="btn btn-default btn-sm" onclick="openPlantilla('+data.id+',4,0); return false;" data-titulo="Previsualizar"><i class="fa fa-eye fa-lg">&nbsp;A4</i> </a></td>';
+            '<td><a class="btn btn-default btn-sm" onclick="openPlantilla('+data.doc_digital_id+',4,0); return false;" data-titulo="Previsualizar"><i class="fa fa-eye fa-lg">&nbsp;A4</i> </a></td>';
         html+="</tr>";
     });
     $("#tb_historico").html(html);
