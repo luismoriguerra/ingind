@@ -518,7 +518,7 @@ class IndedocsController extends \BaseController {
         set_time_limit(0);
         //ini_set('max_execution_time', 300);
         ini_set('max_execution_time', 0);
-        $res = file_get_contents("http://10.0.120.13:8088/srequerimiento/?fecha1=2018/02/01&fecha2=2018/02/28");
+        $res = file_get_contents("http://10.0.120.13:8088/srequerimiento/?fecha1=2018/03/01&fecha2=2018/03/31");
         $result = json_decode($res);
         /*
         $array = array(
@@ -660,12 +660,13 @@ class IndedocsController extends \BaseController {
         $result = json_decode(json_encode($array));
         */
         foreach ($result->requerimiento as $i=>$k) {
-        //if($k->IDDETREQ >= 173146){    
+           
             $requerimiento = CargaRequerimiento::where('codigo', '=', $k->IDDETREQ)
                                             ->where('numpaso', '=', $k->numpaso)
+                                            ->where('areadestino', '!=', 0)
                                             ->first();
             $proceso_rq = false;
-            if(count($requerimiento) == 0 && ($k->AREAORIGFLUJO != '' && $k->AREADESTFLUJO != ''))
+            if(count($requerimiento) == 0 && ($k->AREADESTINO != '' && $k->AREADESTFLUJO != 0)) //&& ($k->AREAORIGFLUJO != '' && $k->AREADESTFLUJO != '')
             {
                 $fecha = substr($k->FECHA, 0, 19);
                 $fecharuta = substr($k->FECHARUTA, 0, 19);
@@ -695,7 +696,7 @@ class IndedocsController extends \BaseController {
                 $requerimiento->save();
                 // --                
             }
-               
+            
             if( (count($requerimiento) == 0 || $requerimiento->estado_procesado == 0) && ($k->AREAORIGFLUJO != '' && $k->AREADESTFLUJO != '') )
             {               
                 $area_origen = Area::find($k->AREAFLUJO);
@@ -708,8 +709,29 @@ class IndedocsController extends \BaseController {
                                 AND tr.estado=1;";                
                 $tabla_relacion = DB::select($selecttr);
 
-                //echo $tabla_relacion[0]->id."<br>";
-                
+                // --
+                if(count($tabla_relacion) == 0) {
+                    $selecttr="SELECT tr.id, tr.id_union, tr.fecha_tramite, tr.usuario_created_at
+                                FROM tablas_relacion tr 
+                                WHERE tr.id_union LIKE '%0".$k->REQ_NUM."-%'
+                                    AND tr.id_union LIKE '%".$k->REQ_ANNO."%'
+                                    AND tr.id_union LIKE '%".$area_origen->nemonico."%'
+                                    AND tr.id_union LIKE '%REQ%'
+                                    AND tr.estado=1;";
+                    $tabla_relacion = DB::select($selecttr);
+                }
+                if(count($tabla_relacion) == 0) {
+                    $selecttr="SELECT tr.id, tr.id_union, tr.fecha_tramite, tr.usuario_created_at
+                                FROM tablas_relacion tr 
+                                WHERE tr.id_union LIKE '%".$k->REQ_NUM."%'
+                                    AND tr.id_union LIKE '%".$k->REQ_ANNO."%'
+                                    AND tr.id_union LIKE '%".$area_origen->nemonico."%'
+                                    AND tr.id_union LIKE '%REQ%'
+                                    AND tr.estado=1;";
+                    $tabla_relacion = DB::select($selecttr);
+                }
+                // --
+
                 if(count($tabla_relacion) > 0)
                 {
                     // -- 
@@ -727,7 +749,7 @@ class IndedocsController extends \BaseController {
                                         AND estado = 1";
                     $ruta_detalle = DB::select($selectrd);
 
-                    // -- 
+                    // CONSULTA EL SIGUIENTE PASO
                     $selectrd2="SELECT *
                                 FROM rutas_detalle
                                     WHERE ruta_id = ".$rutas[0]->id."
@@ -777,6 +799,13 @@ class IndedocsController extends \BaseController {
                     else if(@$ruta_detalle[0]->norden == '01' && @$ruta_detalle2[0]->area_id == 26)
                     {
                         if((@$k->numpaso == 1) && @$k->AREADESTFLUJO == 26)
+                        {
+                            $proceso_rq = true;
+                        }
+                    }
+                    else if(@$ruta_detalle[0]->area_id == 26)
+                    {
+                        if((@$k->numpaso == 10))
                         {
                             $proceso_rq = true;
                         }
@@ -857,8 +886,8 @@ class IndedocsController extends \BaseController {
                         DB::commit();
                     }
                 }
-            }
-        //}
+            }            
+        
         }
 
         //$objArr = $this->curl("ruta.php", $param_data);

@@ -331,6 +331,7 @@
                                             <th colspan="6" style='background-color:#DEFAFA'>Datos del paso</th>
                                             <th style='background-color:#F5DF9D'>Acciones a realizar</th>
                                             <th style='background-color:#FCD790'>Acciones realizadas</th>
+                                            <th style='background-color:#FCD790'>&nbsp;</th>
                                         </tr>
                                         <tr>
                                             <th style='background-color:#DEFAFA'>Paso</th>
@@ -350,6 +351,7 @@
                                             (N° Doc.
                                             Descripcion)
                                             </th>
+                                            <th style='background-color:#FCD790'>&nbsp;</th>
                                         </tr>
                                     </thead>
                                     <tbody>
