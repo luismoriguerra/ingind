@@ -468,5 +468,50 @@ class DocumentoDigital extends Base {
 
         return $oData;
     }
+    
+    public static function getVerificarProcesoDoc($id){
+
+            return DB::table('doc_digital_temporal as dd')
+                    ->select('dd.id'
+                        ,DB::raw('(SELECT COUNT(r.id) '
+                                . 'FROM rutas r '
+                                . 'INNER JOIN rutas_detalle as rd on r.id=rd.ruta_id and rd.estado=1 and rd.condicion=0'
+                                . ' INNER JOIN rutas_detalle_verbo as rdv on rdv.ruta_detalle_id=rd.id and rdv.estado=1 '
+                                . 'where r.estado=1 AND dd.id=rdv.doc_digital_id ) AS rutadetallev'),
+                        DB::raw('(SELECT COUNT(r.id) '
+                                . 'FROM rutas r '
+                                . 'where r.estado=1 AND dd.id=r.doc_digital_id ) AS ruta')    
+                            )
+                   	->where( 
+                        function($query)use($id){
+                                $query->where('dd.id','=',$id);
+                        }
+                    )
+                    ->havingRaw('ruta>0 or rutadetallev>0')
+                    ->get();            
+    } 
+    
+    public static function postBuscarDocumentoFinal($array){
+
+        $sSql = "SELECT ddt.*
+                FROM doc_digital_temporal ddt
+                WHERE ddt.estado=1 AND";
+        $sSql.= $array['where'];
+
+        $oData = DB::select($sSql);
+
+        return $oData;
+    }
+    
+    public static function postMostrarHistoricoDocumento(){
+
+        $sSql = "SELECT ddh.*
+                FROM doc_digital_historico ddh
+                WHERE ddh.doc_digital_id=".Input::get("doc_digital_id");
+
+        $oData = DB::select($sSql);
+
+        return $oData;
+    }
 
 }
