@@ -518,7 +518,7 @@ class IndedocsController extends \BaseController {
         set_time_limit(0);
         //ini_set('max_execution_time', 300);
         ini_set('max_execution_time', 0);
-        $res = file_get_contents("http://10.0.120.13:8088/srequerimiento/?fecha1=2018/03/01&fecha2=2018/03/31");
+        $res = file_get_contents("http://10.0.120.13:8088/srequerimiento/?fecha1=2018/01/01&fecha2=2018/01/31");
         $result = json_decode($res);
         /*
         $array = array(
@@ -775,6 +775,25 @@ class IndedocsController extends \BaseController {
                             $proceso_rq = true;
                         }
                     }
+
+                    /*
+                    else if(@$ruta_detalle[0]->area_id == 29 && @$ruta_detalle2[0]->area_id == 28)
+                    {
+                        if((@$k->numpaso == 8) && (@$k->AREAORIGFLUJO == 29 && @$k->AREADESTFLUJO == 35))
+                        {
+                            $proceso_rq = true;
+                        }
+                    }
+
+                    else if(@$ruta_detalle[0]->area_id == 29 && @$ruta_detalle2[0]->area_id == 28)
+                    {
+                        if((@$k->numpaso == 1) && (@$k->AREAORIGFLUJO == 29 && @$k->AREADESTFLUJO == 35))
+                        {
+                            $proceso_rq = true;
+                        }
+                    }
+                    */
+
                     else if(@$ruta_detalle[0]->area_id == 29 && @$ruta_detalle2[0]->area_id == 35)
                     {
                         if((@$k->numpaso == 8) && (@$k->AREAORIGFLUJO == 29 && @$k->AREADESTFLUJO == 35))
@@ -782,6 +801,7 @@ class IndedocsController extends \BaseController {
                             $proceso_rq = true;
                         }
                     }
+
                     else if(@$ruta_detalle[0]->area_id == 35 && @$ruta_detalle2[0]->area_id == 42)
                     {
                         if(@$k->AREAORIGFLUJO == 35 && @$k->AREADESTFLUJO == 42)
