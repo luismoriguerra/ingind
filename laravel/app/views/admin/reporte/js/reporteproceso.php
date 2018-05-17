@@ -1112,7 +1112,12 @@
 
         $('#text_fecha_ini').html('Fecha inicial '+fecha_ini);
         Proceso.MostrarTramiteActividad({ ruta_flujo_id:id, fecha_ini: fecha_ini, fecha_fin: fecha_fin, tramite:tramite });
-        Personalizado.ReportePersonalizado(dataG);
+        
+        
+
+        Personalizado.ReportePersonalizado({ fechames: fechames, ruta_flujo_id:id, fecha_ini: fecha_ini, fecha_fin: fecha_fin});
+        //Personalizado.ReportePersonalizado(dataG);
+
         $("#form_tactividad").css("display", "");
 
         //Proceso.MostrarTramites(dataG);
