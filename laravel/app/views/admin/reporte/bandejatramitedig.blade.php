@@ -266,7 +266,7 @@ tr.shown td.details-control {
                                                 <input type="text" class="form-control" id="txt_respuesta" name="txt_respuesta" readonly>
                                             </div>
 
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-2">
                                                 <label class="control-label">Responsable de la Actividadd:</label>
                                                 <?php
                                                     if( Auth::user()->rol_id==8 OR Auth::user()->rol_id==9 ){
@@ -283,7 +283,7 @@ tr.shown td.details-control {
                                                 
                                             </div>
 
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <label class="control-label">Sumilla:</label>
                                                 <textarea type="text" class="form-control" id="txt_sumilla" readonly></textarea>
                                             </div>
