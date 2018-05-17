@@ -946,11 +946,21 @@ class Reporte extends Eloquent
     
         public static function getPersonalizado(){
         $fecha='';
+        /*
         if(Input::has('fechames')){
             $fecha="and DATE_FORMAT(tr.fecha_tramite,'%Y-%m')='".Input::get('fechames')."'";
         }else{
             $fecha="and DATE(tr.fecha_tramite) BETWEEN '".Input::get('fecha_ini')."'   AND '".Input::get('fecha_fin')."'";
         }
+        */
+        if(Input::has('fechames')){
+            $fecha_ruta = "AND DATE_FORMAT(r.fecha_inicio,'%Y-%m-%d') BETWEEN '".Input::get('fecha_ini')."' AND '".Input::get('fecha_fin')."' ";
+            $fecha="and DATE_FORMAT(rd.fecha_inicio,'%Y-%m')='".Input::get('fechames')."' ";
+        }else{
+            $fecha_ruta = "";
+            $fecha="and DATE(tr.fecha_tramite) BETWEEN '".Input::get('fecha_ini')."'   AND '".Input::get('fecha_fin')."'";
+        }
+
         $sql = "SELECT rd.id, IFNULL(MAX(rd.detalle),'') as detalle,f.id as flujo_id,f.nombre as flujo,rd.norden,a.nombre as area,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivado!=2,rd.id,null)) AS pendiente,
                 COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado!=2,rd.id,null)) AS atendido,
@@ -962,12 +972,14 @@ class Reporte extends Eloquent
                 COUNT(DISTINCT IF(rd.fecha_inicio IS NOT NULL,rd.id,null)) AS total
                 FROM tablas_relacion tr
                 INNER JOIN rutas r ON r.tabla_relacion_id=tr.id and r.ruta_flujo_id=".Input::get('ruta_flujo_id')." and r.estado=1
+                ".$fecha_ruta."
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1 and CHARACTER_LENGTH(rd.norden)=2 and rd.condicion=0 
                 INNER JOIN areas a ON a.id=rd.area_id
                 INNER JOIN flujos f ON f.id=r.flujo_id
                 WHERE tr.estado=1 
                 ".$fecha."
                 GROUP BY r.ruta_flujo_id,rd.norden";
+        //echo $sql;            
         $r=DB::select($sql);
         return $r;                
 
