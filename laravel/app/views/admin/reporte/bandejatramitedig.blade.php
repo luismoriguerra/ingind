@@ -11,6 +11,7 @@
     {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
 
     {{ HTML::style('css/checkbox.css') }}
+    {{ HTML::script('lib/jssonido.js') }}
 
     {{ HTML::style('lib/jquerysctipttop.css') }}
     {{ HTML::script('lib/ckeditor/ckeditor.js') }}
@@ -136,6 +137,13 @@ tr.shown td.details-control {
         <!-- Main content -->
         <section class="content">
             <!-- Inicia contenido -->
+            <div id="audiobi"></div>
+            <!--
+            <audio autoplay>
+                <source src="http://localhost/ingind/public/sonido/alarma2.mp3" type="audio/mp3">
+                Tu navegador no soporta HTML5 audio.
+            </audio>
+            -->
 
             <div class="mailbox row">
                 <div class="col-md-12">

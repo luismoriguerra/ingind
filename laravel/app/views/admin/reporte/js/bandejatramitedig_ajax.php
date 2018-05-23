@@ -93,14 +93,29 @@ var Bandeja={
         var datos="";var estado=[];
         var fondo=[];var visto="";
         var ruta_detalle_id=[];
-
-        var columnDefs=[{
+        var con_alarma = 0;
+        var columnDefs=[
+                    {
                         "targets": 0,
                         "data": function ( row, type, val, meta ) {
-//                            console.log(row);
+                            //console.log(row);
+                            if(row.tiempo_final_n == 'Fuera del Tiempo') {
+                                if(row.alerta == 1 && con_alarma == 0) {
+                                    /*$('#audiobi').html('<audio autoplay>'+
+                                                            '<source src="sonido/unaladycomotu.mp3" type="audio/mp3">'+
+                                                            'Tu navegador no soporta HTML5 audio.'+
+                                                        '</audio>');*/
+                                    createjs.Sound.registerSound("sonido/sonido1.mp3", "x");
+                                    setTimeout(function () {
+                                        createjs.Sound.play("x");
+                                    }, 1000);
+                                    con_alarma = 1;
+                                }
+                            }
+
                             ruta_detalle_id.push('td_'+row.ruta_detalle_id);
                             if(row.id>0){//est visto
-                                //el boton debera cambiar  a no visto
+                                //el boton debera cambiar  a no visto                                                            
                                 estado.push('desactivar('+row.id+','+row.ruta_detalle_id+',this,'+row.ruta_id+')');
                                 fondo.push('');
                                 visto='<i id="td_'+row.ruta_detalle_id+'" class="fa fa-eye"></i>';
@@ -155,7 +170,7 @@ var Bandeja={
                         "data": "persona",
                         "name": "persona"
                     }
-                    ];
+            ];
 
         $('#t_reporte_ajax').dataTable().fnDestroy();
         $('#t_reporte_ajax')
@@ -163,43 +178,43 @@ var Bandeja={
             .on( 'search.dt', function () { $("body").append('<div class="overlay"></div><div class="loading-img"></div>'); } )
             .on( 'order.dt',  function () { $("body").append('<div class="overlay"></div><div class="loading-img"></div>'); } )
             .DataTable( {
-            "processing": true,
-            "serverSide": true,
-            "stateSave": true,
-            "searching": false,
-            "ordering": false,
-            "stateLoadCallback": function (settings) {
-                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
-            },
-            "stateSaveCallback": function (settings) { // Cuando finaliza el ajax
-              var trsimple;
-                for(i=0;i<ruta_detalle_id.length;i++){
-                    trsimple=$("#"+ruta_detalle_id[i]).closest('tr');
-                    trsimple.attr('class',fondo[i]);
-                    trsimple.attr('onClick',estado[i]);
-                }
-                $(".overlay,.loading-img").remove();
-            },
-            "ajax": {
-                "url": "reportef/bandejatramite",
-                "type": "POST",
-                "data": function(d){
-                        var contador=0;
-                        datos=$("#form_filtros").serialize().split("txt_").join("").split("slct_").join("").split("%5B%5D").join("[]").split("+").join(" ").split("%7C").join("|").split("&");
-
-                        for (var i = datos.length - 1; i >= 0; i--) {
-                            if( datos[i].split("[]").length>1 ){
-                                d[ datos[i].split("[]").join("["+contador+"]").split("=")[0] ] = datos[i].split("=")[1];
-                                contador++;
-                            }
-                            else{
-                                d[ datos[i].split("=")[0] ] = datos[i].split("=")[1];
-                            }
-                        };
+                    "processing": true,
+                    "serverSide": true,
+                    "stateSave": true,
+                    "searching": false,
+                    "ordering": false,
+                    "stateLoadCallback": function (settings) {
+                        $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
                     },
-            },
-            columnDefs
-        } );
+                    "stateSaveCallback": function (settings) { // Cuando finaliza el ajax
+                      var trsimple;
+                        for(i=0;i<ruta_detalle_id.length;i++){
+                            trsimple=$("#"+ruta_detalle_id[i]).closest('tr');
+                            trsimple.attr('class',fondo[i]);
+                            trsimple.attr('onClick',estado[i]);
+                        }
+                        $(".overlay,.loading-img").remove();
+                    },
+                    "ajax": {
+                        "url": "reportef/bandejatramite",
+                        "type": "POST",
+                        "data": function(d){
+                                var contador=0;
+                                datos=$("#form_filtros").serialize().split("txt_").join("").split("slct_").join("").split("%5B%5D").join("[]").split("+").join(" ").split("%7C").join("|").split("&");
+
+                                for (var i = datos.length - 1; i >= 0; i--) {
+                                    if( datos[i].split("[]").length>1 ){
+                                        d[ datos[i].split("[]").join("["+contador+"]").split("=")[0] ] = datos[i].split("=")[1];
+                                        contador++;
+                                    }
+                                    else{
+                                        d[ datos[i].split("=")[0] ] = datos[i].split("=")[1];
+                                    }
+                                };
+                            },
+                    },
+                    columnDefs
+            });
     },
     Mostrar:function( data ){
         $.ajax({

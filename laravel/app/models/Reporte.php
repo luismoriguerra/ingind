@@ -203,18 +203,21 @@ class Reporte extends Eloquent
                 ELSE ''
                 END persona,
                 IF( 
-                    IFNULL(rd.fecha_proyectada,CURRENT_TIMESTAMP())>=CURRENT_TIMESTAMP(),'<div style=\"background: #00DF00;color: white;\">Dentro del Tiempo</div>','<div style=\"background: #FE0000;color: white;\">Fuera del Tiempo</div>'
+                    IFNULL(rd.fecha_proyectada,CURRENT_TIMESTAMP())>=CURRENT_TIMESTAMP(),
+                            '<div style=\"background: #00DF00;color: white;\">Dentro del Tiempo</div>',
+                            '<div style=\"background: #FE0000;color: white;\">Fuera del Tiempo</div>'
                 ) tiempo_final,
                 IF( 
                     IFNULL(rd.fecha_proyectada,CURRENT_TIMESTAMP())>=CURRENT_TIMESTAMP(),'Dentro del Tiempo','Fuera del Tiempo'
-                ) tiempo_final_n
+                ) tiempo_final_n,
+                rf.alerta
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
                 INNER JOIN tiempos t ON t.id=rd.tiempo_id
                 INNER JOIN flujos f ON f.id=r.flujo_id
-                ".$array['referido']." JOIN 
-                referidos re ON re.ruta_detalle_id=rd.ruta_detalle_id_ant and re.estado=1
+                    INNER JOIN rutas_flujo rf ON rf.flujo_id=f.id
+                ".$array['referido']." JOIN referidos re ON re.ruta_detalle_id=rd.ruta_detalle_id_ant and re.estado=1
                 WHERE r.estado=1 
                 AND rd.fecha_inicio<=CURRENT_TIMESTAMP()
                 AND rd.fecha_inicio IS NOT NULL ".
@@ -225,9 +228,11 @@ class Reporte extends Eloquent
                 $array['solicitante'].
                 $array['proceso'].
                 $array['tiempo_final'].
+                " GROUP BY tr.id_union ".
                 $array['order'].
                 $array['limit'];
                 //ORDER BY rd.fecha_inicio DESC
+        //echo $sql;
        $r= DB::select($sql);
         return $r;
     }
