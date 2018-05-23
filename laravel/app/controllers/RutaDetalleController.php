@@ -36,6 +36,23 @@ class RutaDetalleController extends \BaseController
         }
     }
 
+    public function postCargartramitexarea()
+    {
+        if ( Request::ajax() ) {
+            $r           = new RutaDetalle;
+            $res         = Array();
+            $res         = $r->getTramiteXArea();
+
+            return Response::json(
+                array(
+                    'rst'   => '1',
+                    'msj'   => 'Detalle Cargado',
+                    'datos' => $res
+                )
+            );
+        }
+    }
+
     public function postCargarrdv()
     {
         if ( Request::ajax() ) {

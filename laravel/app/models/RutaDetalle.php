@@ -185,6 +185,56 @@ class RutaDetalle extends Eloquent
         return $rd;
     }
 
+    public function getTramiteXArea()
+    {
+        $array['tramite']='';
+        $array['area']='';
+        if( Input::has('tramite') AND Input::get('tramite')!='' ){
+        $tramite=explode(" ",trim(Input::get('tramite')));
+            for($i=0; $i<count($tramite); $i++){
+              $array['tramite'].=" AND tr.id_union LIKE '%".$tramite[$i]."%' ";
+            }
+        }
+
+        $array['usuario']=Auth::user()->id;
+        $sql="SELECT GROUP_CONCAT(DISTINCT(a.id) ORDER BY a.id) areas
+                FROM area_cargo_persona acp
+                INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                WHERE acp.estado=1
+                AND cp.persona_id= ".$array['usuario'];
+          $totalareas=DB::select($sql);
+          $areas = $totalareas[0]->areas;
+          $array['area'].=" AND rd.area_id IN (".$areas.") ";
+
+        $sql="  SELECT r.ruta_flujo_id,r.id,tr.id as tramite_id,tr.id_union,tr.fecha_tramite,
+                IFNULL(ts.nombre,'') as solicitante,
+                IF(tr.tipo_persona=1 or tr.tipo_persona=6,
+                    CONCAT(tr.paterno,' ',tr.materno,', ',tr.nombre),
+                    IF(tr.tipo_persona=2,
+                        CONCAT(tr.razon_social,' | RUC:',tr.ruc),
+                        IF(tr.tipo_persona=3,
+                            a.nombre,
+                            IF(tr.tipo_persona=4 or tr.tipo_persona=5,
+                                tr.razon_social,''
+                            )
+                        )
+                    )
+                ) des_solicitante,tr.sumilla
+                from rutas r
+                inner join tablas_relacion tr ON r.tabla_relacion_id=tr.id and tr.estado=1
+                inner join rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1 AND rd.norden = 1
+                LEFT join tipo_solicitante ts ON ts.id=tr.tipo_persona and ts.estado=1
+                LEFT JOIN areas a ON a.id=tr.area_id
+                WHERE r.estado=1
+                ".$array['tramite'].
+                 $array['area'];
+        //echo $sql;
+        $rd = DB::select($sql);
+        
+        return $rd;
+    }
+
     public function getRutadetallev()
     {
         $area_id="";
