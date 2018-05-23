@@ -53,8 +53,8 @@
                               <th>Posicion</th>
                               <th>Tipo Tiempo</th>
                               <th>Tiempo</th>
-                              <th>Micro Proceso</th>
-                              <th>[]</th>
+                              <!-- <th>Micro Proceso</th>
+                              <th>[]</th> -->
                             </tr>
                           </thead>
                           <tbody id="tb_tiempo"> </tbody>
