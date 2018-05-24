@@ -193,7 +193,7 @@ var Validar={
             success : function(obj) {
                 if(obj.rst==1){
                     msjG.mensaje("success",obj.msj,3000);
-                    buscar();
+                    buscarpa();
                     Close();
                 }  
                 $(".overlay,.loading-img").remove();
