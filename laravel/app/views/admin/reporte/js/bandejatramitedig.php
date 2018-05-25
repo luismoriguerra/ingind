@@ -126,6 +126,7 @@ $(document).ready(function() {
         $("#btnAdd").addClass('hidden');
     }
 
+    Bandeja.verificarFueraTiempo();
     Bandeja.MostrarAjax();
 
     slctGlobal.listarSlct('ruta_detalle','slct_area2_id','simple');

@@ -178,7 +178,6 @@ class Reporte extends Eloquent
         return $r[0]->cant;
     }
 
-
     public static function verificarFueraTiempo( $array ){
         $sql="  SELECT
                 tr.id_union,
@@ -204,10 +203,10 @@ class Reporte extends Eloquent
                     INNER JOIN rutas_flujo rf ON rf.flujo_id=f.id
                 WHERE r.estado=1 
                 AND rd.fecha_inicio<=CURRENT_TIMESTAMP()
-                AND rd.fecha_inicio IS NOT NULL  AND rd.dtiempo_final IS NULL ".
+                AND rd.fecha_inicio IS NOT NULL  AND rd.dtiempo_final IS NULL AND rf.alerta = 1 ".
                 $array['w'].
                 $array['areas'].
-                " GROUP BY tr.id_union ".
+                " GROUP BY tr.id_union, r.id ".
                 $array['order'];
                 //ORDER BY rd.fecha_inicio DESC
         //echo $sql;

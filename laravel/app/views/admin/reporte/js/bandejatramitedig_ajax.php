@@ -89,30 +89,48 @@ var Bandeja={
             }
         });
     },
+
+    verificarFueraTiempo:function(){ //Verifica Fuera de tiempo para Alarma
+
+        $.ajax({
+            url         : 'reportef/verificarfueratiempo',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            async       : false,
+            data        : {},
+            success : function(obj) {
+                
+                if(obj.datos.length > 0) {
+                    var con_alarma = 0;                    
+                    $.each(obj.datos,function(index,row) {
+                        if(row.alerta == 1 && con_alarma == 0) {
+
+                            createjs.Sound.registerSound("sonido/sonido1.mp3", "x");
+                            setTimeout(function () {
+                                createjs.Sound.play("x");
+                            }, 1000);
+                            con_alarma = 1;
+                        }
+                    });
+                }
+
+            },
+            error: function(){
+                alert('Error de Sonido!')
+            }
+        });
+    },
+
     MostrarAjax:function(){
         var datos="";var estado=[];
         var fondo=[];var visto="";
-        var ruta_detalle_id=[];
-        var con_alarma = 0;
+        var ruta_detalle_id=[];        
         var columnDefs=[
                     {
                         "targets": 0,
                         "data": function ( row, type, val, meta ) {
-                            //console.log(row);
-                            if(row.tiempo_final_n == 'Fuera del Tiempo') {
-                                if(row.alerta == 1 && con_alarma == 0) {
-                                    /*$('#audiobi').html('<audio autoplay>'+
-                                                            '<source src="sonido/unaladycomotu.mp3" type="audio/mp3">'+
-                                                            'Tu navegador no soporta HTML5 audio.'+
-                                                        '</audio>');*/
-                                    createjs.Sound.registerSound("sonido/sonido1.mp3", "x");
-                                    setTimeout(function () {
-                                        createjs.Sound.play("x");
-                                    }, 1000);
-                                    con_alarma = 1;
-                                }
-                            }
-
+                            //console.log(row);                            
                             ruta_detalle_id.push('td_'+row.ruta_detalle_id);
                             if(row.id>0){//est visto
                                 //el boton debera cambiar  a no visto                                                            
