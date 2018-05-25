@@ -160,7 +160,7 @@ mostrarTramiteHTML=function(datos){
         imagen="";
         clase="";
         cont++;
-            imagen="<a onClick='anularTramite("+data.id+","+data.tramite_id+")' class='btn btn-danger btn-sm'><i class='fa fa-remove fa-lg'></i></a>";
+            imagen="<a onClick='anularTramite("+data.id+","+data.tramite_id+", 1)' class='btn btn-danger btn-sm'><i class='fa fa-remove fa-lg'></i></a>";
 
     html+="<tr>"+
         "<td>"+cont+"</td>"+
@@ -193,7 +193,7 @@ mostrarTramiteXAreaHTML=function(datos){
         imagen="";
         clase="";
         cont++;
-            imagen="<a onClick='anularTramite("+data.id+","+data.tramite_id+")' class='btn btn-danger btn-sm'><i class='fa fa-remove fa-lg'></i></a>";
+            imagen="<a onClick='anularTramite("+data.id+","+data.tramite_id+", 2)' class='btn btn-danger btn-sm'><i class='fa fa-remove fa-lg'></i></a>";
 
     html+="<tr>"+
         "<td>"+cont+"</td>"+
@@ -214,14 +214,14 @@ mostrarTramiteXAreaHTML=function(datos){
     });
 }
 
-anularTramite=function(id,trid){
+anularTramite=function(id,trid, valor){
     /*if( confirm("Esta apunto de anular el tramite:"+$("#td_tra_"+trid).text()+"; Si anula, será eliminado.") ){
     var datos={ruta_id:id,tabla_relacion_id:trid}
     Validar.ActualizarTramite(datos);
     }*/
     sweetalertG.confirm("Confirmación!", "Esta apunto de anular el tramite:"+$("#td_tra_"+trid).text()+";Si anula, será eliminado.", function(){
         var datos={ruta_id:id,tabla_relacion_id:trid};
-        Validar.ActualizarTramite(datos);
+        Validar.ActualizarTramite(datos, valor);
     });
 }
 

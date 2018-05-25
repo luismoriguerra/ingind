@@ -180,7 +180,7 @@ var Validar={
             }
         });
     },
-    ActualizarTramite:function(datos){
+    ActualizarTramite:function(datos, valor){
         $.ajax({
             url         : 'ruta_detalle/actualizartramite',
             type        : 'POST',
@@ -193,7 +193,10 @@ var Validar={
             success : function(obj) {
                 if(obj.rst==1){
                     msjG.mensaje("success",obj.msj,3000);
-                    buscarpa();
+                    if(valor == 1)
+                        buscar();
+                    else
+                        buscarpa();
                     Close();
                 }  
                 $(".overlay,.loading-img").remove();
