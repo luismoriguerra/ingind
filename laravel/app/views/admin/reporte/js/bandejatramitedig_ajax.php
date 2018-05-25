@@ -106,7 +106,7 @@ var Bandeja={
                     $.each(obj.datos,function(index,row) {
                         if(row.alerta == 1 && con_alarma == 0) {
 
-                            createjs.Sound.registerSound("sonido/sonido1.mp3", "x");
+                            createjs.Sound.registerSound("sonido/alarma2.mp3", "x");
                             setTimeout(function () {
                                 createjs.Sound.play("x");
                             }, 1000);
