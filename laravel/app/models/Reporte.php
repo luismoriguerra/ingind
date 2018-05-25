@@ -178,6 +178,43 @@ class Reporte extends Eloquent
         return $r[0]->cant;
     }
 
+
+    public static function verificarFueraTiempo( $array ){
+        $sql="  SELECT
+                tr.id_union,
+                rd.id ruta_detalle_id,
+                rd.ruta_id ruta_id,
+                CONCAT(t.apocope,': ',rd.dtiempo) tiempo,
+                IFNULL(rd.fecha_inicio,'') fecha_inicio,
+                rd.norden,
+                r.fecha_inicio fecha_tramite,
+                rd.estado_ruta AS estado_ruta,
+                (   SELECT COUNT(id)
+                    FROM visualizacion_tramite vt
+                    WHERE vt.ruta_detalle_id=rd.id
+                    AND vt.usuario_created_at=".$array['usuario']."
+                ) id,
+                f.nombre proceso,     
+                rf.alerta
+                FROM rutas r
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
+                INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
+                INNER JOIN tiempos t ON t.id=rd.tiempo_id
+                INNER JOIN flujos f ON f.id=r.flujo_id
+                    INNER JOIN rutas_flujo rf ON rf.flujo_id=f.id
+                WHERE r.estado=1 
+                AND rd.fecha_inicio<=CURRENT_TIMESTAMP()
+                AND rd.fecha_inicio IS NOT NULL  AND rd.dtiempo_final IS NULL ".
+                $array['w'].
+                $array['areas'].
+                " GROUP BY tr.id_union ".
+                $array['order'];
+                //ORDER BY rd.fecha_inicio DESC
+        //echo $sql;
+       $r= DB::select($sql);
+        return $r;
+    }
+
     public static function BandejaTramite( $array ){
         $sql="  SELECT
                 tr.id_union,
@@ -228,7 +265,7 @@ class Reporte extends Eloquent
                 $array['solicitante'].
                 $array['proceso'].
                 $array['tiempo_final'].
-                " GROUP BY tr.id_union ".
+                " GROUP BY tr.id_union, r.id ".
                 $array['order'].
                 $array['limit'];
                 //ORDER BY rd.fecha_inicio DESC
