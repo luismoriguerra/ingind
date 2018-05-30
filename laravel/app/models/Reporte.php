@@ -26,7 +26,7 @@ class Reporte extends Eloquent
                 INNER JOIN areas a ON rf.area_id=a.id AND a.estado=1
                 INNER JOIN rutas_flujo_detalle rfd ON rfd.ruta_flujo_id=rf.id AND rfd.estado=1
                 INNER JOIN areas a2 ON rfd.area_id=a2.id AND a2.estado=1
-                INNER JOIN tiempos t ON rfd.tiempo_id=t.id AND t.estado=1
+                INNER JOIN tiempos t ON rfd.tiempo_id=t.id
                 INNER JOIN 
                 ( 
                     SELECT deru.ruta_flujo_id,
@@ -79,7 +79,7 @@ class Reporte extends Eloquent
                 ) estado,
                 GROUP_CONCAT( 
                     IF( rd.dtiempo_final IS NULL,
-                        CONCAT( rd.norden,' (',a2.nombre,')' ), NULL
+                        CONCAT( rd.norden,'-(',a2.nombre,')' ), NULL
                     ) ORDER BY rd.norden
                 ) ult_paso,
                 COUNT(rd.id) total_pasos,
@@ -136,7 +136,8 @@ class Reporte extends Eloquent
                       IF(v.finalizo=0,'<font color=#EC2121>Pendiente</font>',CONCAT('<font color=#22D72F>Finalizó</font>(',p.paterno,' ',p.materno,', ',p.nombre,' ',IFNULL(CONCAT('<b>',v.documento,'</b>'),''),'//',IFNULL(v.observacion,''),'//',IFNULL(CONCAT('<b>',v.updated_at,'</b>'),''),')' ) )
                   )
                     ORDER BY v.orden ASC
-                SEPARATOR '|'),'') AS ordenv
+                SEPARATOR '|'),'') AS ordenv,
+                rd.archivo
                 FROM rutas AS r 
                 INNER JOIN rutas_detalle AS rd ON r.id = rd.ruta_id AND rd.estado = 1
                 INNER JOIN rutas_detalle_verbo AS v ON rd.id = v.ruta_detalle_id AND v.estado=1
@@ -152,6 +153,7 @@ class Reporte extends Eloquent
 
         $set=DB::select('SET group_concat_max_len := @@max_allowed_packet');
         $r= DB::select($sql);
+        
         return $r;
     }
 
@@ -174,6 +176,42 @@ class Reporte extends Eloquent
                 $array['tiempo_final'];
         $r= DB::select($sql);
         return $r[0]->cant;
+    }
+
+    public static function verificarFueraTiempo( $array ){
+        $sql="  SELECT
+                tr.id_union,
+                rd.id ruta_detalle_id,
+                rd.ruta_id ruta_id,
+                CONCAT(t.apocope,': ',rd.dtiempo) tiempo,
+                IFNULL(rd.fecha_inicio,'') fecha_inicio,
+                rd.norden,
+                r.fecha_inicio fecha_tramite,
+                rd.estado_ruta AS estado_ruta,
+                (   SELECT COUNT(id)
+                    FROM visualizacion_tramite vt
+                    WHERE vt.ruta_detalle_id=rd.id
+                    AND vt.usuario_created_at=".$array['usuario']."
+                ) id,
+                f.nombre proceso,     
+                rf.alerta
+                FROM rutas r
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
+                INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
+                INNER JOIN tiempos t ON t.id=rd.tiempo_id
+                INNER JOIN flujos f ON f.id=r.flujo_id
+                    INNER JOIN rutas_flujo rf ON rf.flujo_id=f.id
+                WHERE r.estado=1 
+                AND rd.fecha_inicio<=CURRENT_TIMESTAMP()
+                AND rd.fecha_inicio IS NOT NULL  AND rd.dtiempo_final IS NULL AND rf.alerta = 1 ".
+                $array['w'].
+                $array['areas'].
+                " GROUP BY tr.id_union, r.id ".
+                $array['order'];
+                //ORDER BY rd.fecha_inicio DESC
+        //echo $sql;
+       $r= DB::select($sql);
+        return $r;
     }
 
     public static function BandejaTramite( $array ){
@@ -201,18 +239,21 @@ class Reporte extends Eloquent
                 ELSE ''
                 END persona,
                 IF( 
-                    IFNULL(rd.fecha_proyectada,CURRENT_TIMESTAMP())>=CURRENT_TIMESTAMP(),'<div style=\"background: #00DF00;color: white;\">Dentro del Tiempo</div>','<div style=\"background: #FE0000;color: white;\">Fuera del Tiempo</div>'
+                    IFNULL(rd.fecha_proyectada,CURRENT_TIMESTAMP())>=CURRENT_TIMESTAMP(),
+                            '<div style=\"background: #00DF00;color: white;\">Dentro del Tiempo</div>',
+                            '<div style=\"background: #FE0000;color: white;\">Fuera del Tiempo</div>'
                 ) tiempo_final,
                 IF( 
                     IFNULL(rd.fecha_proyectada,CURRENT_TIMESTAMP())>=CURRENT_TIMESTAMP(),'Dentro del Tiempo','Fuera del Tiempo'
-                ) tiempo_final_n
+                ) tiempo_final_n,
+                rf.alerta
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
                 INNER JOIN tiempos t ON t.id=rd.tiempo_id
                 INNER JOIN flujos f ON f.id=r.flujo_id
-                ".$array['referido']." JOIN 
-                referidos re ON re.ruta_detalle_id=rd.ruta_detalle_id_ant and re.estado=1
+                    INNER JOIN rutas_flujo rf ON rf.flujo_id=f.id
+                ".$array['referido']." JOIN referidos re ON re.ruta_detalle_id=rd.ruta_detalle_id_ant and re.estado=1
                 WHERE r.estado=1 
                 AND rd.fecha_inicio<=CURRENT_TIMESTAMP()
                 AND rd.fecha_inicio IS NOT NULL ".
@@ -223,9 +264,11 @@ class Reporte extends Eloquent
                 $array['solicitante'].
                 $array['proceso'].
                 $array['tiempo_final'].
+                " GROUP BY tr.id_union, r.id ".
                 $array['order'].
                 $array['limit'];
                 //ORDER BY rd.fecha_inicio DESC
+        //echo $sql;
        $r= DB::select($sql);
         return $r;
     }
@@ -306,8 +349,7 @@ class Reporte extends Eloquent
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
                 INNER JOIN tiempos t ON t.id=rd.tiempo_id
                 INNER JOIN flujos f ON f.id=r.flujo_id
-                LEFT JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id
-        LEFT JOIN personas p1 ON p1.id=cd.persona_id
+                LEFT JOIN personas p1 ON p1.id=rd.persona_responsable_id
                 ".$array['referido']." JOIN 
                 referidos re ON re.ruta_detalle_id=rd.ruta_detalle_id_ant and re.estado=1
                 WHERE r.estado=1 
@@ -322,6 +364,7 @@ class Reporte extends Eloquent
                 $array['tiempo_final'].
                 $array['limit'];
                 //ORDER BY rd.fecha_inicio DESC
+                //echo $sql;
        $r= DB::select($sql);
         return $r;
     }
@@ -369,6 +412,7 @@ class Reporte extends Eloquent
                     $detalle 
                     FROM rutas r
                     INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
+                    INNER JOIN tablas_relacion tr ON r.tabla_relacion_id = tr.id AND tr.estado=1
                     INNER JOIN flujos f ON f.id=r.flujo_id
                     INNER JOIN tiempos t ON t.id=rd.tiempo_id
                     INNER JOIN areas a ON a.id=rd.area_id
@@ -378,6 +422,7 @@ class Reporte extends Eloquent
                     ".$array['area'].
                     $array['fecha']."
                     GROUP BY rd.area_id".$array['sino']." WITH ROLLUP";
+                    //echo $qsqlDet;
         $qsqlDet=DB::select($qsqlDet);
 
         $rf[0]=$r;
@@ -394,9 +439,8 @@ class Reporte extends Eloquent
                 IFNULL(rd.fecha_inicio,'') fecha_inicio,
                 rd.norden,
                 rd.estado_ruta AS estado_ruta,
-                f.nombre proceso,
-                ta.nombre tipo_tarea, cd.actividad descripcion, a.nemonico, 
-                CONCAT(p.paterno,' ',p.materno,', ',p.nombre) responsable, cd.recursos,
+                f.nombre proceso, a.nemonico, 
+                CONCAT(p.paterno,' ',p.materno,', ',p.nombre) responsable, 
                 p.email_mdi,p.email,p.rol_id,
                 IFNULL(
                 (   SELECT CONCAT(a.fecha,'|',a.tipo)
@@ -423,11 +467,9 @@ class Reporte extends Eloquent
                 ) email_seguimiento
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
-                INNER JOIN carta_desglose cd ON cd.ruta_detalle_id=rd.id AND cd.estado=1
-                INNER JOIN areas a ON a.id=cd.area_id
-                INNER JOIN personas p ON p.id=cd.persona_id
+                INNER JOIN areas a ON a.id=rd.area_id
+                INNER JOIN personas p ON p.id=rd.persona_responsable_id
                 INNER JOIN personas p2 ON p2.area_id=a.id AND FIND_IN_SET(p2.rol_id,'8,9') AND p2.estado=1
-                INNER JOIN tipo_actividad ta ON ta.id=cd.tipo_actividad_id
                 INNER JOIN tablas_relacion tr ON r.tabla_relacion_id=tr.id AND tr.estado=1
                 INNER JOIN tiempos t ON t.id=rd.tiempo_id
                 INNER JOIN flujos f ON f.id=r.flujo_id
@@ -624,7 +666,7 @@ class Reporte extends Eloquent
       /*  if(Input::get('ruta_detalle_id')){*/
             if($referido){
                 $data = [];
-                $sql = "SELECT re.ruta_id,re.ruta_detalle_id,re.referido,re.fecha_hora_referido fecha_hora,f.nombre proceso,a.nombre area,re.norden, 'r' tipo 
+                $sql = "SELECT re.ruta_id,re.ruta_detalle_id,re.referido,re.fecha_hora_referido fecha_hora,f.nombre proceso,a.nombre area,re.norden, 'r' tipo,re.doc_digital_id 
                         FROM referidos re 
                         INNER JOIN rutas r ON re.ruta_id=r.id 
                         INNER JOIN flujos f ON r.flujo_id=f.id 
@@ -632,7 +674,7 @@ class Reporte extends Eloquent
                         LEFT JOIN areas a ON rd.area_id=a.id  
                         WHERE re.tabla_relacion_id='".$referido->tabla_relacion_id."'
                         UNION
-                        SELECT re.ruta_id,re.ruta_detalle_id,sustento,fecha_hora_sustento fecha_hora,f.nombre proceso,a.nombre area,rd.norden,'s' tipo
+                        SELECT re.ruta_id,re.ruta_detalle_id,sustento,fecha_hora_sustento fecha_hora,f.nombre proceso,a.nombre area,rd.norden,'s' tipo,null as doc_digital_id
                         FROM sustentos s
                         INNER JOIN referidos re ON re.id=s.referido_id AND re.tabla_relacion_id='".$referido->tabla_relacion_id."'
                         INNER JOIN rutas_detalle rd ON rd.id=s.ruta_detalle_id
@@ -647,7 +689,8 @@ class Reporte extends Eloquent
             }
        /* }*/
     }
-        public static function CuadroProceso() {
+    
+    public static function CuadroProceso() {
         $sSql = '';
         $cl = '';
         $left = '';
@@ -658,9 +701,10 @@ class Reporte extends Eloquent
         if (Input::has('fecha_ini') && Input::get('fecha_ini') && Input::has('fecha_fin') && Input::get('fecha_fin')) {
             $fecha_ini=Input::get('fecha_ini');
             $fecha_fin=Input::get('fecha_fin');
-            $f_fecha .= "AND DATE_FORMAT(r.fecha_inicio,'%Y-%m') BETWEEN '" . $fecha_ini . "' AND '" . $fecha_fin . "' ";
+            $f_fecha .= "AND DATE_FORMAT(r.fecha_inicio,'%Y-%m-%d') BETWEEN '" . $fecha_ini . "' AND '" . $fecha_fin . "' ";
         }
 
+        $fecha_ini = substr($fecha_ini, 0, 7);
         $n = 1;
         for($i=$fecha_ini;$i<=$fecha_fin;$i = date("Y-m", strtotime($i ."+ 1 month"))){
             $cl .= ",count(DISTINCT(r$n.id)) r$n";
@@ -698,14 +742,14 @@ class Reporte extends Eloquent
             $sSql .= " AND a.id IN ($id_area)";
         }
             $sSql .= " GROUP BY rf.id "; 
-        
-        
+                
         $oData['cabecera'] = $cabecera;
         $oData['cabecera1'] = $cabecera1;
         $oData['data'] = DB::select($sSql);
         $oData['sino'] = Input::get('sino');
         return $oData;
     }
+
     public static function DetalleCuadroProceso() {
         $sSql = '';
         $sSql.="SELECT f.nombre flujo,a.nombre area,rd.norden, count( DISTINCT(r.id) ) total, count( IF(rd.alerta>0,r.id,NULL) ) tf
@@ -809,7 +853,7 @@ class Reporte extends Eloquent
     public static function ReporteTramiteActividad( $array, $data )
     {
         $cabecera = [];
-        $sql =" SELECT r.id, tr.id_union ";
+        $sql =" SELECT r.id, tr.sumilla, tr.id_union ";
 
         foreach ($data as $i => $lis) 
         {
@@ -840,7 +884,7 @@ class Reporte extends Eloquent
                 INNER JOIN rutas_detalle rd ON rd.ruta_id = r.id AND rd.estado=1";        
         foreach ($data as $i => $lis) 
         {
-            $sql .=" LEFT JOIN rutas_detalle rd$i ON rd$i.id = rd.id AND rd$i.norden='".$lis->cant."' AND rd$i.condicion = 0
+            $sql .=" LEFT JOIN rutas_detalle rd$i ON rd$i.ruta_id = r.id AND rd$i.norden='".$lis->cant."' AND rd$i.condicion = 0  AND rd$i.estado=1
                      LEFT JOIN areas a$i ON a$i.id = rd$i.area_id ";
         }
 
@@ -874,6 +918,53 @@ class Reporte extends Eloquent
         return $oData;
     }
 
+    public static function verArchivosDesmontesMotorizado( $array )
+    {
+        $sql =" SELECT rd.id, rd.archivo
+                FROM rutas_detalle rd ";
+        $sql .=" WHERE rd.estado=1 ".
+                $array['ruta_id'];
+
+        $oData['data'] = DB::select($sql);
+        return $oData;
+    }
+
+    public static function verOrdenesTrabajo( $array )
+    {
+        $sql =" SELECT r.fecha_inicio, tr.id_union, if(ap.actividad_asignada_id is null, ap.id, ap.actividad_asignada_id) ids,
+                ap.id, CONCAT_WS(' ', p.paterno, p.materno, p.nombre) as personal, ap.actividad, ap.fecha_inicio as fecha_ini, ap.dtiempo_final as fecha_fin, ap.ruta_id, ap.actividad_asignada_id, ap.tipo
+                FROM  rutas_detalle rd 
+                INNER JOIN rutas r ON r.id = rd.ruta_id AND r.estado = 1
+                INNER JOIN tablas_relacion tr ON tr.id = r.tabla_relacion_id AND tr.estado = 1
+                LEFT join actividad_personal ap ON rd.id = ap.ruta_detalle_id AND ap.estado = 1
+                LEFT JOIN personas p ON ap.persona_id = p.id ";
+        $sql .=" WHERE rd.estado = 1 ". 
+                $array['norden'].$array['ruta_flujo_id'].$array['fechas'];
+        $sql .=" ORDER BY r.id, ids, ap.created_at ";
+        $oData['data'] = DB::select($sql);
+        return $oData;
+    }
+
+    public static function verMapaDesmontesMotorizado( $array )
+    {
+        $sSql = "SELECT rd.id, rd.ruta_id, tr.id_union, tr.fecha_tramite, rd.area_id, rd.fecha_inicio, ci.id as carga_incidencia_id,
+                            ci.foto, ci.direccion, ci.tipo, ci.viapredio, ci.latitud, ci.longitud, rdm.id as rdm_id, rdm.fecha_programada,
+                            rdm.vehiculo_id,rdm.persona_id,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) as persona
+                    FROM carga_incidencias ci
+                    INNER JOIN rutas r ON ci.ruta_id = r.id AND r.estado = 1
+                    INNER JOIN tablas_relacion tr ON r.tabla_relacion_id = tr.id AND tr.estado = 1
+                    INNER JOIN rutas_detalle rd ON r.id = rd.ruta_id AND rd.estado = 1
+                    LEFT JOIN rutas_detalle_mapas rdm ON r.id = rdm.ruta_id AND rd.id = rdm.ruta_detalle_id
+                    LEFT JOIN personas p ON p.id=rdm.persona_id                    
+                    WHERE ci.tipo = 'DESMONTE'
+                        -- AND rd.fecha_inicio IS NOT NULL
+                        AND rd.dtiempo_final IS NULL ";
+        $sSql .= $array['ruta_id'];
+
+        $oData['data'] = DB::select($sSql);
+        return $oData;
+    }
+
     public static function CalcularTotalActividad( $array )
     {
         //$cabecera = [];
@@ -893,6 +984,143 @@ class Reporte extends Eloquent
         $oData['data'] = DB::select($sql);
         return $oData;
     }
+    
+        public static function getPersonalizado(){
+        $fecha='';
+        /*
+        if(Input::has('fechames')){
+            $fecha="and DATE_FORMAT(tr.fecha_tramite,'%Y-%m')='".Input::get('fechames')."'";
+        }else{
+            $fecha="and DATE(tr.fecha_tramite) BETWEEN '".Input::get('fecha_ini')."'   AND '".Input::get('fecha_fin')."'";
+        }
+        */
+        if(Input::has('fechames')){
+            $fecha_ruta = "AND DATE_FORMAT(r.fecha_inicio,'%Y-%m-%d') BETWEEN '".Input::get('fecha_ini')."' AND '".Input::get('fecha_fin')."' ";
+            $fecha="and DATE_FORMAT(rd.fecha_inicio,'%Y-%m')='".Input::get('fechames')."' ";
+        }else{
+            $fecha_ruta = "";
+            $fecha="and DATE(tr.fecha_tramite) BETWEEN '".Input::get('fecha_ini')."'   AND '".Input::get('fecha_fin')."'";
+        }
+
+        $sql = "SELECT rd.id, IFNULL(MAX(rd.detalle),'') as detalle,f.id as flujo_id,f.nombre as flujo,rd.norden,a.nombre as area,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivado!=2,rd.id,null)) AS pendiente,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado!=2,rd.id,null)) AS atendido,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=2,rd.id,null)) AS finalizo,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado!=2 AND rd.alerta_tipo=1 AND rd.alerta=1,rd.id,null)) AS destiempo_a,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivado!=2 and CURRENT_TIMESTAMP()>rd.fecha_proyectada,rd.id,null)) AS destiempo_p,
+                COUNT(DISTINCT rd.ruta_flujo_id) AS cant_flujo,
+                GROUP_CONCAT(DISTINCT rd.ruta_flujo_id) AS ruta_flujo_id_dep,
+                COUNT(DISTINCT IF(rd.fecha_inicio IS NOT NULL,rd.id,null)) AS total
+                FROM tablas_relacion tr
+                INNER JOIN rutas r ON r.tabla_relacion_id=tr.id and r.ruta_flujo_id=".Input::get('ruta_flujo_id')." and r.estado=1
+                ".$fecha_ruta."
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1 and CHARACTER_LENGTH(rd.norden)=2 and rd.condicion=0 
+                INNER JOIN areas a ON a.id=rd.area_id
+                INNER JOIN flujos f ON f.id=r.flujo_id
+                WHERE tr.estado=1 
+                ".$fecha."
+                GROUP BY r.ruta_flujo_id,rd.norden";
+        //echo $sql;            
+        $r=DB::select($sql);
+        return $r;                
+
+        }
+        
+        public static function getPersonalizadodetalle(){
+        $fecha='';
+        if(Input::has('fechames')){
+            $fecha="and DATE_FORMAT(tr.fecha_tramite,'%Y-%m')='".Input::get('fechames')."'";
+        }else{
+            $fecha="and DATE(tr.fecha_tramite) BETWEEN '".Input::get('fecha_ini')."'   AND '".Input::get('fecha_fin')."'";
+        }
+        $sql = "SELECT rd.id, rd.ruta_flujo_id_dep AS ruta_flujo_id_micro,IFNULL(MAX(rd.detalle),'') as detalle,rf.id as flujo_id,f.nombre as flujo,rd.norden,a.nombre as area,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivado!=2,rd.id,null)) AS pendiente,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado!=2,rd.id,null)) AS atendido,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=2,rd.id,null)) AS finalizo,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado!=2 AND rd.alerta_tipo=1 AND rd.alerta=1,rd.id,null)) AS destiempo_a,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivado!=2 and CURRENT_TIMESTAMP()>rd.fecha_proyectada,rd.id,null)) AS destiempo_p,
+                COUNT(DISTINCT rd.ruta_flujo_id) AS cant_flujo,
+                GROUP_CONCAT(DISTINCT rd.ruta_flujo_id) AS ruta_flujo_id_dep,
+                COUNT(DISTINCT IF(rd.fecha_inicio IS NOT NULL,rd.id,null)) AS total
+                FROM tablas_relacion tr
+                INNER JOIN rutas r ON r.tabla_relacion_id=tr.id and r.ruta_flujo_id=".Input::get('ruta_flujo_id')." and r.estado=1
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1 and CHARACTER_LENGTH(rd.norden)=".Input::get('length_norden')." and rd.condicion=0 and rd.ruta_flujo_id_dep IN (".Input::get('ruta_flujo_id_dep').") and SUBSTR(rd.norden,1,".Input::get('indice').")='".Input::get('norden')."'
+                INNER JOIN areas a ON a.id=rd.area_id
+                INNER JOIN rutas_flujo rf ON rf.id=rd.ruta_flujo_id_dep
+                INNER JOIN flujos f ON f.id=rf.flujo_id
+                WHERE tr.estado=1 -- 5268
+                ".$fecha."
+                GROUP BY rd.ruta_flujo_id_dep,rd.norden";
+        $r=DB::select($sql);
+        return $r;                
+
+        }
+    
+                public static function getGraficodata(){
+        $fecha='';
+        $sql='';
+        if(Input::has('fechames')){
+            $fecha="and DATE_FORMAT(tr.fecha_tramite,'%Y-%m')='".Input::get('fechames')."'";
+        }else{
+            $fecha="and DATE(tr.fecha_tramite) BETWEEN '".Input::get('fecha_ini')."'   AND '".Input::get('fecha_fin')."'";
+        }
+        $sql.= "SELECT DAY(tr.fecha_tramite) as dia,CONCAT(
+                -- CASE DAYOFWEEK(tr.fecha_tramite)
+                -- WHEN 1 THEN 'Domingo' WHEN 2 THEN 'Lunes' WHEN 3 THEN 'Martes' WHEN 4 THEN 'Miércoles'
+                -- WHEN 5 THEN 'Jueves' WHEN 6 THEN 'Viernes' WHEN 7 THEN 'Sábado' END,' ',
+                DAY(tr.fecha_tramite)) as fecha,f.nombre as flujo,rd.norden,a.nombre as area,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivado!=2,rd.id,null)) AS pendiente,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL,rd.id,null)) AS atendido,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado=2,rd.id,null)) AS finalizo,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NOT NULL AND rd.archivado!=2 AND rd.alerta_tipo=1 AND rd.alerta=1,rd.id,null)) AS destiempo_a,
+                COUNT(DISTINCT IF(rd.dtiempo_final IS NULL and rd.fecha_inicio IS NOT NULL and rd.archivado!=2 and CURRENT_TIMESTAMP()>rd.fecha_proyectada,rd.id,null)) AS destiempo_p,
+                COUNT(DISTINCT IF(rd.fecha_inicio IS NOT NULL,rd.id,null)) AS total
+                FROM tablas_relacion tr
+                INNER JOIN rutas r ON r.tabla_relacion_id=tr.id and r.ruta_flujo_id=".Input::get('ruta_flujo_id')." and r.estado=1
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1  and rd.condicion=0";
+                $sql.=" and CHARACTER_LENGTH(rd.norden)=".Input::get('length_norden');
+                if(Input::has('norden')){
+                    $sql.=" and rd.norden='".Input::get('norden')."'";
+                    
+                }
+                if(Input::has('length_norden') and Input::get('length_norden')!=2){
+                    $sql.=" AND ruta_flujo_id_dep=".Input::get('ruta_flujo_id_micro');
+                }
+            
+            $sql.=" INNER JOIN areas a ON a.id=rd.area_id
+                INNER JOIN flujos f ON f.id=r.flujo_id
+                WHERE tr.estado=1 
+                ".$fecha."
+                GROUP BY r.ruta_flujo_id,DATE(tr.fecha_tramite)";
+        $r=DB::select($sql);
+        return $r;                
+
+        }
+        
+             public static function getTramiteasignacion($array){
+         $sql="SELECT * 
+                FROM (SELECT (SELECT re.referido FROM 
+                                referidos re WHERE re.ruta_detalle_id=rd.ruta_detalle_id_ant) as referido,
+                                rd.id as ruta_detalle_id,r.id as ruta_id,
+                                tr.id_union,f.nombre as flujo,rd.norden,GROUP_CONCAT(v.nombre) as verbo,GROUP_CONCAT(rdv.id) as verbo_id
+                                FROM tablas_relacion tr
+                                INNER JOIN rutas r ON r.tabla_relacion_id=tr.id AND r.estado=1
+                                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id and rd.estado=1
+                                INNER JOIN rutas_detalle_verbo rdv ON rdv.ruta_detalle_id=rd.id and rdv.estado=1 and rdv.finalizo=0 and rdv.usuario_updated_at IS NULL
+                               INNER JOIN verbos v ON v.id=rdv.verbo_id and v.id!=1
+                                INNER JOIN flujos f ON f.id=r.flujo_id
+                                  ".$array["w"]." and rd.fecha_inicio IS NOT NULL 
+                                and rd.fecha_inicio<=CURRENT_TIME()
+                                AND rd.dtiempo_final IS NULL
+                                AND rd.condicion=0
+                               WHERE tr.estado=1  
+                GROUP BY tr.id
+                )rf
+                WHERE    ".$array["where"]." OR ".$array["where2"];
+
+         $r=DB::select($sql);
+         return $r;
+     }
     // --
 }
 ?>

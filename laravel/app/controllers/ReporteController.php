@@ -200,6 +200,39 @@ class ReporteController extends BaseController
         );
    }
    
+           public function postPersonalizado()
+   {
+        $oData=Reporte::getPersonalizado();
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$oData,
+            )
+        );
+   }
+   
+              public function postGraficodata()
+   {
+        $oData=Reporte::getGraficodata();
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$oData,
+            )
+        );
+   }
+   
+                 public function postPersonalizadodetalle()
+   {
+        $oData=Reporte::getPersonalizadodetalle();
+        return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$oData,
+            )
+        );
+   }
+   
            public function postDetallecuadroproceso()
    {
         $oData=Reporte::DetalleCuadroProceso();
@@ -482,6 +515,8 @@ class ReporteController extends BaseController
       }
       if( Input::has('fechames') AND Input::get('fechames')!=''){
         $array['fecha'].=" AND DATE_FORMAT(r.fecha_inicio,'%Y-%m') = '".Input::get('fechames')."'";
+      }else{
+        $array['fecha'].=  "and DATE(r.fecha_inicio) BETWEEN '".Input::get('fecha_ini')."'   AND '".Input::get('fecha_fin')."'";
       }
       if( Input::has('tramite') AND Input::get('tramite')==2){
         $array['tramite'].=" AND (rd.dtiempo_final is null AND rd.fecha_inicio is not null) ";
@@ -526,6 +561,67 @@ class ReporteController extends BaseController
       //$data = Reporte::VerNroPasosTramite($array);
       //$cant_pasos = $data[0]->cant;
       $oData = Reporte::CalcularTotalesXNumeroOrden( $array );
+
+      return Response::json(
+          array(
+              'rst'=>1,
+              'datos'=>$oData['data']
+          )
+      );
+    }
+
+
+    public function postVerarchivosdesmontesmotorizado()
+    {
+      $array=array();
+      
+      if( Input::has('ruta_id') AND Input::get('ruta_id')!='' ){
+        $array['ruta_id'] =" AND rd.ruta_id='".Input::get('ruta_id')."' ";
+      }
+
+      $oData = Reporte::verArchivosDesmontesMotorizado( $array );
+
+      return Response::json(
+          array(
+              'rst'=>1,
+              'datos'=>$oData['data']
+          )
+      );
+    }
+
+    public function postVermapadesmontesmotorizado()
+    {
+      $array=array();
+      
+      if( Input::has('ruta_id') AND Input::get('ruta_id')!='' ){
+        $array['ruta_id'] =" AND ci.ruta_id='".Input::get('ruta_id')."' ";
+      }
+      
+      $oData = Reporte::verMapaDesmontesMotorizado( $array );
+
+      return Response::json(
+          array(
+              'rst'=>1,
+              'datos'=>$oData['data']
+          )
+      );
+    }
+
+    public function postVerordenestrabajo()
+    {
+      $array=array();
+      
+      if( Input::has('norden') AND Input::get('norden')!='' ){
+        $array['norden'] =" AND rd.norden= '".Input::get('norden')."' ";
+      }
+      if( Input::has('ruta_flujo_id') AND Input::get('ruta_flujo_id')!='' ){
+        $array['ruta_flujo_id'] = " AND r.ruta_flujo_id=".Input::get('ruta_flujo_id');
+      }
+      if( Input::has('fecha_ini') AND Input::get('fecha_ini')!='' AND Input::has('fecha_fin') AND Input::get('fecha_fin')!=''){
+        $array['fechas'] =" AND DATE(r.fecha_inicio) BETWEEN '".Input::get('fecha_ini')."' AND '".Input::get('fecha_fin')."'";
+      }
+
+      $oData = Reporte::verOrdenesTrabajo( $array );
 
       return Response::json(
           array(

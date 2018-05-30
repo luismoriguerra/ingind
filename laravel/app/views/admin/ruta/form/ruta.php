@@ -40,6 +40,8 @@
                         <input type="text" class="form-control" placeholder="Area" id="txt_nombre" readonly>
                         <select name="slct_tipo_tiempo_modal" id="slct_tipo_tiempo_modal" style="display:none" > 
                           <option value="">.::Seleccione::.</option>
+                          <option value="1">Horas</option>
+                          <option value="5">Minutos</option>
                           <option value="2">Dias</option>
                         </select>
                       </div>
@@ -51,8 +53,8 @@
                               <th>Posicion</th>
                               <th>Tipo Tiempo</th>
                               <th>Tiempo</th>
-                              <th>Micro Proceso</th>
-                              <th>[]</th>
+                              <!-- <th>Micro Proceso</th>
+                              <th>[]</th> -->
                             </tr>
                           </thead>
                           <tbody id="tb_tiempo"> </tbody>

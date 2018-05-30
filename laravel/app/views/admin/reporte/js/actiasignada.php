@@ -350,17 +350,34 @@ HTMLOrdenesTrabajo=function(datos){
         }else {
             style='background-color:#ff9999;';
         }
+        documentos="";
+        if($.trim(data.doc_digital_id)!=''){
+            documento=data.doc_digital.split(',');
+            documento_id=data.doc_digital_id.split(',');
+            for(i=0;i<documento.length;i++){
+                documentos+='<li>'+documento[i]+'<a class="btn btn-default btn-sm" onclick="openPlantilla('+documento_id[i]+',4,1); return false;" data-titulo="Previsualizar"><i class="fa fa-eye fa-lg"></i> </a></li>';
+            }
+        }
+        documentos1="";
+        if($.trim(data.doc_digital_id1)!=''){
+            documento1=data.doc_digital1.split(',');
+            documento_id1=data.doc_digital_id1.split(',');
+            for(i=0;i<documento1.length;i++){
+                documentos1+='<li>'+documento1[i]+'<a class="btn btn-default btn-sm" onclick="openPlantilla('+documento_id1[i]+',4,1); return false;" data-titulo="Previsualizar"><i class="fa fa-eye fa-lg"></i> </a></li>';
+            }
+        }
+        
         html+="<tr style='"+style+"'>"+
             "<td>"+data.area+"</td>"+
-            "<td>"+data.persona+"</td>"+
             "<td>"+data.actividad+"</td>"+
-            "<td>"+data.fecha_inicio+"</td>"+
-            "<td>"+data.dtiempo_final+"</td>"+
-            "<td>"+Math.abs(data.ot_tiempo_transcurrido) + " min"+"</td>"+
+            "<td>"+data.fecha_inicio+'-<br>'+data.dtiempo_final+"</td>"+
             "<td>"+horas + ":" + min +"</td>"+
-            "<td>"+data.asignador+"</td>"+
-            "<td>"+data.resultado+"</td>"+
-            "<td>"+data.descripcion_resultado+"</td>";
+            "<td><ul>"+documentos+"</ul></td>"+
+            "<td>"+data.persona+"</td>"+
+            "<td>"+data.descripcion_resultado+"</td>"+
+            "<td><ul>"+documentos1+"</ul></td>"+
+            "<td>"+data.flujo+"</td>";
+
         html+="</tr>";
     });
     $("#tb_ordenest").html(html);
@@ -375,5 +392,9 @@ HTMLOrdenesTrabajo=function(datos){
   }
 };
 
-
+openPlantilla=function(id,tamano,tipo){
+    window.open("documentodig/vista/"+id+"/"+tamano+"/"+tipo,
+                "PrevisualizarPlantilla",
+                "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
+};
 </script>

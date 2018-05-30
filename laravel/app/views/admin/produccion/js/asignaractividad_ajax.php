@@ -18,7 +18,11 @@ var Asignar={
                     $(".ordenesT input[type='hidden'],.ordenesT input[type='numeric'],.ordenesT input[type='text'],.ordenesT select,.ordenesT textarea").not(".mant").val("");
 //                    $('.ordenesT select').multiselect('refresh');  
                     $(".filtros input[type='hidden'],.filtros input[type='text'],.filtros select,.filtros textarea").val("");
-                    $('.filtros select').multiselect('refresh');  
+                    $('.filtros #slct_personasA').multiselect('refresh');  
+                    $('.filtros #slct_asignacion').val(1); 
+                    $(".categoria").show();
+                    $(".atencion").hide();
+                    $(".tramites").css("display","none");
                     $(".valido input[id='txt_cantidad']").val("0");
                     $( ".valido .btnDelete" ).click();
                     $(".valido .table tbody tr:visible").remove();
@@ -96,6 +100,32 @@ var Asignar={
                 msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
             }
         });
-    }
+    },
+    CargarTramite:function(dataG,divtabla){
+        $.ajax({
+            url         : 'reportef/tramiteasignacion',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : dataG,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay,.loading-img").remove();
+                if(obj.rst==1){  
+                    HTMLcargartramite(obj.datos,divtabla);
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
+                                    '<i class="fa fa-ban"></i>'+
+                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
+                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
+                                '</div>');
+            }
+        });
+    },
 }
 </script>

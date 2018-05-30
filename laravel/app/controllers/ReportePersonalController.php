@@ -47,7 +47,7 @@ class ReportePersonalController extends BaseController
         //try 
         //{
             ini_set('max_execution_time', 300);
-
+            AuditoriaAcceso::getAuditoria();
             $fecha_ini = Input::get('fecha_ini'); // 2017/09/01
             $fecha_fin = Input::get('fecha_fin'); // 2017/09/15
             $area_ws = Input::get('area_ws');
@@ -201,6 +201,7 @@ class ReportePersonalController extends BaseController
     // -- METODO PARA GENERAR EXCEL
     public function getExportreportepersonal()
     {
+          AuditoriaAcceso::getAuditoria();
           $fecha_i = Input::get('fecha_ini');
           $fecha_f = Input::get('fecha_fin');
 

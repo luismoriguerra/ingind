@@ -14,7 +14,8 @@ class FichaProceso extends \Eloquent {
                         $join->where('fpr.estado', '=', 1);
                         $join->where('fpr.usuario_created_at', '=', Auth::user()->id);
                 })
-                ->where('ficha_proceso.estado','=',1)->get();
+                ->where('ficha_proceso.estado','=',1)
+                ->whereRaw('CURRENT_TIMESTAMP() BETWEEN ficha_proceso.created_at AND ADDDATE(ficha_proceso.created_at,15)')->get();
         return $result;
     }
 }

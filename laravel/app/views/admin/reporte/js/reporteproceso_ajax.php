@@ -56,19 +56,20 @@ var Proceso={
             }
         });
     },
-    MostrarTramiteActividad:function(id, fechames, tramite){
+    MostrarTramiteActividad:function(dataG){
         $.ajax({
             url         : 'reporte/reportetramiteactividad',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
-            data        : { ruta_flujo_id:id, fechames:fechames, tramite:tramite },
+            data        : dataG,
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
+                    $("#div_tactividad_previo").hide();
                     HTMLCargaTramiteActividad(obj.datos,obj.cabecera);
                 }
             },
@@ -82,20 +83,47 @@ var Proceso={
             }
         });
     },
-    CalcularTotalesXNumeroOrden:function(id, fechames, tramite){
+//    CalcularTotalesXNumeroOrden:function(id, fechames, tramite){
+//        $.ajax({
+//            url         : 'reporte/calculartotalesxnumeroorden',
+//            type        : 'POST',
+//            cache       : false,
+//            dataType    : 'json',
+//            data        : { ruta_flujo_id:id, fechames:fechames, tramite:tramite },
+//            beforeSend : function() {
+//                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+//            },
+//            success : function(obj) {
+//                $(".overlay,.loading-img").remove();
+//                if(obj.rst==1){
+//                    HTMLCargaTotalesXNumeroOrden(obj.datos);
+//                }
+//            },
+//            error: function(){
+//                $(".overlay,.loading-img").remove();
+//                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
+//                                    '<i class="fa fa-ban"></i>'+
+//                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
+//                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
+//                                '</div>');
+//            }
+//        });
+//    },
+    /*
+    verArchivosDesmontesMotorizado:function(id){
         $.ajax({
-            url         : 'reporte/calculartotalesxnumeroorden',
+            url         : 'reporte/verarchivosdesmontesmotorizado',
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
-            data        : { ruta_flujo_id:id, fechames:fechames, tramite:tramite },
+            data        : { ruta_id:ruta_id },
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                    HTMLCargaTotalesXNumeroOrden(obj.datos);
+                    HTMLVerArchivosDesmontesMotorizado(obj.datos);
                 }
             },
             error: function(){
@@ -108,32 +136,33 @@ var Proceso={
             }
         });
     },
-    CalcularTotalActividad:function(id, fechames, tramite){
-        $.ajax({
-            url         : 'reporte/calculartotalactividad',
-            type        : 'POST',
-            cache       : false,
-            dataType    : 'json',
-            data        : { ruta_flujo_id:id, fechames:fechames, tramite:tramite },
-            beforeSend : function() {
-                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
-            },
-            success : function(obj) {
-                $(".overlay,.loading-img").remove();
-                if(obj.rst==1){
-                    HTMLCargaTotalActividad(obj.datos,obj.cabecera);
-                }
-            },
-            error: function(){
-                $(".overlay,.loading-img").remove();
-                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
-                                    '<i class="fa fa-ban"></i>'+
-                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
-                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
-                                '</div>');
-            }
-        });
-    },
+    */
+//    CalcularTotalActividad:function(id, fechames, tramite){
+//        $.ajax({
+//            url         : 'reporte/calculartotalactividad',
+//            type        : 'POST',
+//            cache       : false,
+//            dataType    : 'json',
+//            data        : { ruta_flujo_id:id, fechames:fechames, tramite:tramite },
+//            beforeSend : function() {
+//                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+//            },
+//            success : function(obj) {
+//                $(".overlay,.loading-img").remove();
+//                if(obj.rst==1){
+//                    HTMLCargaTotalActividad(obj.datos,obj.cabecera);
+//                }
+//            },
+//            error: function(){
+//                $(".overlay,.loading-img").remove();
+//                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
+//                                    '<i class="fa fa-ban"></i>'+
+//                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
+//                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
+//                                '</div>');
+//            }
+//        });
+//    },
     MostrarTramites:function( dataG){
         $.ajax({
             url         : 'reporte/reportetramite',

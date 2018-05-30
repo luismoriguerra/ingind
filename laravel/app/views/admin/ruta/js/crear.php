@@ -569,7 +569,7 @@ pintarTiempoG=function(tid){
                     '<td>'+
                         '<input class="form-control" type="number" id="txt_tiempo_'+detalle[0]+'_modal" value="'+detalle[2]+'" '+bloqueado+'>'+
                     '</td>'+
-                    '<td>'+
+                    /*'<td>'+
                         '<input class="form-control" type="hidden" id="txt_ruta_flujo_id2_'+detalle[0]+'_modal" name="txt_ruta_flujo_id_modal" value="'+detalle[4]+'" readOnly>'+
                         '<input class="form-control" type="text" id="txt_micro_'+detalle[0]+'_modal" name="txt_micro_modal" value="'+detalle[3]+'" disabled>'+
                     '</td>'+
@@ -577,7 +577,7 @@ pintarTiempoG=function(tid){
                         '<span class="btn btn-primary" data-toggle="modal" data-target="#procesoModal" data-texto="txt_proceso" data-id="txt_flujo_id"  id="btn_buscar" onClick="Posicion(this)">'+
                                     '<i class="fa fa-search fa-lg"></i>'+
                                 '</span>'+
-                    '</td>'+
+                    '</td>'+*/
                 '</tr>';
         $("#tb_tiempo").append(htm);
 

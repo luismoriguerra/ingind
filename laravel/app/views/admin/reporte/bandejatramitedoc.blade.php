@@ -8,6 +8,8 @@
     {{ HTML::script('lib/daterangepicker/js/daterangepicker.js') }}
     {{ HTML::script('lib/bootstrap-multiselect/dist/js/bootstrap-multiselect.js') }}
 
+    {{ HTML::style('css/checkbox.css') }}
+
     @include( 'admin.js.slct_global_ajax' )
     @include( 'admin.js.slct_global' )
     @include( 'admin.ruta.js.ruta_ajax' )
@@ -177,47 +179,52 @@ tr.shown td.details-control {
                                             </h1>
                                         </div>
                                         <div class="col-sm-12">
-                                            <div class="col-sm-2">
+                                            <div class="col-sm-4">
                                                 <label class="control-label">Nro Trámite:</label>
                                                 <input type="text" class="form-control" id="txt_id_doc" readonly>
                                             </div>
+                                            <!-- 
                                             <div class="col-sm-4">
                                                 <label class="control-label">Solicitante:</label>
                                                 <input type="text" class="form-control" id="txt_solicitante" readonly>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <label class="control-label">Sumilla:</label>
-                                                <textarea type="text" class="form-control" id="txt_sumilla" readonly></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="col-sm-4">
-                                                <label class="control-label">Proceso:</label>
-                                                <input type="text" class="form-control" id="txt_flujo" readonly>
-                                            </div>
+                                            -->
                                             <div class="col-sm-4">
                                                 <label class="control-label">Area:</label>
                                                 <input type="text" class="form-control" id="txt_area" readonly>
                                             </div>
-                                            <div class="col-sm-2">
+                                            
+                                            <div class="col-sm-4">
+                                                <label class="control-label">Proceso:</label>
+                                                <input type="text" class="form-control" id="txt_flujo" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">                                            
+                                            <!-- 
+                                            <div class="col-sm-4">
+                                                <label class="control-label">Area:</label>
+                                                <input type="text" class="form-control" id="txt_area" readonly>
+                                            </div>
+                                            -->
+                                            <div class="col-sm-1">
                                                 <label class="control-label">Paso:</label>
                                                 <input type="text" class="form-control" id="txt_orden" readonly>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <label class="control-label">Tiempo:</label>
+                                                <input type="text" class="form-control" id="txt_tiempo" readonly>
                                             </div>
                                             <div class="col-sm-2">
                                                 <label class="control-label">Fecha Inicio:</label>
                                                 <input type="text" class="form-control" id="txt_fecha_inicio" readonly>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="col-sm-3">
-                                                <label class="control-label">Tiempo asignado a la Actividad:</label>
-                                                <input type="text" class="form-control" id="txt_tiempo" readonly>
-                                            </div>
-                                            <div class="col-sm-3">
+                                            
+                                            <div class="col-sm-2">
                                                 <label class="control-label">Tiempo Final:</label>
                                                 <input type="text" class="form-control" id="txt_respuesta" name="txt_respuesta" readonly>
                                             </div>
-                                            <div class="col-sm-4">
+
+                                            <div class="col-sm-3">
                                                 <label class="control-label">Responsable de la Actividadd:</label>
                                                 <?php
                                                     if( Auth::user()->rol_id==8 OR Auth::user()->rol_id==9 ){
@@ -233,6 +240,17 @@ tr.shown td.details-control {
                                                 ?>
                                                 
                                             </div>
+
+                                            <div class="col-sm-3">
+                                                <label class="control-label">Sumilla:</label>
+                                                <textarea type="text" class="form-control" id="txt_sumilla" readonly></textarea>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-12">
+                                            
+                                            
+                                            
                                         </div>
                                         <br>
                                         <div class="col-sm-12" style="margin-top:20px;margin-bottom: 20px">

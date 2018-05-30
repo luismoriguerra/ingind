@@ -3,9 +3,10 @@ var TablaDocumento; // Datos Globales
 var cabeceraG1=[]; // Cabecera del Datatable
 var columnDefsG1=[]; // Columnas de la BD del datatable
 var targetsG1=-1; // Posiciones de las columnas del datatable
-
+var diferenciador=0;
 $(document).ready(function() {
-    
+
+    $(".atencion").hide();
     var idG1={  persona_c        :'onBlur|Creador|#DCE6F1', //#DCE6F1
                 titulo      :'onBlur|Título|#DCE6F1', //#DCE6F1
                 asunto        :'onBlur|Asunto|#DCE6F1', //#DCE6F1
@@ -36,7 +37,7 @@ $(document).ready(function() {
     initClockPicker();
 
     $(document).on('change','.clockpicker', function(event) {
-        console.log('change');
+//        console.log('change');
     });
 
     // $('.clockpicker').change(function(e){
@@ -61,7 +62,19 @@ $(document).ready(function() {
         initClockPicker();
         $("#txt_ttotal").val(CalcGlobalH());
     }); 
+    
 
+    
+    $(document).on('change','#slct_asignacion', function(event) {
+        if($('#slct_asignacion').val()==1){
+            $(".categoria").show();
+            $(".atencion").hide();
+        }else{
+            $(".categoria").hide();
+            $(".atencion").show();
+        }
+        
+    });
 
 });
 
@@ -188,6 +201,7 @@ guardarTodo = function(){
         var hfin = $(".valido input[id='txt_horaFin']").map(function(){return $(this).val();}).get();
         var ttranscurrido = $(".valido input[id='txt_ttranscurrido']").map(function(){return $(this).val();}).get();
         var actividad_categoria_id = $(".valido select[id='slct_categoria']").map(function(){return $(this).val();}).get();
+        var ruta_detalle_id = $(".valido input:radio[id='ruta_detalle_id']:checked").map(function(){return $(this).val();}).get();
         var persona = document.querySelector("#slct_personasA").value;
         
         var tbarchivo =[];
@@ -209,7 +223,16 @@ guardarTodo = function(){
             }).get());
           return tbdocumento;
         }).get();
-    
+        
+        var tbtramite=[];
+        var tablatramite = $(".valido table[id='t_tramite']").map(function(){
+            tbtramite=[];
+            tbtramite.push( $(this).find("tbody tr table[id='t_verbo'] tr").map(function(){
+                
+                return $(this).find('input:eq(0):checked').val();
+            }).get());
+          return tbtramite;
+        }).get();
         var data = [];
         var personaid = '';
         if(persona){
@@ -218,26 +241,57 @@ guardarTodo = function(){
 
         var incompletas = [];
         var orden = 0;
+        
+        var tipo_asignacion=$("#slct_asignacion").val(); // categoria:1 | atencion:2
 
             for(var i=0; i < actividades.length;i++){
-                if(actividades[i] != '' && finicio[i] != '' && ffin[i] != '' && hfin[i]!='' && hinicio[i]!='' && actividad_categoria_id[i]!=''){
-                    data.push({
-                        'actividad' : actividades[i],
-                        'finicio' : finicio[i],
-                        'ffin' : ffin[i],
-                        'hinicio' : hinicio[i],
-                        'hfin' : hfin[i],
-                        'ttranscurrido' : ttranscurrido[i],
-                        'persona':personaid,
-                        'cantidad':cantidad[i],
-                        'archivo':tablaarchivo[i],
-                        'documento':tabladocumento[i],
-                        'actividad_categoria_id':actividad_categoria_id[i],
-                        'tipo':'2',
-                    });                    
-                }else{
-                    orden = i + 1;
-                    incompletas.push(orden);
+                if(tipo_asignacion==1){
+                    if(actividades[i] != '' && finicio[i] != '' && ffin[i] != '' && hfin[i]!='' && hinicio[i]!='' && actividad_categoria_id[i]!=''){
+                        data.push({
+                            'tipo_asignacion':tipo_asignacion,
+                            'actividad' : actividades[i],
+                            'finicio' : finicio[i],
+                            'ffin' : ffin[i],
+                            'hinicio' : hinicio[i],
+                            'hfin' : hfin[i],
+                            'ttranscurrido' : ttranscurrido[i],
+                            'persona':personaid,
+                            'cantidad':cantidad[i],
+                            'archivo':tablaarchivo[i],
+                            'documento':tabladocumento[i],
+                            'actividad_categoria_id':actividad_categoria_id[i],
+                            'tipo':'2',
+                        });                    
+                    }else{
+                        orden = i + 1;
+                        incompletas.push(orden);
+                    }
+                }
+                if(tipo_asignacion==2){
+                    if(tablatramite[i].length==0){
+                        tablatramite[i].push(0);
+                    }
+                    if(actividades[i] != '' && finicio[i] != '' && ffin[i] != '' && hfin[i]!='' && hinicio[i]!=''){
+                        data.push({
+                            'tipo_asignacion':tipo_asignacion,
+                            'actividad' : actividades[i],
+                            'finicio' : finicio[i],
+                            'ffin' : ffin[i],
+                            'hinicio' : hinicio[i],
+                            'hfin' : hfin[i],
+                            'ttranscurrido' : ttranscurrido[i],
+                            'persona':personaid,
+                            'cantidad':cantidad[i],
+                            'archivo':tablaarchivo[i],
+                            'documento':tabladocumento[i],
+                            'tramite':tablatramite[i],
+                            'ruta_detalle_id':ruta_detalle_id[i],
+                            'tipo':'2',
+                        });                    
+                    }else{
+                        orden = i + 1;
+                        incompletas.push(orden);
+                    }
                 }
             }
             if(incompletas.length > 0){
@@ -381,7 +435,7 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
     
     onPagos = function (event,obj) {
         var tr=obj.parentNode.parentNode;
-       console.log(tr);
+//       console.log(tr);
         var files = event.target.files || event.dataTransfer.files;
         if (!files.length)
             return;
@@ -392,7 +446,7 @@ GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion 
         };
         reader.readAsDataURL(files[0]);
         $(tr).find('input:eq(0)').val(files[0].name);
-        console.log(files[0].name);
+//        console.log(files[0].name);
     }
     
     SelectDocDig = function (obj,id,titulo) {
@@ -435,4 +489,47 @@ Contar=function(obj,tipo){
     }
 };
 
+BuscarTramite=function(obj){
+     diferenciador++;
+     var div=obj.parentNode.parentNode;
+     var divtramite=$(div).children('div')[0];
+     var divtabla=$(div).children('div')[3];
+     var tramite=$(divtramite).find('input:eq(0)').val();
+     Asignar.CargarTramite({id_union:tramite},divtabla);
+};
+
+HTMLcargartramite=function(datos,divtabla){
+    var html="";
+    var alerta_tipo= '';
+    var verbo='';
+    var verbo_id='';
+//    $('#t_produccion').dataTable().fnDestroy();
+    pos=0;
+    $.each(datos,function(index,data){
+        verbos="";
+        verbo=data.verbo.split(',');
+        verbo_id=data.verbo_id.split(',');
+
+        for(i=0;i<verbo.length;i++){
+            verbos+='<tr><td><b>'+(i+1)+'- </b><input type="checkbox" value="'+verbo_id[i]+'">'+verbo[i]+'</td></tr>';
+        }
+
+        html+="<tr id="+data.norden+">"+
+           "<td>"+$.trim(data.referido)+"</td>"+
+            "<td>"+data.id_union+"</td>"+
+            "<td>"+data.flujo+"</td>"+
+            "<td>"+data.norden+"</td>"+
+            '<td class="rutadetalleid"><input type="radio" name="ruta_detalle_id'+diferenciador+'" id="ruta_detalle_id" value="'+data.ruta_detalle_id+'"></td>'+
+            "<td><table id='t_verbo'>"+verbos+"</table></td>";
+        html+="</tr>";
+    });
+    $(divtabla).find("#tb_tramite").html(html);
+    $(divtabla).find("#t_tramite").show();
+//    $("#t_produccion").dataTable(
+//             {
+//            "order": [[ 0, "asc" ],[1, "asc"]],
+//            "pageLength": 10,
+//        }
+//    ); 
+  }; 
 </script>

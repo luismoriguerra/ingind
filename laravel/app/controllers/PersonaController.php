@@ -113,6 +113,12 @@ class PersonaController extends BaseController
                 }
             }
 
+            if( Input::has("email_mdi") ){
+                $email_mdi=Input::get("email_mdi");
+                if( trim( $email_mdi )!='' ){
+                    $array['where'].=" AND p.email_mdi LIKE '%".$email_mdi."%' ";
+                }
+            }
 
             if( Input::has("fecha_nacimiento") ){
                 $fecha_nacimiento=Input::get("fecha_nacimiento");
@@ -296,6 +302,7 @@ class PersonaController extends BaseController
             $persona['materno'] = Input::get('materno');
             $persona['nombre'] = Input::get('nombre');
             $persona['email'] = Input::get('email');
+            $persona['email_mdi'] = Input::get('email_mdi');
             $persona['dni'] = Input::get('dni');
             $persona['sexo'] = Input::get('sexo');
             $persona['password'] = Input::get('password');
@@ -461,6 +468,7 @@ class PersonaController extends BaseController
             $persona['materno'] = Input::get('materno');
             $persona['nombre'] = Input::get('nombre');
             $persona['email'] = Input::get('email');
+            $persona['email_mdi'] = Input::get('email_mdi');
             $persona['dni'] = Input::get('dni');
             $persona['sexo'] = Input::get('sexo');
             $persona['area_id'] = Input::get('area');
@@ -622,12 +630,12 @@ class PersonaController extends BaseController
             /*disable old dates*/
             $OldDates = DB::table('persona_exoneracion')
                 ->where('persona_id', '=', $persona->id)
-                ->where('estado',1)
+                ->where('estado','!=',0)
                 ->get();
             if(count($OldDates)>0){
                 foreach ($OldDates as $key => $value) {
                     $Changed = PersonaExoneracion::find($value->id);
-                    $Changed->estado = 0;
+                    $Changed->estado = 2;
                     $Changed->save();
                 }                
             }
@@ -640,6 +648,7 @@ class PersonaController extends BaseController
             if(Input::has('observ')){
                 $persona_exo->observacion =  Input::get('observ');
             }
+            $persona_exo->estado = 1;
             $persona_exo->created_at = date("Y-m-d H:i:s");
             $persona_exo->usuario_created_at = Auth::user()->id;
             $persona_exo->save();

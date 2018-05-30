@@ -126,6 +126,7 @@ $(document).ready(function() {
         $("#btnAdd").addClass('hidden');
     }
 
+    Bandeja.verificarFueraTiempo();
     Bandeja.MostrarAjax();
 
     slctGlobal.listarSlct('ruta_detalle','slct_area2_id','simple');
@@ -158,11 +159,16 @@ $(document).ready(function() {
       MostrarAjax();
     });
 
+    // --
+    $(document).on('click', '.btnDeleteitem', function (event) {
+            $(this).parent().parent().remove();
+    });
+    // --
 });
 
 ActualizarResponsable=function(val){
     if( $.trim( $("#slct_persona").attr("data-id") )!='' ){
-        var data={persona_id:val,carta_deglose_id:$("#slct_persona").attr("data-id")};
+        var data={persona_id:val,ruta_detalle_id:$("#slct_persona").attr("data-id")};
         var ruta='asignacion/responsable';
         Bandeja.AsignacionPersonas(data,ruta);
     }
@@ -248,7 +254,7 @@ TiempoFinalTG = setTimeout('hora()',60000);
 
 activar=function(id,ruta_detalle_id,td,ruta_id=''){//establecer como visto
     var tr = td;
-    $(tr).attr('onClick','desactivar('+id+','+ruta_detalle_id+',this)');
+    $(tr).attr('onClick','desactivar('+id+','+ruta_detalle_id+',this,'+ruta_id+')');
     $(tr).removeClass('unread');
     $(tr).find('i').removeClass('fa-ban').addClass('fa-eye');
 
@@ -306,7 +312,7 @@ mostrarDetallle=function(id,rtid = ''){ //OK
     $("#form_ruta_detalle>.form-group").css("display","");
     $("#form_ruta_detalle>#ruta_detalle_id").remove();
     $("#form_ruta_detalle").append("<input type='hidden' id='ruta_detalle_id' name='ruta_detalle_id' value='"+id+"'>");
-     $("#form_ruta_detalle>#ruta_id").remove();
+    $("#form_ruta_detalle>#ruta_id").remove();
     $("#form_ruta_detalle").append("<input type='hidden' id='ruta_id' name='ruta_id' value='"+rtid+"'>");
     var datos={ruta_detalle_id:id};
     Validar.mostrarDetalle(datos,mostrarDetalleHTML);
@@ -317,7 +323,7 @@ mostrarDetalleHTML=function(datos){
     var data={ flujo_id:datos.flujo_id, estado:1,fecha_inicio:datos.fecha_inicio }
     var ids = [];
     $('#slct_tipo_respuesta,#slct_tipo_respuesta_detalle').multiselect('destroy');
-
+    
     /*add new ruta detalle verbo*/
     var filtro={estado:1};
     slctGlobal.listarSlct2('documento','cbotipoDoc',filtro);
@@ -337,7 +343,16 @@ mostrarDetalleHTML=function(datos){
         $("#btn_siguiente_rd").hide();
         $(".sectionmicro").css("display","none");}
     // --
-
+    //***************************Mostrar archivado**********************************/
+    if(datos.archivado==1){
+        $(".sectionarchivado").css("display","");
+        slctGlobalHtml('slct_archivado','simple');
+        
+    }else{
+        $(".sectionarchivado").css("display","none");
+        $('#slct_archivado').multiselect('destroy');
+    }
+    //--
     /*ruta flujo id para visualizar la ruta */
     $("#VisualizarR").attr('ruta_flujo_id',datos.ruta_flujo_id);
     /*end ruta flujo id para visualizar la ruta*/
@@ -355,10 +370,10 @@ mostrarDetalleHTML=function(datos){
     /*fin puede regresar al paso anterior*/
 
     if( RolIdG==8 || RolIdG==9 ){
-        $("#slct_persona").attr("data-id",datos.carta_deglose_id);
+        $("#slct_persona").attr("data-id",datos.id); //carta_deglose_id
         $("#slct_persona").val('');
         $('#slct_persona').multiselect('rebuild');
-        $("#slct_persona").val(datos.persona_id);
+        $("#slct_persona").val(datos.persona_responsable_id);
         $('#slct_persona').multiselect('rebuild');
     }
     else{
@@ -382,6 +397,122 @@ mostrarDetalleHTML=function(datos){
 
     $("#form_ruta_detalle>#txt_fecha_max").remove();
     $("#form_ruta_detalle").append("<input type='hidden' id='txt_fecha_max' name='txt_fecha_max' value='"+datos.fecha_max+"'>");
+
+
+    // FOTOS PROCESO DESMONTE:
+    AgregarD = function (obj) {
+        var tabla=obj.parentNode.parentNode.parentNode.parentNode;
+        var html = '';
+        html += "<tr>";
+        html += "<td>";
+        html += '<input type="text"  readOnly class="form-control input-sm" id="pago_nombre"  name="pago_nombre[]" value="">' +
+                '<input type="text"  style="display: none;" id="pago_archivo" name="pago_archivo[]">' +
+                '<label class="btn btn-default btn-flat margin btn-xs">' +
+                '<i class="fa fa-file-pdf-o fa-lg"></i>' +
+                '<i class="fa fa-file-word-o fa-lg"></i>' +
+                '<i class="fa fa-file-image-o fa-lg"></i>' +
+                '<input type="file" style="display: none;" onchange="onPagos(event,this);" >' +
+                '</label>';
+        html += "</td>" +
+                '<td><a id="btnDeleteitem"  name="btnDeleteitem" class="btn btn-danger btn-xs btnDeleteitem">' +
+                '<i class="fa fa-trash fa-lg"></i>' +
+                '</a></td>';
+        html += "</tr>";
+        $(tabla).find("tbody").append(html);
+    }    
+
+    onPagos = function (event,obj) {
+        var tr=obj.parentNode.parentNode;
+       console.log(tr);
+        var files = event.target.files || event.dataTransfer.files;
+        if (!files.length)
+            return;
+        var image = new Image();
+        var reader = new FileReader();
+        reader.onload = (e) => {
+            $(tr).find('input:eq(1)').val(e.target.result);
+        };
+        reader.readAsDataURL(files[0]);
+        $(tr).find('input:eq(0)').val(files[0].name);
+        console.log(files[0].name);
+    }
+    /*
+    html_pd = '';
+    var foto = ''
+    var data_fotos = $.trim(datos.archivo).split("|");
+    $.each(data_fotos, function (index, d_foto) {
+        if (d_foto.length != 0) {
+            var cant_foto = d_foto.length;
+
+            if(d_foto.substring((cant_foto-3), cant_foto) == 'png' || 
+                d_foto.substring((cant_foto-3), cant_foto) == 'jpg' ||
+                d_foto.substring((cant_foto-3), cant_foto) == 'gif' ||
+                d_foto.substring((cant_foto-4), cant_foto) == 'jpeg' )
+                foto = d_foto;
+            else
+                foto = 'img/admin/ruta_detalle/marca_doc.jpg';
+
+            html_pd += '<div class="col-md-1" id="ad'+index+'" style="padding-left: 0px; padding-right: 10px;">'+
+                            '<a href="'+d_foto+'" target="_blank"><img src="'+foto+'" alt=""  border="0" class="img-responsive foto_desmonte"></a>'+
+                            '<div class="text-center"><button type="button" id="'+index+'" onclick="eliminarArchivoDes(this.id)" class="btn btn-danger btn-xs"><span class="fa fa-trash fa-lg" aria-hidden="true"></span> Eliminar</button></div>'+
+                        '</div>';
+        }
+    });
+    */
+    $("#d_ver_fotos").html('');
+    $.ajax({
+        url: 'ruta_detalle/verarchivosdesmontesmotorizado',
+        type:'POST',
+        cache       : false,
+        dataType    : 'json',
+        data        : { ruta_id:datos.ruta_id, norden:datos.norden },
+        success: function(obj)
+        {
+            datos = obj.datos;
+            var html_pd = '';
+            var foto = '';
+
+            $.each(datos, function (index, data) {
+                var d_foto = data.archivo;
+                //alert(d_foto.length);                
+                if (($.trim(d_foto.length) * 1) > 0) {
+
+                    var data_fotos = $.trim(data.archivo).split("|");
+
+                    $.each(data_fotos, function (index, d_foto) {
+                        var cant_foto = d_foto.length;
+                        if(cant_foto != 0)
+                        {
+                            if(d_foto.substring((cant_foto-3), cant_foto) == 'png' || 
+                                d_foto.substring((cant_foto-3), cant_foto) == 'jpg' ||
+                                d_foto.substring((cant_foto-3), cant_foto) == 'gif' ||
+                                d_foto.substring((cant_foto-4), cant_foto) == 'jpeg' )
+                                foto = d_foto;
+                            else
+                                foto = 'img/admin/ruta_detalle/marca_doc.jpg';
+
+                            html_pd += '<div class="col-md-1" id="ad'+index+'" style="padding-left: 0px; padding-right: 10px;">'+
+                                            '<a href="'+d_foto+'" target="_blank"><img src="'+foto+'" alt=""  border="0" class="img-responsive foto_desmonte"></a>';
+                            
+                            if($('#txt_orden').val() == data.norden)
+                                html_pd += '<div class="text-center"><button type="button" id="'+index+'" onclick="eliminarArchivoDes(this.id, \''+foto+'\')" class="btn btn-danger btn-xs"><span class="fa fa-trash fa-lg" aria-hidden="true"></span> Eliminar</button></div>';
+                                        
+                            html_pd += '</div>';
+                        }
+                    });
+                    $("#d_ver_fotos").html(html_pd);                        
+                }
+            });
+            //$("#d_ver_fotos").html(html_pd);       
+        },
+        error: function(jqXHR, textStatus, error)
+        {
+          console.log(jqXHR.responseText);
+        }
+    });
+
+    
+    // --
 
   /*  $("#t_detalle_verbo").html("");*/
     var detalle="";
@@ -452,7 +583,14 @@ mostrarDetalleHTML=function(datos){
                     else{
 
                         obs = "<textarea class='area"+valorenviado+"' name='area_"+detalle[i].split("=>")[0]+"' id='area_"+detalle[i].split("=>")[0]+"'></textarea>";
-                        imagen="<input type='checkbox' class='check"+valorenviado+"' onChange='validacheck("+valorenviado+",this.id);' value='"+detalle[i].split("=>")[0]+"' name='chk_verbo_"+detalle[i].split("=>")[0]+"' id='chk_verbo_"+detalle[i].split("=>")[0]+"_"+$.trim(detalle[i].split("=>")[12])+"'>";
+                        //imagen="<input type='checkbox' class='check"+valorenviado+"' onChange='validacheck("+valorenviado+",this.id);' value='"+detalle[i].split("=>")[0]+"' name='chk_verbo_"+detalle[i].split("=>")[0]+"' id='chk_verbo_"+detalle[i].split("=>")[0]+"_"+$.trim(detalle[i].split("=>")[12])+"'>";
+                        imagen='<div class="checkbox">'+
+                                    '<label style="font-size: 1.5em">'+
+                                        '<input class="check'+valorenviado+'" onChange="validacheck('+valorenviado+',this.id);" type="checkbox" value="'+detalle[i].split("=>")[0]+'" name="chk_verbo_'+detalle[i].split("=>")[0]+'" id="chk_verbo_'+detalle[i].split("=>")[0]+'_'+$.trim(detalle[i].split("=>")[12])+'">'+
+                                        '<span class="cr" style="background-color: #fff;"><i class="cr-icon fa fa-check"></i></span>'+                                
+                                    '</label>'+
+                                '</div>';
+                        
                         imagenadd= '<input disabled type="text" class="form-control txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'"/>';
                         if(verbo=="Generar"){
                             imagenadd= '<input data-pos="'+(i*1+1)+'" type="text" readonly class="form-control txt'+valorenviado+' txt_'+detalle[i].split("=>")[0]+'" id="documento_'+detalle[i].split("=>")[0]+'" name="documento_'+detalle[i].split("=>")[0]+'" value="" /><input type="hidden" id="txt_documento_id_'+detalle[i].split("=>")[0]+'" name="txt_documento_id_'+detalle[i].split("=>")[0]+'" value=""><input type="hidden" id="txt_doc_digital_id_'+detalle[i].split("=>")[0]+'" name="txt_doc_digital_id_'+detalle[i].split("=>")[0]+'" value="">'+
@@ -485,6 +623,7 @@ mostrarDetalleHTML=function(datos){
                 html+=    "<td style='vertical-align : middle;'>"+rol+"</td>";
                 html+=    "<td style='vertical-align : middle;'>"+verbo+"</td>";
                 html+=    "<td style='vertical-align : middle;'>"+documento+"</td>";
+                //html+=    "<td style='vertical-align : middle;'>"+detalle[i].split("=>")[1]+"</td>";
                 html+=    "<td style='vertical-align : middle;'>"+detalle[i].split("=>")[1]+"</td>";
                 html+=    "<td style='vertical-align : middle;' id='td_"+detalle[i].split("=>")[0]+"'>"+imagenadd+"</td>";
                 html+=    "<td style='vertical-align : middle;'>"+obs+"</td>";
@@ -614,7 +753,7 @@ guardarTodo=function(){
         alert("La Descripción de respuesta de la Actividad, solo esta permitido cuando seleccione Tipo de respuesta");
     }
     else if( alerta==false ){
-        if( confirm("Favor de confirmar para actualizar su información") ){
+        /*if( confirm("Favor de confirmar para actualizar su información") ){
             if(validacheck==0 || $("#slct_tipo_respuesta").val()!=''){
                 $('#slct_tipo_visualizacion').multiselect('deselectAll');
                 $('#slct_tipo_visualizacion').multiselect('refresh');
@@ -623,9 +762,46 @@ guardarTodo=function(){
             else{
                 Validar.guardarValidacion(mostrarDetallle,$("#form_ruta_detalle>#ruta_detalle_id").val() );
             }
-        }
+        }*/
+        var ultimo=Validar.VerificarUltimopaso({ruta_id:$('#ruta_id').val()});
+        if(ultimo.rst==1){$("#form_ruta_detalle #txt_finalizado").val(2);}
+        else{$("#form_ruta_detalle #txt_finalizado").val(0);}
+        
+        sweetalertG.confirm("¿Desea Continuar?", ultimo.msj+"Por favor confirmar para actualizar su información", function(){
+            if(validacheck==0 || $("#slct_tipo_respuesta").val()!=''){
+                $('#slct_tipo_visualizacion').multiselect('deselectAll');
+                $('#slct_tipo_visualizacion').multiselect('refresh');
+                Validar.guardarValidacion();
+            }
+            else{
+                Validar.guardarValidacion(mostrarDetallle,$("#form_ruta_detalle>#ruta_detalle_id").val() );
+            }
+        });
     }
 }
+
+// ARCHIVOS PROCESO DESMONTE
+guardarArhivoDesmonte = function(){    
+
+    var datos=$("#form_ruta_detalle").serialize().split("txt_").join("").split("slct_").join("").split("_modal").join("");
+    Validar.guardarArhivoDesmonte(mostrarDetallle, $("#form_ruta_detalle>#ruta_detalle_id").val(), datos); 
+    $("#tb_darchivo").html(''); 
+}
+
+eliminarArchivoDes = function(id, foto){    
+    sweetalertG.confirm("¿Estás seguro?", "Confirme la eliminación de archivo.", function(){                     
+       /*
+       var archivos = '';
+       $("#d_ver_fotos a").each(function(){
+            archivos += $(this).attr('href')+'|';
+        });
+       */
+       //alert(foto);
+       Validar.eliminarArchivoDes($("#form_ruta_detalle>#ruta_detalle_id").val(), foto);
+       $("#ad"+id).remove();
+    });    
+}
+// --
 
 eventoSlctGlobalSimple=function(slct,valores){
     if( slct=="slct_tipo_respuesta" ){
@@ -730,9 +906,14 @@ function HTMLExpedienteUnico(data){
             proc =(el.proceso !=null) ? el.proceso : '';
             area =(el.area !=null) ? el.area : '';
             nord =(el.norden !=null) ? el.norden : '';
+            if(el.doc_digital_id!=null){
+                link='<a class="btn btn-default btn-sm" onclick="openPlantillaa('+el.doc_digital_id+',4,1); return false;" data-titulo="Previsualizar"><i class="fa fa-eye fa-lg"></i> </a>';
+            }else{
+                link='';
+            }
 
             html+="<tr data-id="+cont+" data-parent="+parent+" data-level="+child+">";
-            html+=    "<td data-column=name>"+referido+"</td>";
+            html+=    "<td data-column=name>"+referido+link+"</td>";
             html+=    "<td>"+fhora+"</td>";
             html+=    "<td>"+proc+"</td>";
             html+=    "<td>"+area+"</td>";
@@ -1183,5 +1364,9 @@ asignarTramitePaso = function(ruta_id){
     }
 }
 // --
-
+openPlantillaa=function(id,tamano,tipo){
+    window.open("documentodig/vista/"+id+"/"+tamano+"/"+tipo,
+                "PrevisualizarPlantilla",
+                "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
+};
 </script>

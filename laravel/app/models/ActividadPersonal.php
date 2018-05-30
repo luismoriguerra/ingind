@@ -44,9 +44,10 @@ class ActividadPersonal extends Base
 
     public static function getCargar( $array )
     {
-        $sSql=" SELECT ap.id,replace(ap.actividad,'\n',' ')  as actividad,ac.nombre as categoria, ap.estado
+        $sSql=" SELECT ap.id,replace(ap.actividad,'\n',' ')  as actividad,f.nombre as categoria, ap.estado
                 FROM actividad_personal ap
-                INNER JOIN actividad_categorias ac ON ac.id=ap.actividad_categoria_id
+                INNER JOIN rutas r ON r.id=ap.ruta_id
+                INNER JOIN flujos f ON f.id=r.flujo_id
                 WHERE 1=1 ";
         $sSql.= $array['where'].
                 $array['order'].

@@ -2,15 +2,25 @@
 var cabeceraG=[]; // Cabecera del Datatable
 var columnDefsG=[]; // Columnas de la BD del datatable
 var targetsG=-1; // Posiciones de las columnas del datatable
-var TicketsG={id:0,persona_id:"",solicitante:"",area_id:"",area:"",descripcion:"",fecha_pendiente:"",fecha_atencion:"",responsable_atencion:"",fecha_solucion:"",responsable_solucion:"",solucion:"",estado_tipo_problema:"",estado_ticket:1,estado:1}; // Datos Globales
+var cabeceraG1=[]; // Cabecera del Datatable
+var columnDefsG1=[]; // Columnas de la BD del datatable
+var targetsG1=-1; // Posiciones de las columnas del datatable
+var TicketsG={id:0,
+              persona_id:"",
+              solicitante:"",
+              area_id:"",
+              area:"",
+              descripcion:""
+              ,fecha_pendiente:"",
+              fecha_atencion:"",
+              responsable_atencion:"",
+              fecha_solucion:"",
+              responsable_solucion:"",
+              solucion:"",
+              estado_tipo_problema:"",
+              estado_ticket:1,
+              estado:1}; // Datos Globales
 $(document).ready(function() {  
-    /*  1: Onblur ,Onchange y para número es a travez de una función 1: 
-        2: Descripción de cabecera
-        3: Color Cabecera
-    */
-    
-
-    //slctGlobalHtml('slct_estado_ticket','simple');
 
 
     var idG={   solicitante        :'onBlur|Solicitante|#DCE6F1', //#DCE6F1
@@ -33,49 +43,49 @@ $(document).ready(function() {
     var resG=dataTableG.CargarCol(cabeceraG,columnDefsG,targetsG,1,'tickets','t_tickets');
     columnDefsG=resG[0]; // registra las columnas del datatable
     targetsG=resG[1]; // registra los contadores
-    //var resG=dataTableG.CargarBtn(columnDefsG,targetsG,1,'BtnEditar','t_tickets','fa-edit');
-    //columnDefsG=resG[0]; // registra la colunmna adiciona con boton
-    //targetsG=resG[1]; // registra el contador actualizado
+
+    var idG1={  solicitante        :'onBlur|Solicitante|#DCE6F1', //#DCE6F1
+                area      :'onBlur|Area|#DCE6F1', //#DCE6F1
+                descripcion      :'onBlur|Descripción|#DCE6F1', //#DCE6F1
+                fecha_pendiente      :'onBlur|Fecha Pendiente|#DCE6F1', //#DCE6F1
+                fecha_atencion      :'onBlur|Fecha Atencion|#DCE6F1', //#DCE6F1
+                responsable_atencion      :'onBlur|R. Atencion|#DCE6F1', //#DCE6F1
+                fecha_solucion      :'onBlur|Fecha Solucion|#DCE6F1', //#DCE6F1                
+                responsable_solucion      :'onBlur|R. Solucion|#DCE6F1', //#DCE6F1
+                solucion        :'onBlur|Solucion|#DCE6F1', //#DCE6F1
+                estado_tipo_problema        :'2|Tipo Problema|#DCE6F1', //#DCE6F1
+                estado_ticket        :'2|Estado Ticket|#DCE6F1', //#DCE6F1
+                
+             };
+
+    var resG1=dataTableG.CargarCab(idG1);
+    cabeceraG1=resG1; // registra la cabecera
+    var resG1=dataTableG.CargarCol(cabeceraG1,columnDefsG1,targetsG1,1,'ticketscompletogmgm_historico','t_ticketscompletogmgm_historico');
+    columnDefsG1=resG1[0]; // registra las columnas del datatable
+    targetsG1=resG1[1]; // registra los contadores
+
     MostrarAjax('tickets');
 
 
     $('#ticketModal').on('show.bs.modal', function (event) {
 
-        // $('#txt_fecha_pendiente').daterangepicker({
-        //     format: 'YYYY-MM-DD',
-        //     singleDatePicker: true,
-        //     showDropdowns: true
-        // });
-
-
       var button = $(event.relatedTarget); // captura al boton
       var titulo = button.data('titulo'); // extrae del atributo data-
-    
-      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
       var modal = $(this); //captura el modal
       modal.find('.modal-title').text(titulo+' Ticket');
       $('#form_tickets_modal [data-toggle="tooltip"]').css("display","none");
       $("#form_tickets_modal input[type='hidden']").not('.mant').remove();
 
         if(titulo=='Nuevo'){ 
-
             modal.find('.modal-footer .btn-primary').text('Guardar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Agregar();');
-           // $('#form_tickets_modal #slct_estado_ticket').val(1); 
-           // $('#form_tickets_modal #txt_fecha_solucion').focus();
-            //$('#form_tickets_modal #txt_responsable').focus();
-
         }else {
 
             modal.find('.modal-footer .btn-primary').text('Actualizar');
             modal.find('.modal-footer .btn-primary').attr('onClick','Editar();');
             $('#form_tickets_modal #txt_persona_id').val( TicketsG.persona_id );
-            // $('#form_tickets_modal #nombre_solicitante').val( TicketsG.nombre_solicitante );
-            // $('#form_tickets_modal #nombre_solicitante_area').val( TicketsG.nombre_solicitante_area );
             $('#form_tickets_modal #txt_area_id').val( TicketsG.area_id );
             $('#form_tickets_modal #txt_fecha_pendiente').val( TicketsG.fecha_pendiente );
-
             $('#form_tickets_modal #txt_descripcion').val( TicketsG.descripcion );
             $("#form_tickets_modal").append("<input type='hidden' value='"+TicketsG.id+"' name='id'>");
         }
@@ -102,21 +112,27 @@ MostrarAjax=function(t){
             alert('Faltas datos');
         }
     }
+    if( t=="ticketscompletogmgm_historico" ){
+
+        if( columnDefsG1.length>0 ){
+            dataTableG.CargarDatos(t,'ticket','cargarhistorico',columnDefsG1);
+        }
+        else{
+            alert('Faltas datos');
+        }
+    }
 }
 
 GeneraFn=function(row,fn){ // No olvidar q es obligatorio cuando queire funcion fn
-    // if(typeof(fn)!='undefined' && fn.col==0){
-    //     return row.solicitante+"<input type='hidden'name='txt_persona_id' value='"+row.persona_id+"'>";
-    // }
 
-    // else if(typeof(fn)!='undefined' && fn.col==1){
-    //     return row.area+"<input type='hidden'name='txt_area_id' value='"+row.area_id+"'>";
-    // }
-  
-    if(typeof(fn)!='undefined' && fn.col==10){
+    if(typeof(fn)!='undefined' && fn.col==9){
+        //se envia de manera ocultada la fecha de nacimiento en el txt_sexo
+        return row.estado_tipo_problema+"<input type='hidden'name='txt_estado_tipo_problema' value='"+row.estado_tipo_problema_id+"'>";
+    }
+
+    else if(typeof(fn)!='undefined' && fn.col==10){
         var estado_tickethtml='';
-        //estado_tickethtml='<span id="'+row.id+'" onClick="atendido('+row.id+')" data-estado_ticket="'+row.estado_ticket+'" class="btn btn-success">Atendido</span>';
-       
+
             if(row.estado_ticket==1){
                 estado_tickethtml='<span id="'+row.id+'"  data-estado_ticket="'+row.estado_ticket+'" >Pendiente</span>';
             }
@@ -163,6 +179,13 @@ BtnEditar=function(btn,id){
     TicketsG.descripcion=$(tr).find("td:eq(2)").text();
     TicketsG.fecha_pendiente=$(tr).find("td:eq(3)").text();
     $("#BtnEditar").click();
+};
+
+Mostrarticket=function(){
+           $("#ticketscompletogmgm_historicoModal").modal('show');
+           $('#form_ticketscompletogmgm_historico').show();
+           $("#t_ticketscompletogmgm_historico").dataTable();
+           MostrarAjax('ticketscompletogmgm_historico'); 
 };
 
 

@@ -32,16 +32,27 @@
 
             <?php echo HTML::style('lib/bootstrap-3.3.1/css/ionicons.min.css'); ?>
             {{ HTML::style('lib/datatables-1.10.4/media/css/dataTables.bootstrap.css') }}
+            <!--ARCHIVO EN CONFLICTO-->
             {{ HTML::style('css/admin/admin.css') }}
-		    {{ HTML::script('lib/datatables-1.10.4/media/js/jquery.dataTables.js') }}
-		    {{ HTML::script('lib/datatables-1.10.4/media/js/dataTables.bootstrap.js') }}
-		    {{ HTML::script('js/utils.js') }}
+            {{ HTML::script('lib/datatables-1.10.4/media/js/jquery.dataTables.js') }}
+            {{ HTML::script('lib/datatables-1.10.4/media/js/dataTables.bootstrap.js') }}
+            {{ HTML::script('js/utils.js') }}
             {{ HTML::script('lib/perfect-scrollbar/perfect-scrollbar.js') }}
             {{ Html::script('lib/sweetalert-master/dist/sweetalert.min.js') }}
+
+            {{-- Html::script('lib/gmaps/apigoogle.js') --}}
+            {{-- Html::script('lib/gmaps/gmaps.js') --}}
             
             @include( 'admin.js.app' )
-      {{--       @include( 'css/admin/chat' ) --}}
+            {{--       @include( 'css/admin/chat' ) --}}
 		@show
+
+        <!-- <script async defer src="lib/google_maps/gmaps.js"></script> -->
+        <!-- 
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+        <script type="text/javascript" src="lib/gmaps/gmaps.js"></script> 
+        -->
+
 	</head>	
 
     <body class="skin-blue">

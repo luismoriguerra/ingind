@@ -8,15 +8,15 @@ Route::get(
             'area'      => 'Area Prueba',
             'procesoe'  => 'Proceso Nuevo',
             'personae'  => 'Jorge Salcedo',
-            'areae'     => 'Gerente de Modernización'
+            'areae'     => 'Gerente de Modernización de la Gestión Municipal'
         );
 
         //try{
-            Mail::queue('emails', $parametros ,
+            Mail::send('emails', $parametros ,
                 function($message) use($email){
                 $message
                 ->to($email)
-                ->subject('.::Se ha involucrado en nuevo proceso::.');
+                ->subject('.::Nuevo Proceso::.');
                 }
             );
 
@@ -27,6 +27,12 @@ Route::get(
             echo 'No se pudo realizar el envio de Email; Favor de verificar su email e intente nuevamente.';
         }*/
 
+    }
+);
+
+Route::get(
+    'votomuni', function(){
+        return Redirect::to('/votomuni/public/');
     }
 );
 
@@ -212,3 +218,4 @@ Route::controller('actividadcategoria', 'ActividadCategoriaController');
 Route::controller('reportepersonal', 'ReportePersonalController');
 Route::controller('fichaproceso', 'FichaProcesoController');
 Route::controller('auditoriacuestionarioinicio', 'AuditoriaCuestionarioInicioController');
+Route::controller('maps', 'MapsController');

@@ -98,12 +98,12 @@
         });
 
         $(".fechas").datetimepicker({
-            format: "yyyy-mm",
+            format: "yyyy-mm-dd",
             language: 'es',
             showMeridian: false,
             time: false,
             minView: 3,
-            startView: 3,
+            startView: 2,
             autoclose: true,
             todayBtn: false
         });
@@ -162,9 +162,9 @@
         pos = 0;
         contarproceso0 = 0;
         if (sino == 1) {
-            html_cabecera += "<tr><th colspan='5'></th>";
-        } else {
             html_cabecera += "<tr><th colspan='4'></th>";
+        } else {
+            html_cabecera += "<tr><th colspan='3'></th>";
         }
         var n = 0;
         $.each(cabecera, function (index, cabecera) {
@@ -172,13 +172,13 @@
             n++;
         });
 
-        html_cabecera += "<th colspan='1' style='text-align:center'>Total</th>";
+        html_cabecera += "<th colspan='2' style='text-align:center'>Total</th>";
         html_cabecera += "<th colspan='5' style='text-align:center'>Índices</th>";
         html_cabecera += "</tr>";
 
         html_cabecera += "<tr>" +
                 "<th>N°</th>";
-        html_cabecera += "<th>Ruta</th><th>Detalle</th>";
+        html_cabecera += "<th>Ruta</th>";
         if (sino == 1) {
             html_cabecera += "<th>Área</th>";
         }
@@ -190,7 +190,9 @@
             n++;
         });
 
-        html_cabecera += "<th>N° T. Total</th>";
+        //html_cabecera += "<th>N° T. Total</th>";
+        html_cabecera += "<th>N° T. T 1</th>";
+        html_cabecera += "<th>N° T. T 2</th>";
         html_cabecera += "<th>Faltas Cometidas</th>";
         html_cabecera += "<th>% F. C.</th>";
         html_cabecera += "<th>Áreas Involucradas</th>";
@@ -199,38 +201,40 @@
         html_cabecera += "</tr>";
 
         $.each(datos, function (index, data) {
+//            evento='';
+//            if(data.evento!==''){evento='<a onClick="'+data.evento+'('+ data.ruta_flujo_id +')" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a>'}
             pos++;
             html += "<tr>" +
                     "<td>" + pos + "</td>" +
-                    '<td><a onclick="cargarRutaId(' + data.ruta_flujo_id + ',2,null,this)" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>' +
-                    '<td><a onclick="cargardetalle(' + data.ruta_flujo_id + ',this)" class="btn btn-info btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>' ;
+                    '<td><a onclick="cargarRutaId(' + data.ruta_flujo_id + ',2,null,this)" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>';
+//                    '<td><a onclick="cargardetalle(' + data.ruta_flujo_id + ',this)" class="btn btn-info btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a></td>' ;
             if (sino == 1) {
                 html += "<td>" + data.area + "</td>";
             }
 
-            html += "<td>" + data.proceso + "</td>";
+            html += "<td>" + data.proceso +'</td>';
 
             var i;
             for (i = 1; i <= n; i++) {
                 html += '<td style="text-align:center;">' +
                         '<table>' +
-                        '<tr>' +
-                        '<td style="text-align:center">'+ $.trim(data['r' + i]) +'</td>' +
-                        '<td style="text-align:center;border-left: 1px solid #999999;">'+ $.trim(data['p' + i]) +'</td>' +
-                        '<td style="text-align:center"></td>' +
-                        '</tr>' +
-                        '<tr>' +
-                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',1)" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
-                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',2)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
-                        '<td><a onclick="ExportarRTP(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',1)" class="btn btn-primary btn-xs ertp_'+data.ruta_flujo_id+'"><i class="glyphicon glyphicon-download-alt"></i> </a></td>' +
-                        '</tr>' +
+                            '<tr>' +
+                                '<td style="text-align:center">'+ $.trim(data['r' + i]) +'</td>' +
+                                '<td style="text-align:center;border-left: 1px solid #999999;">'+ $.trim(data['p' + i]) +'</td>' +
+                                '<td style="text-align:center"></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                                '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',1)" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
+                                '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',2)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
+                                '<td><a onclick="ExportarRTP(' + data.ruta_flujo_id + ',\'' + cabecera[i - 1] + '\',1)" class="btn btn-primary btn-xs ertp_'+data.ruta_flujo_id+'"><i class="glyphicon glyphicon-download-alt"></i> </a></td>' +
+                            '</tr>' +
                         '</table>'+
                         '</td>';
             }
 
-            if (data.rt == 0) {
-                contarproceso0++;
-            }
+//            if (data.rt == 0) {
+//                contarproceso0++;
+//            }
             var porcentaje_faltas = 0;
             var porcentaje_alertas = 0;
             if (data.ft != 0 && data.rt != 0) {
@@ -240,7 +244,7 @@
                 porcentaje_alertas = (data.alertas * 100) / data.areas;
             }
             
-            html += '<td style="text-align:center;">' +
+            /*html += '<td style="text-align:center;">' +
                         '<table>' +
                         '<tr>' +
                         '<td style="text-align:center">'+ data.rt +'</td>' +
@@ -252,15 +256,36 @@
                         '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',null,2)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
                         '</tr>' +
                         '</table>'+
-                        '</td>';
+                        '</td>'; */
+            html += '<td style="text-align:center;">' +
+                        '<table>' +
+                        '<tr>' +
+                        '<td style="text-align:center">'+ data.rt +'</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',null,1)" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
+                        '</tr>' +
+                        '</table>'+
+                        '</td>'; 
+            html += '<td style="text-align:center;">' +
+                        '<table>' +
+                        '<tr>' +
+                        '<td style="text-align:center;border-left: 1px solid #999999;">'+ data.pt +'</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td><a onclick="Detalle(' + data.ruta_flujo_id + ',null,2)" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-list-alt"></i> </a></td>' +
+                        '</tr>' +
+                        '</table>'+
+                        '</td>'; 
+
             html += '<td>' + data.ft + "</td>";
             html += '<td>' + porcentaje_faltas.toFixed(2) + "%</td>";
             html += '<td>' + data.areas + "</td>";
             html += '<td>' + data.alertas + "</td>";
             html += '<td>' + porcentaje_alertas.toFixed(2) + "%</td>";
         });
-        var totalcero = contarproceso0;
-        var totalmascero = pos - contarproceso0;
+//        var totalcero = contarproceso0;
+//        var totalmascero = pos - contarproceso0;
 
         html += "</tr>";
         $("#tb_proceso").html(html);
@@ -271,13 +296,13 @@
                     "pageLength": 10,
                 }
         );
-        var htmlca = '';
-        var htmlresumen = '';
-        htmlca += "<tr><th style='text-align:center'>Resumen</th><th style='text-align:center'>Cantidad</th></tr>";
-        htmlresumen += "<tr><td>Cantidad de Procesos con 0 trámites</td><td style='text-align:right'>" + totalcero + "</td></tr>";
-        htmlresumen += "<tr><td>Cantidad de Procesos con trámites</td><td style='text-align:right'>" + totalmascero + "</td></tr>";
-        $("#tt_resumen").html(htmlca);
-        $("#tb_resumen").html(htmlresumen);
+//        var htmlca = '';
+//        var htmlresumen = '';
+//        htmlca += "<tr><th style='text-align:center'>Resumen</th><th style='text-align:center'>Cantidad</th></tr>";
+//        htmlresumen += "<tr><td>Cantidad de Procesos con 0 trámites</td><td style='text-align:right'>" + totalcero + "</td></tr>";
+//        htmlresumen += "<tr><td>Cantidad de Procesos con trámites</td><td style='text-align:right'>" + totalmascero + "</td></tr>";
+//        $("#tt_resumen").html(htmlca);
+//        $("#tb_resumen").html(htmlresumen);
 //    $("#t_resumen").dataTable(
 //            {
 //            "order": [[ 0, "asc" ],[1, "asc"]],
@@ -768,6 +793,7 @@
 
     // Reporte de Tramite Actividades
     HTMLCargaTramiteActividad = function (datos,cabecera) {
+        $("#form_tactividad").show();
         var html_cabecera = '';
         var html = '';
         var n = 0;
@@ -778,6 +804,7 @@
 
         html_cabecera = "<tr class='info'>" +
                         "<th> [] </th>"+
+                        "<th style='min-width: 160px !important;'> Descripci&oacute;n </th>"+
                         "<th> Tramite </th>";
                         $.each(cabecera, function (index, cabecera) {
                             html_cabecera += "<th >Actividad "+cabecera+"</th>";
@@ -788,7 +815,8 @@
         
         $.each(datos, function (index, data) {
             html += "<tr>";
-                html += '<td><a onClick="detalle(' + data.id + ',this)" class="btn btn-primary btn-sm" data-id="' + data.id + '" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a> </td>'+
+                html += '<td><a onClick="detallee(' + data.id + ',this)" class="btn btn-primary btn-sm" data-id="' + data.id + '" data-titulo="Editar"><i class="fa fa-search fa-lg"></i> </a> </td>'+
+                        "<td>" + data.sumilla + "</td>"+
                         "<td>" + data.id_union + "</td>";
                 var i;
 
@@ -811,10 +839,16 @@
                             var style_class = '';
                         }
                         html += "<td class='"+style_class+"'>";
-                        if((data['archivo' + i] * 1) == 0)
+                        if($.trim(data['archivo' + i]) == '')
                             html += res[0] + res[2];
-                        else
-                            html += "<a href='"+data['archivo' + i]+"' target='_blank'>"+res[0] + res[2] + "</a>";
+                        else {
+                            //html += "<a href='"+data['archivo' + i]+"' target='_blank'>"+res[0] + res[2] + "</a>";
+                            html += res[0] + res[2];
+                            html += '<button type="button" id="' + data.id + '" onclick="verFotosModal(this.id)"  data-toggle="modal" data-target="#modalFotos' + data.id + '" class="btn btn-primary btn-xs"><span class="fa fa-list fa-lg" aria-hidden="true"></span> Ver Fotos</button>';
+
+                            html += '&nbsp;<button type="button" id="' + data.id + '" onclick="verMapaModal(this.id)"  data-toggle="modal" data-target="#modalMapas' + data.id + '" class="btn btn-default btn-xs"><span class="fa fa-list fa-lg" aria-hidden="true"></span> Ver Mapa</button>';
+                        }
+                            
 
                         html += "</td>";
                         /*
@@ -843,7 +877,7 @@
         });
         html_cabecera_tot += "</tr>";
         */
-        // --
+        // --        
 
         $("#form_tactividad #tt_tramite_actividad").html(html_cabecera);
         $("#form_tactividad #tb_tramite_actividad").html(html);
@@ -858,6 +892,147 @@
         );
     };
     // -
+
+
+    verFotosModal = function(id) {
+        //Proceso.verArchivosDesmontesMotorizado(id);        
+        //$("#d_ver_fotos").html('<img src="img/loading.gif" style="border: 0px;">');
+        $.ajax({
+                url: 'reporte/verarchivosdesmontesmotorizado',
+                type:'POST',
+                cache       : false,
+                dataType    : 'json',
+                data        : { ruta_id:id },
+                success: function(obj)
+                {
+                    datos = obj.datos;
+                    //console.log(datos);
+                    var html_pd = '';
+                    var foto = '';
+
+                    $.each(datos, function (index, data) {
+                        var d_foto = data.archivo;
+                        if (d_foto.length != 0) {
+
+                            var data_fotos = $.trim(data.archivo).split("|");
+
+                            $.each(data_fotos, function (index, d_foto) {
+                                var cant_foto = d_foto.length;
+                                if(d_foto.substring((cant_foto-3), cant_foto) == 'png' || 
+                                    d_foto.substring((cant_foto-3), cant_foto) == 'jpg' ||
+                                    d_foto.substring((cant_foto-3), cant_foto) == 'gif' ||
+                                    d_foto.substring((cant_foto-4), cant_foto) == 'jpeg' )
+                                    foto = d_foto;
+                                else
+                                    foto = 'img/admin/ruta_detalle/marca_doc.jpg';
+
+                                html_pd += '<div class="col-md-2" id="ad'+index+'" style="padding-left: 0px; padding-right: 10px;">'+
+                                                '<a href="'+d_foto+'" target="_blank"><img src="'+foto+'" alt=""  border="0" class="img-responsive foto_desmonte"></a>'+
+                                                '<div class="text-center"></div>'+
+                                            '</div>';
+                            });                        
+                        }
+                    });
+                    $("#d_ver_fotos").html(html_pd);       
+                },
+                error: function(jqXHR, textStatus, error)
+                {
+                  console.log(jqXHR.responseText);
+                }
+            });
+
+        
+        var html_modal = '<div class="modal fade" id="modalFotos'+id+'" role="dialog">'+
+                                          '<div class="modal-dialog modal-md">'+
+                                            '<div class="modal-content">'+
+                                              '<div class="modal-header" style="padding: 7px;">'+
+                                                '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                                '<h4 class="modal-title text-center">LISTADO DE FOTOS</h4>'+
+                                              '</div>'+
+                                              '<div class="modal-body" style="overflow: hidden;">'+
+                                                  '<div id="d_ver_fotos" class="col-md-12">'+
+                                                    '<p></p>'+
+                                                  '</div>'+
+                                              '</div>'+
+                                              '<div class="modal-footer" style="padding: 7px;">'+
+                                                '<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>'+
+                                              '</div>'+
+                                            '</div>'+
+                                          '</div>'+
+                                        '</div>'+
+                                      '</div>';
+
+        $('#div_ver_archivos_id').html(html_modal);
+    }
+
+    verMapaModal = function(id) {
+
+        $.ajax({
+                url: 'reporte/vermapadesmontesmotorizado',
+                type:'POST',
+                cache       : false,
+                dataType    : 'json',
+                data        : { ruta_id:id },
+                success: function(obj)
+                {
+                    datos = obj.datos;                    
+                    // Gmaps
+                    var map;
+                    map = new GMaps({
+                        el: '#map',
+                        lat: datos[0].latitud,
+                        lng: datos[0].longitud
+                    });
+
+                    conten_market = '<div style="text-align:center; width: 100%;"><h3>'+datos[0].tipo+'</h3>'+
+                                          '<p>'+datos[0].direccion+'</p>'+
+                                      '</div>'+
+                                      '<div style="width: 100%;">'+
+                                        '<div style="text-align:center;">'+
+                                          '<a href="'+datos[0].foto+'" target="_blank"><img src="'+datos[0].foto+'" width="90"/></a>'+
+                                        '</div>';                               
+                    conten_market += '</div>';   
+
+                    map.addMarker({
+                        lat: datos[0].latitud,
+                        lng: datos[0].longitud,
+                        title: datos[0].direccion,
+                        infoWindow: {
+                          //content: '<p><strong>DSDSDSD</strong></br><img src="http://www.muniindependencia.gob.pe/sicmovil/fotoed/29447.jpg" border="0" width="60"></p>'
+                          content : conten_market
+                        }
+                    });
+                    // --
+                },
+                error: function(jqXHR, textStatus, error)
+                {
+                  console.log(jqXHR.responseText);
+                }
+            });
+
+        
+        var html_modal_map = '<div class="modal fade" id="modalMapas'+id+'" role="dialog">'+
+                                          '<div class="modal-dialog modal-md">'+
+                                            '<div class="modal-content">'+
+                                              '<div class="modal-header" style="padding: 7px;">'+
+                                                '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                                '<h4 class="modal-title text-center">MAPA DESMONTE</h4>'+
+                                              '</div>'+
+                                              '<div class="modal-body" style="overflow: hidden;">'+
+                                                  '<div id="map" class="col-md-12">'+
+                                                    '<p></p>'+
+                                                  '</div>'+
+                                              '</div>'+
+                                              '<div class="modal-footer" style="padding: 7px;">'+
+                                                '<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>'+
+                                              '</div>'+
+                                            '</div>'+
+                                          '</div>'+
+                                        '</div>'+
+                                      '</div>';
+
+        $('#div_ver_mapas_id').html(html_modal_map);
+    }
 
 
     HTMLCargaTramites = function (datos) {
@@ -912,7 +1087,7 @@
 
     };
 
-    detalle = function (ruta_id, boton) {
+    detallee = function (ruta_id, boton) {
 
         $("#form_1").append("<input type='hidden' id='txt_ruta_id' name='txt_ruta_id' value='" + ruta_id + "'>");
         var datos = $("#form_1").serialize().split("txt_").join("").split("slct_").join("");
@@ -928,13 +1103,19 @@
         var fecha_ini = $('#fecha_ini').val();
         var fecha_fin = $('#fecha_fin').val();
         var dataG = [];
-        if (fechames == null) {
             dataG = {ruta_flujo_id: id, fecha_ini: fecha_ini, fecha_fin: fecha_fin, tramite: tramite};
 
-        } else {
-            dataG = {ruta_flujo_id: id, fechames: fechames, tramite: tramite};
-        }
-        Proceso.MostrarTramiteActividad(id, fechames, tramite);
+
+        $("#div_tactividad_previo").html('<img src="img/loading.gif" style="border: 0px;">').show();
+        $("#form_tactividad").hide();
+
+
+        $('#text_fecha_ini').html('Fecha inicial '+fecha_ini);
+        Proceso.MostrarTramiteActividad({ ruta_flujo_id:id, fecha_ini: fecha_ini, fecha_fin: fecha_fin, tramite:tramite });
+        
+        Personalizado.ReportePersonalizado({ fechames: fechames, ruta_flujo_id:id, fecha_ini: fecha_ini, fecha_fin: fecha_fin});
+        //Personalizado.ReportePersonalizado(dataG);
+
         $("#form_tactividad").css("display", "");
 
         //Proceso.MostrarTramites(dataG);
@@ -942,34 +1123,34 @@
         $("#form_tramite_detalle").css("display", "none");
         $("#form_detallecuadro").css("display", "none");
         $("#form_ruta_flujo").css("display", "none");
-
+        
         // --
-        Proceso.CalcularTotalesXNumeroOrden(id, fechames, tramite);
-        Proceso.CalcularTotalActividad(id, fechames, tramite);
+//        Proceso.CalcularTotalesXNumeroOrden(id, fechames, tramite);
+       // Proceso.CalcularTotalActividad(id, fechames, tramite);
         // --
     };
 
-    HTMLCargaTotalesXNumeroOrden = function (datos) {
-        var html_cabecera_tot = '';
-        var html_tot = '';
-        var n = 1;
-
-        html_cabecera_tot = "<tr class='info'>";            
-        var i = 0;
-        $.each(datos, function (index, data) {
-            html_cabecera_tot += "<th> Actividad "+data.norden+" </th>";    
-        });
-        html_cabecera_tot += "</tr>";
-
-        html_tot += "<tr style=''>";
-        $.each(datos, function (index, data) {
-                html_tot += "<td>" + data.cant + "</td>";                
-        });
-        html_tot += "</tr>";
-
-        $("#tt_orden_resum").html(html_cabecera_tot);
-        $("#tb_orden_resum").html(html_tot);
-    };
+//    HTMLCargaTotalesXNumeroOrden = function (datos) {
+//        var html_cabecera_tot = '';
+//        var html_tot = '';
+//        var n = 1;
+//
+//        html_cabecera_tot = "<tr class='info'>";            
+//        var i = 0;
+//        $.each(datos, function (index, data) {
+//            html_cabecera_tot += "<th> Actividad "+data.norden+" </th>";    
+//        });
+//        html_cabecera_tot += "</tr>";
+//
+//        html_tot += "<tr style=''>";
+//        $.each(datos, function (index, data) {
+//                html_tot += "<td>" + data.cant + "</td>";                
+//        });
+//        html_tot += "</tr>";
+//
+//        $("#tt_orden_resum").html(html_cabecera_tot);
+//        $("#tb_orden_resum").html(html_tot);
+//    };
 
     HTMLCargaTotalActividad = function (datos,cabecera) {
         var html_cabecera_tot = '';
@@ -1022,50 +1203,50 @@
         }
     };
 
-    cargardetalle = function (id,boton) {
-        var tr = boton.parentNode.parentNode;
-        var trs = tr.parentNode.children;
-        for (var i = 0; i < trs.length; i++)
-            trs[i].style.backgroundColor = "#f9f9f9";
-        tr.style.backgroundColor = "#9CD9DE";
-        
-        var fecha_ini = $('#fecha_ini').val();
-        var fecha_fin = $('#fecha_fin').val();
-        var dataG = [];
-        dataG = {ruta_flujo_id: id ,fecha_ini: fecha_ini, fecha_fin: fecha_fin};
-        Proceso.DetalleCuadroProceso(dataG);
-        $("#form_detallecuadro").css("display", "");
-        $("#form_tramite_detalle").css("display", "none");
-        $("#form_tramite").css("display", "none");
-        $("#form_ruta_flujo").css("display", "none");
-
-    };
-    HTMLCargaDetalleCuadroProceso = function (datos) {
-        var html = '';
-        var alerta_tipo = '';
-
-        $('#form_detallecuadro #t_detallecuadro').dataTable().fnDestroy();
-        pos = 0;
-
-
-        $.each(datos, function (index, data) {
-//        btnruta='<a onclick="cargarRutaId('+data.ruta_flujo_id+',2,'+data.id+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
-            html += "<tr>" +
-                    "<td>" + data.flujo + "</td>" +
-                    "<td>" + data.area + "</td>" +
-                    "<td>" + data.norden + "</td>" +
-                    "<td>" + data.total + "</td>" +
-                    "<td>" + data.tf + "</td>";
-            html += "</tr>";
-        });
-
-        $("#form_detallecuadro #tb_detallecuadro").html(html);
-        $("#form_detallecuadro #t_detallecuadro").dataTable(
-                {
-                    "order": [[0, "asc"], [1, "asc"]],
-                    "pageLength": 10,
-                }
-        );
-
-    };
+//    cargardetalle = function (id,boton) {
+//        var tr = boton.parentNode.parentNode;
+//        var trs = tr.parentNode.children;
+//        for (var i = 0; i < trs.length; i++)
+//            trs[i].style.backgroundColor = "#f9f9f9";
+//        tr.style.backgroundColor = "#9CD9DE";
+//        
+//        var fecha_ini = $('#fecha_ini').val();
+//        var fecha_fin = $('#fecha_fin').val();
+//        var dataG = [];
+//        dataG = {ruta_flujo_id: id ,fecha_ini: fecha_ini, fecha_fin: fecha_fin};
+//        Proceso.DetalleCuadroProceso(dataG);
+//        $("#form_detallecuadro").css("display", "");
+//        $("#form_tramite_detalle").css("display", "none");
+//        $("#form_tramite").css("display", "none");
+//        $("#form_ruta_flujo").css("display", "none");
+//
+//    };
+//    HTMLCargaDetalleCuadroProceso = function (datos) {
+//        var html = '';
+//        var alerta_tipo = '';
+//
+//        $('#form_detallecuadro #t_detallecuadro').dataTable().fnDestroy();
+//        pos = 0;
+//
+//
+//        $.each(datos, function (index, data) {
+////        btnruta='<a onclick="cargarRutaId('+data.ruta_flujo_id+',2,'+data.id+')" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>';
+//            html += "<tr>" +
+//                    "<td>" + data.flujo + "</td>" +
+//                    "<td>" + data.area + "</td>" +
+//                    "<td>" + data.norden + "</td>" +
+//                    "<td>" + data.total + "</td>" +
+//                    "<td>" + data.tf + "</td>";
+//            html += "</tr>";
+//        });
+//
+//        $("#form_detallecuadro #tb_detallecuadro").html(html);
+//        $("#form_detallecuadro #t_detallecuadro").dataTable(
+//                {
+//                    "order": [[0, "asc"], [1, "asc"]],
+//                    "pageLength": 10,
+//                }
+//        );
+//
+//    };
 </script>

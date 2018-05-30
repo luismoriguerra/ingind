@@ -209,7 +209,7 @@ class Area extends Base
          if(Input::get('area_id')){
             $sql = "";
             $sql.= "SELECT p.area_id areaid,p.id,CONCAT_WS(' ',p.nombre,p.paterno,p.materno) nombre FROM personas p 
-                    WHERE p.estado=1 AND p.area_id=".Input::get('area_id');
+                    WHERE p.estado=1 AND p.area_id=".Input::get('area_id')." OR p.area_responsable=".Input::get('area_id');
 
             if(Input::get('persona')){
                 $sql.=" AND p.id <>".Input::get('persona');

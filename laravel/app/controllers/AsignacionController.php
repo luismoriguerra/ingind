@@ -6,21 +6,20 @@ class AsignacionController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax() ) {
-            $cdid=Input::get('carta_deglose_id');
+            $rdid=Input::get('ruta_detalle_id');
             $personaId=Input::get('persona_id');
             
             DB::beginTransaction();
             $asignacion=new Asignacion;
             $asignacion['tipo']=1;
-            $asignacion['idtipo']=$cdid;
+            $asignacion['idtipo']=$rdid;
             
-            $cartaDesglose=CartaDesglose::find($cdid);
-            $asignacion['persona_id_i']=$cartaDesglose->persona_id;
+            $rutaDetalle=RutaDetalle::find($rdid);
+            $asignacion['persona_id_i']=$rutaDetalle->persona_responsable_id;
             $asignacion['persona_id_f']=$personaId;
-            $cartaDesglose['persona_id']=$personaId;
-            $cartaDesglose['cambios']=$cartaDesglose->cambios*1+1;
-            $cartaDesglose['usuario_created_at']=Auth::user()->id;
-            $cartaDesglose->save();
+            $rutaDetalle['persona_responsable_id']=$personaId;
+            $rutaDetalle['usuario_updated_at']=Auth::user()->id;
+            $rutaDetalle->save();
 
             $asignacion['usuario_created_at']=Auth::user()->id;
             $asignacion->save();

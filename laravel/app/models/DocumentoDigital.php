@@ -17,7 +17,7 @@ class DocumentoDigital extends Base {
                     })
                     ->leftjoin('areas as a','dda.area_id', '=', 'a.id')
                     ->leftjoin('personas as p','dda.persona_id', '=', 'p.id')
-                    ->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla', 'dd.plantilla_doc_id' ,'a.nombre as area','dda.area_id as area_id','p.nombre as pnombre','p.paterno as ppaterno','p.materno as pmaterno','dd.cuerpo','dd.tipo_envio','dda.persona_id','dda.tipo','dd.envio_total','pd.tipo_documento_id')
+                    ->select('dd.id', 'dd.titulo', 'dd.asunto', 'pd.descripcion as plantilla', 'dd.plantilla_doc_id' ,'a.nombre as area','dda.area_id as area_id','p.nombre as pnombre','p.paterno as ppaterno','p.materno as pmaterno','dd.cuerpo','dd.tipo_envio','dda.persona_id','dda.tipo','dd.envio_total','pd.tipo_documento_id','dd.fecha_i_vacaciones','dd.fecha_f_vacaciones')
                     ->where( 
 
                         function($query){                    
@@ -91,7 +91,7 @@ class DocumentoDigital extends Base {
                                         AND cp.persona_id= '.$usu_id.'
                                     )');
                                 $fin = date('Y-m-d');
-                                $inicio = strtotime('-15 day', strtotime($fin));
+                                $inicio = strtotime('-20 day', strtotime($fin));
                                 $inicio = date('Y-m-d', $inicio);
                                 $query->whereRaw('  ((DATE(dd.created_at) BETWEEN "'.$inicio.'" AND "'.$fin.'")
                                                     or ((SELECT COUNT(r.id) 
@@ -215,6 +215,9 @@ class DocumentoDigital extends Base {
                 left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
                 where (`dd`.`estado` = 1) ';
         $sSql.= $array['where'];
+        if(Auth::user()->vista_doc==0){
+           $sSql.=" AND dd.usuario_created_at=".Auth::user()->id;
+        }
         $oData = DB::select($sSql);
         return $oData[0]->cant;
     }
@@ -244,6 +247,9 @@ class DocumentoDigital extends Base {
                 left join `personas` as `p` on `p`.`id` = `dd`.`usuario_created_at` 
                 where (`dd`.`estado` = 1)';
         $sSql.= $array['where'];
+        if(Auth::user()->vista_doc==0){
+           $sSql.=" AND dd.usuario_created_at=".Auth::user()->id;
+        }
         $sSql.=' GROUP BY dd.id';
         $sSql.=$array['order'];
         $sSql.=$array['limit'];
@@ -348,6 +354,16 @@ class DocumentoDigital extends Base {
                     WHERE id=".Input::get('id');
         $oDataa = DB::update($sSqla);
         
+        $doc=DocumentoDigital::find(Input::get('id'));
+        $plantilla= PlantillaDocumento::find($doc->plantilla_doc_id);
+        if($plantilla->tipo_documento_id==110){
+            $persona_exo = PersonaExoneracion::where('doc_digital_id',$doc->id)
+                                              ->where('estado','!=',0)->first();
+            $persona_exo->estado=0;
+            $persona_exo->usuario_updated_at = Auth::user()->id;
+            $persona_exo->save();
+
+        }
         return $oData;
     }
 
@@ -414,6 +430,88 @@ class DocumentoDigital extends Base {
                 AND YEAR(dd.created_at)=YEAR(CURDATE()) AND dd.id!=".$id;
         $oData = DB::select($sSql);
         return $oData[0]->cant;
+    }
+
+    public static function RequestDocumentoDigital() {
+        $sSql = '';
+        
+        if(Input::get('estado') == 1) {
+        $sSql .= "SELECT ddt.correlativo as num_doc, 
+                                    YEAR(ddt.created_at)as anio,
+                                    d.id as tipo,
+                                    d.nombre as tipo_documento,
+                                    '1' as estado,
+                                    a.id as id_area, ddt.titulo as documento, ddt.asunto, ddt.created_at as fecha_creacion
+                    FROM doc_digital_temporal ddt
+                    INNER JOIN plantilla_doc pd ON ddt.plantilla_doc_id = pd.id
+                    INNER JOIN documentos d ON pd.tipo_documento_id = d.id
+                    INNER JOIN areas a ON ddt.area_id = a.id
+                    WHERE ddt.area_id=".Input::get('area_id').
+                        " AND ddt.estado=1 ".
+                        " AND DATE_FORMAT(ddt.created_at, '%Y-%m-%d') BETWEEN '".Input::get('inicio')."' AND '".Input::get('fin')."'";
+        } else {
+        $sSql .= " SELECT ddt.correlativo as num_doc, 
+                                    YEAR(ddt.created_at)as anio,
+                                    d.id as tipo,
+                                    d.nombre as tipo_documento,
+                                    '2' as estado,
+                                    ddt.area_id as id_area, ddt.titulo as documento, ddt.asunto, ddt.created_at as fecha_creacion
+                        FROM doc_digital_area dda
+                        INNER JOIN doc_digital_temporal ddt ON ddt.id = dda.doc_digital_id AND ddt.estado = 1
+                        INNER JOIN plantilla_doc pd ON pd.id = ddt.plantilla_doc_id
+                        INNER JOIN documentos d ON d.id = pd.tipo_documento_id
+                        WHERE dda.area_id=".Input::get('area_id').
+                            " AND dda.estado=1".
+                            " AND DATE_FORMAT(ddt.created_at, '%Y-%m-%d') BETWEEN '".Input::get('inicio')."' AND '".Input::get('fin')."'";
+        }
+        $oData = DB::select($sSql);
+
+        return $oData;
+    }
+    
+    public static function getVerificarProcesoDoc($id){
+
+            return DB::table('doc_digital_temporal as dd')
+                    ->select('dd.id'
+                        ,DB::raw('(SELECT COUNT(r.id) '
+                                . 'FROM rutas r '
+                                . 'INNER JOIN rutas_detalle as rd on r.id=rd.ruta_id and rd.estado=1 and rd.condicion=0'
+                                . ' INNER JOIN rutas_detalle_verbo as rdv on rdv.ruta_detalle_id=rd.id and rdv.estado=1 '
+                                . 'where r.estado=1 AND dd.id=rdv.doc_digital_id ) AS rutadetallev'),
+                        DB::raw('(SELECT COUNT(r.id) '
+                                . 'FROM rutas r '
+                                . 'where r.estado=1 AND dd.id=r.doc_digital_id ) AS ruta')    
+                            )
+                   	->where( 
+                        function($query)use($id){
+                                $query->where('dd.id','=',$id);
+                        }
+                    )
+                    ->havingRaw('ruta>0 or rutadetallev>0')
+                    ->get();            
+    } 
+    
+    public static function postBuscarDocumentoFinal($array){
+
+        $sSql = "SELECT ddt.*
+                FROM doc_digital_temporal ddt
+                WHERE ddt.estado=1 AND";
+        $sSql.= $array['where'];
+
+        $oData = DB::select($sSql);
+
+        return $oData;
+    }
+    
+    public static function postMostrarHistoricoDocumento(){
+
+        $sSql = "SELECT ddh.*
+                FROM doc_digital_historico ddh
+                WHERE ddh.doc_digital_id=".Input::get("doc_digital_id");
+
+        $oData = DB::select($sSql);
+
+        return $oData;
     }
 
 }

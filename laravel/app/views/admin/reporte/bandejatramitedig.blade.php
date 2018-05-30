@@ -10,6 +10,9 @@
     {{ HTML::script('lib/momentjs/2.9.0/moment.min.js') }} 
     {{ HTML::script('lib/daterangepicker/js/daterangepicker_single.js') }}
 
+    {{ HTML::style('css/checkbox.css') }}
+    {{ HTML::script('lib/jssonido.js') }}
+
     {{ HTML::style('lib/jquerysctipttop.css') }}
     {{ HTML::script('lib/ckeditor/ckeditor.js') }}
     {{ HTML::style('css/admin/plantilla.css') }}
@@ -134,6 +137,13 @@ tr.shown td.details-control {
         <!-- Main content -->
         <section class="content">
             <!-- Inicia contenido -->
+            <div id="audiobi"></div>
+            <!--
+            <audio autoplay>
+                <source src="http://localhost/ingind/public/sonido/alarma2.mp3" type="audio/mp3">
+                Tu navegador no soporta HTML5 audio.
+            </audio>
+            -->
 
             <div class="mailbox row">
                 <div class="col-md-12">
@@ -216,48 +226,56 @@ tr.shown td.details-control {
                                             </h1>
                                         </div>
                                         <div class="col-sm-12">
-                                            <div class="col-sm-2">
+                                            <div class="col-sm-4">
                                                 <label class="control-label">Nro Trámite:</label>
                                                 <input type="text" class="form-control" id="txt_id_doc" readonly>
                                             </div>
+                                            <!-- 
                                             <div class="col-sm-4">
                                                 <label class="control-label">Solicitante:</label>
                                                 <input type="text" class="form-control" id="txt_solicitante" readonly>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <label class="control-label">Sumilla:</label>
-                                                <textarea type="text" class="form-control" id="txt_sumilla" readonly></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="col-sm-4">
-                                                <label class="control-label">Proceso:</label>
-                                                <input type="text" class="form-control" id="txt_flujo" readonly>
-                                            </div>
+                                            -->
                                             <div class="col-sm-4">
                                                 <label class="control-label">Area:</label>
                                                 <input type="text" class="form-control" id="txt_area" readonly>
                                             </div>
-                                            <div class="col-sm-2">
+                                            
+                                            <div class="col-sm-4">
+                                                <label class="control-label">Proceso:</label>
+                                                <input type="text" class="form-control" id="txt_flujo" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            </br>
+                                        </div>
+                                        <div class="col-sm-12">                                            
+                                            <!-- 
+                                            <div class="col-sm-4">
+                                                <label class="control-label">Area:</label>
+                                                <input type="text" class="form-control" id="txt_area" readonly>
+                                            </div>
+                                            -->
+                                            <div class="col-sm-1">
                                                 <label class="control-label">Paso:</label>
                                                 <input type="text" class="form-control" id="txt_orden" readonly>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <label class="control-label">Tiempo:</label>
+                                                <input type="text" class="form-control" id="txt_tiempo" readonly>
                                             </div>
                                             <div class="col-sm-2">
                                                 <label class="control-label">Fecha Inicio:</label>
                                                 <input type="text" class="form-control" id="txt_fecha_inicio" readonly>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="col-sm-3">
-                                                <label class="control-label">Tiempo asignado a la Actividad:</label>
-                                                <input type="text" class="form-control" id="txt_tiempo" readonly>
-                                            </div>
+                                            
                                             <div class="col-sm-2">
                                                 <label class="control-label">Tiempo Final:</label>
                                                 <input type="text" class="form-control" id="txt_respuesta" name="txt_respuesta" readonly>
                                             </div>
-                                            <div class="col-sm-3">
-                                                <label class="control-label">Responsable de la Actividad:</label>
+
+                                            <div class="col-sm-2">
+                                                <label class="control-label">Responsable de la Actividadd:</label>
                                                 <?php
                                                     if( Auth::user()->rol_id==8 OR Auth::user()->rol_id==9 ){
                                                 ?>
@@ -269,26 +287,86 @@ tr.shown td.details-control {
                                                         <div id="slct_persona"></div>
                                                 <?php
                                                     }
-                                                ?>   
+                                                ?>
+                                                
                                             </div>
-                                             <div class="col-sm-4 sectionmicro">
-                                                <div class="col-sm-9">
-                                                <label class="control-label">Micro Procesos:</label>
-                                                <select id="slct_micro" name="slct_micro">
-                                                    <option>Seleccione</option>
-                                                </select>
+
+                                            <div class="col-sm-4">
+                                                <label class="control-label">Sumilla:</label>
+                                                <textarea type="text" class="form-control" id="txt_sumilla" readonly></textarea>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-12">
+                                            </br>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="sectionmicro">
+                                                <div class="col-sm-3 text-right">
+                                                    <label class="control-label">Micro Procesos:</label>
+                                                </div>    
+                                                <div class="col-sm-6">
+                                                    
+                                                    <select id="slct_micro" name="slct_micro">
+                                                        <option>Seleccione</option>
+                                                    </select>
                                                 </div>
                                                 <div class="col-sm-2">
-                                                <label class="control-label">&nbsp;&nbsp;&nbsp;</label>
-                                                <a class="btn btn-success btn-sm"  id="btn_siguiente_rd" style="display: none;">
-                                                </a>
+                                                    <label class="control-label">&nbsp;&nbsp;&nbsp;</label>
+                                                    <a class="btn btn-success btn-sm"  id="btn_siguiente_rd" style="display: none;">
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
                                         <br>
-                                        <div class="col-sm-12" style="margin-top:20px;margin-bottom: 20px">
+                                        <div class="col-sm-12" style="margin-top:10px;margin-bottom: 20px">
+                                            
                                             <div class="table-responsive">
-                                            <table class="table table-bordered" id="tbldetalleverbo">
+                                                <div class="col-md-12 foto_desmonte" id="div_fotos_desmonte" style="padding-bottom: 5px; margin-bottom: 5px; border: 3px solid #3c8dbc36; padding-top: 5px; padding-left: 0px; padding-right: 0px; background-color: #fff;">
+                                                    <style>
+                                                        .foto_desmonte {
+                                                            overflow:hidden;
+                                                            border: 2px solid #3c8dbc40;
+                                                            background:#fefefe;
+                                                            -moz-border-radius:5px;
+                                                            -webkit-border-radius:5px;
+                                                            border-radius: 10px;
+                                                            -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+                                                            -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+                                                        }
+                                                    </style>
+                                                    <div id="d_ver_fotos" class="col-md-10"></div>
+                                                    <div id="d_subir_fotos" class="col-md-2 valido">
+                                                        <input type="hidden" id="txt_archivo_desmonte" name="txt_archivo_desmonte[]">
+                                                        <div class="validoarchivo" style="">
+                                                            
+                                                                <table id="t_darchivo" class="table table-bordered" style="margin-bottom: 0px !important;">
+                                                                    <thead class="bg-aqua disabled color-palette" style="background-color: #3c8dbc !important;">
+                                                                        <tr>
+                                                                            <th style="width: 80%;">Subir Archivo</th>
+                                                                            <th>
+                                                                                <a class="btn btn-default btn-xs" onclick="AgregarD(this)" style="font-size: 10px;"><i class="fa fa-plus fa-lg"></i></a>
+                                                                            </th> 
+                                                                        </tr> 
+                                                                    </thead> 
+                                                                    <tbody id="tb_darchivo"> 
+                                                                        <tr style="display: none">
+                                                                            <td><input type="hidden" value="0"></td>
+                                                                            <td><input type="hidden" value="0"></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                    <tfoot id="tb_darchivo"> 
+                                                                        <tr>
+                                                                            <td colspan="3" class="text-center"><button type="button" onclick="guardarArhivoDesmonte()" id="btn_guardarfoto" name="btn_guardarfoto" class="btn btn-info">Guardar Archivo</button></td>
+                                                                        </tr>
+                                                                    </tfoot>
+                                                                </table>
+                                                           
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <table class="table table-bordered" id="tbldetalleverbo">
                                                 <thead>
                                                     <tr>
                                                         <th style="text-align:center" rowspan="2">Nro</th>
@@ -374,8 +452,16 @@ tr.shown td.details-control {
                                                 <label class="control-label">Descripción de respuesta de la Actividad:</label>
                                                 <textarea class="form-control" id="txt_observacion" name="txt_observacion" rows="3"></textarea>
                                             </div>
+                                            <div class="col-sm-3 sectionarchivado">
+                                                <label class="control-label">Archivar Trámite:</label>
+                                                <select id="slct_archivado" name="slct_archivado">
+                                                    <option value="0">No</option>
+                                                    <option value="2">Si</option>
+                                                </select>
+                                            </div>
                                             <div class="col-sm-3">
                                                 <label class="control-label">Estado Final de la Actividad(Alerta):</label>
+                                                <input type="hidden" class="form-control" id="txt_finalizado" name="txt_finalizado" value="0">
                                                 <input type="hidden" class="form-control" id="txt_alerta" name="txt_alerta">
                                                 <input type="hidden" class="form-control" id="txt_alerta_tipo" name="txt_alerta_tipo">
                                                 <div class="progress progress-striped active">

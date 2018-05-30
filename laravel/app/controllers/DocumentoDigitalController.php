@@ -243,20 +243,24 @@ class DocumentoDigitalController extends \BaseController {
             $a      = new DocumentoDigital;
             $listar = Array();
             $listar =$a->getCambiarEstadoDoc();
-            if($listar=1){
             return Response::json(
                 array(
                     'rst' => 1,
                     'msj' => 'Registro actualizado correctamente',
                 )
             );
-        }
     }
     }
 
     public function postEditar()
     {
         if ( Request::ajax() ) {
+            $cambio_despues_de_proceso=0;
+            $result=DocumentoDigital::getVerificarProcesoDoc(Input::get('iddocdigital'));
+            if($result){
+                $cambio_despues_de_proceso=1;
+            }
+            
             $html = Input::get('word', '');
             $html=str_replace('http://proceso.munindependencia.pe/', '', $html);
             $jefe = DB::table('personas')
@@ -272,6 +276,25 @@ class DocumentoDigitalController extends \BaseController {
             
             DB::beginTransaction();                    
             $DocDigital = DocumentoDigital::find(Input::get('iddocdigital'));
+            
+            if($cambio_despues_de_proceso==1){
+                $doc_dig_hi=new DocumentoDigitalHistorico;
+                $doc_dig_hi->doc_digital_id=$DocDigital->id;
+                $doc_dig_hi->titulo=$DocDigital->titulo;
+                $doc_dig_hi->correlativo=$DocDigital->correlativo;
+                $doc_dig_hi->asunto=$DocDigital->asunto;
+                $doc_dig_hi->cuerpo=$DocDigital->cuerpo;
+                $doc_dig_hi->plantilla_doc_id=$DocDigital->plantilla_doc_id;
+                $doc_dig_hi->area_id=$DocDigital->area_id;
+                $doc_dig_hi->persona_id=$DocDigital->persona_id;
+                $doc_dig_hi->envio_total=$DocDigital->envio_total;
+                $doc_dig_hi->tipo_envio=$DocDigital->tipo_envio;
+                $doc_dig_hi->fecha_i_vacaciones=$DocDigital->fecha_i_vacaciones;
+                $doc_dig_hi->fecha_f_vacaciones=$DocDigital->fecha_f_vacaciones;
+                $doc_dig_hi->estado=$DocDigital->estado;
+                $doc_dig_hi->usuario_created_at=$DocDigital->usuario_created_at;
+                $doc_dig_hi->save();
+            }
             //$DocDigital->titulo = Input::get('titulofinal');
             //$DocDigital->correlativo = Input::get('titulo');
             $DocDigital->asunto = Input::get('asunto');
@@ -293,8 +316,8 @@ class DocumentoDigitalController extends \BaseController {
 //            }
             
             $DocDigital->usuario_updated_at = Auth::user()->id;
-            $DocDigital->save();
-
+            $DocDigital->save();       
+            $plantilla= PlantillaDocumento::find($DocDigital->plantilla_doc_id);
             if($DocDigital->id){
 
                 // Update doc digital Temp
@@ -306,6 +329,17 @@ class DocumentoDigitalController extends \BaseController {
 
                 $affectedRows = DocumentoDigitalArea::where('doc_digital_id', '=', $DocDigital->id)->get();
                 foreach ($affectedRows as $docd) {
+                    if($cambio_despues_de_proceso==1 AND $docd->estado==1){
+                        $doc_dig_a_hi=new DocumentoDigitalAreaHistorico;
+                        $doc_dig_a_hi->doc_digital_id=$doc_dig_hi->id;
+                        $doc_dig_a_hi->persona_id=$docd->persona_id;
+                        $doc_dig_a_hi->area_id=$docd->area_id;
+                        $doc_dig_a_hi->rol_id= $docd->rol_id;
+                        $doc_dig_a_hi->tipo= $docd->tipo;
+                        $doc_dig_a_hi->estado= $docd->estado;
+                        $doc_dig_a_hi->usuario_created_at = Auth::user()->id;
+                        $doc_dig_a_hi->save();
+                    }
                     $dd = DocumentoDigitalArea::find($docd->id);
                     $dd->estado = 0;
                     $dd->usuario_updated_at = Auth::user()->id;
@@ -342,6 +376,51 @@ class DocumentoDigitalController extends \BaseController {
                             foreach ($areas_envio as $key => $value) {
                                 if((Input::get('tipoenvio')==1 or Input::get('tipoenvio')==5 or Input::get('tipoenvio')==6) AND $value->tipo!=2){
                                     foreach($value->persona_id as $personas){
+                                        // Ingresar exoneracion por vacaciones
+                                        if($plantilla->tipo_documento_id==110){
+                                            
+                                            if($cambio_despues_de_proceso==1){
+                                                $doc_dig_hi->fecha_i_vacaciones=$DocDigital->fecha_i_vacaciones;
+                                                $doc_dig_hi->fecha_f_vacaciones=$DocDigital->fecha_f_vacaciones;
+                                                $doc_dig_hi->save();
+                                            }
+                                            $DocDigital->fecha_i_vacaciones = Input::get('fi_vacacion');
+                                            $DocDigital->fecha_f_vacaciones = Input::get('ff_vacacion');
+                                            $DocDigital->save();
+                                            
+                                            $persona = Persona::find($personas);
+                                            $persona->fecha_ini_exonera = Input::get('fi_vacacion');
+                                            $persona->fecha_fin_exonera = Input::get('ff_vacacion');
+                                            $persona->usuario_updated_at = Auth::user()->id;
+                                            $persona->save();
+
+
+                                            /*disable old dates*/
+                                            $OldDates = DB::table('persona_exoneracion')
+                                                ->where('persona_id', '=', $personas)
+                                                ->where('estado','=',1)
+                                                ->get();
+                                            if(count($OldDates)>0){
+                                                foreach ($OldDates as $key => $valueE) {
+                                                    $Changed = PersonaExoneracion::find($valueE->id);
+                                                    $Changed->estado = 0;
+                                                    $Changed->save();
+                                                }                
+                                            }
+                                            /*end disable old dates*/
+
+                                            $persona_exo = new PersonaExoneracion();
+                                            $persona_exo->persona_id = $personas;
+                                            $persona_exo->fecha_ini_exonera = $DocDigital->fecha_i_vacaciones.' 00:00:00';
+                                            $persona_exo->fecha_fin_exonera = $DocDigital->fecha_f_vacaciones.' 00:00:00';
+                                            $persona_exo->observacion =  'VACACIONES CON DOCUMENTO: '.$DocDigital->titulo;
+                                            $persona_exo->doc_digital_id=$DocDigital->id;
+                                            $persona_exo->estado=1;
+                                            $persona_exo->usuario_created_at = Auth::user()->id;
+                                            $persona_exo->save();
+
+                                        }
+                                        //*******************************************************/
                                         $DocDigitalArea = new DocumentoDigitalArea();
                                         $DocDigitalArea->doc_digital_id = $DocDigital->id;
                                         $DocDigitalArea->persona_id = $personas;
@@ -497,6 +576,45 @@ class DocumentoDigitalController extends \BaseController {
                             foreach ($areas_envio as $key => $value) {
                                 if((Input::get('tipoenvio')==1 or Input::get('tipoenvio')==5 or Input::get('tipoenvio')==6) AND $value->tipo!=2){
                                     foreach($value->persona_id as $personas){
+                                        // Ingresar exoneracion por vacaciones
+                                        if($plantilla->tipo_documento_id==110){
+                                            $DocDigital->fecha_i_vacaciones = Input::get('fi_vacacion');
+                                            $DocDigital->fecha_f_vacaciones = Input::get('ff_vacacion');
+                                            $DocDigital->save();
+                                            
+                                            $persona = Persona::find($personas);
+                                            $persona->fecha_ini_exonera = Input::get('fi_vacacion');
+                                            $persona->fecha_fin_exonera = Input::get('ff_vacacion');
+                                            $persona->usuario_updated_at = Auth::user()->id;
+                                            $persona->save();
+
+
+                                            /*disable old dates*/
+                                            $OldDates = DB::table('persona_exoneracion')
+                                                ->where('persona_id', '=', $personas)
+                                                ->where('estado','!=',0)
+                                                ->get();
+                                            if(count($OldDates)>0){
+                                                foreach ($OldDates as $key => $valueE) {
+                                                    $Changed = PersonaExoneracion::find($valueE->id);
+                                                    $Changed->estado = 2;
+                                                    $Changed->save();
+                                                }                
+                                            }
+                                            /*end disable old dates*/
+
+                                            $persona_exo = new PersonaExoneracion();
+                                            $persona_exo->persona_id = $personas;
+                                            $persona_exo->fecha_ini_exonera = $DocDigital->fecha_i_vacaciones.' 00:00:00';
+                                            $persona_exo->fecha_fin_exonera = $DocDigital->fecha_f_vacaciones.' 00:00:00';
+                                            $persona_exo->observacion =  'VACACIONES CON DOCUMENTO: '.$DocDigital->titulo;
+                                            $persona_exo->doc_digital_id=$DocDigital->id;
+                                            $persona_exo->estado=1;
+                                            $persona_exo->usuario_created_at = Auth::user()->id;
+                                            $persona_exo->save();
+
+                                        }
+                                        //*******************************************************/
                                         $DocDigitalArea = new DocumentoDigitalArea();
                                         $DocDigitalArea->doc_digital_id = $DocDigital->id;
                                         $DocDigitalArea->persona_id = $personas;
@@ -1046,5 +1164,41 @@ class DocumentoDigitalController extends \BaseController {
 	{
 		//
 	}
+        
+        public function postBuscardocumentofinal(){
+            
+        if ( Request::ajax() ) {  
+            $array["where"]='';
+            
+            if( Input::has("titulo") AND Input::get('titulo')!='' ){
+                $array["where"].='(1=1';
+                 $titulo=explode(" ",trim(Input::get('titulo')));
+                    for($i=0; $i<count($titulo); $i++){
+                       $array['where'].=" AND ddt.titulo LIKE '%".$titulo[$i]."%' ";
+                    }
+                 $array["where"].=') OR ';    
+            }
+            
+            
+            if( Input::has("fecha") AND Input::get('fecha')!='' ){
+                $array["where"].=' (';
+                 list($fechaIni,$fechaFin) = explode(" - ", Input::get('fecha'));
+                 $array['where'].= "DATE(ddt.created_at) BETWEEN '".$fechaIni."' AND '".$fechaFin."' ";
+                 $array["where"].=')';
+            }
+            
+            
+            $documento_digital = DocumentoDigital::postBuscarDocumentoFinal($array);
+            return Response::json(array('rst'=>1,'datos'=>$documento_digital));
+        }
+    }
+    
+            public function postMostrarhistoricodocumento(){
+            
+        if ( Request::ajax() ) {  
+            $documento_digital = DocumentoDigital::postMostrarHistoricoDocumento();
+            return Response::json(array('rst'=>1,'datos'=>$documento_digital));
+        }
+    }
 
 }

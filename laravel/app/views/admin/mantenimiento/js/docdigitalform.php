@@ -175,7 +175,8 @@ TipoEnvio=function(){
     $(".asuntolbl").text('Asunto:');
     $(".personasarea").removeClass('hidden');
     $(".todassubg").removeClass('hidden');
-
+    $(".vacaciones").addClass('hidden');
+    
     if($("#slct_tipoenvio").val() == 1 || $("#slct_tipoenvio").val() == 5 || $("#slct_tipoenvio").val() == 6){ //persona
         $(".araesgerencia").addClass('hidden');
         $(".todassubg").addClass('hidden');
@@ -190,6 +191,9 @@ TipoEnvio=function(){
     else{ //gerencia
          $(".areaspersona").addClass('hidden');
          $(".personasarea").addClass('hidden');
+    }
+    if(Documento.tipo_documento_id ==110){
+         $(".vacaciones").removeClass('hidden');
     }
 };
 
@@ -338,6 +342,8 @@ HTMLEdit = function(data){
         CKEDITOR.instances.plantillaWord.setData( data[0].cuerpo );
         document.querySelector("#txt_asunto").value = data[0].asunto;
         document.querySelector("#txt_iddocdigital").value = data[0].id;
+        document.querySelector("#txt_fi_vacacion").value = data[0].fecha_i_vacaciones;
+        document.querySelector("#txt_ff_vacacion").value = data[0].fecha_f_vacaciones;
         TipoEnvio();
         $("#txt_titulo").attr("disabled","true");
         $("#NuevoDocDigital").modal('show');
@@ -387,20 +393,22 @@ validaDocumentos = function(){
         alert("Seleccione Plantilla");
         r=false;
     }
-    
-    if( $("#formNuevoDocDigital #slct_tipoenvio").val()=='' ){
+    else if( $("#formNuevoDocDigital #slct_tipoenvio").val()=='' ){
         alert("Seleccione Tipo de Envio");
         r=false;
     }
-    if( Documento.tipo_documento_id==127 ) {
+    else if( Documento.tipo_documento_id==110 && ($("#formNuevoDocDigital #txt_fi_vacacion").val()=='' || $("#formNuevoDocDigital #txt_ff_vacacion").val()=='')){
+        alert("Debe ingresar el rango de fechas para las vacaciones");
+        r=false;
+    }
+    else if( Documento.tipo_documento_id==127 ) {
         if($("#formNuevoDocDigital #slct_tipoenvio").val()!='7'){
         alert("No escogió correctamente para generar documento sin numeración");
         r=false;
         }
         
     }
-    
-    if( $("#formNuevoDocDigital #slct_tipoenvio").val()=='7' ) {
+    else if( $("#formNuevoDocDigital #slct_tipoenvio").val()=='7' ) {
         if(Documento.tipo_documento_id!=127){
         alert("No escogió correctamente para generar documento sin numeración");
         r=false;

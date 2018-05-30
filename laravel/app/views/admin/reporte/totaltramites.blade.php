@@ -91,8 +91,9 @@
                                             <th>Solicitante</th>
                                             <th>Sumilla</th>
                                             <th>Estado</th>
-                                            <th>Paso a la fecha</th>
-                                            <th>Total de pasos</th>
+                                            <th>Paso</th> <!-- Paso a la fecha -->
+                                            <th>Area</th>
+                                            <!-- <th>Total de pasos</th> -->
                                             <th>Fecha Inicio</th>
                                             <th>Pasos Sin alertas</th>
                                             <th>Pasos Con alertas</th>
@@ -108,11 +109,23 @@
                         <br>
                         <hr>
                         <div class="col-xl-12">
+                            <style>
+                                .foto_desmonte {
+                                    overflow:hidden;
+                                    border: 2px solid #3c8dbc40;
+                                    background:#fefefe;
+                                    -moz-border-radius:5px;
+                                    -webkit-border-radius:5px;
+                                    border-radius: 10px;
+                                    -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+                                    -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+                                }
+                            </style>
                             <div class="form-group">
                                 <table id="t_reported_tab_1" class="table table-bordered" width="100%">
                                     <thead>
                                         <tr>
-                                            <th colspan="6" style='background-color:#DEFAFA; width: 30% !important;'>Datos del paso</th>
+                                            <th colspan="7" style='background-color:#DEFAFA; width: 30% !important;'>Datos del paso</th>
                                             <th style='background-color:#F5DF9D; width: 35% !important;'>Acciones a realizar</th>
                                             <th style='background-color:#FCD790; width: 35% !important;'>Acciones realizadas</th>
                                         </tr>
@@ -123,6 +136,7 @@
                                             <th style='background-color:#DEFAFA'>Inicio</th>
                                             <th style='background-color:#DEFAFA'>Final</th>
                                             <th style='background-color:#DEFAFA'>Estado final</th>
+                                            <th style='background-color:#DEFAFA'>Archivo Desmonte</th>
 
                                             <th style='background-color:#F5DF9D'>Rol "tiene que"
                                             Accion
@@ -317,6 +331,7 @@
                                             <th colspan="6" style='background-color:#DEFAFA'>Datos del paso</th>
                                             <th style='background-color:#F5DF9D'>Acciones a realizar</th>
                                             <th style='background-color:#FCD790'>Acciones realizadas</th>
+                                            <th style='background-color:#FCD790'>&nbsp;</th>
                                         </tr>
                                         <tr>
                                             <th style='background-color:#DEFAFA'>Paso</th>
@@ -336,6 +351,7 @@
                                             (N° Doc.
                                             Descripcion)
                                             </th>
+                                            <th style='background-color:#FCD790'>&nbsp;</th>
                                         </tr>
                                     </thead>
                                     <tbody>

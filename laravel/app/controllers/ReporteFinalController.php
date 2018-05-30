@@ -106,6 +106,34 @@ class ReporteFinalController extends BaseController
       );
     }
 
+    public function postVerificarfueratiempo()
+    {
+      $array=array();
+      $array['usuario']=Auth::user()->id;
+      $array['w']='';
+      $array['areas']='';
+
+      $sql="SELECT GROUP_CONCAT(DISTINCT(a.id) ORDER BY a.id) areas
+                FROM area_cargo_persona acp
+                INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                WHERE acp.estado=1
+                AND cp.persona_id= ".$array['usuario'];
+          $totalareas=DB::select($sql);
+          $areas = $totalareas[0]->areas;
+          $array['w'].=" AND rd.area_id IN (".$areas.") ";
+
+      $array['order']=' ORDER BY rd.fecha_inicio DESC ';
+
+      $r = Reporte::verificarFueraTiempo( $array );
+      return Response::json(
+          array(
+              'rst'=>1,
+              'datos'=>$r
+          )
+      );
+    }
+
     ////////// query para lo solicitado
     public function postBandejatramite()
     {
@@ -611,6 +639,7 @@ class ReporteFinalController extends BaseController
 
     public function postTramitependiente()
     {
+      ini_set('max_execution_time', 300);
       $array=array();
       $array['area']='';$array['sino']='';$array['fecha']='';
 
@@ -680,10 +709,10 @@ class ReporteFinalController extends BaseController
           $value->email='';
           $value->persona_id=$value->jefe_id;
           $alerta[1]='';
-          $cd=CartaDesglose::where('ruta_detalle_id',$value->ruta_detalle_id)->first();
-          $cartaDesglose=CartaDesglose::find($cd->id);
-          $cartaDesglose->persona_id=$value->jefe_id;
-          $cartaDesglose->save();
+
+          $rutaDetalle= RutaDetalle::find($value->ruta_detalle_id);
+          $rutaDetalle->persona_responsable_id=$value->jefe_id;
+          $rutaDetalle->save();
         }
         else if(  trim($value->responsable_auto_id)!='' AND $value->responsable_auto_id!= $value->persona_id){
           $value->responsable=$value->responsable_auto;
@@ -691,19 +720,16 @@ class ReporteFinalController extends BaseController
           $value->email=$value->email_responsable_auto;
           $value->persona_id=$value->responsable_auto_id;
           $alerta[1]='';
-          $cd=CartaDesglose::where('ruta_detalle_id',$value->ruta_detalle_id)->first();
-          $cartaDesglose=CartaDesglose::find($cd->id);
-          $cartaDesglose->persona_id=$value->responsable_auto_id;
-          $cartaDesglose->save();
+
+          $rutaDetalle= RutaDetalle::find($value->ruta_detalle_id);
+          $rutaDetalle->persona_responsable_id=$value->responsable_auto_id;
+          $rutaDetalle->save();
         }
 
         $html.="<tr>";
-        $html.="<td>".$value->tipo_tarea."</td>";
-        $html.="<td>".$value->descripcion."</td>";
         $html.="<td>".$value->nemonico."</td>";
         $html.="<td>".$value->responsable."</td>";
         $html.="<td>".$value->email_mdi."<br>".$value->email."</td>";
-        $html.="<td>".$value->recursos."</td>";
         $html.="<td>".$value->proceso."</td>";
         $html.="<td>".$value->id_union."</td>";
         $html.="<td>".$value->norden."</td>";
@@ -722,10 +748,9 @@ class ReporteFinalController extends BaseController
         elseif($alerta[1]!='' AND $alerta[1]==2){
           $tipo=$alerta[1]+1;
           $texto=".::Relevo::.";
-          $cd=CartaDesglose::where('ruta_detalle_id',$value->ruta_detalle_id)->first();
-          $cartaDesglose=CartaDesglose::find($cd->id);
-          $cartaDesglose->persona_id=$value->jefe_id;
-          $cartaDesglose->save();
+          $rutaDetalle= RutaDetalle::find($value->ruta_detalle_id);
+          $rutaDetalle->persona_responsable_id=$value->jefe_id;
+          $rutaDetalle->save();
         }
         elseif($alerta[1]!='' AND $alerta[1]==3){
           $tipo=1;
@@ -1060,5 +1085,42 @@ class ReporteFinalController extends BaseController
      /* }else{
         echo 'no hay data';
       }*/
+    }
+    
+    public function postTramiteasignacion(){
+        $array['where']='';$array['where2']='';
+        $array['usuario']=Auth::user()->id;
+        $array['w']='';
+        $sql="SELECT GROUP_CONCAT(DISTINCT(a.id) ORDER BY a.id) areas
+                FROM area_cargo_persona acp
+                INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                WHERE acp.estado=1
+                AND cp.persona_id= ".$array['usuario'];
+          $totalareas=DB::select($sql);
+          $areas = $totalareas[0]->areas;
+          $array['w'].=" AND rd.area_id IN (".$areas.") ";
+          
+        if( Input::has('id_union') AND Input::get('id_union')!='' ){
+          $id_union=explode(" ",trim(Input::get('id_union')));
+          for($i=0; $i<count($id_union); $i++){
+            if($i==0){
+                $array['where'].=" ( 1=1";
+                $array['where2'].=" ( 1=1 ";
+            }  
+            $array['where'].="  and rf.id_union LIKE '%".$id_union[$i]."%' ";
+            $array['where2'].=" and  rf.referido LIKE '%".$id_union[$i]."%' ";
+          }
+          $array['where'].=" ) ";
+          $array['where2'].=" ) ";
+        }
+        
+      $rst=Reporte::getTramiteasignacion($array); 
+      return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$rst
+            )
+        );
     }
 }

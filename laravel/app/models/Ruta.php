@@ -76,7 +76,9 @@ class Ruta extends Eloquent
                                 $rutaDetalle['area_id'] = $rfd->area_id;
                                 $rutaDetalle['tiempo_id'] = $rfd->tiempo_id;
                                 $rutaDetalle['dtiempo'] = $rfd->dtiempo;
-//                                $rutaDetalle['ruta_flujo_id']=$rd->ruta_flujo_id2;
+                                $rutaDetalle['ruta_flujo_id_dep']=$rdm->ruta_flujo_id;
+                                $rutaDetalle['detalle']=$rfd->detalle;
+                                $rutaDetalle['archivado']=$rfd->archivado;
                                 $rutaDetalle['norden'] = $rd->norden.'.'.$cero.$rfd->norden;
                                 $rutaDetalle['estado_ruta'] = $rfd->estado_ruta;
                                 $rutaDetalle['usuario_created_at'] = Auth::user()->id;
@@ -227,6 +229,7 @@ class Ruta extends Eloquent
         $ruta['usuario_created_at']= Auth::user()->id;
         $ruta->save();
         /**************CARTA *************************************************/
+        /*
         $carta=array();
         if( Input::has('carta_id') ){
             $carta= Carta::find(Input::get('carta_id'));
@@ -252,6 +255,7 @@ class Ruta extends Eloquent
             $carta['usuario_updated_at']=Auth::user()->id;
             $carta['ruta_id']=$ruta->id;
             $carta->save();
+        */
         /*********************************************************************/
         /************Agregado de referidos*************/
         $referido=new Referido;
@@ -310,6 +314,8 @@ class Ruta extends Eloquent
                 $rutaDetalle['norden']=$cero.$rd->norden;
                 $rutaDetalle['ruta_flujo_id']=$rd->ruta_flujo_id2;
                 $rutaDetalle['estado_ruta']=$rd->estado_ruta;
+                $rutaDetalle['detalle']=$rd->detalle;
+                $rutaDetalle['archivado']=$rd->archivado;
                 if($rd->norden==1 or ($rd->norden>1 and $validaactivar==0 and $rd->estado_ruta==2) ){
                     $rutaDetalle['fecha_inicio']=$fecha_inicio;
                     $sql="SELECT CalcularFechaFinal( '".$fecha_inicio."', (".$rd->dtiempo."*1440), ".$rd->area_id." ) fproy";
@@ -322,6 +328,7 @@ class Ruta extends Eloquent
                 $rutaDetalle['usuario_created_at']= Auth::user()->id;
                 $rutaDetalle->save();
                 /**************CARTA DESGLOSE*********************************/
+                /*
                 $cartaDesglose=array();
                 if( Input::has('carta_id') ){
                     $carta_id=Input::get('carta_id');
@@ -349,7 +356,7 @@ class Ruta extends Eloquent
                             AND rol_id IN (8,9,70)
                             AND area_id='".$rutaDetalle->area_id."'";
                     $person=DB::select($sql);
-                        /***********MEDIR LOS TIEMPOS**************************/
+                        //MEDIR LOS TIEMPOS//
                         $cantmin=0;
                         if( $rutaDetalle->tiempo_id==1 ){
                             $cantmin=60;
@@ -384,6 +391,7 @@ class Ruta extends Eloquent
                 }
                     $cartaDesglose['ruta_detalle_id']=$rutaDetalle->id;
                     $cartaDesglose->save();
+                */
                 /*************************************************************/
                 if( $rd->norden==1 AND Input::has('carta_id') ){
                     $rutaDetalleVerbo = new RutaDetalleVerbo;
@@ -435,78 +443,8 @@ class Ruta extends Eloquent
                           WHERE rfdm.ruta_flujo_id=".$rutaFlujo->id." AND rfdm.estado=1";
                           
             DB::insert($insertMicro);
-            
-
-            /*if( Input::has('referente') ){
-                $rutaid=$ruta->id;
-                $referente=trim( Input::get('referente') );
-                $sql="  SELECT r.id, IFNULL(tr.referente,'') referente
-                        FROM rutas r
-                        INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1
-                        WHERE r.estado=1
-                        AND tr.id_union='".$referente."'
-                        AND r.id < ".$rutaid."
-                        ORDER BY r.id DESC
-                        LIMIT 0,1
-                        ";
-                $padre= DB::select($sql);
-
-                while( count($padre)>0 ){
-                    $insert='INSERT INTO referentes (ruta_id,ruta_id_padre) 
-                             VALUES ('.$ruta->id.','.$padre[0]->id.')';
-                    $ins=DB::insert($insert);
-                    if( trim($padre[0]->referente)!='' ){
-                        $referente=$padre[0]->referente;
-                        $rutaid=$padre[0]->id;
-                        $sql="  SELECT r.id, IFNULL(tr.referente,'') referente
-                                FROM rutas r
-                                INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1
-                                WHERE r.estado=1
-                                AND tr.id_union='".$referente."'
-                                AND r.id < ".$rutaid."
-                                ORDER BY r.id DESC
-                                LIMIT 0,1
-                                ";
-                        $padre= DB::select($sql);
-                    }
-                    else{
-                        $padre=''; $padre=array();
-                    }
-                }
-            }*/
 
         DB::commit();
-        /*if($id_documento!=''){
-            $url ='https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=sincro&documento_id='.$id_documento;
-            $curl_options = array(
-                        //reemplazar url 
-                        CURLOPT_URL => $url,
-                        CURLOPT_HEADER => 0,
-                        CURLOPT_RETURNTRANSFER => TRUE,
-                        CURLOPT_TIMEOUT => 0,
-                        CURLOPT_SSL_VERIFYPEER => 0,
-                        CURLOPT_FOLLOWLOCATION => TRUE,
-                        CURLOPT_ENCODING => 'gzip,deflate',
-                );
-
-                $ch = curl_init();
-                curl_setopt_array( $ch, $curl_options );
-                $output = curl_exec( $ch );
-                curl_close($ch);
-
-            $r = json_decode(utf8_encode($output),true);
-
-            if ( !isset($r["sincro"][0]["valida"]) OR (isset($r["sincro"][0]["valida"]) AND $r["sincro"][0]["valida"]!='TRUE') ){
-              try {             
-                  $insert='INSERT INTO documentos_indedocs (documento_id) 
-                                 VALUES ('.$id_documento.')';
-                        DB::insert($insert);
-              } catch (Exception $ex) {
-                  
-              }
-              
-            }
-        }*/
 
         return  array(
                     'rst'=>1,
@@ -614,7 +552,7 @@ class Ruta extends Eloquent
         $ruta['usuario_created_at']= Auth::user()->id;
         $ruta->save();
         /**************CARTA *************************************************/
-        $carta=array();
+        /*$carta=array();
         if( Input::has('carta_id') ){
             $carta= Carta::find(Input::get('carta_id'));
         }
@@ -639,6 +577,7 @@ class Ruta extends Eloquent
             $carta['usuario_updated_at']=Auth::user()->id;
             $carta['ruta_id']=$ruta->id;
             $carta->save();
+        */
         /*********************************************************************/
         /************Agregado de referidos*************/
         $referido=new Referido;
@@ -736,6 +675,7 @@ class Ruta extends Eloquent
                 $rutaDetalle['usuario_created_at']= Auth::user()->id;
                 $rutaDetalle->save();*/
                 /**************CARTA DESGLOSE*********************************/
+                /*
                 $cartaDesglose=array();
                 if( Input::has('carta_id') ){
                     $carta_id=Input::get('carta_id');
@@ -756,7 +696,7 @@ class Ruta extends Eloquent
                             AND rol_id IN (8,9,70)
                             AND area_id='".$rutaDetalle->area_id."'";
                     $person=DB::select($sql);
-                        /***********MEDIR LOS TIEMPOS**************************/
+                        ///MEDIR LOS TIEMPOS////
                         $cantmin=0;
                         if( $rutaDetalle->tiempo_id==1 ){
                             $cantmin=60;
@@ -791,6 +731,7 @@ class Ruta extends Eloquent
                 }
                     $cartaDesglose['ruta_detalle_id']=$rutaDetalle->id;
                     $cartaDesglose->save();
+                */
                 /*************************************************************/
                 if( $index==0 AND Input::has('carta_id') ){
                     $rutaDetalleVerbo = new RutaDetalleVerbo;
@@ -1039,6 +980,7 @@ class Ruta extends Eloquent
                 $ruta['usuario_created_at']= Auth::user()->id;
                 $ruta->save();
                 /**************CARTA *************************************************/
+                /*
                 $carta=array();
                 if( Input::has('carta_id') ){
                     $carta= Carta::find(Input::get('carta_id'));
@@ -1064,6 +1006,7 @@ class Ruta extends Eloquent
                     $carta['usuario_updated_at']=Auth::user()->id;
                     $carta['ruta_id']=$ruta->id;
                     $carta->save();
+                */
 
                 $qrutaDetalle=DB::table('rutas_flujo_detalle')
                     ->where('ruta_flujo_id', '=', 3720)
