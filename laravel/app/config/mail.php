@@ -91,7 +91,7 @@ return array(
 	| connection so that the application will be able to send messages.
 	*/
 
-	'password' => '009x1e8mvon5',
+	'password' => 'pckz4j3t0xq4',
 
 	/*
 	|--------------------------------------------------------------------------
