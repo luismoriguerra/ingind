@@ -9,8 +9,7 @@
 		"way/generators": "~2.0",
 		"itsgoingd/clockwork": "1.*",
         "simplesoftwareio/simple-qrcode": "~1",
-		"google/recaptcha": "~1.1",
-		"thujohn/pdf": "dev-master",
+		"google/recaptcha": "~1.1"
 		"barryvdh/laravel-dompdf": "0.4.*"
 	},
 	"autoload": {
