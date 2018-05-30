@@ -1,5 +1,9 @@
 <!-- /.modal -->
+<<<<<<< HEAD
+<div class="modal fade"  id="ticketscompletogmgm_relacionesModal" tabindex="-1" role="dialog" aria-hidden="true">
+=======
 <div class="modal fade"  id="ticketscompletogmgm_historicoModal" tabindex="-1" role="dialog" aria-hidden="true">
+>>>>>>> 5c49527f40ffeebf32ad8aaae02d4a66ffcac4a3
 <!-- <div class="modal fade" id="areaModal" tabindex="-1" role="dialog" aria-hidden="true"> -->
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -17,6 +21,15 @@
                     <div class="box-header">
                         <h3 class="box-title"></h3>
                     </div><!-- /.box-header -->
+<<<<<<< HEAD
+                  <form id="form_ticketscompletogmgm" name="form_ticketscompletogmgm" method="POST" action="">
+                      <!-- <a class="btn btn-success btn-md" id="btnexport" name="btnexport" href="" target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Exportar Documentos2</a> -->
+                      <input class='form-control mant' type='hidden' id="estado_solucion" name="estado_solucion" value='3'>
+                        <div class="box-body table-responsive">
+                            <table id="t_ticketscompletogmgm" class="table table-bordered table-striped">
+                                <thead>
+                                <tr><th colspan="10" style="text-align:center;background-color:#A7C0DC;"><h2>Incidencias</h2></th></tr>
+=======
                   <form id="form_ticketscompletogmgm_historico" name="form_ticketscompletogmgm_historico" method="POST" action="">
                       <!-- <a class="btn btn-success btn-md" id="btnexport" name="btnexport" href="" target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Exportar Documentos2</a> -->
                       <input class='form-control mant' type='hidden' id="estado_solucion" name="estado_solucion" value='3'>
@@ -24,6 +37,7 @@
                             <table id="t_ticketscompletogmgm_historico" class="table table-bordered table-striped">
                                 <thead>
                                 <tr><th colspan="11" style="text-align:center;background-color:#A7C0DC;"><h2>Historico Incidencias</h2></th></tr>
+>>>>>>> 5c49527f40ffeebf32ad8aaae02d4a66ffcac4a3
                                     <tr>
                                     
                                     </tr>

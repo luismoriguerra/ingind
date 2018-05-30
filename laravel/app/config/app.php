@@ -191,8 +191,7 @@ return array(
 		'URL'               => 'Illuminate\Support\Facades\URL',
 		'Validator'         => 'Illuminate\Support\Facades\Validator',
 		'View'              => 'Illuminate\Support\Facades\View',
-        'QrCode' => 'SimpleSoftwareIO\QrCode\Facades\QrCode',
-        'PDF'				=> 'Thujohn\Pdf\PdfFacade',
+        'QrCode' 			=> 'SimpleSoftwareIO\QrCode\Facades\QrCode',
         'PDFF'              => 'Barryvdh\DomPDF\Facade',
 	),
 

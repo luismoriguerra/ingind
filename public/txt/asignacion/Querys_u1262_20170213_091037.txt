@@ -1,0 +1,83 @@
+select COUNT(rdv.id) AS TareasRealizadas
+from rutas_detalle_verbo rdv 
+INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1						 
+INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
+INNER JOIN flujos f on r.flujo_id=f.id 
+WHERE rdv.estado=1 
+AND rdv.finalizo=1 
+AND rdv.usuario_updated_at=86
+AND DATE(rdv.updated_at) BETWEEN '2016-01-01' AND '2016-12-01'
+--------------------------------------------------------
+select f.nombre ,COUNT(rdv.id) AS tareas
+from rutas_detalle_verbo rdv 
+INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1						 
+INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
+INNER JOIN flujos f on r.flujo_id=f.id
+WHERE rdv.estado=1 
+AND rdv.finalizo=1 
+AND rdv.usuario_updated_at=201
+AND DATE(rdv.updated_at) BETWEEN '2016-01-01' AND '2016-12-01'
+GROUP BY f.id
+--------------------------------------------------------
+select f.nombre as proceso,a.nombre as area,rdv.nombre  as tarea,
+v.nombre as verbo,rdv.documento,rdv.observacion,rd.norden,rdv.updated_at
+from rutas_detalle_verbo rdv 
+INNER JOIN verbos v on rdv.verbo_id=v.id
+INNER JOIN rutas_detalle rd on rdv.ruta_detalle_id=rd.id AND rdv.estado=1 AND rd.estado=1
+INNER JOIN areas a on rd.area_id=a.id						 
+INNER JOIN rutas r on rd.ruta_id=r.id	AND r.estado=1													 
+INNER JOIN flujos f on r.flujo_id=f.id
+WHERE rdv.estado=1 
+AND rdv.finalizo=1 
+AND rdv.usuario_updated_at=121
+AND f.id=153
+AND DATE(rdv.updated_at) BETWEEN '2016-01-01' AND '2016-12-01'
+
+--------------------------------------------------------------
+SELECT f.nombre as proceso,COUNT(tr.id) as tareas
+FROM tablas_relacion tr 
+INNER JOIN rutas r on tr.id=r.tabla_relacion_id AND r.estado=1
+INNER JOIN flujos f on r.flujo_id=f.id
+WHERE tr.estado=1
+AND tr.usuario_created_at=26 
+AND DATE(tr.created_at) BETWEEN '2016-01-01' AND '2016-12-01'
+GROUP BY f.id
+-------------------------------------------------------------
+SELECT COUNT(tr.id) as tareas
+FROM tablas_relacion tr 
+INNER JOIN rutas r on tr.id=r.tabla_relacion_id AND r.estado=1
+INNER JOIN flujos f on r.flujo_id=f.id
+WHERE tr.estado=1
+AND tr.usuario_created_at=26 
+AND DATE(tr.created_at) BETWEEN '2016-01-01' AND '2016-12-01'
+-------------------------------------------------------------
+SELECT f.id,a.nombre as area,f.nombre as proceso,tr.id_union,tr.created_at as fecha
+FROM tablas_relacion tr 
+INNER JOIN rutas r on tr.id=r.tabla_relacion_id AND r.estado=1
+INNER JOIN flujos f on r.flujo_id=f.id
+INNER JOIN areas a on r.area_id=a.id
+WHERE tr.estado=1
+AND tr.usuario_created_at=26
+AND f.id=607 
+AND DATE(tr.created_at) BETWEEN '2016-01-01' AND '2016-12-01'
+--------------------------------------------------------------
+PROCESO ok
+AREA ok
+PASO ok
+FECHA ok 
+
+TAREAS REALIZADAS
+TRAMITES ASIGNADOS
+
+
+
+Srta Rosmery - 
+Notificaciones para Seguridad ciudadana
+link- informacion que estan mandando 
+si ya lo hicieron 
+link  y mostrar el reporte que genera 
+
+
+----
+EN BASE A LA FECHA DEL DOCUMENTO --- FILTRO SINGLE ---
+ESTAS POR TERMINAR ESO. 

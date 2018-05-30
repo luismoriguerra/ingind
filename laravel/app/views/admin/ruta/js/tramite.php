@@ -33,6 +33,7 @@ $(document).ready(function() {
     
     $("#btn_close").click(cerrar);
     $("#btn_buscar").click(buscar);
+    $("#btn_buscarpa").click(buscarpa);
 
     $('#rutaModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget); // captura al boton
@@ -136,6 +137,17 @@ buscar=function(){
     }
 }
 
+buscarpa=function(){
+    if( $("#txt_tramitepa").val()!="" ){
+     var datos={ tramite:$("#txt_tramitepa").val() };
+    $("#tabla_ruta_detalle").css("display","");
+    Validar.mostrarTramiteXArea(datos,mostrarTramiteXAreaHTML);
+    }
+    else{
+        alert("Ingrese Nro Trámite y busque nuevamente");
+    }
+}
+
 mostrarTramiteHTML=function(datos){
     var html="";
     var cont=0;
@@ -148,7 +160,7 @@ mostrarTramiteHTML=function(datos){
         imagen="";
         clase="";
         cont++;
-            imagen="<a onClick='anularTramite("+data.id+","+data.tramite_id+")' class='btn btn-danger btn-sm'><i class='fa fa-remove fa-lg'></i></a>";
+            imagen="<a onClick='anularTramite("+data.id+","+data.tramite_id+", 1)' class='btn btn-danger btn-sm'><i class='fa fa-remove fa-lg'></i></a>";
 
     html+="<tr>"+
         "<td>"+cont+"</td>"+
@@ -169,11 +181,48 @@ mostrarTramiteHTML=function(datos){
     });
 }
 
-anularTramite=function(id,trid){
-    if( confirm("Esta apunto de anular el tramite:"+$("#td_tra_"+trid).text()+"; Si anula, será eliminado.") ){
+mostrarTramiteXAreaHTML=function(datos){
+    var html="";
+    var cont=0;
+    var botton="";
+    var color="";
+    var clase="";
+     $('#t_ruta_detalle').dataTable().fnDestroy();
+     $("#txt_ruta_detalle_id").remove();
+    $.each(datos,function(index,data){
+        imagen="";
+        clase="";
+        cont++;
+            imagen="<a onClick='anularTramite("+data.id+","+data.tramite_id+", 2)' class='btn btn-danger btn-sm'><i class='fa fa-remove fa-lg'></i></a>";
+
+    html+="<tr>"+
+        "<td>"+cont+"</td>"+
+        "<td id='td_tra_"+data.tramite_id+"'>"+data.id_union+"</td>"+
+        "<td>"+data.fecha_tramite+"</td>"+
+        "<td>"+data.solicitante+"</td>"+
+        "<td>"+data.des_solicitante+"</td>"+
+        "<td>"+data.sumilla+"</td>"+
+        "<td>"+imagen+
+            '<a onclick="cargarRutaId('+data.id+','+data.ruta_flujo_id+',2)" class="btn btn-warning btn-sm"><i class="fa fa-search-plus fa-lg"></i> </a>'+
+        "</td>";
+    html+="</tr>";
+
+    });
+    $("#tb_ruta_detalle").html(html); 
+    $('#t_ruta_detalle').dataTable({
+        "ordering": false
+    });
+}
+
+anularTramite=function(id,trid, valor){
+    /*if( confirm("Esta apunto de anular el tramite:"+$("#td_tra_"+trid).text()+"; Si anula, será eliminado.") ){
     var datos={ruta_id:id,tabla_relacion_id:trid}
     Validar.ActualizarTramite(datos);
-    }
+    }*/
+    sweetalertG.confirm("Confirmación!", "Esta apunto de anular el tramite:"+$("#td_tra_"+trid).text()+";Si anula, será eliminado.", function(){
+        var datos={ruta_id:id,tabla_relacion_id:trid};
+        Validar.ActualizarTramite(datos, valor);
+    });
 }
 
 ////////////////////// Agregando para el mostrar detalle

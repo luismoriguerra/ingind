@@ -6,7 +6,7 @@ var Personalizado={
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
-            data        : dataG,
+            data        : dataG, //{fechames:fechames, ruta_flujo_id:id}, //dataG,
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },

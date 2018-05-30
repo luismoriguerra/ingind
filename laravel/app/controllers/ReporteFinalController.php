@@ -106,6 +106,34 @@ class ReporteFinalController extends BaseController
       );
     }
 
+    public function postVerificarfueratiempo()
+    {
+      $array=array();
+      $array['usuario']=Auth::user()->id;
+      $array['w']='';
+      $array['areas']='';
+
+      $sql="SELECT GROUP_CONCAT(DISTINCT(a.id) ORDER BY a.id) areas
+                FROM area_cargo_persona acp
+                INNER JOIN areas a ON a.id=acp.area_id AND a.estado=1
+                INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                WHERE acp.estado=1
+                AND cp.persona_id= ".$array['usuario'];
+          $totalareas=DB::select($sql);
+          $areas = $totalareas[0]->areas;
+          $array['w'].=" AND rd.area_id IN (".$areas.") ";
+
+      $array['order']=' ORDER BY rd.fecha_inicio DESC ';
+
+      $r = Reporte::verificarFueraTiempo( $array );
+      return Response::json(
+          array(
+              'rst'=>1,
+              'datos'=>$r
+          )
+      );
+    }
+
     ////////// query para lo solicitado
     public function postBandejatramite()
     {
