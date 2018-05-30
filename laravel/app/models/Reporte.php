@@ -193,7 +193,10 @@ class Reporte extends Eloquent
                     WHERE vt.ruta_detalle_id=rd.id
                     AND vt.usuario_created_at=".$array['usuario']."
                 ) id,
-                f.nombre proceso,     
+                f.nombre proceso,
+                IF( 
+                    IFNULL(rd.fecha_proyectada,CURRENT_TIMESTAMP())>=CURRENT_TIMESTAMP(),'Dentro del Tiempo','Fuera del Tiempo'
+                ) tiempo_final_n,
                 rf.alerta
                 FROM rutas r
                 INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.condicion=0
