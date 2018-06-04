@@ -250,9 +250,10 @@ class ReporteFinalController extends BaseController
 
       if( $cant-($cant%10) == Input::get('start') AND $cant%10>0 ){
         $max=$cant;
+
       }
       $nf = "";
-      $r2= array();
+      $r2= array(); 
       if( $cant>10 ){
         for ($i=Input::get('start'); $i < $max; $i++) { 
           if(isset($r[$i])){
