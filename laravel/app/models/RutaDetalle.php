@@ -47,6 +47,7 @@ class RutaDetalle extends Eloquent
         }
         
         $set=DB::select('SET group_concat_max_len := @@max_allowed_packet');
+        $set=DB::select('SET SESSION group_concat_max_len = 100000;');
         $query =
             'SELECT rd.archivado,rd.ruta_id,DATE_ADD(rd.fecha_inicio, INTERVAL 19 HOUR) as hora_fin_mayor,DATE_ADD(rd.fecha_inicio, INTERVAL 4 HOUR) as hora_fin_menor, NOW() as fecha_actual,rd.id, rd.dtiempo_final, r.flujo_id, 
              rd.ruta_flujo_id as rd_ruta_flujo_id,
@@ -142,7 +143,7 @@ class RutaDetalle extends Eloquent
             LEFT JOIN documentos do ON do.id=rdv.documento_id'.
             $adicional;
         $rd = DB::select($query);
-        //echo $query;
+        echo $query;
         if ( Input::get('ruta_detalle_id') ) {
             return $rd[0];
         }
