@@ -112,7 +112,67 @@ class Area extends Base
         return $area;
     }
     
-        public static function getRol(){
+    public function getAreaUser(){
+        $area=DB::table('areas')
+                ->select('id','nombre','nemonico','estado','imagen as evento')
+                ->where( 
+                    function($query){
+                        $query->where('area_gestion_f','=','1');
+
+                        if ( Input::get('estado') ) {
+                            $query->where('estado','=','1');
+                        }
+                        if ( Input::has('areapersona') ){
+                            $query->whereRaw('  FIND_IN_SET( id, 
+                                                    (
+                                                    SELECT GROUP_CONCAT(acp.area_id)
+                                                    FROM area_cargo_persona acp
+                                                    INNER JOIN cargo_persona cp ON cp.id=acp.cargo_persona_id AND cp.estado=1
+                                                    WHERE acp.estado=1
+                                                    AND cp.persona_id='.Auth::user()->id.'
+                                                    )       )>0 ');
+                        }
+
+                        if ( Input::has('areagestion') ){
+                            $query->where('area_gestion','>','0')
+                            ->whereRaw('id!='.Auth::user()->area_id);
+                        }
+                        if ( Input::has('areagestionf') ){
+                            $query->where('area_gestion_f','>','0')
+                            ->whereRaw('id!='.Auth::user()->area_id);
+                        }
+                        if ( Input::has('omitir') ){
+                            $query->where('id','!=','44');
+                            $query->where('id','!=','54');
+                        }
+                        $rst=$this->getRol();
+                        foreach ($rst as $value) {
+                        $array[] = $value->cargo_id;}           
+                        if ( Input::has('personal') && Auth::user()->area_id!=53 && Auth::user()->area_id!=31 && Auth::user()->id!=75 ){
+                            if (!in_array(12, $array)) {
+                            $query->where('id','=',Auth::user()->area_id);
+                            
+                        }
+                        }
+                        
+                        if ( Input::has('responsable') ){
+                            if (in_array(12, $array)){}else {
+                            $query->where('id','=',Auth::user()->area_id);}
+                        }
+
+                        if ( Input::has('areagestionall') ){
+                            $query->where('area_gestion','>','0');
+                        }
+
+                    }
+                )
+                ->orderBy('nombre')
+                ->get();
+                
+        return $area;
+    }
+
+    public static function getRol(){
         $sql = "SELECT cp.cargo_id
                 FROM personas p
                 INNER JOIN cargo_persona cp on p.id=cp.persona_id and cp.estado=1

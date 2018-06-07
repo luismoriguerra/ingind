@@ -51,32 +51,57 @@
                     </div>
                 </fieldset>
             </div><!-- /.box -->
+
+
             <div class="box-body table-responsive">
-                <div class="row form-group" id="reporte" style="display:none;">
-                    <div class="col-sm-12">
-                        <div class="box-body table-responsive">
-                            <table id="t_reporte" class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Paterno</th>
-                                        <th>Materno</th>
-                                        <th>Nombre</th>
-                                        <th>Email</th>
-                                        <th>Dni</th>
-                                        <th>Fecha Nacimiento</th>
-                                        <th>Sexo</th>
-                                        <th>Estado</th>
-                                        <th>Area</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tb_reporte">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a id="op_1" data-toggle="tab" href="#home">OPCION 1</a></li>
+                    <li><a id="op_2" data-toggle="tab" href="#menu1">OPCION 2</a></li>
+                </ul>             
+
+                <div class="tab-content">
+                <div id="home" class="tab-pane fade in active" style="background-color: #fff;">
+                  </br>
+                        <div class="" style="">
+                            <div class="row form-group" id="reporte" style="display:none;">
+                                <div class="col-sm-12">
+                                    <div class="box-body table-responsive">
+                                        <table id="t_reporte" class="table table-bordered" style="width: 99%;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Paterno</th>
+                                                    <th>Materno</th>
+                                                    <th>Nombre</th>
+                                                    <th>Email</th>
+                                                    <th>Dni</th>
+                                                    <th>Fecha Nacimiento</th>
+                                                    <th>Sexo</th>
+                                                    <th>Estado</th>
+                                                    <th>Area</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tb_reporte">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>                
+                        </div><!-- /.box -->
                 </div>
-                
-            </div><!-- /.box -->
+                <div id="menu1" class="tab-pane fade" style="background-color: #fff;">
+                  </br>
+                        <div class="" style="">
+                            <button type="button" id="btnprintuserall" name="btnprintuserall" class="btn btn-primary" style="margin-left: 15px;"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> IMPRIMIR LISTA</button>
+                            <div class="row" id="reporte2" style="display:none;">
+                                
+                            </div>                
+                        </div><!-- /.box -->
+                </div>                
+              </div>
+            </div>
+
+
+
             <!-- Finaliza contenido -->
         </div>
     </section><!-- /.content -->
