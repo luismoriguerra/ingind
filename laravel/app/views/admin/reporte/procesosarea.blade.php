@@ -67,11 +67,7 @@
                                              <div class="col-sm-6">                            
                                                 <label class="control-label" style="color: white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                 <input type="button" class="btn btn-info" id="generar" name="generar" value="Generar Reporte">
-                                             </div>
-                                            <div class="col-sm-6" >
-                                                <label class="control-label" style="color: white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                                <a class='btn btn-success' id="btnexport" name="btnexport"><i class="glyphicon glyphicon-download-alt">Exportar</i></a>
-                                            </div>
+                                             </div> 
                                 </div>
 <!--                            <div class="col-sm-2">
                                 <label class="control-label"></label>
