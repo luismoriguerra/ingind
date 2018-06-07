@@ -55,14 +55,14 @@ var Usuario={
             }
         });
     },
-    obtenerQRUser:function(dni){
+    obtenerQRUser:function(area_id, dni, tamano, tipo){
         $.ajax({
             url         : 'reporte/obtenerqr',
             type        : 'POST',
             cache       : false,
             async       : false,
             dataType    : 'json',
-            data        : {dni: dni},
+            data        : {area_id:area_id, dni: dni, tamano:tamano, tipo:tipo},
             success : function(obj) {
                 //$('#uqr'+dni).html(obj.qr);
                 window.img_qr = obj.qr;

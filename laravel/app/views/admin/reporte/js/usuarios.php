@@ -80,7 +80,7 @@ HTMLreporte2=function(datos, qr){
             text_estado = 'INACTIVO';
         }
         
-        var img_qr = Usuario.obtenerQRUser(data.dni); // Obtengo los QR por User
+        var img_qr = Usuario.obtenerQRUser(data.area_id, data.dni,4,0); // Obtengo los QR por User
 
         html+='<div class="col-md-12">';        
             html+='<div class="col-md-5">'+

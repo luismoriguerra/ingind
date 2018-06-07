@@ -65,10 +65,11 @@ body {
       transform-origin: 50% 50%;  
        
       font-size: 50px;  
-      width: 600px;  
+      width: 500px;  
       position: absolute; 
-      right: -40px;
-      top: 30px;  
+      right: 0px;
+      top: 70px;  
+      left: 150px;
       font-size: 40px; 
       opacity: 0.12;
     } 
@@ -238,7 +239,7 @@ body {
 
 
 <?php if($reporte == 3) : ?> 
-<div class="carnet" style="margin: 10px auto;">
+<div class="carnet" style="height: 225px; margin: 10px auto;">
   <div class="rotar1"><?php if($vistaprevia!=''){echo "Documento No Válido";} ?></div> 
   <table border="0" style="width: 100%;">
       <tr>

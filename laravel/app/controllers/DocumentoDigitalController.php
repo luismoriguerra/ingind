@@ -671,6 +671,7 @@ class DocumentoDigitalController extends \BaseController {
             'nombres'=>$oData[0]->nombre,
             'apellidos'=>$oData[0]->paterno.' '.$oData[0]->materno,
             'area'=>$oData[0]->area,
+            'estado'=>$oData[0]->estado,
             'dni'=>$oData[0]->dni,
             'numero'=>'101010101',
             'tamano'=>$tamano,
