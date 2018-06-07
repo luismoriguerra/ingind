@@ -67,7 +67,7 @@ body {
       font-size: 50px;  
       width: 600px;  
       position: absolute; 
-      right: -70px;
+      right: -40px;
       top: 30px;  
       font-size: 40px; 
       opacity: 0.12;
@@ -78,7 +78,6 @@ body {
 
 <?php if($reporte == 1) : ?> 
 <div class="carnet" style="margin: 10px auto;">
-  <div class="rotar1"><?php if($vistaprevia!=''){echo "Documento No Válido";} ?></div> 
   <table border="0" style="width: 100%;">
       <tr>
        <td style="width: 30%;border: 0px solid blue;">
@@ -127,8 +126,7 @@ body {
  </div>
 <?php endif; ?> 
 
-<?php if ($reporte == 2) : ?>
-      
+<?php if ($reporte == 2) : ?>      
 <?php   $c = 1;
         foreach ($oData as $key => $val) :?>
         <?php if($c == 1) { ?>
@@ -236,7 +234,58 @@ body {
 <?php     endif;
           $c++;
         endforeach; ?> 
+<?php endif; ?> 
 
+
+<?php if($reporte == 3) : ?> 
+<div class="carnet" style="margin: 10px auto;">
+  <div class="rotar1"><?php if($vistaprevia!=''){echo "Documento No Válido";} ?></div> 
+  <table border="0" style="width: 100%;">
+      <tr>
+       <td style="width: 30%;border: 0px solid blue;">
+         <div class="f1">
+         </div>
+         <div class="f2">
+           <div class="ff2">{{ $imagen }}</div>
+         </div>
+       </td>
+       <td style="width: 70%;">
+         <div class="cab">
+             MUNICIPALIDAD DE INDEPENDENCIA
+         </div>
+         <table border="0" style="width: 100%;" cellpadding="4">
+           <tr class="info">
+             <td class="areal" style="width: 28%;">Nombres&nbsp;:<td>              
+             <td style="width: 72%;">{{ $nombres }}<td>
+           </tr>
+           <tr class="info">
+             <td class="areal" style="width: 28%;">Apellidos&nbsp;:<td>              
+             <td style="width: 72%;">{{ $apellidos }}<td>
+           </tr>
+           <tr>
+             <td class="areal" style="width: 28%;">Area&nbsp;:<td>              
+             <td style="width: 72%;">{{ $area }}<td>
+           </tr>
+           <tr>
+             <td class="areal" style="width: 28%;">DNI&nbsp;:<td>              
+             <td style="width: 72%;">{{ $dni }}<td>
+           </tr>
+           <tr>
+             <td class="areal" style="width: 28%;">N° RE.&nbsp;:<td>              
+             <td style="width: 72%;">{{ $numero }}<td>
+           </tr>
+           <?php if($vistaprevia!=''){ ?>
+           <tr>
+             <td class="areal" style="width: 28%;">Estado&nbsp;:<td>              
+             <td style="width: 72%;">{{ $estado }}<td>
+           </tr>
+           <?php } ?>
+        </table>
+        
+       </td>
+     </tr>
+  </table>
+ </div>
 <?php endif; ?> 
 
 </body>

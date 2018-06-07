@@ -709,7 +709,7 @@ class DocumentoDigitalController extends \BaseController {
         $oData=Persona::VerUsuarios($area_id, $id);
         
         $params = [
-            'reporte'=>1,
+            'reporte'=>3,
             'nombres'=>$oData[0]->nombre,
             'apellidos'=>$oData[0]->paterno.' '.$oData[0]->materno,
             'area'=>$oData[0]->area,
