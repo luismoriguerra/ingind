@@ -27,6 +27,51 @@ var Usuario={
                                 '</div>');
             }
         });
+    },
+    mostrarReporte2:function( data){
+        $.ajax({
+            url         : 'reporte/usuariosqr',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : data,
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay,.loading-img").remove();
+                if(obj.rst==1){
+                    HTMLreporte2(obj.datos, obj.qr);
+                    Consulta=obj;
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                $("#msj").html('<div class="alert alert-dismissable alert-danger">'+
+                                    '<i class="fa fa-ban"></i>'+
+                                    '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+
+                                    '<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.'+
+                                '</div>');
+            }
+        });
+    },
+    obtenerQRUser:function(dni){
+        $.ajax({
+            url         : 'reporte/obtenerqr',
+            type        : 'POST',
+            cache       : false,
+            async       : false,
+            dataType    : 'json',
+            data        : {dni: dni},
+            success : function(obj) {
+                //$('#uqr'+dni).html(obj.qr);
+                window.img_qr = obj.qr;
+            },
+            error: function(){
+                alert('error de QR usuario'+dni);
+            }
+        });
+        return img_qr;
     }
 };
 </script>

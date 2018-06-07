@@ -2805,11 +2805,34 @@ class ReporteController extends BaseController
 
     public function postUsuarios(){
       $r=Persona::ListarUsuarios();
-
       return Response::json(
             array(
                 'rst'=>1,
                 'datos'=>$r
+            )
+        );
+    }
+
+    public function postUsuariosqr(){
+      $r=Persona::ListarUsuarios();
+      return Response::json(
+            array(
+                'rst'=>1,
+                'datos'=>$r,
+            )
+        );
+    }
+
+    public function postObtenerqr() {
+      $size = 100; // TAMAÑO EN PX
+      $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqr/".Input::get('dni'));
+      $png = base64_encode($png);
+      $png = "<img class='img-thumbnail' src='data:image/png;base64," . $png . "' width='100' height='100'>";
+      
+      return Response::json(
+            array(
+                'rst'=>1,
+                'qr'=>$png
             )
         );
     }

@@ -348,11 +348,86 @@ class Persona extends Base implements UserInterface, RemindableInterface {
                 WHEN 1 THEN 'Activo'
                 WHEN 0 THEN 'Inactivo'
                 END estado,
+                a.nombre area,r.nombre rol,p.envio_actividad,DATE_FORMAT(p.fecha_ini_exonera,'%Y-%m-%d') as fechaini ,DATE_FORMAT(p.fecha_fin_exonera,'%Y-%m-%d') as fechafin,p.responsable_asigt,p.responsable_dert,
+                p.area_id
+                FROM personas p
+                INNER JOIN areas a on p.area_id=a.id
+                INNER JOIN roles r on p.rol_id=r.id
+                -- WHERE a.id IN ('$areaId') 
+                WHERE (a.id IN ('$areaId') 
+                                OR FIND_IN_SET(a.id IN ('$areaId'), a.area_responsable))
+                AND p.estado=1
+                ORDER BY p.paterno";
+        //echo $sql;
+        $r = DB::select($sql);
+
+        return $r;
+    }
+
+    public static function VerUsuarios($area_id, $dni) {
+        $areaId = '';
+        if(is_array($area_id)){
+            $areaId = implode("','", $area_id);                
+        }else{
+            $areaId = $area_id;
+        }
+
+        $sql = "SELECT p.id norden,p.paterno,p.materno,p.nombre,p.email, p.email_mdi, p.dni,p.fecha_nacimiento,
+                CASE p.sexo
+                WHEN 'F' THEN 'Femenino'
+                WHEN 'M' THEN 'Masculino'
+                END sexo,
+                CASE p.modalidad
+                WHEN 1 THEN 'Trabajador'
+                WHEN 2 THEN 'Tercero'
+                END modalidad,
+                CASE p.estado
+                WHEN 1 THEN 'Activo'
+                WHEN 0 THEN 'Inactivo'
+                END estado,
                 a.nombre area,r.nombre rol,p.envio_actividad,DATE_FORMAT(p.fecha_ini_exonera,'%Y-%m-%d') as fechaini ,DATE_FORMAT(p.fecha_fin_exonera,'%Y-%m-%d') as fechafin,p.responsable_asigt,p.responsable_dert 
                 FROM personas p
                 INNER JOIN areas a on p.area_id=a.id
-        INNER JOIN roles r on p.rol_id=r.id
-                WHERE a.id IN ('$areaId') AND p.estado=1
+                INNER JOIN roles r on p.rol_id=r.id
+                WHERE (a.id IN ('$areaId') 
+                                OR FIND_IN_SET(a.id IN ('$areaId'), a.area_responsable))
+                AND p.estado=1
+                AND p.dni = '$dni'
+                ORDER BY p.paterno";
+
+        $r = DB::select($sql);
+
+        return $r;
+    }
+
+    public static function VerTodosUsuarios($area_id) {
+        $areaId = '';
+        if(is_array($area_id)){
+            $areaId = implode("','", $area_id);                
+        }else{
+            $areaId = $area_id;
+        }
+
+        $sql = "SELECT p.id norden,p.paterno,p.materno,p.nombre,p.email, p.email_mdi, p.dni,p.fecha_nacimiento,
+                CASE p.sexo
+                WHEN 'F' THEN 'Femenino'
+                WHEN 'M' THEN 'Masculino'
+                END sexo,
+                CASE p.modalidad
+                WHEN 1 THEN 'Trabajador'
+                WHEN 2 THEN 'Tercero'
+                END modalidad,
+                CASE p.estado
+                WHEN 1 THEN 'Activo'
+                WHEN 0 THEN 'Inactivo'
+                END estado,
+                a.nombre area,r.nombre rol,p.envio_actividad,DATE_FORMAT(p.fecha_ini_exonera,'%Y-%m-%d') as fechaini ,DATE_FORMAT(p.fecha_fin_exonera,'%Y-%m-%d') as fechafin,p.responsable_asigt,p.responsable_dert 
+                FROM personas p
+                INNER JOIN areas a on p.area_id=a.id
+                INNER JOIN roles r on p.rol_id=r.id
+                WHERE (a.id IN ('$areaId') 
+                                OR FIND_IN_SET(a.id IN ('$areaId'), a.area_responsable))
+                AND p.estado=1
                 ORDER BY p.paterno";
 
         $r = DB::select($sql);

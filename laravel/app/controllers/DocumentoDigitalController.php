@@ -651,6 +651,144 @@ class DocumentoDigitalController extends \BaseController {
         }
     }
 
+    public function getVistauserqr($area_id,$id,$tamano,$tipo)
+    {
+        ini_set("max_execution_time", 300);
+        ini_set('memory_limit','512M');        
+
+        /*end get destinatario data*/
+        $vistaprevia='';
+        $size = 100; // TAMAÑO EN PX 
+        $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$area_id."/".$id."/".$tamano."/".$tipo);
+        $png = base64_encode($png);
+        $png= "<img src='data:image/png;base64," . $png . "' width='100' height='100'>";
+        //$meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
+        
+        $oData=Persona::VerUsuarios($area_id, $id);
+        
+        $params = [
+            'reporte'=>1,
+            'nombres'=>$oData[0]->nombre,
+            'apellidos'=>$oData[0]->paterno.' '.$oData[0]->materno,
+            'area'=>$oData[0]->area,
+            'dni'=>$oData[0]->dni,
+            'numero'=>'101010101',
+            'tamano'=>$tamano,
+            'vistaprevia'=>$vistaprevia,
+            'imagen'=>$png
+        ];
+
+        $view = \View::make('admin.mantenimiento.templates.plantilla2', $params);
+        $html = $view->render();
+
+        $pdf = App::make('dompdf');
+        $html = preg_replace('/>\s+</', '><', $html);
+        $pdf->loadHTML($html);
+
+        $pdf->setPaper('a'.$tamano)->setOrientation('portrait');
+
+        return $pdf->stream();
+        //\PDFF::loadHTML($html)->setPaper('a4')->setOrientation('landscape')->setWarnings(false)->stream();
+    }
+
+    public function getVistauserqrvalida($area_id,$id,$tamano,$tipo)
+    {
+        ini_set("max_execution_time", 300);
+        ini_set('memory_limit','512M');        
+
+        /*end get destinatario data*/
+        
+        $vistaprevia='Documento Vista Previa';
+        
+        $size = 100; // TAMAÑO EN PX 
+        $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$area_id."/".$id."/".$tamano."/".$tipo);
+        $png = base64_encode($png);
+        $png= "<img src='data:image/png;base64," . $png . "' width='100' height='100'>";
+        //$meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
+        
+        $oData=Persona::VerUsuarios($area_id, $id);
+        
+        $params = [
+            'reporte'=>3,
+            'nombres'=>$oData[0]->nombre,
+            'apellidos'=>$oData[0]->paterno.' '.$oData[0]->materno,
+            'area'=>$oData[0]->area,
+            'estado'=>$oData[0]->estado,
+            'dni'=>$oData[0]->dni,
+            'numero'=>'101010101',
+            'tamano'=>$tamano,
+            'vistaprevia'=>$vistaprevia,
+            'imagen'=>$png
+        ];
+
+        $view = \View::make('admin.mantenimiento.templates.plantilla2', $params);
+        $html = $view->render();
+
+        $pdf = App::make('dompdf');
+        $html = preg_replace('/>\s+</', '><', $html);
+        $pdf->loadHTML($html);
+
+        $pdf->setPaper('a'.$tamano)->setOrientation('portrait');
+
+        return $pdf->stream();
+        //\PDFF::loadHTML($html)->setPaper('a4')->setOrientation('landscape')->setWarnings(false)->stream();
+    }
+
+
+    public function getVistatodosuserqr($area_id,$tamano,$tipo)
+    {
+        ini_set("max_execution_time", 300);
+        ini_set('memory_limit','512M');
+
+        $vistaprevia='';
+
+        $oData=Persona::VerTodosUsuarios($area_id);
+        
+        $arr_data = array();
+        foreach ($oData as $key => $val)
+        {
+            $data = array('nombre' => $val->nombre,
+                            'apellidos' => $val->paterno.' '.$val->materno,
+                            'area' => $val->area,
+                            'dni' => $val->dni,
+                            'imagen' => $this->ObtenerQR($area_id, $val->dni, $tamano, $tipo),
+                            'numero' => '9989898');
+            array_push($arr_data, $data);
+        }
+        /*
+        echo '<pre>';
+        print_r($arr_data) ;
+        exit;
+        */
+        $params = [
+            'reporte'=>2,
+            'oData'=>$arr_data,            
+            'tamano'=>$tamano,
+            'vistaprevia'=>$vistaprevia
+        ];
+
+        $view = \View::make('admin.mantenimiento.templates.plantilla2', $params);
+        $html = $view->render();
+
+        $pdf = App::make('dompdf');
+        $html = preg_replace('/>\s+</', '><', $html);
+        $pdf->loadHTML($html);
+
+        $pdf->setPaper('a'.$tamano)->setOrientation('landscape');
+
+        return $pdf->stream();
+        //\PDFF::loadHTML($html)->setPaper('a4')->setOrientation('landscape')->setWarnings(false)->stream();
+    }
+
+    public function ObtenerQR($area_id,$dni,$tamano,$tipo) {
+      $size = 100;
+      $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$area_id."/".$dni."/".$tamano."/".$tipo);
+      $png = base64_encode($png);
+      $png = "<img class='img-thumbnail' src='data:image/png;base64," . $png . "' width='100' height='100'>";
+      
+      return $png;
+    }
+
     public function getVista($id,$tamano,$tipo)
     {
         ini_set("max_execution_time", 300);
@@ -809,7 +947,9 @@ class DocumentoDigitalController extends \BaseController {
             $html = $view->render();
 
             $pdf = App::make('dompdf');
+            $html = preg_replace('/>\s+</', '><', $html);
             $pdf->loadHTML($html);
+
             $pdf->setPaper('a'.$tamano)->setOrientation('portrait');
 
             return $pdf->stream();
@@ -990,7 +1130,9 @@ class DocumentoDigitalController extends \BaseController {
            $html = $view->render();
  
            $pdf = App::make('dompdf');
+           $html = preg_replace('/>\s+</', '><', $html);
            $pdf->loadHTML($html);
+
            $pdf->setPaper('a'.$tamano)->setOrientation('portrait');
  
            return $pdf->stream();
