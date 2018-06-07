@@ -68,7 +68,7 @@ body {
       width: 600px;  
       position: absolute; 
       right: -70px;
-      top: 230px;  
+      top: 30px;  
       font-size: 40px; 
       opacity: 0.12;
     } 
