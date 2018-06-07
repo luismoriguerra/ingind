@@ -324,7 +324,7 @@ var datos = response.datos;
 
             html = html + "<th style=\"background-color:#7bf7ae\">"+totalGlobal+"</th>";
             html = html + "</tr>";
-        
+         
 
 
         configChart.data.datasets=[{

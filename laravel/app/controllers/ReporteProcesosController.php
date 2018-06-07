@@ -4,11 +4,11 @@ class ReporteProcesosController extends \BaseController
 
     public function getProcesosarea()
     {
-
+ 
     	$this->postProcesosarea();
     }
     public function postProcesosarea()
-    {
+    { 
 
     	$fechaIni = (Input::has('fecha_ini') ? Input::get('fecha_ini') : '');
     	$fechaFin = (Input::has('fecha_fin') ? Input::get('fecha_fin') : '');

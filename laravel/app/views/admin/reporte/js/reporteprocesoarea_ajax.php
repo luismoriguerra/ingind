@@ -7,7 +7,7 @@ var Reporte={
             type        : 'POST',
             cache       : false,
             dataType    : 'json',
-            data        : {},
+            data        : {}, 
             beforeSend : function() {
                 $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
             },

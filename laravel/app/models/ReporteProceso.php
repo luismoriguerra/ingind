@@ -15,7 +15,7 @@ class ReporteProceso extends Eloquent
 
     		$filterMonth = " = '$fechaIni'";
 
-    	}else{
+    	}else{ 
     		$pv=0;
     		$limit = 100;
 
