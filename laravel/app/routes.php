@@ -221,3 +221,4 @@ Route::controller('auditoriacuestionarioinicio', 'AuditoriaCuestionarioInicioCon
 Route::controller('maps', 'MapsController');
 
 Route::controller('areauser', 'AreaUserController');
+Route::controller('reporteprocesos', 'ReporteProcesosController');
