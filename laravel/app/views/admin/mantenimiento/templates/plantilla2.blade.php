@@ -49,12 +49,36 @@ body {
   width: 100px;
   margin: 2px auto;
 }
+
+.rotar1  
+    {  
+      -webkit-transform: rotate(-25deg);  
+      -moz-transform: rotate(-25deg);  
+      -ms-transform: rotate(-25deg);  
+      -o-transform: rotate(-25deg);  
+      transform: rotate(-25deg);  
+       
+      -webkit-transform-origin: 50% 50%;  
+      -moz-transform-origin: 50% 50%;  
+      -ms-transform-origin: 50% 50%;  
+      -o-transform-origin: 50% 50%;  
+      transform-origin: 50% 50%;  
+       
+      font-size: 50px;  
+      width: 600px;  
+      position: absolute; 
+      right: -70px;
+      top: 230px;  
+      font-size: 40px; 
+      opacity: 0.12;
+    } 
 </style>
 
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" rightmargin="0">
 
 <?php if($reporte == 1) : ?> 
 <div class="carnet" style="margin: 10px auto;">
+  <div class="rotar1"><?php if($vistaprevia!=''){echo "Documento No Válido";} ?></div> 
   <table border="0" style="width: 100%;">
       <tr>
        <td style="width: 30%;border: 0px solid blue;">
@@ -89,6 +113,12 @@ body {
              <td class="areal" style="width: 28%;">N° RE.&nbsp;:<td>              
              <td style="width: 72%;">{{ $numero }}<td>
            </tr>
+           <?php if($vistaprevia!=''){ ?>
+           <tr>
+             <td class="areal" style="width: 28%;">Estado&nbsp;:<td>              
+             <td style="width: 72%;">{{ $estado }}<td>
+           </tr>
+           <?php } ?>
         </table>
         
        </td>
