@@ -245,16 +245,22 @@ class ReporteFinalController extends BaseController
       //$cant= Reporte::BandejaTramiteCount( $array );
       $r = Reporte::BandejaTramite( $array );
       $cant= count($r);
+      $cant2=$cant;
       $max= Input::get('start')+Input::get('length');
 
       if( $cant-($cant%10) == Input::get('start') AND $cant%10>0 ){
         $max=$cant;
-      }
 
-      $r2= array();
+      }
+      $nf = "";
+      $r2= array(); 
       if( $cant>10 ){
         for ($i=Input::get('start'); $i < $max; $i++) { 
-          array_push($r2, $r[$i]);
+          if(isset($r[$i])){
+            array_push($r2, $r[$i]);
+          }else{
+            $nf .= " - NTF:".$i;
+          }
         }
       }
       else{
@@ -265,6 +271,8 @@ class ReporteFinalController extends BaseController
       $retorno["data"]=$r2;
       $retorno["recordsTotal"]=$cant;
       $retorno["recordsFiltered"]=$cant;
+      $retorno["UNDEFINEDOFFSET"]=$nf;
+      $retorno["cant2"]=$cant2;
 
       return Response::json( $retorno );
     }
