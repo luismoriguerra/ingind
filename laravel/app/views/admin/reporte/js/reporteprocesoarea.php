@@ -1,18 +1,27 @@
 <script type="text/javascript">
 window.chartColors = {
 
-    red: 'rgb(209, 4, 4)',
-    orange: 'rgb(255, 71, 15)',
-    yellow: 'rgb(2, 273, 21)',
-    green: 'rgb(75, 192, 192)',
-    blue: 'rgb(21, 2, 237)',
-    purple: 'rgb(237, 98, 100)',
-    black: 'rgb(0, 0, 0)',
 
+    aqua:'rgb(64, 253, 251)',
+    ligthred: 'rgb(237, 93, 100)',
+    orange: 'rgb(255, 71, 15)',
+    green: 'rgb(2, 273, 21)',
+    blue: 'rgb(21, 2, 237)',
+    ligthblue: 'rgb(75, 192, 192)',
+    gray: 'rgb(78, 93, 100)',
+    gold: 'rgb(239, 193, 30)',
+    red: 'rgb(209, 4, 4)',
+    purple: 'rgb(253, 0, 221)',
+    marron:'rgb(137, 132, 88)',
+    darkred:'rgb(113, 4, 4)',
+    darkgreen: 'rgb(35, 119, 30)',
+    yellow: 'rgb(245, 242, 4)'
+    
 };
 
 var months = [0,'Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-    
+
+var ActColor = Math.floor(Math.random()*(14+1));
 var globalDatasets = [];
 var usingDatasets = [];
 
@@ -69,8 +78,7 @@ var configChart = {
         
 
 $(document).ready(function() {
-
-    $("[data-toggle='offcanvas']").click();
+    
 
     $(".fechaMes").datetimepicker({
         format: "yyyy/mm",
@@ -383,7 +391,7 @@ function cargarElemento(idD,nombreArea){
         return true;
     }
 
-    var colorName = colorNames[configChart.data.datasets.length % colorNames.length];
+    var colorName = colorNames[ActColor++ % colorNames.length];
     var newColor = window.chartColors[colorName];
 
 
@@ -395,7 +403,7 @@ function cargarElemento(idD,nombreArea){
         fill: false
     };
 
-    $("#ce_"+idD).attr("style","background-color:"+newColor+";");
+    $("#ce_"+idD).attr("style","background-color:"+newColor.replace(")", ",0.5)").replace("rgb", "rgba")+";");
     configChart.data.datasets[configChart.data.datasets.length]=newDataset;
 
     console.log(configChart.data.datasets.length);
