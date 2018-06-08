@@ -332,7 +332,7 @@ var datos = response.datos;
             //backgroundColor: 'rgba(102,102,102,0.65);',
             borderColor: 'rgba(25, 25, 25)',           
         }];
-
+        usingDatasets = [];
         configChart.data.datasets[0].label="TOTAL GENERAL";
 
         configChart.data.datasets[0].data=totalColumn;
