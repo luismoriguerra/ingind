@@ -388,6 +388,24 @@
                                     </tbody>
                                 </table>
                             </form>
+
+                            </br></br></br>
+                            <div class="panel panel-info">
+                              <div class="panel-heading" style="overflow: hidden;">
+                                    <form id="form_file" name="form_file" action="" enctype="multipart/form-data" method="post">
+                                        <div class="col-sm-4">
+                                            <label>Seleccionar Archivo</label>
+                                            <input type="file" class="form-control" id="carga" name="carga" >
+                                        </div>
+                                    </form> 
+                              </div>
+                              <div class="panel-body" style="overflow: hidden;">
+                                <div class="col-sm-4"><button type="button" id="btn_cargar" class="btn btn-primary">Guardar</button></div>
+                              </div>
+                            </div>
+
+                                                      
+
                         </div>
                     </div>
 

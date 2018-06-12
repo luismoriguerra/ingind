@@ -117,6 +117,8 @@ body {
              <td class="areal" style="width: 28%;">DNI&nbsp;:<td>              
              <td style="width: 72%;">{{ $dni }}<td>
            </tr>
+
+           <?php if($area_id == 10): ?>
            <tr>
              <td class="areal" style="width: 28%;">N° RE&nbsp;:<td>              
              <td style="width: 72%;">{{ $resolucion }}<td>
@@ -125,6 +127,7 @@ body {
              <td class="areal" style="width: 28%;">INSP.&nbsp;:<td>              
              <td style="width: 72%;">{{ $numero }}<td>
            </tr>
+         <?php endif; ?>
         </table>
         
        </td>
@@ -176,6 +179,7 @@ body {
                              <td class="areal" style="width: 28%;">DNI&nbsp;:<td>              
                              <td style="width: 72%;"><?php echo $val['dni']; ?><td>
                            </tr>
+                           <?php if($val['area_id'] == 10): ?>
                            <tr>
                              <td class="areal" style="width: 28%;">N° RE&nbsp;:<td>              
                              <td style="width: 72%;"><?php echo $val['resolucion']; ?><td>
@@ -184,6 +188,7 @@ body {
                              <td class="areal" style="width: 28%;">INSP.&nbsp;:<td>              
                              <td style="width: 72%;"><?php echo $val['cod_inspector']; ?><td>
                            </tr>
+                         <?php endif; ?>
                         </table>              
                        </td>
                      </tr>
@@ -224,6 +229,7 @@ body {
                              <td class="areal" style="width: 28%;">DNI&nbsp;:<td>              
                              <td style="width: 72%;"><?php echo $val['dni']; ?><td>
                            </tr>
+                           <?php if($val['area_id'] == 10): ?>
                            <tr>
                              <td class="areal" style="width: 28%;">N° RE&nbsp;:<td>              
                              <td style="width: 72%;"><?php echo $val['resolucion']; ?><td>
@@ -232,6 +238,7 @@ body {
                              <td class="areal" style="width: 28%;">INSP.&nbsp;:<td>              
                              <td style="width: 72%;"><?php echo $val['cod_inspector']; ?><td>
                            </tr>
+                         <?php endif; ?>
                         </table>              
                        </td>
                      </tr>
@@ -254,9 +261,17 @@ body {
 <?php endif; ?> 
 
 
-<?php if($reporte == 3) : ?> 
+<?php if($reporte == 3) : 
+        if($estado == 'Activo') {
+              $class_estado = 'label label-success';
+              $text_estado = 'ACTIVO';
+          } else {
+              $class_estado = 'label label-danger';
+              $text_estado = 'INACTIVO';
+          }
+?> 
 <div class="carnet" style="height: 235px; margin: 10px auto;">
-  <div class="rotar1"><?php if($vistaprevia!=''){echo "Documento No Válido";} ?></div> 
+  <div class="rotar1"><?php if($vistaprevia!=''){echo "Validación - Identificación";} ?></div> 
   <table border="0" style="width: 100%;">
       <tr>
        <td style="width: 30%;border: 0px solid blue;">
@@ -299,7 +314,7 @@ body {
            <?php if($vistaprevia!=''){ ?>
            <tr>
              <td class="areal" style="width: 28%;">Estado&nbsp;:<td>              
-             <td style="width: 72%;">{{ $estado }}<td>
+             <td style="width: 72%;"><?php echo '<p><span class="'.$class_estado.'" style="padding: 8px; font-size: 12px;">'.$text_estado.'</span></p>';   ?><td>
            </tr>
            <?php } ?>
         </table>
