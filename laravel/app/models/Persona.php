@@ -385,7 +385,8 @@ class Persona extends Base implements UserInterface, RemindableInterface {
                 WHEN 1 THEN 'Activo'
                 WHEN 0 THEN 'Inactivo'
                 END estado,
-                a.nombre area,r.nombre rol,p.envio_actividad,DATE_FORMAT(p.fecha_ini_exonera,'%Y-%m-%d') as fechaini ,DATE_FORMAT(p.fecha_fin_exonera,'%Y-%m-%d') as fechafin,p.responsable_asigt,p.responsable_dert 
+                a.nombre area,r.nombre rol,p.envio_actividad,DATE_FORMAT(p.fecha_ini_exonera,'%Y-%m-%d') as fechaini ,DATE_FORMAT(p.fecha_fin_exonera,'%Y-%m-%d') as fechafin,p.responsable_asigt,p.responsable_dert,
+                p.resolucion, p.cod_inspector
                 FROM personas p
                 INNER JOIN areas a on p.area_id=a.id
                 INNER JOIN roles r on p.rol_id=r.id
@@ -394,7 +395,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
                 AND p.estado=1
                 AND p.dni = '$dni'
                 ORDER BY p.paterno";
-
+        
         $r = DB::select($sql);
 
         return $r;
@@ -421,7 +422,8 @@ class Persona extends Base implements UserInterface, RemindableInterface {
                 WHEN 1 THEN 'Activo'
                 WHEN 0 THEN 'Inactivo'
                 END estado,
-                a.nombre area,r.nombre rol,p.envio_actividad,DATE_FORMAT(p.fecha_ini_exonera,'%Y-%m-%d') as fechaini ,DATE_FORMAT(p.fecha_fin_exonera,'%Y-%m-%d') as fechafin,p.responsable_asigt,p.responsable_dert 
+                a.nombre area,r.nombre rol,p.envio_actividad,DATE_FORMAT(p.fecha_ini_exonera,'%Y-%m-%d') as fechaini ,DATE_FORMAT(p.fecha_fin_exonera,'%Y-%m-%d') as fechafin,p.responsable_asigt,p.responsable_dert,
+                p.resolucion, p.cod_inspector
                 FROM personas p
                 INNER JOIN areas a on p.area_id=a.id
                 INNER JOIN roles r on p.rol_id=r.id

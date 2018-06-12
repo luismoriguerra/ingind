@@ -673,7 +673,8 @@ class DocumentoDigitalController extends \BaseController {
             'area'=>$oData[0]->area,
             'estado'=>$oData[0]->estado,
             'dni'=>$oData[0]->dni,
-            'numero'=>'101010101',
+            'resolucion'=>$oData[0]->resolucion,
+            'numero'=>$oData[0]->cod_inspector,
             'tamano'=>$tamano,
             'vistaprevia'=>$vistaprevia,
             'imagen'=>$png
@@ -716,7 +717,8 @@ class DocumentoDigitalController extends \BaseController {
             'area'=>$oData[0]->area,
             'estado'=>$oData[0]->estado,
             'dni'=>$oData[0]->dni,
-            'numero'=>'101010101',
+            'resolucion'=>$oData[0]->resolucion,
+            'numero'=>$oData[0]->cod_inspector,
             'tamano'=>$tamano,
             'vistaprevia'=>$vistaprevia,
             'imagen'=>$png
@@ -735,7 +737,6 @@ class DocumentoDigitalController extends \BaseController {
         //\PDFF::loadHTML($html)->setPaper('a4')->setOrientation('landscape')->setWarnings(false)->stream();
     }
 
-
     public function getVistatodosuserqr($area_id,$tamano,$tipo)
     {
         ini_set("max_execution_time", 300);
@@ -753,7 +754,8 @@ class DocumentoDigitalController extends \BaseController {
                             'area' => $val->area,
                             'dni' => $val->dni,
                             'imagen' => $this->ObtenerQR($area_id, $val->dni, $tamano, $tipo),
-                            'numero' => '9989898');
+                            'resolucion'=>$val->resolucion,
+                            'cod_inspector' => $val->cod_inspector);
             array_push($arr_data, $data);
         }
         /*

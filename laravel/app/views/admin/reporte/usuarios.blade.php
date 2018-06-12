@@ -92,8 +92,7 @@
                   </br>
                         <div class="" style="">
                             <button type="button" id="btnprintuserall" name="btnprintuserall" class="btn btn-primary" style="margin-left: 15px;"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> IMPRIMIR LISTA</button>
-                            <div class="row" id="reporte2" style="display:none;">
-                                
+                            <div class="row" id="reporte2" style="display:none;">                                
                             </div>                
                         </div><!-- /.box -->
                 </div>                

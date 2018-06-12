@@ -16,7 +16,7 @@ body {
   height: 210px;
   width: 400px;
   font-family: arial;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .cab{
@@ -26,7 +26,7 @@ body {
   text-align: center;
   height: 16px;
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 0px;
 }
 
 .areal{
@@ -37,7 +37,14 @@ body {
 
 .f1{
   border: 0px solid #000;
-  height: 20px;  
+  height: 90px;
+}
+.ff1{
+  border: 0px solid #000;
+  height: 80px;
+  width: 60px;
+  margin: 1px auto;
+  margin-top: 5px;
 }
 .f2{
   border: 0px solid #000;
@@ -47,7 +54,7 @@ body {
   border: 0px solid #000;
   height: 100px;
   width: 100px;
-  margin: 2px auto;
+  margin: 1px auto;
 }
 
 .rotar1  
@@ -83,6 +90,7 @@ body {
       <tr>
        <td style="width: 30%;border: 0px solid blue;">
          <div class="f1">
+           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/logo_muni.png" style="border: 0px; width: 60px;"/></div>
          </div>
          <div class="f2">
            <div class="ff2">{{ $imagen }}</div>
@@ -110,15 +118,13 @@ body {
              <td style="width: 72%;">{{ $dni }}<td>
            </tr>
            <tr>
-             <td class="areal" style="width: 28%;">N° RE.&nbsp;:<td>              
+             <td class="areal" style="width: 28%;">N° RE&nbsp;:<td>              
+             <td style="width: 72%;">{{ $resolucion }}<td>
+           </tr>
+           <tr>
+             <td class="areal" style="width: 28%;">INSP.&nbsp;:<td>              
              <td style="width: 72%;">{{ $numero }}<td>
            </tr>
-           <?php if($vistaprevia!=''){ ?>
-           <tr>
-             <td class="areal" style="width: 28%;">Estado&nbsp;:<td>              
-             <td style="width: 72%;">{{ $estado }}<td>
-           </tr>
-           <?php } ?>
         </table>
         
        </td>
@@ -143,6 +149,7 @@ body {
                       <tr>
                        <td style="width: 30%;border: 0px solid blue;">
                          <div class="f1">
+                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/logo_muni.png" style="border: 0px; width: 60px;"/></div>
                          </div>
                          <div class="f2">
                            <div class="ff2"><?php echo $val['imagen']; ?></div>
@@ -170,8 +177,12 @@ body {
                              <td style="width: 72%;"><?php echo $val['dni']; ?><td>
                            </tr>
                            <tr>
-                             <td class="areal" style="width: 28%;">N° RE.&nbsp;:<td>              
-                             <td style="width: 72%;"><?php echo '32938293'; ?><td>
+                             <td class="areal" style="width: 28%;">N° RE&nbsp;:<td>              
+                             <td style="width: 72%;"><?php echo $val['resolucion']; ?><td>
+                           </tr>
+                           <tr>
+                             <td class="areal" style="width: 28%;">INSP.&nbsp;:<td>              
+                             <td style="width: 72%;"><?php echo $val['cod_inspector']; ?><td>
                            </tr>
                         </table>              
                        </td>
@@ -186,6 +197,7 @@ body {
                       <tr>
                        <td style="width: 30%;border: 0px solid blue;">
                          <div class="f1">
+                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/logo_muni.png" style="border: 0px; width: 60px;"/></div>
                          </div>
                          <div class="f2">
                            <div class="ff2"><?php echo $val['imagen']; ?></div>
@@ -198,11 +210,11 @@ body {
                          <table border="0" style="width: 100%;" cellpadding="4">
                            <tr class="info">
                              <td class="areal" style="width: 28%;">Nombres&nbsp;:<td>              
-                             <td style="width: 72%;"><?php echo $val['nombre']; ?><td>
+                             <td style="width: 72%; font-size:10px;"><?php echo $val['nombre']; ?><td>
                            </tr>
                            <tr class="info">
                              <td class="areal" style="width: 28%;">Apellidos&nbsp;:<td>              
-                             <td style="width: 72%;"><?php echo $val['apellidos']; ?><td>
+                             <td style="width: 72%; font-size:10px;"><?php echo $val['apellidos']; ?><td>
                            </tr>
                            <tr>
                              <td class="areal" style="width: 28%;">Area&nbsp;:<td>              
@@ -213,8 +225,12 @@ body {
                              <td style="width: 72%;"><?php echo $val['dni']; ?><td>
                            </tr>
                            <tr>
-                             <td class="areal" style="width: 28%;">N° RE.&nbsp;:<td>              
-                             <td style="width: 72%;"><?php echo '32938293'; ?><td>
+                             <td class="areal" style="width: 28%;">N° RE&nbsp;:<td>              
+                             <td style="width: 72%;"><?php echo $val['resolucion']; ?><td>
+                           </tr>
+                           <tr>
+                             <td class="areal" style="width: 28%;">INSP.&nbsp;:<td>              
+                             <td style="width: 72%;"><?php echo $val['cod_inspector']; ?><td>
                            </tr>
                         </table>              
                        </td>
@@ -239,12 +255,13 @@ body {
 
 
 <?php if($reporte == 3) : ?> 
-<div class="carnet" style="height: 225px; margin: 10px auto;">
+<div class="carnet" style="height: 235px; margin: 10px auto;">
   <div class="rotar1"><?php if($vistaprevia!=''){echo "Documento No Válido";} ?></div> 
   <table border="0" style="width: 100%;">
       <tr>
        <td style="width: 30%;border: 0px solid blue;">
          <div class="f1">
+           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/logo_muni.png" style="border: 0px; width: 60px;"/></div>
          </div>
          <div class="f2">
            <div class="ff2">{{ $imagen }}</div>
@@ -272,7 +289,11 @@ body {
              <td style="width: 72%;">{{ $dni }}<td>
            </tr>
            <tr>
-             <td class="areal" style="width: 28%;">N° RE.&nbsp;:<td>              
+             <td class="areal" style="width: 28%;">N° RE&nbsp;:<td>              
+             <td style="width: 72%;">{{ $resolucion }}<td>
+           </tr>
+           <tr>
+             <td class="areal" style="width: 28%;">INSP.&nbsp;:<td>              
              <td style="width: 72%;">{{ $numero }}<td>
            </tr>
            <?php if($vistaprevia!=''){ ?>

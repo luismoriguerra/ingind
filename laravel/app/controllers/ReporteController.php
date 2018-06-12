@@ -2824,10 +2824,10 @@ class ReporteController extends BaseController
     }
 
     public function postObtenerqr() {
-      $size = 100; // TAMAÑO EN PX
+      $size = 140; // TAMAÑO EN PX
       $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqr/".Input::get('area_id')."/".Input::get('dni')."/".Input::get('tamano')."/".Input::get('tipo'));
       $png = base64_encode($png);
-      $png = "<img class='img-thumbnail' src='data:image/png;base64," . $png . "' width='100' height='100'>";
+      $png = "<img class='img-thumbnail' src='data:image/png;base64," . $png . "' width='140' height='140'>";
       
       return Response::json(
             array(

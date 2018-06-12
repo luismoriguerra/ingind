@@ -815,4 +815,22 @@ class PersonaController extends BaseController
             );  
     }
 
+    public function postActualizarcodresolucion()
+    {
+        if ( Request::ajax() ) {
+            $persona = Persona::find(Input::get('id'));
+            $persona->resolucion = Input::get('resolucion');
+            $persona->cod_inspector = Input::get('cod_inspector');
+            $persona->usuario_updated_at = Auth::user()->id;
+            $persona->save();
+           
+            return Response::json(
+                array(
+                'rst'=>1,
+                'msj'=>'Registro actualizado correctamente',
+                )
+            );    
+
+        }
+    }
 }
