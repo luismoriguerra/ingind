@@ -13,8 +13,8 @@ body {
 
 .carnet{
   border: 2px solid #000;
-  height: 210px;
-  width: 400px;
+  height: 225px;
+  width: 350px;
   font-family: arial;
   font-size: 12px;
 }
@@ -22,11 +22,12 @@ body {
 .cab{
   border: 0px solid blue;
   width: 256px;
-  padding: 8px 2px;
+  padding: 3px 2px;
   text-align: center;
   height: 16px;
   font-weight: bold;
   margin-top: 0px;
+  padding-left: -5px;
 }
 
 .areal{
@@ -37,24 +38,25 @@ body {
 
 .f1{
   border: 0px solid #000;
-  height: 90px;
+  height: 95px;
 }
 .ff1{
   border: 0px solid #000;
   height: 80px;
   width: 60px;
   margin: 1px auto;
-  margin-top: 5px;
+  margin-top: 15px;
 }
 .f2{
   border: 0px solid #000;
-  height: 100px;
+  height: 90px;
 }
 .ff2{
   border: 0px solid #000;
   height: 100px;
   width: 100px;
   margin: 1px auto;
+  margin-top: 10px;
 }
 
 .rotar1  
@@ -270,7 +272,7 @@ body {
               $text_estado = 'INACTIVO';
           }
 ?> 
-<div class="carnet" style="height: 235px; margin: 10px auto;">
+<div class="carnet" style="height: 240px; margin: 10px auto;">
   <div class="rotar1"><?php if($vistaprevia!=''){echo "Validación - Identificación";} ?></div> 
   <table border="0" style="width: 100%;">
       <tr>
