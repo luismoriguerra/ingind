@@ -392,7 +392,7 @@ class Persona extends Base implements UserInterface, RemindableInterface {
                 INNER JOIN roles r on p.rol_id=r.id
                 WHERE (a.id IN ('$areaId') 
                                 OR FIND_IN_SET(a.id IN ('$areaId'), a.area_responsable))
-                AND p.estado=1
+                -- AND p.estado=1
                 AND p.dni = '$dni'
                 ORDER BY p.paterno";
         
