@@ -263,10 +263,10 @@ body {
 
 <?php if($reporte == 3) : 
         if($estado == 'Activo') {
-              $class_estado = 'label label-success';
+              $class_estado = 'padding: 8px 8px; font-size: 12px; background-color: #5cb85c; border-color: #5cb85c; color: #fff;';
               $text_estado = 'ACTIVO';
           } else {
-              $class_estado = 'label label-danger';
+              $class_estado = 'padding: 8px 8px; font-size: 12px; background-color: #f56954; border-color: #f4543c; color: #fff;';
               $text_estado = 'INACTIVO';
           }
 ?> 
@@ -303,6 +303,7 @@ body {
              <td class="areal" style="width: 28%;">DNI&nbsp;:<td>              
              <td style="width: 72%;">{{ $dni }}<td>
            </tr>
+           <?php if($area_id == 10): ?>
            <tr>
              <td class="areal" style="width: 28%;">N° RE&nbsp;:<td>              
              <td style="width: 72%;">{{ $resolucion }}<td>
@@ -311,10 +312,11 @@ body {
              <td class="areal" style="width: 28%;">INSP.&nbsp;:<td>              
              <td style="width: 72%;">{{ $numero }}<td>
            </tr>
+         <?php endif; ?>
            <?php if($vistaprevia!=''){ ?>
            <tr>
              <td class="areal" style="width: 28%;">Estado&nbsp;:<td>              
-             <td style="width: 72%;"><?php echo '<p><span class="'.$class_estado.'" style="padding: 8px; font-size: 12px;">'.$text_estado.'</span></p>';   ?><td>
+             <td style="width: 72%;"><?php echo '<label class="" style="'.$class_estado.'">'.$text_estado.'</label>';   ?><td>
            </tr>
            <?php } ?>
         </table>
