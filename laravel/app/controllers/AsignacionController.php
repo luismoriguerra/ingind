@@ -65,6 +65,7 @@ class AsignacionController extends \BaseController
         if ( Request::ajax()){
 
             ini_set('memory_limit', '512MB');
+            ini_set('set_time_limit', '300');
             ini_set('display_errors', true);
 
             $norden = Input::get('norden');
