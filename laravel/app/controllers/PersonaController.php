@@ -846,8 +846,8 @@ class PersonaController extends BaseController
             $mFile = Input::get('image');
             
             $file = 'uc'.$norden;
-            $url = "img/carnet/".date("Ymd")."-".$norden;
-            $url_update = date("Ymd")."-".$norden;
+            $url = "img/carnet/".$norden;
+            $url_update = $norden;
 
             if($fileName = $this->fileToFile($mFile,$url)){
                 $idUsr = Auth::user()->id;
