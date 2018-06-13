@@ -81,7 +81,7 @@ class AsignacionController extends \BaseController
             if($fileName = $this->fileToFile($mFile,$url)){
                 
                 try {
-                    $this->resizeImage($fileName,$fileName,1000);
+                    //$this->resizeImage($fileName,$fileName,1000);
                     $redimImg = true;
                 } catch (Exception $e) {
                     $redimImg = false;
