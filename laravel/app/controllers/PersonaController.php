@@ -847,11 +847,12 @@ class PersonaController extends BaseController
             
             $file = 'uc'.$norden;
             $url = "img/carnet/".$norden;
-            $url_update = $norden;
 
             if($fileName = $this->fileToFile($mFile,$url)){
                 $idUsr = Auth::user()->id;
                 $this->resizeImage($fileName,$fileName,1000);
+                $url_update = explode("/", $fileName);
+                $url_update = $url_update[count($url_update)-1];
                 $mSql = "UPDATE personas SET imagen_dni = '$url_update', usuario_updated_at='".$idUsr."', updated_at = CURRENT_TIMESTAMP WHERE dni = '$norden' LIMIT 1;";
                 DB::update($mSql);
                 $redimImg = true;
