@@ -5,7 +5,7 @@ class DocumentoDigital extends Base {
     public $table = "doc_digital";
     public static $where =['id', 'titulo', 'asunto', 'cuerpo', 'plantilla_doc_id', 'area_id','persona_id','updated_f_comentario','usuario_f_updated_at'];
     public static $selec =['id', 'titulo', 'asunto', 'cuerpo', 'plantilla_doc_id', 'area_id','persona_id','updated_f_comentario','usuario_f_updated_at'];
-
+ 
     public static function getDocumentosDigitales(){
         if(Input::get('id')){
             return DB::table('doc_digital as dd')
@@ -508,6 +508,21 @@ class DocumentoDigital extends Base {
         $sSql = "SELECT ddh.*
                 FROM doc_digital_historico ddh
                 WHERE ddh.doc_digital_id=".Input::get("doc_digital_id");
+
+        $oData = DB::select($sSql);
+
+        return $oData;
+    }
+
+    
+    public static function actividadDocList($actividadID){
+
+        $sSql = "SELECT DD.* FROM 
+                    procesos.actividad_personal as AP
+                    INNER JOIN procesos.actividad_personal_docdigital as APD ON APD.actividad_personal_id = AP.id
+                    INNER JOIN procesos.doc_digital AS DD ON APD.doc_digital_id = DD.id
+                    WHERE 
+                    AP.id=".$actividadID;
 
         $oData = DB::select($sSql);
 

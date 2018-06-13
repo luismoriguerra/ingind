@@ -69,7 +69,7 @@ class Ruta extends Eloquent
                             foreach ($rutaflujodetalle as $rfd) {
                                 $cero='';
                                 if($rfd->norden<10){
-                                    $cero='0';
+                                    $cero='0'; 
                                 }
                                 $rutaDetalle = new RutaDetalle;
                                 $rutaDetalle['ruta_id'] = $rd->ruta_id;
@@ -1165,7 +1165,7 @@ class Ruta extends Eloquent
         }
         
         $sSql = '';
-        $sSql.= "SELECT CONCAT_WS(' ',p.nombre,p.paterno,p.materno) as persona,at.id norden,at.actividad,at.fecha_inicio,at.dtiempo_final,ABS(at.ot_tiempo_transcurrido) ot_tiempo_transcurrido ,SEC_TO_TIME(ABS(at.ot_tiempo_transcurrido) * 60) formato,at.usuario_created_at,at.persona_id 
+        $sSql.= "SELECT CONCAT_WS(' ',p.nombre,p.paterno,p.materno) as persona,at.id norden,at.actividad,at.fecha_inicio,at.dtiempo_final,ABS(at.ot_tiempo_transcurrido) ot_tiempo_transcurrido ,SEC_TO_TIME(ABS(at.ot_tiempo_transcurrido) * 60) formato,at.usuario_created_at,at.persona_id, at.cargo_dir, at.area_id 
                 FROM  actividad_personal at 
                 INNER JOIN personas p on at.persona_id=p.id
                 WHERE at.estado=1";
@@ -1175,6 +1175,22 @@ class Ruta extends Eloquent
             $sSql.= " AND DATE(at.created_at)='".$fecha."'";
         }
         $sSql.=$persona;
+        
+        $oData= DB::select($sSql);
+        return $oData;
+    }
+
+    public static function ActividadById($norden)
+    {   
+
+        $sSql = '';
+        $sSql.= "SELECT CONCAT_WS(' ',p.nombre,p.paterno,p.materno) as persona,at.id norden,at.actividad,at.fecha_inicio,at.dtiempo_final,ABS(at.ot_tiempo_transcurrido) ot_tiempo_transcurrido ,SEC_TO_TIME(ABS(at.ot_tiempo_transcurrido) * 60) formato,at.usuario_created_at,at.persona_id, at.cargo_dir, at.area_id
+                FROM  actividad_personal at 
+                INNER JOIN personas p on at.persona_id=p.id
+                WHERE at.estado=1";
+
+        $sSql.= " AND at.id='".$norden."'";
+        
         
         $oData= DB::select($sSql);
         return $oData;

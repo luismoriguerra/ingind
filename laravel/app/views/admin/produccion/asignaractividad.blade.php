@@ -421,8 +421,11 @@
 @stop
 
 @section('formulario')
-{{--      @include( 'admin.mantenimiento.form.cargo' ) --}}
+{{-- @include( 'admin.mantenimiento.form.cargo' ) --}}
 @include( 'admin.produccion.form.confirmacion' )
 @include( 'admin.mantenimiento.form.docdigitalcompleto' )
 @include( 'admin.produccion.form.actividadesasignadas' )
+@include( 'admin.produccion.form.actividadesasignadas' )
+@include( 'admin.produccion.form.modalFile' )
 @stop
+ 
