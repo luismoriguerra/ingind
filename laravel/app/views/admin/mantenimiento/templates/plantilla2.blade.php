@@ -47,6 +47,7 @@ body {
   height: 95px;
   margin: 1px auto;
   margin-top: 10px;
+  margin-left: 5px;
 }
 .f2{
   border: 0px solid #000;
@@ -312,7 +313,7 @@ body {
       <tr>
        <td style="width: 30%;border: 0px solid blue;">
          <div class="f1">
-           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/logo_muni.png" style="border: 0px; width: 60px;"/></div>
+           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/user.jpg" style="border: 0px; height: 90px; width: 90px;"/></div>
          </div>
          <div class="f2">
            <div class="ff2">{{ $imagen }}</div>
@@ -322,6 +323,7 @@ body {
          <div class="cab">
              MUNICIPALIDAD DE INDEPENDENCIA
          </div>
+         <div class="bgimage">
          <table border="0" style="width: 100%;" cellpadding="4">
            <tr class="info">
              <td class="areal" style="width: 28%;">Nombres&nbsp;:<td>              
@@ -356,7 +358,7 @@ body {
            </tr>
            <?php } ?>
         </table>
-        
+        </div>
        </td>
      </tr>
   </table>
