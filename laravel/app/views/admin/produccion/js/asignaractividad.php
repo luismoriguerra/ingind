@@ -412,7 +412,7 @@ sendImage=function(){
 
     reader.onload = function () {
         $.post("asignacion/uploadcargo",{norden:mnorden, image:reader.result},function(result){
-            console.log(result);
+            console.log(result); 
             if(result.result == 1){
 
                 $("#fileModal").modal("hide");

@@ -5,7 +5,7 @@ class DocumentoDigital extends Base {
     public $table = "doc_digital";
     public static $where =['id', 'titulo', 'asunto', 'cuerpo', 'plantilla_doc_id', 'area_id','persona_id','updated_f_comentario','usuario_f_updated_at'];
     public static $selec =['id', 'titulo', 'asunto', 'cuerpo', 'plantilla_doc_id', 'area_id','persona_id','updated_f_comentario','usuario_f_updated_at'];
-
+ 
     public static function getDocumentosDigitales(){
         if(Input::get('id')){
             return DB::table('doc_digital as dd')

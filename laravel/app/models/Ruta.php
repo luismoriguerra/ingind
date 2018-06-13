@@ -69,7 +69,7 @@ class Ruta extends Eloquent
                             foreach ($rutaflujodetalle as $rfd) {
                                 $cero='';
                                 if($rfd->norden<10){
-                                    $cero='0';
+                                    $cero='0'; 
                                 }
                                 $rutaDetalle = new RutaDetalle;
                                 $rutaDetalle['ruta_id'] = $rd->ruta_id;

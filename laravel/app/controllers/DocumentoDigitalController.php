@@ -12,7 +12,7 @@ class DocumentoDigitalController extends \BaseController {
     
         public function postCargarcompleto()
     {
-        if ( Request::ajax() ) {
+        if ( Request::ajax() ) { 
             /*********************FIJO*****************************/
             $array=array();
             $array['where']='';$array['usuario']=Auth::user()->id;

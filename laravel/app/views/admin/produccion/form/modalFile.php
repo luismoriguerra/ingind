@@ -20,7 +20,7 @@
     </div>
   </div>
 </div>
-
+ 
 
 <div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="showModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -31,7 +31,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body"> 
           <img id="imgSw" src="" />
       </div>
       <div class="modal-footer">
