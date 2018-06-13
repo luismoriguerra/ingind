@@ -231,12 +231,11 @@ class AsignacionController extends \BaseController
                     break;
                 case 'png':
                     //header('Content-type: image/png'); 
-                    $quality = intval($quality/10);
-                    if(imagepng($new, $destination, $quality))$status=1;
+                    if(imagepng($new, $destination))$status=1;
                     break;
                 case 'gif':
                     //header('Content-Type: image/gif');
-                    if(imagegif($new, $destination, $quality))$status=1;
+                    if(imagegif($new, $destination))$status=1;
 
                     break;
                 default:
