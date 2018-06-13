@@ -151,6 +151,8 @@ class AsignacionController extends \BaseController
             }
         }
 
+        ini_set('memory_limit','-1');
+
         $ext = explode(".", $src);
         $ext = strtolower($ext[count($ext)-1]);
         list($width, $height) = getimagesize($src);
