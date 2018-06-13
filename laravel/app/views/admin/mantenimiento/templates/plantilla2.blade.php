@@ -106,7 +106,7 @@ body {
   background-repeat: repeat-y;
   height: 190px;
   width: 100%;
-  
+  background-repeat: no-repeat;
   background-position: center;
 }
 

@@ -100,11 +100,11 @@ HTMLreporte2=function(datos){
                     html += '<form id="formr'+data.norden+'" name="formr'+data.norden+'" class="form-inline">'+
                               '<div class="form-group" style="padding: 8px 10px;">'+
                                 '<label for="" style="width: 110px;">N° Resoluci&oacute;n</label>'+
-                                '<input type="text" class="form-control" onkeypress="return justNumbers(event);" id="txt_nro_resolucion'+data.norden+'" name="txt_nro_resolucion" placeholder="0000000">'+
+                                '<input type="text" class="form-control" onkeypress="return justNumbers(event);" id="txt_nro_resolucion'+data.norden+'" name="txt_nro_resolucion" value="'+data.resolucion+'" placeholder="0000000">'+
                               '</div>'+
                               '<div class="form-group" style="padding: 0px 10px;">'+
                                 '<label for="" style="width: 110px;">Cod. Inspector</label>'+
-                                '<input type="text" class="form-control" onkeypress="return justNumbers(event);" id="txt_codigo_inspector'+data.norden+'" name="txt_codigo_inspector" placeholder="0000000">'+
+                                '<input type="text" class="form-control" onkeypress="return justNumbers(event);" id="txt_codigo_inspector'+data.norden+'" name="txt_codigo_inspector" value="'+data.cod_inspector+'" placeholder="0000000">'+
                               '</div>'+
                               '<button type="button" name="btnactualizaU" id="btnactualizaU" class="btn btn-default btn-sm" onclick="guardarResoUser('+data.norden+')">Actualizar</button>'+
                             '</form>'+
@@ -116,12 +116,17 @@ HTMLreporte2=function(datos){
                 html+='<h5><span class="label label-default">&nbsp;E-mail&nbsp;</span> '+data.email+'</h5>';
             }
 
+            html+='<p><a class="btn btn-primary btn-xs" href="#" onclick="abrirCargaImagen('+data.norden+',\''+data.dni+'\');"><i class="fa fa-print"></i>&nbsp;IMAGEN</a></p>';
+
             html+="</div>";
-            html+='<div class="col-md-4 text-center">'+
+            html+='<div class="col-md-3 text-center">'+
                     '<h4>'+data.area+'</h4>'+
                     '<p><span class="'+class_estado+'" style="padding: 8px; font-size: 12px;">'+text_estado+'</span></p>';
             html+="</div>";
-            html+='<div class="col-md-3 text-center">'+
+            html+='<div class="col-md-2 text-center">'+
+                    '<p><img id="imgU'+data.dni+'" src="img/carnet/'+data.imagen_dni+'" style="width: 100px; height:140;" href="javascript:void(0);"></p>';
+            html+="</div>";
+            html+='<div class="col-md-2 text-center">'+
                     '<p id="uqr'+data.dni+'">'+img_qr+'</p>'+
                     '<p><a class="btn btn-danger btn-xs" href="#" onclick="openPlantilla('+data.area_id+',\''+data.dni+'\',4,0); return false;" data-titulo="Previsualizar"><i class="fa fa-print"></i>&nbsp;PRINT</a></p>';
             html+="</div>";
@@ -130,7 +135,7 @@ HTMLreporte2=function(datos){
     });
     $("#reporte2").html(html);
     $("#reporte2").show();
-    $('#op_2').text('OPCION 2')
+    $('#op_2').text('REPORTE QR')
 };
 
 guardarResoUser=function(persona_id){
@@ -146,7 +151,40 @@ guardarResoUser=function(persona_id){
     else        
         Usuario.actualizarCodResolucion(persona_id, nro_resolucion, cod_inspector);
         //alert(persona_id+ ' - '+ nro_resolucion+ ' - '+ cod_inspector);
-    
+
+}
+
+abrirCargaImagen=function(persona_id, dni){
+    $("#fileModal").modal("show");
+    $("#file_dni").val(dni);
+
+};
+
+sendImage=function(){
+
+    var file = document.getElementById("cargo_comprobante").files[0];
+    var mnorden = document.getElementById("file_dni").value;
+
+    var reader = new FileReader();
+        
+    reader.readAsDataURL(file);
+
+    reader.onload = function () {
+        $.post("persona/actualizarimagen",{norden:mnorden, image:reader.result},function(result){
+            console.log(result); 
+            if(result.result == 1){
+
+                $("#fileModal").modal("hide");
+                $("#file_dni").val(0);
+                $("#imgU"+result.norden).attr('src',result.ruta+'?'+Math.random(100) );
+                //$("#cargoID"+result.norden).hide("slow");
+                //$("#cargoID"+result.norden).html("<span class='btn btn-info btn-md' title=\"Ver nota de cargo\" onClick='verImagen(\""+result.ruta+"\")' > <i class=\"fa fa-image\"></i> </span>");
+                //$("#cargoID"+result.norden).show("slow");
+
+            }
+        });
+    };
+
 }
 
 openPlantilla=function(area_id,dni,tamano,tipo){
@@ -160,6 +198,8 @@ openPlantillaArea=function(area_id,tamano,tipo){
                 "PrevisualizarPlantilla",
                 "toolbar=no,menubar=no,resizable,scrollbars,status,width=1200,height=700");
 };
+
+
 
 
 eventoSlctGlobalSimple=function(slct,valores){
