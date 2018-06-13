@@ -107,7 +107,7 @@ class AsignacionController extends \BaseController
         $url = $url.'.'.$type;
         file_put_contents($url , $file);
         return $url;
-    }
+    } 
 
     function resizeImage($src,$destination,$maxSize=-1,$fillSaquare = FALSE, $quality = 100){
         /*
