@@ -64,7 +64,7 @@ class AsignacionController extends \BaseController
         //si la peticion es ajax
         if ( Request::ajax()){
             ini_set("display_errors", true);
-            
+
             $norden = Input::get('norden');
             $mFile = Input::get('image');
 
@@ -174,7 +174,7 @@ class AsignacionController extends \BaseController
                 $tImage = imagecreatefromgif($src);
                 break;
             default:
-                die('Imagen invalida');
+                return -1;
                 break;
         }
 
