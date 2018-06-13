@@ -674,6 +674,7 @@ class DocumentoDigitalController extends \BaseController {
             'area'=>$oData[0]->area,
             'estado'=>$oData[0]->estado,
             'dni'=>$oData[0]->dni,
+            'imagen_dni'=>$oData[0]->imagen_dni,
             'resolucion'=>$oData[0]->resolucion,
             'numero'=>$oData[0]->cod_inspector,
             'tamano'=>$tamano,
@@ -719,6 +720,7 @@ class DocumentoDigitalController extends \BaseController {
             'area'=>$oData[0]->area,
             'estado'=>$oData[0]->estado,
             'dni'=>$oData[0]->dni,
+            'imagen_dni'=>$oData[0]->imagen_dni,
             'resolucion'=>$oData[0]->resolucion,
             'numero'=>$oData[0]->cod_inspector,
             'tamano'=>$tamano,
@@ -756,6 +758,7 @@ class DocumentoDigitalController extends \BaseController {
                             'area_id'=>$area_id,
                             'area' => $val->area,
                             'dni' => $val->dni,
+                            'imagen_dni'=>$val->imagen_dni,
                             'imagen' => $this->ObtenerQR($area_id, $val->dni, $tamano, $tipo),
                             'resolucion'=>$val->resolucion,
                             'cod_inspector' => $val->cod_inspector);
