@@ -63,7 +63,8 @@ class AsignacionController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax()){
-
+            ini_set("display_errors", true);
+            
             $norden = Input::get('norden');
             $mFile = Input::get('image');
 
@@ -77,7 +78,7 @@ class AsignacionController extends \BaseController
             if($fileName = $this->fileToFile($mFile,$url)){
                 
                 $redimImg = false;
-                if($this->resizeImage($fileName,$fileName,1000)){
+                if(@$this->resizeImage($fileName,$fileName,1000)){
                     $redimImg = true;
                 }
 
