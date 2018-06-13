@@ -81,7 +81,7 @@ class AsignacionController extends \BaseController
             $actividad->save();
             DB::commit();
 
-            $this->resizeImage($fileName,$fileName,1000);
+           // $this->resizeImage($fileName,$fileName,1000);
 
             return Response::json(array('result'=>'1','ruta'=>$fileName,'norden'=>$norden));
         }
