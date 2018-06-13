@@ -63,7 +63,8 @@ class AsignacionController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax()){
-            ini_set("display_errors", true);
+            
+            ini_set('memory_limit', '256MB');
 
             $norden = Input::get('norden');
             $mFile = Input::get('image');
