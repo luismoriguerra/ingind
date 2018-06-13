@@ -65,11 +65,10 @@ class AsignacionController extends \BaseController
         if ( Request::ajax()){
             ini_set('memory_limit','128M');
             ini_set('set_time_limit', '300');
+            ini_set('display_errors', true);
             
             $norden = Input::get('norden');
             $mFile = Input::get('image');
-
-
             
             $file = 'uc'.$norden;
             $url = "file/actividad/".date("Ymd")."-".$norden;
