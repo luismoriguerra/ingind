@@ -63,6 +63,8 @@ class AsignacionController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax()){
+            
+            ini_set('memory_limit', '256MB');
 
             $norden = Input::get('norden');
             $mFile = Input::get('image');
@@ -73,7 +75,16 @@ class AsignacionController extends \BaseController
 
             $file = 'uc'.$norden;
             $url = "file/actividad/".date("Ymd")."-".$norden;
+
             if($fileName = $this->fileToFile($mFile,$url)){
+                
+                try {
+                    $this->resizeImage($fileName,$fileName,1000);
+                    $redimImg = true;
+                } catch (Exception $e) {
+                    $redimImg = false;
+                }
+
                 $actividad->cargo_dir = $fileName;
                 $actividad['usuario_updated_at']=Auth::user()->id;
             }
@@ -81,9 +92,9 @@ class AsignacionController extends \BaseController
             $actividad->save();
             DB::commit();
 
-            $this->resizeImage($fileName,$fileName,1000);
+            
 
-            return Response::json(array('result'=>'1','ruta'=>$fileName,'norden'=>$norden));
+            return Response::json(array('result'=>'1','red'=>$redimImg,'ruta'=>$fileName,'norden'=>$norden));
         }
     }
 
@@ -166,7 +177,7 @@ class AsignacionController extends \BaseController
                 $tImage = imagecreatefromgif($src);
                 break;
             default:
-                die('Imagen invalida');
+                return -1;
                 break;
         }
 
