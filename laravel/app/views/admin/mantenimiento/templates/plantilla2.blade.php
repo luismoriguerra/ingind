@@ -13,20 +13,21 @@ body {
 
 .carnet{
   border: 2px solid #000;
-  height: 210px;
-  width: 400px;
+  height: 225px;
+  width: 350px;
   font-family: arial;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .cab{
   border: 0px solid blue;
   width: 256px;
-  padding: 8px 2px;
+  padding: 3px 2px;
   text-align: center;
   height: 16px;
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 0px;
+  padding-left: -5px;
 }
 
 .areal{
@@ -37,17 +38,25 @@ body {
 
 .f1{
   border: 0px solid #000;
-  height: 20px;  
+  height: 95px;
+}
+.ff1{
+  border: 0px solid #000;
+  height: 80px;
+  width: 60px;
+  margin: 1px auto;
+  margin-top: 15px;
 }
 .f2{
   border: 0px solid #000;
-  height: 100px;
+  height: 90px;
 }
 .ff2{
   border: 0px solid #000;
   height: 100px;
   width: 100px;
-  margin: 2px auto;
+  margin: 1px auto;
+  margin-top: 10px;
 }
 
 .rotar1  
@@ -83,6 +92,7 @@ body {
       <tr>
        <td style="width: 30%;border: 0px solid blue;">
          <div class="f1">
+           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/logo_muni.png" style="border: 0px; width: 60px;"/></div>
          </div>
          <div class="f2">
            <div class="ff2">{{ $imagen }}</div>
@@ -109,16 +119,17 @@ body {
              <td class="areal" style="width: 28%;">DNI&nbsp;:<td>              
              <td style="width: 72%;">{{ $dni }}<td>
            </tr>
+
+           <?php if($area_id == 10): ?>
            <tr>
-             <td class="areal" style="width: 28%;">N° RE.&nbsp;:<td>              
+             <td class="areal" style="width: 28%;">N° RE&nbsp;:<td>              
+             <td style="width: 72%;">{{ $resolucion }}<td>
+           </tr>
+           <tr>
+             <td class="areal" style="width: 28%;">INSP.&nbsp;:<td>              
              <td style="width: 72%;">{{ $numero }}<td>
            </tr>
-           <?php if($vistaprevia!=''){ ?>
-           <tr>
-             <td class="areal" style="width: 28%;">Estado&nbsp;:<td>              
-             <td style="width: 72%;">{{ $estado }}<td>
-           </tr>
-           <?php } ?>
+         <?php endif; ?>
         </table>
         
        </td>
@@ -143,6 +154,7 @@ body {
                       <tr>
                        <td style="width: 30%;border: 0px solid blue;">
                          <div class="f1">
+                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/logo_muni.png" style="border: 0px; width: 60px;"/></div>
                          </div>
                          <div class="f2">
                            <div class="ff2"><?php echo $val['imagen']; ?></div>
@@ -169,10 +181,16 @@ body {
                              <td class="areal" style="width: 28%;">DNI&nbsp;:<td>              
                              <td style="width: 72%;"><?php echo $val['dni']; ?><td>
                            </tr>
+                           <?php if($val['area_id'] == 10): ?>
                            <tr>
-                             <td class="areal" style="width: 28%;">N° RE.&nbsp;:<td>              
-                             <td style="width: 72%;"><?php echo '32938293'; ?><td>
+                             <td class="areal" style="width: 28%;">N° RE&nbsp;:<td>              
+                             <td style="width: 72%;"><?php echo $val['resolucion']; ?><td>
                            </tr>
+                           <tr>
+                             <td class="areal" style="width: 28%;">INSP.&nbsp;:<td>              
+                             <td style="width: 72%;"><?php echo $val['cod_inspector']; ?><td>
+                           </tr>
+                         <?php endif; ?>
                         </table>              
                        </td>
                      </tr>
@@ -186,6 +204,7 @@ body {
                       <tr>
                        <td style="width: 30%;border: 0px solid blue;">
                          <div class="f1">
+                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/logo_muni.png" style="border: 0px; width: 60px;"/></div>
                          </div>
                          <div class="f2">
                            <div class="ff2"><?php echo $val['imagen']; ?></div>
@@ -198,11 +217,11 @@ body {
                          <table border="0" style="width: 100%;" cellpadding="4">
                            <tr class="info">
                              <td class="areal" style="width: 28%;">Nombres&nbsp;:<td>              
-                             <td style="width: 72%;"><?php echo $val['nombre']; ?><td>
+                             <td style="width: 72%; font-size:10px;"><?php echo $val['nombre']; ?><td>
                            </tr>
                            <tr class="info">
                              <td class="areal" style="width: 28%;">Apellidos&nbsp;:<td>              
-                             <td style="width: 72%;"><?php echo $val['apellidos']; ?><td>
+                             <td style="width: 72%; font-size:10px;"><?php echo $val['apellidos']; ?><td>
                            </tr>
                            <tr>
                              <td class="areal" style="width: 28%;">Area&nbsp;:<td>              
@@ -212,10 +231,16 @@ body {
                              <td class="areal" style="width: 28%;">DNI&nbsp;:<td>              
                              <td style="width: 72%;"><?php echo $val['dni']; ?><td>
                            </tr>
+                           <?php if($val['area_id'] == 10): ?>
                            <tr>
-                             <td class="areal" style="width: 28%;">N° RE.&nbsp;:<td>              
-                             <td style="width: 72%;"><?php echo '32938293'; ?><td>
+                             <td class="areal" style="width: 28%;">N° RE&nbsp;:<td>              
+                             <td style="width: 72%;"><?php echo $val['resolucion']; ?><td>
                            </tr>
+                           <tr>
+                             <td class="areal" style="width: 28%;">INSP.&nbsp;:<td>              
+                             <td style="width: 72%;"><?php echo $val['cod_inspector']; ?><td>
+                           </tr>
+                         <?php endif; ?>
                         </table>              
                        </td>
                      </tr>
@@ -238,13 +263,22 @@ body {
 <?php endif; ?> 
 
 
-<?php if($reporte == 3) : ?> 
-<div class="carnet" style="height: 225px; margin: 10px auto;">
-  <div class="rotar1"><?php if($vistaprevia!=''){echo "Documento No Válido";} ?></div> 
+<?php if($reporte == 3) : 
+        if($estado == 'Activo') {
+              $class_estado = 'padding: 8px 8px; font-size: 12px; background-color: #5cb85c; border-color: #5cb85c; color: #fff;';
+              $text_estado = 'ACTIVO';
+          } else {
+              $class_estado = 'padding: 8px 8px; font-size: 12px; background-color: #f56954; border-color: #f4543c; color: #fff;';
+              $text_estado = 'INACTIVO';
+          }
+?> 
+<div class="carnet" style="height: 240px; margin: 10px auto;">
+  <div class="rotar1"><?php if($vistaprevia!=''){echo "Validación - Identificación";} ?></div> 
   <table border="0" style="width: 100%;">
       <tr>
        <td style="width: 30%;border: 0px solid blue;">
          <div class="f1">
+           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/logo_muni.png" style="border: 0px; width: 60px;"/></div>
          </div>
          <div class="f2">
            <div class="ff2">{{ $imagen }}</div>
@@ -271,14 +305,20 @@ body {
              <td class="areal" style="width: 28%;">DNI&nbsp;:<td>              
              <td style="width: 72%;">{{ $dni }}<td>
            </tr>
+           <?php if($area_id == 10): ?>
            <tr>
-             <td class="areal" style="width: 28%;">N° RE.&nbsp;:<td>              
+             <td class="areal" style="width: 28%;">N° RE&nbsp;:<td>              
+             <td style="width: 72%;">{{ $resolucion }}<td>
+           </tr>
+           <tr>
+             <td class="areal" style="width: 28%;">INSP.&nbsp;:<td>              
              <td style="width: 72%;">{{ $numero }}<td>
            </tr>
+         <?php endif; ?>
            <?php if($vistaprevia!=''){ ?>
            <tr>
              <td class="areal" style="width: 28%;">Estado&nbsp;:<td>              
-             <td style="width: 72%;">{{ $estado }}<td>
+             <td style="width: 72%;"><?php echo '<label class="" style="'.$class_estado.'">'.$text_estado.'</label>';   ?><td>
            </tr>
            <?php } ?>
         </table>

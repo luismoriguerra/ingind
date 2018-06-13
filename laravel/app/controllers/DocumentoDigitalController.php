@@ -670,10 +670,12 @@ class DocumentoDigitalController extends \BaseController {
             'reporte'=>1,
             'nombres'=>$oData[0]->nombre,
             'apellidos'=>$oData[0]->paterno.' '.$oData[0]->materno,
+            'area_id'=>$area_id,
             'area'=>$oData[0]->area,
             'estado'=>$oData[0]->estado,
             'dni'=>$oData[0]->dni,
-            'numero'=>'101010101',
+            'resolucion'=>$oData[0]->resolucion,
+            'numero'=>$oData[0]->cod_inspector,
             'tamano'=>$tamano,
             'vistaprevia'=>$vistaprevia,
             'imagen'=>$png
@@ -799,10 +801,12 @@ Mediante el presente formulario se deja constancia que se hace entrega de $canti
             'reporte'=>3,
             'nombres'=>$oData[0]->nombre,
             'apellidos'=>$oData[0]->paterno.' '.$oData[0]->materno,
+            'area_id'=>$area_id,
             'area'=>$oData[0]->area,
             'estado'=>$oData[0]->estado,
             'dni'=>$oData[0]->dni,
-            'numero'=>'101010101',
+            'resolucion'=>$oData[0]->resolucion,
+            'numero'=>$oData[0]->cod_inspector,
             'tamano'=>$tamano,
             'vistaprevia'=>$vistaprevia,
             'imagen'=>$png
@@ -821,7 +825,6 @@ Mediante el presente formulario se deja constancia que se hace entrega de $canti
         //\PDFF::loadHTML($html)->setPaper('a4')->setOrientation('landscape')->setWarnings(false)->stream();
     }
 
-
     public function getVistatodosuserqr($area_id,$tamano,$tipo)
     {
         ini_set("max_execution_time", 300);
@@ -836,10 +839,12 @@ Mediante el presente formulario se deja constancia que se hace entrega de $canti
         {
             $data = array('nombre' => $val->nombre,
                             'apellidos' => $val->paterno.' '.$val->materno,
+                            'area_id'=>$area_id,
                             'area' => $val->area,
                             'dni' => $val->dni,
                             'imagen' => $this->ObtenerQR($area_id, $val->dni, $tamano, $tipo),
-                            'numero' => '9989898');
+                            'resolucion'=>$val->resolucion,
+                            'cod_inspector' => $val->cod_inspector);
             array_push($arr_data, $data);
         }
         /*

@@ -41,8 +41,8 @@ var Usuario={
             success : function(obj) {
                 $(".overlay,.loading-img").remove();
                 if(obj.rst==1){
-                    HTMLreporte2(obj.datos, obj.qr);
-                    Consulta=obj;
+                    HTMLreporte2(obj.datos);
+                    //Consulta=obj;
                 }
             },
             error: function(){
@@ -72,6 +72,32 @@ var Usuario={
             }
         });
         return img_qr;
+    },
+    actualizarCodResolucion:function(persona_id, resolucion, cod_inspector){
+        $.ajax({
+            url         : 'persona/actualizarcodresolucion',
+            type        : 'POST',
+            cache       : false,
+            dataType    : 'json',
+            data        : {id:persona_id, resolucion: resolucion, cod_inspector:cod_inspector},
+            beforeSend : function() {
+                $("body").append('<div class="overlay"></div><div class="loading-img"></div>');
+            },
+            success : function(obj) {
+                $(".overlay, .loading-img").remove();
+
+                if (obj.rst==1) {
+                    //MostrarAjax('proveedores');
+                    msjG.mensaje('success',obj.msj,4000);
+                } else {
+                    alert('ERROR!');
+                }
+            },
+            error: function(){
+                $(".overlay,.loading-img").remove();
+                msjG.mensaje('danger','<b>Ocurrio una interrupción en el proceso,Favor de intentar nuevamente.',4000);
+            }
+        });
     }
 };
 </script>
