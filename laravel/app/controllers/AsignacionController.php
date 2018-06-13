@@ -73,7 +73,14 @@ class AsignacionController extends \BaseController
 
             $file = 'uc'.$norden;
             $url = "file/actividad/".date("Ymd")."-".$norden;
+
             if($fileName = $this->fileToFile($mFile,$url)){
+                
+                $redimImg = false;
+                if($this->resizeImage($fileName,$fileName,1000)){
+                    $redimImg = true;
+                }
+
                 $actividad->cargo_dir = $fileName;
                 $actividad['usuario_updated_at']=Auth::user()->id;
             }
@@ -81,9 +88,9 @@ class AsignacionController extends \BaseController
             $actividad->save();
             DB::commit();
 
-           // $this->resizeImage($fileName,$fileName,1000);
+            
 
-            return Response::json(array('result'=>'1','ruta'=>$fileName,'norden'=>$norden));
+            return Response::json(array('result'=>'1','red'=>$redimImg,'ruta'=>$fileName,'norden'=>$norden));
         }
     }
 
