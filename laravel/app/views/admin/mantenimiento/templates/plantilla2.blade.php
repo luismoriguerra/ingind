@@ -14,9 +14,9 @@ body {
 .carnet{
   border: 2px solid #000;
   height: 225px;
-  width: 350px;
+  width: 340px;
   font-family: arial;
-  font-size: 12px;
+  font-size: 8.5pt;
 }
 
 .cab{
@@ -25,9 +25,10 @@ body {
   padding: 3px 2px;
   text-align: center;
   height: 16px;
+  font-size: 9.5pt;
   font-weight: bold;
   margin-top: 0px;
-  padding-left: -5px;
+  padding-left: -60px;
 }
 
 .areal{
@@ -40,12 +41,13 @@ body {
   border: 0px solid #000;
   height: 95px;
 }
+
 .ff1{
   border: 0px solid #000;
-  height: 80px;
-  width: 60px;
+  height: 95px;
   margin: 1px auto;
-  margin-top: 15px;
+  margin-top: 10px;
+  margin-left: 5px;
 }
 .f2{
   border: 0px solid #000;
@@ -59,29 +61,55 @@ body {
   margin-top: 10px;
 }
 
+.malogo  
+{       
+  -webkit-transform-origin: 50% 50%;  
+  -moz-transform-origin: 50% 50%;  
+  -ms-transform-origin: 50% 50%;  
+  -o-transform-origin: 50% 50%;  
+  transform-origin: 50% 50%; 
+ 
+  opacity: 0.12;
+  position: fixed;
+  margin: 10px auto;
+  left:140px  
+ } 
+
 .rotar1  
-    {  
-      -webkit-transform: rotate(-25deg);  
-      -moz-transform: rotate(-25deg);  
-      -ms-transform: rotate(-25deg);  
-      -o-transform: rotate(-25deg);  
-      transform: rotate(-25deg);  
-       
-      -webkit-transform-origin: 50% 50%;  
-      -moz-transform-origin: 50% 50%;  
-      -ms-transform-origin: 50% 50%;  
-      -o-transform-origin: 50% 50%;  
-      transform-origin: 50% 50%;  
-       
-      font-size: 50px;  
-      width: 500px;  
-      position: absolute; 
-      right: 0px;
-      top: 70px;  
-      left: 150px;
-      font-size: 40px; 
-      opacity: 0.12;
-    } 
+{  
+  -webkit-transform: rotate(-35deg);  
+  -moz-transform: rotate(-35deg);  
+  -ms-transform: rotate(-35deg);  
+  -o-transform: rotate(-35deg);  
+  transform: rotate(-35deg);  
+   
+  -webkit-transform-origin: 50% 50%;  
+  -moz-transform-origin: 50% 50%;  
+  -ms-transform-origin: 50% 50%;  
+  -o-transform-origin: 50% 50%;  
+  transform-origin: 50% 50%;  
+  
+  width: 440px;  
+  position: absolute; 
+  right: 0px;
+  top: 90px;  
+  left: 150px;
+  font-size: 35px; 
+  opacity: 0.12;
+}
+
+.bgimage
+{
+  border: 0px solid #000;
+  background-image: url("http://proceso.munindependencia.pe/img/carnet.png");
+  /*opacity: 0.12;*/
+  background-repeat: repeat-y;
+  height: 190px;
+  width: 100%;
+  
+  background-position: center;
+}
+
 </style>
 
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" rightmargin="0">
@@ -92,16 +120,18 @@ body {
       <tr>
        <td style="width: 30%;border: 0px solid blue;">
          <div class="f1">
-           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/logo_muni.png" style="border: 0px; width: 60px;"/></div>
+           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/user.jpg" style="border: 0px; height: 90px; width: 90px;"/></div>
          </div>
          <div class="f2">
            <div class="ff2">{{ $imagen }}</div>
          </div>
        </td>
        <td style="width: 70%;">
+
          <div class="cab">
              MUNICIPALIDAD DE INDEPENDENCIA
          </div>
+         <div class="bgimage"> 
          <table border="0" style="width: 100%;" cellpadding="4">
            <tr class="info">
              <td class="areal" style="width: 28%;">Nombres&nbsp;:<td>              
@@ -131,7 +161,8 @@ body {
            </tr>
          <?php endif; ?>
         </table>
-        
+        </div>
+
        </td>
      </tr>
   </table>
@@ -154,7 +185,7 @@ body {
                       <tr>
                        <td style="width: 30%;border: 0px solid blue;">
                          <div class="f1">
-                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/logo_muni.png" style="border: 0px; width: 60px;"/></div>
+                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/user.jpg" style="border: 0px; height: 90px; width: 90px;"/></div>
                          </div>
                          <div class="f2">
                            <div class="ff2"><?php echo $val['imagen']; ?></div>
@@ -164,6 +195,7 @@ body {
                          <div class="cab">
                              MUNICIPALIDAD DE INDEPENDENCIA
                          </div>
+                         <div class="bgimage">
                          <table border="0" style="width: 100%;" cellpadding="4">
                            <tr class="info">
                              <td class="areal" style="width: 28%;">Nombres&nbsp;:<td>              
@@ -191,7 +223,8 @@ body {
                              <td style="width: 72%;"><?php echo $val['cod_inspector']; ?><td>
                            </tr>
                          <?php endif; ?>
-                        </table>              
+                        </table>
+                        </div>              
                        </td>
                      </tr>
                   </table>
@@ -204,7 +237,7 @@ body {
                       <tr>
                        <td style="width: 30%;border: 0px solid blue;">
                          <div class="f1">
-                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/logo_muni.png" style="border: 0px; width: 60px;"/></div>
+                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/user.jpg" style="border: 0px; height: 90px; width: 90px;"/></div>
                          </div>
                          <div class="f2">
                            <div class="ff2"><?php echo $val['imagen']; ?></div>
@@ -214,6 +247,7 @@ body {
                          <div class="cab">
                              MUNICIPALIDAD DE INDEPENDENCIA
                          </div>
+                         <div class="bgimage">
                          <table border="0" style="width: 100%;" cellpadding="4">
                            <tr class="info">
                              <td class="areal" style="width: 28%;">Nombres&nbsp;:<td>              
@@ -241,7 +275,8 @@ body {
                              <td style="width: 72%;"><?php echo $val['cod_inspector']; ?><td>
                            </tr>
                          <?php endif; ?>
-                        </table>              
+                        </table>
+                        </div>
                        </td>
                      </tr>
                   </table>
@@ -265,12 +300,12 @@ body {
 
 <?php if($reporte == 3) : 
         if($estado == 'Activo') {
-              $class_estado = 'padding: 8px 8px; font-size: 12px; background-color: #5cb85c; border-color: #5cb85c; color: #fff;';
-              $text_estado = 'ACTIVO';
-          } else {
-              $class_estado = 'padding: 8px 8px; font-size: 12px; background-color: #f56954; border-color: #f4543c; color: #fff;';
-              $text_estado = 'INACTIVO';
-          }
+          $class_estado = 'padding: 8px 8px; font-size: 12px; background-color: #5cb85c; border-color: #5cb85c; color: #fff;';
+          $text_estado = 'ACTIVO';
+        } else {
+          $class_estado = 'padding: 8px 8px; font-size: 12px; background-color: #f56954; border-color: #f4543c; color: #fff;';
+          $text_estado = 'INACTIVO';
+        }
 ?> 
 <div class="carnet" style="height: 240px; margin: 10px auto;">
   <div class="rotar1"><?php if($vistaprevia!=''){echo "Validación - Identificación";} ?></div> 
@@ -278,7 +313,7 @@ body {
       <tr>
        <td style="width: 30%;border: 0px solid blue;">
          <div class="f1">
-           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/logo_muni.png" style="border: 0px; width: 60px;"/></div>
+           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/user.jpg" style="border: 0px; height: 90px; width: 90px;"/></div>
          </div>
          <div class="f2">
            <div class="ff2">{{ $imagen }}</div>
@@ -288,6 +323,7 @@ body {
          <div class="cab">
              MUNICIPALIDAD DE INDEPENDENCIA
          </div>
+         <div class="bgimage">
          <table border="0" style="width: 100%;" cellpadding="4">
            <tr class="info">
              <td class="areal" style="width: 28%;">Nombres&nbsp;:<td>              
@@ -322,7 +358,7 @@ body {
            </tr>
            <?php } ?>
         </table>
-        
+        </div>
        </td>
      </tr>
   </table>
