@@ -67,8 +67,13 @@ class AsignacionController extends \BaseController
             ini_set('set_time_limit', '300');
             ini_set('display_errors', true);
             
+            //echo "X:".$_POST['norden'].$_POST['image'];
+
+            print_r(Input::all());
+
             $norden = Input::get('norden');
             $mFile = Input::get('image');
+
             
             $file = 'uc'.$norden;
             $url = "file/actividad/".date("Ymd")."-".$norden;
@@ -95,7 +100,7 @@ class AsignacionController extends \BaseController
         if ( !is_dir('file/meta') ) {
             mkdir('file/actividad',0777);
         }
-
+        echo $file;
         list($type, $file) = explode(';', $file);
         list(, $type) = explode('/', $type);
         if ($type=='jpeg') $type='jpg';
@@ -226,6 +231,7 @@ class AsignacionController extends \BaseController
                     break;
                 case 'png':
                     //header('Content-type: image/png'); 
+                    $quality = intval($quality/10);
                     if(imagepng($new, $destination, $quality))$status=1;
                     break;
                 case 'gif':
