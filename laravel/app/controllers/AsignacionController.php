@@ -63,8 +63,10 @@ class AsignacionController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax()){
-            
-            ini_set('memory_limit', '256MB');
+
+            ini_set('memory_limit', '512MB');
+            ini_set('set_time_limit', '300');
+            ini_set('display_errors', true);
 
             $norden = Input::get('norden');
             $mFile = Input::get('image');
@@ -79,7 +81,7 @@ class AsignacionController extends \BaseController
             if($fileName = $this->fileToFile($mFile,$url)){
                 
                 try {
-                    $this->resizeImage($fileName,$fileName,1000);
+                    //$this->resizeImage($fileName,$fileName,1000);
                     $redimImg = true;
                 } catch (Exception $e) {
                     $redimImg = false;
