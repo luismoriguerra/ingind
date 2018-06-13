@@ -63,44 +63,33 @@ class AsignacionController extends \BaseController
     {
         //si la peticion es ajax
         if ( Request::ajax()){
-
-            ini_set('memory_limit', '512MB');
+            ini_set('memory_limit','128M');
             ini_set('set_time_limit', '300');
-            ini_set('display_errors', true);
-
+            
             $norden = Input::get('norden');
             $mFile = Input::get('image');
 
 
-            DB::beginTransaction();
-            $actividad= ActividadPersonal::find($norden);
-
+            
             $file = 'uc'.$norden;
             $url = "file/actividad/".date("Ymd")."-".$norden;
 
             if($fileName = $this->fileToFile($mFile,$url)){
-                
-                try {
-                    //$this->resizeImage($fileName,$fileName,1000);
-                    $redimImg = true;
-                } catch (Exception $e) {
-                    $redimImg = false;
-                }
-
-                $actividad->cargo_dir = $fileName;
-                $actividad['usuario_updated_at']=Auth::user()->id;
+                $idUsr = Auth::user()->id;
+                $this->resizeImage($fileName,$fileName,1000);
+                $mSql = "UPDATE actividad_personal SET cargo_dir = '$fileName', usuario_updated_at='".$idUsr."', updated_at = CURRENT_TIMESTAMP WHERE id = '$norden' LIMIT 1;";
+                DB::update($mSql);
+                $redimImg = true;
             }
-
-            $actividad->save();
-            DB::commit();
-
-            
-
+ 
             return Response::json(array('result'=>'1','red'=>$redimImg,'ruta'=>$fileName,'norden'=>$norden));
         }
     }
 
     public function fileToFile($file, $url){
+
+        
+
         if ( !is_dir('file') ) {
             mkdir('file',0777);
         }
