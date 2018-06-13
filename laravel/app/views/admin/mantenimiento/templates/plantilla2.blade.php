@@ -39,15 +39,15 @@ body {
 
 .f1{
   border: 0px solid #000;
-  height: 95px;
+  height: 90px;
 }
 
 .ff1{
   border: 0px solid #000;
-  height: 95px;
+  height: 90px;
   margin: 1px auto;
   margin-top: 10px;
-  margin-left: 5px;
+  margin-left: 15px;
 }
 .f2{
   border: 0px solid #000;
@@ -114,13 +114,13 @@ body {
 
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" rightmargin="0">
 
-<?php if($reporte == 1) : ?> 
+<?php if($reporte == 1) : ?>
 <div class="carnet" style="margin: 10px auto;">
   <table border="0" style="width: 100%;">
       <tr>
        <td style="width: 30%;border: 0px solid blue;">
          <div class="f1">
-           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/user.jpg" style="border: 0px; height: 90px; width: 90px;"/></div>
+           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/<?php echo @$imagen_dni; ?>" style="border: 0px; height: 90px; width: 72px;"/></div>
          </div>
          <div class="f2">
            <div class="ff2">{{ $imagen }}</div>
@@ -185,7 +185,7 @@ body {
                       <tr>
                        <td style="width: 30%;border: 0px solid blue;">
                          <div class="f1">
-                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/user.jpg" style="border: 0px; height: 90px; width: 90px;"/></div>
+                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/<?php echo $val['imagen_dni']; ?>" style="border: 0px; height: 90px; width: 72px;"/></div>
                          </div>
                          <div class="f2">
                            <div class="ff2"><?php echo $val['imagen']; ?></div>
@@ -237,7 +237,7 @@ body {
                       <tr>
                        <td style="width: 30%;border: 0px solid blue;">
                          <div class="f1">
-                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/user.jpg" style="border: 0px; height: 90px; width: 90px;"/></div>
+                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/<?php echo $val['imagen_dni']; ?>" style="border: 0px; height: 90px; width: 72px;"/></div>
                          </div>
                          <div class="f2">
                            <div class="ff2"><?php echo $val['imagen']; ?></div>
@@ -313,7 +313,7 @@ body {
       <tr>
        <td style="width: 30%;border: 0px solid blue;">
          <div class="f1">
-           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/user.jpg" style="border: 0px; height: 90px; width: 90px;"/></div>
+           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/<?php echo @$imagen_dni; ?>" style="border: 0px; height: 90px; width: 72px;"/></div>
          </div>
          <div class="f2">
            <div class="ff2">{{ $imagen }}</div>
