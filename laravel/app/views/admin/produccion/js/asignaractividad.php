@@ -142,25 +142,35 @@ CalcularHrs = function(object,tipo){
     if(typeof (tipo)!='undefined'){
         var row = object.parentNode.parentNode;
     }else {
-    var row = object.parentNode.parentNode.parentNode.parentNode;
+        var row = object.parentNode.parentNode.parentNode.parentNode;
     }
     var HoraInicio = $(row).find('.horaInicio')[0].value;
     var HoraFin = $(row).find('.horaFin')[0].value;
 
 
-    if(HoraInicio != '' && HoraFin != ''){
-        if(HoraInicio < HoraFin){
-            var hi = new Date (new Date().toDateString() + ' ' + HoraInicio);
-            var hf = new Date (new Date().toDateString() + ' ' + HoraFin);
+    var fechaInicio = new Date($(row).find('.fechaInicio')[0].value);
+    var fechaFin = new Date($(row).find('.fechaFin')[0].value);
 
-                var interval = hf.getTime() - hi.getTime();
-                calcTotal = calcTotal + interval;
-                var hours = ((Math.floor(interval/1000/60/60))%24);
-                var min = ((Math.floor(interval/1000/60))%60);
-                $(row).find('.ttranscurrido').val(hours + ":" + min);
+
+
+    if(HoraInicio != '' && HoraFin != ''){
+        if(fechaInicio <= fechaFin){
+            if( (HoraInicio < HoraFin && fechaInicio == fechaFin) || fechaInicio < fechaFin){            
+                var hi = new Date (new Date().toDateString() + ' ' + HoraInicio);
+                var hf = new Date (new Date().toDateString() + ' ' + HoraFin);
+
+                    var interval = hf.getTime() - hi.getTime();
+                    calcTotal = calcTotal + interval;
+                    var hours = ((Math.floor(interval/1000/60/60))%24);
+                    var min = ((Math.floor(interval/1000/60))%60);
+                    $(row).find('.ttranscurrido').val(hours + ":" + min);
+            }else{
+                $(row).find('.horaFin')[0].value = '';
+            alert('La hora Inicial ' + HoraInicio +' no puede ser mayor que la final! '+ HoraFin + ', siga el formato hh:mm.');  
+            }
         }else{
-            $(row).find('.horaFin')[0].value = '';
-           alert('La hora Inicial ' + HoraInicio +' no puede ser mayor que la final! '+ HoraFin + ', siga el formato hh:mm'); 
+            $(row).find('.fechaFin')[0].value = '';
+                alert('La fecha Inicial ' + $(row).find('.fechaInicio')[0].value +' no puede ser mayor que la final! '+ $(row).find('.fechaFin')[0].value + '.');
         }
     }else{
        
@@ -321,6 +331,22 @@ HTMLcargarordentrabajodia=function(datos){
         var hfin = dtiempo_final[1].substring(0, 5);
         var formato = data.formato.substring(0, 5);
         pos++;
+
+
+
+        if(data.cargo_dir == '0' || data.cargo_dir == ''){
+
+            var cargo = "<span class='btn btn-info btn-md' title=\"Crear nota de cargo\" onClick='CrearPDF("+data.norden+","+pos+")' > <i class=\"fa fa-file\"></i> </span><span class='btn btn-info btn-md' title=\"Subir soporte de nota\" onClick='subirImgModal("+data.norden+","+pos+")' > <i class=\"fa fa-upload\"></> </span>";
+
+        }else{
+            
+            var cargo = "<span class='btn btn-info btn-md' title=\"Ver nota de cargo\" onClick='verImagen(\""+data.cargo_dir+"\")' > <i class=\"fa fa-image\"></i> </span>";
+
+        }
+
+
+
+
         html+="<tr id="+data.norden+">"+
             "<td>"+pos+'</td>'+
             "<td>"+data.persona+"</td>"+
@@ -330,7 +356,7 @@ HTMLcargarordentrabajodia=function(datos){
             "<td><input type='text' class='datepicker form-control fechaFin' id='txt_fechaFin' name='txt_fechaFin'  disabled='disabled' value='"+dtiempo_final[0]+"'></td>"+
             "<td><input type='numeric' class='form-control horaFin' id='txt_horaFin' name='txt_horaFin' onchange='CalcularHrs(this,2)' value='"+hfin+"' data-mask></td>"+
             "<td><input type='text' class='form-control ttranscurrido' id='txt_ttranscurrido' name='txt_ttranscurrido' value='"+formato+"' readonly='readonly'></td>"+
-            "<td align='center'><span class='btn btn-success btn-md' onClick='EditarActividad("+data.norden+","+pos+")' > Editar</a></td>";
+            "<td align='center'><span class='btn btn-success btn-md' onClick='EditarActividad("+data.norden+","+pos+")' > Editar</span> <span id=\"cargoID"+data.norden+"\">"+ cargo +"</span></td>";
         html+="</tr>";
     });
     $("#tb_produccion").html(html);
@@ -358,6 +384,50 @@ EditarActividad=function(id,pos){
      Asignar.EditarActividad(dataG,pos);  
     
 };
+
+CrearPDF=function(norden,pos){
+    url = "documentodig/doccargo/"+norden;
+    window.open(url,'_blank');
+}
+
+subirImgModal=function(norden){
+    $("#norden_file").val(norden);
+    $("#fileModal").modal("show");
+}
+
+verImagen=function(ruta){
+    $("#imgSw").attr("src",ruta);
+    $("#showModal").modal("show");
+}
+
+
+sendImage=function(){
+
+    var file = document.getElementById("cargo_comprobante").files[0];
+    var mnorden = document.getElementById("norden_file").value;
+
+    var reader = new FileReader();
+        
+    reader.readAsDataURL(file);
+
+    reader.onload = function () {
+        $.post("asignacion/uploadcargo",{norden:mnorden, image:reader.result},function(result){
+            console.log(result);
+            if(result.result == 1){
+
+                $("#fileModal").modal("hide");
+                $("#norden_file").val(0);
+                $("#cargoID"+result.norden).hide("slow");
+                $("#cargoID"+result.norden).html("<span class='btn btn-info btn-md' title=\"Ver nota de cargo\" onClick='verImagen(\""+result.ruta+"\")' > <i class=\"fa fa-image\"></i> </span>");
+                $("#cargoID"+result.norden).show("slow");
+
+            }
+        });
+    };
+
+}
+
+
 MostrarDocumentos=function(obj){
     var tabla=obj.parentNode.parentNode.parentNode.parentNode;
             TablaDocumento=tabla;

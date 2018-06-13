@@ -514,4 +514,19 @@ class DocumentoDigital extends Base {
         return $oData;
     }
 
+    
+    public static function actividadDocList($actividadID){
+
+        $sSql = "SELECT DD.* FROM 
+                    procesos.actividad_personal as AP
+                    INNER JOIN procesos.actividad_personal_docdigital as APD ON APD.actividad_personal_id = AP.id
+                    INNER JOIN procesos.doc_digital AS DD ON APD.doc_digital_id = DD.id
+                    WHERE 
+                    AP.id=".$actividadID;
+
+        $oData = DB::select($sSql);
+
+        return $oData;
+    }
+
 }
