@@ -155,7 +155,7 @@ CalcularHrs = function(object,tipo){
 
     if(HoraInicio != '' && HoraFin != ''){
         if(fechaInicio <= fechaFin){
-            if( (HoraInicio < HoraFin && fechaInicio == fechaFin) || fechaInicio < fechaFin){            
+            if( (HoraInicio < HoraFin) || fechaInicio < fechaFin){            
                 var hi = new Date (new Date().toDateString() + ' ' + HoraInicio);
                 var hf = new Date (new Date().toDateString() + ' ' + HoraFin);
 
