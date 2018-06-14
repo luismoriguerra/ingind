@@ -42,7 +42,7 @@ class ReporteTramite extends Eloquent
                        alerta_tipo,
                        /*ACA SE MUESTRA EL NOMBRE COMPLETO DE LA PERSONA QUE RETORNO*/
                         IF( rd.condicion=3,
-                            IFNULL(CONCAT('<b>',p1.paterno,' ',p1.materno,', ',p1.nombre,'</b>'),''),
+                            IFNULL(CONCAT('<b>',p1.paterno,' ',p1.materno,', ',p1.nombre,'</b>','<br>','<br>',a.nombre,'</br>','</br>'),''),
                             ''
                         ) as retorno,
                 IFNULL(GROUP_CONCAT(
