@@ -1,6 +1,6 @@
 <script type="text/javascript">
 var Cargar={
-    asignacion:function(){
+    file:function(){
     var formData = new FormData($("#form_file")[0]);
     
         $.ajax({

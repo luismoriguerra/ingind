@@ -17,6 +17,9 @@
 @include( 'admin.js.slct_global' )
 @include( 'admin.produccion.js.asignaractividad_ajax' )
 @include( 'admin.produccion.js.asignaractividad' )
+
+@include( 'admin.produccion.js.cargaractividad_ajax' )
+@include( 'admin.produccion.js.cargaractividad' )
 @stop
 <!-- Right side column. Contains the navbar and content of the page -->
 @section('contenido')
@@ -403,8 +406,6 @@
                                 <div class="col-sm-4"><button type="button" id="btn_cargar" class="btn btn-primary">Guardar</button></div>
                               </div>
                             </div>
-
-                                                      
 
                         </div>
                     </div>

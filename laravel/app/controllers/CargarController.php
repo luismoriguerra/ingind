@@ -1720,6 +1720,97 @@ class CargarController extends BaseController {
     }
     
                     
+    // (RA - 2017/07/07): Carga de Archivo para los Gastos Contables.
+    public function postCargaractividades() { //Importante el nombre del metodo debe sser igual al de la función AJAX.
+        ini_set('memory_limit', '512M');
+        if (isset($_FILES['carga']) and $_FILES['carga']['size'] > 0) {
+
+            $uploadFolder = 'txt/actividades';
+
+            if (!is_dir($uploadFolder)) {
+                mkdir($uploadFolder);
+            }
+
+            $nombreArchivo = explode(".", $_FILES['carga']['name']);
+            $tmpArchivo = $_FILES['carga']['tmp_name'];
+            $archivoNuevo = $nombreArchivo[0] . "_u" . Auth::user()->id . "_" . date("Ymd_his") . "." . $nombreArchivo[1];
+            $file = $uploadFolder . '/' . $archivoNuevo;
+
+            //@unlink($file);
+
+            $m = "Ocurrio un error al subir el archivo. No pudo guardarse.";
+            if (!move_uploaded_file($tmpArchivo, $file)) {
+                return Response::json(
+                                array(
+                                    'upload' => FALSE,
+                                    'rst' => '2',
+                                    'msj' => $m,
+                                    'error' => $_FILES['archivo'],
+                                )
+                );
+            }
+
+            $array = array();
+            $arrayExist = array();
+
+            $file=file('txt/actividades/'.$archivoNuevo);
+            //$file = file('/var/www/html/ingind/public/txt/contabilidad/' . $archivoNuevo);
+
+            for ($i = 0; $i < count($file); $i++) {
+
+                DB::beginTransaction();
+                if (trim($file[$i]) != '') {
+                    $detfile = explode("\t", $file[$i]);
+
+                    for ($j = 0; $j < count($detfile); $j++) {
+                        $buscar = array(chr(13) . chr(10), "\r\n", "\n", "�", "\r", "\n\n", "\xEF", "\xBB", "\xBF");
+                        $reemplazar = "";
+                        $detfile[$j] = trim(str_replace($buscar, $reemplazar, $detfile[$j]));
+                        $array[$i][$j] = $detfile[$j];
+                    }
+
+                    // Validar si existe dato
+                    $persona = Persona::where('dni', '=', $detfile[0])->first();
+
+                    if (count($persona) > 0) {
+                        $acti_personal = new ActividadPersonal();
+                        $acti_personal->actividad = $detfile[1];
+                        $acti_personal->fecha_inicio = $detfile[3].' '.'08:00:00';
+                        $acti_personal->dtiempo_final = $detfile[3].' '.'08:00:00';
+
+                        $acti_personal->persona_id = $persona->id;
+                        $acti_personal->area_id = $persona->area_id;
+                        $acti_personal->usuario_created_at = Auth::user()->id;
+                        $acti_personal->save();
+                    }
+                    /*
+                    $conta_gastos_deta = GastosDetallesContables::where('contabilidad_gastos_id', '=', $conta_gastos->id)
+                                                                ->where('tipo_expede', '=', $detfile[1])
+                                                                ->where('monto_expede', '=', $monto_expede)
+                                                                ->first();
+                    */
+                    // Muestra ultimos QUERY ejecutados
+                    //$log = DB::getQueryLog();
+                    //var_dump($persona);
+                    //exit;
+                }
+                DB::commit();
+            }
+            
+            return Response::json(
+                            array(
+                                'rst' => '1',
+                                'msj' => 'Archivo procesado correctamente',
+                                'file' => $archivoNuevo,
+                                'upload' => TRUE,
+                                //'data'      => $array,
+                                'data' => array(),
+                                'existe' => 0 //$arrayExist
+                            )
+            );
+        }
+    }
+
 
     public function BuscarArea($nombreArea) {
 
