@@ -1773,10 +1773,15 @@ class CargarController extends BaseController {
                     $persona = Persona::where('dni', '=', $detfile[0])->first();
 
                     if (count($persona) > 0) {
+
+                        //$fecha = date('Y-m-d');
+                        $fecha_final = strtotime ( '+1 day' , strtotime ( $detfile[3] ) ) ;
+                        $fecha_final = date ( 'Y-m-d' , $fecha_final );
+
                         $acti_personal = new ActividadPersonal();
                         $acti_personal->actividad = $detfile[1];
                         $acti_personal->fecha_inicio = $detfile[3].' '.'08:00:00';
-                        $acti_personal->dtiempo_final = $detfile[3].' '.'08:00:00';
+                        $acti_personal->dtiempo_final = $fecha_final.' '.'08:00:00';
 
                         $acti_personal->persona_id = $persona->id;
                         $acti_personal->area_id = $persona->area_id;
