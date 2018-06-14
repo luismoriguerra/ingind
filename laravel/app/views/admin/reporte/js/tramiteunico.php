@@ -135,7 +135,8 @@ HTMLreported=function(datos){
                 "<td>"+data.dtiempo_final+"</td>"+
                 "<td>"+estado_final+"</td>"+
                 "<td>"+data.verbo2.split("|").join("<br>")+"</td>"+
-                "<td>"+data.ordenv.split("|").join("<br>")+"</td>";
+                "<td>"+data.ordenv.split("|").join("<br>")+"</td>"+
+                "<td>"+data.retorno+"</td>"; // SE AÑADIO
         html+=  "</tr>";
 
     });
