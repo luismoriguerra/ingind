@@ -30,10 +30,21 @@ class ReporteTramite extends Eloquent
 
     public static function TramiteDetalle( $array )
     {
-        $sql="  SELECT rd.id, rd.ruta_id, IFNULL(a.nombre,'') as area, rd.condicion,
-                IFNULL(t.nombre,'') as tiempo, IFNULL(dtiempo,'') as dtiempo, 
-                IFNULL(rd.fecha_inicio,'') as fecha_inicio, IFNULL(dtiempo_final,'') as dtiempo_final, 
-                norden, alerta, alerta_tipo,
+        $sql="  SELECT rd.id, rd.ruta_id,
+                       IFNULL(a.nombre,'') as area, 
+                       rd.condicion,
+                       IFNULL(t.nombre,'') as tiempo, 
+                       IFNULL(dtiempo,'') as dtiempo,
+                       IFNULL(rd.fecha_inicio,'') as fecha_inicio,
+                       IFNULL(dtiempo_final,'') as dtiempo_final,
+                       norden,
+                       alerta,
+                       alerta_tipo,
+                       /*ACA SE MUESTRA EL NOMBRE COMPLETO DE LA PERSONA QUE RETORNO*/
+                        IF( rd.condicion=3,
+                            IFNULL(CONCAT('<b>',p1.paterno,' ',p1.materno,', ',p1.nombre,'</b>'),''),
+                            ''
+                        ) as retorno,
                 IFNULL(GROUP_CONCAT(
                   CONCAT(
                     '<b>',
@@ -61,6 +72,7 @@ class ReporteTramite extends Eloquent
                   )
                     ORDER BY v.orden ASC
                 SEPARATOR '|'),'') AS ordenv
+
                 FROM rutas AS r 
                 INNER JOIN rutas_detalle AS rd ON r.id = rd.ruta_id AND rd.estado = 1
                 INNER JOIN rutas_detalle_verbo AS v ON rd.id = v.ruta_detalle_id AND v.estado=1
@@ -70,6 +82,8 @@ class ReporteTramite extends Eloquent
                 LEFT JOIN verbos as vs ON v.verbo_id=vs.id
                 LEFT JOIN documentos as d ON v.documento_id=d.id
                 LEFT JOIN personas as p ON v.usuario_updated_at=p.id
+                LEFT JOIN personas as p1 ON rd.usuario_retorno=p1.id
+
                 WHERE r.estado = 1".
                 $array['where']."
                 GROUP BY rd.id";

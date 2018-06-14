@@ -222,10 +222,12 @@ class RutaDetalleController extends \BaseController
                         $rd = RutaDetalle::find($rd_ant->ruta_detalle_id_ant);
 //                      $rd = RutaDetalle::where('ruta_id',Input::get('ruta_id'))->where('condicion',0)->where('norden',Input::get('orden') - 1)->get()[0];
                         $rd->condicion=3;
+                        $rd->usuario_retorno=Auth::user()->id;
                         $rd->save();
                     }else{ //paso actual == 0
                         $rd = RutaDetalle::find(Input::get('ruta_detalle_id'));
                         $rd->estado = 0;
+                        $rd->usuario_retorno=Auth::user()->id;
                         $rd->save();
                     }
 
