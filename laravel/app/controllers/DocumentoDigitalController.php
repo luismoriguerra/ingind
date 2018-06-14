@@ -1411,9 +1411,6 @@ public function getDoccargo($norden)
     &nbsp;<br><br><u>_______________</u></td>
     </tr>
 </table>
-    &nbsp;<br><br><u>_______________</u></td>
-    </tr>
-</table>
             ",
             //'imagen'=>$png
         ];
