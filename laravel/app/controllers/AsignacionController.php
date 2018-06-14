@@ -69,7 +69,7 @@ class AsignacionController extends \BaseController
             
             //echo "X:".$_POST['norden'].$_POST['image'];
 
-            print_r(Input::all());
+            //print_r(Input::all());
 
             $norden = Input::get('norden');
             $mFile = Input::get('image');
