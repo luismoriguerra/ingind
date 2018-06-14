@@ -1352,4 +1352,89 @@ class DocumentoDigitalController extends \BaseController {
         }
     }
 
+
+
+
+public function getDoccargo($norden)
+    {
+
+        ini_set("max_execution_time", 300);
+        ini_set('memory_limit','512M');        
+
+
+        $oData=Ruta::ActividadById($norden);
+
+        $documentos = "";
+
+        $docs = DocumentoDigital::actividadDocList($norden);
+        $cantidadDocs = count($docs);
+
+
+        $i=1;
+        if($cantidadDocs<=0){
+            $documentos = "<br><b>No hay documentos asignados.</b>";
+        }
+            foreach ($docs as $key => $value) {
+            $documentos .= "<br>&nbsp; ".$i++." - &nbsp;<b>".$docs[$key]->titulo."</b>";
+
+        }
+
+
+        $tamano = 5;
+        $params = [
+            'reporte'=>1,
+            'area'=>1,
+            'conCabecera'=>1,
+            'imagen'=>'',
+            'anio'=>'2018',
+            'tamano'=>$tamano,
+            'fecha'=>"Asignado: ".$oData[0]->fecha_inicio,//explode(" ",$oData[0]->fecha_inicio)[0],
+            'asunto'=>$oData[0]->actividad,
+            'remitente'=>Area::find(Auth::user()->area_id)->nombre,
+            'destinatario'=>$oData[0]->persona,
+            'vistaprevia'=>"",
+            'contenido'=>"
+            <h3 align=\"center\">Nota de cargo</h3>
+
+            Mediante el presente formulario se deja constancia que se hace entrega de $cantidadDocs documentos, los documentos entregados se mencionan a continuación:<br>
+
+ $documentos
+
+ <br><br>La persona quien recibe este cargo se compromete a atender y a responsabilizarse por los documentos anteriormente mencionados.
+<br>
+<br><br>
+<table>
+<tr>
+    <td width=\"50%\" align=\"center\">Firma de receptor <br> ".$oData[0]->persona.":<br><br>
+    <u>_______________</u></td>
+    <td width=\"50%\" align=\"center\">Firma de remitente<br>
+    &nbsp;<br><br><u>_______________</u></td>
+    </tr>
+</table>
+    &nbsp;<br><br><u>_______________</u></td>
+    </tr>
+</table>
+            ",
+            //'imagen'=>$png
+        ];
+
+
+
+        $view = \View::make('admin.mantenimiento.templates.plantilla1', $params);
+        $html = $view->render();
+
+        $pdf = App::make('dompdf');
+        $html = preg_replace('/>\s+</', '><', $html);
+        $pdf->loadHTML($html);
+
+        $pdf->setPaper('a'.$tamano)->setOrientation('portrait');
+
+        return $pdf->stream();
+        //\PDFF::loadHTML($html)->setPaper('a4')->setOrientation('landscape')->setWarnings(false)->stream();
+    }
+
+
+
+
+
 }
