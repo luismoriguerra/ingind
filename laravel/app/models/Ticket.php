@@ -55,7 +55,7 @@ class Ticket extends Base
             t.estado_ticket,
                                 CASE t.estado_tipo_problema
                                 WHEN '1' THEN 'Error de Usuario'
-                                WHEN '2' THEN 'Insidencia del Sistema'
+                                WHEN '2' THEN 'Incidencia del Sistema'
                                 WHEN '3' THEN 'Consultas'
                                 WHEN '4' THEN 'Peticiones'
                                 WHEN '5' THEN 'Problema de Equipo'
