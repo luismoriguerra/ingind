@@ -379,9 +379,9 @@ EditarActividad=function(id,pos){
 //     var ffin = $('#'+id).find("input:eq(2)").val();     
      hinicio=$('#'+id).find("input:eq(1)").val();     
      hfin=$('#'+id).find("input:eq(3)").val();
-//     ttranscurrido=$('#'+id).find("input:eq(4)").val();
+        ttranscurrido=$('#'+id).find("input:eq(4)").val();
      var dataG = [];
-     dataG = {id:id,finicio:finicio,hinicio:hinicio,ffin:finicio,hfin:hfin,ttranscurrido:'00:00'};
+     dataG = {id:id,finicio:finicio,hinicio:hinicio,ffin:finicio,hfin:hfin,ttranscurrido:ttranscurrido};
      Asignar.EditarActividad(dataG,pos);  
     
 };
