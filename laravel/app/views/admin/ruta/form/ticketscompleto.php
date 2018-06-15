@@ -13,6 +13,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <!-- Inicia contenido -->
+                
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title"></h3>

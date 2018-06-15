@@ -19,6 +19,7 @@ class Ticket extends Base
         $oData = DB::select($sSql);
         return $oData[0]->cant;
     }
+    
 
     public static function getCargarHistoricoCount( $array )
     {
