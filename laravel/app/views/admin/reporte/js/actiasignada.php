@@ -377,6 +377,7 @@ HTMLOrdenesTrabajo=function(datos){
             "<td>"+data.descripcion_resultado+"</td>"+
             "<td><ul>"+documentos1+"</ul></td>"+
             "<td>"+data.flujo+"</td>";
+            "<td>Cargoaca</td>";
 
         html+="</tr>";
     });
