@@ -188,20 +188,22 @@ class RutaController extends \BaseController
                 $fechaLast = date('Y-m-d');
             }
             /*end validate date*/
-            $fechaActual = date("Y-m-d", strtotime(Input::get('finicio')));
+            $fechaActual = date("Y-m-d", strtotime(Input::get('hinicio'))); //finicio
+
+            
             if($fechaActual >= $fechaFirst && $fechaActual <= $fechaLast){
                 $rutadetalleId = Input::get('id');
                 $rutadetalle = ActividadPersonal::find($rutadetalleId);
 //                $rutadetalle->fecha_inicio = date("Y-m-d", strtotime(Input::get('finicio')))." ".explode(' ',Input::get('hinicio'))[0];
 //                $rutadetalle->dtiempo_final = date("Y-m-d", strtotime(Input::get('ffin')))." ".explode(' ',Input::get('hfin'))[0];
-                $rutadetalle->fecha_inicio = date("Y-m-d")." ".explode(' ',Input::get('hinicio'))[0];
-                $rutadetalle->dtiempo_final = date("Y-m-d")." ".explode(' ',Input::get('hfin'))[0];
+                $rutadetalle->fecha_inicio = date("Y-m-d")." ".explode(' ',Input::get('hinicio'))[0]; // hinicio
+                $rutadetalle->dtiempo_final = date("Y-m-d")." ".explode(' ',Input::get('hfin'))[0];   // hfin
                 $ttranscurrido =  Input::get('ttranscurrido');
                 $minTrascurrido = explode(':', $ttranscurrido)[0] * 60 + explode(':', $ttranscurrido)[1];
                 $rutadetalle->ot_tiempo_transcurrido =$minTrascurrido;
                 $rutadetalle->usuario_updated_at = Auth::user()->id;
                 $rutadetalle->save();
-    
+            
                 return Response::json(
                     array(
                     'rst'=>1,

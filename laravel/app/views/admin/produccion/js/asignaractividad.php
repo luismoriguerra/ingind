@@ -325,6 +325,7 @@ HTMLcargarordentrabajodia=function(datos){
     $('#t_produccion').dataTable().fnDestroy();
     pos=0;
     $.each(datos,function(index,data){
+        // alert(data.id);
         var fecha_inicio = data.fecha_inicio.split(' ');
         var dtiempo_final = data.dtiempo_final.split(' ');
         var hinicio = fecha_inicio[1].substring(0, 5);
@@ -377,10 +378,10 @@ EditarActividad=function(id,pos){
      var finicio = $('#'+id).find("input:eq(0)").val();     
 //     var ffin = $('#'+id).find("input:eq(2)").val();     
      hinicio=$('#'+id).find("input:eq(1)").val();     
-//     hfin=$('#'+id).find("input:eq(3)").val();
+     hfin=$('#'+id).find("input:eq(3)").val();
 //     ttranscurrido=$('#'+id).find("input:eq(4)").val();
      var dataG = [];
-     dataG = {id:id,finicio:finicio,hinicio:hinicio,ffin:finicio,hfin:hinicio,ttranscurrido:'00:00'};
+     dataG = {id:id,finicio:finicio,hinicio:hinicio,ffin:finicio,hfin:hfin,ttranscurrido:'00:00'};
      Asignar.EditarActividad(dataG,pos);  
     
 };
