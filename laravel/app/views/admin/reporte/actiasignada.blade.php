@@ -86,7 +86,7 @@
                                 <tr>
                                     <th colspan="5">Asignada</th>
                                     <th colspan="3">Respuesta</th>
-                                    <th colspan="1">Proceso</th>
+                                    <th colspan="2">Proceso</th>
                                 </tr>
                                 <tr>
                                     <th>Área</th>
