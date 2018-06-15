@@ -98,6 +98,7 @@
                                     <th>Respuesta de<br>Actividad</th>
                                     <th>Documentos<br>Respuesta</th>
                                     <th>Proceso</th>
+                                    <th>Cargo</th>
                                     
                                 </tr>
                             </thead>
