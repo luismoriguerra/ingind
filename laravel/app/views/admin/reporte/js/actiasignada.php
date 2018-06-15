@@ -330,6 +330,11 @@ eventoSlctGlobalSimple=function(slct,valores){
 };
 
 
+verImagen=function(ruta){
+    $("#imgSw").attr("src",ruta);
+    $("#showModal").modal("show");
+}
+
 
 HTMLOrdenesTrabajo=function(datos){
   if(datos.length > 0){
@@ -368,7 +373,8 @@ HTMLOrdenesTrabajo=function(datos){
         }
         
 
-        var cargoBtn = ((data.cargo_dir1='0' && data.cargo_dir!='') ? "<span class='btn btn-info btn-md' title=\"Ver nota de cargo\" onClick='verImagen(\""+data.cargo_dir+"\")' > <i class=\"fa fa-image\"></i> </span>":'');
+        var cargoBtn = ((data.cargo_dir1!='0' && data.cargo_dir!='') ? "<span class='btn btn-info btn-md' title=\"Ver nota de cargo\" onClick='verImagen(\""+data.cargo_dir+"\")' > <i class=\"fa fa-image\"></i> </span>":'');
+
 
 
         html+="<tr style='"+style+"'>"+
