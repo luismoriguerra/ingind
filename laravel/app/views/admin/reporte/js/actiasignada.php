@@ -373,7 +373,7 @@ HTMLOrdenesTrabajo=function(datos){
         }
         
 
-        var cargoBtn = ((data.cargo_dir1!='0' && data.cargo_dir!='') ? "<span class='btn btn-info btn-md' title=\"Ver nota de cargo\" onClick='verImagen(\""+data.cargo_dir+"\")' > <i class=\"fa fa-image\"></i> </span>":'');
+        var cargoBtn = ((data.cargo_dir != '0' && data.cargo_dir != '') ? "<span class='btn btn-info btn-md' title=\"Ver nota de cargo\" onClick='verImagen(\""+data.cargo_dir+"\")' > <i class=\"fa fa-image\"></i> </span>":'');
 
 
 
