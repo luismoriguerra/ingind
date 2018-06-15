@@ -69,7 +69,7 @@ class AsignacionController extends \BaseController
             
             //echo "X:".$_POST['norden'].$_POST['image'];
 
-            print_r(Input::all());
+            //print_r(Input::all());
 
             $norden = Input::get('norden');
             $mFile = Input::get('image');
@@ -100,7 +100,7 @@ class AsignacionController extends \BaseController
         if ( !is_dir('file/meta') ) {
             mkdir('file/actividad',0777);
         }
-        echo $file;
+        //echo $file;
         list($type, $file) = explode(';', $file);
         list(, $type) = explode('/', $type);
         if ($type=='jpeg') $type='jpg';
