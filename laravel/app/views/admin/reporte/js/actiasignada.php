@@ -367,6 +367,10 @@ HTMLOrdenesTrabajo=function(datos){
             }
         }
         
+
+        var cargoBtn = ((data.cargo_dir1='0' && data.cargo_dir!='') ? "<span class='btn btn-info btn-md' title=\"Ver nota de cargo\" onClick='verImagen(\""+data.cargo_dir+"\")' > <i class=\"fa fa-image\"></i> </span>":'');
+
+
         html+="<tr style='"+style+"'>"+
             "<td>"+data.area+"</td>"+
             "<td>"+data.actividad+"</td>"+
@@ -377,7 +381,7 @@ HTMLOrdenesTrabajo=function(datos){
             "<td>"+data.descripcion_resultado+"</td>"+
             "<td><ul>"+documentos1+"</ul></td>"+
             "<td>"+data.flujo+"</td>"+
-            "<td>"+data.cargo_dir+"</td>";
+            "<td>"+cargoBtn+"</td>";
 
         html+="</tr>";
     });
