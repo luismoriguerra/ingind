@@ -1381,6 +1381,10 @@ public function getDoccargo($norden)
 
         }else{
 
+            foreach ($docs as $key => $value) {
+                $documentos .= "<br>&nbsp; ".$i++." - &nbsp;<b>".$docs[$key]->titulo."</b>";
+
+            }
             $asunto = $oData[0]->actividad;
             $notaDeCargo="Mediante el presente formulario se deja constancia que se hace entrega de $cantidadDocs documentos, los documentos entregados se mencionan a continuación:<br>
 
@@ -1389,10 +1393,7 @@ public function getDoccargo($norden)
  <br><br>";
 
 
-            foreach ($docs as $key => $value) {
-                $documentos .= "<br>&nbsp; ".$i++." - &nbsp;<b>".$docs[$key]->titulo."</b>";
 
-            }
         }
 
 
