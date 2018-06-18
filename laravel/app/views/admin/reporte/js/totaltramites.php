@@ -12,7 +12,45 @@ var verboG=[];
 var posicionDetalleVerboG=0;
 var Pest=1;
 
+
+var tempOpt = 0;
+
+    var preventSubmit0 = function(event) {
+        if(event.keyCode == 13) {
+            event.preventDefault();
+            setTimeout(function(){reportet(1);},100);
+            return false;
+        }
+    }
+    var preventSubmit1 = function(event) {
+        if(event.keyCode == 13) {
+            event.preventDefault();
+            setTimeout(function(){reportet(2);},100);
+            return false;
+        }
+    }
+    var preventSubmit2 = function(event) {
+        if(event.keyCode == 13) {
+            event.preventDefault();
+            setTimeout(function(){reportep();},100);
+            return false;
+        }
+    }
+    var preventSubmit3 = function(event) {
+        if(event.keyCode == 13) {
+            event.preventDefault();
+            setTimeout(function(){reportea();},100);
+            return false;
+        }
+    }
+
 $(document).ready(function(){
+
+    $("#txt_tramite_1").keypress(preventSubmit0);
+    $("#txt_tramite_2").keypress(preventSubmit1);
+    $("#txt_tramite_3").keypress(preventSubmit2);
+    $("#txt_tramite_4").keypress(preventSubmit3);
+
     $("[data-toggle='offcanvas']").click();
     $('#txt_fecha_2,#txt_fecha_3,#txt_fecha_4').daterangepicker({
         format: 'YYYY-MM-DD',
