@@ -658,10 +658,10 @@ class DocumentoDigitalController extends \BaseController {
 
         /*end get destinatario data*/
         $vistaprevia='';
-        $size = 100; // TAMAÑO EN PX 
+        $size = 80; // TAMAÑO EN PX 
         $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$area_id."/".$id."/".$tamano."/".$tipo);
         $png = base64_encode($png);
-        $png= "<img src='data:image/png;base64," . $png . "' width='100' height='100'>";
+        $png= "<img src='data:image/png;base64," . $png . "' width='80' height='80'>";
         //$meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
         
         $oData=Persona::VerUsuarios($area_id, $id);
@@ -704,10 +704,10 @@ class DocumentoDigitalController extends \BaseController {
         
         $vistaprevia='Documento Vista Previa';
         
-        $size = 100; // TAMAÑO EN PX 
+        $size = 80; // TAMAÑO EN PX 
         $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$area_id."/".$id."/".$tamano."/".$tipo);
         $png = base64_encode($png);
-        $png= "<img src='data:image/png;base64," . $png . "' width='100' height='100'>";
+        $png= "<img src='data:image/png;base64," . $png . "' width='80' height='80'>";
         //$meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
         
         $oData=Persona::VerUsuarios($area_id, $id);
@@ -790,10 +790,10 @@ class DocumentoDigitalController extends \BaseController {
     }
 
     public function ObtenerQR($area_id,$dni,$tamano,$tipo) {
-      $size = 100;
+      $size = 80;
       $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$area_id."/".$dni."/".$tamano."/".$tipo);
       $png = base64_encode($png);
-      $png = "<img class='img-thumbnail' src='data:image/png;base64," . $png . "' width='100' height='100'>";
+      $png = "<img class='img-thumbnail' src='data:image/png;base64," . $png . "' width='80' height='80'>";
       
       return $png;
     }

@@ -12,42 +12,34 @@ body {
 }
 
 .carnet{
-  border: 2px solid #000;
-  height: 225px;
-  width: 340px;
-  font-family: arial;
-  font-size: 8.5pt;
+  background-image: url("http://proceso.munindependencia.pe/img/carnet/model2_n.jpeg");
+  border: 0px solid #000;
+  height: 220px;
+  width: 340px;    
 }
 
-.cab{
-  border: 0px solid blue;
-  width: 256px;
-  padding: 3px 2px;
-  text-align: center;
-  height: 16px;
-  font-size: 9.5pt;
-  font-weight: bold;
-  margin-top: 0px;
-  padding-left: -60px;
+.textos{
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 11pt;
 }
+
 
 .areal{
   border: 0px solid blue;
-  float:left;
-  font-weight: bold;
 }
 
 .f1{
   border: 0px solid #000;
-  height: 90px;
+  height: 94px;
 }
 
 .ff1{
   border: 0px solid #000;
-  height: 90px;
+  height: 94px;
   margin: 1px auto;
-  margin-top: 10px;
-  margin-left: 15px;
+  margin-top: 8px;
+  width: 80px;
+  margin-left: 5px;
 }
 .f2{
   border: 0px solid #000;
@@ -55,10 +47,11 @@ body {
 }
 .ff2{
   border: 0px solid #000;
-  height: 100px;
-  width: 100px;
+  height: 80px;
+  width: 80px;
   margin: 1px auto;
-  margin-top: 10px;
+  margin-top: 14px;
+  margin-left: 5px;
 }
 
 .malogo  
@@ -115,54 +108,26 @@ body {
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" rightmargin="0">
 
 <?php if($reporte == 1) : ?>
-<div class="carnet" style="margin: 10px auto;">
+ <div class="carnet" style="10px auto;">
   <table border="0" style="width: 100%;">
       <tr>
        <td style="width: 30%;border: 0px solid blue;">
          <div class="f1">
-           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/<?php echo @$imagen_dni; ?>" style="border: 0px; height: 90px; width: 72px;"/></div>
+           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/<?php echo @$imagen_dni; ?>" style="border: 0px; height: 94px; width: 79px;"/></div>
          </div>
          <div class="f2">
            <div class="ff2">{{ $imagen }}</div>
          </div>
        </td>
-       <td style="width: 70%;">
-
-         <div class="cab">
-             MUNICIPALIDAD DE INDEPENDENCIA
-         </div>
-         <div class="bgimage"> 
-         <table border="0" style="width: 100%;" cellpadding="4">
-           <tr class="info">
-             <td class="areal" style="width: 28%;">Nombres&nbsp;:<td>              
-             <td style="width: 72%;">{{ $nombres }}<td>
-           </tr>
-           <tr class="info">
-             <td class="areal" style="width: 28%;">Apellidos&nbsp;:<td>              
-             <td style="width: 72%;">{{ $apellidos }}<td>
-           </tr>
-           <tr>
-             <td class="areal" style="width: 28%;">Area&nbsp;:<td>              
-             <td style="width: 72%;">{{ $area }}<td>
-           </tr>
-           <tr>
-             <td class="areal" style="width: 28%;">DNI&nbsp;:<td>              
-             <td style="width: 72%;">{{ $dni }}<td>
-           </tr>
-
-           <?php if($area_id == 10): ?>
-           <tr>
-             <td class="areal" style="width: 28%;">N° RE&nbsp;:<td>              
-             <td style="width: 72%;">{{ $resolucion }}<td>
-           </tr>
-           <tr>
-             <td class="areal" style="width: 28%;">INSP.&nbsp;:<td>              
-             <td style="width: 72%;">{{ $numero }}<td>
-           </tr>
+       <td class="textos" style="width: 70%;">
+         <div class="areal" style="font-weight: bold; margin-top:22px; text-transform: capitalize;">{{ $nombres }}</div>              
+         <div class="areal" style="font-weight: bold;text-transform: capitalize; margin-bottom: 4px;">{{ $apellidos }}</div>
+         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;">{{ $area }}</div>
+         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 6px;">DNI&nbsp;: {{ $dni }}</div>
+         <?php if($area_id == 10): ?>
+          <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;">C&oacute;digo de Inspector: {{ $numero }}</div>
+          <div class="areal" style="width: 80%; font-size: 10pt;">Resoluci&oacute;n: <?php echo $val['resolucion']; ?></div>
          <?php endif; ?>
-        </table>
-        </div>
-
        </td>
      </tr>
   </table>
@@ -297,7 +262,6 @@ body {
         endforeach; ?> 
 <?php endif; ?> 
 
-
 <?php if($reporte == 3) : 
         if($estado == 'Activo') {
           $class_estado = 'padding: 8px 8px; font-size: 12px; background-color: #5cb85c; border-color: #5cb85c; color: #fff;';
@@ -307,58 +271,30 @@ body {
           $text_estado = 'INACTIVO';
         }
 ?> 
-<div class="carnet" style="height: 240px; margin: 10px auto;">
+<div class="carnet" style="10px auto;">
   <div class="rotar1"><?php if($vistaprevia!=''){echo "Validación - Identificación";} ?></div> 
   <table border="0" style="width: 100%;">
       <tr>
        <td style="width: 30%;border: 0px solid blue;">
          <div class="f1">
-           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/<?php echo @$imagen_dni; ?>" style="border: 0px; height: 90px; width: 72px;"/></div>
+           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/<?php echo @$imagen_dni; ?>" style="border: 0px; height: 94px; width: 79px;"/></div>
          </div>
          <div class="f2">
            <div class="ff2">{{ $imagen }}</div>
          </div>
        </td>
-       <td style="width: 70%;">
-         <div class="cab">
-             MUNICIPALIDAD DE INDEPENDENCIA
-         </div>
-         <div class="bgimage">
-         <table border="0" style="width: 100%;" cellpadding="4">
-           <tr class="info">
-             <td class="areal" style="width: 28%;">Nombres&nbsp;:<td>              
-             <td style="width: 72%;">{{ $nombres }}<td>
-           </tr>
-           <tr class="info">
-             <td class="areal" style="width: 28%;">Apellidos&nbsp;:<td>              
-             <td style="width: 72%;">{{ $apellidos }}<td>
-           </tr>
-           <tr>
-             <td class="areal" style="width: 28%;">Area&nbsp;:<td>              
-             <td style="width: 72%;">{{ $area }}<td>
-           </tr>
-           <tr>
-             <td class="areal" style="width: 28%;">DNI&nbsp;:<td>              
-             <td style="width: 72%;">{{ $dni }}<td>
-           </tr>
-           <?php if($area_id == 10): ?>
-           <tr>
-             <td class="areal" style="width: 28%;">N° RE&nbsp;:<td>              
-             <td style="width: 72%;">{{ $resolucion }}<td>
-           </tr>
-           <tr>
-             <td class="areal" style="width: 28%;">INSP.&nbsp;:<td>              
-             <td style="width: 72%;">{{ $numero }}<td>
-           </tr>
+       <td class="textos" style="width: 70%;">        
+         <div class="areal" style="font-weight: bold; margin-top:18px; text-transform: capitalize;">{{ $nombres }}</div>              
+         <div class="areal" style="font-weight: bold;text-transform: capitalize; margin-bottom: 4px;">{{ $apellidos }}</div>
+         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;">{{ $area }}</div>
+         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 6px;">DNI&nbsp;: {{ $dni }}</div>
+         <?php if($area_id == 10): ?>
+          <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;">C&oacute;digo de Inspector: {{ $numero }}</div>
+          <div class="areal" style="width: 80%; font-size: 10pt;">Resoluci&oacute;n: <?php echo $val['resolucion']; ?></div>
          <?php endif; ?>
-           <?php if($vistaprevia!=''){ ?>
-           <tr>
-             <td class="areal" style="width: 28%;">Estado&nbsp;:<td>              
-             <td style="width: 72%;"><?php echo '<label class="" style="'.$class_estado.'">'.$text_estado.'</label>';   ?><td>
-           </tr>
-           <?php } ?>
-        </table>
-        </div>
+         <?php if($vistaprevia!=''){ ?>
+           <div class="areal" style="width: 80%; font-size: 10pt;"><?php echo '<label class="" style="'.$class_estado.'">'.$text_estado.'</label>';   ?></div>
+         <?php } ?>        
        </td>
      </tr>
   </table>
