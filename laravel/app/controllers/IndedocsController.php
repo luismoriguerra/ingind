@@ -1049,4 +1049,10 @@ class IndedocsController extends \BaseController {
         $docdigital = DocumentoDigital::RequestDocumentoDigital();
         return Response::json(array('documentos' => $docdigital));
     }
+
+    public function getTest() {
+
+        phpinfo();
+        exit;
+    }
 }

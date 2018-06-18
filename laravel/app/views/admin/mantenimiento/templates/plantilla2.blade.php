@@ -91,18 +91,6 @@ body {
   opacity: 0.12;
 }
 
-.bgimage
-{
-  border: 0px solid #000;
-  background-image: url("http://proceso.munindependencia.pe/img/carnet.png");
-  /*opacity: 0.12;*/
-  background-repeat: repeat-y;
-  height: 190px;
-  width: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
 </style>
 
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" rightmargin="0">
@@ -120,12 +108,13 @@ body {
          </div>
        </td>
        <td class="textos" style="width: 70%;">
-         <div class="areal" style="font-weight: bold; margin-top:22px; text-transform: capitalize;">{{ $nombres }}</div>              
-         <div class="areal" style="font-weight: bold;text-transform: capitalize; margin-bottom: 4px;">{{ $apellidos }}</div>
-         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;">{{ $area }}</div>
-         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 6px;">DNI&nbsp;: {{ $dni }}</div>
+         <div class="areal" style="width: 80%; font-weight: bold; margin-top:15px; text-transform: capitalize;">{{ $nombres }}</div>              
+         <div class="areal" style="width: 80%; font-weight: bold; text-transform: capitalize; margin-bottom: 3px;">{{ $apellidos }}</div>
+         <div class="areal" style="width: 75%; font-size: 10pt; margin-bottom: 3px;">{{ $area }}</div>
+         <div class="areal" style="width: 90%; font-size: 10pt; margin-bottom: 3px;font-weight: bold;">{{ $rol }}</div>
+         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 5px;">DNI&nbsp;: {{ $dni }}</div>
          <?php if($area_id == 10): ?>
-          <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;">C&oacute;digo de Inspector: {{ $numero }}</div>
+          <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 3px;">C&oacute;digo de Inspector: {{ $numero }}</div>
           <div class="areal" style="width: 80%; font-size: 10pt;">Resoluci&oacute;n: <?php echo $val['resolucion']; ?></div>
          <?php endif; ?>
        </td>
@@ -157,10 +146,11 @@ body {
                          </div>         
                        </td>
                        <td class="textos" style="width: 70%;">
-                         <div class="areal" style="font-weight: bold; margin-top:22px; text-transform: capitalize;"><?php echo $val['nombre']; ?></div>
-                         <div class="areal" style="font-weight: bold;text-transform: capitalize; margin-bottom: 4px;"><?php echo $val['apellidos']; ?></div>
-                         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;"><?php echo $val['area']; ?></div>
-                         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 6px;">DNI&nbsp;: <?php echo $val['dni']; ?></div>
+                         <div class="areal" style="width: 80%; font-weight: bold; margin-top:0px; text-transform: capitalize;"><?php echo $val['nombre']; ?></div>
+                         <div class="areal" style="width: 80%; font-weight: bold; text-transform: capitalize; margin-bottom: 3px;"><?php echo $val['apellidos']; ?></div>
+                         <div class="areal" style="width: 75%; font-size: 10pt; margin-bottom: 3px;"><?php echo $val['area']; ?></div>
+                         <div class="areal" style="width: 90%; font-size: 10pt; margin-bottom: 3px;font-weight: bold;"><?php echo $val['rol']; ?></div>
+                         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 5px;">DNI&nbsp;: <?php echo $val['dni']; ?></div>
                            <?php if($val['area_id'] == 10): ?>
                            <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;">C&oacute;digo de Inspector: <?php echo $val['cod_inspector']; ?></div>
                            <div class="areal" style="width: 80%; font-size: 10pt;">Resoluci&oacute;n: <?php echo $val['resolucion']; ?></div>                           
@@ -184,10 +174,11 @@ body {
                          </div>         
                        </td>
                        <td class="textos" style="width: 70%;">
-                         <div class="areal" style="font-weight: bold; margin-top:22px; text-transform: capitalize;"><?php echo $val['nombre']; ?></div>
-                         <div class="areal" style="font-weight: bold;text-transform: capitalize; margin-bottom: 4px;"><?php echo $val['apellidos']; ?></div>
-                         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;"><?php echo $val['area']; ?></div>
-                         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 6px;">DNI&nbsp;: <?php echo $val['dni']; ?></div>
+                         <div class="areal" style="width: 80%; font-weight: bold; margin-top:0px; text-transform: capitalize;"><?php echo $val['nombre']; ?></div>
+                         <div class="areal" style="width: 80%; font-weight: bold; text-transform: capitalize; margin-bottom: 3px;"><?php echo $val['apellidos']; ?></div>
+                         <div class="areal" style="width: 75%; font-size: 10pt; margin-bottom: 3px;"><?php echo $val['area']; ?></div>
+                         <div class="areal" style="width: 90%; font-size: 10pt; margin-bottom: 3px;font-weight: bold;"><?php echo $val['rol']; ?></div>
+                         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 5px;">DNI&nbsp;: <?php echo $val['dni']; ?></div>
                            <?php if($val['area_id'] == 10): ?>
                            <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;">C&oacute;digo de Inspector: <?php echo $val['cod_inspector']; ?></div>
                            <div class="areal" style="width: 80%; font-size: 10pt;">Resoluci&oacute;n: <?php echo $val['resolucion']; ?></div>                           
@@ -234,10 +225,11 @@ body {
          </div>
        </td>
        <td class="textos" style="width: 70%;">        
-         <div class="areal" style="font-weight: bold; margin-top:18px; text-transform: capitalize;">{{ $nombres }}</div>              
-         <div class="areal" style="font-weight: bold;text-transform: capitalize; margin-bottom: 4px;">{{ $apellidos }}</div>
-         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;">{{ $area }}</div>
-         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 6px;">DNI&nbsp;: {{ $dni }}</div>
+         <div class="areal" style="width: 80%; font-weight: bold; margin-top:0px; text-transform: capitalize;">{{ $nombres }}</div>              
+         <div class="areal" style="width: 80%; font-weight: bold; text-transform: capitalize; margin-bottom: 3px;">{{ $apellidos }}</div>
+         <div class="areal" style="width: 75%; font-size: 10pt; margin-bottom: 3px;">{{ $area }}</div>
+         <div class="areal" style="width: 90%; font-size: 10pt; margin-bottom: 3px;font-weight: bold;">{{ $rol }}</div>
+         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 5px;">DNI&nbsp;: {{ $dni }}</div>
          <?php if($area_id == 10): ?>
           <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;">C&oacute;digo de Inspector: {{ $numero }}</div>
           <div class="areal" style="width: 80%; font-size: 10pt;">Resoluci&oacute;n: <?php echo $val['resolucion']; ?></div>
