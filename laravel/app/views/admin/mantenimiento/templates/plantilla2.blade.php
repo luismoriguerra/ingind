@@ -14,8 +14,8 @@ body {
 .carnet{
   background-image: url("http://proceso.munindependencia.pe/img/carnet/model2_n.jpeg");
   border: 0px solid #000;
-  height: 220px;
-  width: 340px;    
+  height: 216px;
+  width: 336px;    
 }
 
 .textos{
