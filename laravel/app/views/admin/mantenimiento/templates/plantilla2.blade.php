@@ -160,7 +160,7 @@ body {
                          <div class="areal" style="font-weight: bold; margin-top:22px; text-transform: capitalize;"><?php echo $val['nombre']; ?></div>
                          <div class="areal" style="font-weight: bold;text-transform: capitalize; margin-bottom: 4px;"><?php echo $val['apellidos']; ?></div>
                          <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;"><?php echo $val['area']; ?></div>
-                         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 6px;"><?php echo $val['dni']; ?></div>
+                         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 6px;">DNI&nbsp;: <?php echo $val['dni']; ?></div>
                            <?php if($val['area_id'] == 10): ?>
                            <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;">C&oacute;digo de Inspector: <?php echo $val['cod_inspector']; ?></div>
                            <div class="areal" style="width: 80%; font-size: 10pt;">Resoluci&oacute;n: <?php echo $val['resolucion']; ?></div>                           
@@ -187,7 +187,7 @@ body {
                          <div class="areal" style="font-weight: bold; margin-top:22px; text-transform: capitalize;"><?php echo $val['nombre']; ?></div>
                          <div class="areal" style="font-weight: bold;text-transform: capitalize; margin-bottom: 4px;"><?php echo $val['apellidos']; ?></div>
                          <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;"><?php echo $val['area']; ?></div>
-                         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 6px;"><?php echo $val['dni']; ?></div>
+                         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 6px;">DNI&nbsp;: <?php echo $val['dni']; ?></div>
                            <?php if($val['area_id'] == 10): ?>
                            <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;">C&oacute;digo de Inspector: <?php echo $val['cod_inspector']; ?></div>
                            <div class="areal" style="width: 80%; font-size: 10pt;">Resoluci&oacute;n: <?php echo $val['resolucion']; ?></div>                           
