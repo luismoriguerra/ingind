@@ -150,98 +150,48 @@ body {
                       <tr>
                        <td style="width: 30%;border: 0px solid blue;">
                          <div class="f1">
-                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/<?php echo $val['imagen_dni']; ?>" style="border: 0px; height: 90px; width: 72px;"/></div>
+                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/<?php echo $val['imagen_dni']; ?>" style="border: 0px; height: 94px; width: 79px;"/></div>
                          </div>
                          <div class="f2">
                            <div class="ff2"><?php echo $val['imagen']; ?></div>
                          </div>         
                        </td>
-                       <td style="width: 70%;">
-                         <div class="cab">
-                             MUNICIPALIDAD DE INDEPENDENCIA
-                         </div>
-                         <div class="bgimage">
-                         <table border="0" style="width: 100%;" cellpadding="4">
-                           <tr class="info">
-                             <td class="areal" style="width: 28%;">Nombres&nbsp;:<td>              
-                             <td style="width: 72%;"><?php echo $val['nombre']; ?><td>
-                           </tr>
-                           <tr class="info">
-                             <td class="areal" style="width: 28%;">Apellidos&nbsp;:<td>              
-                             <td style="width: 72%;"><?php echo $val['apellidos']; ?><td>
-                           </tr>
-                           <tr>
-                             <td class="areal" style="width: 28%;">Area&nbsp;:<td>              
-                             <td style="width: 72%;"><?php echo $val['area']; ?><td>
-                           </tr>
-                           <tr>
-                             <td class="areal" style="width: 28%;">DNI&nbsp;:<td>              
-                             <td style="width: 72%;"><?php echo $val['dni']; ?><td>
-                           </tr>
+                       <td class="textos" style="width: 70%;">
+                         <div class="areal" style="font-weight: bold; margin-top:22px; text-transform: capitalize;"><?php echo $val['nombre']; ?></div>
+                         <div class="areal" style="font-weight: bold;text-transform: capitalize; margin-bottom: 4px;"><?php echo $val['apellidos']; ?></div>
+                         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;"><?php echo $val['area']; ?></div>
+                         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 6px;"><?php echo $val['dni']; ?></div>
                            <?php if($val['area_id'] == 10): ?>
-                           <tr>
-                             <td class="areal" style="width: 28%;">N° RE&nbsp;:<td>              
-                             <td style="width: 72%;"><?php echo $val['resolucion']; ?><td>
-                           </tr>
-                           <tr>
-                             <td class="areal" style="width: 28%;">INSP.&nbsp;:<td>              
-                             <td style="width: 72%;"><?php echo $val['cod_inspector']; ?><td>
-                           </tr>
+                           <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;">C&oacute;digo de Inspector: <?php echo $val['cod_inspector']; ?></div>
+                           <div class="areal" style="width: 80%; font-size: 10pt;">Resoluci&oacute;n: <?php echo $val['resolucion']; ?></div>                           
                          <?php endif; ?>
-                        </table>
-                        </div>              
                        </td>
                      </tr>
                   </table>
                  </div>
               </td>
               <?php } else { ?>
-              <td style="">          
+              <td style="">
                 <div class="carnet" style="">
                   <table border="0" style="width: 100%;">
                       <tr>
                        <td style="width: 30%;border: 0px solid blue;">
                          <div class="f1">
-                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/<?php echo $val['imagen_dni']; ?>" style="border: 0px; height: 90px; width: 72px;"/></div>
+                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/<?php echo $val['imagen_dni']; ?>" style="border: 0px; height: 94px; width: 79px;"/></div>
                          </div>
                          <div class="f2">
                            <div class="ff2"><?php echo $val['imagen']; ?></div>
                          </div>         
                        </td>
-                       <td style="width: 70%;">
-                         <div class="cab">
-                             MUNICIPALIDAD DE INDEPENDENCIA
-                         </div>
-                         <div class="bgimage">
-                         <table border="0" style="width: 100%;" cellpadding="4">
-                           <tr class="info">
-                             <td class="areal" style="width: 28%;">Nombres&nbsp;:<td>              
-                             <td style="width: 72%; font-size:10px;"><?php echo $val['nombre']; ?><td>
-                           </tr>
-                           <tr class="info">
-                             <td class="areal" style="width: 28%;">Apellidos&nbsp;:<td>              
-                             <td style="width: 72%; font-size:10px;"><?php echo $val['apellidos']; ?><td>
-                           </tr>
-                           <tr>
-                             <td class="areal" style="width: 28%;">Area&nbsp;:<td>              
-                             <td style="width: 72%;"><?php echo $val['area']; ?><td>
-                           </tr>
-                           <tr>
-                             <td class="areal" style="width: 28%;">DNI&nbsp;:<td>              
-                             <td style="width: 72%;"><?php echo $val['dni']; ?><td>
-                           </tr>
+                       <td class="textos" style="width: 70%;">
+                         <div class="areal" style="font-weight: bold; margin-top:22px; text-transform: capitalize;"><?php echo $val['nombre']; ?></div>
+                         <div class="areal" style="font-weight: bold;text-transform: capitalize; margin-bottom: 4px;"><?php echo $val['apellidos']; ?></div>
+                         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;"><?php echo $val['area']; ?></div>
+                         <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 6px;"><?php echo $val['dni']; ?></div>
                            <?php if($val['area_id'] == 10): ?>
-                           <tr>
-                             <td class="areal" style="width: 28%;">N° RE&nbsp;:<td>              
-                             <td style="width: 72%;"><?php echo $val['resolucion']; ?><td>
-                           </tr>
-                           <tr>
-                             <td class="areal" style="width: 28%;">INSP.&nbsp;:<td>              
-                             <td style="width: 72%;"><?php echo $val['cod_inspector']; ?><td>
-                           </tr>
+                           <div class="areal" style="width: 80%; font-size: 10pt; margin-bottom: 4px;">C&oacute;digo de Inspector: <?php echo $val['cod_inspector']; ?></div>
+                           <div class="areal" style="width: 80%; font-size: 10pt;">Resoluci&oacute;n: <?php echo $val['resolucion']; ?></div>                           
                          <?php endif; ?>
-                        </table>
-                        </div>
                        </td>
                      </tr>
                   </table>
