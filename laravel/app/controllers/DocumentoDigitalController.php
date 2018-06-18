@@ -1412,7 +1412,7 @@ public function getDoccargo($norden)
             if(($cantidadDocs-$cantidadAux)>0)foreach ($docs as $key => $value) {
                 $documentos .= "<br>&nbsp; ".$i++." - &nbsp;<b>".$value->titulo."</b>";
             }
-            if($cantidadAux>0)foreach ($documentosEnAsunto as $key => $value) {
+            if($cantidadAux>0)foreach ($documentosEnAsunto[0] as $key => $value) {
                 $documentos .= "<br>&nbsp; ".$i++." - &nbsp;<b>".$value."</b>";
             }
 
