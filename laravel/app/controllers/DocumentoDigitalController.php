@@ -1370,7 +1370,7 @@ public function getDoccargo($norden)
         $documentos = "";
 
 
-        preg_match_all('/(^|)(([Dd]([\ -]|)[Ss])|([Ee]([\ -]|)[Xx]))(-|\ |)([0-9]{4,10})([-|\ ][0-9]{4}|)(,|.|$|)/', $oData[0]->actividad, $documentosEnAsunto);
+        preg_match_all('/(^|)((DOC(\.|)\ SIMP(LE|))|([d]([\ -]|)[s])|([e]([\ -]|)[x]([p]|)([\.]|)))(-|\ |)([0-9]{4,10})([-|\ ][0-9]{4}|)(,|\.|$|)/i"', $oData[0]->actividad, $documentosEnAsunto);
 
 
         $cantidadAux = count($documentosEnAsunto[0]);
