@@ -1372,15 +1372,15 @@ public function getDoccargo($norden)
 
         $i=1;
         if($cantidadDocs<=0){
+            $asunto = "Entrega de documento";
             $documentos = "<br><b>No hay documentos asignados.</b>";
-            $asunto = $oData[0]->actividad;
-            $notaDeCargo="Mediante el presente formulario se deja constancia que se hace entrega de los documentos entregados se mencionan a continuación: <br>
+            $notaDeCargo="Mediante el presente formulario se deja constancia que se hace entrega de los documentos entregados que se mencionan a continuación: <br>
     $asunto
  <br><br>";
 
-
         }else{
 
+            $asunto = $oData[0]->actividad;
             $notaDeCargo="Mediante el presente formulario se deja constancia que se hace entrega de $cantidadDocs documentos, los documentos entregados se mencionan a continuación:<br>
 
  $documentos
