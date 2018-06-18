@@ -1373,11 +1373,32 @@ public function getDoccargo($norden)
         $i=1;
         if($cantidadDocs<=0){
             $documentos = "<br><b>No hay documentos asignados.</b>";
-        }
-            foreach ($docs as $key => $value) {
-            $documentos .= "<br>&nbsp; ".$i++." - &nbsp;<b>".$docs[$key]->titulo."</b>";
+            $asunto = $oData[0]->actividad;
+            $notaDeCargo="Mediante el presente formulario se deja constancia que se hace entrega de los documentos entregados se mencionan a continuación: <br>
+    $asunto
+ <br><br>";
 
+
+        }else{
+
+            $notaDeCargo="Mediante el presente formulario se deja constancia que se hace entrega de $cantidadDocs documentos, los documentos entregados se mencionan a continuación:<br>
+
+ $documentos
+
+ <br><br>";
+
+
+            foreach ($docs as $key => $value) {
+                $documentos .= "<br>&nbsp; ".$i++." - &nbsp;<b>".$docs[$key]->titulo."</b>";
+
+            }
         }
+
+
+
+
+        
+
 
 
         $tamano = 5;
@@ -1389,18 +1410,14 @@ public function getDoccargo($norden)
             'anio'=>'2018',
             'tamano'=>$tamano,
             'fecha'=>"Asignado: ".$oData[0]->fecha_inicio,//explode(" ",$oData[0]->fecha_inicio)[0],
-            'asunto'=>$oData[0]->actividad,
+            'asunto'=>$asunto,
             'remitente'=>Area::find(Auth::user()->area_id)->nombre,
             'destinatario'=>$oData[0]->persona,
             'vistaprevia'=>"",
             'contenido'=>"
             <h3 align=\"center\">Nota de cargo</h3>
-
-            Mediante el presente formulario se deja constancia que se hace entrega de $cantidadDocs documentos, los documentos entregados se mencionan a continuación:<br>
-
- $documentos
-
- <br><br>La persona quien recibe este cargo se compromete a atender y a responsabilizarse por los documentos anteriormente mencionados.
+$notaDeCargo
+La persona quien recibe este cargo se compromete a atender y a responsabilizarse por los documentos anteriormente mencionados.
 <br>
 <br><br>
 <table>
