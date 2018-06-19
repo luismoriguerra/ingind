@@ -1503,25 +1503,54 @@ public function getDoccargo($norden)
 
         $documentos = "";
 
+
+        preg_match_all('/(^|)((DOC(\.|)\ SIMP(LE|))|([d]([\ -]|)[s])|([e]([\ -]|)[x]([p]|)([\.]|)))(-|\ |)([0-9]{4,10})([-|\ ][0-9]{4}|)(,|\.|$|)/i', $oData[0]->actividad, $documentosEnAsunto);
+
+
+        $cantidadAux = count($documentosEnAsunto[0]);
+
+        if($cantidadAux == 0){
+
+        }else{
+            
+        }
+
+
+
         $docs = DocumentoDigital::actividadDocList($norden);
-        $cantidadDocs = count($docs);
+        $cantidadDocs = count($docs)+$cantidadAux;
 
 
         $i=1;
+
+
+
+
+
         if($cantidadDocs<=0){
+
             $asuntoAux = $oData[0]->actividad;
+
             $documentos = "<br><b>No hay documentos asignados.</b>";
-            $notaDeCargo="Mediante el presente formulario se deja constancia que se hace entrega de los documentos entregados que se mencionan a continuación: <br>
+            $notaDeCargo="Mediante el presente formulario se deja constancia que se hace entrega de los documentos entregados que se mencionan a continuación: <br><br>
     $asuntoAux
  <br><br>";
             $asunto = "Entrega de documento";
 
+
+
         }else{
 
-            foreach ($docs as $key => $value) {
-                $documentos .= "<br>&nbsp; ".$i++." - &nbsp;<b>".$docs[$key]->titulo."</b>";
 
+
+            if(($cantidadDocs-$cantidadAux)>0)foreach ($docs as $key => $value) {
+                $documentos .= "<br>&nbsp; ".$i++." - &nbsp;<b>".$value->titulo."</b>";
             }
+            if($cantidadAux>0)foreach ($documentosEnAsunto[0] as $key => $value) {
+                $documentos .= "<br>&nbsp; ".$i++." - &nbsp;<b>".$value."</b>";
+            }
+
+
             $asunto = $oData[0]->actividad;
             $notaDeCargo="Mediante el presente formulario se deja constancia que se hace entrega de $cantidadDocs documentos, los documentos entregados se mencionan a continuación:<br>
 

@@ -1,7 +1,17 @@
 <script type="text/javascript">
 
+    var preventSubmit = function(event) {
+        if(event.keyCode == 13) {
+            event.preventDefault();
+            setTimeout(function(){reportet();},100);
+            return false;
+        }
+    }
+
+
 $(document).ready(function(){
     $("[data-toggle='offcanvas']").click();
+        $("#txt_tramite").keypress(preventSubmit);
     var data = {estado:1};
     var ids = [];
 

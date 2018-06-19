@@ -96,7 +96,16 @@ class PlantillaDocumentoController extends \BaseController {
             $view = \View::make('admin.mantenimiento.templates.plantilla1', $params);
             $html = $view->render();
 
-            return \PDF::load($html, 'A4', 'portrait')->show();
+            $pdf = App::make('dompdf');
+            $html = preg_replace('/>\s+</', '><', $html);
+            $pdf->loadHTML($html);
+
+            $pdf->setPaper('A4')->setOrientation('portrait');
+
+            return $pdf->stream();
+
+
+            //return \PDF::loadHTML($html, 'A4', 'portrait')->show();
         }
 
     }
