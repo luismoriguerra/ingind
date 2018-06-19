@@ -801,6 +801,140 @@ class DocumentoDigitalController extends \BaseController {
       return $png;
     }
 
+    /* ***************** GENERACIÓN DE IMAGEN PARA IMPRIMIR ********************** */
+    public function getCrearcarnetqr($area_id,$id,$tamano,$tipo)
+    {
+        ini_set("max_execution_time", 300);
+        ini_set('memory_limit','512M');        
+
+        /*end get destinatario data*/
+        //$vistaprevia='';
+        $size = 80; // TAMAÑO EN PX 
+        $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$area_id."/".$id."/".$tamano."/".$tipo);        
+        file_put_contents("img/carnet/temp.png", $png);
+        $oData=Persona::VerUsuarios($area_id, $id);
+
+        //ini_set("display_errors", true);
+        header('Content-type: image/png');
+        header('Content-Disposition: attachment; filename="carnet.jpg"');
+        
+        $nombres = $oData[0]->nombre;
+        $apellidos = $oData[0]->paterno.' '.$oData[0]->materno;
+        $dni = $oData[0]->dni;
+        $cargo = $oData[0]->rol;
+        $area = $oData[0]->area;
+        $codInspector = $oData[0]->cod_inspector;
+        $resolucion = $oData[0]->resolucion;
+        $rutaFoto = "http://proceso.munindependencia.pe/img/carnet/".$oData[0]->imagen_dni;
+        $rutaQR = "img/carnet/temp.png";
+
+        $im = $this->crearCarnet($nombres,$apellidos,$dni,$cargo,$area,$codInspector,$resolucion,$rutaFoto,$rutaQR, $area_id);
+
+        imagejpeg($im);
+        imagedestroy($im);
+    }
+
+
+    public function crearCarnet($nombres,$apellidos,$dni,$cargo,$area,$codInspector,$resolucion,$rutaFoto,$rutaQR, $area_id)
+    {
+        $im = imagecreatefromjpeg ('http://proceso.munindependencia.pe/img/carnet/model2_n.jpeg');
+
+        $black = imagecolorallocate($im, 0, 0, 0);
+
+        //imagefilledrectangle($im, 0, 0, 399, 29, $white);
+        function imagettftextSp($image, $size, $angle, $x, $y, $color, $font, $text, $spacing = 0)
+        {        
+            if ($spacing == 0)
+            {
+                imagettftext($image, $size, $angle, $x, $y, $color, $font, ($text));
+            }
+            else
+            {
+                $temp_x = $x;
+                for ($i = 0; $i < strlen($text); $i++)
+                {
+                    $bbox = imagettftext($image, $size, $angle, $temp_x, $y, $color, $font, ($text[$i]));
+                    $temp_x += $spacing + ($bbox[2] - $bbox[0]);
+                }
+            }
+        }
+
+        function getImageFromUrl($rutaQR){
+            $fi = explode(".", $rutaQR);
+            switch ($fi[count($fi)-1]){
+                case 'png':
+                    $stamp = imagecreatefrompng($rutaQR);
+                    break;
+                case 'jpg':
+                case 'jpeg':
+                    $stamp = imagecreatefromjpeg($rutaQR);
+                    break;
+                case 'gif':
+                    $stamp = imagecreatefromgif($rutaQR);
+                    break;
+            }
+
+            return $stamp;
+        }
+
+
+        $lineas = 1;
+
+        $pos = strpos($area, ' ', 26);
+        $dobleLinea = 0;
+        if($pos!==false){
+            $text = substr($area,0,$pos);
+            $text .= "\r\n".substr($area,$pos+1);
+            $dobleLinea=13;
+        }else{
+            $text = $area;
+            $dobleLinea=0;
+        }
+
+        $area = $text;
+
+        $font = 'fonts/carnet/Hack-Bold.ttf';
+        $font2 = 'fonts/carnet/Hack-Regular.ttf';
+
+        imagettftextSp($im, 9, 0, 102, 60, $black, $font, utf8_decode($nombres),-0.05);
+
+        imagettftextSp($im, 9, 0, 102, 75, $black, $font, utf8_decode($apellidos),-0.05);
+
+        imagettftext($im, 8, 0, 102, 90, $black, $font2, "DNI: ".$dni);
+         
+        imagettftext($im, 8, 0, 102, 107, $black, $font, $cargo);
+
+
+        imagettftext($im, 9, 0, 102, 115+10, $black, $font2, $area);
+
+        if($area_id == 10) {
+            imagettftext($im, 9, 0, 102, 140+14+$dobleLinea, $black, $font,"Codigo de inspector: ");
+            imagettftext($im, 9, 0, 253 , 140+14+$dobleLinea, $black, $font2, $codInspector);
+            imagettftext($im, 9, 0, 102, 160+14+$dobleLinea, $black, $font,"N° Reslución: ");
+            imagettftext($im, 9, 0, 199, 160+14+$dobleLinea, $black, $font2, $resolucion);
+        }     
+
+        $stamp = getImageFromUrl($rutaFoto);
+        $marge_right = 10;
+        $marge_bottom = 10;
+        $sx = imagesx($stamp);
+        $sy = imagesy($stamp);
+
+        imagecopyresampled($im, $stamp, 9, 10, 0, 0, 79, 94, imagesx($stamp), imagesy($stamp));
+
+        $stamp = getImageFromUrl($rutaQR);
+        $marge_right = 9;
+        $marge_bottom = 112;
+        $sx = imagesx($stamp);
+        $sy = imagesy($stamp);
+
+        imagecopyresampled($im, $stamp, $marge_right, $marge_bottom, 0, 0, 80, 80, imagesx($stamp), imagesy($stamp));
+
+        return $im;
+
+    }
+    /* *************************************************************************** */
+
     public function getVista($id,$tamano,$tipo)
     {
         ini_set("max_execution_time", 300);

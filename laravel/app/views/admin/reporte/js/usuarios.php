@@ -128,7 +128,8 @@ HTMLreporte2=function(datos){
             html+="</div>";
             html+='<div class="col-md-2 text-center">'+
                     '<p id="uqr'+data.dni+'">'+img_qr+'</p>'+
-                    '<p><a class="btn btn-danger btn-xs" href="#" onclick="openPlantilla('+data.area_id+',\''+data.dni+'\',4,0); return false;" data-titulo="Previsualizar"><i class="fa fa-print"></i>&nbsp;PRINT</a></p>';
+                    '<p><a class="btn btn-default btn-xs" href="#" onclick="openPlantilla('+data.area_id+',\''+data.dni+'\',4,0); return false;" data-titulo="Previsualizar"><i class="fa fa-print"></i>&nbsp;Ver</a>&nbsp;'+
+                    '<a class="btn btn-danger btn-xs" href="#" onclick="openImagen('+data.area_id+',\''+data.dni+'\',4,0); return false;" data-titulo="Previsualizar"><i class="fa fa-print"></i>&nbsp;Print</a></p>';
             html+="</div>";
 
         html+='</div>';
@@ -190,6 +191,12 @@ sendImage=function(){
 openPlantilla=function(area_id,dni,tamano,tipo){
     window.open("documentodig/vistauserqr/"+area_id+"/"+dni+"/"+tamano+"/"+tipo,
                 "PrevisualizarPlantilla",
+                "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
+};
+
+openImagen=function(area_id,dni,tamano,tipo){
+    window.open("documentodig/crearcarnetqr/"+area_id+"/"+dni+"/"+tamano+"/"+tipo,
+                "PrevisualizarCarnet",
                 "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
 };
 

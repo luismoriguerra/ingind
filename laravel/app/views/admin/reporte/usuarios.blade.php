@@ -91,7 +91,7 @@
                 <div id="menu1" class="tab-pane fade" style="background-color: #fff;">
                   </br>
                         <div class="" style="">
-                            <button type="button" id="btnprintuserall" name="btnprintuserall" class="btn btn-primary" style="margin-left: 15px;"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> IMPRIMIR LISTA</button>
+                            <button type="button" id="btnprintuserall" name="btnprintuserall" class="btn btn-primary" style="margin-left: 15px;"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> VISUALIZAR LISTA</button>
                             <div class="row" id="reporte2" style="display:none;">                                
                             </div>                
                         </div><!-- /.box -->
