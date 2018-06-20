@@ -12,9 +12,9 @@ body {
 }
 
 .carnet{
-  background-image: url("http://proceso.munindependencia.pe/img/carnet/model2_n.jpeg");
+  background-image: url("http://proceso.munindependencia.pe/img/carnet/model2_nuevo2.jpg");
   border: 0px solid #000;
-  height: 216px;
+  height: 214px;
   width: 336px;    
 }
 
@@ -29,17 +29,16 @@ body {
 }
 
 .f1{
-  border: 0px solid #000;
-  height: 94px;
+  border: 1px solid #000;
+  height: 120px;
 }
 
 .ff1{
   border: 0px solid #000;
-  height: 94px;
+  height: 130px;
   margin: 1px auto;
-  margin-top: 2px;
-  width: 80px;
-  margin-left: 5px;
+  width: 90px;
+  margin-top: 20px;
 }
 .f2{
   border: 0px solid #000;
@@ -47,26 +46,11 @@ body {
 }
 .ff2{
   border: 0px solid #000;
-  height: 80px;
-  width: 80px;
+  height: 65px;
+  width: 65px;
   margin: 1px auto;
-  margin-top: 9px;
-  margin-left: 5px;
+  margin-top: 85px;
 }
-
-.malogo  
-{       
-  -webkit-transform-origin: 50% 50%;  
-  -moz-transform-origin: 50% 50%;  
-  -ms-transform-origin: 50% 50%;  
-  -o-transform-origin: 50% 50%;  
-  transform-origin: 50% 50%; 
- 
-  opacity: 0.12;
-  position: fixed;
-  margin: 10px auto;
-  left:140px  
- } 
 
 .rotar1  
 { 
@@ -97,40 +81,45 @@ body {
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" rightmargin="0">
 
 <?php if($reporte == 1) : ?>
- <div class="carnet" style="10px auto;">
+ <div class="carnet" style="margin: 10px auto;">
   <table border="0" style="width: 100%;">
       <tr>
        <td style="width: 30%;border: 0px solid blue;">
-         <div class="f1">
-           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/<?php echo @$imagen_dni; ?>" style="border: 0px; height: 94px; width: 79px;"/></div>
-         </div>
+         <!-- <div class="f1"> -->
+           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/<?php echo @$imagen_dni; ?>" style="border: 0px; height: 130px; width: 90px;"/></div>
+         <!-- </div> -->
+         <!--
          <div class="f2">
            <div class="ff2">{{ $imagen }}</div>
          </div>
+         -->
        </td>
-       <td class="textos" style="width: 70%;">
-         <div class="areal" style="width: 80%; font-weight: bold; margin-top:50px; text-transform: capitalize;">{{ $nombres }}</div>              
-         <div class="areal" style="width: 80%; font-weight: bold; text-transform: uppercase; margin-bottom: 3px;">{{ $apellidos }}</div>
-         <div class="areal" style="width: 80%; font-size: 8pt; margin-bottom: 3px;">DNI&nbsp;: {{ $dni }}</div>
-         <div class="areal" style="width: 90%; font-size: 9pt; margin-bottom: 3px;">{{ $rol }}</div>
-         <div class="areal" style="width: 94%; font-size: 9pt; margin-bottom: 5px; text-transform: uppercase; ">{{ $area }}</div>
+       <td class="textos" style="width: 45%;">
+         <div class="areal" style="width: 100%; font-weight: bold; margin-top:48px; text-transform: capitalize;">{{ $nombres }}</div>              
+         <div class="areal" style="width: 100%; font-weight: bold; text-transform: uppercase; margin-bottom: 2px;">{{ $apellidos }}</div>
+         <div class="areal" style="width: 100%; font-size: 8pt; margin-bottom: 2px;">DNI&nbsp;: {{ $dni }}</div>
+         <div class="areal" style="width: 100%; font-size: 9pt; margin-bottom: 3px;">{{ $rol }}</div>
+         <div class="areal" style="width: 100%; font-size: 9pt; margin-bottom: 3px; text-transform: uppercase; ">{{ $area }}</div>
 
           <?php if(($rol_id == 8 || $rol_id == 9) && $area_id != 10): ?>
-            <div class="areal" style="width: 80%; font-size: 9pt;">Resoluci&oacute;n: <?php echo $resolucion; ?></div>
+            <div class="areal" style="width: 100%; font-size: 9pt;">Resoluci&oacute;n: <?php echo $resolucion; ?></div>
           <?php else: 
                   if($area_id != 10): ?>
-                  <div class="areal" style="width: 80%; font-size: 9pt;">&nbsp;</div>
+                  <div class="areal" style="width: 100%; font-size: 9pt;">&nbsp;</div>
           <?php   endif;
                 endif; ?>
 
           <?php if($area_id == 10): ?>
-            <div class="areal" style="width: 80%; font-size: 9pt; margin-bottom: 3px;">C&oacute;digo de Inspector: {{ $numero }}</div>
-            <div class="areal" style="width: 80%; font-size: 9pt;">Resoluci&oacute;n: <?php echo $resolucion; ?></div>
-            <div class="areal" style="width: 80%; font-size: 9pt;">&nbsp;</div>
+            <div class="areal" style="width: 100%; font-size: 9pt; margin-bottom: 3px;">C&oacute;digo de Inspector: {{ $numero }}</div>
+            <div class="areal" style="width: 100%; font-size: 9pt;">Resoluci&oacute;n: <?php echo $resolucion; ?></div>
+            <div class="areal" style="width: 100%; font-size: 9pt;">&nbsp;</div>
           <?php else: ?>
-            <div class="areal" style="width: 80%; font-size: 9pt; margin-bottom: 3px;">&nbsp;</div>
-            <div class="areal" style="width: 80%; font-size: 9pt;">&nbsp;</div>
+            <div class="areal" style="width: 100%; font-size: 9pt; margin-bottom: 3px;">&nbsp;</div>
+            <div class="areal" style="width: 100%; font-size: 9pt;">&nbsp;</div>
           <?php endif; ?>
+       </td>
+       <td style="width: 25%;"> 
+         <div class="ff2">{{ $imagen }}</div>
        </td>
      </tr>
   </table>
@@ -150,37 +139,42 @@ body {
               <td style="">
                 <div class="carnet" style="">
                   <table border="0" style="width: 100%;">
-                      <tr>
+                    <tr>
                        <td style="width: 30%;border: 0px solid blue;">
-                         <div class="f1">
-                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/<?php echo $val['imagen_dni']; ?>" style="border: 0px; height: 94px; width: 79px;"/></div>
-                         </div>
+                        <!-- <div class="f1"> -->
+                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/<?php echo $val['imagen_dni']; ?>" style="border: 0px; height: 130px; width: 90px;"/></div>
+                        <!-- </div> -->
+                        <!--
                          <div class="f2">
                            <div class="ff2"><?php echo $val['imagen']; ?></div>
-                         </div>         
+                         </div>
+                         -->
                        </td>
-                       <td class="textos" style="width: 70%;">
-                         <div class="areal" style="width: 80%; font-weight: bold; margin-top:50px; text-transform: capitalize;"><?php echo $val['nombre']; ?></div>
-                         <div class="areal" style="width: 80%; font-weight: bold; text-transform: uppercase; margin-bottom: 3px;"><?php echo $val['apellidos']; ?></div>
-                         <div class="areal" style="width: 80%; font-size: 8pt; margin-bottom: 3px;">DNI&nbsp;: <?php echo $val['dni']; ?></div>
-                         <div class="areal" style="width: 90%; font-size: 9pt; margin-bottom: 3px;"><?php echo $val['rol']; ?></div>
-                         <div class="areal" style="width: 94%; font-size: 9pt; margin-bottom: 5px; text-transform: uppercase; "><?php echo $val['area']; ?></div>
+                       <td class="textos" style="width: 45%;">
+                         <div class="areal" style="width: 100%; font-weight: bold; margin-top:48px; text-transform: capitalize;"><?php echo $val['nombre']; ?></div>
+                         <div class="areal" style="width: 100%; font-weight: bold; text-transform: uppercase; margin-bottom: 2px;"><?php echo $val['apellidos']; ?></div>
+                         <div class="areal" style="width: 100%; font-size: 8pt; margin-bottom: 2px;">DNI&nbsp;: <?php echo $val['dni']; ?></div>
+                         <div class="areal" style="width: 100%; font-size: 9pt; margin-bottom: 3px;"><?php echo $val['rol']; ?></div>
+                         <div class="areal" style="width: 100%; font-size: 9pt; margin-bottom: 3px; text-transform: uppercase; "><?php echo $val['area']; ?></div>
                            
                           <?php if(($val['rol_id'] == 8 || $val['rol_id'] == 9) && $val['area_id'] != 10): ?>
-                            <div class="areal" style="width: 80%; font-size: 9pt;">Resoluci&oacute;n: <?php echo $val['resolucion']; ?></div>
+                            <div class="areal" style="width: 100%; font-size: 9pt;">Resoluci&oacute;n: <?php echo $val['resolucion']; ?></div>
                           <?php else: 
                                   if($val['area_id'] != 10): ?>
-                                  <div class="areal" style="width: 80%; font-size: 9pt;">&nbsp;</div>
+                                  <div class="areal" style="width: 100%; font-size: 9pt;">&nbsp;</div>
                           <?php   endif;
                                 endif; ?>
                           <?php if($val['area_id'] == 10): ?>
-                            <div class="areal" style="width: 80%; font-size: 9pt; margin-bottom: 3px;">C&oacute;digo de Inspector: {{ $val['cod_inspector'] }}</div>
-                            <div class="areal" style="width: 80%; font-size: 9pt;">Resoluci&oacute;n: <?php echo $val['resolucion']; ?></div>
-                            <div class="areal" style="width: 80%; font-size: 9pt;">&nbsp;</div>
+                            <div class="areal" style="width: 100%; font-size: 9pt; margin-bottom: 3px;">C&oacute;digo de Inspector: {{ $val['cod_inspector'] }}</div>
+                            <div class="areal" style="width: 100%; font-size: 9pt;">Resoluci&oacute;n: <?php echo $val['resolucion']; ?></div>
+                            <div class="areal" style="width: 100%; font-size: 9pt;">&nbsp;</div>
                           <?php else: ?>
-                            <div class="areal" style="width: 80%; font-size: 9pt; margin-bottom: 3px;">&nbsp;</div>
-                            <div class="areal" style="width: 80%; font-size: 9pt;">&nbsp;</div>
+                            <div class="areal" style="width: 100%; font-size: 9pt; margin-bottom: 3px;">&nbsp;</div>
+                            <div class="areal" style="width: 100%; font-size: 9pt;">&nbsp;</div>
                           <?php endif; ?>
+                       </td>
+                       <td style="width: 25%;"> 
+                         <div class="ff2"><?php echo $val['imagen']; ?></div>
                        </td>
                      </tr>
                   </table>
@@ -190,37 +184,42 @@ body {
               <td style="">
                 <div class="carnet" style="">
                   <table border="0" style="width: 100%;">
-                      <tr>
+                    <tr>
                        <td style="width: 30%;border: 0px solid blue;">
-                         <div class="f1">
-                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/<?php echo $val['imagen_dni']; ?>" style="border: 0px; height: 94px; width: 79px;"/></div>
-                         </div>
+                        <!-- <div class="f1"> -->
+                           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/<?php echo $val['imagen_dni']; ?>" style="border: 0px; height: 130px; width: 90px;"/></div>
+                        <!-- </div> -->
+                        <!--
                          <div class="f2">
                            <div class="ff2"><?php echo $val['imagen']; ?></div>
-                         </div>         
+                         </div>
+                         -->
                        </td>
-                       <td class="textos" style="width: 70%;">
-                         <div class="areal" style="width: 80%; font-weight: bold; margin-top:50px; text-transform: capitalize;"><?php echo $val['nombre']; ?></div>
-                         <div class="areal" style="width: 80%; font-weight: bold; text-transform: uppercase; margin-bottom: 3px;"><?php echo $val['apellidos']; ?></div>
-                         <div class="areal" style="width: 80%; font-size: 8pt; margin-bottom: 3px;">DNI&nbsp;: <?php echo $val['dni']; ?></div>
-                         <div class="areal" style="width: 90%; font-size: 9pt; margin-bottom: 3px;"><?php echo $val['rol']; ?></div>
-                         <div class="areal" style="width: 94%; font-size: 9pt; margin-bottom: 5px; text-transform: uppercase; "><?php echo $val['area']; ?></div>
-                          
+                       <td class="textos" style="width: 45%;">
+                         <div class="areal" style="width: 100%; font-weight: bold; margin-top:48px; text-transform: capitalize;"><?php echo $val['nombre']; ?></div>
+                         <div class="areal" style="width: 100%; font-weight: bold; text-transform: uppercase; margin-bottom: 2px;"><?php echo $val['apellidos']; ?></div>
+                         <div class="areal" style="width: 100%; font-size: 8pt; margin-bottom: 2px;">DNI&nbsp;: <?php echo $val['dni']; ?></div>
+                         <div class="areal" style="width: 100%; font-size: 9pt; margin-bottom: 3px;"><?php echo $val['rol']; ?></div>
+                         <div class="areal" style="width: 100%; font-size: 9pt; margin-bottom: 3px; text-transform: uppercase; "><?php echo $val['area']; ?></div>
+                           
                           <?php if(($val['rol_id'] == 8 || $val['rol_id'] == 9) && $val['area_id'] != 10): ?>
-                            <div class="areal" style="width: 80%; font-size: 9pt;">Resoluci&oacute;n: <?php echo $val['resolucion']; ?></div>
+                            <div class="areal" style="width: 100%; font-size: 9pt;">Resoluci&oacute;n: <?php echo $val['resolucion']; ?></div>
                           <?php else: 
                                   if($val['area_id'] != 10): ?>
-                                  <div class="areal" style="width: 80%; font-size: 9pt;">&nbsp;</div>
+                                  <div class="areal" style="width: 100%; font-size: 9pt;">&nbsp;</div>
                           <?php   endif;
                                 endif; ?>
                           <?php if($val['area_id'] == 10): ?>
-                            <div class="areal" style="width: 80%; font-size: 9pt; margin-bottom: 3px;">C&oacute;digo de Inspector: {{ $val['cod_inspector'] }}</div>
-                            <div class="areal" style="width: 80%; font-size: 9pt;">Resoluci&oacute;n: <?php echo $val['resolucion']; ?></div>
-                            <div class="areal" style="width: 80%; font-size: 9pt;">&nbsp;</div>
+                            <div class="areal" style="width: 100%; font-size: 9pt; margin-bottom: 3px;">C&oacute;digo de Inspector: {{ $val['cod_inspector'] }}</div>
+                            <div class="areal" style="width: 100%; font-size: 9pt;">Resoluci&oacute;n: <?php echo $val['resolucion']; ?></div>
+                            <div class="areal" style="width: 100%; font-size: 9pt;">&nbsp;</div>
                           <?php else: ?>
-                            <div class="areal" style="width: 80%; font-size: 9pt; margin-bottom: 3px;">&nbsp;</div>
-                            <div class="areal" style="width: 80%; font-size: 9pt;">&nbsp;</div>
+                            <div class="areal" style="width: 100%; font-size: 9pt; margin-bottom: 3px;">&nbsp;</div>
+                            <div class="areal" style="width: 100%; font-size: 9pt;">&nbsp;</div>
                           <?php endif; ?>
+                       </td>
+                       <td style="width: 25%;"> 
+                         <div class="ff2"><?php echo $val['imagen']; ?></div>
                        </td>
                      </tr>
                   </table>
@@ -250,43 +249,50 @@ body {
           $text_estado = 'INACTIVO';
         }
 ?> 
-<div class="carnet" style="10px auto;">
+<div class="carnet" style="margin: 10px auto;">
   <div class="rotar1"><?php if($vistaprevia!=''){echo '<img src="http://proceso.munindependencia.pe/img/carnet/logo_muni.png"/>';} ?></div> 
   <table border="0" style="width: 100%;">
       <tr>
        <td style="width: 30%;border: 0px solid blue;">
-         <div class="f1">
-           <div class="ff1"><img src="http://proceso.munindependencia.pe/img/carnet/<?php echo @$imagen_dni; ?>" style="border: 0px; height: 94px; width: 79px;"/></div>
-         </div>
+         <!-- <div class="f1"> -->
+           <div class="ff1" style="margin-top: 10px;">
+            <img src="http://proceso.munindependencia.pe/img/carnet/<?php echo @$imagen_dni; ?>" style="border: 0px; height: 130px; width: 90px;"/>                        
+           </div>
+           <div style="margin-top: 0px; margin-left: 6px;">
+            <?php if($vistaprevia!=''){ ?> <?php echo '<label class="" style="'.$class_estado.'">&nbsp;&nbsp;&nbsp;&nbsp;'.$text_estado.'&nbsp;&nbsp;&nbsp;</label>';   ?><?php } ?>
+           </div>
+         <!-- </div> -->
+         <!--
          <div class="f2">
            <div class="ff2">{{ $imagen }}</div>
          </div>
+         -->
        </td>
-       <td class="textos" style="width: 70%;">        
-         <div class="areal" style="width: 80%; font-weight: bold; margin-top:50px; text-transform: capitalize;">{{ $nombres }}</div>              
-         <div class="areal" style="width: 80%; font-weight: bold; text-transform: uppercase; margin-bottom: 3px;">{{ $apellidos }}</div>
-         <div class="areal" style="width: 80%; font-size: 8pt; margin-bottom: 3px;">
-              DNI&nbsp;: {{ $dni }}&nbsp;
-              <?php if($vistaprevia!=''){ ?> <?php echo '<label class="" style="'.$class_estado.'">'.$text_estado.'</label>';   ?><?php } ?>
-         </div>
+       <td class="textos" style="width: 45%;">        
+         <div class="areal" style="width: 100%; font-weight: bold; margin-top:48px; text-transform: capitalize;">{{ $nombres }}</div>              
+         <div class="areal" style="width: 100%; font-weight: bold; text-transform: uppercase; margin-bottom: 2px;">{{ $apellidos }}</div>
+         <div class="areal" style="width: 100%; font-size: 8pt; margin-bottom: 2px;">DNI&nbsp;: {{ $dni }}</div>
          <div class="areal" style="width: 90%; font-size: 9pt; margin-bottom: 3px;">{{ $rol }}</div>
-         <div class="areal" style="width: 94%; font-size: 9pt; margin-bottom: 5px; text-transform: uppercase; ">{{ $area }}</div>
+         <div class="areal" style="width: 94%; font-size: 9pt; margin-bottom: 3px; text-transform: uppercase; ">{{ $area }}</div>
          <?php if(($rol_id == 8 || $rol_id == 9) && $area_id != 10): ?>
-            <div class="areal" style="width: 80%; font-size: 9pt;">Resoluci&oacute;n: <?php echo $resolucion; ?></div>
+            <div class="areal" style="width: 100%; font-size: 9pt;">Resoluci&oacute;n: <?php echo $resolucion; ?></div>
           <?php else: 
                   if($area_id != 10): ?>
-                  <div class="areal" style="width: 80%; font-size: 9pt;">&nbsp;</div>
+                  <div class="areal" style="width: 100%; font-size: 9pt;">&nbsp;</div>
           <?php   endif;
                 endif; ?>
 
           <?php if($area_id == 10): ?>
-            <div class="areal" style="width: 80%; font-size: 9pt; margin-bottom: 3px;">C&oacute;digo de Inspector: {{ $numero }}</div>
-            <div class="areal" style="width: 80%; font-size: 9pt;">Resoluci&oacute;n: <?php echo $resolucion; ?></div>
-            <div class="areal" style="width: 80%; font-size: 9pt;">&nbsp;</div>
+            <div class="areal" style="width: 100%; font-size: 9pt; margin-bottom: 3px;">C&oacute;digo de Inspector: {{ $numero }}</div>
+            <div class="areal" style="width: 100%; font-size: 9pt;">Resoluci&oacute;n: <?php echo $resolucion; ?></div>
+            <div class="areal" style="width: 100%; font-size: 9pt;">&nbsp;</div>
           <?php else: ?>
-            <div class="areal" style="width: 80%; font-size: 9pt; margin-bottom: 3px;">&nbsp;</div>
-            <div class="areal" style="width: 80%; font-size: 9pt;">&nbsp;</div>
+            <div class="areal" style="width: 100%; font-size: 9pt; margin-bottom: 3px;">&nbsp;</div>
+            <div class="areal" style="width: 100%; font-size: 9pt;">&nbsp;</div>
           <?php endif; ?>
+       </td>
+       <td style="width: 25%;"> 
+         <div class="ff2">{{ $imagen }}</div>
        </td>
      </tr>
   </table>
