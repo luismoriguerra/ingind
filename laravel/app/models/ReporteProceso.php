@@ -64,5 +64,87 @@ class ReporteProceso extends Eloquent
 		//echo $x;
 		return DB::select($x);
    	}
+public static function getReporteTramites($areas,$fechaIni,$fechaFin)
+    {
+
+    	$dateIni = explode("/", $fechaIni);
+    	$dateEnd = explode("/", $fechaFin);
+
+		$pivots = "";
+		$lefts = "";
+    	if($fechaIni == $fechaFin){
+
+    		$filterMonth = " = '$fechaIni'";
+
+    	}else{ 
+    		$pv=0;
+    		$limit = 100;
+
+    			$m = (int)$dateIni[1];
+    			$y = (int)$dateIni[0];
+
+
+    		while($y < intval($dateEnd[0]) || $m <= intval($dateEnd[1])){
+
+
+    			$auxMonth = str_pad($m, 2, "0", STR_PAD_LEFT);
+
+				$pivots .= ",
+				    CONCAT(
+				    	CAST(COUNT(RD$pv.id) as CHAR(8))
+				    	, '=' ,
+				        CAST(COUNT(IF(RD$pv.norden = '01'AND RD$pv.`dtiempo_final` IS NULL,1,NULL))AS CHAR (8)),
+				        '/',
+				        CAST(COUNT(IF(RD$pv.norden != '01' AND RD$pv.`dtiempo_final` IS NULL,1,NULL)) AS CHAR (8))
+
+				        ,'|',
+
+				        CAST(COUNT(IF(RD$pv.norden = '01' AND RD$pv.`dtiempo_final`,1,NULL))AS CHAR (8)),
+				        '/',
+				        CAST(COUNT(IF(RD$pv.norden != '01' AND RD$pv.`dtiempo_final`,1,NULL))AS CHAR (8))
+				    ) AS {$y}_{$m}
+
+				    \r\n";
+
+
+				$lefts .= "LEFT JOIN procesos.rutas_detalle AS RD$pv ON R.id = RD$pv.ruta_id AND RD$pv.condicion = 0 AND RD$pv.`fecha_inicio` IS NOT NULL AND DATE_FORMAT(RD$pv.`fecha_inicio`,'%Y-%m') = '$y-$auxMonth'\r\n";
+				
+				$pv++;
+    			$m++;
+
+    			if($m == 13){
+    				$m = 1;
+    				$y++;
+    			}
+				
+
+    		}
+
+    		$filterMonth = "BETWEEN '$fechaIni' AND '$fechaFin'";
+    	}
+
+
+
+		$x = "
+SELECT 
+A.id as a,
+    A.nombre
+	$pivots 
+FROM
+    procesos.rutas AS R
+    INNER JOIN procesos.areas AS A ON A.id = R.area_id
+    $lefts
+WHERE
+    A.id IN ($areas)
+    AND R.`estado` = 1
+    AND R.`fecha_inicio` IS NOT NULL
+    AND DATE_FORMAT(R.`fecha_inicio`,'%Y/%m') $filterMonth
+GROUP BY A.id
+		";
+//echo $x;
+
+		return DB::select($x);
+   	}
+
 }
 
