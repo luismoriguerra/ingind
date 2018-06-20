@@ -298,9 +298,9 @@ class ReporteController extends BaseController
           }
 
           $data = Reporte::VerNroPasosTramite($array);
-          $cant_pasos = $data[0]->cant;
+          //$cant_pasos = $data[0]->cant;
 
-          $oData = Reporte::ReporteTramiteActividad( $array, $cant_pasos );
+          $oData = Reporte::ReporteTramiteActividad( $array, $data );
 
           /*return Response::json(
               array(
@@ -449,13 +449,18 @@ class ReporteController extends BaseController
                     $objPHPExcel->setActiveSheetIndex(0)
                                 ->setCellValue('A' . $ini, $key + 1)
                                 ->setCellValue('B' . $ini, $value->id_union);
-                    
-                    for ($i = 1; $i <= ($n-1); $i++)
+                    $c=0;
+                    for ($i = 0; $i <= $n; $i++)
                     {
-                      $act = 'act'.$i;
-                      if($value->$act)
+                      //print_r($value);
+                      //exit;                      
+                      $act = 'act0';
+                      $v_act = $value->$act;
+                      //echo $act;
+                      //exit;
+                      if($v_act != '')
                       {
-                        $res = explode("|", $value->$act); //act.$i
+                        $res = explode("|", $v_act); //act.$i
 
                         if($res[2])
                           $cadena_2 = str_replace("<br>", "\n", $res[2]);
@@ -463,16 +468,17 @@ class ReporteController extends BaseController
                           $cadena_2 = '';
 
                         $objPHPExcel->setActiveSheetIndex(0)
-                                    ->setCellValue($arr_abc[$i] . $ini, $res[0]."\n".$cadena_2);
+                                    ->setCellValue($arr_abc[($i+1)] . $ini, $res[0]."\n".$cadena_2);
                         
                         // Realiza Salto de Linea (\n)
-                        $objPHPExcel->getActiveSheet()->getStyle($arr_abc[$i].$ini)->getAlignment()->setWrapText(true);                                    
+                        $objPHPExcel->getActiveSheet()->getStyle($arr_abc[($i+1)].$ini)->getAlignment()->setWrapText(true);                                    
                         
                         if(trim($res[1]) == '') $res[1] = '';
-                        $objPHPExcel->getActiveSheet()->getStyle($arr_abc[$i].$ini)->applyFromArray($styleColor[$res[1]]);
+                        $objPHPExcel->getActiveSheet()->getStyle($arr_abc[$i+1].$ini)->applyFromArray($styleColor[$res[1]]);
                         
                       }
 
+                      $c++;
                     }                    
                     $ini++;
                 }
