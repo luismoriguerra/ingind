@@ -197,7 +197,7 @@ openPlantilla=function(rol_id, area_id,dni,tamano,tipo){
 openImagen=function(rol_id, area_id,dni,tamano,tipo){    
     window.open("documentodig/crearcarnetqr/"+rol_id+"/"+area_id+"/"+dni+"/"+tamano+"/"+tipo,
                 "PrevisualizarCarnet",
-                "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
+                "toolbar=no,menubar=no,resizable,scrollbars,status,width=700,height=400");
     //popup = window.open();
     //popup.document.write("<img src='documentodig/crearcarnetqr/"+area_id+"/"+dni+"/"+tamano+"/"+tipo>"'>");
     
