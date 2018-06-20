@@ -651,13 +651,14 @@ class DocumentoDigitalController extends \BaseController {
         }
     }
 
-    public function getVistauserqr($area_id,$id,$tamano,$tipo)
+    public function getVistauserqr($rol_id, $area_id,$id,$tamano,$tipo)
     {
         ini_set("max_execution_time", 300);
         ini_set('memory_limit','512M');        
 
         /*end get destinatario data*/
         $vistaprevia='';
+        $vistaprevia='Documento Vista Previa';
         $size = 80; // TAMAÑO EN PX 
         $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$area_id."/".$id."/".$tamano."/".$tipo);
         $png = base64_encode($png);
@@ -665,13 +666,14 @@ class DocumentoDigitalController extends \BaseController {
         //$meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
         
         $oData=Persona::VerUsuarios($area_id, $id);
-        
+
         $params = [
-            'reporte'=>1,
+            'reporte'=>3,
             'nombres'=>$oData[0]->nombre,
             'apellidos'=>$oData[0]->paterno.' '.$oData[0]->materno,
             'area_id'=>$area_id,
             'area'=>$oData[0]->area,
+            'rol_id'=>$oData[0]->rol_id,
             'rol'=>$oData[0]->rol,
             'estado'=>$oData[0]->estado,
             'dni'=>$oData[0]->dni,
@@ -696,7 +698,7 @@ class DocumentoDigitalController extends \BaseController {
         //\PDFF::loadHTML($html)->setPaper('a4')->setOrientation('landscape')->setWarnings(false)->stream();
     }
 
-    public function getVistauserqrvalida($area_id,$id,$tamano,$tipo)
+    public function getVistauserqrvalida($rol_id, $area_id,$id,$tamano,$tipo)
     {
         ini_set("max_execution_time", 300);
         ini_set('memory_limit','512M');        
@@ -719,6 +721,7 @@ class DocumentoDigitalController extends \BaseController {
             'apellidos'=>$oData[0]->paterno.' '.$oData[0]->materno,
             'area_id'=>$area_id,
             'area'=>$oData[0]->area,
+            'rol_id'=>$oData[0]->rol_id,
             'rol'=>$oData[0]->rol,
             'estado'=>$oData[0]->estado,
             'dni'=>$oData[0]->dni,
@@ -743,7 +746,7 @@ class DocumentoDigitalController extends \BaseController {
         //\PDFF::loadHTML($html)->setPaper('a4')->setOrientation('landscape')->setWarnings(false)->stream();
     }
 
-    public function getVistatodosuserqr($area_id,$tamano,$tipo)
+    public function getVistatodosuserqr($rol_id, $area_id,$tamano,$tipo)
     {
         ini_set("max_execution_time", 300);
         ini_set('memory_limit','512M');
@@ -759,6 +762,7 @@ class DocumentoDigitalController extends \BaseController {
                             'apellidos' => $val->paterno.' '.$val->materno,
                             'area_id'=>$area_id,
                             'area' => $val->area,
+                            'rol_id'=>$val->rol_id,
                             'rol'=>$val->rol,
                             'dni' => $val->dni,
                             'imagen_dni'=>$val->imagen_dni,
@@ -802,7 +806,7 @@ class DocumentoDigitalController extends \BaseController {
     }
 
     /* ***************** GENERACIÓN DE IMAGEN PARA IMPRIMIR ********************** */
-    public function getCrearcarnetqr($area_id,$id,$tamano,$tipo)
+    public function getCrearcarnetqr($rol_id, $area_id, $id, $tamano, $tipo)
     {
         ini_set("max_execution_time", 300);
         ini_set('memory_limit','512M');        

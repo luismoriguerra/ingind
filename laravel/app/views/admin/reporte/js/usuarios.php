@@ -23,7 +23,7 @@ $(document).ready(function() {
      $("#btnprintuserall").click(function (){
         area_id = $('#slct_area_id').val();
         if ($.trim(area_id)!=='') {
-            openPlantillaArea(area_id,4,0);
+            openPlantillaArea(window.RolIdG, area_id,4,0);
         } else {
             alert("Seleccione Área");
         }
@@ -128,8 +128,8 @@ HTMLreporte2=function(datos){
             html+="</div>";
             html+='<div class="col-md-2 text-center">'+
                     '<p id="uqr'+data.dni+'">'+img_qr+'</p>'+
-                    '<p><a class="btn btn-default btn-xs" href="#" onclick="openPlantilla('+data.area_id+',\''+data.dni+'\',4,0); return false;" data-titulo="Previsualizar"><i class="fa fa-print"></i>&nbsp;Ver</a>&nbsp;'+
-                    '<a class="btn btn-danger btn-xs" href="#" onclick="openImagen('+data.area_id+',\''+data.dni+'\',4,0); return false;" data-titulo="Previsualizar"><i class="fa fa-print"></i>&nbsp;Print</a></p>';
+                    '<p><a class="btn btn-default btn-xs" href="#" onclick="openPlantilla('+window.RolIdG +', '+data.area_id+',\''+data.dni+'\',4,0); return false;" data-titulo="Previsualizar"><i class="fa fa-print"></i>&nbsp;Ver</a>&nbsp;'+
+                    '<a class="btn btn-danger btn-xs" href="#" onclick="openImagen('+window.RolIdG +', '+data.area_id+',\''+data.dni+'\',4,0); return false;" data-titulo="Previsualizar"><i class="fa fa-print"></i>&nbsp;Print</a></p>';
             html+="</div>";
 
         html+='</div>';
@@ -188,20 +188,27 @@ sendImage=function(){
 
 }
 
-openPlantilla=function(area_id,dni,tamano,tipo){
-    window.open("documentodig/vistauserqr/"+area_id+"/"+dni+"/"+tamano+"/"+tipo,
+openPlantilla=function(rol_id, area_id,dni,tamano,tipo){
+    window.open("documentodig/vistauserqr/"+rol_id+"/"+area_id+"/"+dni+"/"+tamano+"/"+tipo,
                 "PrevisualizarPlantilla",
                 "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
 };
 
-openImagen=function(area_id,dni,tamano,tipo){
-    window.open("documentodig/crearcarnetqr/"+area_id+"/"+dni+"/"+tamano+"/"+tipo,
+openImagen=function(rol_id, area_id,dni,tamano,tipo){    
+    window.open("documentodig/crearcarnetqr/"+rol_id+"/"+area_id+"/"+dni+"/"+tamano+"/"+tipo,
                 "PrevisualizarCarnet",
                 "toolbar=no,menubar=no,resizable,scrollbars,status,width=900,height=700");
+    //popup = window.open();
+    //popup.document.write("<img src='documentodig/crearcarnetqr/"+area_id+"/"+dni+"/"+tamano+"/"+tipo>"'>");
+    
+    //popup.document.write("<img src='http://proceso.munindependencia.pe/documentodig/crearcarnetqr/"+area_id+"/"+dni+"/"+tamano+"/"+tipo+"'>")    
+    /*popup.document.write("<img src='http://localhost/ingind/public/documentodig/crearcarnetqr/"+area_id+"/"+dni+"/"+tamano+"/"+tipo+"'>")    
+    popup.focus(); //required for IE
+    popup.print();*/
 };
 
-openPlantillaArea=function(area_id,tamano,tipo){
-    window.open("documentodig/vistatodosuserqr/"+area_id+"/"+tamano+"/"+tipo,
+openPlantillaArea=function(rol_id, area_id,tamano,tipo){
+    window.open("documentodig/vistatodosuserqr/"+rol_id+"/"+area_id+"/"+tamano+"/"+tipo,
                 "PrevisualizarPlantilla",
                 "toolbar=no,menubar=no,resizable,scrollbars,status,width=1200,height=700");
 };
