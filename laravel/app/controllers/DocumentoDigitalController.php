@@ -765,7 +765,7 @@ class DocumentoDigitalController extends \BaseController {
                             'rol'=>$val->rol,
                             'dni' => $val->dni,
                             'imagen_dni'=>$val->imagen_dni,
-                            'imagen' => $this->ObtenerQR($area_id, $val->dni, $tamano, $tipo),
+                            'imagen' => $this->ObtenerQR($rol_id, $area_id, $val->dni, $tamano, $tipo),
                             'resolucion'=>$val->resolucion,
                             'cod_inspector' => $val->cod_inspector);
             array_push($arr_data, $data);
