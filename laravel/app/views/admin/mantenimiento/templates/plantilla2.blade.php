@@ -69,7 +69,8 @@ body {
  } 
 
 .rotar1  
-{  
+{ 
+  /*
   -webkit-transform: rotate(-35deg);  
   -moz-transform: rotate(-35deg);  
   -ms-transform: rotate(-35deg);  
@@ -81,14 +82,14 @@ body {
   -ms-transform-origin: 50% 50%;  
   -o-transform-origin: 50% 50%;  
   transform-origin: 50% 50%;  
-  
+  */
   width: 440px;  
   position: absolute; 
   right: 0px;
   top: 90px;  
-  left: 150px;
+  left: 200px;
   font-size: 35px; 
-  opacity: 0.12;
+  opacity: 0.14;
 }
 
 </style>
@@ -250,7 +251,7 @@ body {
         }
 ?> 
 <div class="carnet" style="10px auto;">
-  <div class="rotar1"><?php if($vistaprevia!=''){echo "Validación - Identificación";} ?></div> 
+  <div class="rotar1"><?php if($vistaprevia!=''){echo '<img src="http://proceso.munindependencia.pe/img/carnet/logo_muni.png"/>';} ?></div> 
   <table border="0" style="width: 100%;">
       <tr>
        <td style="width: 30%;border: 0px solid blue;">

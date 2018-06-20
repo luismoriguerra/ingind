@@ -657,8 +657,7 @@ class DocumentoDigitalController extends \BaseController {
         ini_set('memory_limit','512M');        
 
         /*end get destinatario data*/
-        $vistaprevia='';
-        $vistaprevia='Documento Vista Previa';
+        $vistaprevia='';        
         $size = 80; // TAMAÑO EN PX 
         $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$area_id."/".$id."/".$tamano."/".$tipo);
         $png = base64_encode($png);
@@ -668,7 +667,7 @@ class DocumentoDigitalController extends \BaseController {
         $oData=Persona::VerUsuarios($area_id, $id);
 
         $params = [
-            'reporte'=>3,
+            'reporte'=>1,
             'nombres'=>$oData[0]->nombre,
             'apellidos'=>$oData[0]->paterno.' '.$oData[0]->materno,
             'area_id'=>$area_id,
@@ -825,21 +824,22 @@ class DocumentoDigitalController extends \BaseController {
         $nombres = $oData[0]->nombre;
         $apellidos = $oData[0]->paterno.' '.$oData[0]->materno;
         $dni = $oData[0]->dni;
-        $cargo = $oData[0]->rol;
+        $rol_id = $oData[0]->rol_id;
+        $cargo = $oData[0]->rol;        
         $area = $oData[0]->area;
         $codInspector = $oData[0]->cod_inspector;
         $resolucion = $oData[0]->resolucion;
         $rutaFoto = "http://proceso.munindependencia.pe/img/carnet/".$oData[0]->imagen_dni;
         $rutaQR = "img/carnet/temp.png";
 
-        $im = $this->crearCarnet($nombres,$apellidos,$dni,$cargo,$area,$codInspector,$resolucion,$rutaFoto,$rutaQR, $area_id);
+        $im = $this->crearCarnet($nombres,$apellidos,$dni,$rol_id, $cargo,$area,$codInspector,$resolucion,$rutaFoto,$rutaQR, $area_id);
 
         imagejpeg($im);
         imagedestroy($im);
     }
 
 
-    public function crearCarnet($nombres,$apellidos,$dni,$cargo,$area,$codInspector,$resolucion,$rutaFoto,$rutaQR, $area_id)
+    public function crearCarnet($nombres,$apellidos,$dni,$rol_id, $cargo,$area,$codInspector,$resolucion,$rutaFoto,$rutaQR, $area_id)
     {
         $im = imagecreatefromjpeg ('http://proceso.munindependencia.pe/img/carnet/model2_n.jpeg');
 
@@ -910,12 +910,17 @@ class DocumentoDigitalController extends \BaseController {
 
 
         imagettftext($im, 9, 0, 102, 115+10, $black, $font2, $area);
+                
+        if(($rol_id == 8 || $rol_id == 9) && $area_id != 10) {
+            imagettftext($im, 9, 0, 102, 135+14+$dobleLinea, $black, $font,"Resolución: ");
+            imagettftext($im, 9, 0, 246 , 135+14+$dobleLinea, $black, $font2, $resolucion);
+        }
 
         if($area_id == 10) {
-            imagettftext($im, 9, 0, 102, 140+14+$dobleLinea, $black, $font,"Codigo de inspector: ");
-            imagettftext($im, 9, 0, 253 , 140+14+$dobleLinea, $black, $font2, $codInspector);
-            imagettftext($im, 9, 0, 102, 160+14+$dobleLinea, $black, $font,"N° Reslución: ");
-            imagettftext($im, 9, 0, 199, 160+14+$dobleLinea, $black, $font2, $resolucion);
+            imagettftext($im, 9, 0, 102, 135+14+$dobleLinea, $black, $font,"Código de Inspector: ");
+            imagettftext($im, 9, 0, 246 , 135+14+$dobleLinea, $black, $font2, $codInspector);
+            imagettftext($im, 9, 0, 102, 155+14+$dobleLinea, $black, $font,"Resolución: ");
+            imagettftext($im, 9, 0, 186, 155+14+$dobleLinea, $black, $font2, $resolucion);
         }     
 
         $stamp = getImageFromUrl($rutaFoto);
