@@ -707,7 +707,7 @@ class DocumentoDigitalController extends \BaseController {
         $vistaprevia='Documento Vista Previa';
         
         $size = 80; // TAMAÑO EN PX 
-        $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$area_id."/".$id."/".$tamano."/".$tipo);
+        $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$rol_id."/".$area_id."/".$id."/".$tamano."/".$tipo);
         $png = base64_encode($png);
         $png= "<img src='data:image/png;base64," . $png . "' width='80' height='80'>";
         //$meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
