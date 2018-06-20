@@ -277,6 +277,8 @@ makeHeader = function(data){
     
     var keys = Object.keys(data);
     configChart.data.labels=[];
+    configChartFinalizadas.data.labels=[];
+    configChartPendientes.data.labels=[];
     for (var i = 0; i < keys.length; i++){
         var auxName = "";
 
@@ -500,11 +502,11 @@ function loadEtapa2(idE2){
             mData0P.push(auxDataset[i].pendientes.asignadas+auxDataset[i].pendientes.involucradas);
             mData0PInv.push(auxDataset[i].pendientes.involucradas);
             mData0PAsg.push(auxDataset[i].pendientes.asignadas);
-
             
             mData0F.push(auxDataset[i].finalizadas.asignadas+auxDataset[i].finalizadas.involucradas);
             mData0FInv.push(auxDataset[i].finalizadas.involucradas);
             mData0FAsg.push(auxDataset[i].finalizadas.asignadas);
+            
     }
 
 
@@ -520,6 +522,7 @@ function loadEtapa2(idE2){
         data: mData0P,
         fill: false
     };
+
     configChartPendientes.data.datasets[configChartPendientes.data.datasets.length]={
         label: "Involucradas",
         backgroundColor: chartColors.orange,
@@ -527,6 +530,7 @@ function loadEtapa2(idE2){
         data: mData0PInv,
         fill: false
     };
+
     configChartPendientes.data.datasets[configChartPendientes.data.datasets.length]={
         label: "Asignadas",
         backgroundColor: chartColors.green,
@@ -536,8 +540,6 @@ function loadEtapa2(idE2){
     };
 
 
-
-
     configChartFinalizadas.data.datasets[configChartFinalizadas.data.datasets.length]={
         label: "Finalizadas:"+tAreaName,
         backgroundColor: 'rgb(0,0,0)',
@@ -545,6 +547,7 @@ function loadEtapa2(idE2){
         data: mData0F,
         fill: false
     };
+
     configChartFinalizadas.data.datasets[configChartFinalizadas.data.datasets.length]={
         label: "Involucradas",
         backgroundColor: chartColors.orange,
@@ -552,6 +555,7 @@ function loadEtapa2(idE2){
         data: mData0FInv,
         fill: false
     };
+
     configChartFinalizadas.data.datasets[configChartFinalizadas.data.datasets.length]={
         label: "Asignadas",
         backgroundColor: chartColors.green,
