@@ -55,14 +55,14 @@ var Usuario={
             }
         });
     },
-    obtenerQRUser:function(area_id, dni, tamano, tipo){
+    obtenerQRUser:function(rol_id, area_id, dni, tamano, tipo){
         $.ajax({
             url         : 'reporte/obtenerqr',
             type        : 'POST',
             cache       : false,
             async       : false,
             dataType    : 'json',
-            data        : {area_id:area_id, dni: dni, tamano:tamano, tipo:tipo},
+            data        : {rol_id: rol_id, area_id:area_id, dni: dni, tamano:tamano, tipo:tipo},
             success : function(obj) {
                 //$('#uqr'+dni).html(obj.qr);
                 window.img_qr = obj.qr;

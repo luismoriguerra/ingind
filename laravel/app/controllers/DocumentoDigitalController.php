@@ -651,27 +651,28 @@ class DocumentoDigitalController extends \BaseController {
         }
     }
 
-    public function getVistauserqr($area_id,$id,$tamano,$tipo)
+    public function getVistauserqr($rol_id, $area_id,$id,$tamano,$tipo)
     {
         ini_set("max_execution_time", 300);
         ini_set('memory_limit','512M');        
 
         /*end get destinatario data*/
-        $vistaprevia='';
+        $vistaprevia='';        
         $size = 80; // TAMAÑO EN PX 
-        $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$area_id."/".$id."/".$tamano."/".$tipo);
+        $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$rol_id."/".$area_id."/".$id."/".$tamano."/".$tipo);
         $png = base64_encode($png);
         $png= "<img src='data:image/png;base64," . $png . "' width='80' height='80'>";
         //$meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
         
         $oData=Persona::VerUsuarios($area_id, $id);
-        
+
         $params = [
             'reporte'=>1,
             'nombres'=>$oData[0]->nombre,
             'apellidos'=>$oData[0]->paterno.' '.$oData[0]->materno,
             'area_id'=>$area_id,
             'area'=>$oData[0]->area,
+            'rol_id'=>$oData[0]->rol_id,
             'rol'=>$oData[0]->rol,
             'estado'=>$oData[0]->estado,
             'dni'=>$oData[0]->dni,
@@ -696,7 +697,7 @@ class DocumentoDigitalController extends \BaseController {
         //\PDFF::loadHTML($html)->setPaper('a4')->setOrientation('landscape')->setWarnings(false)->stream();
     }
 
-    public function getVistauserqrvalida($area_id,$id,$tamano,$tipo)
+    public function getVistauserqrvalida($rol_id, $area_id,$id,$tamano,$tipo)
     {
         ini_set("max_execution_time", 300);
         ini_set('memory_limit','512M');        
@@ -706,7 +707,7 @@ class DocumentoDigitalController extends \BaseController {
         $vistaprevia='Documento Vista Previa';
         
         $size = 80; // TAMAÑO EN PX 
-        $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$area_id."/".$id."/".$tamano."/".$tipo);
+        $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$rol_id."/".$area_id."/".$id."/".$tamano."/".$tipo);
         $png = base64_encode($png);
         $png= "<img src='data:image/png;base64," . $png . "' width='80' height='80'>";
         //$meses=array('','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
@@ -719,6 +720,7 @@ class DocumentoDigitalController extends \BaseController {
             'apellidos'=>$oData[0]->paterno.' '.$oData[0]->materno,
             'area_id'=>$area_id,
             'area'=>$oData[0]->area,
+            'rol_id'=>$oData[0]->rol_id,
             'rol'=>$oData[0]->rol,
             'estado'=>$oData[0]->estado,
             'dni'=>$oData[0]->dni,
@@ -743,7 +745,7 @@ class DocumentoDigitalController extends \BaseController {
         //\PDFF::loadHTML($html)->setPaper('a4')->setOrientation('landscape')->setWarnings(false)->stream();
     }
 
-    public function getVistatodosuserqr($area_id,$tamano,$tipo)
+    public function getVistatodosuserqr($rol_id, $area_id,$tamano,$tipo)
     {
         ini_set("max_execution_time", 300);
         ini_set('memory_limit','512M');
@@ -759,10 +761,11 @@ class DocumentoDigitalController extends \BaseController {
                             'apellidos' => $val->paterno.' '.$val->materno,
                             'area_id'=>$area_id,
                             'area' => $val->area,
+                            'rol_id'=>$val->rol_id,
                             'rol'=>$val->rol,
                             'dni' => $val->dni,
                             'imagen_dni'=>$val->imagen_dni,
-                            'imagen' => $this->ObtenerQR($area_id, $val->dni, $tamano, $tipo),
+                            'imagen' => $this->ObtenerQR($rol_id, $area_id, $val->dni, $tamano, $tipo),
                             'resolucion'=>$val->resolucion,
                             'cod_inspector' => $val->cod_inspector);
             array_push($arr_data, $data);
@@ -792,9 +795,9 @@ class DocumentoDigitalController extends \BaseController {
         //\PDFF::loadHTML($html)->setPaper('a4')->setOrientation('landscape')->setWarnings(false)->stream();
     }
 
-    public function ObtenerQR($area_id,$dni,$tamano,$tipo) {
+    public function ObtenerQR($rol_id, $area_id,$dni,$tamano,$tipo) {
       $size = 80;
-      $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$area_id."/".$dni."/".$tamano."/".$tipo);
+      $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$rol_id."/".$area_id."/".$dni."/".$tamano."/".$tipo);
       $png = base64_encode($png);
       $png = "<img class='img-thumbnail' src='data:image/png;base64," . $png . "' width='80' height='80'>";
       
@@ -802,7 +805,7 @@ class DocumentoDigitalController extends \BaseController {
     }
 
     /* ***************** GENERACIÓN DE IMAGEN PARA IMPRIMIR ********************** */
-    public function getCrearcarnetqr($area_id,$id,$tamano,$tipo)
+    public function getCrearcarnetqr($rol_id, $area_id, $id, $tamano, $tipo)
     {
         ini_set("max_execution_time", 300);
         ini_set('memory_limit','512M');        
@@ -810,7 +813,7 @@ class DocumentoDigitalController extends \BaseController {
         /*end get destinatario data*/
         //$vistaprevia='';
         $size = 80; // TAMAÑO EN PX 
-        $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$area_id."/".$id."/".$tamano."/".$tipo);        
+        $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$rol_id."/".$area_id."/".$id."/".$tamano."/".$tipo);
         file_put_contents("img/carnet/temp.png", $png);
         $oData=Persona::VerUsuarios($area_id, $id);
 
@@ -821,21 +824,22 @@ class DocumentoDigitalController extends \BaseController {
         $nombres = $oData[0]->nombre;
         $apellidos = $oData[0]->paterno.' '.$oData[0]->materno;
         $dni = $oData[0]->dni;
-        $cargo = $oData[0]->rol;
+        $rol_id = $oData[0]->rol_id;
+        $cargo = $oData[0]->rol;        
         $area = $oData[0]->area;
         $codInspector = $oData[0]->cod_inspector;
         $resolucion = $oData[0]->resolucion;
         $rutaFoto = "http://proceso.munindependencia.pe/img/carnet/".$oData[0]->imagen_dni;
         $rutaQR = "img/carnet/temp.png";
 
-        $im = $this->crearCarnet($nombres,$apellidos,$dni,$cargo,$area,$codInspector,$resolucion,$rutaFoto,$rutaQR, $area_id);
+        $im = $this->crearCarnet($nombres,$apellidos,$dni,$rol_id, $cargo,$area,$codInspector,$resolucion,$rutaFoto,$rutaQR, $area_id);
 
         imagejpeg($im);
         imagedestroy($im);
     }
 
 
-    public function crearCarnet($nombres,$apellidos,$dni,$cargo,$area,$codInspector,$resolucion,$rutaFoto,$rutaQR, $area_id)
+    public function crearCarnet($nombres,$apellidos,$dni,$rol_id, $cargo,$area,$codInspector,$resolucion,$rutaFoto,$rutaQR, $area_id)
     {
         $im = imagecreatefromjpeg ('http://proceso.munindependencia.pe/img/carnet/model2_n.jpeg');
 
@@ -906,12 +910,17 @@ class DocumentoDigitalController extends \BaseController {
 
 
         imagettftext($im, 9, 0, 102, 115+10, $black, $font2, $area);
+                
+        if(($rol_id == 8 || $rol_id == 9) && $area_id != 10) {
+            imagettftext($im, 9, 0, 102, 135+14+$dobleLinea, $black, $font,"Resolución: ");
+            imagettftext($im, 9, 0, 246 , 135+14+$dobleLinea, $black, $font2, $resolucion);
+        }
 
         if($area_id == 10) {
-            imagettftext($im, 9, 0, 102, 140+14+$dobleLinea, $black, $font,"Codigo de inspector: ");
-            imagettftext($im, 9, 0, 253 , 140+14+$dobleLinea, $black, $font2, $codInspector);
-            imagettftext($im, 9, 0, 102, 160+14+$dobleLinea, $black, $font,"N° Reslución: ");
-            imagettftext($im, 9, 0, 199, 160+14+$dobleLinea, $black, $font2, $resolucion);
+            imagettftext($im, 9, 0, 102, 135+14+$dobleLinea, $black, $font,"Código de Inspector: ");
+            imagettftext($im, 9, 0, 246 , 135+14+$dobleLinea, $black, $font2, $codInspector);
+            imagettftext($im, 9, 0, 102, 155+14+$dobleLinea, $black, $font,"Resolución: ");
+            imagettftext($im, 9, 0, 186, 155+14+$dobleLinea, $black, $font2, $resolucion);
         }     
 
         $stamp = getImageFromUrl($rutaFoto);
