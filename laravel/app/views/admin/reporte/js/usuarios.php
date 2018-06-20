@@ -87,7 +87,7 @@ HTMLreporte2=function(datos){
             text_estado = 'INACTIVO';
         }
         
-        var img_qr = Usuario.obtenerQRUser(data.area_id, data.dni,4,0); // Obtengo los QR por User
+        var img_qr = Usuario.obtenerQRUser(window.RolIdG, data.area_id, data.dni,4,0); // Obtengo los QR por User
 
         html+='<div class="col-md-12" style="border-bottom: 5px solid #F5F5F5;margin-bottom: 5px;">';        
             html+='<div class="col-md-5">'+
