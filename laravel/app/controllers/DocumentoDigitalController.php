@@ -841,7 +841,7 @@ class DocumentoDigitalController extends \BaseController {
 
     public function crearCarnet($nombres,$apellidos,$dni,$rol_id, $cargo,$area,$codInspector,$resolucion,$rutaFoto,$rutaQR, $area_id)
     {
-        $im = imagecreatefromjpeg ('http://proceso.munindependencia.pe/img/carnet/model2_n.jpeg');
+        $im = imagecreatefromjpeg ('http://proceso.munindependencia.pe/img/carnet/model2_nuevo2.jpg');
 
         $black = imagecolorallocate($im, 0, 0, 0);
 
@@ -881,14 +881,25 @@ class DocumentoDigitalController extends \BaseController {
             return $stamp;
         }
 
-
         $lineas = 1;
 
-        $pos = strpos($area, ' ', 26);
+        $pos = strpos($area, ' ', 10);
         $dobleLinea = 0;
         if($pos!==false){
+            //$text = substr($area,0,$pos);
+            //$text .= "\r\n".substr($area,$pos+1);
+
+
             $text = substr($area,0,$pos);
-            $text .= "\r\n".substr($area,$pos+1);
+            $nv_area = substr($area,$pos+1);            
+            $pos2 = strpos($nv_area,' ', 19); // $pos = 7, no 0
+            
+            if ($pos2 !== false) {
+                $text .= "\r\n".substr($area,$pos+1, 20);
+                $text .= "\r\n".substr($nv_area,$pos2+1);
+            }
+
+
             $dobleLinea=13;
         }else{
             $text = $area;
@@ -912,15 +923,15 @@ class DocumentoDigitalController extends \BaseController {
         imagettftext($im, 9, 0, 102, 115+10, $black, $font2, $area);
                 
         if(($rol_id == 8 || $rol_id == 9) && $area_id != 10) {
-            imagettftext($im, 9, 0, 102, 135+14+$dobleLinea, $black, $font,"Resolución: ");
-            imagettftext($im, 9, 0, 246 , 135+14+$dobleLinea, $black, $font2, $resolucion);
+            imagettftext($im, 9, 0, 102, 145+14+$dobleLinea, $black, $font,"Resolución: ");
+            imagettftext($im, 9, 0, 182 , 145+14+$dobleLinea, $black, $font2, $resolucion);
         }
 
         if($area_id == 10) {
-            imagettftext($im, 9, 0, 102, 135+14+$dobleLinea, $black, $font,"Código de Inspector: ");
-            imagettftext($im, 9, 0, 246 , 135+14+$dobleLinea, $black, $font2, $codInspector);
-            imagettftext($im, 9, 0, 102, 155+14+$dobleLinea, $black, $font,"Resolución: ");
-            imagettftext($im, 9, 0, 186, 155+14+$dobleLinea, $black, $font2, $resolucion);
+            imagettftext($im, 9, 0, 102, 145+14+$dobleLinea, $black, $font,"Inspector: ");
+            imagettftext($im, 9, 0, 182 , 145+14+$dobleLinea, $black, $font2, $codInspector);
+            imagettftext($im, 9, 0, 102, 160+14+$dobleLinea, $black, $font,"Resolución: ");
+            imagettftext($im, 9, 0, 182, 160+14+$dobleLinea, $black, $font2, $resolucion);
         }     
 
         $stamp = getImageFromUrl($rutaFoto);
@@ -929,15 +940,15 @@ class DocumentoDigitalController extends \BaseController {
         $sx = imagesx($stamp);
         $sy = imagesy($stamp);
 
-        imagecopyresampled($im, $stamp, 9, 10, 0, 0, 79, 94, imagesx($stamp), imagesy($stamp));
+        imagecopyresampled($im, $stamp, 7, 48, 0, 0, 90, 130, imagesx($stamp), imagesy($stamp));
 
         $stamp = getImageFromUrl($rutaQR);
-        $marge_right = 9;
-        $marge_bottom = 112;
+        $marge_right = 262;
+        $marge_bottom = 118;
         $sx = imagesx($stamp);
         $sy = imagesy($stamp);
 
-        imagecopyresampled($im, $stamp, $marge_right, $marge_bottom, 0, 0, 80, 80, imagesx($stamp), imagesy($stamp));
+        imagecopyresampled($im, $stamp, $marge_right, $marge_bottom, 0, 0, 65, 65, imagesx($stamp), imagesy($stamp));
 
         return $im;
 
