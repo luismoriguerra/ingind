@@ -813,13 +813,19 @@ class DocumentoDigitalController extends \BaseController {
         /*end get destinatario data*/
         //$vistaprevia='';
         $size = 80; // TAMAÑO EN PX 
-        $png = QrCode::format('png')->margin(0)->size($size)->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$rol_id."/".$area_id."/".$id."/".$tamano."/".$tipo);
+        //QrCode->maskPattern = 5;
+
+        $png = QrCode::format('png')
+                    ->margin(0)
+                    ->size($size)
+                    ->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$rol_id."/".$area_id."/".$id."/".$tamano."/".$tipo)
+                    ;
         file_put_contents("img/carnet/temp.png", $png);
         $oData=Persona::VerUsuarios($area_id, $id);
 
         //ini_set("display_errors", true);
         header('Content-type: image/png');
-        header('Content-Disposition: attachment; filename="carnet.jpg"');
+        //header('Content-Disposition: attachment; filename="carnet.jpg"');
         
         $nombres = $oData[0]->nombre;
         $apellidos = $oData[0]->paterno.' '.$oData[0]->materno;
@@ -943,12 +949,12 @@ class DocumentoDigitalController extends \BaseController {
         imagecopyresampled($im, $stamp, 7, 48, 0, 0, 90, 130, imagesx($stamp), imagesy($stamp));
 
         $stamp = getImageFromUrl($rutaQR);
-        $marge_right = 262;
-        $marge_bottom = 118;
+        $marge_right = 254;
+        $marge_bottom = 110;
         $sx = imagesx($stamp);
         $sy = imagesy($stamp);
 
-        imagecopyresampled($im, $stamp, $marge_right, $marge_bottom, 0, 0, 65, 65, imagesx($stamp), imagesy($stamp));
+        imagecopyresampled($im, $stamp, $marge_right, $marge_bottom, 0, 0, 75, 75, imagesx($stamp), imagesy($stamp));
 
         return $im;
 
