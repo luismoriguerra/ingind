@@ -107,7 +107,7 @@ public static function getReporteTramites($areas,$fechaIni,$fechaFin)
 				    \r\n";
 
 
-				$lefts .= "LEFT JOIN procesos.rutas_detalle AS RD$pv ON R.id = RD$pv.ruta_id AND RD$pv.condicion = 0 AND RD$pv.`fecha_inicio` IS NOT NULL AND DATE_FORMAT(RD$pv.`fecha_inicio`,'%Y-%m') = '$y-$auxMonth'\r\n";
+				$lefts .= "LEFT JOIN procesos.rutas_detalle AS RD$pv ON RD$pv.area_id = A.id AND R.id = RD$pv.ruta_id AND RD$pv.condicion = 0 AND RD$pv.`fecha_inicio` IS NOT NULL AND DATE_FORMAT(RD$pv.`fecha_inicio`,'%Y-%m') = '$y-$auxMonth'\r\n";
 				
 				$pv++;
     			$m++;
@@ -141,7 +141,7 @@ WHERE
     AND DATE_FORMAT(R.`fecha_inicio`,'%Y/%m') $filterMonth
 GROUP BY A.id
 		";
-//echo $x;
+echo $x;
 
 		return DB::select($x);
    	}
