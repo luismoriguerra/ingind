@@ -141,7 +141,7 @@ WHERE
     AND DATE_FORMAT(R.`fecha_inicio`,'%Y/%m') $filterMonth
 GROUP BY A.id
 		";
-echo $x;
+//echo $x;
 
 		return DB::select($x);
    	}
