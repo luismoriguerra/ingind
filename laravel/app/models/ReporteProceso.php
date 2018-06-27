@@ -15,7 +15,7 @@ class ReporteProceso extends Eloquent
 
     		$filterMonth = " = '$fechaIni'";
 
-    	}else{ 
+    	}
     		$pv=0;
     		$limit = 100;
 
@@ -42,7 +42,7 @@ class ReporteProceso extends Eloquent
     		}
 
     		$filterMonth = "BETWEEN '$fechaIni' AND '$fechaFin'";
-    	}
+    	
 
 
 
@@ -76,7 +76,9 @@ public static function getReporteTramites($areas,$fechaIni,$fechaFin)
 
     		$filterMonth = " = '$fechaIni'";
 
-    	}else{ 
+    	}
+
+
     		$pv=0;
     		$limit = 100;
 
@@ -107,7 +109,9 @@ public static function getReporteTramites($areas,$fechaIni,$fechaFin)
 				    \r\n";
 
 
-				$lefts .= "LEFT JOIN procesos.rutas_detalle AS RD$pv ON RD$pv.area_id = A.id AND R.id = RD$pv.ruta_id AND RD$pv.condicion = 0 AND RD$pv.`fecha_inicio` IS NOT NULL AND DATE_FORMAT(RD$pv.`fecha_inicio`,'%Y-%m') = '$y-$auxMonth'\r\n";
+
+                $lefts .= "LEFT JOIN procesos.rutas_detalle AS RD$pv ON rd.id=RD$pv.id  AND RD$pv.`fecha_inicio` IS NOT NULL AND DATE_FORMAT(RD$pv.`fecha_inicio`,'%Y-%m') = '$y-$auxMonth'\r\n";
+
 				
 				$pv++;
     			$m++;
@@ -121,26 +125,31 @@ public static function getReporteTramites($areas,$fechaIni,$fechaFin)
     		}
 
     		$filterMonth = "BETWEEN '$fechaIni' AND '$fechaFin'";
-    	}
-
+    	
 
 
 		$x = "
-SELECT 
-A.id as a,
-    A.nombre
-	$pivots 
-FROM
-    procesos.rutas AS R
-    INNER JOIN procesos.areas AS A ON A.id = R.area_id
-    $lefts
-WHERE
-    A.id IN ($areas)
-    AND R.`estado` = 1
-    AND R.`fecha_inicio` IS NOT NULL
-    AND DATE_FORMAT(R.`fecha_inicio`,'%Y/%m') $filterMonth
-GROUP BY A.id
-		";
+
+
+
+
+    SELECT 
+    A.id as a,
+        A.nombre
+        $pivots 
+    FROM
+        procesos.rutas AS R
+        Inner join procesos.rutas_detalle rd on rd.ruta_id=R.id AND rd.condicion = 0 AND rd.estado=1
+        INNER JOIN procesos.areas AS A ON A.id = rd.area_id
+        $lefts
+
+    WHERE
+        A.id IN ($areas)
+        AND R.`estado` = 1
+        AND R.`fecha_inicio` IS NOT NULL
+        AND DATE_FORMAT(R.`fecha_inicio`,'%Y/%m') $filterMonth
+    GROUP BY A.id
+    		";
 //echo $x;
 
 		return DB::select($x);
