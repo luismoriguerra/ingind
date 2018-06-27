@@ -855,40 +855,96 @@ class Reporte extends Eloquent
 
     public static function ReporteTramiteActividad( $array, $data )
     {
+        $rango_aux=0;
         $cabecera = [];
         $sql =" SELECT r.id, tr.sumilla, tr.id_union ";
 
         foreach ($data as $i => $lis) 
         {
-            $sql .=", GROUP_CONCAT(
-                        CONCAT( a$i.nemonico,' => D: ',rd$i.dtiempo, 
-                            IF( ISNULL(rd$i.fecha_inicio),
-                                '|B|<br>',
-                                IF( rd$i.dtiempo_final!='' AND rd$i.fecha_inicio!='' AND rd$i.alerta=0 AND rd$i.alerta_tipo=0, 
-                                    CONCAT('|V|<br>',rd$i.fecha_inicio,'<br>',rd$i.dtiempo_final),
-                                    IF( rd$i.dtiempo_final!='' AND rd$i.fecha_inicio!='' AND (rd$i.alerta!=0 OR rd$i.alerta_tipo!=0),
-                                        CONCAT('|N|<br>',rd$i.fecha_inicio,'<br>',rd$i.dtiempo_final),
-                                        IF( ISNULL(rd$i.dtiempo_final) AND rd$i.fecha_inicio!='' 
-                                                                    AND CalcularFechaFinal(rd$i.fecha_inicio,rd$i.dtiempo*1440,rd$i.area_id)>=CURRENT_TIMESTAMP(), 
-                                            CONCAT('|V|<br>',rd$i.fecha_inicio,'<br>',CalcularFechaFinal(rd$i.fecha_inicio,rd$i.dtiempo*1440,rd$i.area_id)),
-                                            CONCAT('|R|<br>',rd$i.fecha_inicio,'<br>',CalcularFechaFinal(rd$i.fecha_inicio,rd$i.dtiempo*1440,rd$i.area_id))
+            if($i < 20) {
+                $sql .=", GROUP_CONCAT(
+                            CONCAT( a.nemonico,' => D: ',rd$i.dtiempo, 
+                                IF( ISNULL(rd$i.fecha_inicio),
+                                    '|B|<br>',
+                                    IF( rd$i.dtiempo_final!='' AND rd$i.fecha_inicio!='' AND rd$i.alerta=0 AND rd$i.alerta_tipo=0, 
+                                        CONCAT('|V|<br>',rd$i.fecha_inicio,'<br>',rd$i.dtiempo_final),
+                                        IF( rd$i.dtiempo_final!='' AND rd$i.fecha_inicio!='' AND (rd$i.alerta!=0 OR rd$i.alerta_tipo!=0),
+                                            CONCAT('|N|<br>',rd$i.fecha_inicio,'<br>',rd$i.dtiempo_final),
+                                            IF( ISNULL(rd$i.dtiempo_final) AND rd$i.fecha_inicio!='' 
+                                                                        AND CalcularFechaFinal(rd$i.fecha_inicio,rd$i.dtiempo*1440,rd$i.area_id)>=CURRENT_TIMESTAMP(), 
+                                                CONCAT('|V|<br>',rd$i.fecha_inicio,'<br>',CalcularFechaFinal(rd$i.fecha_inicio,rd$i.dtiempo*1440,rd$i.area_id)),
+                                                CONCAT('|R|<br>',rd$i.fecha_inicio,'<br>',CalcularFechaFinal(rd$i.fecha_inicio,rd$i.dtiempo*1440,rd$i.area_id))
+                                            )
                                         )
                                     )
                                 )
                             )
-                        )
-                    ) act$i,rd$i.archivo as archivo$i ";
+                        ) act$i,rd$i.archivo as archivo$i ";
+            } else {
+                $rango_aux = 20;
+                $sql .=", tm.act$i, tm.archivo$i ";
+            }
 
             array_push($cabecera, $lis->cant);
         }
 
         $sql .="FROM rutas r
                 INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1
-                INNER JOIN rutas_detalle rd ON rd.ruta_id = r.id AND rd.estado=1";        
+                INNER JOIN rutas_detalle rd ON rd.ruta_id = r.id AND rd.estado=1 AND rd.condicion = 0 
+                INNER JOIN areas a ON a.id = rd.area_id";
+
         foreach ($data as $i => $lis) 
         {
-            $sql .=" LEFT JOIN rutas_detalle rd$i ON rd$i.ruta_id = r.id AND rd$i.norden='".$lis->cant."' AND rd$i.condicion = 0  AND rd$i.estado=1
-                     LEFT JOIN areas a$i ON a$i.id = rd$i.area_id ";
+            if($i < 20) {
+                $sql .=" LEFT JOIN rutas_detalle rd$i ON rd$i.id = rd.id AND rd$i.norden='".$lis->cant."'";
+            }
+        }
+
+        if($rango_aux == 20)
+        {
+            $sql .= "LEFT JOIN
+                    (       SELECT r.id ";
+            foreach ($data as $i => $lis) 
+            {
+                if($i >= 20) {
+                    $sql .=", GROUP_CONCAT(
+                                CONCAT( a.nemonico,' => D: ',rd$i.dtiempo, 
+                                    IF( ISNULL(rd$i.fecha_inicio),
+                                        '|B|<br>',
+                                        IF( rd$i.dtiempo_final!='' AND rd$i.fecha_inicio!='' AND rd$i.alerta=0 AND rd$i.alerta_tipo=0, 
+                                            CONCAT('|V|<br>',rd$i.fecha_inicio,'<br>',rd$i.dtiempo_final),
+                                            IF( rd$i.dtiempo_final!='' AND rd$i.fecha_inicio!='' AND (rd$i.alerta!=0 OR rd$i.alerta_tipo!=0),
+                                                CONCAT('|N|<br>',rd$i.fecha_inicio,'<br>',rd$i.dtiempo_final),
+                                                IF( ISNULL(rd$i.dtiempo_final) AND rd$i.fecha_inicio!='' 
+                                                                            AND CalcularFechaFinal(rd$i.fecha_inicio,rd$i.dtiempo*1440,rd$i.area_id)>=CURRENT_TIMESTAMP(), 
+                                                    CONCAT('|V|<br>',rd$i.fecha_inicio,'<br>',CalcularFechaFinal(rd$i.fecha_inicio,rd$i.dtiempo*1440,rd$i.area_id)),
+                                                    CONCAT('|R|<br>',rd$i.fecha_inicio,'<br>',CalcularFechaFinal(rd$i.fecha_inicio,rd$i.dtiempo*1440,rd$i.area_id))
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            ) act$i,rd$i.archivo as archivo$i ";
+                }
+            }
+
+            $sql .="FROM rutas r
+                INNER JOIN rutas_detalle rd ON rd.ruta_id = r.id AND rd.estado=1 AND rd.condicion = 0 
+                INNER JOIN areas a ON a.id = rd.area_id";
+
+            foreach ($data as $i => $lis) 
+            {
+                if($i >= 20) {
+                    $sql .=" LEFT JOIN rutas_detalle rd$i ON rd$i.id = rd.id AND rd$i.norden='".$lis->cant."'";
+                }
+            }
+
+            $sql .=" WHERE r.estado=1 ".
+                $array['ruta_flujo_id'].
+                $array['fecha'].
+                $array['tramite'].
+                " GROUP BY r.id 
+                    ) AS tm ON tm.id = r.id ";
         }
 
         $sql .=" WHERE r.estado=1 ".
@@ -896,7 +952,7 @@ class Reporte extends Eloquent
                 $array['fecha'].
                 $array['tramite'].
                 " GROUP BY r.id ";
-
+        //echo $sql;        
         $oData['cabecera'] = $cabecera;
         $oData['data'] = DB::select($sql);
         return $oData;
