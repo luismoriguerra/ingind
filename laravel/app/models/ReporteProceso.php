@@ -101,9 +101,9 @@ public static function getReporteTramites($areas,$fechaIni,$fechaFin)
 
 				        ,'|',
 
-				        CAST(COUNT(IF(RD$pv.norden = '01' AND RD$pv.`dtiempo_final`,1,NULL))AS CHAR (8)),
+				        CAST(COUNT(IF(RD$pv.norden = '01' AND RD$pv.`dtiempo_final` IS NOT NULL,1,NULL))AS CHAR (8)),
 				        '/',
-				        CAST(COUNT(IF(RD$pv.norden != '01' AND RD$pv.`dtiempo_final`,1,NULL))AS CHAR (8))
+				        CAST(COUNT(IF(RD$pv.norden != '01' AND RD$pv.`dtiempo_final` IS NOT NULL,1,NULL))AS CHAR (8))
 				    ) AS {$y}_{$m}
 
 				    \r\n";
