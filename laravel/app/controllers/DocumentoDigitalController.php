@@ -812,20 +812,29 @@ class DocumentoDigitalController extends \BaseController {
 
         /*end get destinatario data*/
         //$vistaprevia='';
-        $size = 80; // TAMAÑO EN PX 
+        $size = 75; // TAMAÑO EN PX 
         //QrCode->maskPattern = 5;
-
+        /*
         $png = QrCode::format('png')
                     ->margin(0)
                     ->size($size)
+                    //->color(0,0,0)
+                    //->backgroundColor(10,14,244)
+                    ->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$rol_id."/".$area_id."/".$id."/".$tamano."/".$tipo);
+        */
+        $png = QrCode::format('png')
+                    ->margin(0)
+                    ->size($size)
+                    ->color(40,40,40)
                     ->generate("http://proceso.munindependencia.pe/documentodig/vistauserqrvalida/".$rol_id."/".$area_id."/".$id."/".$tamano."/".$tipo)
                     ;
+        
         file_put_contents("img/carnet/temp.png", $png);
         $oData=Persona::VerUsuarios($area_id, $id);
 
         //ini_set("display_errors", true);
         header('Content-type: image/png');
-        //header('Content-Disposition: attachment; filename="carnet.jpg"');
+        header('Content-Disposition: attachment; filename="carnet.jpg"');
         
         $nombres = $oData[0]->nombre;
         $apellidos = $oData[0]->paterno.' '.$oData[0]->materno;
