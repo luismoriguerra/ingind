@@ -481,13 +481,31 @@ class RutaController extends \BaseController
                                 $acti_personal_archivo->usuario_created_at = Auth::user()->id;
                                 $acti_personal_archivo->save();
                             }
-                        
+                            
                             for($i=1;$i<count($value['documento']);$i++){
                                 $acti_personal_archivo = new ActividadPersonalDocdigital();
                                 $acti_personal_archivo->actividad_personal_id=$acti_personal->id;
                                 $acti_personal_archivo->doc_digital_id=$value['documento'][$i];
                                 $acti_personal_archivo->usuario_created_at = Auth::user()->id;
                                 $acti_personal_archivo->save();
+
+                                $sql=" UPDATE rutas r
+                                        INNER JOIN rutas_detalle rd ON rd.ruta_id = r.id AND rd.condicion = 0 AND rd.estado = 1
+                                        SET rd.persona_responsable_id=".$Persona->id.", rd.usuario_updated_at=".Auth::user()->id.", rd.updated_at=now()
+                                        WHERE r.estado = 1
+                                            AND rd.fecha_inicio IS NOT NULL
+                                            AND dtiempo_final IS NULL
+                                            AND (
+                                                        r.id IN (SELECT r.ruta_id
+                                                                FROM referidos r
+                                                                WHERE r.doc_digital_id = ".$acti_personal_archivo->doc_digital_id.")
+                                                        OR
+                                                        rd.id IN (  SELECT s.ruta_detalle_id
+                                                                    FROM sustentos s
+                                                                    WHERE s.doc_digital_id = ".$acti_personal_archivo->doc_digital_id.")
+                                                    )
+                                            AND rd.area_id =".$Persona->area_id;
+                                DB::update($sql);
                             }   
                             
                             if(trim($value['tipo_asignacion'])==2){
