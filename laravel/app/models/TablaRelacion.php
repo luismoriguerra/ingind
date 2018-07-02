@@ -27,7 +27,7 @@ class TablaRelacion extends Eloquent
 
     public static function getPlataforma( $array )
     {
-        $sSql=" SELECT CONCAT(r.id,'|',tr.id_union) id,f.nombre proceso, tr.id_union tramite, rd.fecha_inicio f1,rd2.fecha_inicio, IF(COUNT(tr2.id)=0,COUNT(s.id),COUNT(tr2.id)) cant
+        /*$sSql=" SELECT CONCAT(r.id,'|',tr.id_union) id,f.nombre proceso, tr.id_union tramite, rd.fecha_inicio f1,rd2.fecha_inicio, IF(COUNT(tr2.id)=0,COUNT(s.id),COUNT(tr2.id)) cant
                 FROM rutas r
                 INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1 AND tr.usuario_created_at!=1272
                 INNER JOIN flujos f ON f.id=r.flujo_id AND f.estado=1
@@ -35,6 +35,15 @@ class TablaRelacion extends Eloquent
                 INNER JOIN rutas_detalle rd2 ON rd2.ruta_id=r.id AND rd2.estado=1 AND rd2.norden=2
                 LEFT JOIN tablas_relacion tr2 ON tr2.id_union=tr.id_union AND tr2.estado=1 AND tr2.id>tr.id
                     LEFT JOIN sustentos s ON s.sustento = tr.id_union AND s.estado = 1 AND s.ruta_detalle_verbo_id IS NOT NULL
+                WHERE r.estado=1
+                 ";*/
+        $sSql=" SELECT CONCAT(r.id,'|',tr.id_union) id,f.nombre proceso, tr.id_union tramite, rd.fecha_inicio f1,rd2.fecha_inicio, COUNT(tr2.id) cant
+                FROM rutas r
+                INNER JOIN tablas_relacion tr ON tr.id=r.tabla_relacion_id AND tr.estado=1 AND tr.usuario_created_at!=1272
+                INNER JOIN flujos f ON f.id=r.flujo_id AND f.estado=1
+                INNER JOIN rutas_detalle rd ON rd.ruta_id=r.id AND rd.estado=1 AND rd.norden=1 AND rd.area_id=52
+                INNER JOIN rutas_detalle rd2 ON rd2.ruta_id=r.id AND rd2.estado=1 AND rd2.norden=2
+                LEFT JOIN tablas_relacion tr2 ON tr2.id_union=tr.id_union AND tr2.estado=1 AND tr2.id>tr.id
                 WHERE r.estado=1
                  ";
         $sSql.= $array['where']."
