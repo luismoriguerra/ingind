@@ -19,7 +19,7 @@ class IndedocsController extends \BaseController {
 
         $url = 'https://www.muniindependencia.gob.pe/repgmgm/index.php?opcion=documento&area=' . $AreaIntera->area_id_indedocs . '&tipo=' . $tipoDocumento . '&fecha=' . $fechaActualizada;
         $curl_options = array(
-            //reemplazar url 
+            //reemplazar url
             CURLOPT_URL => $url,
             CURLOPT_HEADER => 0,
             CURLOPT_RETURNTRANSFER => TRUE,
@@ -105,6 +105,240 @@ class IndedocsController extends \BaseController {
 
         $actividad = Persona::RequestActividades();
         return Response::json(array('rst' => 1, 'datos' => $actividad));
+    }
+
+    public function postCargapagomultafisca()
+    {   
+        set_time_limit(0);
+        ini_set('max_execution_time', 0);
+        $res = file_get_contents("http://www.muniindependencia.gob.pe/fiscamultas/index.php?opcion=multas&finicio=20180702&ffinal=20180703");
+        $result = json_decode(utf8_encode($res));
+
+        /*
+        $array = array(
+            'multas' => array(
+                array(
+                    "IDDETREQ" => "172901",
+                    "FECHA" => "2018-01-03 11:24:16.000",
+                    "FECHARUTA" => "2018-01-05 09:17:15.000",
+                    "AREADESTINO" => "GERENCIA DE ADMINISTRACIÓN Y FINANZAS",
+                    "AREADESTFLUJO" => "26",
+                    "AREADESTSIGA" => "040000",
+                    
+                    "AREAORIGEN" => "SUB GERENCIA DE LIMPIEZA PUBLICA",
+                    "AREAORIGFLUJO" => "23",
+                    "AREAORIGSIGA" => "100002",
+
+                    "REQ_NUM" => "1",
+                    "REQ_ANNO" => "2018",
+                    "AREAFLUJO" => "23",
+                    "AREADSIGA" => "100002",
+                    
+                    "NOMDOC" => "REQ. 1000020001",
+                    "IDDOC" => "0",
+                    "numpaso" => "1",
+                    "OBSERVACION" => "CUMPLIMIENTO DE POI"
+                ),
+                array(
+                    "IDDETREQ" => "172901",
+                    "FECHA" => "2018-01-03 11:24:16.000",
+                    "FECHARUTA" => "2018-01-08 14:37:40.000",
+                    "AREADESTINO" => "SUB GERENCIA DE LOGÍSTICA",
+                    "AREADESTFLUJO" => "29",
+                    "AREADESTSIGA" => "040003",
+                    
+                    "AREAORIGEN" => "GERENCIA DE ADMINISTRACIÓN Y FINANZAS",
+                    "AREAORIGFLUJO" => "26",
+                    "AREAORIGSIGA" => "040000",
+
+                    "REQ_NUM" => "1",
+                    "REQ_ANNO" => "2018",
+                    "AREAFLUJO" => "23",
+                    "AREADSIGA" => "100002",
+                    
+                    "NOMDOC" => "PROVEIDO - Nº 000047 - 2018 - GAF-MDI",
+                    "IDDOC" => "0",
+                    "numpaso" => "2",
+                    "OBSERVACION" => " "
+                )
+            )
+        );
+        $result = json_decode(json_encode($array));
+        */
+        foreach ($result->multas as $i=>$k) {
+           
+            $pago_fisca = CargaPagoMultaFiscaliza::where('codigo', '=', $k->codigo)
+                                                            ->first();
+            if(count($pago_fisca) == 0)
+            {
+                DB::beginTransaction();
+                //$fecha = substr($k->FECHA, 0, 19);
+                //$fecharuta = substr($k->FECHARUTA, 0, 19);            
+
+                $pago_fisca = new CargaPagoMultaFiscaliza;
+                $pago_fisca->codigo = $k->codigo;
+                $pago_fisca->contribuyente = $k->contribuyente;
+                $pago_fisca->numero_multa = $k->numero_multa;
+                $pago_fisca->fecha_multa = $k->fecha_multa;
+                $pago_fisca->fecha_notificacion = $k->fecha_notificacion;
+                $pago_fisca->monto_multa = $k->monto_multa;
+                $pago_fisca->preimpreso = $k->preimpreso;
+                $pago_fisca->antecedente = $k->antecedente;
+                $pago_fisca->descripcion = $k->descripcion;
+                $pago_fisca->fec_pago = $k->fec_pago;
+                $pago_fisca->insoluto = $k->insoluto;
+                $pago_fisca->monto_pagado = $k->monto_pagado;
+                $pago_fisca->save();
+                // --
+                /*
+                RS.1585-2018
+                RS.1552-201
+                R.S.1487-2018-GFCM/MDIGFCM
+                */
+                $arr_bus = array('RS.', 'R.S.', 'RS. ', 'R.S. ', 'RS ');
+                $resol = str_replace($arr_bus, '', $k->preimpreso);
+                $resolucion = explode('-', $resol);
+
+                $selects = "SELECT s.ruta_detalle_id
+                                FROM sustentos s 
+                                WHERE s.sustento LIKE '%".$resolucion[0]."%'
+                                    AND s.sustento LIKE '%".$resolucion[1]."%'
+                                    AND s.sustento LIKE '%GFCM%'
+                                    AND s.estado=1
+                                    LIMIT 1;";
+                $suste_refer = DB::select($selects);
+
+                if(count($suste_refer) == 0)
+                {
+                    $selectr = "SELECT s.ruta_detalle_id
+                                FROM referidos s 
+                                WHERE s.referido LIKE '%".$resolucion[0]."%'
+                                    AND s.referido LIKE '%".$resolucion[1]."%'
+                                    AND s.referido LIKE '%GFCM%'
+                                    AND s.estado=1
+                                    LIMIT 1;";
+                    $suste_refer = DB::select($selectr);
+                }
+
+                if(count($suste_refer) > 0)
+                {
+                    /*
+                        $selectrutad = "SELECT rd.ruta_id
+                                    FROM rutas_detalle rd
+                                    WHERE rd.id = ".$suste_refer[0]->ruta_detalle_id."
+                                        AND rd.estado=1
+                                        LIMIT 1;";
+                        $rutas_detalle = DB::select($selectrutad);
+
+                        $selectruta = "SELECT r.flujo_id
+                                        FROM rutas r
+                                        WHERE r.id = ".$rutas_detalle[0]->ruta_id."
+                                            AND r.estado=1
+                                            LIMIT 1;";
+                        $rutas = DB::select($selectruta);
+
+                        $seleclflujo = "SELECT f.id, f.nombre
+                                        FROM flujos f
+                                        WHERE f.id = ".$rutas[0]->flujo_id."
+                                            AND f.estado=1
+                                            LIMIT 1;";
+                        $flujos = DB::select($seleclflujo);
+                    */
+                    $seleclflujo = "SELECT rd.id as ruta_detalle_id, rd.ruta_id, r.flujo_id, f.nombre
+                                        FROM rutas_detalle rd
+                                        INNER JOIN rutas r ON r.id = rd.ruta_id AND r.estado = 1
+                                        INNER JOIN flujos f ON f.id = r.flujo_id AND f.estado = 1
+                                        WHERE rd.id = ".$suste_refer[0]->ruta_detalle_id."
+                                        AND rd.estado = 1";
+                    $flujos = DB::select($seleclflujo);
+
+                    if(count($flujos) > 0) {
+                        $sql = "UPDATE carga_multa_fisca cmf
+                                SET cmf.flujo_id = ".$flujos[0]->flujo_id.",
+                                    cmf.ruta_id = ".$flujos[0]->ruta_id.",
+                                    cmf.ruta_detalle_id = ".$flujos[0]->ruta_detalle_id."
+                                    WHERE cmf.codigo = '".$pago_fisca->codigo."'";
+                        DB::update($sql);
+                        /*
+                        echo '<pre>';
+                        var_dump($flujos);
+                        exit;
+                        */
+
+                        // ASIGNA UN NUEVO PASO
+                        $selectno = "SELECT MAX(SUBSTR(rd.norden,1, 2)) AS norden
+                                        FROM rutas_detalle rd
+                                            WHERE rd.ruta_id = ".$flujos[0]->ruta_id."
+                                                LIMIT 1;";
+                        $rd_norden = DB::select($selectno);
+
+                        $nord = (int) $rd_norden[0]->norden;
+                        $nord = ($nord + 1);
+                        if($nord < 10)
+                            $norden = '0'.$nord;
+                        else
+                            $norden = $nord;
+
+
+                        // GRABA RUTA_DETALLES
+                        $rutaDetalle = new RutaDetalle;
+                        $rutaDetalle['ruta_id'] = $flujos[0]->ruta_id;
+                        $rutaDetalle['area_id'] = 10;
+                        $rutaDetalle['tiempo_id'] = 2;
+                        //$rutaDetalle['dtiempo'] = '';                        
+                        //$rutaDetalle['fecha_proyectada'] = '';
+                        //$rutaDetalle['fecha_inicio'] = '';
+                        $rutaDetalle['norden'] = $norden;
+                        $rutaDetalle['alerta_tipo'] = 0;
+                        $rutaDetalle['alerta'] = 0;
+                        $rutaDetalle['condicion'] = 0;
+                        $rutaDetalle['estado_ruta'] = 1;
+                            $rutaDetalle['ruta_flujo_id_dep'] = 5780;
+                        $rutaDetalle['estado'] = 1;
+                        $rutaDetalle['created_at'] = date('Y-m-d H:i:s');
+                        $rutaDetalle['usuario_created_at'] = 1272;
+                        $rutaDetalle->save();
+
+                        // --
+                        $rdv = new RutaDetalleVerbo;
+                        $rdv['ruta_detalle_id'] = $rutaDetalle->id;
+                        $rdv['nombre'] = 'Recepcionar';
+                        $rdv['observacion'] = 'AUTOMATICO';
+                        $rdv['finalizo'] = 1;
+                        $rdv['condicion'] = 0;
+                        $rdv['rol_id'] = 1;
+                        $rdv['verbo_id'] = 2;
+                        $rdv['orden'] = 1;
+                        $rdv['estado'] = 1;
+                        $rdv['usuario_created_at'] = 1272;
+                        $rdv['usuario_updated_at'] = 1272;
+                        $rdv['updated_at'] = date('Y-m-d H:i:s');
+                        $rdv->save();
+
+                        $rdv2 = new RutaDetalleVerbo;
+                        $rdv2['ruta_detalle_id'] = $rutaDetalle->id;
+                        $rdv2['nombre'] = 'Archivar';
+                        $rdv2['observacion'] = 'AUTOMATICO';
+                        $rdv2['finalizo'] = 1;
+                        $rdv2['condicion'] = 0;
+                        $rdv2['rol_id'] = 1;
+                        $rdv2['verbo_id'] = 14;
+                        $rdv2['orden'] = 2;
+                        $rdv2['estado'] = 1;
+                        $rdv2['usuario_created_at'] = 1272;
+                        $rdv2['usuario_updated_at'] = 1272;
+                        $rdv2['updated_at'] = date('Y-m-d H:i:s');
+                        $rdv2->save();
+                        // --
+                    }
+                }
+                DB::commit();
+            }
+                        
+        
+        }
+        $return_response = "Proceso ejecutado satisfactoriamente";
+        return Response::json(array('rst' => 1,'return'=>$return_response));
     }
 
     public function postIncidencia() {
@@ -913,15 +1147,15 @@ class IndedocsController extends \BaseController {
         //$objArr = $this->curl("ruta.php", $param_data);
         $return_response = $this->response(200,"success","Proceso ejecutado satisfactoriamente");
 
-//        $uploadFolder = 'txt/api';
-//        $nombre_archivo = "respuesta.json";
-//        $file = $uploadFolder . '/' . $nombre_archivo;
-//        unlink($file);
-//        if($archivo = fopen($file, "a"))
-//        {
-//            fwrite($archivo, $return_response);
-//            fclose($archivo);
-//        }
+        //        $uploadFolder = 'txt/api';
+        //        $nombre_archivo = "respuesta.json";
+        //        $file = $uploadFolder . '/' . $nombre_archivo;
+        //        unlink($file);
+        //        if($archivo = fopen($file, "a"))
+        //        {
+        //            fwrite($archivo, $return_response);
+        //            fclose($archivo);
+        //        }
         // --
 
         return Response::json(array('rst' => 1,'return'=>$return_response));
