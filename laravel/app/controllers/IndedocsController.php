@@ -293,7 +293,7 @@ class IndedocsController extends \BaseController {
                         $rutaDetalle['alerta'] = 0;
                         $rutaDetalle['condicion'] = 0;
                         $rutaDetalle['estado_ruta'] = 1;
-                            $rutaDetalle['ruta_flujo_id_dep'] = 5780;
+                            $rutaDetalle['ruta_flujo_id_dep'] = 5914; // 5780(local)
                         $rutaDetalle['estado'] = 1;
                         $rutaDetalle['created_at'] = date('Y-m-d H:i:s');
                         $rutaDetalle['usuario_created_at'] = 1272;
