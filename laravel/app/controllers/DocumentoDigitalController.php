@@ -845,6 +845,8 @@ class DocumentoDigitalController extends \BaseController {
         $codInspector = $oData[0]->cod_inspector;
         $resolucion = $oData[0]->resolucion;
         $rutaFoto = "http://proceso.munindependencia.pe/img/carnet/".$oData[0]->imagen_dni;
+
+        //http://proceso.munindependencia.pe/img/carnet/42892330.jpg
         $rutaQR = "img/carnet/temp.png";
 
         $im = $this->crearCarnet($nombres,$apellidos,$dni,$rol_id, $cargo,$area,$codInspector,$resolucion,$rutaFoto,$rutaQR, $area_id);
@@ -898,23 +900,32 @@ class DocumentoDigitalController extends \BaseController {
 
         $lineas = 1;
 
-        $pos = strpos($area, ' ', 10);
+        // Gerencia Municipal
+        // Gerencia de Modernización de la Gestión Municipal
+        // Sub. Gerencia de Personal
+        if(strlen($area) <= 25)
+            $pos = strpos($area, ' ', 14);
+        else
+            $pos = strpos($area, ' ', 10);
+
         $dobleLinea = 0;
         if($pos!==false){
-            //$text = substr($area,0,$pos);
-            //$text .= "\r\n".substr($area,$pos+1);
-
-
             $text = substr($area,0,$pos);
-            $nv_area = substr($area,$pos+1);            
-            $pos2 = strpos($nv_area,' ', 19); // $pos = 7, no 0
-            
-            if ($pos2 !== false) {
-                $text .= "\r\n".substr($area,$pos+1, 20);
-                $text .= "\r\n".substr($nv_area,$pos2+1);
+                $nv_area = substr($area,$pos+1);
+
+            if(strlen($area) <= 25) {
+                $text .= "\r\n".$nv_area;
             }
-
-
+            else
+            {
+                $pos2 = strpos($nv_area,' ', 19); // $pos = 7, no 0
+            
+                if ($pos2 !== false) {
+                    $text .= "\r\n".substr($area,$pos+1, 20);
+                    $text .= "\r\n".substr($nv_area,$pos2+1);
+                }
+            }
+            
             $dobleLinea=13;
         }else{
             $text = $area;
