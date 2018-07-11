@@ -172,8 +172,8 @@ class IndedocsController extends \BaseController {
             if(count($pago_fisca) == 0)
             {
                 DB::beginTransaction();                
-                $fecha_multa = date("Y-m-d H:i:s", strtotime($k->fecha_multa));
-                $fecha_notificacion = date("Y-m-d H:i:s", strtotime($k->fecha_notificacion));
+                $fecha_multa = date("Y-m-d", strtotime($k->fecha_multa));
+                $fecha_notificacion = date("Y-m-d", strtotime($k->fecha_notificacion));
 
                 $pago_fisca = new CargaPagoMultaFiscaliza;
                 $pago_fisca->codigo = $k->codigo;
@@ -196,15 +196,25 @@ class IndedocsController extends \BaseController {
                 RS.1552-201
                 R.S.1487-2018-GFCM/MDIGFCM
                 */
-                $arr_bus = array('RS.', 'R.S.', 'RS. ', 'R.S. ', 'RS ');
-                $resol = str_replace($arr_bus, '', $k->preimpreso);
-                $resolucion = explode('-', $resol);
+                $cantidad = preg_match_all('/^(R(\.|\ |\-|))(S(\.|\ |\-|))(.|)([0-9]{3,})/i', $k->preimpreso);
+
+                if($cantidad <= 0) {
+                    $arr_bus = array('RS.', 'R.S.', 'RS. ', 'R.S. ', 'RS ', 'R.S. N\ufffd ');
+                    $resol = str_replace($arr_bus, '', $k->antecedente);
+                    $resolucion = explode('-', $resol);
+                } else {                    
+                    $arr_bus = array('RS.', 'R.S.', 'RS. ', 'R.S. ', 'RS ', 'R.S. N\ufffd ');
+                    $resol = str_replace($arr_bus, '', $k->preimpreso);
+                    $resolucion = explode('-', $resol);
+                }                
+
+                $resol_anio = ($resolucion[1]!='')?$resolucion[1]:substr($fecha_multa, 0, 4);
 
                 $suste_refer = NULL;
                 $selects = "SELECT s.ruta_detalle_id
                                 FROM sustentos s 
                                 WHERE s.sustento LIKE '%".$resolucion[0]."%'
-                                    AND s.sustento LIKE '%".@$resolucion[1]."%'
+                                    AND s.sustento LIKE '%".$resol_anio."%'
                                     AND s.sustento LIKE '%GFCM%'
                                     AND s.estado=1
                                     LIMIT 1;";
@@ -215,7 +225,7 @@ class IndedocsController extends \BaseController {
                     $selectr = "SELECT s.ruta_detalle_id
                                 FROM referidos s 
                                 WHERE s.referido LIKE '%".$resolucion[0]."%'
-                                    AND s.referido LIKE '%".@$resolucion[1]."%'
+                                    AND s.referido LIKE '%".$resol_anio."%'
                                     AND s.referido LIKE '%GFCM%'
                                     AND s.estado=1
                                     LIMIT 1;";
