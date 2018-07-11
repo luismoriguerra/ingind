@@ -111,7 +111,7 @@ class IndedocsController extends \BaseController {
     {   
         set_time_limit(0);
         ini_set('max_execution_time', 0);
-        $res = file_get_contents("http://www.muniindependencia.gob.pe/fiscamultas/index.php?opcion=multas&finicio=20180401&ffinal=20180420");
+        $res = file_get_contents("http://www.muniindependencia.gob.pe/fiscamultas/index.php?opcion=multas&finicio=20180618&ffinal=20180618");
         $result = json_decode(utf8_encode($res));
 
         /*
@@ -196,19 +196,19 @@ class IndedocsController extends \BaseController {
                 RS.1552-201
                 R.S.1487-2018-GFCM/MDIGFCM
                 */
+                $resolucion = NULL;
                 $cantidad = preg_match_all('/^(R(\.|\ |\-|))(S(\.|\ |\-|))(.|)([0-9]{3,})/i', $k->preimpreso);
+                $arr_bus = array('RS.', 'R.S.', 'RS. ', 'R.S. ', 'RS ', 'R.S. N\ufffd ');
 
-                if($cantidad <= 0) {
-                    $arr_bus = array('RS.', 'R.S.', 'RS. ', 'R.S. ', 'RS ', 'R.S. N\ufffd ');
+                if($cantidad <= 0) {                    
                     $resol = str_replace($arr_bus, '', $k->antecedente);
                     $resolucion = explode('-', $resol);
                 } else {                    
-                    $arr_bus = array('RS.', 'R.S.', 'RS. ', 'R.S. ', 'RS ', 'R.S. N\ufffd ');
                     $resol = str_replace($arr_bus, '', $k->preimpreso);
                     $resolucion = explode('-', $resol);
                 }                
 
-                $resol_anio = ($resolucion[1]!='')?$resolucion[1]:substr($fecha_multa, 0, 4);
+                $resol_anio = (@$resolucion[1]) ? $resolucion[1] : substr($fecha_multa, 0, 4);
 
                 $suste_refer = NULL;
                 $selects = "SELECT s.ruta_detalle_id
