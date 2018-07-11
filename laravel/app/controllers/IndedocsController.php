@@ -111,7 +111,7 @@ class IndedocsController extends \BaseController {
     {   
         set_time_limit(0);
         ini_set('max_execution_time', 0);
-        $res = file_get_contents("http://www.muniindependencia.gob.pe/fiscamultas/index.php?opcion=multas&finicio=20180702&ffinal=20180703");
+        $res = file_get_contents("http://www.muniindependencia.gob.pe/fiscamultas/index.php?opcion=multas&finicio=20180401&ffinal=20180420");
         $result = json_decode(utf8_encode($res));
 
         /*
@@ -171,16 +171,16 @@ class IndedocsController extends \BaseController {
                                                             ->first();
             if(count($pago_fisca) == 0)
             {
-                DB::beginTransaction();
-                //$fecha = substr($k->FECHA, 0, 19);
-                //$fecharuta = substr($k->FECHARUTA, 0, 19);            
+                DB::beginTransaction();                
+                $fecha_multa = date("Y-m-d H:i:s", strtotime($k->fecha_multa));
+                $fecha_notificacion = date("Y-m-d H:i:s", strtotime($k->fecha_notificacion));
 
                 $pago_fisca = new CargaPagoMultaFiscaliza;
                 $pago_fisca->codigo = $k->codigo;
                 $pago_fisca->contribuyente = $k->contribuyente;
                 $pago_fisca->numero_multa = $k->numero_multa;
-                $pago_fisca->fecha_multa = $k->fecha_multa;
-                $pago_fisca->fecha_notificacion = $k->fecha_notificacion;
+                $pago_fisca->fecha_multa = $fecha_multa;
+                $pago_fisca->fecha_notificacion = $fecha_notificacion;
                 $pago_fisca->monto_multa = $k->monto_multa;
                 $pago_fisca->preimpreso = $k->preimpreso;
                 $pago_fisca->antecedente = $k->antecedente;
@@ -189,6 +189,7 @@ class IndedocsController extends \BaseController {
                 $pago_fisca->insoluto = $k->insoluto;
                 $pago_fisca->monto_pagado = $k->monto_pagado;
                 $pago_fisca->save();
+                
                 // --
                 /*
                 RS.1585-2018
@@ -199,28 +200,29 @@ class IndedocsController extends \BaseController {
                 $resol = str_replace($arr_bus, '', $k->preimpreso);
                 $resolucion = explode('-', $resol);
 
+                $suste_refer = NULL;
                 $selects = "SELECT s.ruta_detalle_id
                                 FROM sustentos s 
                                 WHERE s.sustento LIKE '%".$resolucion[0]."%'
-                                    AND s.sustento LIKE '%".$resolucion[1]."%'
+                                    AND s.sustento LIKE '%".@$resolucion[1]."%'
                                     AND s.sustento LIKE '%GFCM%'
                                     AND s.estado=1
                                     LIMIT 1;";
-                $suste_refer = DB::select($selects);
+                $suste_refer = DB::select($selects);                
 
                 if(count($suste_refer) == 0)
                 {
                     $selectr = "SELECT s.ruta_detalle_id
                                 FROM referidos s 
                                 WHERE s.referido LIKE '%".$resolucion[0]."%'
-                                    AND s.referido LIKE '%".$resolucion[1]."%'
+                                    AND s.referido LIKE '%".@$resolucion[1]."%'
                                     AND s.referido LIKE '%GFCM%'
                                     AND s.estado=1
                                     LIMIT 1;";
                     $suste_refer = DB::select($selectr);
-                }
+                }                
 
-                if(count($suste_refer) > 0)
+                if(@$suste_refer[0]->ruta_detalle_id != NULL && count($suste_refer) > 0)
                 {
                     /*
                         $selectrutad = "SELECT rd.ruta_id
@@ -243,7 +245,7 @@ class IndedocsController extends \BaseController {
                                             AND f.estado=1
                                             LIMIT 1;";
                         $flujos = DB::select($seleclflujo);
-                    */
+                    */                    
                     $seleclflujo = "SELECT rd.id as ruta_detalle_id, rd.ruta_id, r.flujo_id, f.nombre
                                         FROM rutas_detalle rd
                                         INNER JOIN rutas r ON r.id = rd.ruta_id AND r.estado = 1
@@ -293,7 +295,7 @@ class IndedocsController extends \BaseController {
                         $rutaDetalle['alerta'] = 0;
                         $rutaDetalle['condicion'] = 0;
                         $rutaDetalle['estado_ruta'] = 1;
-                            $rutaDetalle['ruta_flujo_id_dep'] = 5914; // 5780(local)
+                            $rutaDetalle['ruta_flujo_id_dep'] = 5914; // 5780(producción)
                         $rutaDetalle['estado'] = 1;
                         $rutaDetalle['created_at'] = date('Y-m-d H:i:s');
                         $rutaDetalle['usuario_created_at'] = 1272;
