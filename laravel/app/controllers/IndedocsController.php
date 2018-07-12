@@ -203,7 +203,7 @@ class IndedocsController extends \BaseController {
                 R.S.1487-2018-GFCM/MDIGFCM
                 */
                 $resolucion = NULL;
-                $cantidad = preg_match_all('/^(R(\.|\ |\-|))(S(\.|\ |\-|))(\.|)(\ |)(\N|)(\ |)(\ |)([0-9]{3,})/i', $k->preimpreso);
+                $cantidad = preg_match_all('/^(R(\.|\ |\-|))(S(\.|\ |\-|))(\.|)(\ |)(\N|)(\ |)(\ |)([0-9]{3,}|)/i', $k->preimpreso);
                 $arr_bus = array('R.S. Nº ', 'R.S.Nº ', 'RS.', 'R.S.', 'RS. ', 'R.S. ', 'RS ', 'R.S ');
 
                 if($cantidad <= 0)
