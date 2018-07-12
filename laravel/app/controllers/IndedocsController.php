@@ -198,7 +198,7 @@ class IndedocsController extends \BaseController {
                 */
                 $resolucion = NULL;
                 $cantidad = preg_match_all('/^(R(\.|\ |\-|))(S(\.|\ |\-|))(.|)([0-9]{3,})/i', $k->preimpreso);
-                $arr_bus = array('RS.', 'R.S.', 'RS. ', 'R.S. ', 'RS ', 'R.S. N\ufffd ', 'R.S.N\ufffd ');
+                $arr_bus = array('RS.', 'R.S.', 'RS. ', 'R.S. ', 'RS ', 'R.S. N\ufffd ', 'R.S.Nº ');
 
                 if($cantidad <= 0)
                     $resol = str_replace($arr_bus, '', $k->antecedente);
