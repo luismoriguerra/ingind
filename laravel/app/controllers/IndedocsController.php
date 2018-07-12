@@ -165,11 +165,11 @@ class IndedocsController extends \BaseController {
         );
         $result = json_decode(json_encode($array));
         */
-        
+        /*
         echo '<pre>';
         print_r($result);
         exit;
-        
+        */
 
         foreach ($result->multas as $i=>$k) {
            
