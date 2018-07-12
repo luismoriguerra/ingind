@@ -111,7 +111,7 @@ class IndedocsController extends \BaseController {
     {   
         set_time_limit(0);
         ini_set('max_execution_time', 0);
-        $res = file_get_contents("http://www.muniindependencia.gob.pe/fiscamultas/index.php?opcion=multas&finicio=20180618&ffinal=20180618");
+        $res = file_get_contents("http://www.muniindependencia.gob.pe/fiscamultas/index.php?opcion=multas&finicio=20180701&ffinal=20180712");
         $result = json_decode(utf8_encode($res));
 
         /*
@@ -200,13 +200,12 @@ class IndedocsController extends \BaseController {
                 $cantidad = preg_match_all('/^(R(\.|\ |\-|))(S(\.|\ |\-|))(.|)([0-9]{3,})/i', $k->preimpreso);
                 $arr_bus = array('RS.', 'R.S.', 'RS. ', 'R.S. ', 'RS ', 'R.S. N\ufffd ');
 
-                if($cantidad <= 0) {                    
+                if($cantidad <= 0)
                     $resol = str_replace($arr_bus, '', $k->antecedente);
-                    $resolucion = explode('-', $resol);
-                } else {                    
+                else           
                     $resol = str_replace($arr_bus, '', $k->preimpreso);
-                    $resolucion = explode('-', $resol);
-                }                
+
+                $resolucion = explode('-', $resol);             
 
                 $resol_anio = (@$resolucion[1]) ? $resolucion[1] : substr($fecha_multa, 0, 4);
 
