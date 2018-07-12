@@ -165,6 +165,12 @@ class IndedocsController extends \BaseController {
         );
         $result = json_decode(json_encode($array));
         */
+        /*
+        echo '<pre>';
+        print_r($result);
+        exit;
+        */
+
         foreach ($result->multas as $i=>$k) {
            
             $pago_fisca = CargaPagoMultaFiscaliza::where('codigo', '=', $k->codigo)
@@ -197,8 +203,8 @@ class IndedocsController extends \BaseController {
                 R.S.1487-2018-GFCM/MDIGFCM
                 */
                 $resolucion = NULL;
-                $cantidad = preg_match_all('/^(R(\.|\ |\-|))(S(\.|\ |\-|))(.|)([0-9]{3,})/i', $k->preimpreso);
-                $arr_bus = array('RS.', 'R.S.', 'RS. ', 'R.S. ', 'RS ', 'R.S. N\ufffd ', 'R.S.Nº ');
+                $cantidad = preg_match_all('/^(R(\.|\ |\-|))(S(\.|\ |\-|))(\.|)(\ |)(\N|)(\ |)(\ |)([0-9]{3,})/i', $k->preimpreso);
+                $arr_bus = array('RS.', 'R.S.', 'RS. ', 'R.S. ', 'RS ', 'R.S. N\ufffd ', 'R.S.N\ufffd ');
 
                 if($cantidad <= 0)
                     $resol = str_replace($arr_bus, '', $k->antecedente);
