@@ -165,11 +165,11 @@ class IndedocsController extends \BaseController {
         );
         $result = json_decode(json_encode($array));
         */
-        /*
+        
         echo '<pre>';
         print_r($result);
         exit;
-        */
+        
 
         foreach ($result->multas as $i=>$k) {
            
@@ -204,7 +204,7 @@ class IndedocsController extends \BaseController {
                 */
                 $resolucion = NULL;
                 $cantidad = preg_match_all('/^(R(\.|\ |\-|))(S(\.|\ |\-|))(\.|)(\ |)(\N|)(\ |)(\ |)([0-9]{3,})/i', $k->preimpreso);
-                $arr_bus = array('RS.', 'R.S.', 'RS. ', 'R.S. ', 'RS ', 'R.S. Nº ', 'R.S.Nº ');
+                $arr_bus = array('R.S. Nº ', 'R.S.Nº ', 'RS.', 'R.S.', 'RS. ', 'R.S. ', 'RS ', 'R.S ');
 
                 if($cantidad <= 0)
                     $resol = str_replace($arr_bus, '', $k->antecedente);
