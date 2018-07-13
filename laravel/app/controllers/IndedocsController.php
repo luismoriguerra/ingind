@@ -107,11 +107,14 @@ class IndedocsController extends \BaseController {
         return Response::json(array('rst' => 1, 'datos' => $actividad));
     }
 
-    public function postCargapagomultafisca()
+    public function getCargapagomultafisca() // Se cambio de POST a GET para ejecutar el ROBOT
     {   
         set_time_limit(0);
         ini_set('max_execution_time', 0);
-        $res = file_get_contents("http://www.muniindependencia.gob.pe/fiscamultas/index.php?opcion=multas&finicio=20180701&ffinal=20180712");
+
+        $fecha_ini = date('Ymd');
+        $fecha_fin = date('Ymd');
+        $res = file_get_contents("http://www.muniindependencia.gob.pe/fiscamultas/index.php?opcion=multas&finicio=$fecha_ini&ffinal=$fecha_fin");
         $result = json_decode(utf8_encode($res));
 
         /*
