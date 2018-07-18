@@ -1720,8 +1720,8 @@ class CargarController extends BaseController {
     }
     
                     
-    // (RA - 2017/07/07): Carga de Archivo para los Gastos Contables.
-    public function postCargaractividades() { //Importante el nombre del metodo debe sser igual al de la función AJAX.
+    // (RA - 2018/06/25): Carga de Archivo para los Gastos Contables.
+    public function postCargaractividades() {
         ini_set('memory_limit', '512M');
         if (isset($_FILES['carga']) and $_FILES['carga']['size'] > 0) {
 
@@ -1754,7 +1754,7 @@ class CargarController extends BaseController {
             $arrayExist = array();
 
             $file=file('txt/actividades/'.$archivoNuevo);
-            //$file = file('/var/www/html/ingind/public/txt/contabilidad/' . $archivoNuevo);
+            //$file = file('/var/www/html/ingind/public/txt/actividades/' . $archivoNuevo);
 
             for ($i = 0; $i < count($file); $i++) {
 
@@ -1769,11 +1769,11 @@ class CargarController extends BaseController {
                         $array[$i][$j] = $detfile[$j];
                     }
 
-                    // Validar si existe dato
+                    // Valida si existe dato
                     $persona = Persona::where('dni', '=', $detfile[0])->first();
 
-                    if (count($persona) > 0) {
-
+                    if (count($persona) > 0)
+                    {
                         //$fecha = date('Y-m-d');
                         $fecha_final = strtotime ( '+1 day' , strtotime ( $detfile[3] ) ) ;
                         $fecha_final = date ( 'Y-m-d' , $fecha_final );
@@ -1783,21 +1783,259 @@ class CargarController extends BaseController {
                         $acti_personal->fecha_inicio = $detfile[3].' '.'08:00:00';
                         $acti_personal->dtiempo_final = $fecha_final.' '.'08:00:00';
 
+                        $acti_personal->cantidad = 0;                   // Por Default
+                        $acti_personal->tipo = 2;                       // Por Default
+                        $acti_personal->actividad_categoria_id = 138;   // 138 = ATENCIÓN DE DOCUMENTOS ASIGNADOS
+
                         $acti_personal->persona_id = $persona->id;
                         $acti_personal->area_id = $persona->area_id;
                         $acti_personal->usuario_created_at = Auth::user()->id;
                         $acti_personal->save();
+
+                        // DS-0029054-2017
+                        // INFORME - N° 000002 - 2018 - SGLP-GGA-MDI
+                        $cantidad = preg_match_all('/(^|)((DOC(\.|)\ SIMP(LE|))|([d]([\ -]|)[s])|([e]([\ -]|)[x]([p]|)([\.]|)))(-|\ |)([0-9]{4,10})([-|\ ][0-9]{4}|)(,|\.|$|)/i', $detfile[2]);
+
+                        if($cantidad <= 0)
+                        {
+                            // Obtener el ID del DOCUMENTO
+                            $documento = explode('-', trim($detfile[2]));
+                            $doc_nombre = trim($documento[0]);
+
+                            preg_match('/^(\N|)(\ |)/i', trim($documento[1]), $matches, PREG_OFFSET_CAPTURE); // N° 000002
+                            if($matches <= 0)
+                                $doc_numero = trim($documento[1]);
+                            else
+                            {
+                                $arr_bus = array(utf8_decode('N° '), utf8_decode('Nº '));
+                                $doc_numero = trim(str_replace($arr_bus, '', $documento[1]));
+                            }
+                            
+                            $doc_anio = trim($documento[2]);
+                            
+                            $doc_area = '';
+                            if(@$documento[3] != '')
+                                $doc_area = trim($documento[3]);
+                            if(@$documento[4] != '')
+                                $doc_area = $doc_area.'-'.$documento[4];
+                            if(@$documento[5] != '')
+                                $doc_area = $doc_area.'-'.$documento[5];
+                            if(@$documento[6] != '')
+                                $doc_area = $doc_area.'-'.$documento[6];
+                            if(@$documento[7] != '')
+                                $doc_area = $doc_area.'-'.$documento[7];
+                            if(@$documento[8] != '')
+                                $doc_area = $doc_area.'-'.$documento[8];
+                                                        
+                            $selectdd = "SELECT dd.id
+                                            FROM doc_digital_temporal dd
+                                                WHERE dd.titulo LIKE '%".$doc_nombre."%'
+                                                AND dd.titulo LIKE '%".$doc_numero."%'
+                                                AND dd.titulo LIKE '%".$doc_anio." - ".$doc_area."%'
+                                                AND dd.estado = 1";
+                            $documento_digital = DB::select($selectdd);
+
+                            $acti_personal_archivo = new ActividadPersonalDocdigital();
+                            $acti_personal_archivo->actividad_personal_id=$acti_personal->id;
+                            $acti_personal_archivo->doc_digital_id=$documento_digital[0]->id;
+                            $acti_personal_archivo->usuario_created_at = Auth::user()->id;
+                            $acti_personal_archivo->save();
+
+                            $sql=" UPDATE rutas r
+                                    INNER JOIN rutas_detalle rd ON rd.ruta_id = r.id AND rd.condicion = 0 AND rd.estado = 1
+                                    SET rd.persona_responsable_id=".$persona->id.", rd.usuario_updated_at=".Auth::user()->id.", rd.updated_at=now()
+                                    WHERE r.estado = 1
+                                        AND rd.fecha_inicio IS NOT NULL
+                                        AND dtiempo_final IS NULL
+                                        AND (
+                                                    r.id IN (SELECT r.ruta_id
+                                                            FROM referidos r
+                                                            WHERE r.doc_digital_id = ".$acti_personal_archivo->doc_digital_id.")
+                                                    OR
+                                                    rd.id IN (  SELECT s.ruta_detalle_id
+                                                                FROM sustentos s
+                                                                WHERE s.doc_digital_id = ".$acti_personal_archivo->doc_digital_id.")
+                                                )
+                                        AND rd.area_id =".$persona->area_id;
+                            DB::update($sql);
+                            // ---
+                        }
+                        else
+                        {
+                            $acti_personal = ActividadPersonal::find($acti_personal->id);
+                            $acti_personal->actividad = $detfile[1].' '.$detfile[2];
+                            $acti_personal->save();
+                        }                    
+                        
+                    // tipo_asignacion = 1 (PROCESO DE CATEGORIA)
+                        $categoria= ActividadCategoria::find($acti_personal->actividad_categoria_id); 
+                        /*
+                        if(!$categoria->ruta_flujo_id)
+                        {
+                            // Registrar Flujo
+                            $flujo=new Flujo;
+                            $flujo->area_id=Auth::user()->area_id;
+                            $flujo->categoria_id=17;
+                            $flujo->nombre=$categoria->nombre;
+                            $flujo->tipo_flujo=2;
+                            $flujo->usuario_created_at=Auth::user()->id;
+                            $flujo->save();
+
+                            // Registrar Flujo Respuesta
+                            $ftr=new FlujoTipoRespuesta;
+                            $ftr->flujo_id=$flujo->id;
+                            $ftr->tipo_respuesta_id=2;
+                            $ftr->tiempo_id=1;
+                            $ftr->dtiempo=0;
+                            $ftr->usuario_created_at=Auth::user()->id;
+                            $ftr->save();
+
+                            // Registrar Ruta Flujo
+                            if($flujo->id){
+                                $rutaflujo = new RutaFlujo;
+                                $rutaflujo->flujo_id = $flujo->id;
+                                $rutaflujo->persona_id = Auth::user()->id;
+                                $rutaflujo->area_id = Auth::user()->area_id;
+                                $rutaflujo->usuario_created_at = Auth::user()->id;
+                                $rutaflujo->save();
+                            }
+                            
+                            $dias=date("Y-m-d", strtotime($value['ffin'])) - date("Y-m-d", strtotime($value['finicio']));                            
+                            // Registrar Detalle de Ruta
+                            if($rutaflujo->id) {
+                                $rutaflujodetalle = new RutaFlujoDetalle;
+                                $rutaflujodetalle->ruta_flujo_id = $rutaflujo->id;
+                                $rutaflujodetalle->area_id = Auth::user()->area_id;
+                                $rutaflujodetalle->tiempo_id = 2;
+                                $rutaflujodetalle->dtiempo = $dias+1;
+                                $rutaflujodetalle->norden = 1;
+                                $rutaflujodetalle->detalle = "Desarrollo del trabajo";
+                                $rutaflujodetalle->estado_ruta = 1;
+                                $rutaflujodetalle->usuario_created_at = Auth::user()->id;
+                                $rutaflujodetalle->save();
+                            }
+
+                            // Registrar Verbos de la ruta detalle
+                            if($rutaflujodetalle->id) {
+                                $rutaflujodetalleverbo=new RutaFlujoDetalleVerbo;
+                                $rutaflujodetalleverbo->ruta_flujo_detalle_id = $rutaflujodetalle->id;
+                                $rutaflujodetalleverbo->nombre = '';
+                                $rutaflujodetalleverbo->condicion = 0;
+                                $rutaflujodetalleverbo->rol_id = 4;
+                                $rutaflujodetalleverbo->verbo_id = 3;
+                                $rutaflujodetalleverbo->orden = 1;
+                                $rutaflujodetalleverbo->nombre = 'Inicio de actividad';
+                                $rutaflujodetalleverbo->usuario_created_at = Auth::user()->id;
+                                $rutaflujodetalleverbo->save();
+
+                                $rutaflujodetalleverbo=new RutaFlujoDetalleVerbo;
+                                $rutaflujodetalleverbo->ruta_flujo_detalle_id = $rutaflujodetalle->id;
+                                $rutaflujodetalleverbo->nombre = '';
+                                $rutaflujodetalleverbo->condicion = 0;
+                                $rutaflujodetalleverbo->rol_id = 4;
+                                $rutaflujodetalleverbo->verbo_id = 3;
+                                $rutaflujodetalleverbo->orden = 2;
+                                $rutaflujodetalleverbo->nombre = 'Fin de actividad';
+                                $rutaflujodetalleverbo->usuario_created_at = Auth::user()->id;
+                                $rutaflujodetalleverbo->save();
+                            }
+
+                            // Actualizar ruta_flujo_id a la categoria
+                            $categoria->ruta_flujo_id=$rutaflujo->id;
+                            $categoria->save();
+                        }
+                        */                        
+                        $rutaFlujo = RutaFlujo::find($categoria->ruta_flujo_id);
+
+                        // ENCONTRAR CORRELATIVO EN ACTIVIDADES POR DIA
+                        $result=Ruta::getCorrelativoAct($persona->id);
+
+                        $tablarelacion = new TablaRelacion;
+                        $tablarelacion->software_id = 1;
+                        $tablarelacion->id_union = 'ACT - N° ' . str_pad($result+1, 2, '0', STR_PAD_LEFT) . ' - ' . $persona->dni. ' - '. Auth::user()->areas->nemonico_doc;
+                        $tablarelacion->sumilla = $detfile[1];
+                        $tablarelacion->estado = 1;
+                        $tablarelacion->fecha_tramite =date('Y-m-d H:i:s');
+                        $tablarelacion->usuario_created_at = Auth::user()->id;
+                        $tablarelacion->save();
+                        
+                        // ENCONTRAR RUTA
+                        $ruta = new Ruta;
+                        $ruta['tabla_relacion_id'] = $tablarelacion->id;
+                        $ruta['fecha_inicio'] = date('Y-m-d H:i:s');
+                        $ruta['ruta_flujo_id'] = $rutaFlujo->id;
+                        $ruta['flujo_id'] = $rutaFlujo->flujo_id;
+                        $ruta['persona_id'] = $rutaFlujo->persona_id;
+                        $ruta['area_id'] = $rutaFlujo->area_id;
+                        $ruta['usuario_created_at'] = Auth::user()->id;
+                        $ruta->save();
+
+                        $qrutaDetalle = DB::table('rutas_flujo_detalle')
+                                            ->where('ruta_flujo_id', '=', $rutaFlujo->id)
+                                            ->where('estado', '=', '1')
+                                            ->orderBy('norden', 'ASC')
+                                            ->get();
+                   
+                        foreach ($qrutaDetalle as $rd)
+                        {
+                            $cero='';
+                            if($rd->norden<10){
+                                $cero='0';
+                            }
+                            $rutaDetalle = new RutaDetalle;
+                            $rutaDetalle['ruta_id'] = $ruta->id;
+                            $rutaDetalle['area_id'] = $rd->area_id;
+                            $rutaDetalle['tiempo_id'] = $rd->tiempo_id;
+
+                            $sql="SELECT CalcularFechaFinal( '".date('Y-m-d H:i:s')."', (3*1440), ".$rd->area_id." ) fproy";
+                            $fproy= DB::select($sql);                                
+                            $rutaDetalle['fecha_proyectada'] = $fproy[0]->fproy;
+
+                            $rutaDetalle['dtiempo'] = $rd->dtiempo;
+                            $rutaDetalle['detalle'] = $rd->detalle;
+                            $rutaDetalle['norden'] =$cero.$rd->norden;
+                            $rutaDetalle['estado_ruta'] = $rd->estado_ruta;
+                            $rutaDetalle['usuario_created_at'] = Auth::user()->id;
+
+                            if ($rutaDetalle->norden == 1) {
+                                $rutaDetalle['fecha_inicio'] = date('Y-m-d H:i:s');
+                            }
+                            $rutaDetalle->save();
+                                                        
+                            $qrutaDetalleVerbo = DB::table('rutas_flujo_detalle_verbo')
+                                    ->where('ruta_flujo_detalle_id', '=', $rd->id)
+                                    ->where('estado', '=', '1')
+                                    ->orderBy('orden', 'ASC')
+                                    ->get();
+                            
+                            if (count($qrutaDetalleVerbo) > 0) {
+                                foreach ($qrutaDetalleVerbo as $rdv) {
+                                    $rutaDetalleVerbo = new RutaDetalleVerbo;
+                                    $rutaDetalleVerbo['ruta_detalle_id'] = $rutaDetalle->id;
+                                    $rutaDetalleVerbo['nombre'] = $rdv->nombre;
+                                    $rutaDetalleVerbo['condicion'] = $rdv->condicion;
+                                    $rutaDetalleVerbo['rol_id'] = $rdv->rol_id;
+                                    $rutaDetalleVerbo['verbo_id'] = $rdv->verbo_id;
+                                    $rutaDetalleVerbo['documento_id'] = $rdv->documento_id;
+                                    $rutaDetalleVerbo['orden'] = $rdv->orden;
+                                    $rutaDetalleVerbo['usuario_created_at'] = Auth::user()->id;
+                                if($categoria->tipo==1){
+                                    $rutaDetalleVerbo['usuario_updated_at'] = $persona->id;
+                                }
+                                    $rutaDetalleVerbo->save();
+                                }
+                            }
+                        }
+
+                        //if($cantidad <= 0) {
+                            // RUTA_ID en Actividad
+                            $acti_personal->ruta_id=$ruta->id;
+                            $acti_personal->ruta_detalle_id=$rutaDetalle->id;
+                            $acti_personal->save();
+                        //}
+                    // --
                     }
-                    /*
-                    $conta_gastos_deta = GastosDetallesContables::where('contabilidad_gastos_id', '=', $conta_gastos->id)
-                                                                ->where('tipo_expede', '=', $detfile[1])
-                                                                ->where('monto_expede', '=', $monto_expede)
-                                                                ->first();
-                    */
-                    // Muestra ultimos QUERY ejecutados
-                    //$log = DB::getQueryLog();
-                    //var_dump($persona);
-                    //exit;
+                    
                 }
                 DB::commit();
             }
@@ -1815,113 +2053,108 @@ class CargarController extends BaseController {
             );
         }
     }
+    // --
+
+    // (RA - 2018/07/11): Carga de Archivo para los Gastos Contables.
+    public function postCargatributaria() {
+        ini_set('memory_limit', '512M');
+
+        if (isset($_FILES['carga']) and $_FILES['carga']['size'] > 0) {
+
+            //$xlsx = new SimpleXLSX( 'D:\MUNICIPALIDAD\Trabajos Asignados\Ramesh - Carga de Excel para Tributarios\prueba.xlsx' );
+            $xlsx = new SimpleXLSX( $_FILES['carga']['tmp_name'] );
+
+            echo '<pre>';
+            print_r($xlsx->rows());
+            exit;            
+            
+            return Response::json(
+                            array(
+                                'rst' => '1',
+                                'msj' => 'Archivo procesado correctamente',
+                                //'file' => $archivoNuevo,
+                                'upload' => TRUE,
+                                'data' => array(),
+                                'existe' => 0
+                            )
+            );
+        }
+    }
+
 
 
     public function BuscarArea($nombreArea) {
 
-        if ($nombreArea == 'Alcadía') {
+        if ($nombreArea == 'Alcadía')
             $area_id = 44;
-        }
-        if ($nombreArea == 'Gerencia de Administración y Finanzas') {
+        else if($nombreArea == 'Gerencia de Administración y Finanzas')
             $area_id = 26;
-        }
-        if ($nombreArea == 'Gerencia de Asesoria Legal') {
+        else if($nombreArea == 'Gerencia de Asesoria Legal')
             $area_id = 27;
-        }
-        if ($nombreArea == 'GERENCIA DE DESARROLLO ECONOMICO LOCAL') {
+        else if($nombreArea == 'GERENCIA DE DESARROLLO ECONOMICO LOCAL')
             $area_id = 9;
-        }
-        if ($nombreArea == 'Gerencia de Desarrollo Social') {
+        else if($nombreArea == 'Gerencia de Desarrollo Social')
             $area_id = 15;
-        }
-        if ($nombreArea == 'Gerencia de Desarrollo Urbano') {
+        else if($nombreArea == 'Gerencia de Desarrollo Urbano')
             $area_id = 24;
-        }
-        if ($nombreArea == 'Gerencia de Planificación, Presupuesto y Racionalización') {
+        else if($nombreArea == 'Gerencia de Planificación, Presupuesto y Racionalización')
             $area_id = 28;
-        }
-        if ($nombreArea == 'Sub Gerencia de Logística') {
+        else if($nombreArea == 'Sub Gerencia de Logística')
             $area_id = 29;
-        }
-        if ($nombreArea == 'Gerencia de Fiscalizacion y Control Municipal') {
+        else if($nombreArea == 'Gerencia de Fiscalizacion y Control Municipal')
             $area_id = 10;
-        }
-        if ($nombreArea == 'Gerencia de Gestion Ambiental') {
+        else if($nombreArea == 'Gerencia de Gestion Ambiental')
             $area_id = 21;
-        }
-        if ($nombreArea == 'Gerencia de Infraestructura Pública') {
+        else if($nombreArea == 'Gerencia de Infraestructura Pública')
             $area_id = 25;
-        }
-        if ($nombreArea == 'GERENCIA DE MODERNIZACION DE LA GESTION MUNICIPAL') {
+        else if($nombreArea == 'GERENCIA DE MODERNIZACION DE LA GESTION MUNICIPAL')
             $area_id = 94;
-        }
-        if ($nombreArea == 'Sub Gerencia de Tesorería') {
+        else if($nombreArea == 'Sub Gerencia de Tesorería')
             $area_id = 42;
-        }
-        if ($nombreArea == 'SUB GERENCIA DE CONTABILIDAD Y COSTOS') {
+        else if($nombreArea == 'SUB GERENCIA DE CONTABILIDAD Y COSTOS')
             $area_id = 35;
-        }
-        if ($nombreArea == 'Gerencia de Promoción de la Inversión y Cooperación') {
+        else if($nombreArea == 'Gerencia de Promoción de la Inversión y Cooperación')
             $area_id = 12;
-        }
-        if ($nombreArea == 'Gerencia de Rentas') {
+        else if($nombreArea == 'Gerencia de Rentas')
             $area_id = 11;
-        }
-        if ($nombreArea == 'Gerencia de Secretaría General') {
+        else if($nombreArea == 'Gerencia de Secretaría General')
             $area_id = 30;
-        }
-        if ($nombreArea == 'Gerencia de Seguimiento y Evaluación') {
+        else if($nombreArea == 'Gerencia de Seguimiento y Evaluación')
             $area_id = 31;
-        }
-        if ($nombreArea == 'Gerencia de Seguridad Ciudadana') {
+        else if($nombreArea == 'Gerencia de Seguridad Ciudadana')
             $area_id = 19;
-        }
-        if ($nombreArea == 'Gerencia Municipal') {
+        else if($nombreArea == 'Gerencia Municipal')
             $area_id = 32;
-        }
-        if ($nombreArea == 'Organo de Control Institucional') {
+        else if($nombreArea == 'Organo de Control Institucional')
             $area_id = 33;
-        }
-        if ($nombreArea == 'Procuraduria Pública Municipal') {
+        else if($nombreArea == 'Procuraduria Pública Municipal')
             $area_id = 34;
-        }
-        if ($nombreArea == 'Sub Gerencia de Areas Verdes y Saneamiento Ambiental') {
+        else if($nombreArea == 'Sub Gerencia de Areas Verdes y Saneamiento Ambiental')
             $area_id = 22;
-        }
-        if ($nombreArea == 'Sub Gerencia de Ejecutoria Coactiva') {
+        else if($nombreArea == 'Sub Gerencia de Ejecutoria Coactiva')
             $area_id = 36;
-        }
-        if ($nombreArea == 'SUB GERENCIA DE IMAGEN INSTUTICIONAL Y PARTICIPACIÓN VECINAL') {
+        else if($nombreArea == 'SUB GERENCIA DE IMAGEN INSTUTICIONAL Y PARTICIPACIÓN VECINAL')
             $area_id = 13;
-        }
-        if ($nombreArea == 'Sub Gerencia de Juventudes, Recreacion y Deportes') {
+        else if($nombreArea == 'Sub Gerencia de Juventudes, Recreacion y Deportes')
             $area_id = 17;
-        }
-        if ($nombreArea == 'Sub Gerencia de la Mujer, Educación, Cultura, Serv. Social, OMAPED, CIAM, Y DEMUNA') {
+        else if($nombreArea == 'Sub Gerencia de la Mujer, Educación, Cultura, Serv. Social, OMAPED, CIAM, Y DEMUNA')
             $area_id = 16;
-        }
-        if ($nombreArea == 'Sub Gerencia de la Tecnológia de Información y la Comunicación') {
+        else if($nombreArea == 'Sub Gerencia de la Tecnológia de Información y la Comunicación')
             $area_id = 14;
-        }
-        if ($nombreArea == 'Sub Gerencia de Limpieza Publica') {
+        else if($nombreArea == 'Sub Gerencia de Limpieza Publica')
             $area_id = 23;
-        }
-        if ($nombreArea == 'Sub Gerencia de Personal') {
+        else if($nombreArea == 'Sub Gerencia de Personal')
             $area_id = 53;
-        }
-        if ($nombreArea == 'Sub Gerencia de Programas Alimentarios Y Salud') {
+        else if($nombreArea == 'Sub Gerencia de Programas Alimentarios Y Salud')
             $area_id = 18;
-        }
-        if ($nombreArea == 'SUB GERENCIA DE SERVICIOS GENERALES') {
+        else if($nombreArea == 'SUB GERENCIA DE SERVICIOS GENERALES')
             $area_id = 38;
-        }
-        if ($nombreArea == 'Sub Gerencia de Vigilancia Ciudadana e Informacion') {
+        else if($nombreArea == 'Sub Gerencia de Vigilancia Ciudadana e Informacion')
             $area_id = 20;
-        }
         return $area_id;
     }
     
-    public function postPoblarsubproceso() {
+    public function postPoblarsubproceso(){
         $sql="SELECT rd.fecha_inicio,rd.dtiempo_final,rd.ruta_flujo_id rfid,r.id as ruta_id,id_union,MAX(rd.norden) as norden,tr.created_at
                 ,GROUP_CONCAT(DISTINCT rdm.ruta_flujo_id) as ruta_flujo_id,GROUP_CONCAT(DISTINCT f.nombre) as flujo
                 FROM tablas_relacion tr

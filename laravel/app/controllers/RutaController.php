@@ -650,6 +650,11 @@ class RutaController extends \BaseController
                                 $rutaDetalle['ruta_id'] = $ruta->id;
                                 $rutaDetalle['area_id'] = $rd->area_id;
                                 $rutaDetalle['tiempo_id'] = $rd->tiempo_id;
+
+                                $sql="SELECT CalcularFechaFinal( '".date('Y-m-d H:i:s')."', (".$rd->dtiempo."*1440), ".$rd->area_id." ) fproy";
+                                $fproy= DB::select($sql);                                
+                                $rutaDetalle['fecha_proyectada'] = $fproy[0]->fproy;
+
                                 $rutaDetalle['dtiempo'] = $rd->dtiempo;
                                 $rutaDetalle['detalle'] = $rd->detalle;
                                 $rutaDetalle['norden'] =$cero.$rd->norden;
@@ -659,8 +664,6 @@ class RutaController extends \BaseController
                                     $rutaDetalle['fecha_inicio'] = date('Y-m-d H:i:s');
                                 }
                                 $rutaDetalle->save();
-                                
-                                
 
                                 $qrutaDetalleVerbo = DB::table('rutas_flujo_detalle_verbo')
                                         ->where('ruta_flujo_detalle_id', '=', $rd->id)
