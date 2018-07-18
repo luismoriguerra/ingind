@@ -1785,7 +1785,7 @@ class CargarController extends BaseController {
 
                         $acti_personal->cantidad = 0;                   // Por Default
                         $acti_personal->tipo = 2;                       // Por Default
-                        $acti_personal->actividad_categoria_id = 138;   // 138 = ATENCIÓN DE DOCUMENTOS ASIGNADOS
+                        $acti_personal->actividad_categoria_id = 217;   // 217 = ATENCIÓN DE DOCUMENTOS ADMINISTRATIVOS (FISCALIZACION)
 
                         $acti_personal->persona_id = $persona->id;
                         $acti_personal->area_id = $persona->area_id;
