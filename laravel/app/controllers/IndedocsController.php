@@ -308,10 +308,11 @@ class IndedocsController extends \BaseController {
                             $rutaDetalle['dtiempo'] = date('Y-m-d H:i:s');                        
                             $rutaDetalle['fecha_proyectada'] = date('Y-m-d H:i:s');
                             $rutaDetalle['fecha_inicio'] = date('Y-m-d H:i:s');
+                        $rutaDetalle['actividad'] = "PAGO DE SANCION";
                         $rutaDetalle['norden'] = $norden;
-                            $rutaDetalle['tipo_respuesta_id'] = 1;
-                            $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
-                            $rutaDetalle['norden'] = $norden;
+                        $rutaDetalle['tipo_respuesta_id'] = 1;
+                        $rutaDetalle['tipo_respuesta_detalle_id'] = 1;
+                        $rutaDetalle['norden'] = $norden;
                         $rutaDetalle['alerta_tipo'] = 0;
                         $rutaDetalle['alerta'] = 0;
                         $rutaDetalle['condicion'] = 0;
