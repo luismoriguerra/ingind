@@ -1986,7 +1986,7 @@ class CargarController extends BaseController {
                             $rutaDetalle['ruta_id'] = $ruta->id;
                             $rutaDetalle['area_id'] = $rd->area_id;
                             $rutaDetalle['tiempo_id'] = $rd->tiempo_id;
-
+                            // Calcula fecha Final
                             $sql="SELECT CalcularFechaFinal( '".date('Y-m-d H:i:s')."', (3*1440), ".$rd->area_id." ) fproy";
                             $fproy= DB::select($sql);                                
                             $rutaDetalle['fecha_proyectada'] = $fproy[0]->fproy;
