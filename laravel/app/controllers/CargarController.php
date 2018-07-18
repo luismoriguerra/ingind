@@ -1753,8 +1753,8 @@ class CargarController extends BaseController {
             $array = array();
             $arrayExist = array();
 
-            $file=file('txt/actividades/'.$archivoNuevo);
-            //$file = file('/var/www/html/ingind/public/txt/actividades/' . $archivoNuevo);
+            //$file=file('txt/actividades/'.$archivoNuevo);
+            $file = file('/var/www/html/ingind/public/txt/actividades/' . $archivoNuevo);
 
             for ($i = 0; $i < count($file); $i++) {
 
