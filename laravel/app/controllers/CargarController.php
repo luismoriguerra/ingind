@@ -1794,7 +1794,7 @@ class CargarController extends BaseController {
 
                         // DS-0029054-2017
                         // INFORME - N° 000002 - 2018 - SGLP-GGA-MDI
-                        $cantidad = preg_match_all('/(^|)((DOC(\.|)\ SIMP(LE|))|([d]([\ -]|)[s])|([e]([\ -]|)[x]([p]|)([\.]|)))(-|\ |)([0-9]{4,10})([-|\ ][0-9]{4}|)(,|\.|$|)/i', $detfile[2]);
+                        $cantidad = preg_match_all('/(^|)((DOC(\.|)\ SIMP(LE|))|([d]([\ -]|)[s])|([a]([\ -]|)[n])|([e]([\ -]|)[x]([p]|)([\.]|)))(-|\ |)([0-9]{4,10})([-|\ ][0-9]{4}|)(,|\.|$|)/i', $detfile[2]);
 
                         if($cantidad <= 0)
                         {
